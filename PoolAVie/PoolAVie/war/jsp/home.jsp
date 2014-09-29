@@ -33,7 +33,9 @@
 <form name="input" action="/login" method="post">
 Nom d'utilisateur: <input type="text" name="user">
 <br>
+<br>
 Mot de passe: <input type="text" name="password">
+<br>
 <br>
 <input type="submit" value="Me connecter">
 </form>
@@ -43,7 +45,9 @@ Mot de passe: <input type="text" name="password">
 <form name="input" action="/register" method="post">
 Choisis un nom d'utilisateur: <input type="text" name="user_reg">
 <br>
+<br>
 Choisis un mot de passe: <input type="text" name="password_reg">
+<br>
 <br>
 Sélectionne ton équipe : <br>
 <input type="radio" name="team_reg" value="Detroit">Détroit <br>
@@ -54,10 +58,10 @@ Sélectionne ton équipe : <br>
 <input type="radio" name="team_reg" value="Toronto">Toronto <br>
 <input type="radio" name="team_reg" value="St-Louis">St-Louis <br>
 <input type="radio" name="team_reg" value="Boston">Boston <br>
-<input type="radio" name="team_reg" value="Pittsburg">Pittsburg <br>
+<input type="radio" name="team_reg" value="Pittsburgh">Pittsburgh <br>
 <input type="radio" name="team_reg" value="Los Angeles">Los Angeles <br>
 
-
+<br>
 <input type="submit" value="S'enregistrer">
 </form>
 </div>
