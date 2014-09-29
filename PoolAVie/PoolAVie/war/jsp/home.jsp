@@ -31,11 +31,22 @@
 
 <div id="login_home">
 <form name="input" action="/login" method="post">
-Username: <input type="text" name="user">
+Nom d'utilisateur: <input type="text" name="user">
 <br>
-Password: <input type="text" name="password">
+Mot de passe: <input type="text" name="password">
 <br>
-<input type="submit" value="LOGIN">
+<input type="submit" value="Me connecter">
+</form>
+</div>
+
+<div id="register_home">
+<form name="input" action="/register" method="post">
+Choisis un nom d'utilisateur: <input type="text" name="user">
+<br>
+Choisis un mot de passe: <input type="text" name="password">
+<br>
+Sélectionne ton équipe : <input type="radio" name="team">
+<input type="submit" value="S'enregistrer">
 </form>
 </div>
 
