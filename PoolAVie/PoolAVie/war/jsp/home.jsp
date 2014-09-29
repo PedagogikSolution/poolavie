@@ -41,11 +41,23 @@ Mot de passe: <input type="text" name="password">
 
 <div id="register_home">
 <form name="input" action="/register" method="post">
-Choisis un nom d'utilisateur: <input type="text" name="user">
+Choisis un nom d'utilisateur: <input type="text" name="user_reg">
 <br>
-Choisis un mot de passe: <input type="text" name="password">
+Choisis un mot de passe: <input type="text" name="password_reg">
 <br>
-Sélectionne ton équipe : <input type="radio" name="team">
+Sélectionne ton équipe : <br>
+<input type="radio" name="team_reg" value="Detroit">Détroit <br>
+<input type="radio" name="team_reg" value="Montreal">Montreal <br>
+<input type="radio" name="team_reg" value="Chicago">Chicago <br>
+<input type="radio" name="team_reg" value="New York">New York <br>
+<input type="radio" name="team_reg" value="Philadelphie">Philadelphie <br>
+<input type="radio" name="team_reg" value="Toronto">Toronto <br>
+<input type="radio" name="team_reg" value="St-Louis">St-Louis <br>
+<input type="radio" name="team_reg" value="Boston">Boston <br>
+<input type="radio" name="team_reg" value="Pittsburg">Pittsburg <br>
+<input type="radio" name="team_reg" value="Los Angeles">Los Angeles <br>
+
+
 <input type="submit" value="S'enregistrer">
 </form>
 </div>
