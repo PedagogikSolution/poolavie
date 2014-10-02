@@ -10,10 +10,11 @@ public class DatabaseConnector {
 	// JDBC driver name and database URL
 	static final String JDBC_DRIVER = "com.mysql.jdbc.GoogleDriver";
 	static final String DB_URL = "jdbc:google:mysql://zeta-anthem-715:poolavie/poolavie";
-	static final String DB_URL2 = "jdbc:mysql://localhost:3306/poolavie";
+	static final String DB_URL2 = "jdbc:mysql://127.0.0.1:3306/poolavie";
 
 	// Database credentials
 	static final String USER = "root";
+	static final String USER2 = "Farfworld";
 	static final String PASS = "";
 	static final String PASS2 = "Sac55sac!!";
 	Connection conn;
@@ -44,7 +45,7 @@ public class DatabaseConnector {
 			if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			} else {
-			conn = DriverManager.getConnection(DB_URL2, USER, PASS);	
+			conn = DriverManager.getConnection(DB_URL2, USER2, PASS2);	
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
