@@ -74,4 +74,27 @@ Sélectionne ton équipe : <br>
 </div>
 
 </body>
+
+<%
+   Object messageRecuFromServlet = request.getAttribute("login_message");
+if(messageRecuFromServlet!=null){
+	String loginMessage = messageRecuFromServlet.toString();
+	int mIntLoginMessage = Integer.parseInt(loginMessage);
+
+	switch(mIntLoginMessage){
+	case 0 : request.removeAttribute("login_message");
+	%> <script> window.onload = connexionFail(); </script> <%
+	break;
+	case 1 : request.removeAttribute("login_message");
+	%> <script> window.onload = notRegister(); </script> <%
+	break;
+	case 2 : request.removeAttribute("login_message");
+	%> <script> window.onload = wrongPassword(); </script> <%
+	break;
+	} 
+	
+	
+}
+   
+%>
 </html>
