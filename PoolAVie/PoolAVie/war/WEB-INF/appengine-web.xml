@@ -28,5 +28,8 @@
     stale session data. For details, see
     http://code.google.com/appengine/docs/java/config/appconfig.html#Enabling_Sessions
   -->
+ <!-- Permet l'utilisation des sessions sur GAE -->
+<sessions-enabled>true</sessions-enabled>
+<!-- Permet la connection a GOOGLE CLOUD SQL -->
 <use-google-connector-j>true</use-google-connector-j>
 </appengine-web-app>
