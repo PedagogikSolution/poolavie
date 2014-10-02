@@ -79,7 +79,7 @@ public class LoginServlet extends HttpServlet {
 							if (validateHash) {
 								req.setAttribute("mTeamId", teamIdentifiant);
 								req.setAttribute("mTeam", mTeam);
-								req.getRequestDispatcher("/jsp/login.jsp")
+								req.getRequestDispatcher("/jsp/main.jsp")
 										.forward(req, resp);
 
 							} else {

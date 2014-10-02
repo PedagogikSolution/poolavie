@@ -87,7 +87,7 @@ public class RegisterServlet extends HttpServlet {
 							if(insertGood==1){
 								req.setAttribute("mTeam", team);
 								req.setAttribute("mTeamId", teamIdentifiant);
-								req.getRequestDispatcher("/jsp/login.jsp").forward(req,
+								req.getRequestDispatcher("/jsp/main.jsp").forward(req,
 										resp);
 								
 								

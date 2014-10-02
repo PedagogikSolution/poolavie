@@ -16,5 +16,8 @@
 <body>
 	Bienvenue
 	<%=session.getAttribute("mTeamName")%>
+	
+	
+	
 </body>
 </html>
