@@ -1,6 +1,8 @@
 package com.pedagogiksolution.poolavie.login;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.poolavie.utils.DatabaseConnector;
+import com.pedagogiksolution.poolavie.utils.PasswordEncryption;
 
 public class LoginServlet extends HttpServlet {
 
@@ -26,7 +29,11 @@ public class LoginServlet extends HttpServlet {
 	Connection conn;
 	ResultSet rs;
 	String mPassword;
+	int teamIdentifiant;
+	String mTeam;
 	DatabaseConnector dbHelper;
+	PasswordEncryption pEncrypt;
+	Boolean validateHash;
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -39,7 +46,8 @@ public class LoginServlet extends HttpServlet {
 		// connexion aux serveurs de base de donnée
 		dbHelper = new DatabaseConnector();
 		conn = dbHelper.open();
-
+        
+		pEncrypt = new PasswordEncryption();
 		// si connexion est bonne on récupère les informations de la table
 		// utilisateur
 		if (conn != null) {
@@ -47,34 +55,49 @@ public class LoginServlet extends HttpServlet {
 			try {
 
 				try {
-					statement = "SELECT password FROM utilisateurs WHERE utilisateurs.username='"
+					statement = "SELECT password,identifiant_equipe,team FROM utilisateurs WHERE utilisateurs.username='"
 							+ username + "'";
 					rs = conn.createStatement().executeQuery(statement);
 
 					if (rs != null) {
 						if (rs.next()) {
 							mPassword = rs.getString("password");
+							teamIdentifiant = rs.getInt("identifiant_equipe");
+							mTeam = rs.getString("team");
 							/*
 							 * si recupération ok, testing du password sur le
 							 * username
 							 */
-							if (mPassword.equals(password)) {
+							try {
+								validateHash = pEncrypt.validatePassword(password, mPassword);
+							} catch (NoSuchAlgorithmException
+									| InvalidKeySpecException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+							if (validateHash) {
+								req.setAttribute("mTeamId", teamIdentifiant);
+								req.setAttribute("mTeam", mTeam);
 								req.getRequestDispatcher("/jsp/login.jsp")
 										.forward(req, resp);
 
 							} else {
-
+								
+								req.setAttribute("login_message", "2");
 								req.getRequestDispatcher(
-										"/jsp/bad_password.jsp").forward(req,
+										"/jsp/home.jsp").forward(req,
 										resp);
 							}
 						} else {
-							req.getRequestDispatcher("/jsp/not_register.jsp")
+							req.setAttribute("login_message", "1");
+							req.getRequestDispatcher("/jsp/home.jsp")
 									.forward(req, resp);
 						}
 
 					} else {
-						req.getRequestDispatcher("/jsp/not_connexion.jsp")
+						req.setAttribute("login_message", "0");
+						req.getRequestDispatcher("/jsp/home.jsp")
 								.forward(req, resp);
 					}
 				} finally {
