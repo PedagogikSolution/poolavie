@@ -1,11 +1,20 @@
 package com.pedagogiksolution.poolavie.login;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.pedagogiksolution.poolavie.utils.DatabaseConnector;
+import com.pedagogiksolution.poolavie.utils.PasswordEncryption;
 
 public class RegisterServlet extends HttpServlet {
 
@@ -16,14 +25,131 @@ public class RegisterServlet extends HttpServlet {
 	String username;
 	String password;
 	String team;
+	String statement, statement2;
+	String mStrongPassword;
+	PasswordEncryption pEncrypt;
+	DatabaseConnector dbHelper;
+	Connection conn;
+	ResultSet rs;
+	int teamIdentifiant, mTeamIdentifiant;
+	int mId;
+	PreparedStatement ps;
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		username = req.getParameter("user_reg");
 		password = req.getParameter("password_reg");
 		team = req.getParameter("team_reg");
+
+		teamIdentifiant = teamToId(team);
+
+		pEncrypt = new PasswordEncryption();
+			try {
+				mStrongPassword = pEncrypt.passwordEncryption(password);
+			} catch (NoSuchAlgorithmException | InvalidKeySpecException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		
+
+		// connexion aux serveurs de base de donnée
+		dbHelper = new DatabaseConnector();
+		conn = dbHelper.open();
+
+		if (conn != null) {
+			
+					try {
+				
+					statement = "SELECT identifiant_equipe FROM utilisateurs WHERE utilisateurs.identifiant_equipe="
+							+ teamIdentifiant;
+					try {
+						rs = conn.createStatement().executeQuery(statement);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+					try {
+						if (!rs.isBeforeFirst()) {
+
+							statement2 = "INSERT INTO utilisateurs"
+									+ "(username, password, team,identifiant_equipe) VALUES"
+									+ "(?,?,?,?)";
+
+							ps = conn.prepareStatement(statement2);
+							ps.setString(1, username);
+							ps.setString(2, mStrongPassword);
+							ps.setString(3, team);
+							ps.setInt(4, teamIdentifiant);
+							int insertGood = ps.executeUpdate();
+							
+							if(insertGood==1){
+								req.setAttribute("mTeam", team);
+								req.setAttribute("mTeamId", teamIdentifiant);
+								req.getRequestDispatcher("/jsp/login.jsp").forward(req,
+										resp);
+								
+								
+							} else {
+								// erreur d'insertion a trouver
+								
+							}
+
+						} else {
+
+							req.getRequestDispatcher("/jsp/home.jsp").forward(req,
+									resp);
+
+						}
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} 
+
+					} finally {
+						try {
+							ps.close();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					    dbHelper.close(conn);
+					}
+			
+
+		} else {
+			// une erreur de connexion s'est produite, gérer ce problème pour
+			// être transparent pour l'utilisateur
+			req.getRequestDispatcher("/jsp/no_connexion.jsp")
+					.forward(req, resp);
+		}
+
 	}
-	
-	
+
+	private int teamToId(String team2) {
+		if (team2.equals("Los Angeles")) {
+			mId = 1;
+		} else if (team2.equals("Detroit")) {
+			mId = 2;
+		} else if (team2.equals("Montreal")) {
+			mId = 3;
+		} else if (team2.equals("Chicago")) {
+			mId = 4;
+		} else if (team2.equals("New York")) {
+			mId = 5;
+		} else if (team2.equals("Philadelphie")) {
+			mId = 6;
+		} else if (team2.equals("Toronto")) {
+			mId = 7;
+		} else if (team2.equals("St-Louis")) {
+			mId = 8;
+		} else if (team2.equals("Boston")) {
+			mId = 9;
+		} else if (team2.equals("Pittsburgh")) {
+			mId = 10;
+		}
+		return mId;
+	}
 
 }
