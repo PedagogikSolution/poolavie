@@ -17,7 +17,7 @@
 <div id="btn_sign_in"><button onclick="onSignInButtonClick()">Sign In</button></div>
 </div>
 
-<hr id="hr_header">
+<hr class="hr_header">
 
 <div class="main_container">
 
@@ -47,6 +47,9 @@ Choisis un nom d'utilisateur: <input type="text" name="user_reg">
 <br>
 <br>
 Choisis un mot de passe: <input type="text" name="password_reg">
+<br>
+<br>
+Entre ton email pour recevoir des offres de trade: <input type="text" name="email_reg">
 <br>
 <br>
 Sélectionne ton équipe : <br>
@@ -90,6 +93,12 @@ if(messageRecuFromServlet!=null){
 	break;
 	case 2 : request.removeAttribute("login_message");
 	%> <script> window.onload = wrongPassword(); </script> <%
+	break;
+	case 3 : request.removeAttribute("login_message");
+	%> <script> window.onload = teamExist(); </script> <%
+	break;
+	case 4 : request.removeAttribute("login_message");
+	%> <script> window.onload = erreurBD(); </script> <%
 	break;
 	} 
 	

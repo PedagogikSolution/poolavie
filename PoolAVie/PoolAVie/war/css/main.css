@@ -1,1 +1,121 @@
 @CHARSET "ISO-8859-1";
+
+.main_navbar {
+	width: 1280px;
+	height: 150px;
+	margin-left: auto;
+	margin-right: auto;
+	position:relative;
+	
+}
+
+.main_menu {
+	width: 1280px;
+	height: 50px;
+	margin-left: auto;
+	margin-right: auto;
+	position:relative;
+	
+}
+
+.main_container {
+	
+	width: 1280px;
+	height: 700px;
+	margin-left: auto;
+	margin-right: auto;
+	position:relative;
+	
+	
+}
+
+.main_content {
+	
+	width:960px;
+	height:700px;
+	position:absolute;
+	left:0px;
+	display:block;
+	
+	
+	
+}
+
+.main_sidebar {
+	
+	width:320px;
+	height:700px;
+	position:absolute;
+	right:0px;
+	display:block;
+	background-color:yellow;
+	
+}
+
+#logo_main {
+	width:250px;
+	height:150px;
+	position:absolute;
+	left:0px
+	
+	
+}
+
+#welcome_main {
+	width:500px;
+	height:150px;
+	position:absolute;
+	left:250px;
+	text-align:center;
+	margin-top:25px;
+	font-size:24px;
+	
+}
+.hr_header {
+width :1280px;
+background: #666666;
+height: 3px;
+}
+
+#btn_sign_out button{
+	color: white;
+	background:#666666;
+	padding:5px;
+	text-align:center;
+	font-size: 20px;
+	position:absolute;
+	top:50px;
+	right:20px;
+	width:100px;
+	cursor:pointer;
+}
+
+.btn_menu {
+	width:150px;
+	color: white;
+	background:#666666;
+	padding:5px;
+	text-align:center;
+	font-size: 20px;
+	margin-left:15px;
+	float:left;
+}
+
+#main_content_title_classement {
+	width : 960px;
+	height:30px;
+	text-align:center;
+	font-size:24px;
+	color:black;
+	position:absolute;
+	left:0px;
+}
+#main_content_table_classement {
+	width : 960px;
+	text-align:center;
+	font-size:24px;
+	color:black;
+	position:absolute;
+	left:0px;
+	top:30px;
+}

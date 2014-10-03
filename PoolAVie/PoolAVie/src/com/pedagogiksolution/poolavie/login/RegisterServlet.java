@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,18 +24,20 @@ public class RegisterServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 2718138746239425792L;
-	String username;
+	String username, email;
 	String password;
 	String team;
-	String statement, statement2;
+	String statement, statement2, statement3;
 	String mStrongPassword;
 	PasswordEncryption pEncrypt;
 	DatabaseConnector dbHelper;
 	Connection conn;
-	ResultSet rs;
+	ResultSet rs,rs2;
 	int teamIdentifiant, mTeamIdentifiant;
 	int mId;
 	PreparedStatement ps;
+	
+	
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -41,7 +45,7 @@ public class RegisterServlet extends HttpServlet {
 		username = req.getParameter("user_reg");
 		password = req.getParameter("password_reg");
 		team = req.getParameter("team_reg");
-
+		email = req.getParameter("email_reg");
 		teamIdentifiant = teamToId(team);
 
 		pEncrypt = new PasswordEncryption();
@@ -56,7 +60,7 @@ public class RegisterServlet extends HttpServlet {
 		// connexion aux serveurs de base de donnée
 		dbHelper = new DatabaseConnector();
 		conn = dbHelper.open();
-
+		List<Object> dataList = new ArrayList<Object>();
 		if (conn != null) {
 			
 					try {
@@ -74,30 +78,61 @@ public class RegisterServlet extends HttpServlet {
 						if (!rs.isBeforeFirst()) {
 
 							statement2 = "INSERT INTO utilisateurs"
-									+ "(username, password, team,identifiant_equipe) VALUES"
-									+ "(?,?,?,?)";
+									+ "(username, password, team,identifiant_equipe,email) VALUES"
+									+ "(?,?,?,?,?)";
 
 							ps = conn.prepareStatement(statement2);
 							ps.setString(1, username);
 							ps.setString(2, mStrongPassword);
 							ps.setString(3, team);
 							ps.setInt(4, teamIdentifiant);
+							ps.setString(4, email);
 							int insertGood = ps.executeUpdate();
 							
+							statement3 = "SELECT * FROM classement ORDER BY points DESC";
+							
+							rs2 = conn.createStatement().executeQuery(statement3);	 
+
+							  while (rs2.next ()){
+
+							  //Add records into data list
+
+
+
+							  dataList.add(rs2.getString("equipe"));
+							  dataList.add(rs2.getInt("pj"));
+							  dataList.add(rs2.getInt("but"));
+							  dataList.add(rs2.getInt("passe"));
+							  dataList.add(rs2.getInt("points"));
+							  dataList.add(rs2.getInt("moyenne"));
+							  dataList.add(rs2.getInt("hier"));
+							  dataList.add(rs2.getInt("semaine"));
+							  dataList.add(rs2.getInt("mois"));
+							  dataList.add(rs2.getInt("moyenne"));
+							  dataList.add(rs2.getInt("difference"));
+							  
+							  }
+							
 							if(insertGood==1){
+								
+								req.setAttribute("classement",dataList);							
 								req.setAttribute("mTeam", team);
 								req.setAttribute("mTeamId", teamIdentifiant);
+								req.setAttribute("mUsername", username);								
 								req.getRequestDispatcher("/jsp/main.jsp").forward(req,
 										resp);
 								
 								
 							} else {
 								// erreur d'insertion a trouver
+								req.setAttribute("login_message", "4");
+								req.getRequestDispatcher("/jsp/home.jsp").forward(req,
+										resp);
 								
 							}
 
 						} else {
-
+							req.setAttribute("login_message", "3");
 							req.getRequestDispatcher("/jsp/home.jsp").forward(req,
 									resp);
 
@@ -129,25 +164,25 @@ public class RegisterServlet extends HttpServlet {
 
 	private int teamToId(String team2) {
 		if (team2.equals("Los Angeles")) {
-			mId = 1;
+			mId = 0;
 		} else if (team2.equals("Detroit")) {
-			mId = 2;
+			mId = 1;
 		} else if (team2.equals("Montreal")) {
-			mId = 3;
+			mId = 2;
 		} else if (team2.equals("Chicago")) {
-			mId = 4;
+			mId = 3;
 		} else if (team2.equals("New York")) {
-			mId = 5;
+			mId = 4;
 		} else if (team2.equals("Philadelphie")) {
-			mId = 6;
+			mId = 5;
 		} else if (team2.equals("Toronto")) {
-			mId = 7;
+			mId = 6;
 		} else if (team2.equals("St-Louis")) {
-			mId = 8;
+			mId = 7;
 		} else if (team2.equals("Boston")) {
-			mId = 9;
+			mId = 8;
 		} else if (team2.equals("Pittsburgh")) {
-			mId = 10;
+			mId = 9;
 		}
 		return mId;
 	}

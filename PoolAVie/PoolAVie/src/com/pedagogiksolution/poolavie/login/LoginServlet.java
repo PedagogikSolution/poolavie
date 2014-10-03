@@ -6,6 +6,8 @@ import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,12 +27,13 @@ public class LoginServlet extends HttpServlet {
 	String password;
 	String url;
 	int success;
-	String statement;
+	String statement,statement3;
 	Connection conn;
-	ResultSet rs;
+	ResultSet rs,rs2;
 	String mPassword;
 	int teamIdentifiant;
 	String mTeam;
+	String mUsername;
 	DatabaseConnector dbHelper;
 	PasswordEncryption pEncrypt;
 	Boolean validateHash;
@@ -46,7 +49,7 @@ public class LoginServlet extends HttpServlet {
 		// connexion aux serveurs de base de donnée
 		dbHelper = new DatabaseConnector();
 		conn = dbHelper.open();
-        
+		List<Object> dataList = new ArrayList<Object>();
 		pEncrypt = new PasswordEncryption();
 		// si connexion est bonne on récupère les informations de la table
 		// utilisateur
@@ -55,7 +58,7 @@ public class LoginServlet extends HttpServlet {
 			try {
 
 				try {
-					statement = "SELECT password,identifiant_equipe,team FROM utilisateurs WHERE utilisateurs.username='"
+					statement = "SELECT password,identifiant_equipe,team,username FROM utilisateurs WHERE utilisateurs.username='"
 							+ username + "'";
 					rs = conn.createStatement().executeQuery(statement);
 
@@ -64,6 +67,7 @@ public class LoginServlet extends HttpServlet {
 							mPassword = rs.getString("password");
 							teamIdentifiant = rs.getInt("identifiant_equipe");
 							mTeam = rs.getString("team");
+							mUsername = rs.getString("username");
 							/*
 							 * si recupération ok, testing du password sur le
 							 * username
@@ -77,8 +81,35 @@ public class LoginServlet extends HttpServlet {
 							}
 							
 							if (validateHash) {
+								
+								statement3 = "SELECT * FROM classement ORDER BY points DESC";
+								
+								rs2 = conn.createStatement().executeQuery(statement3);	 
+
+								  while (rs2.next ()){
+
+								  //Add records into data list
+
+								  dataList.add(rs2.getString("equipe"));
+								  dataList.add(rs2.getInt("pj"));
+								  dataList.add(rs2.getInt("but"));
+								  dataList.add(rs2.getInt("passe"));
+								  dataList.add(rs2.getInt("points"));
+								  dataList.add(rs2.getInt("moyenne"));
+								  dataList.add(rs2.getInt("hier"));
+								  dataList.add(rs2.getInt("semaine"));
+								  dataList.add(rs2.getInt("mois"));
+								  dataList.add(rs2.getInt("moyenne"));
+								  dataList.add(rs2.getInt("difference"));
+								  
+								  }
+								
+								
+								
+								req.setAttribute("classement",dataList);
 								req.setAttribute("mTeamId", teamIdentifiant);
 								req.setAttribute("mTeam", mTeam);
+								req.setAttribute("mUsername", mUsername);
 								req.getRequestDispatcher("/jsp/main.jsp")
 										.forward(req, resp);
 

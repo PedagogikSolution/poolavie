@@ -59,7 +59,7 @@ body {
 }
 
 
-#hr_header {
+.hr_header {
 width :960px;
 background: #666666;
 height: 3px;

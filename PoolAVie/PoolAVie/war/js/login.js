@@ -6,7 +6,7 @@ function onLoginButtonClick() {
 }
 
 function onLogoClick() {	
-	window.location.assign("http://localhost:8888/")
+	window.location.assign("http://localhost:8888/");
 }
 
 function onSignInButtonClick() {
@@ -29,4 +29,14 @@ function notRegister() {
 function wrongPassword() {
 	alert("Mauvais mot de passe!");
 	onLoginButtonClick();
+}
+function teamExist() {
+	alert("Cette équipe existe déjà!");
+	onLoginButtonClick();
+	onSignInButtonClick();
+}
+function erreurBD() {
+	alert("Voir Frank");
+	onLoginButtonClick();
+	onSignInButtonClick();
 }

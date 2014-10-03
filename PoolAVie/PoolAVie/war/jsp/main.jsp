@@ -1,23 +1,159 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@page language="java" import="java.util.*"%>
 <%
 	String mTeamName2 = request.getAttribute("mTeam").toString();
 	String mTeamId2 = request.getAttribute("mTeamId").toString();
-
+	String mUsername2 = request.getAttribute("mUsername").toString();
+	Iterator<Object> itr;
+	List<Object> data;
+	data = (List<Object>) request.getAttribute("classement");
+	int i;
 	session.setAttribute("mTeamId", mTeamId2);
 	session.setAttribute("mTeamName", mTeamName2);
+	session.setAttribute("mUsername", mUsername2);
+
+	String teamId = session.getAttribute("mTeamId").toString();
+	int teamId2 = Integer.parseInt(teamId);
+
+	String mLogoId = null;
+	String mFirstTeamName = null;
+
+	switch (teamId2) {
+	case 0:
+		mLogoId = "los_angeles.png";
+		mFirstTeamName = "Kings de";
+		break;
+	case 1:
+		mLogoId = "detroit.jpg";
+		mFirstTeamName = "Red Wings de";
+		break;
+	case 2:
+		mLogoId = "montreal.png";
+		mFirstTeamName = "Canadiens de";
+		break;
+	case 3:
+		mLogoId = "chicago.png";
+		mFirstTeamName = "Blackhawks de";
+		break;
+	case 4:
+		mLogoId = "new_york.png";
+		mFirstTeamName = "Rangers de";
+		break;
+	case 5:
+		mLogoId = "philadelphie.png";
+		mFirstTeamName = "Flyers de";
+		break;
+	case 6:
+		mLogoId = "toronto.png";
+		mFirstTeamName = "Maple Leafs de";
+		break;
+	case 7:
+		mLogoId = "st_louis.png";
+		mFirstTeamName = "Blues de";
+		break;
+	case 8:
+		mLogoId = "boston.png";
+		mFirstTeamName = "Bruins de";
+		break;
+	case 9:
+		mLogoId = "pittsburgh.png";
+		mFirstTeamName = "Penguins de";
+		break;
+
+	}
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Welcome page</title>
+<link rel="stylesheet" type="text/css" href="css/main.css" />
+<script type="text/javascript" src="js/main.js"></script>
 </head>
 <body>
-	Bienvenue
-	<%=session.getAttribute("mTeamName")%>
-	
-	
-	
+	<div class="main_navbar">
+
+		<div id="logo_main">
+
+			<img alt="logo" src="images/<%=mLogoId%>" width="150px"
+				height="150px">
+
+		</div>
+		<div id="welcome_main">
+			Bienvenue
+			<%=session.getAttribute("mUsername")%>
+			<br> dans ta section de directeur général <br> des
+			<%=mFirstTeamName%>
+			<%=session.getAttribute("mTeamName")%>
+		</div>
+
+		<div id="btn_sign_out">
+			<button>Sign out</button>
+		</div>
+		<!--  fin de la main navbar -->
+	</div>
+	<hr class="hr_header">
+	<div class="main_menu">
+		<button class="btn_menu">Classement</button>
+		<button class="btn_menu">Draft</button>
+		<button class="btn_menu">Trade</button>
+		<button class="btn_menu">Team</button>
+		<button class="btn_menu">Signature</button>
+		<button class="btn_menu">Règlement</button>
+		<button class="btn_menu">Admin</button>
+	</div>
+	<hr class="hr_header">
+	<div class="main_container">
+		<div class="main_content"></div>
+		<div id="main_content_title_classement">CLASSEMENT</div>
+		<div id="main_content_table_classement">
+			<table>
+				<tr>
+					<th>Pos</th>
+					<th>Équipe</th>
+					<th>Pj</th>
+					<th>B</th>
+					<th>P</th>
+					<th>Pts</th>
+					<th>1</th>
+					<th>7</th>
+					<th>30</th>
+					<th>Moy</th>
+					<th>Diff</th>
+				</tr>
+
+				<% i = 1;
+					for (itr = data.iterator(); itr.hasNext();) {
+						
+				%>
+				<tr>
+					<td><%=i%></td>
+					<td><%=itr.next()%></td>
+					<td><%=itr.next()%></td>
+					<td><%=itr.next()%></td>
+					<td><%=itr.next()%></td>
+					<td><%=itr.next()%></td>
+					<td><%=itr.next()%></td>
+					<td><%=itr.next()%></td>
+					<td><%=itr.next()%></td>
+					<td><%=itr.next()%></td>
+					<td><%=itr.next()%></td>
+					<td><%=itr.next()%></td>
+					<%i++;%>
+				</tr>
+				<%}%>
+			</table>
+		</div>
+		<div class="main_sidebar"></div>
+
+		<!-- fin du main container -->
+	</div>
+
+
+
+
+
+
 </body>
 </html>
