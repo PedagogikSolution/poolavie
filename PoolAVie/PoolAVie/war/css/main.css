@@ -48,7 +48,7 @@
 	position:absolute;
 	right:0px;
 	display:block;
-	background-color:yellow;
+	
 	
 }
 
@@ -118,4 +118,13 @@ height: 3px;
 	position:absolute;
 	left:0px;
 	top:30px;
+}
+
+table {
+width: 100%;	
+}
+
+table, th, td {
+
+   border: 1px solid black;
 }

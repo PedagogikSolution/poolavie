@@ -2,17 +2,23 @@
 	pageEncoding="ISO-8859-1"%>
 <%@page language="java" import="java.util.*"%>
 <%
-	String mTeamName2 = request.getAttribute("mTeam").toString();
-	String mTeamId2 = request.getAttribute("mTeamId").toString();
-	String mUsername2 = request.getAttribute("mUsername").toString();
 	Iterator<Object> itr;
-	List<Object> data;
-	data = (List<Object>) request.getAttribute("classement");
+	List<Object> data, data2;
 	int i;
-	session.setAttribute("mTeamId", mTeamId2);
-	session.setAttribute("mTeamName", mTeamName2);
-	session.setAttribute("mUsername", mUsername2);
+	Object messageRecuFromServlet = request.getAttribute("mTeam");
+	if (messageRecuFromServlet != null) {
+		String mTeamName2 = request.getAttribute("mTeam").toString();
+		String mTeamId2 = request.getAttribute("mTeamId").toString();
+		String mUsername2 = request.getAttribute("mUsername")
+				.toString();
+		data2 = (List<Object>) request.getAttribute("classement");
+		session.setAttribute("data", data2);
+		session.setAttribute("mTeamId", mTeamId2);
+		session.setAttribute("mTeamName", mTeamName2);
+		session.setAttribute("mUsername", mUsername2);
+	}
 
+	data = (List<Object>) session.getAttribute("data");
 	String teamId = session.getAttribute("mTeamId").toString();
 	int teamId2 = Integer.parseInt(teamId);
 
@@ -69,15 +75,26 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Welcome page</title>
 <link rel="stylesheet" type="text/css" href="css/main.css" />
+<link rel="stylesheet" type="text/css" href="../css/main.css" />
 <script type="text/javascript" src="js/main.js"></script>
 </head>
 <body>
 	<div class="main_navbar">
 
 		<div id="logo_main">
-
+			<%
+				if (messageRecuFromServlet != null) {
+			%>
 			<img alt="logo" src="images/<%=mLogoId%>" width="150px"
 				height="150px">
+			<%
+				} else {
+			%>
+			<img alt="logo" src="../images/<%=mLogoId%>" width="150px"
+				height="150px">
+			<%
+				}
+			%>
 
 		</div>
 		<div id="welcome_main">
@@ -95,7 +112,7 @@
 	</div>
 	<hr class="hr_header">
 	<div class="main_menu">
-		<button class="btn_menu">Classement</button>
+		<a href="/jsp/main.jsp"><button class="btn_menu">Classement</button></a>
 		<button class="btn_menu">Draft</button>
 		<button class="btn_menu">Trade</button>
 		<button class="btn_menu">Team</button>
@@ -115,17 +132,17 @@
 					<th>Pj</th>
 					<th>B</th>
 					<th>P</th>
-					<th>Pts</th>
+					<th>Pts</th>	
+					<th>Moy</th>
 					<th>1</th>
 					<th>7</th>
 					<th>30</th>
-					<th>Moy</th>
 					<th>Diff</th>
 				</tr>
 
-				<% i = 1;
+				<%
+					i = 1;
 					for (itr = data.iterator(); itr.hasNext();) {
-						
 				%>
 				<tr>
 					<td><%=i%></td>
@@ -139,10 +156,14 @@
 					<td><%=itr.next()%></td>
 					<td><%=itr.next()%></td>
 					<td><%=itr.next()%></td>
-					<td><%=itr.next()%></td>
-					<%i++;%>
+					
+					<%
+						i++;
+					%>
 				</tr>
-				<%}%>
+				<%
+					}
+				%>
 			</table>
 		</div>
 		<div class="main_sidebar"></div>

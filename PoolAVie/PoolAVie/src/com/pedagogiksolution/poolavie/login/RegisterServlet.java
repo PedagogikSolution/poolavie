@@ -108,7 +108,6 @@ public class RegisterServlet extends HttpServlet {
 							  dataList.add(rs2.getInt("hier"));
 							  dataList.add(rs2.getInt("semaine"));
 							  dataList.add(rs2.getInt("mois"));
-							  dataList.add(rs2.getInt("moyenne"));
 							  dataList.add(rs2.getInt("difference"));
 							  
 							  }
