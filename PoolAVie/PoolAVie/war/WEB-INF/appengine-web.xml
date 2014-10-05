@@ -32,4 +32,5 @@
 <sessions-enabled>true</sessions-enabled>
 <!-- Permet la connection a GOOGLE CLOUD SQL -->
 <use-google-connector-j>true</use-google-connector-j>
+
 </appengine-web-app>

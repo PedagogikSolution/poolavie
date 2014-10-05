@@ -32,6 +32,24 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/register</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>deconnexion</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.login.DeconnexionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>deconnexion</servlet-name>
+		<url-pattern>/deconnexion</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>equipes</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.login.EquipesServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>equipes</servlet-name>
+		<url-pattern>/equipes</url-pattern>
+	</servlet-mapping>
+	
 <!-- Initialisation des pages JSP
 	<servlet>
         <servlet-name>home_jsp</servlet-name>
