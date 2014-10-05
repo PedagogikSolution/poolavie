@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@page language="java" import="java.util.*"%>
+<%@ page language="java" import="java.util.*"%>
+<%@ page isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%
 	Iterator<Object> itr;
 	List<Object> data, data2;
@@ -98,7 +101,6 @@
 
 		</div>
 		<div id="welcome_main">
-			Bienvenue
 			<%=session.getAttribute("mUsername")%>
 			<br> dans ta section de directeur général <br> des
 			<%=mFirstTeamName%>
@@ -106,7 +108,7 @@
 		</div>
 
 		<div id="btn_sign_out">
-			<button>Sign out</button>
+			<a href="/deconnexion"><button>Sign out</button></a>
 		</div>
 		<!--  fin de la main navbar -->
 	</div>
