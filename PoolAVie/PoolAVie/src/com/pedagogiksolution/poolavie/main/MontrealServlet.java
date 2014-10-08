@@ -19,9 +19,9 @@ public class MontrealServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = -9126048396062272819L;
-	String statement,statement2,statement3,statement4,statement5;
+	String statement,statement2,statement3,statement4,statement5,statement6;
 	Connection conn;
-	ResultSet rs, rs2, rs3, rs4,rs5;
+	ResultSet rs, rs2, rs3, rs4,rs5,rs6;
 	String mTeamIdentifiant;
 	String mTeam;
 	String mUsername;
@@ -29,6 +29,9 @@ public class MontrealServlet extends HttpServlet {
 	int max_salaire,total_salaire,budget_restant,moy_restante,nb_att,nb_def,nb_gar,
 	nb_rook,nb_contrat,nb_equipe,manq_equipe,manq_att,manq_def,manq_gar,manq_rook,
 	bonus_5,argent_recu,bonus_penalite;
+	int draft_pick_no,ronde,team_id,team_id_from,team_count;
+	String equipe_who_draft,from;
+	int pick_manquant;
 	
 	
 	
@@ -40,6 +43,7 @@ public class MontrealServlet extends HttpServlet {
 		List<Object> dataList2 = new ArrayList<Object>();
 		List<Object> dataList3 = new ArrayList<Object>();
 		List<Object> dataList4 = new ArrayList<Object>();
+		List<Object> dataList5 = new ArrayList<Object>();
 	
 		// connexion aux serveurs4 de base de donnée
 		dbHelper = new DatabaseConnector();
@@ -153,6 +157,22 @@ public class MontrealServlet extends HttpServlet {
 					argent_recu= rs5.getInt("argent_recu");
 					bonus_penalite = rs5.getInt("bonus_penalite");
 					}
+					
+	pick_manquant = rs5.getInt("manquant_equipe") + rs5.getInt("manquant_recrue");
+					
+					statement6 = "SELECT * FROM draft_round WHERE team_id=2 LIMIT " + pick_manquant;
+					
+					rs6 = conn.createStatement().executeQuery(statement6);
+					while (rs6.next()) {
+						dataList5.add( rs6.getInt("team_count"));
+						dataList5.add(rs6.getInt("ronde"));
+						dataList5.add(rs6.getString("from"));	
+						dataList5.add(rs6.getInt("draft_pick_no"));
+						
+						
+					}
+					
+					req.setAttribute("dataDraftRound", dataList5);
 					
 					req.getSession().setAttribute("max_salaire", max_salaire);
 					req.getSession().setAttribute("total_salaire", total_salaire);

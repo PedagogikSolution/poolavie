@@ -5,23 +5,25 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%
-	Iterator<Object> itr;
-	List<Object> dataAttaquant, dataDefenseur, dataGardien, dataRecrue;
-	int i;
-	Object messageRecuFromServlet = request.getAttribute("mTeam");
-	dataAttaquant = (List<Object>) request
-			.getAttribute("mTeamDataListAttaquant");
-	dataDefenseur = (List<Object>) request
-			.getAttribute("mTeamDataListDefenseur");
-	dataGardien = (List<Object>) request
-			.getAttribute("mTeamDataListGardien");
-	dataRecrue = (List<Object>) request
-			.getAttribute("mTeamDataListRecrue");
-	String teamId = session.getAttribute("mTeamId").toString();
-	int teamId2 = Integer.parseInt(teamId);
+Iterator<Object> itr;
+List<Object> dataAttaquant, dataDefenseur, dataGardien, dataRecrue,dataDraftRound;
+int i;
+Object messageRecuFromServlet = request.getAttribute("mTeam");
+dataAttaquant = (List<Object>) request
+		.getAttribute("mTeamDataListAttaquant");
+dataDefenseur = (List<Object>) request
+		.getAttribute("mTeamDataListDefenseur");
+dataGardien = (List<Object>) request
+		.getAttribute("mTeamDataListGardien");
+dataRecrue = (List<Object>) request
+		.getAttribute("mTeamDataListRecrue");
+dataDraftRound = (List<Object>) request
+		.getAttribute("dataDraftRound");
+String teamId = session.getAttribute("mTeamId").toString();
+int teamId2 = Integer.parseInt(teamId);
 
-	String mLogoId = null;
-	String mFirstTeamName = null;
+String mLogoId = null;
+String mFirstTeamName = null;
 
 	switch (teamId2) {
 	case 0:
@@ -311,6 +313,29 @@
 					<%
 						i++;
 					%>
+				</tr>
+				<%
+					}
+				%>
+			</table>
+			<br>
+			<table>
+				<caption>Draft Pick 2014-2015</caption>
+				<tr>
+					<th>Team pick no</th>
+					<th>Round</th>
+					<th>From</th>
+					<th>Overall pick number</th>
+					
+				</tr>
+				<%
+					for (itr = dataDraftRound.iterator(); itr.hasNext();) {
+				%>
+				<tr>
+					<td><%=itr.next()%></td>
+					<td><%=itr.next()%></td>
+					<td><%=itr.next()%></td>
+					<td><%=itr.next()%></td>
 				</tr>
 				<%
 					}

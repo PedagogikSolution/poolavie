@@ -6,7 +6,7 @@
 
 <%
 	Iterator<Object> itr;
-	List<Object> dataAttaquant, dataDefenseur, dataGardien, dataRecrue;
+	List<Object> dataAttaquant, dataDefenseur, dataGardien, dataRecrue,dataDraftRound;
 	int i;
 	Object messageRecuFromServlet = request.getAttribute("mTeam");
 	dataAttaquant = (List<Object>) request
@@ -17,6 +17,8 @@
 			.getAttribute("mTeamDataListGardien");
 	dataRecrue = (List<Object>) request
 			.getAttribute("mTeamDataListRecrue");
+	dataDraftRound = (List<Object>) request
+			.getAttribute("dataDraftRound");
 	String teamId = session.getAttribute("mTeamId").toString();
 	int teamId2 = Integer.parseInt(teamId);
 
@@ -317,6 +319,31 @@
 				%>
 			</table>
 			<br>
+			<table>
+				<caption>Draft Pick 2014-2015</caption>
+				<tr>
+					<th>Team pick no</th>
+					<th>Round</th>
+					<th>From</th>
+					<th>Overall pick number</th>
+					
+				</tr>
+				<%
+					for (itr = dataDraftRound.iterator(); itr.hasNext();) {
+				%>
+				<tr>
+					<td><%=itr.next()%></td>
+					<td><%=itr.next()%></td>
+					<td><%=itr.next()%></td>
+					<td><%=itr.next()%></td>
+				</tr>
+				<%
+					}
+				%>
+			</table>
+			<br>
+			
+			
 		</div>
 		<div class="main_sidebar">
 			<h2>MON BUDGET</h2>
@@ -379,11 +406,13 @@
 				Bonus et pénalité : <br><%=session.getAttribute("bonus_penalite")%>
 			</p> -->
 		</div>
+		
 
 
 
 		<!-- fin du main container -->
 	</div>
+	
 
 
 
