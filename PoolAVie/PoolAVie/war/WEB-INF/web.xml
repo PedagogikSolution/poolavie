@@ -7,12 +7,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 
 	<display-name>Pool à Vie</display-name>
 
-<!-- Page d'Acceuil de l'application web -->
+	<!-- Page d'Acceuil de l'application web -->
 	<welcome-file-list>
 		<welcome-file>jsp/home.jsp</welcome-file>
 	</welcome-file-list>
 
-<!-- Initialisation des servlets -->
+	<!-- Initialisation des servlets -->
 
 	<servlet>
 		<servlet-name>login</servlet-name>
@@ -22,7 +22,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>login</servlet-name>
 		<url-pattern>/login</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>register</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.login.RegisterServlet</servlet-class>
@@ -31,7 +31,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>register</servlet-name>
 		<url-pattern>/register</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>deconnexion</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.login.DeconnexionServlet</servlet-class>
@@ -40,55 +40,111 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>deconnexion</servlet-name>
 		<url-pattern>/deconnexion</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>equipes</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.login.EquipesServlet</servlet-class>
+		<servlet-class>com.pedagogiksolution.poolavie.main.EquipesServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>equipes</servlet-name>
 		<url-pattern>/equipes</url-pattern>
 	</servlet-mapping>
 	
-<!-- Initialisation des pages JSP
 	<servlet>
-        <servlet-name>home_jsp</servlet-name>
-        <jsp-file>/jsp/home.jsp</jsp-file>
-    </servlet>
+		<servlet-name>boston</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.main.BostonServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>boston</servlet-name>
+		<url-pattern>/boston</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>chicago</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.main.ChicagoServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>chicago</servlet-name>
+		<url-pattern>/chicago</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>detroit</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.main.DetroitServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>detroit</servlet-name>
+		<url-pattern>/detroit</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>los_angeles</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.main.LosAngelesServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>los_angeles</servlet-name>
+		<url-pattern>/los_angeles</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>montreal</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.main.MontrealServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>montreal</servlet-name>
+		<url-pattern>/montreal</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>pittsburgh</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.main.PittsburghServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>pittsburgh</servlet-name>
+		<url-pattern>/pittsburgh</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>philadelphie</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.main.PhiladelphieServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>philadelphie</servlet-name>
+		<url-pattern>/philadelphie</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>new_york</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.main.NewYorkServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>new_york</servlet-name>
+		<url-pattern>/new_york</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>st_louis</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.main.StLouisServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>st_louis</servlet-name>
+		<url-pattern>/st_louis</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>toronto</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.main.TorontoServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>toronto</servlet-name>
+		<url-pattern>/toronto</url-pattern>
+	</servlet-mapping>
 
-    <servlet-mapping>
-        <servlet-name>home_jsp</servlet-name>
-        <url-pattern>/jsp/home.jsp</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>login_jsp</servlet-name>
-        <jsp-file>/jsp/login.jsp</jsp-file>
-    </servlet>
+	<jsp-config>
+		<jsp-property-group>
+			<url-pattern>*.jsp</url-pattern>
+			<el-ignored>false</el-ignored>
+		</jsp-property-group>
+	</jsp-config>
 
-    <servlet-mapping>
-        <servlet-name>login_jsp</servlet-name>
-        <url-pattern>/jsp/login.jsp</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>bad_password_jsp</servlet-name>
-        <jsp-file>/jsp/bad_password.jsp</jsp-file>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>no_connexion_jsp</servlet-name>
-        <url-pattern>/jsp/no_connexion.jsp</url-pattern>
-    </servlet-mapping>  
-    <servlet>
-        <servlet-name>no_connexion_jsp</servlet-name>
-        <jsp-file>/jsp/no_connexion.jsp</jsp-file>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>bad_password_jsp</servlet-name>
-        <url-pattern>/jsp/bad_password.jsp</url-pattern>
-    </servlet-mapping>
-    -->
-
-    </web-app>
+</web-app>

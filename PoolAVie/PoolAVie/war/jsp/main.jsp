@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page language="java" import="java.util.*"%>
-<%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
@@ -117,7 +116,7 @@
 		<a href="/jsp/main.jsp"><button class="btn_menu">Classement</button></a>
 		<button class="btn_menu">Draft</button>
 		<button class="btn_menu">Trade</button>
-		<button class="btn_menu">Team</button>
+		<a href="/equipes"><button class="btn_menu">Team</button></a>
 		<button class="btn_menu">Signature</button>
 		<button class="btn_menu">Règlement</button>
 		<button class="btn_menu">Admin</button>

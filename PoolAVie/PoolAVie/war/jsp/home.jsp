@@ -27,6 +27,7 @@
  vous permettant de créer et gérer votre pool de hockey sur plusieurs saison. Il étant le concept des pools de Keepers
  avec une gestion élaborer des salaires, des contrats, des club-écoles et des échanges ainsi que la mise en place d'un système
  informatisé de draft live.</p>
+
 </div>
 
 <div id="login_home">
