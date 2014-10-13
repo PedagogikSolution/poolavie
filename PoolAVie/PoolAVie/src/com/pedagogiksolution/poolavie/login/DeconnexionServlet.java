@@ -13,7 +13,7 @@ public class DeconnexionServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 8556013338234489936L;
-	public static final String URL_REDIRECTION = "http://localhost:8888/";
+	public static final String URL_REDIRECTION = "http://1-dot-zeta-anthem-715.appspot.com/";
 
     public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
         /* Récupération et destruction de la session en cours */

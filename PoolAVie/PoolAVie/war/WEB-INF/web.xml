@@ -139,6 +139,88 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>toronto</servlet-name>
 		<url-pattern>/toronto</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>draft</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.draft.DraftServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>draft</servlet-name>
+		<url-pattern>/draft</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>attaquant</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.draft.AttaquantServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>attaquant</servlet-name>
+		<url-pattern>/attaquant</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>defenseur</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.draft.DefenseurServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>defenseur</servlet-name>
+		<url-pattern>/defenseur</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>gardien</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.draft.GardienServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>gardien</servlet-name>
+		<url-pattern>/gardien</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>recrue</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.draft.RecrueServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>recrue</servlet-name>
+		<url-pattern>/recrue</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>draft_order</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.draft.DraftOrderServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>draft_order</servlet-name>
+		<url-pattern>/draft_order</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>check_for_pick</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.ajax.CheckForPick</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>check_for_pick</servlet-name>
+		<url-pattern>/check_for_pick</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>reload_done</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.ajax.ReloadDone</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>reload_done</servlet-name>
+		<url-pattern>/reload_done</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>pick_made</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.draft.PickMadeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>pick_made</servlet-name>
+		<url-pattern>/pick_made</url-pattern>
+	</servlet-mapping>
+	
 
 	<jsp-config>
 		<jsp-property-group>

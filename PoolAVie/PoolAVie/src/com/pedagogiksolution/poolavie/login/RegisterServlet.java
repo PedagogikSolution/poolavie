@@ -86,7 +86,7 @@ public class RegisterServlet extends HttpServlet {
 							ps.setString(2, mStrongPassword);
 							ps.setString(3, team);
 							ps.setInt(4, teamIdentifiant);
-							ps.setString(4, email);
+							ps.setString(5, email);
 							int insertGood = ps.executeUpdate();
 							
 							statement3 = "SELECT * FROM classement ORDER BY points DESC";
@@ -142,12 +142,7 @@ public class RegisterServlet extends HttpServlet {
 					} 
 
 					} finally {
-						try {
-							ps.close();
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						
 					    dbHelper.close(conn);
 					}
 			

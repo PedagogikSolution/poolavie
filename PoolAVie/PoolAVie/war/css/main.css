@@ -28,6 +28,25 @@
 	
 }
 
+.next_10_drafting_team {
+	
+	width: 1280px;
+	height: 50px;
+	margin-left: auto;
+	margin-right: auto;
+	position:relative;
+	
+}
+.next_10_drafting_team img {
+	witdh :50px;
+	height : 50px;
+	margin-left:25px;
+}
+.next_10_drafting_team span {
+	position:absolute;
+	top :25;
+}
+
 .main_container {
 	
 	width: 1280px;

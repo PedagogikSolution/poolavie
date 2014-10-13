@@ -76,31 +76,20 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Welcome page</title>
-<link rel="stylesheet" type="text/css" href="css/main.css" />
 <link rel="stylesheet" type="text/css" href="../css/main.css" />
-<script type="text/javascript" src="js/main.js"></script>
 </head>
 <body>
 	<div class="main_navbar">
 
-		<div id="logo_main">
-			<%
-				if (messageRecuFromServlet != null) {
-			%>
-			<img alt="logo" src="images/<%=mLogoId%>" width="150px"
-				height="150px">
-			<%
-				} else {
-			%>
+	  	<div id="logo_main">
+	
 			<img alt="logo" src="../images/<%=mLogoId%>" width="150px"
 				height="150px">
-			<%
-				}
-			%>
+	
 
 		</div>
 		<div id="welcome_main">
-			<%=session.getAttribute("mUsername")%>
+			Bienvenue <%=session.getAttribute("mUsername")%>
 			<br> dans ta section de directeur général <br> des
 			<%=mFirstTeamName%>
 			<%=session.getAttribute("mTeamName")%>
@@ -114,7 +103,7 @@
 	<hr class="hr_header">
 	<div class="main_menu">
 		<a href="/jsp/main.jsp"><button class="btn_menu">Classement</button></a>
-		<button class="btn_menu">Draft</button>
+		<a href="/draft?sortby=all"><button class="btn_menu">Draft</button></a>
 		<button class="btn_menu">Trade</button>
 		<a href="/equipes"><button class="btn_menu">Team</button></a>
 		<button class="btn_menu">Signature</button>
