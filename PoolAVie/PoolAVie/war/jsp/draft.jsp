@@ -194,15 +194,16 @@
 				%>
 				
 				<tr>
-					<td><%=rs.getString("nom")%></td>
-					<td><%=rs.getString("team")%></td>
-					<td><%=rs.getString("position")%></td>
-					<td><%=rs.getString("pj")%></td>
+					
+					<td><input type="hidden" name="draft_player_id" value="<%=rs.getString("_id")%>"><%=rs.getString("nom")%></td>
+					<td><input type="hidden" name="team_id" value="<%=teamId%>"><%=rs.getString("team")%></td>
+					<td><input type="hidden" name="nom" value="<%=rs.getString("nom")%>"><%=rs.getString("position")%></td>
+					<td><input type="hidden" name="team" value="<%=rs.getString("team")%>"><%=rs.getString("pj")%></td>
 					<td><%=rs.getString("but_victoire")%></td>
 					<td><%=rs.getString("aide_overtime")%></td>
 					<td><%=rs.getString("pts")%></td>
-					<td><%=rs.getString("can_be_rookie")%></td>
-					<td><%=rs.getString("salaire_draft")%></td>
+					<td><input type="hidden" name="can_be_rookie" value="<%=rs.getString("can_be_rookie")%>"><%=rs.getString("can_be_rookie")%></td>
+					<td><input type="hidden" name="salaire" value="<%=rs.getString("salaire_draft")%>"><%=rs.getString("salaire_draft")%></td>
 					<td><%=rs.getString("projection")%></td>
 					<td><input type="submit" value="PICK"></td>
 

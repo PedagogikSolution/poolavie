@@ -221,6 +221,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/pick_made</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>pick_confirmer</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.draft.PickConfirmerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>pick_confirmer</servlet-name>
+		<url-pattern>/pick_confirmer</url-pattern>
+	</servlet-mapping>
+	
 
 	<jsp-config>
 		<jsp-property-group>

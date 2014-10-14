@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class PickMadeServlet extends HttpServlet {
+public class PickConfirmerServlet extends HttpServlet {
 	
 
 	/**
@@ -21,7 +21,7 @@ public class PickMadeServlet extends HttpServlet {
 		
 		
 		
-		req.getRequestDispatcher("/jsp/confirmation_pick.jsp").forward(req,
+		req.getRequestDispatcher("/draft").forward(req,
 				resp);
 		
 		
