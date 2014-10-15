@@ -5,11 +5,65 @@
 
 
 <%
+	Boolean myTurn = false;
+	String mDraftPickNow = "";
+	String mDraftPickImage= "";
+	myTurn = (Boolean) request.getAttribute("myTurn");
 
-	ResultSet rs = (ResultSet)request.getAttribute("draft_all_player");
+	ResultSet rs = (ResultSet) request.getAttribute("draft_all_player");
+	ResultSet rs7 = (ResultSet) request.getAttribute("next_10");
 
-	Object messageRecuFromServlet = request.getAttribute("mTeam");
+	String draft_pick_now2 = (String) request.getAttribute(
+			"draft_pick_now").toString();
 	
+	int draft_pick_now = Integer.parseInt(draft_pick_now2);
+	
+	switch (draft_pick_now){
+	case 0:
+		mDraftPickNow = "/los_angeles";
+		mDraftPickImage = "los_angeles.png";
+		break;
+	case 1:
+		mDraftPickNow = "/detroit";
+		mDraftPickImage = "detroit.jpg";
+		break;
+	case 2:
+		mDraftPickNow = "/montreal";
+		mDraftPickImage = "montreal.png";
+		break;
+	case 3:
+		mDraftPickNow = "/chicago";
+		mDraftPickImage = "chicago.png";
+		break;
+	case 4:
+		mDraftPickNow = "/new_york";
+		mDraftPickImage = "new_york.png";
+		break;
+	case 5:
+		mDraftPickNow = "/philadelphie";
+		mDraftPickImage = "philadelphie.png";
+		break;
+	case 6:
+		mDraftPickNow = "/toronto";
+		mDraftPickImage = "toronto.png";
+		break;
+	case 7:
+		mDraftPickNow = "/st_louis";
+		mDraftPickImage = "st_louis.png";
+		break;
+	case 8:
+		mDraftPickNow = "/boston";
+		mDraftPickImage = "boston.png";
+		break;
+	case 9:
+		mDraftPickNow = "/pittsburgh";
+		mDraftPickImage = "pittsbrugh.png";
+		break;
+	
+	
+	
+	}
+
 	String teamId2 = session.getAttribute("mTeamId").toString();
 	int teamId = Integer.parseInt(teamId2);
 	String mLogoId = null;
@@ -65,29 +119,44 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Welcome page</title>
 <link rel="stylesheet" type="text/css" href="../css/main.css" />
+<!-- <script	src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script> -->
+<!-- <script>
+	$(document).ready(
+			checkForPickMade
 
+	);
+	function checkForPickMade() {
+		// va vérifier si un pick a eu lieu toute les 10 secondes afin de permettre refresh de la page
+		//ouverte chez le client et ainsi avoir la liste de repechage a jour sans le dernier joueurs choisis et ajuster l'ordre de draft (next to et 10 next pick to come)
+		setInterval(launchAjaxCheckForChange, 10000);
+			
+		}
+		function launchAjaxCheckForChange() {
+			// requete a un script .jsp qui interroge une bdd et qui retourne 1 en output si un pick a été fait depuis le dernier reload
+			
+			$.get( "check_for_pick", function( data ) {
+				  if(data==1){
+					  $.post( "reload_done", { data: "1"} );
+					  window.location.replace("/draft");
+				  } else {
+					  alert("ya un fuck va voir frank");
+				  }
+				});
+		}
+</script>  -->
 </head>
 <body>
 	<div class="main_navbar">
 
 		<div id="logo_main">
-			<%
-				if (messageRecuFromServlet != null) {
-			%>
-			<img alt="logo" src="images/<%=mLogoId%>" width="150px"
-				height="150px">
-			<%
-				} else {
-			%>
+
 			<img alt="logo" src="../images/<%=mLogoId%>" width="150px"
 				height="150px">
-			<%
-				}
-			%>
 
 		</div>
 		<div id="welcome_main">
-			Bienvenue <%=session.getAttribute("mUsername")%>
+			Bienvenue
+			<%=session.getAttribute("mUsername")%>
 			<br> dans ta section de directeur général <br> des
 			<%=mFirstTeamName%>
 			<%=session.getAttribute("mTeamName")%>
@@ -109,78 +178,150 @@
 		<button class="btn_menu">Admin</button>
 	</div>
 	<div class="team_menu">
-	    <a href="/draft?sortby=all"><button class="btn_menu_team">ALL</button></a>
-	    <a href="/attaquant?sortby=all"><button class="btn_menu_team">ATT</button></a>
+		<a href="/draft?sortby=all"><button class="btn_menu_team">ALL</button></a>
+		<a href="/attaquant?sortby=all"><button class="btn_menu_team">ATT</button></a>
 		<a href="/defenseur?sortby=all"><button class="btn_menu_team">DEF</button></a>
 		<a href="/gardien?sortby=all"><button class="btn_menu_team">GOAL</button></a>
 		<a href="/recrue?sortby=all"><button class="btn_menu_team">ROOKIE</button></a>
-		<a href="/draft_order"><button class="btn_menu_team">ORDER</button></a>		
+		<a href="/draft_order"><button class="btn_menu_team">ORDER</button></a>
 	</div>
 	<hr class="hr_header">
-	<div class="next_10_drafting_team">
-	
-	PICKING NOW : <a href="/detroit"><img alt="Detroit" src="images/detroit.jpg"></a>
-	10 NEXT TO PICK --> <a href="/montreal"><img alt="Detroit" src="images/montreal.png"></a>
-	<a href="/philadelphie"><img alt="Detroit" src="images/philadelphie.png"></a>
-	<a href="/los_angeles"><img alt="Detroit" src="images/los_angeles.png"></a>
-	<a href="/st_louis"><img alt="Detroit" src="images/st_louis.png"></a>
-	<a href="/boston"><img alt="Detroit" src="images/boston.png"></a>
-	<a href="/pittsburgh"><img alt="Detroit" src="images/pittsburgh.png"></a>
-	<a href="/toronto"><img alt="Detroit" src="images/toronto.png"></a>
-	<a href="/philadelphie"><img alt="Detroit" src="images/philadelphie.png"></a>
-	<a href="/toronto"><img alt="Detroit" src="images/toronto.png"></a>
-	<a href="/detroit"><img alt="Detroit" src="images/detroit.jpg"></a>
 
-	
-	
-	</div>	
+
+	<div class="next_10_drafting_team">
+
+		PICKING NOW : <a href="<%=mDraftPickNow%>"> <img alt="Detroit" src="images/<%=mDraftPickImage%>"></a> 
+		NEXT 10 TO PICK :
+		
+		<%
+					while (rs7.next()) {
+				%>
+			
+			
+		<a href="/<%=rs7.getString("equipe")%>"><img alt="Detroit" src="images/<%=rs7.getString("equipe")%>.png"></a> 	
+			
+			
+		<% } %>
+		
+		 
+			
+
+
+
+	</div>
 	<hr class="hr_header">
-	
+
 	<div class="main_container">
 		<div class="main_content"></div>
 		<div id="main_content_title_classement">ALL AVAILABLE PLAYERS</div>
 		<div id="main_content_table_classement">
-		<br>
-		<table>
-		
-		<tr>
-		<th>Nom</th>
-		<th>Team</th>
-		<th>Pos</th>
-		<th>Pj</th>
-		<th>But</th>
-		<th>Passe</th>
-		<th><a href="/attaquant?sortby=pts">Pts</a></th>
-		<th>Rookie</th>
-		<th><a href="/attaquant?sortby=salaire">Salaire</a></th>
-		<th><a href="/attaquant?sortby=proj">Proj</a></th>
-		<th>Draft Pick</th>
-		</tr>
-		
-		<% while (rs.next()) { %>
-		
-		<tr>
-		<td><%= rs.getString("nom")%></td>
-		<td><%= rs.getString("team")%></td>
-		<td><%= rs.getString("position")%></td>
-		<td><%= rs.getString("pj")%></td>
-		<td><%= rs.getString("but_victoire")%></td>
-		<td><%= rs.getString("aide_overtime")%></td>
-		<td><%= rs.getString("pts")%></td>
-		<td><%= rs.getString("can_be_rookie")%></td>
-		<td><%= rs.getString("salaire_draft")%></td>
-		<td><%= rs.getString("projection")%></td>
-		<td><button>PICK</button></td>
-		
-		
-		
-		
-		</tr>
-		<% } %>
-		</table>			
+			<br>
+			<%
+				if (myTurn == true) {
+			%>
+
+			<table>
+				<tr>
+					<th>Nom</th>
+					<th>Team</th>
+					<th>Pos</th>
+					<th>Pj</th>
+					<th>But</th>
+					<th>Passe</th>
+					<th><a href="/draft?sortby=pts">Pts</a></th>
+					<th>Rookie</th>
+					<th><a href="/draft?sortby=salaire">Salaire</a></th>
+					<th><a href="/draft?sortby=proj">Proj</a></th>
+					<th>Draft Pick</th>
+				</tr>
+
+				<%
+					while (rs.next()) {
+				%>
+
+
+				<tr>
+
+					<td><%=rs.getString("nom")%></td>
+					<td><%=rs.getString("team")%></td>
+					<td><%=rs.getString("position")%></td>
+					<td><%=rs.getString("pj")%></td>
+					<td><%=rs.getString("but_victoire")%></td>
+					<td><%=rs.getString("aide_overtime")%></td>
+					<td><%=rs.getString("pts")%></td>
+					<td><%=rs.getString("can_be_rookie")%></td>
+					<td><%=rs.getString("salaire_draft")%></td>
+					<td><%=rs.getString("projection")%></td>
+					<td><form action="/pick_made" method="post">
+
+							<input type="hidden" name="draft_pick_now"
+								value="<%=draft_pick_now%>"> <input type="hidden"
+								name="draft_player_id" value="<%=rs.getString("_id")%>">
+							<input type="hidden" name="team_id" value="<%=teamId%>">
+							<input type="hidden" name="nom" value="<%=rs.getString("nom")%>">
+							<input type="hidden" name="team"
+								value="<%=rs.getString("team")%>"> <input type="hidden"
+								name="can_be_rookie" value="<%=rs.getString("can_be_rookie")%>">
+							<input type="hidden" name="salaire"
+								value="<%=rs.getString("salaire_draft")%>"> <input
+								type="submit" value="PICK">
+						</form></td>
+
+				</tr>
+
+				<%
+					}
+				%>
+			</table>
+
+			<%
+				} else {
+			%>
+			<table>
+				<tr>
+					<th>Nom</th>
+					<th>Team</th>
+					<th>Pos</th>
+					<th>Pj</th>
+					<th>But</th>
+					<th>Passe</th>
+					<th><a href="/draft?sortby=pts">Pts</a></th>
+					<th>Rookie</th>
+					<th><a href="/draft?sortby=salaire">Salaire</a></th>
+					<th><a href="/draft?sortby=proj">Proj</a></th>
+					<th>Draft Pick</th>
+				</tr>
+
+				<%
+					while (rs.next()) {
+				%>
+
+				<tr>
+					<td><%=rs.getString("nom")%></td>
+					<td><%=rs.getString("team")%></td>
+					<td><%=rs.getString("position")%></td>
+					<td><%=rs.getString("pj")%></td>
+					<td><%=rs.getString("but_victoire")%></td>
+					<td><%=rs.getString("aide_overtime")%></td>
+					<td><%=rs.getString("pts")%></td>
+					<td><%=rs.getString("can_be_rookie")%></td>
+					<td><%=rs.getString("salaire_draft")%></td>
+					<td><%=rs.getString("projection")%></td>
+					<td><button>NOT YOUR TURN</button></td>
+
+				</tr>
+				<%
+					}
+				%>
+			</table>
+			<%
+				}
+			%>
+
+
 		</div>
-		
-		
+
+
 		<div class="main_sidebar">
 			<h2>MON BUDGET</h2>
 
@@ -232,7 +373,7 @@
 			<p>
 				Recrue manquante : <br><%=session.getAttribute("manq_rook")%>
 			</p>
-	<!--  		<p>
+			<!--  		<p>
 				Bonus de 5 Millions : <br><%=session.getAttribute("bonus_5")%>
 			</p>
 			<p>
@@ -242,13 +383,13 @@
 				Bonus et pénalité : <br><%=session.getAttribute("bonus_penalite")%>
 			</p> -->
 		</div>
-		
+
 
 
 
 		<!-- fin du main container -->
 	</div>
-	
+
 
 
 
@@ -256,4 +397,5 @@
 
 
 </body>
+
 </html>

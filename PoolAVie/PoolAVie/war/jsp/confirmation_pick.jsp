@@ -2,7 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 
 <%
-	String draft_player_id,team_id,team,nom,salaire_draft,can_be_rookie2;
+	String draft_player_id,team_id,team,nom,salaire_draft,can_be_rookie2,draft_pick_now;
 	int can_be_rookie;
 	draft_player_id= request.getParameter("draft_player_id");
 	team_id= request.getParameter("team_id");
@@ -11,6 +11,7 @@
 	team= request.getParameter("team");
 	nom= request.getParameter("nom");
 	salaire_draft= request.getParameter("salaire");
+	draft_pick_now = request.getParameter("draft_pick_now");
 	
 	
 
@@ -168,7 +169,13 @@
 		<form action="/pick_confirmer" method="post">
 			<input type="hidden" name="is_rookie" value="0"> <input
 				type="hidden" name="draft_player_id" value="<%=draft_player_id%>">
-			<input type="hidden" name="team_id" value="<%=team_id%>"> <input
+			<input type="hidden" name="team_id" value="<%=team_id%>">
+			<input type="hidden" name="nom" value="<%=nom%>"> 
+			<input type="hidden" name="salaire" value="<%=salaire_draft%>"> 
+			<input type="hidden" name="draft_pick_now" value="<%=draft_pick_now%>">  
+			
+			
+			<input
 				type="submit" value="JE CONFIRME MON CHOIX">
 		</form>
 		<%
@@ -187,14 +194,20 @@
 		<form action="/pick_confirmer" method="post">
 			<input type="hidden" name="is_rookie" value="1"> <input
 				type="hidden" name="draft_player_id" value="<%=draft_player_id%>">
-			<input type="hidden" name="team_id" value="<%=team_id%>"> <input
+			<input type="hidden" name="team_id" value="<%=team_id%>">
+			<input type="hidden" name="nom" value="<%=nom%>"> 
+			<input type="hidden" name="salaire" value="<%=salaire_draft%>"> 
+			<input type="hidden" name="draft_pick_now" value="<%=draft_pick_now%>">  <input
 				type="submit" value="DANS MES ROOKIES">
 		</form>
 		<p>Je place ce joueur dans mon équipe régulière</p>
 		<form action="/pick_confirmer" method="post">
 			<input type="hidden" name="is_rookie" value="0"> <input
 				type="hidden" name="draft_player_id" value="<%=draft_player_id%>">
-			<input type="hidden" name="team_id" value="<%=team_id%>"> <input
+			<input type="hidden" name="team_id" value="<%=team_id%>">
+			<input type="hidden" name="nom" value="<%=nom%>"> 
+			<input type="hidden" name="salaire" value="<%=salaire_draft%>"> 
+			<input type="hidden" name="draft_pick_now" value="<%=draft_pick_now%>">  <input
 				type="submit" value="DANS MON TEAM">
 		</form>
 

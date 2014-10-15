@@ -6,13 +6,63 @@
 
 <%
 	Boolean myTurn = false;
+	String mDraftPickNow = "";
+	String mDraftPickImage= "";
 	myTurn = (Boolean) request.getAttribute("myTurn");
-	
-	
 
 	ResultSet rs = (ResultSet) request.getAttribute("draft_all_player");
+	ResultSet rs7 = (ResultSet) request.getAttribute("next_10");
 
-	Object messageRecuFromServlet = request.getAttribute("mTeam");
+	String draft_pick_now2 = (String) request.getAttribute(
+			"draft_pick_now").toString();
+	
+	int draft_pick_now = Integer.parseInt(draft_pick_now2);
+	
+	switch (draft_pick_now){
+	case 0:
+		mDraftPickNow = "/los_angeles";
+		mDraftPickImage = "los_angeles.png";
+		break;
+	case 1:
+		mDraftPickNow = "/detroit";
+		mDraftPickImage = "detroit.jpg";
+		break;
+	case 2:
+		mDraftPickNow = "/montreal";
+		mDraftPickImage = "montreal.png";
+		break;
+	case 3:
+		mDraftPickNow = "/chicago";
+		mDraftPickImage = "chicago.png";
+		break;
+	case 4:
+		mDraftPickNow = "/new_york";
+		mDraftPickImage = "new_york.png";
+		break;
+	case 5:
+		mDraftPickNow = "/philadelphie";
+		mDraftPickImage = "philadelphie.png";
+		break;
+	case 6:
+		mDraftPickNow = "/toronto";
+		mDraftPickImage = "toronto.png";
+		break;
+	case 7:
+		mDraftPickNow = "/st_louis";
+		mDraftPickImage = "st_louis.png";
+		break;
+	case 8:
+		mDraftPickNow = "/boston";
+		mDraftPickImage = "boston.png";
+		break;
+	case 9:
+		mDraftPickNow = "/pittsburgh";
+		mDraftPickImage = "pittsbrugh.png";
+		break;
+	
+	
+	
+	}
 
 	String teamId2 = session.getAttribute("mTeamId").toString();
 	int teamId = Integer.parseInt(teamId2);
@@ -20,46 +70,46 @@
 	String mFirstTeamName = null;
 
 	switch (teamId) {
-		case 0 :
-			mLogoId = "los_angeles.png";
-			mFirstTeamName = "Kings de";
-			break;
-		case 1 :
-			mLogoId = "detroit.jpg";
-			mFirstTeamName = "Red Wings de";
-			break;
-		case 2 :
-			mLogoId = "montreal.png";
-			mFirstTeamName = "Canadiens de";
-			break;
-		case 3 :
-			mLogoId = "chicago.png";
-			mFirstTeamName = "Blackhawks de";
-			break;
-		case 4 :
-			mLogoId = "new_york.png";
-			mFirstTeamName = "Rangers de";
-			break;
-		case 5 :
-			mLogoId = "philadelphie.png";
-			mFirstTeamName = "Flyers de";
-			break;
-		case 6 :
-			mLogoId = "toronto.png";
-			mFirstTeamName = "Maple Leafs de";
-			break;
-		case 7 :
-			mLogoId = "st_louis.png";
-			mFirstTeamName = "Blues de";
-			break;
-		case 8 :
-			mLogoId = "boston.png";
-			mFirstTeamName = "Bruins de";
-			break;
-		case 9 :
-			mLogoId = "pittsburgh.png";
-			mFirstTeamName = "Penguins de";
-			break;
+	case 0:
+		mLogoId = "los_angeles.png";
+		mFirstTeamName = "Kings de";
+		break;
+	case 1:
+		mLogoId = "detroit.jpg";
+		mFirstTeamName = "Red Wings de";
+		break;
+	case 2:
+		mLogoId = "montreal.png";
+		mFirstTeamName = "Canadiens de";
+		break;
+	case 3:
+		mLogoId = "chicago.png";
+		mFirstTeamName = "Blackhawks de";
+		break;
+	case 4:
+		mLogoId = "new_york.png";
+		mFirstTeamName = "Rangers de";
+		break;
+	case 5:
+		mLogoId = "philadelphie.png";
+		mFirstTeamName = "Flyers de";
+		break;
+	case 6:
+		mLogoId = "toronto.png";
+		mFirstTeamName = "Maple Leafs de";
+		break;
+	case 7:
+		mLogoId = "st_louis.png";
+		mFirstTeamName = "Blues de";
+		break;
+	case 8:
+		mLogoId = "boston.png";
+		mFirstTeamName = "Bruins de";
+		break;
+	case 9:
+		mLogoId = "pittsburgh.png";
+		mFirstTeamName = "Penguins de";
+		break;
 
 	}
 %>
@@ -99,19 +149,9 @@
 	<div class="main_navbar">
 
 		<div id="logo_main">
-			<%
-				if (messageRecuFromServlet != null) {
-			%>
-			<img alt="logo" src="images/<%=mLogoId%>" width="150px"
-				height="150px">
-			<%
-				} else {
-			%>
+
 			<img alt="logo" src="../images/<%=mLogoId%>" width="150px"
 				height="150px">
-			<%
-				}
-			%>
 
 		</div>
 		<div id="welcome_main">
@@ -146,21 +186,25 @@
 		<a href="/draft_order"><button class="btn_menu_team">ORDER</button></a>
 	</div>
 	<hr class="hr_header">
+
+
 	<div class="next_10_drafting_team">
 
-		PICKING NOW : <a href="/detroit"><img alt="Detroit"
-			src="images/detroit.jpg"></a> 10 NEXT TO PICK --> <a
-			href="/montreal"><img alt="Detroit" src="images/montreal.png"></a>
-		<a href="/philadelphie"><img alt="Detroit"
-			src="images/philadelphie.png"></a> <a href="/los_angeles"><img
-			alt="Detroit" src="images/los_angeles.png"></a> <a href="/st_louis"><img
-			alt="Detroit" src="images/st_louis.png"></a> <a href="/boston"><img
-			alt="Detroit" src="images/boston.png"></a> <a href="/pittsburgh"><img
-			alt="Detroit" src="images/pittsburgh.png"></a> <a href="/toronto"><img
-			alt="Detroit" src="images/toronto.png"></a> <a href="/philadelphie"><img
-			alt="Detroit" src="images/philadelphie.png"></a> <a href="/toronto"><img
-			alt="Detroit" src="images/toronto.png"></a> <a href="/detroit"><img
-			alt="Detroit" src="images/detroit.jpg"></a>
+		PICKING NOW : <a href="<%=mDraftPickNow%>"> <img alt="Detroit" src="images/<%=mDraftPickImage%>"></a> 
+		NEXT 10 TO PICK :
+		
+		<%
+					while (rs7.next()) {
+				%>
+			
+			
+		<a href="/<%=rs7.getString("equipe")%>"><img alt="Detroit" src="images/<%=rs7.getString("equipe")%>.png"></a> 	
+			
+			
+		<% } %>
+		
+		 
+			
 
 
 
@@ -172,8 +216,10 @@
 		<div id="main_content_title_classement">ALL AVAILABLE PLAYERS</div>
 		<div id="main_content_table_classement">
 			<br>
-			<% if (myTurn==true){ %>
-			<form action="/pick_made" method="post">
+			<%
+				if (myTurn == true) {
+			%>
+
 			<table>
 				<tr>
 					<th>Nom</th>
@@ -188,30 +234,49 @@
 					<th><a href="/draft?sortby=proj">Proj</a></th>
 					<th>Draft Pick</th>
 				</tr>
-				
+
 				<%
 					while (rs.next()) {
 				%>
-				
+
+
 				<tr>
-					
-					<td><input type="hidden" name="draft_player_id" value="<%=rs.getString("_id")%>"><%=rs.getString("nom")%></td>
-					<td><input type="hidden" name="team_id" value="<%=teamId%>"><%=rs.getString("team")%></td>
-					<td><input type="hidden" name="nom" value="<%=rs.getString("nom")%>"><%=rs.getString("position")%></td>
-					<td><input type="hidden" name="team" value="<%=rs.getString("team")%>"><%=rs.getString("pj")%></td>
+
+					<td><%=rs.getString("nom")%></td>
+					<td><%=rs.getString("team")%></td>
+					<td><%=rs.getString("position")%></td>
+					<td><%=rs.getString("pj")%></td>
 					<td><%=rs.getString("but_victoire")%></td>
 					<td><%=rs.getString("aide_overtime")%></td>
 					<td><%=rs.getString("pts")%></td>
-					<td><input type="hidden" name="can_be_rookie" value="<%=rs.getString("can_be_rookie")%>"><%=rs.getString("can_be_rookie")%></td>
-					<td><input type="hidden" name="salaire" value="<%=rs.getString("salaire_draft")%>"><%=rs.getString("salaire_draft")%></td>
+					<td><%=rs.getString("can_be_rookie")%></td>
+					<td><%=rs.getString("salaire_draft")%></td>
 					<td><%=rs.getString("projection")%></td>
-					<td><input type="submit" value="PICK"></td>
+					<td><form action="/pick_made" method="post">
+
+							<input type="hidden" name="draft_pick_now"
+								value="<%=draft_pick_now%>"> <input type="hidden"
+								name="draft_player_id" value="<%=rs.getString("_id")%>">
+							<input type="hidden" name="team_id" value="<%=teamId%>">
+							<input type="hidden" name="nom" value="<%=rs.getString("nom")%>">
+							<input type="hidden" name="team"
+								value="<%=rs.getString("team")%>"> <input type="hidden"
+								name="can_be_rookie" value="<%=rs.getString("can_be_rookie")%>">
+							<input type="hidden" name="salaire"
+								value="<%=rs.getString("salaire_draft")%>"> <input
+								type="submit" value="PICK">
+						</form></td>
 
 				</tr>
-				<% } %>
+
+				<%
+					}
+				%>
 			</table>
-			</form>
-			<% } else { %>
+
+			<%
+				} else {
+			%>
 			<table>
 				<tr>
 					<th>Nom</th>
@@ -226,11 +291,11 @@
 					<th><a href="/draft?sortby=proj">Proj</a></th>
 					<th>Draft Pick</th>
 				</tr>
-				
+
 				<%
 					while (rs.next()) {
 				%>
-				
+
 				<tr>
 					<td><%=rs.getString("nom")%></td>
 					<td><%=rs.getString("team")%></td>
@@ -245,11 +310,15 @@
 					<td><button>NOT YOUR TURN</button></td>
 
 				</tr>
-				<% } %>
+				<%
+					}
+				%>
 			</table>
-			<% } %>
-			
-				
+			<%
+				}
+			%>
+
+
 		</div>
 
 

@@ -17,12 +17,12 @@ public class DraftServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = -9126048396062272819L;
-	String statement, statement5,statement6;
+	String statement, statement5,statement6,statement7;
 	Connection conn;
-	ResultSet rs, rs5,rs6;
+	ResultSet rs, rs5,rs6,rs7;
 	String teamIdentifiant;
 	String sortBy;
-	int team_id,mTeam_id;
+	int team_id,mTeam_id,draft_pick_now;
 
 	DatabaseConnector dbHelper;
 	int max_salaire, total_salaire, budget_restant, moy_restante, nb_att,
@@ -48,7 +48,7 @@ public class DraftServlet extends HttpServlet {
 			dbHelper = new DatabaseConnector();
 			conn = dbHelper.open();
 			// si connexion est bonne on récupère les informations de la table
-			// utilisateur
+			// utilisateurdraft
 			if (conn != null) {
 
 				try {
@@ -69,6 +69,7 @@ public class DraftServlet extends HttpServlet {
 					statement6 = "SELECT * FROM draft_round WHERE follow_up=2";
 					
 					
+					
 					try {
 						
 						rs6 = conn.createStatement().executeQuery(statement6);
@@ -76,12 +77,18 @@ public class DraftServlet extends HttpServlet {
 						if(rs6.next()){
 						
 							team_id = rs6.getInt("team_id");
+							draft_pick_now = rs6.getInt("draft_pick_no");
 						}
+						statement7 = "SELECT team_id,equipe FROM draft_round WHERE draft_pick_no > '" + draft_pick_now + "' LIMIT 10";
+						rs7 = conn.createStatement().executeQuery(statement7);
+						req.setAttribute("next_10", rs7);
 						
 						if(team_id==mTeam_id){
+							req.setAttribute("draft_pick_now", draft_pick_now);
 							req.setAttribute("myTurn", true);
 							
 						} else {
+							req.setAttribute("draft_pick_now", draft_pick_now);
 							req.setAttribute("myTurn", false);
 						}
 
@@ -203,15 +210,19 @@ public class DraftServlet extends HttpServlet {
 					rs6 = conn.createStatement().executeQuery(statement6);
 					
 					if(rs6.next()){
-					
+						draft_pick_now = rs6.getInt("draft_pick_no");
 						team_id = rs6.getInt("team_id");
 					}
+					statement7 = "SELECT team_id,equipe FROM draft_round WHERE draft_pick_no > '" + draft_pick_now + "' LIMIT 10";
+					rs7 = conn.createStatement().executeQuery(statement7);
+					req.setAttribute("next_10", rs7);
 					
 					if(team_id==mTeam_id){
 						req.setAttribute("myTurn", true);
-						
+						req.setAttribute("draft_pick_now", draft_pick_now);
 					} else {
 						req.setAttribute("myTurn", false);
+						req.setAttribute("draft_pick_now", draft_pick_now);
 					}
 
 					rs = conn.createStatement().executeQuery(statement);
