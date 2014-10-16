@@ -22,7 +22,7 @@ public class DraftServlet extends HttpServlet {
 	ResultSet rs, rs5,rs6,rs7;
 	String teamIdentifiant;
 	String sortBy;
-	int team_id,mTeam_id,draft_pick_now;
+	int team_id,mTeam_id,draft_pick_no;
 
 	DatabaseConnector dbHelper;
 	int max_salaire, total_salaire, budget_restant, moy_restante, nb_att,
@@ -77,19 +77,21 @@ public class DraftServlet extends HttpServlet {
 						if(rs6.next()){
 						
 							team_id = rs6.getInt("team_id");
-							draft_pick_now = rs6.getInt("draft_pick_no");
+							draft_pick_no = rs6.getInt("draft_pick_no");
 						}
-						statement7 = "SELECT team_id,equipe FROM draft_round WHERE draft_pick_no > '" + draft_pick_now + "' LIMIT 10";
+						statement7 = "SELECT team_id,equipe FROM draft_round WHERE draft_pick_no > '" + draft_pick_no + "' LIMIT 10";
 						rs7 = conn.createStatement().executeQuery(statement7);
 						req.setAttribute("next_10", rs7);
 						
 						if(team_id==mTeam_id){
-							req.setAttribute("draft_pick_now", draft_pick_now);
+							req.setAttribute("draft_pick_now", team_id);
 							req.setAttribute("myTurn", true);
+							req.setAttribute("draft_pick_no", draft_pick_no);
 							
 						} else {
-							req.setAttribute("draft_pick_now", draft_pick_now);
+							req.setAttribute("draft_pick_now", team_id);
 							req.setAttribute("myTurn", false);
+							req.setAttribute("draft_pick_no", draft_pick_no);
 						}
 
 						rs = conn.createStatement().executeQuery(statement);
@@ -210,19 +212,21 @@ public class DraftServlet extends HttpServlet {
 					rs6 = conn.createStatement().executeQuery(statement6);
 					
 					if(rs6.next()){
-						draft_pick_now = rs6.getInt("draft_pick_no");
+						draft_pick_no = rs6.getInt("draft_pick_no");
 						team_id = rs6.getInt("team_id");
 					}
-					statement7 = "SELECT team_id,equipe FROM draft_round WHERE draft_pick_no > '" + draft_pick_now + "' LIMIT 10";
+					statement7 = "SELECT team_id,equipe FROM draft_round WHERE draft_pick_no > '" + draft_pick_no + "' LIMIT 10";
 					rs7 = conn.createStatement().executeQuery(statement7);
 					req.setAttribute("next_10", rs7);
 					
 					if(team_id==mTeam_id){
 						req.setAttribute("myTurn", true);
-						req.setAttribute("draft_pick_now", draft_pick_now);
+						req.setAttribute("draft_pick_now", team_id);
+						req.setAttribute("draft_pick_no", draft_pick_no);
 					} else {
 						req.setAttribute("myTurn", false);
-						req.setAttribute("draft_pick_now", draft_pick_now);
+						req.setAttribute("draft_pick_now", team_id);
+						req.setAttribute("draft_pick_no", draft_pick_no);
 					}
 
 					rs = conn.createStatement().executeQuery(statement);

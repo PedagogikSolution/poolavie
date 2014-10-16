@@ -2,6 +2,7 @@ package com.pedagogiksolution.poolavie.draft;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -13,19 +14,39 @@ import com.pedagogiksolution.poolavie.utils.DatabaseConnector;
 
 public class PickConfirmerServlet extends HttpServlet {
 	
+	
+
+
+	int manquant_equipe,manquant_att,manquant_def,manquant_gardien,manquant_recrue,budget_restant;
+	String manquant_min;
+	int calcul_1,calcul_2,total_manquant;
+
+	int nb_rookie;
+
+	ResultSet rs,rs42;
+
+	
+
 	String draft_player_id;
 	String team_id;
 	String is_rookie;
 	String salaire;
 	DatabaseConnector dbHelper;
 	Connection conn;
-	String statement,statement2,statement3,statement4,statement5;
+	String statement, statement2, statement3, statement4, statement5,
+			statement6,statement8,statement42;
 	String mTeamID;
 	String equipe;
 	String nom;
-	String draft_pick_now;
+	String draft_pick_no;
 	int next_draft_pick;
+	String position;
+	int salaireInt,team_id2,draft_pick_no2;
+	int moyenneRestante;
 	
+	
+	
+
 	/**
 	 * 
 	 */
@@ -34,115 +55,269 @@ public class PickConfirmerServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-	nom = req.getParameter("nom");	
-	draft_player_id = req.getParameter("draft_player_id");
-	team_id = req.getParameter("team_id");
-	int team_id2 = Integer.parseInt(team_id);
-	is_rookie = req.getParameter("is_rookie");
-	salaire = req.getParameter("salaire");
-	equipe = (String) req.getSession().getAttribute("mTeamName");
-	draft_pick_now = req.getParameter("draft_pick_now");
-	int draft_pick_now2 = Integer.parseInt(draft_pick_now);
-	next_draft_pick = draft_pick_now2 +1;
-	
-	
-	
-	switch(team_id2){
-	case 0 : mTeamID = "team_0";
-	break;
-	case 1 : mTeamID = "team_1";
-	break;
-	case 2 : mTeamID = "team_2";
-	break;
-	case 3 : mTeamID = "team_3";
-	break;
-	case 4 : mTeamID = "team_4";
-	break;
-	case 5 : mTeamID = "team_5";
-	break;
-	case 6 : mTeamID = "team_6";
-	break;
-	case 7 : mTeamID = "team_7";
-	break;
-	case 8 : mTeamID = "team_0";
-	break;
-	case 9 : mTeamID = "team_9";
-	break;
-	
-	
-	
-	
-	}
-	
-	statement = "UPDATE reload_counter SET reload=1,counter=counter+1," + mTeamID + "=1 WHERE _id=1";
-	
-	if(is_rookie.equalsIgnoreCase("1")){
 		
-	statement2 = "UPDATE players SET equipe='" + equipe + "',salaire_contrat='" + salaire +"',contrat=1,team_id='"
-	+ team_id + "',club_ecole=1, contrat_cours=2015,contrat_max_years=2019,type_contrat=4,years_1='" + salaire +
-	"',years_2='JA',years_3='JA',years_4='JA',years_5='JA' WHERE _id='" + draft_player_id + "' ";
-	
-	statement4 = "UPDATE equipes SET total_salaire_now=total_salaire_now , budget_restant=budget_restant WHERE team_id = '" + team_id + "'";
-	
-	} else {
+		team_id = req.getParameter("team_id");
+		is_rookie = req.getParameter("is_rookie");
+		salaire = req.getParameter("salaire");
+		salaireInt = Integer.parseInt(salaire);
+		position = req.getParameter("position");
 		
-	statement2 = "UPDATE players SET equipe='" + equipe + "',salaire_contrat='" + salaire +"',contrat=1,team_id='"
-				+ team_id + "',club_ecole=0, contrat_cours=2015,contrat_max_years=2019,type_contrat=4,years_1='" + salaire +
-				"',years_2='JA',years_3='JA',years_4='JA',years_5='JA' WHERE _id='" + draft_player_id + "' ";
-	
-	statement4 = "UPDATE equipes SET total_salaire_now=total_salaire_now + " + salaire + 
-			", budget_restant=budget_restant - " + salaire +
-			" WHERE team_id = '" + team_id + "'";
+		nom = req.getParameter("nom");
+		draft_player_id = req.getParameter("draft_player_id");
+		team_id2 = Integer.parseInt(team_id);
+		equipe = (String) req.getSession().getAttribute("mTeamName");
+		draft_pick_no = req.getParameter("draft_pick_no");
+		draft_pick_no2 = Integer.parseInt(draft_pick_no);
 		
-	}
+		
+		
+		
 	
-	statement3 = "UPDATE draft_round SET player_drafted='" + nom + "',follow_up=1 WHERE draft_pick_no='" + draft_pick_now + "'";
-	
-	
-	
-	statement5 = "UPDATE draft_round SET follow_up=2 WHERE draft_pick_no='" + next_draft_pick + "'";
-	
-	dbHelper = new DatabaseConnector();
-	conn = dbHelper.open();
-	// si connexion est bonne on récupère les informations de la table
-	// utilisateur
-	if (conn != null) {
-	
+		dbHelper = new DatabaseConnector();
+		conn = dbHelper.open();
+		// si connexion est bonne on récupère les informations de la table
+		// utilisateur
+		
+		statement42="SELECT draft_pick_no FROM draft_round WHERE follow_up=0 LIMIT 1";
+		statement = "SELECT * FROM equipes WHERE team_id='" + team_id + "'";
+		
 		try {
-			
-			
-			
-			try {
-			
-			conn.createStatement().executeUpdate(statement);
-			conn.createStatement().executeUpdate(statement2);	
-			conn.createStatement().executeUpdate(statement3);
-			conn.createStatement().executeUpdate(statement4);
-			conn.createStatement().executeUpdate(statement5);
-				
-				
-			} catch (SQLException e) {
-				e.printStackTrace();
+			rs =   conn.createStatement().executeQuery(statement);
+			rs42 =   conn.createStatement().executeQuery(statement42);
+			if(rs.next()){
+				nb_rookie = rs.getInt("nb_rookie");
+				manquant_equipe = rs.getInt("manquant_equipe");
+				manquant_att = rs.getInt("manquant_att");
+				manquant_def = rs.getInt("manquant_def");
+				manquant_recrue = rs.getInt("manquant_recrue");
+				manquant_gardien = rs.getInt("manquant_gardien");
+				budget_restant = rs.getInt("budget_restant");
+				calcul_1 = budget_restant-salaireInt;
+				calcul_2 = manquant_equipe-1;
+				if(calcul_2!=0){
+				moyenneRestante = calcul_1/calcul_2;
+				}
+				total_manquant= manquant_att+manquant_def+manquant_gardien;
 			}
 			
-		
 			
-		} finally {
-			dbHelper.close(conn);
+			
+			
+			if(rs42.next()){
+				next_draft_pick = rs42.getInt("draft_pick_no");
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
 		}
+		
+		
+		/****** verification si rookie possible ******/
+		
+		if (is_rookie.equals("1")){
+		
+			if(nb_rookie>=8){
+				req.getRequestDispatcher("/jsp/to_much_rookie.jsp").forward(req, resp);
+				return;
+			}
 			
-	} else {
-		// une erreur de connexion s'est produite, gérer ce problème pour
-		// être transparent pour l'utilisateur
-		req.getRequestDispatcher("/jsp/no_connexion.jsp")
-				.forward(req, resp);
-	}
+			
+			
+		}
 		
+/**** verification si draft possible    ******/		
 		
+		if(position.equals("defenseur")||position.equals("gardien")){
+			if(manquant_att>=manquant_equipe){
+			
+			//	req.getRequestDispatcher("/jsp/miss_attaquant.jsp").forward(req, resp);
+				
+			resp.sendRedirect("/jsp/miss_attaquant.jsp");
+			return;
+			}
+		}
+		
+		if(position.equals("attaquant")||position.equals("gardien")){
+			if(manquant_def>=manquant_equipe){
+				
+				req.getRequestDispatcher("/jsp/miss_defenseur.jsp").forward(req, resp);
+				return;
+			}
+		}
+		
+		if(position.equals("defenseur")||position.equals("attaquant")){
+			if(manquant_gardien>=manquant_equipe){
 	
+				req.getRequestDispatcher("/jsp/miss_gardien.jsp").forward(req, resp);
+				return;
+	
+			}
+		}
 		
-		resp.sendRedirect("/draft");	
 		
+		
+		/**** verification si draft possible    ******/		
+		
+		if(calcul_2!=0){
+		if(moyenneRestante<500000){
+			
+			req.getRequestDispatcher("/jsp/miss_cash.jsp").forward(req, resp);
+			return;
+			
+		}
+		
+		}
+		
+
+		switch (team_id2) {
+		case 0:
+			mTeamID = "team_0";
+			break;
+		case 1:
+			mTeamID = "team_1";
+			break;
+		case 2:
+			mTeamID = "team_2";
+			break;
+		case 3:
+			mTeamID = "team_3";
+			break;
+		case 4:
+			mTeamID = "team_4";
+			break;
+		case 5:
+			mTeamID = "team_5";
+			break;
+		case 6:
+			mTeamID = "team_6";
+			break;
+		case 7:
+			mTeamID = "team_7";
+			break;
+		case 8:
+			mTeamID = "team_0";
+			break;
+		case 9:
+			mTeamID = "team_9";
+			break;
+
+		}
+		
+
+	
+
+		statement8 = "UPDATE reload_counter SET reload=1,counter=counter+1,"
+				+ mTeamID + "=1 WHERE _id=1";
+
+		if (is_rookie.equalsIgnoreCase("1")) {
+
+			statement2 = "UPDATE players SET equipe='"
+					+ equipe
+					+ "',salaire_contrat='"
+					+ salaire
+					+ "',contrat=1,team_id='"
+					+ team_id
+					+ "',club_ecole=1, contrat_cours=2015,contrat_max_years=2019,type_contrat=4,years_1='"
+					+ salaire
+					+ "',years_2='JA',years_3='JA',years_4='JA',years_5='JA' WHERE _id='"
+					+ draft_player_id + "' ";
+
+			statement4 = "UPDATE equipes SET nb_rookie= nb_rookie+1, manquant_recrue=manquant_recrue -1," +
+					" total_salaire_now=total_salaire_now , budget_restant=budget_restant WHERE team_id = '"
+					+ team_id + "'";
+
+			
+
+		} else {
+
+			statement2 = "UPDATE players SET equipe='"
+					+ equipe
+					+ "',salaire_contrat='"
+					+ salaire
+					+ "',contrat=1,team_id='"
+					+ team_id
+					+ "',club_ecole=0, contrat_cours=2015,contrat_max_years=2019,type_contrat=4,years_1='"
+					+ salaire
+					+ "',years_2='JA',years_3='JA',years_4='JA',years_5='JA' WHERE _id='"
+					+ draft_player_id + "' ";
+			if (position.equals("attaquant")) {
+				statement4 = "UPDATE equipes SET moy_sal_restant_draft=budget_restant/manquant_equipe,nb_equipe=nb_equipe+1,manquant_equipe=manquant_equipe-1,nb_attaquant= nb_attaquant+1, "
+						+ "manquant_att=manquant_att -1,total_salaire_now=total_salaire_now + "
+						+ salaire
+						+ ", budget_restant=budget_restant - "
+						+ salaire + " WHERE team_id = '" + team_id + "'";
+			} else if (position.equals("defenseur")) {
+				statement4 = "UPDATE equipes SET moy_sal_restant_draft=budget_restant/manquant_equipe,nb_equipe=nb_equipe+1,manquant_equipe=manquant_equipe-1,nb_defenseur= nb_defenseur+1, "
+						+ "manquant_def=manquant_def -1,total_salaire_now=total_salaire_now + "
+						+ salaire
+						+ ", budget_restant=budget_restant - "
+						+ salaire + " WHERE team_id = '" + team_id + "'";
+
+			} else if (position.equals("gardien")) {
+				statement4 = "UPDATE equipes SET moy_sal_restant_draft=budget_restant/manquant_equipe,nb_equipe=nb_equipe+1,manquant_equipe=manquant_equipe-1,nb_gardien= nb_gardien+1, "
+						+ "manquant_gardien=manquant_gardien -1,total_salaire_now=total_salaire_now + "
+						+ salaire
+						+ ", budget_restant=budget_restant - "
+						+ salaire + " WHERE team_id = '" + team_id + "'";
+			}
+
+		}
+
+		statement3 = "UPDATE draft_round SET player_drafted='" + nom
+				+ "',follow_up=1 WHERE draft_pick_no='" + draft_pick_no2 + "'";
+
+		statement5 = "UPDATE draft_round SET follow_up=2 WHERE draft_pick_no='"
+				+ next_draft_pick + "'";
+
+		
+		if (conn != null) {
+
+			try {
+
+				try {
+
+					conn.createStatement().executeUpdate(statement8);
+					conn.createStatement().executeUpdate(statement2);
+					conn.createStatement().executeUpdate(statement3);
+					conn.createStatement().executeUpdate(statement4);
+					conn.createStatement().executeUpdate(statement5);
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+				if(manquant_equipe==1&&nb_rookie==8||manquant_equipe==0&&nb_rookie==7){
+					String statementFinal = "DELETE FROM draft_round WHERE follow_up=0 AND team_id='" + team_id +"'";
+					try {
+						conn.createStatement().executeUpdate(statementFinal);
+					} catch (SQLException e) {
+					
+						e.printStackTrace();
+					}
+					req.getRequestDispatcher("/jsp/draft_fini.jsp")
+					.forward(req, resp);
+					return;
+					
+				}
+
+			} finally {
+				dbHelper.close(conn);
+			}
+
+		} else {
+			// une erreur de connexion s'est produite, gérer ce problème pour
+			// être transparent pour l'utilisateur
+			req.getRequestDispatcher("/jsp/no_connexion.jsp")
+					.forward(req, resp);
+			return;
+		}
+		
+		
+		
+		req.getRequestDispatcher("/draft")
+		.forward(req, resp);
+		//resp.sendRedirect("/draft");
+
 	}
 
 }

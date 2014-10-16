@@ -21,7 +21,7 @@
 		mFirstTeamName = "Kings de";
 		break;
 	case 1:
-		mLogoId = "detroit.jpg";
+		mLogoId = "detroit.png";
 		mFirstTeamName = "Red Wings de";
 		break;
 	case 2:
@@ -65,6 +65,33 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Welcome page</title>
 <link rel="stylesheet" type="text/css" href="../css/main.css" />
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script>
+	$(document).ready(checkForPickMade);
+
+	function checkForPickMade() {
+		// va vérifier si un pick a eu lieu toute les 10 secondes afin de permettre refresh de la page
+		//ouverte chez le client et ainsi avoir la liste de repechage a jour sans le dernier joueurs choisis et ajuster l'ordre de draft (next to et 10 next pick to come)
+		setInterval(launchAjaxCheckForChange, 10000);
+
+	}
+	function launchAjaxCheckForChange() {
+		// requete a un script .jsp qui interroge une bdd et qui retourne 1 en output si un pick a été fait depuis le dernier reload
+
+		$.get("check_for_pick", function(data) {
+			if (data == 1) {
+				
+				alert("Un pick vient d'être fait. Votre page va se rafraichir pour enlever le joueur sélectionné et mettre à jour l'ordre de draft");
+				location.reload();
+				//window.location.replace("/draft");
+			} else {
+				
+			}
+		});
+
+	}
+</script>
 </head>
 <body>
 	<div class="main_navbar">
@@ -107,25 +134,7 @@
 		<a href="/draft_order"><button class="btn_menu_team">ORDER</button></a>
 	</div>
 	<hr class="hr_header">
-	<div class="next_10_drafting_team">
-
-		PICKING NOW : <a href="/detroit"><img alt="Detroit"
-			src="images/detroit.jpg"></a> 10 NEXT TO PICK --> <a
-			href="/montreal"><img alt="Detroit" src="images/montreal.png"></a>
-		<a href="/philadelphie"><img alt="Detroit"
-			src="images/philadelphie.png"></a> <a href="/los_angeles"><img
-			alt="Detroit" src="images/los_angeles.png"></a> <a href="/st_louis"><img
-			alt="Detroit" src="images/st_louis.png"></a> <a href="/boston"><img
-			alt="Detroit" src="images/boston.png"></a> <a href="/pittsburgh"><img
-			alt="Detroit" src="images/pittsburgh.png"></a> <a href="/toronto"><img
-			alt="Detroit" src="images/toronto.png"></a> <a href="/philadelphie"><img
-			alt="Detroit" src="images/philadelphie.png"></a> <a href="/toronto"><img
-			alt="Detroit" src="images/toronto.png"></a> <a href="/detroit"><img
-			alt="Detroit" src="images/detroit.jpg"></a>
-
-
-
-	</div>
+	
 	<hr class="hr_header">
 
 	<div class="main_container">
@@ -140,12 +149,14 @@
 					<th>Round number</th>
 					<th>Team to pick</th>
 					<th>Receveid from</th>
+					<th>Joueurs Drafter</th>
 				</tr>
 
 				<%
 					for (itr = dataDraftRound.iterator(); itr.hasNext();) {
 				%>
 				<tr>
+					<td><%=itr.next()%></td>
 					<td><%=itr.next()%></td>
 					<td><%=itr.next()%></td>
 					<td><%=itr.next()%></td>

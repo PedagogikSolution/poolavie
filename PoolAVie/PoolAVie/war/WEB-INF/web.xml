@@ -203,14 +203,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/check_for_pick</url-pattern>
 	</servlet-mapping>
 	
-	<servlet>
-		<servlet-name>reload_done</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.ajax.ReloadDone</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>reload_done</servlet-name>
-		<url-pattern>/reload_done</url-pattern>
-	</servlet-mapping>
+
 	
 	<servlet>
 		<servlet-name>pick_made</servlet-name>
@@ -228,6 +221,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet-mapping>
 		<servlet-name>pick_confirmer</servlet-name>
 		<url-pattern>/pick_confirmer</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>add_player</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.draft.AddNewServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>add_player</servlet-name>
+		<url-pattern>/add_new_player</url-pattern>
 	</servlet-mapping>
 	
 

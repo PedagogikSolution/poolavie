@@ -18,6 +18,11 @@
 	
 	int draft_pick_now = Integer.parseInt(draft_pick_now2);
 	
+	String draft_pick_no2 = (String) request.getAttribute(
+			"draft_pick_no").toString();
+
+	int draft_pick_no = Integer.parseInt(draft_pick_no2);
+	
 	switch (draft_pick_now){
 	case 0:
 		mDraftPickNow = "/los_angeles";
@@ -25,7 +30,7 @@
 		break;
 	case 1:
 		mDraftPickNow = "/detroit";
-		mDraftPickImage = "detroit.jpg";
+		mDraftPickImage = "detroit.png";
 		break;
 	case 2:
 		mDraftPickNow = "/montreal";
@@ -75,7 +80,7 @@
 		mFirstTeamName = "Kings de";
 		break;
 	case 1:
-		mLogoId = "detroit.jpg";
+		mLogoId = "detroit.png";
 		mFirstTeamName = "Red Wings de";
 		break;
 	case 2:
@@ -119,31 +124,33 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Welcome page</title>
 <link rel="stylesheet" type="text/css" href="../css/main.css" />
-<!-- <script	src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script> -->
-<!-- <script>
-	$(document).ready(
-			checkForPickMade
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script>
+	$(document).ready(checkForPickMade);
 
-	);
 	function checkForPickMade() {
 		// va vérifier si un pick a eu lieu toute les 10 secondes afin de permettre refresh de la page
 		//ouverte chez le client et ainsi avoir la liste de repechage a jour sans le dernier joueurs choisis et ajuster l'ordre de draft (next to et 10 next pick to come)
 		setInterval(launchAjaxCheckForChange, 10000);
-			
-		}
-		function launchAjaxCheckForChange() {
-			// requete a un script .jsp qui interroge une bdd et qui retourne 1 en output si un pick a été fait depuis le dernier reload
-			
-			$.get( "check_for_pick", function( data ) {
-				  if(data==1){
-					  $.post( "reload_done", { data: "1"} );
-					  window.location.replace("/draft");
-				  } else {
-					  alert("ya un fuck va voir frank");
-				  }
-				});
-		}
-</script>  -->
+
+	}
+	function launchAjaxCheckForChange() {
+		// requete a un script .jsp qui interroge une bdd et qui retourne 1 en output si un pick a été fait depuis le dernier reload
+
+		$.get("check_for_pick", function(data) {
+			if (data == 1) {
+				
+				alert("Un pick vient d'être fait. Votre page va se rafraichir pour enlever le joueur sélectionné et mettre à jour l'ordre de draft");
+				location.reload();
+				//window.location.replace("/draft");
+			} else {
+				
+			}
+		});
+
+	}
+</script>
 </head>
 <body>
 	<div class="main_navbar">
@@ -184,6 +191,7 @@
 		<a href="/gardien?sortby=all"><button class="btn_menu_team">GOAL</button></a>
 		<a href="/recrue?sortby=all"><button class="btn_menu_team">ROOKIE</button></a>
 		<a href="/draft_order"><button class="btn_menu_team">ORDER</button></a>
+		<a href="/add_new_player"><button class="btn_menu_team">ADD</button></a>
 	</div>
 	<hr class="hr_header">
 
@@ -228,10 +236,10 @@
 					<th>Pj</th>
 					<th>But</th>
 					<th>Passe</th>
-					<th><a href="/draft?sortby=pts">Pts</a></th>
+					<th><a href="/attaquant?sortby=pts">Pts</a></th>
 					<th>Rookie</th>
-					<th><a href="/draft?sortby=salaire">Salaire</a></th>
-					<th><a href="/draft?sortby=proj">Proj</a></th>
+					<th><a href="/attaquant?sortby=salaire">Salaire</a></th>
+					<th><a href="/attaquant?sortby=proj">Proj</a></th>
 					<th>Draft Pick</th>
 				</tr>
 
@@ -254,10 +262,11 @@
 					<td><%=rs.getString("projection")%></td>
 					<td><form action="/pick_made" method="post">
 
-							<input type="hidden" name="draft_pick_now"
-								value="<%=draft_pick_now%>"> <input type="hidden"
+							<input type="hidden" name="draft_pick_no"
+								value="<%=draft_pick_no%>"> <input type="hidden"
 								name="draft_player_id" value="<%=rs.getString("_id")%>">
 							<input type="hidden" name="team_id" value="<%=teamId%>">
+							<input type="hidden" name="position" value="<%=rs.getString("position")%>">
 							<input type="hidden" name="nom" value="<%=rs.getString("nom")%>">
 							<input type="hidden" name="team"
 								value="<%=rs.getString("team")%>"> <input type="hidden"
@@ -285,10 +294,10 @@
 					<th>Pj</th>
 					<th>But</th>
 					<th>Passe</th>
-					<th><a href="/draft?sortby=pts">Pts</a></th>
+					<th><a href="/attaquant?sortby=pts">Pts</a></th>
 					<th>Rookie</th>
-					<th><a href="/draft?sortby=salaire">Salaire</a></th>
-					<th><a href="/draft?sortby=proj">Proj</a></th>
+					<th><a href="/attaquant?sortby=salaire">Salaire</a></th>
+					<th><a href="/attaquant?sortby=proj">Proj</a></th>
 					<th>Draft Pick</th>
 				</tr>
 
@@ -337,7 +346,7 @@
 				Budget restant : <br><%=session.getAttribute("budget_restant")%>
 			</p>
 			<p>
-				Moyenne restante début du draft : <br><%=session.getAttribute("moy_restante")%>
+				Moyenne restante par joueurs : <br><%=session.getAttribute("moy_restante")%>
 			</p>
 			<h2>MES STATS D'ÉQUIPE</h2>
 			<p>

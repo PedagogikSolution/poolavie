@@ -20,16 +20,10 @@ public class PickMadeServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		
-		
 		req.getRequestDispatcher("/jsp/confirmation_pick.jsp").forward(req,
 				resp);
 		
-		
-		
-		
-		
-		
-		
+			
 		
 	}
 

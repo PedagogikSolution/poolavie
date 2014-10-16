@@ -4,25 +4,11 @@
 <%@ page language="java" import="java.sql.*"%>
 
 <%
-String draft_player_id,team_id,team,nom,salaire_draft,can_be_rookie2,draft_pick_no,position;
-int can_be_rookie;
-draft_player_id= request.getParameter("draft_player_id");
-team_id= request.getParameter("team_id");
-can_be_rookie2= request.getParameter("can_be_rookie");
-can_be_rookie = Integer.parseInt(can_be_rookie2);
-team= request.getParameter("team");
-nom= request.getParameter("nom");
-salaire_draft= request.getParameter("salaire");
-draft_pick_no = request.getParameter("draft_pick_no");
-position = request.getParameter("position");
-
-
-Object messageRecuFromServlet = request.getAttribute("mTeam");
-
 String teamId2 = session.getAttribute("mTeamId").toString();
 int teamId = Integer.parseInt(teamId2);
 String mLogoId = null;
 String mFirstTeamName = null;
+
 
 
 
@@ -81,19 +67,9 @@ break;
 	<div class="main_navbar">
 
 		<div id="logo_main">
-			<%
-				if (messageRecuFromServlet != null) {
-			%>
-			<img alt="logo" src="images/<%=mLogoId%>" width="150px"
-				height="150px">
-			<%
-				} else {
-			%>
+			
 			<img alt="logo" src="../images/<%=mLogoId%>" width="150px"
 				height="150px">
-			<%
-				}
-			%>
 
 		</div>
 		<div id="welcome_main">
@@ -133,76 +109,13 @@ break;
 
 	<div class="main_container">
 		<div class="main_content"></div>
-		<div id="main_content_title_classement">CONFIRMATION PICK</div>
+		<div id="main_content_title_classement">ERREUR</div>
 		<div id="main_content_table_classement">
 
+		<p>Vous avez choisis un joueur qui n'est pas gardien et vous allez en manquer</p>
+		<p><a href="/draft?sortby=all"><button class="btn_menu">Retournez au draft et refaire mon pick</button></a></p>
+
 		
-
-		<%
-			if (can_be_rookie==0) {
-		%>
-
-		<p>
-			Vous avez choisis de repecher
-			<%=nom%>
-			de
-			<%=team%>
-			au salaire de
-			<%=salaire_draft%></p>
-		<br>
-		<form action="/pick_confirmer" method="post">
-			<input type="hidden" name="is_rookie" value="0"> <input
-				type="hidden" name="draft_player_id" value="<%=draft_player_id%>">
-			<input type="hidden" name="team_id" value="<%=team_id%>">
-			<input type="hidden" name="position" value="<%=position%>">
-			<input type="hidden" name="nom" value="<%=nom%>"> 
-			<input type="hidden" name="salaire" value="<%=salaire_draft%>"> 
-			<input type="hidden" name="draft_pick_no" value="<%=draft_pick_no%>">  
-			
-			
-			<input
-				type="submit" value="JE CONFIRME MON CHOIX">
-		</form>
-		<%
-			} else {
-		%>
-
-		<p>
-			Vous avez choisis de repecher
-			<%=nom%>
-			de
-			<%=team%>
-			au salaire de
-			<%=salaire_draft%></p>
-		<br>
-		<p>Je place ce joueur dans mon équipe école</p>
-		<form action="/pick_confirmer" method="post">
-			<input type="hidden" name="is_rookie" value="1"> <input
-				type="hidden" name="draft_player_id" value="<%=draft_player_id%>">
-			<input type="hidden" name="team_id" value="<%=team_id%>">
-			<input type="hidden" name="position" value="<%=position%>">
-			<input type="hidden" name="nom" value="<%=nom%>"> 
-			<input type="hidden" name="salaire" value="<%=salaire_draft%>"> 
-			<input type="hidden" name="draft_pick_no" value="<%=draft_pick_no%>">  <input
-				type="submit" value="DANS MES ROOKIES">
-		</form>
-		<p>Je place ce joueur dans mon équipe régulière</p>
-		<form action="/pick_confirmer" method="post">
-			<input type="hidden" name="is_rookie" value="0"> <input
-				type="hidden" name="draft_player_id" value="<%=draft_player_id%>">
-			<input type="hidden" name="team_id" value="<%=team_id%>">
-			<input type="hidden" name="position" value="<%=position%>">
-			<input type="hidden" name="nom" value="<%=nom%>"> 
-			<input type="hidden" name="salaire" value="<%=salaire_draft%>"> 
-			<input type="hidden" name="draft_pick_no" value="<%=draft_pick_no%>">  <input
-				type="submit" value="DANS MON TEAM">
-		</form>
-
-
-
-		<%
-			}
-		%>
 		</div>
 		<div class="main_sidebar">
 		

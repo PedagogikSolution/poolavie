@@ -7,7 +7,7 @@
 <%
 	Boolean myTurn = false;
 	String mDraftPickNow = "";
-	String mDraftPickImage= "";
+	String mDraftPickImage = "";
 	myTurn = (Boolean) request.getAttribute("myTurn");
 
 	ResultSet rs = (ResultSet) request.getAttribute("draft_all_player");
@@ -15,53 +15,56 @@
 
 	String draft_pick_now2 = (String) request.getAttribute(
 			"draft_pick_now").toString();
-	
+
 	int draft_pick_now = Integer.parseInt(draft_pick_now2);
 	
-	switch (draft_pick_now){
-	case 0:
-		mDraftPickNow = "/los_angeles";
-		mDraftPickImage = "los_angeles.png";
-		break;
-	case 1:
-		mDraftPickNow = "/detroit";
-		mDraftPickImage = "detroit.jpg";
-		break;
-	case 2:
-		mDraftPickNow = "/montreal";
-		mDraftPickImage = "montreal.png";
-		break;
-	case 3:
-		mDraftPickNow = "/chicago";
-		mDraftPickImage = "chicago.png";
-		break;
-	case 4:
-		mDraftPickNow = "/new_york";
-		mDraftPickImage = "new_york.png";
-		break;
-	case 5:
-		mDraftPickNow = "/philadelphie";
-		mDraftPickImage = "philadelphie.png";
-		break;
-	case 6:
-		mDraftPickNow = "/toronto";
-		mDraftPickImage = "toronto.png";
-		break;
-	case 7:
-		mDraftPickNow = "/st_louis";
-		mDraftPickImage = "st_louis.png";
-		break;
-	case 8:
-		mDraftPickNow = "/boston";
-		mDraftPickImage = "boston.png";
-		break;
-	case 9:
-		mDraftPickNow = "/pittsburgh";
-		mDraftPickImage = "pittsbrugh.png";
-		break;
-	
-	
-	
+	String draft_pick_no2 = (String) request.getAttribute(
+			"draft_pick_no").toString();
+
+	int draft_pick_no = Integer.parseInt(draft_pick_no2);
+
+	switch (draft_pick_now) {
+		case 0 :
+			mDraftPickNow = "/los_angeles";
+			mDraftPickImage = "los_angeles.png";
+			break;
+		case 1 :
+			mDraftPickNow = "/detroit";
+			mDraftPickImage = "detroit.png";
+			break;
+		case 2 :
+			mDraftPickNow = "/montreal";
+			mDraftPickImage = "montreal.png";
+			break;
+		case 3 :
+			mDraftPickNow = "/chicago";
+			mDraftPickImage = "chicago.png";
+			break;
+		case 4 :
+			mDraftPickNow = "/new_york";
+			mDraftPickImage = "new_york.png";
+			break;
+		case 5 :
+			mDraftPickNow = "/philadelphie";
+			mDraftPickImage = "philadelphie.png";
+			break;
+		case 6 :
+			mDraftPickNow = "/toronto";
+			mDraftPickImage = "toronto.png";
+			break;
+		case 7 :
+			mDraftPickNow = "/st_louis";
+			mDraftPickImage = "st_louis.png";
+			break;
+		case 8 :
+			mDraftPickNow = "/boston";
+			mDraftPickImage = "boston.png";
+			break;
+		case 9 :
+			mDraftPickNow = "/pittsburgh";
+			mDraftPickImage = "pittsbrugh.png";
+			break;
+
 	}
 
 	String teamId2 = session.getAttribute("mTeamId").toString();
@@ -70,46 +73,46 @@
 	String mFirstTeamName = null;
 
 	switch (teamId) {
-	case 0:
-		mLogoId = "los_angeles.png";
-		mFirstTeamName = "Kings de";
-		break;
-	case 1:
-		mLogoId = "detroit.jpg";
-		mFirstTeamName = "Red Wings de";
-		break;
-	case 2:
-		mLogoId = "montreal.png";
-		mFirstTeamName = "Canadiens de";
-		break;
-	case 3:
-		mLogoId = "chicago.png";
-		mFirstTeamName = "Blackhawks de";
-		break;
-	case 4:
-		mLogoId = "new_york.png";
-		mFirstTeamName = "Rangers de";
-		break;
-	case 5:
-		mLogoId = "philadelphie.png";
-		mFirstTeamName = "Flyers de";
-		break;
-	case 6:
-		mLogoId = "toronto.png";
-		mFirstTeamName = "Maple Leafs de";
-		break;
-	case 7:
-		mLogoId = "st_louis.png";
-		mFirstTeamName = "Blues de";
-		break;
-	case 8:
-		mLogoId = "boston.png";
-		mFirstTeamName = "Bruins de";
-		break;
-	case 9:
-		mLogoId = "pittsburgh.png";
-		mFirstTeamName = "Penguins de";
-		break;
+		case 0 :
+			mLogoId = "los_angeles.png";
+			mFirstTeamName = "Kings de";
+			break;
+		case 1 :
+			mLogoId = "detroit.png";
+			mFirstTeamName = "Red Wings de";
+			break;
+		case 2 :
+			mLogoId = "montreal.png";
+			mFirstTeamName = "Canadiens de";
+			break;
+		case 3 :
+			mLogoId = "chicago.png";
+			mFirstTeamName = "Blackhawks de";
+			break;
+		case 4 :
+			mLogoId = "new_york.png";
+			mFirstTeamName = "Rangers de";
+			break;
+		case 5 :
+			mLogoId = "philadelphie.png";
+			mFirstTeamName = "Flyers de";
+			break;
+		case 6 :
+			mLogoId = "toronto.png";
+			mFirstTeamName = "Maple Leafs de";
+			break;
+		case 7 :
+			mLogoId = "st_louis.png";
+			mFirstTeamName = "Blues de";
+			break;
+		case 8 :
+			mLogoId = "boston.png";
+			mFirstTeamName = "Bruins de";
+			break;
+		case 9 :
+			mLogoId = "pittsburgh.png";
+			mFirstTeamName = "Penguins de";
+			break;
 
 	}
 %>
@@ -119,31 +122,33 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Welcome page</title>
 <link rel="stylesheet" type="text/css" href="../css/main.css" />
-<!-- <script	src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script> -->
-<!-- <script>
-	$(document).ready(
-			checkForPickMade
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script>
+	$(document).ready(checkForPickMade);
 
-	);
 	function checkForPickMade() {
 		// va vérifier si un pick a eu lieu toute les 10 secondes afin de permettre refresh de la page
 		//ouverte chez le client et ainsi avoir la liste de repechage a jour sans le dernier joueurs choisis et ajuster l'ordre de draft (next to et 10 next pick to come)
 		setInterval(launchAjaxCheckForChange, 10000);
-			
-		}
-		function launchAjaxCheckForChange() {
-			// requete a un script .jsp qui interroge une bdd et qui retourne 1 en output si un pick a été fait depuis le dernier reload
-			
-			$.get( "check_for_pick", function( data ) {
-				  if(data==1){
-					  $.post( "reload_done", { data: "1"} );
-					  window.location.replace("/draft");
-				  } else {
-					  alert("ya un fuck va voir frank");
-				  }
-				});
-		}
-</script>  -->
+
+	}
+	function launchAjaxCheckForChange() {
+		// requete a un script .jsp qui interroge une bdd et qui retourne 1 en output si un pick a été fait depuis le dernier reload
+
+		$.get("check_for_pick", function(data) {
+			if (data == 1) {
+				
+				alert("Un pick vient d'être fait. Votre page va se rafraichir pour enlever le joueur sélectionné et mettre à jour l'ordre de draft");
+				location.reload();
+				//window.location.replace("/draft");
+			} else {
+				
+			}
+		});
+
+	}
+</script>
 </head>
 <body>
 	<div class="main_navbar">
@@ -184,27 +189,31 @@
 		<a href="/gardien?sortby=all"><button class="btn_menu_team">GOAL</button></a>
 		<a href="/recrue?sortby=all"><button class="btn_menu_team">ROOKIE</button></a>
 		<a href="/draft_order"><button class="btn_menu_team">ORDER</button></a>
+		<a href="/add_new_player"><button class="btn_menu_team">ADD</button></a>
 	</div>
 	<hr class="hr_header">
 
 
 	<div class="next_10_drafting_team">
 
-		PICKING NOW : <a href="<%=mDraftPickNow%>"> <img alt="Detroit" src="images/<%=mDraftPickImage%>"></a> 
-		NEXT 10 TO PICK :
-		
+		PICKING NOW : <a href="<%=mDraftPickNow%>"> <img alt="Detroit"
+			src="images/<%=mDraftPickImage%>"></a> NEXT 10 TO PICK :
+
 		<%
-					while (rs7.next()) {
-				%>
-			
-			
-		<a href="/<%=rs7.getString("equipe")%>"><img alt="Detroit" src="images/<%=rs7.getString("equipe")%>.png"></a> 	
-			
-			
-		<% } %>
-		
-		 
-			
+ 	while (rs7.next()) {
+ %>
+
+
+		<a href="/<%=rs7.getString("equipe")%>"><img alt="Detroit"
+			src="images/<%=rs7.getString("equipe")%>.png"></a>
+
+
+		<%
+			}
+		%>
+
+
+
 
 
 
@@ -254,11 +263,12 @@
 					<td><%=rs.getString("projection")%></td>
 					<td><form action="/pick_made" method="post">
 
-							<input type="hidden" name="draft_pick_now"
-								value="<%=draft_pick_now%>"> <input type="hidden"
+							<input type="hidden" name="draft_pick_no"
+								value="<%=draft_pick_no%>"> <input type="hidden"
 								name="draft_player_id" value="<%=rs.getString("_id")%>">
 							<input type="hidden" name="team_id" value="<%=teamId%>">
 							<input type="hidden" name="nom" value="<%=rs.getString("nom")%>">
+							<input type="hidden" name="position" value="<%=rs.getString("position")%>">
 							<input type="hidden" name="team"
 								value="<%=rs.getString("team")%>"> <input type="hidden"
 								name="can_be_rookie" value="<%=rs.getString("can_be_rookie")%>">
@@ -337,7 +347,7 @@
 				Budget restant : <br><%=session.getAttribute("budget_restant")%>
 			</p>
 			<p>
-				Moyenne restante début du draft : <br><%=session.getAttribute("moy_restante")%>
+				Moyenne restante par joueurs : <br><%=session.getAttribute("moy_restante")%>
 			</p>
 			<h2>MES STATS D'ÉQUIPE</h2>
 			<p>

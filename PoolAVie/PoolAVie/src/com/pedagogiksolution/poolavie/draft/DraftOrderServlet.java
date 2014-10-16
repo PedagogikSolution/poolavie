@@ -46,7 +46,8 @@ public class DraftOrderServlet extends HttpServlet {
 								dataList.add(rs.getInt("draft_pick_no"));								
 								dataList.add(rs.getInt("ronde"));
 								dataList.add( rs.getString("equipe"));
-								dataList.add(rs.getString("from"));	
+								dataList.add(rs.getString("from"));
+								dataList.add(rs.getString("player_drafted"));
 								
 								
 							}
