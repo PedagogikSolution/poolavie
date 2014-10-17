@@ -62,7 +62,7 @@
 		break;
 	case 9:
 		mDraftPickNow = "/pittsburgh";
-		mDraftPickImage = "pittsbrugh.png";
+		mDraftPickImage = "pittsburgh.png";
 		break;
 	
 	
@@ -137,7 +137,7 @@
 	}
 	function launchAjaxCheckForChange() {
 		// requete a un script .jsp qui interroge une bdd et qui retourne 1 en output si un pick a été fait depuis le dernier reload
-
+$.ajaxSetup({ cache: false });
 		$.get("check_for_pick", function(data) {
 			if (data == 1) {
 				
@@ -178,7 +178,7 @@
 	<div class="main_menu">
 		<a href="/jsp/main.jsp"><button class="btn_menu">Classement</button></a>
 		<a href="/draft?sortby=all"><button class="btn_menu">Draft</button></a>
-		<button class="btn_menu">Trade</button>
+		<a href="/trade"><button class="btn_menu">Trade</button></a>
 		<a href="/equipes"><button class="btn_menu">Team</button></a>
 		<button class="btn_menu">Signature</button>
 		<button class="btn_menu">Règlement</button>
@@ -195,32 +195,36 @@
 	</div>
 	<hr class="hr_header">
 
+<div class="next_10_drafting_team">
 
-	<div class="next_10_drafting_team">
+		PICKING NOW : <a href="<%=mDraftPickNow%>"> <img alt="Detroit"
+			src="images/<%=mDraftPickImage%>"></a> NEXT 10 TO PICK :
 
-		PICKING NOW : <a href="<%=mDraftPickNow%>"> <img alt="Detroit" src="images/<%=mDraftPickImage%>"></a> 
-		NEXT 10 TO PICK :
-		
 		<%
-					while (rs7.next()) {
-				%>
-			
-			
-		<a href="/<%=rs7.getString("equipe")%>"><img alt="Detroit" src="images/<%=rs7.getString("equipe")%>.png"></a> 	
-			
-			
-		<% } %>
 		
-		 
-			
+	
+		
+ 	while (rs7.next()) {
+ 		String mEquipe = rs7.getString("equipe");
+ 		
+ %>
 
+
+		<a href="/<%=mEquipe%>"><img alt="Detroit"
+			src="images/<%=mEquipe%>.png"></a>
+
+
+		<%
+			}
+ 	
+		%>
 
 
 	</div>
 	<hr class="hr_header">
 
 	<div class="main_container">
-		<div class="main_content"></div>
+		<div class="main_content">
 		<div id="main_content_title_classement">ALL AVAILABLE PLAYERS</div>
 		<div id="main_content_table_classement">
 			<br>
@@ -244,42 +248,50 @@
 				</tr>
 
 				<%
+				
+				
 					while (rs.next()) {
+						
+					String nom = rs.getString("nom");	
+					String position = rs.getString("position");	
+						String team = rs.getString("team");
+						String can_rook=rs.getString("can_be_rookie");
+						String salaire_draft=rs.getString("salaire_draft");
+						
 				%>
 
 
 				<tr>
 
-					<td><%=rs.getString("nom")%></td>
-					<td><%=rs.getString("team")%></td>
-					<td><%=rs.getString("position")%></td>
+					<td><%=nom%></td>
+					<td><%=team%></td>
+					<td><%=position%></td>
 					<td><%=rs.getString("pj")%></td>
 					<td><%=rs.getString("but_victoire")%></td>
 					<td><%=rs.getString("aide_overtime")%></td>
 					<td><%=rs.getString("pts")%></td>
-					<td><%=rs.getString("can_be_rookie")%></td>
-					<td><%=rs.getString("salaire_draft")%></td>
+					<td><%=can_rook%></td>
+					<td><%=salaire_draft%></td>
 					<td><%=rs.getString("projection")%></td>
 					<td><form action="/pick_made" method="post">
 
-							<input type="hidden" name="draft_pick_no"
-								value="<%=draft_pick_no%>"> <input type="hidden"
-								name="draft_player_id" value="<%=rs.getString("_id")%>">
+							<input type="hidden" name="draft_pick_no" value="<%=draft_pick_no%>">
+							<input type="hidden" name="draft_player_id" value="<%=rs.getString("_id")%>">
 							<input type="hidden" name="team_id" value="<%=teamId%>">
-							<input type="hidden" name="position" value="<%=rs.getString("position")%>">
-							<input type="hidden" name="nom" value="<%=rs.getString("nom")%>">
-							<input type="hidden" name="team"
-								value="<%=rs.getString("team")%>"> <input type="hidden"
-								name="can_be_rookie" value="<%=rs.getString("can_be_rookie")%>">
-							<input type="hidden" name="salaire"
-								value="<%=rs.getString("salaire_draft")%>"> <input
-								type="submit" value="PICK">
+							<input type="hidden" name="nom" value="<%=nom%>">
+							<input type="hidden" name="position" value="<%=position%>">
+							<input type="hidden" name="team" value="<%=team%>"> 
+							<input type="hidden" name="can_be_rookie" value="<%=can_rook%>">
+							<input type="hidden" name="salaire"	value="<%=salaire_draft%>">
+							<input type="submit" value="PICK">
 						</form></td>
 
 				</tr>
 
 				<%
 					}
+					
+					
 				%>
 			</table>
 
@@ -330,9 +342,9 @@
 
 		</div>
 
-
+</div>
 		<div class="main_sidebar">
-			<h2>MON BUDGET</h2>
+			<div class="section_budget_haut"><h3>MON BUDGET</h3>
 
 			<p>
 				Masse salarial maximum : <br>
@@ -348,7 +360,10 @@
 			<p>
 				Moyenne restante par joueurs : <br><%=session.getAttribute("moy_restante")%>
 			</p>
-			<h2>MES STATS D'ÉQUIPE</h2>
+			</div>
+			<br>
+			<div class="section_budget_bas">
+			<h3>MES STATS D'ÉQUIPE</h3>
 			<p>
 				Nombre d'attanquant : <br><%=session.getAttribute("nb_att")%>
 			</p>
@@ -382,6 +397,7 @@
 			<p>
 				Recrue manquante : <br><%=session.getAttribute("manq_rook")%>
 			</p>
+			</div>
 			<!--  		<p>
 				Bonus de 5 Millions : <br><%=session.getAttribute("bonus_5")%>
 			</p>
@@ -392,7 +408,6 @@
 				Bonus et pénalité : <br><%=session.getAttribute("bonus_penalite")%>
 			</p> -->
 		</div>
-
 
 
 

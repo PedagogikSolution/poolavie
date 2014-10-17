@@ -232,6 +232,42 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/add_new_player</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>trade</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.trade.ReceivedTradeOfferServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>trade</servlet-name>
+		<url-pattern>/trade</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>make_offer</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.trade.MakeOfferServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>make_offer</servlet-name>
+		<url-pattern>/make_offer</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>my_trade</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.trade.MyTradeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>my_trade</servlet-name>
+		<url-pattern>/my_trade</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>all_trade</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.trade.AllTradeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>all_trade</servlet-name>
+		<url-pattern>/all_trade</url-pattern>
+	</servlet-mapping>
+	
 
 	<jsp-config>
 		<jsp-property-group>

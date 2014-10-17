@@ -20,7 +20,7 @@ public class CheckForPick extends HttpServlet {
 	DatabaseConnector dbHelper;
 	ResultSet rs;
 	String statement, statement2, statement3;
-
+	int counterCount,counterCount2;
 	/**
 	 * 
 	 */
@@ -60,7 +60,7 @@ public class CheckForPick extends HttpServlet {
 			mTeamID = "team_7";
 			break;
 		case 8:
-			mTeamID = "team_0";
+			mTeamID = "team_8";
 			break;
 		case 9:
 			mTeamID = "team_9";
@@ -79,6 +79,8 @@ public class CheckForPick extends HttpServlet {
 					if (rs.next()) {
 						first_result = rs.getString("reload");
 						second_result = rs.getString(mTeamID);
+						counterCount2 = rs.getInt("counter");
+						counterCount = counterCount2 + 1;
 					}
 
 					if (second_result.equals("0")) {
@@ -87,14 +89,14 @@ public class CheckForPick extends HttpServlet {
 
 							statement2 = "UPDATE reload_counter SET counter = counter+1,"
 									+ mTeamID + "=1 WHERE _id=1";
+							
 							conn.createStatement().executeUpdate(statement2);
-
-							int counterCount2 = rs.getInt("counter");
-							int counterCount = counterCount2 + 1;
+						
+							
 
 							if (counterCount == 10) {
 
-								statement3 = "UPDATE reload_counter SET counter = 0 AND reload=0 WHERE _id=1";
+								statement3 = "UPDATE reload_counter SET reload=0,counter=0,team_0=0,team_1=0,team_2=0,team_3=0,team_4=0,team_5=0,team_6=0,team_7=0,team_8=0,team_9=0";
 								conn.createStatement()
 										.executeUpdate(statement3);
 								result_of_test = "1";

@@ -1,6 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-	<%@ page language="java" import="java.util.*"%>
 <%@ page language="java" import="java.sql.*"%>
 
 <%
@@ -8,8 +5,6 @@ String teamId2 = session.getAttribute("mTeamId").toString();
 int teamId = Integer.parseInt(teamId2);
 String mLogoId = null;
 String mFirstTeamName = null;
-
-
 
 switch (teamId) {
 	case 0 :
@@ -66,10 +61,10 @@ break;
 	<div class="main_navbar">
 
 		<div id="logo_main">
-
+			
 			<img alt="logo" src="../images/<%=mLogoId%>" width="150px"
 				height="150px">
-	
+		
 		</div>
 		<div id="welcome_main">
 			Bienvenue
@@ -94,13 +89,12 @@ break;
 		<button class="btn_menu">Règlement</button>
 		<button class="btn_menu">Admin</button>
 	</div>
-	<div class="team_menu">
-		<a href="/draft?sortby=all"><button class="btn_menu_team">ALL</button></a>
-		<a href="/attaquant?sortby=all"><button class="btn_menu_team">ATT</button></a>
-		<a href="/defenseur?sortby=all"><button class="btn_menu_team">DEF</button></a>
-		<a href="/gardien?sortby=all"><button class="btn_menu_team">GOAL</button></a>
-		<a href="/recrue?sortby=all"><button class="btn_menu_team">ROOKIE</button></a>
-		<a href="/draft_order"><button class="btn_menu_team">ORDER</button></a>
+	<div class="trade_menu">
+		<a href="/trade"><button class="btn_menu_trade">RECEIVED</button></a>
+		<a href="/make_offer"><button class="btn_menu_trade">MAKE ONE</button></a>
+		<a href="/my_trade"><button class="btn_menu_trade">MY TRADE</button></a>
+		<a href="/all_trade"><button class="btn_menu_trade">ALL TRADE</button></a>
+		
 	</div>
 	<hr class="hr_header">
 	
@@ -108,17 +102,21 @@ break;
 
 	<div class="main_container">
 		<div class="main_content"></div>
-		<div id="main_content_title_classement">ERREUR</div>
+		<div id="main_content_title_classement">MY RECEIVED OFFER</div>
 		<div id="main_content_table_classement">
-
-		<p>Vous avez choisis un joueur qui n'est pas attaquant et vous allez en manquer</p>
-		<p><a href="/draft?sortby=all"><button class="btn_menu">Retournez au draft et refaire mon pick</button></a></p>
-
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
 		</div>
 		<div class="main_sidebar">
-		
-		
 		
 		
 		</div>

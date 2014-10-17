@@ -195,7 +195,7 @@ public class PickConfirmerServlet extends HttpServlet {
 			mTeamID = "team_7";
 			break;
 		case 8:
-			mTeamID = "team_0";
+			mTeamID = "team_8";
 			break;
 		case 9:
 			mTeamID = "team_9";

@@ -77,33 +77,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Welcome page</title>
 <link rel="stylesheet" type="text/css" href="../css/main.css" />
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script>
-	$(document).ready(checkForPickMade);
 
-	function checkForPickMade() {
-		// va vérifier si un pick a eu lieu toute les 10 secondes afin de permettre refresh de la page
-		//ouverte chez le client et ainsi avoir la liste de repechage a jour sans le dernier joueurs choisis et ajuster l'ordre de draft (next to et 10 next pick to come)
-		setInterval(launchAjaxCheckForChange, 10000);
-
-	}
-	function launchAjaxCheckForChange() {
-		// requete a un script .jsp qui interroge une bdd et qui retourne 1 en output si un pick a été fait depuis le dernier reload
-
-		$.get("check_for_pick", function(data) {
-			if (data == 1) {
-				
-				alert("Un pick vient d'être fait. Votre page va se rafraichir pour enlever le joueur sélectionné et mettre à jour l'ordre de draft");
-				location.replace("/draft");
-				//window.location.replace("/draft");
-			} else {
-				
-			}
-		});
-
-	}
-</script>
 </head>
 <body>
 	<div class="main_navbar">
@@ -131,7 +105,7 @@
 	<div class="main_menu">
 		<a href="/jsp/main.jsp"><button class="btn_menu">Classement</button></a>
 		<a href="/draft?sortby=all"><button class="btn_menu">Draft</button></a>
-		<button class="btn_menu">Trade</button>
+		<a href="/trade"><button class="btn_menu">Trade</button></a>
 		<a href="/equipes"><button class="btn_menu">Team</button></a>
 		<button class="btn_menu">Signature</button>
 		<button class="btn_menu">Règlement</button>

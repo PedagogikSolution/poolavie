@@ -138,7 +138,7 @@ String mFirstTeamName = null;
 	<div class="main_menu">
 		<a href="/jsp/main.jsp"><button class="btn_menu">Classement</button></a>
 		<a href="/draft?sortby=all"><button class="btn_menu">Draft</button></a>
-		<button class="btn_menu">Trade</button>
+		<a href="/trade"><button class="btn_menu">Trade</button></a>
 		<a href="/equipes"><button class="btn_menu">Team</button></a>
 		<button class="btn_menu">Signature</button>
 		<button class="btn_menu">Règlement</button>
@@ -370,7 +370,7 @@ String mFirstTeamName = null;
 			<br>
 		</div>
 		<div class="main_sidebar">
-			<h2>MON BUDGET</h2>
+			<div class="section_budget_haut"><h3>MON BUDGET</h3>
 
 			<p>
 				Masse salarial maximum : <br>
@@ -386,7 +386,10 @@ String mFirstTeamName = null;
 			<p>
 				Moyenne restante par joueurs : <br><%=session.getAttribute("moy_restante")%>
 			</p>
-			<h2>MES STATS D'ÉQUIPE</h2>
+			</div>
+			<br>
+			<div class="section_budget_bas">
+			<h3>MES STATS D'ÉQUIPE</h3>
 			<p>
 				Nombre d'attanquant : <br><%=session.getAttribute("nb_att")%>
 			</p>
@@ -420,7 +423,8 @@ String mFirstTeamName = null;
 			<p>
 				Recrue manquante : <br><%=session.getAttribute("manq_rook")%>
 			</p>
-	<!--  		<p>
+			</div>
+			<!--  		<p>
 				Bonus de 5 Millions : <br><%=session.getAttribute("bonus_5")%>
 			</p>
 			<p>
@@ -430,11 +434,6 @@ String mFirstTeamName = null;
 				Bonus et pénalité : <br><%=session.getAttribute("bonus_penalite")%>
 			</p> -->
 		</div>
-
-
-
-		<!-- fin du main container -->
-	</div>
 
 
 
