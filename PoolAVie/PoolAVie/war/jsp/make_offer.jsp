@@ -1,54 +1,54 @@
 <%@ page language="java" import="java.sql.*"%>
 
 <%
-String teamId2 = session.getAttribute("mTeamId").toString();
-int teamId = Integer.parseInt(teamId2);
-String mLogoId = null;
-String mFirstTeamName = null;
+	String teamId2 = session.getAttribute("mTeamId").toString();
+	int teamId = Integer.parseInt(teamId2);
+	String mLogoId = null;
+	String mFirstTeamName = null;
 
-switch (teamId) {
-	case 0 :
-mLogoId = "los_angeles.png";
-mFirstTeamName = "Kings de";
-break;
-	case 1 :
-mLogoId = "detroit.png";
-mFirstTeamName = "Red Wings de";
-break;
-	case 2 :
-mLogoId = "montreal.png";
-mFirstTeamName = "Canadiens de";
-break;
-	case 3 :
-mLogoId = "chicago.png";
-mFirstTeamName = "Blackhawks de";
-break;
-	case 4 :
-mLogoId = "new_york.png";
-mFirstTeamName = "Rangers de";
-break;
-	case 5 :
-mLogoId = "philadelphie.png";
-mFirstTeamName = "Flyers de";
-break;
-	case 6 :
-mLogoId = "toronto.png";
-mFirstTeamName = "Maple Leafs de";
-break;
-	case 7 :
-mLogoId = "st_louis.png";
-mFirstTeamName = "Blues de";
-break;
-	case 8 :
-mLogoId = "boston.png";
-mFirstTeamName = "Bruins de";
-break;
-	case 9 :
-mLogoId = "pittsburgh.png";
-mFirstTeamName = "Penguins de";
-break;
+	switch (teamId) {
+	case 0:
+		mLogoId = "los_angeles.png";
+		mFirstTeamName = "Kings de";
+		break;
+	case 1:
+		mLogoId = "detroit.png";
+		mFirstTeamName = "Red Wings de";
+		break;
+	case 2:
+		mLogoId = "montreal.png";
+		mFirstTeamName = "Canadiens de";
+		break;
+	case 3:
+		mLogoId = "chicago.png";
+		mFirstTeamName = "Blackhawks de";
+		break;
+	case 4:
+		mLogoId = "new_york.png";
+		mFirstTeamName = "Rangers de";
+		break;
+	case 5:
+		mLogoId = "philadelphie.png";
+		mFirstTeamName = "Flyers de";
+		break;
+	case 6:
+		mLogoId = "toronto.png";
+		mFirstTeamName = "Maple Leafs de";
+		break;
+	case 7:
+		mLogoId = "st_louis.png";
+		mFirstTeamName = "Blues de";
+		break;
+	case 8:
+		mLogoId = "boston.png";
+		mFirstTeamName = "Bruins de";
+		break;
+	case 9:
+		mLogoId = "pittsburgh.png";
+		mFirstTeamName = "Penguins de";
+		break;
 
-}
+	}
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -61,10 +61,10 @@ break;
 	<div class="main_navbar">
 
 		<div id="logo_main">
-			
+
 			<img alt="logo" src="../images/<%=mLogoId%>" width="150px"
 				height="150px">
-		
+
 		</div>
 		<div id="welcome_main">
 			Bienvenue
@@ -83,8 +83,8 @@ break;
 	<div class="main_menu">
 		<a href="/jsp/main.jsp"><button class="btn_menu">Classement</button></a>
 		<a href="/draft?sortby=all"><button class="btn_menu">Draft</button></a>
-		<a href="/trade"><button class="btn_menu">Trade</button></a>
-		<a href="/equipes"><button class="btn_menu">Team</button></a>
+		<a href="/trade"><button class="btn_menu">Trade</button></a> <a
+			href="/equipes"><button class="btn_menu">Team</button></a>
 		<button class="btn_menu">Signature</button>
 		<button class="btn_menu">Règlement</button>
 		<button class="btn_menu">Admin</button>
@@ -93,43 +93,22 @@ break;
 		<a href="/trade"><button class="btn_menu_trade">RECEIVED</button></a>
 		<a href="/make_offer"><button class="btn_menu_trade">MAKE ONE</button></a>
 		<a href="/my_trade"><button class="btn_menu_trade">MY TRADE</button></a>
-		<a href="/all_trade"><button class="btn_menu_trade">ALL TRADE</button></a>
-		
+		<a href="/all_trade"><button class="btn_menu_trade">ALL	TRADE</button></a>
 	</div>
 	<hr class="hr_header">
-	
-	<hr class="hr_header">
+
 
 	<div class="main_container">
-		<div class="main_content"></div>
-		<div id="main_content_title_classement">MY RECEIVED OFFER</div>
-		<div id="main_content_table_classement">
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	
-		</div>
-		<div class="main_sidebar">
-		
-		
-		</div>
+		<div class="main_content">
+			<div id="main_content_title_classement">MY RECEIVED OFFER</div>
+			<div id="main_content_table_classement"></div>
+			<div class="main_sidebar"></div>
 
-
+		</div>
 
 
 		<!-- fin du main container -->
 	</div>
-
-
-
-
 
 
 

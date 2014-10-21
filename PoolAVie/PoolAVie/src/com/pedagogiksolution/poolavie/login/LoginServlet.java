@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pedagogiksolution.poolavie.update.UpdatePlayersStats;
 import com.pedagogiksolution.poolavie.utils.DatabaseConnector;
 import com.pedagogiksolution.poolavie.utils.PasswordEncryption;
 
@@ -27,9 +28,11 @@ public class LoginServlet extends HttpServlet {
 	String password;
 	String url;
 	int success;
-	String statement,statement3;
+	String statement, statement3, statement11, statement22, statement33,
+			statement44;
 	Connection conn;
-	ResultSet rs,rs2;
+	ResultSet rs, rs2, rs22, rs33;
+	ResultSet rs11;
 	String mPassword;
 	int teamIdentifiant;
 	String mTeam;
@@ -37,25 +40,37 @@ public class LoginServlet extends HttpServlet {
 	DatabaseConnector dbHelper;
 	PasswordEncryption pEncrypt;
 	Boolean validateHash;
+	UpdatePlayersStats updateProcess;
+	int pts_att_0, pts_goal_0, pts_total_0, pts_def_0;
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-
+		
+		updateProcess = new UpdatePlayersStats();
+		updateProcess.updateClassement();
+		
 		// recupération des input du formulaire de login
 		username = req.getParameter("user");
 		password = req.getParameter("password");
 
 		// connexion aux serveurs de base de donnée
 		dbHelper = new DatabaseConnector();
-		conn = dbHelper.open();
+
 		List<Object> dataList = new ArrayList<Object>();
 		pEncrypt = new PasswordEncryption();
+		 
+		conn = dbHelper.open();
 		// si connexion est bonne on récupère les informations de la table
 		// utilisateur
+
 		if (conn != null) {
+
+			// 
 			/* récupération des informations selon le username */
 			try {
+
+				
 
 				try {
 					statement = "SELECT password,identifiant_equipe,team,username FROM utilisateurs WHERE utilisateurs.username='"
@@ -73,39 +88,39 @@ public class LoginServlet extends HttpServlet {
 							 * username
 							 */
 							try {
-								validateHash = pEncrypt.validatePassword(password, mPassword);
+								validateHash = pEncrypt.validatePassword(
+										password, mPassword);
 							} catch (NoSuchAlgorithmException
 									| InvalidKeySpecException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-							
+
 							if (validateHash) {
-								
+
 								statement3 = "SELECT * FROM classement ORDER BY points DESC";
-								
-								rs2 = conn.createStatement().executeQuery(statement3);	 
 
-								  while (rs2.next ()){
+								rs2 = conn.createStatement().executeQuery(
+										statement3);
 
-								  //Add records into data list
+								while (rs2.next()) {
 
-								  dataList.add(rs2.getString("equipe"));
-								  dataList.add(rs2.getInt("pj"));
-								  dataList.add(rs2.getInt("but"));
-								  dataList.add(rs2.getInt("passe"));
-								  dataList.add(rs2.getInt("points"));
-								  dataList.add(rs2.getInt("moyenne"));
-								  dataList.add(rs2.getInt("hier"));
-								  dataList.add(rs2.getInt("semaine"));
-								  dataList.add(rs2.getInt("mois"));
-								  dataList.add(rs2.getInt("difference"));
-								  
-								  }
-								
-								
-								
-								req.setAttribute("classement",dataList);
+									// Add records into data list
+
+									dataList.add(rs2.getString("equipe"));
+									dataList.add(rs2.getInt("pj"));
+									dataList.add(rs2.getInt("but"));
+									dataList.add(rs2.getInt("passe"));
+									dataList.add(rs2.getInt("points"));
+									dataList.add(rs2.getBigDecimal("moyenne"));
+									dataList.add(rs2.getInt("hier"));
+									dataList.add(rs2.getInt("semaine"));
+									dataList.add(rs2.getInt("mois"));
+									dataList.add(rs2.getInt("difference"));
+
+								}
+
+								req.setAttribute("classement", dataList);
 								req.setAttribute("mTeamId", teamIdentifiant);
 								req.setAttribute("mTeam", mTeam);
 								req.setAttribute("mUsername", mUsername);
@@ -113,22 +128,21 @@ public class LoginServlet extends HttpServlet {
 										.forward(req, resp);
 
 							} else {
-								
+
 								req.setAttribute("login_message", "2");
-								req.getRequestDispatcher(
-										"/jsp/home.jsp").forward(req,
-										resp);
+								req.getRequestDispatcher("/jsp/home.jsp")
+										.forward(req, resp);
 							}
 						} else {
 							req.setAttribute("login_message", "1");
-							req.getRequestDispatcher("/jsp/home.jsp")
-									.forward(req, resp);
+							req.getRequestDispatcher("/jsp/home.jsp").forward(
+									req, resp);
 						}
 
 					} else {
 						req.setAttribute("login_message", "0");
-						req.getRequestDispatcher("/jsp/home.jsp")
-								.forward(req, resp);
+						req.getRequestDispatcher("/jsp/home.jsp").forward(req,
+								resp);
 					}
 				} finally {
 					conn.close();

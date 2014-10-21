@@ -54,10 +54,10 @@ public class PhiladelphieServlet extends HttpServlet {
 
 			try {
 				/* récupération des informations selon le identifiant equipe */
-				statement = "SELECT * FROM players WHERE players.position='attaquant' AND players.club_ecole='0' AND players.team_id=5";
-				statement2 = "SELECT * FROM players WHERE players.position='defenseur' AND players.club_ecole='0' AND players.team_id=5";
-				statement3 = "SELECT * FROM players WHERE players.position='gardien' AND players.club_ecole='0' AND players.team_id=5";
-				statement4 = "SELECT * FROM players WHERE players.club_ecole='1' AND players.team_id=5";
+				statement = "SELECT * FROM players WHERE players.position='attaquant' AND players.club_ecole='0' AND players.team_id=5 ORDER BY pts DESC";
+				statement2 = "SELECT * FROM players WHERE players.position='defenseur' AND players.club_ecole='0' AND players.team_id=5 ORDER BY pts DESC";
+				statement3 = "SELECT * FROM players WHERE players.position='gardien' AND players.club_ecole='0' AND players.team_id=5 ORDER BY pts DESC";
+				statement4 = "SELECT * FROM players WHERE players.club_ecole='1' AND players.team_id=5 ORDER BY pts DESC";
 				statement5 = "SELECT * FROM equipes WHERE team_id=5";
 				try {
 					rs = conn.createStatement().executeQuery(statement);

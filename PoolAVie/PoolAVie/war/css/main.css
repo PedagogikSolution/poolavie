@@ -187,7 +187,7 @@ table, th, td {
 
 .section_budget_haut {
 	
-	background-color:blue;
+	background-color:#666666;
 	color:white;
 	margin-left:10px;
 	padding:2px;
@@ -195,7 +195,7 @@ table, th, td {
 }
 .section_budget_bas {
 	
-	background-color:blue;
+	background-color:#666666;
 	color:white;
 	margin-left:10px;
 	font-size:18px;

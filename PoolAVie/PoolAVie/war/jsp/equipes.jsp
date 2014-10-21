@@ -75,7 +75,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Welcome page</title>
 <link rel="stylesheet" type="text/css" href="../css/main.css" />
-<script
+<!--  <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <script>
 	$(document).ready(checkForPickMade);
@@ -88,7 +88,7 @@
 	}
 	function launchAjaxCheckForChange() {
 		// requete a un script .jsp qui interroge une bdd et qui retourne 1 en output si un pick a été fait depuis le dernier reload
-
+		$.ajaxSetup({ cache: false });
 		$.get("check_for_pick", function(data) {
 			if (data == 1) {
 				
@@ -101,7 +101,7 @@
 		});
 
 	}
-</script>
+</script>-->
 </head>
 <body>
 	<div class="main_navbar">

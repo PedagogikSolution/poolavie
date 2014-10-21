@@ -124,7 +124,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Welcome page</title>
 <link rel="stylesheet" type="text/css" href="../css/main.css" />
-<script
+<!--  <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <script>
 	$(document).ready(checkForPickMade);
@@ -150,7 +150,7 @@
 		});
 
 	}
-</script>
+</script>-->
 </head>
 <body>
 	<div class="main_navbar">
