@@ -90,10 +90,9 @@ break;
 		<button class="btn_menu">Admin</button>
 	</div>
 	<div class="trade_menu">
-		<a href="/trade"><button class="btn_menu_trade">RECEIVED</button></a>
-		<a href="/make_offer"><button class="btn_menu_trade">MAKE ONE</button></a>
-		<a href="/my_trade"><button class="btn_menu_trade">MY TRADE</button></a>
-		<a href="/all_trade"><button class="btn_menu_trade">ALL TRADE</button></a>
+		<a href="/trade"><button class="btn_menu_trade">AFTER DRAFT</button></a>
+		<a href="/make_offer"><button class="btn_menu_trade">AFTER SEASON</button></a>
+		<a href="/my_trade"><button class="btn_menu_trade">SUMMER</button></a>
 		
 	</div>
 	<hr class="hr_header">
@@ -102,7 +101,7 @@ break;
 
 	<div class="main_container">
 		<div class="main_content"></div>
-		<div id="main_content_title_classement">MY RECEIVED OFFER</div>
+		<div id="main_content_title_classement">MY SIGNATURE AFTER DRAFT</div>
 		<div id="main_content_table_classement">
 		
 		

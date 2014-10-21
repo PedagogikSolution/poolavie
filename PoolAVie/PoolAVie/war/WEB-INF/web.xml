@@ -268,6 +268,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/all_trade</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>signature</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.signature.SignatureServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>signature</servlet-name>
+		<url-pattern>/signature</url-pattern>
+	</servlet-mapping>
+	
 
 	<jsp-config>
 		<jsp-property-group>

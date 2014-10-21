@@ -90,7 +90,7 @@ break;
 		<a href="/draft?sortby=all"><button class="btn_menu">Draft</button></a>
 		<a href="/trade"><button class="btn_menu">Trade</button></a>
 		<a href="/equipes"><button class="btn_menu">Team</button></a>
-		<button class="btn_menu">Signature</button>
+		<a href="/signature"><button class="btn_menu">Signature</button></a>
 		<button class="btn_menu">Règlement</button>
 		<button class="btn_menu">Admin</button>
 	</div>
