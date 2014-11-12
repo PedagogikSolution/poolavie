@@ -116,6 +116,9 @@
 		<div class="main_content"></div>
 		<div id="main_content_title_classement">CLASSEMENT</div>
 		<div id="main_content_table_classement">
+		<br>
+		<p>Le classement a été mise à jour le <%=session.getAttribute("dateLastUpdate") %></p>
+		<br>
 			<table>
 				<tr>
 					<th>Pos</th>

@@ -277,7 +277,28 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/signature</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>signature_after_draft_check</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.signature.SignatureAfterDraftCheckServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>signature_after_draft_check</servlet-name>
+		<url-pattern>/signature_after_draft_check</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>signature_confirmation</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.signature.SignatureAfterDraftConfirmationServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>signature_confirmation</servlet-name>
+		<url-pattern>/signature_confirmation</url-pattern>
+	</servlet-mapping>
 
+	
+	
+	
+	
 	<jsp-config>
 		<jsp-property-group>
 			<url-pattern>*.jsp</url-pattern>

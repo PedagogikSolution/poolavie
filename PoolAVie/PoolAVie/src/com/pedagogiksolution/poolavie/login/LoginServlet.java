@@ -50,6 +50,10 @@ public class LoginServlet extends HttpServlet {
 		updateProcess = new UpdatePlayersStats();
 		updateProcess.updateClassement();
 		
+	
+		String date_start = "11 novembre 2014";
+		req.getSession().setAttribute("dateLastUpdate", date_start);
+		
 		// recupération des input du formulaire de login
 		username = req.getParameter("user");
 		password = req.getParameter("password");
@@ -92,7 +96,7 @@ public class LoginServlet extends HttpServlet {
 										password, mPassword);
 							} catch (NoSuchAlgorithmException
 									| InvalidKeySpecException e) {
-								// TODO Auto-generated catch block
+								
 								e.printStackTrace();
 							}
 

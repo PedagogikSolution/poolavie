@@ -105,7 +105,8 @@ break;
 		<div id="main_content_table_classement">
 		
 		
-		
+		<p>La période de signature après draft est ouverte du 23 octobre au 30 octobre.</p>
+		<p>Ensuite, les joueurs JA deviennent des contrats d'un an avec possibilité d'échange devant l'option B chez l'équipe qui reçoit ce joueur (Voir réglement section 2.34 pour plus d'information).</p>
 		
 		
 		
