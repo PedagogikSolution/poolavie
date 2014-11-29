@@ -51,7 +51,7 @@ public class LoginServlet extends HttpServlet {
 		updateProcess.updateClassement();
 		
 	
-		String date_start = "11 novembre 2014";
+		String date_start = "29 novembre 2014";
 		req.getSession().setAttribute("dateLastUpdate", date_start);
 		
 		// recupération des input du formulaire de login
