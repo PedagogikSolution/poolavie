@@ -6,7 +6,7 @@ function onLoginButtonClick() {
 }
 
 function onLogoClick() {	
-	window.location.assign("http://1-dot-zeta-anthem-715.appspot.com/");
+	window.location.assign("http://www.poolavie.ca");
 }
 
 function onSignInButtonClick() {

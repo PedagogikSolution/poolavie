@@ -165,6 +165,17 @@ height: 3px;
 	color:black;
 	position:absolute;
 	left:0px;
+	display:block;
+}
+#main_content_title_classement2 {
+	width : 960px;
+	height:30px;
+	text-align:center;
+	font-size:24px;
+	color:black;
+	position:absolute;
+	left:0px;
+	display:none;
 }
 #main_content_table_classement {
 	width : 960px;
@@ -174,6 +185,17 @@ height: 3px;
 	position:absolute;
 	left:0px;
 	top:30px;
+	display:block;
+}
+#formulaire_make_offer {
+	width : 960px;
+	text-align:center;
+	font-size:24px;
+	color:black;
+	position:absolute;
+	left:0px;
+	top:30px;
+	display:none;
 }
 
 table {
@@ -204,4 +226,18 @@ table, th, td {
 
 h3 {
 	text-decoration: underline;
+	
+}
+
+#trade_form_left {
+	width:640px;
+	height:auto;
+	float:left;
+	
+}
+#trade_form_right {
+	width:640px;
+	height:auto;
+	float:left;
+	
 }

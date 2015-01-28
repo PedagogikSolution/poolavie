@@ -106,74 +106,13 @@
 
 	<div class="main_container">
 		<div class="main_content">
-			<div id="main_content_title_classement">
-			LA LISTE DE MES OFFRES
-			
-			
-			</div>
-			
-			<div id="main_content_table_classement">
-			<table>
-			<tr>
-			<th>offre #</th>
-			<th>équipe</th>
-			<th>détail</th>
-			<th>annuler</th>
-			</tr>
-			<tr>
-			<td></td>
-			<td></td>
-			<td><button>voir détail</button></td>
-			<td><button>annuler cette transaction</button></td>
-			</tr>
-			
-			
-			
-			</table>
-			
-			<br>
-			<% if (erreur==true){  %>	
-			<p style="color:red">(VOUS AVEZ TENTÉ DE FAIRE UN ÉCHANGE AVEC VOUS-MÊME!!!)</p>	
-			<% } %>
-			
-			<br>
-			<br>
-			
-			<button onclick="onNewOfferButtonClick()">Faire une nouvelle offre</button>
-			</div>
-			<div id="main_content_title_classement2">AVEC QUI VEUX-TU ÉCHANGER?</div>
-			<div id="formulaire_make_offer">
-			<br>
-			<form action="/make_offer" method="post">
-			<input type="radio" name="team_to_trade" value="0">Los Angeles
-			<br>
-			<input type="radio" name="team_to_trade" value="1">Detroit
-			<br>
-			<input type="radio" name="team_to_trade" value="2">Montreal
-			<br>
-			<input type="radio" name="team_to_trade" value="3">Chicago
-			<br>
-			<input type="radio" name="team_to_trade" value="4">New York
-			<br>
-			<input type="radio" name="team_to_trade" value="5">Philadelphie
-			<br>
-			<input type="radio" name="team_to_trade" value="6">Toronto
-			<br>
-			<input type="radio" name="team_to_trade" value="7">St-Louis
-			<br>
-			<input type="radio" name="team_to_trade" value="8">Boston
-			<br>
-			<input type="radio" name="team_to_trade" value="9">Pittsburgh
-			<br>
-			<br>
-			<input type="submit" value="Faire une offre à cette équipe">
-			<br>
-			</form>
-
-			<br>
-			<button onclick="onAnnulerNewOfferButtonClick()">Annuler</button>
-			</div>
-			
+		<p>VOTRE ÉCHANGE N'EST PAS POSSIBLE POUR L'UNE DES RAISONS SUIVANTES :</p>
+		<ul>Vous avez échangé de l'Argent contre un pick</ul>
+		<ul>Vous offrez un joueur que vous ne possédez plus</ul>
+		<ul>Vous défoncez le plafond salarial</ul>
+		<ul>Vous ne respectez pas les minimums par position requis</ul>
+		<br>
+		
 
 		</div>
 
