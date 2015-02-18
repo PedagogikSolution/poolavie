@@ -60,7 +60,7 @@ public ResultSet recuperationRookieThatTrade(int team_that_trade) {
 
 	public ResultSet recuperationPick(int team_that_trade) {
 		
-		statement = "SELECT * FROM draft_pick_current_year WHERE team_id=" + team_that_trade;
+		statement = "SELECT * FROM draft_pick_current_year WHERE team_id=" + team_that_trade+ " ORDER BY pick_no ASC";
 		dbHelper = new DatabaseConnector();
 		conn = dbHelper.open();
 		

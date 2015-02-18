@@ -1,6 +1,7 @@
 package com.pedagogiksolution.poolavie.trade;
 
 import java.io.IOException;
+import java.sql.ResultSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,14 +18,20 @@ public class AllTradeServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		ResultSet rs;
+		/* récupérer les trades offers du DG connecté */
+		
+		
+		
+		RecuperationMyOffer recupOffer = new RecuperationMyOffer();
+		rs = recupOffer.recuperationAllTrade();
+		req.setAttribute("my_offer", rs);
+		
+		
 		req.getRequestDispatcher("/jsp/all_trade.jsp").forward(req, resp);
 	}
 
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		req.getRequestDispatcher("/jsp/all_trade.jsp").forward(req, resp);
-	}
+	
 	
 	
 

@@ -49,7 +49,7 @@
 		break;
 
 	}
-	
+	// réception des tableaux de résultats des deux équipes impliquer dans l'offre d'échange
 	ResultSet rs = (ResultSet) request.getAttribute("team_that_trade");
 	ResultSet rs2 = (ResultSet) request.getAttribute("team_to_trade");
 	ResultSet rs3 = (ResultSet) request.getAttribute("pick_team_that_trade");
@@ -58,6 +58,7 @@
 	ResultSet rs6 = (ResultSet) request.getAttribute("rookie_team_to_trade");
 	
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -144,17 +145,17 @@
 		
 		<tr>
 		
-		<th><input type="checkbox" name="player_trade_by" value="<%=player_id%>"></th>	
-		<th><%=nom %></th>
-		<th><%=team %></th>
-		<th><%=pts %></th>
-		<th><%=salaire_contrat %></th>
-		<th><%=club_ecole2 %></th>	
+		<td><input type="checkbox" name="player_trade_by" value="<%=player_id%>"></td>	
+		<td><%=nom %></td>
+		<td><%=team %></td>
+		<td><%=pts %></td>
+		<td><%=salaire_contrat %></td>
+		<td><%=club_ecole2 %></td>	
 		</tr>
 			
 		<% }	%>
 				
-		</table>
+		</table> 
 		
 		<table>
 		<tr>
@@ -187,12 +188,12 @@
 		
 		<tr>
 		
-		<th><input type="checkbox" name="rookie_trade_by" value="<%=player_id%>"></th>	
-		<th><%=nom %></th>
-		<th><%=team %></th>
-		<th><%=pts %></th>
-		<th><%=salaire_contrat %></th>
-		<th><%=club_ecole2 %></th>	
+		<td><input type="checkbox" name="player_trade_by" value="<%=player_id%>"></td>	
+		<td><%=nom %></td>
+		<td><%=team %></td>
+		<td><%=pts %></td>
+		<td><%=salaire_contrat %></td>
+		<td><%=club_ecole2 %></td>	
 		</tr>
 			
 		<% }	%>
@@ -252,9 +253,9 @@
 		
 		<tr>
 		
-		<th><input type="checkbox" name="pick_trade_by" value="<%=pick_id%>"></th>	
-		<th><%=pick_no %></th>
-		<th><input type="hidden" name="team_id_2" value="<%=team_id_1%>"><%=team_id_1 %></th>
+		<td><input type="checkbox" name="pick_trade_by" value="<%=pick_id%>"></td>	
+		<td><%=pick_no %></td>
+		<td><input type="hidden" name="team_id_1" value="<%=team_id_1%>"><%=team_id_1 %></td>
 		</tr>
 			
 		<% }	%>
@@ -348,7 +349,7 @@
 		<th><%=pts %></th>
 		<th><%=salaire_contrat %></th>
 		<th><%=club_ecole2 %></th>
-		<th><input type="checkbox" name="rookie_trade_by" value="<%=player_id%>"></th>	
+		<th><input type="checkbox" name="player_trade_by" value="<%=player_id%>"></th>	
 		</tr>
 			
 		<% }	%>
@@ -407,7 +408,7 @@
 		
 			
 		<th><%=pick_no %></th>
-		<th><input type="hidden" name="team_id_1" value="<%=team_id_2%>"><%=team_id_2 %></th>
+		<th><input type="hidden" name="team_id_2" value="<%=team_id_2%>"><%=team_id_2 %></th>
 		<th><input type="checkbox" name="pick_trade_for" value="<%=pick_id%>"></th>
 		</tr>
 			

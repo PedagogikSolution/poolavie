@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pedagogiksolution.poolavie.trade.RecuperationTeamForExchange;
 import com.pedagogiksolution.poolavie.utils.DatabaseConnector;
 
 public class TorontoServlet extends HttpServlet {
@@ -32,6 +33,7 @@ public class TorontoServlet extends HttpServlet {
 	int draft_pick_no,ronde,team_id,team_id_from,team_count;
 	String equipe_who_draft,from;
 	int pick_manquant;
+
 	
 	
 	
@@ -44,7 +46,8 @@ public class TorontoServlet extends HttpServlet {
 		List<Object> dataList3 = new ArrayList<Object>();
 		List<Object> dataList4 = new ArrayList<Object>();
 		List<Object> dataList5 = new ArrayList<Object>();
-	
+		String teamIdentifiant = (String) req.getSession().getAttribute("mTeamId");
+		int mTeam = Integer.parseInt(teamIdentifiant);
 		// connexion aux serveurs4 de base de donnée
 		dbHelper = new DatabaseConnector();
 		conn = dbHelper.open();
@@ -170,6 +173,12 @@ public class TorontoServlet extends HttpServlet {
 						
 						
 					}
+					
+					RecuperationTeamForExchange recupTeam = new RecuperationTeamForExchange();
+					ResultSet rs9 = recupTeam.recuperationPick(6);
+					
+					req.setAttribute("picks", rs9);
+					
 					
 					req.setAttribute("dataDraftRound", dataList5);
 					

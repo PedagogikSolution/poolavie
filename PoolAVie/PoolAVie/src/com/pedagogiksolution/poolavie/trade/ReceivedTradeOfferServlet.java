@@ -1,6 +1,7 @@
 package com.pedagogiksolution.poolavie.trade;
 
 import java.io.IOException;
+import java.sql.ResultSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,14 +18,22 @@ public class ReceivedTradeOfferServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		
+		ResultSet rs;
+		/* récupérer les trades offers du DG connecté */
+		
+		
+		String team_that_trade_string = (String) req.getSession().getAttribute("mTeamId");
+		int team_that_trade = Integer.parseInt(team_that_trade_string);
+		RecuperationMyOffer recupOffer = new RecuperationMyOffer();
+		rs = recupOffer.recuperationOfferToMe(team_that_trade);
+		req.setAttribute("my_offer", rs);
+		
+		
 		req.getRequestDispatcher("/jsp/received_offer.jsp").forward(req, resp);
+		
 	}
 
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		req.getRequestDispatcher("/jsp/received_offer.jsp").forward(req, resp);
-	}
 	
 	
 

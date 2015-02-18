@@ -52,7 +52,7 @@
 	Boolean erreur = false;
 	erreur = (Boolean) request.getAttribute("erreur");
 	
-	
+	ResultSet rs = (ResultSet) request.getAttribute("my_offer");	
 	
 %>
 <!DOCTYPE html>
@@ -120,14 +120,44 @@
 			<th>détail</th>
 			<th>annuler</th>
 			</tr>
+			
+			<% while (rs.next())  {
+			String team_name=null;
+			int trade_id = rs.getInt("_id");
+			String team_that_recevide_offer = rs.getString("team_2");
+			int team_that_recevide_offer2 = Integer.parseInt(team_that_recevide_offer);
+			switch (team_that_recevide_offer2) {
+			case 0: team_name="Los Angeles";
+				break;
+			case 1: team_name="Detroit";
+			break;
+			case 2: team_name="Montréal";
+			break;
+			case 3: team_name="Chicago";
+			break;
+			case 4: team_name="New York";
+			break;
+			case 5: team_name="Philadelphie";
+			break;
+			case 6: team_name="Toronto";
+			break;
+			case 7: team_name="St-Louis";
+			break;
+			case 8: team_name="Boston";
+			break;
+			case 9: team_name="Pittsburgh";
+			break;
+			}
+				
+			%>
 			<tr>
-			<td></td>
-			<td></td>
-			<td><button>voir détail</button></td>
-			<td><button>annuler cette transaction</button></td>
+			<td><%=trade_id %></td>
+			<td><%=team_name %></td>
+			<td><a href="/detail_offre_trade?trade_id=<%=trade_id %>"><button>voir détail</button></a></td>
+			<td><a href="/cancel_offre_trade?trade_id=<%=trade_id %>"><button>annuler cette transaction</button></a></td>
 			</tr>
 			
-			
+			<% }	%>
 			
 			</table>
 			

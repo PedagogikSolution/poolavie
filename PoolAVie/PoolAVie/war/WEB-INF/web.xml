@@ -305,6 +305,51 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>signature_confirmation</servlet-name>
 		<url-pattern>/signature_confirmation</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>cancel_offre_trade</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.trade.AnnulationOffreTradeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>cancel_offre_trade</servlet-name>
+		<url-pattern>/cancel_offre_trade</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>detail_offre_trade</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.trade.DetailOffreTradeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>detail_offre_trade</servlet-name>
+		<url-pattern>/detail_offre_trade</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>detail_trade_complete</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.trade.DetailTradeCompleteServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>detail_trade_complete</servlet-name>
+		<url-pattern>/detail_trade_complete</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>detail_offre_trade_received</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.trade.DetailOffreTradeReceivedServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>detail_offre_trade_received</servlet-name>
+		<url-pattern>/detail_offre_trade_received</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>accepter_offre_trade</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.trade.AccepterOffreTradeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>accepter_offre_trade</servlet-name>
+		<url-pattern>/accepter_offre_trade</url-pattern>
+	</servlet-mapping>
 
 	
 	

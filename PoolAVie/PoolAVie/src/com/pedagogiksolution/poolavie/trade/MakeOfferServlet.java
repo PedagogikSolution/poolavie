@@ -21,10 +21,15 @@ public class MakeOfferServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
+		ResultSet rs;
 		/* récupérer les trades offers du DG connecté */
 		
 		req.setAttribute("erreur", false);
-		
+		String team_that_trade_string = (String) req.getSession().getAttribute("mTeamId");
+		int team_that_trade = Integer.parseInt(team_that_trade_string);
+		RecuperationMyOffer recupOffer = new RecuperationMyOffer();
+		rs = recupOffer.recuperationMyOffer(team_that_trade);
+		req.setAttribute("my_offer", rs);
 		
 		
 		req.getRequestDispatcher("/jsp/make_offer.jsp").forward(req, resp);
@@ -41,6 +46,7 @@ public class MakeOfferServlet extends HttpServlet {
 		int team_to_trade = Integer.parseInt(team_to_trade_string);
 		int team_that_trade = Integer.parseInt(team_that_trade_string);
 		
+		/* vérification si échange avec lui-même, si c'est pas le cas, on récupère les équipes,les picks et les rookies dispo pour échange */
 		if(team_to_trade!=team_that_trade) {
 		
 		RecuperationTeamForExchange recupTeam = new RecuperationTeamForExchange();
@@ -60,8 +66,12 @@ public class MakeOfferServlet extends HttpServlet {
 		req.setAttribute("rookie_team_that_trade", rs5);
 		req.setAttribute("rookie_team_to_trade", rs6);
 		
+		/* on envoie les données récupérer à la page make_offer_formulaire pour afficher les options au joueur voulant faire une échange */
 		req.getRequestDispatcher("/jsp/make_offer_formulaire.jsp").forward(req, resp);
 		
+		/* le gars a essayé d'échanger avec lui-même, on le revoit sur la page make_offer.jsp avec valeur vrai dans l'attribut erreur ce qui aura pour
+		 * effet d'afficher un message d'Erreur sur la page make_offer
+		 */
 		} else {
 		req.setAttribute("erreur", true);
 		req.getRequestDispatcher("/jsp/make_offer.jsp").forward(req, resp);
