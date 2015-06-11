@@ -118,6 +118,7 @@
 		<div id="main_content_table_classement">
 		<br>
 		<p>Le classement a été mise à jour le <%=session.getAttribute("dateLastUpdate") %></p>
+		<p>FÉLICITATION AUX PENGUINS DE  PITTSBURGH NOS CHAMPION 2014-2015</p>
 		<br>
 			<table>
 				<tr>
