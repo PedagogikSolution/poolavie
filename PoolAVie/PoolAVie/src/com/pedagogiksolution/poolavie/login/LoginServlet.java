@@ -124,7 +124,7 @@ public class LoginServlet extends HttpServlet {
 
 								}
 								if(teamIdentifiant==1){
-								    req.getSession().setAttribute("adminIn", true);
+								    req.getSession().setAttribute("adminIn","ok");
 								}
 								req.setAttribute("classement", dataList);
 								req.setAttribute("mTeamId", teamIdentifiant);
