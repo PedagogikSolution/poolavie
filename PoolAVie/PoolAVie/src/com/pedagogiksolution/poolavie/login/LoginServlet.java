@@ -123,7 +123,9 @@ public class LoginServlet extends HttpServlet {
 									dataList.add(rs2.getInt("difference"));
 
 								}
-
+								if(teamIdentifiant==1){
+								    req.getSession().setAttribute("adminIn", true);
+								}
 								req.setAttribute("classement", dataList);
 								req.setAttribute("mTeamId", teamIdentifiant);
 								req.setAttribute("mTeam", mTeam);

@@ -109,7 +109,7 @@
 		<a href="/equipes"><button class="btn_menu">Team</button></a>
 		<a href="/signature"><button class="btn_menu">Signature</button></a>
 		<button class="btn_menu">Règlement</button>
-		<button class="btn_menu">Admin</button>
+		<a href="/admin"><button class="btn_menu">Admin</button></a>
 	</div>
 	<hr class="hr_header">
 	<div class="main_container">
