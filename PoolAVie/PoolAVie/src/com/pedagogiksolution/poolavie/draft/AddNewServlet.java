@@ -74,8 +74,7 @@ public class AddNewServlet extends HttpServlet {
 		
 		
 		
-		req.getRequestDispatcher("/draft").forward(req,
-				resp);
+		resp.sendRedirect("/add_new_player");
 		
 		
 	}

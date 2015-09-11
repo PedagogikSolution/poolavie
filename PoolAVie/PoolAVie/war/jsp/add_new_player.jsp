@@ -121,12 +121,12 @@ break;
 		<br>
 		<form action="/add_new_player" method="post">
 			
-			<label>Nom du joueurs (Prenom Nom) : </label><input type="text" name="nom"><br>
-			<label>Équipe (Abréviation en trois lettres) : </label><input type="text" name="team"><br>
-			<label>Position (attaquant,defenseur,gardien) : </label><input type="text" name="position"><br>
+			<label>Nom du joueurs (Prenom Nom ... comme le site nhl l'écris) : </label><input type="text" name="nom"><br>
+			<label>Équipe (Abréviation en trois lettres ... comme le site nhl) : </label><input type="text" name="team"><br>
+			<label>Position (attaquant,defenseur,gardien ... pas d'accent!!!) : </label><input type="text" name="position"><br>
 			<label>Date de naissance (YYYY-MM-DD) : </label><input type="text" name="birthday"><br>
-			<label>Salaire (500 000 sauf erreur) : </label><input type="text" name="salaire_draft"><br>
-			<label>Recrue (le joueurs a-t-il moins de 25 ans le 15 septembre 2014) : </label><input type="text" name="can_be_rookie"><br>
+			<label>Salaire (1000000 le plus souvent le minimum... pas d'espace) : </label><input type="text" name="salaire_draft"><br>
+			<label>Recrue (le joueurs a-t-il moins de 25 ans le 15 septembre 2015) : </label><input type="text" name="can_be_rookie"><br>
 			
 			
 			<input type="submit" value="AJOUTER CE JOUEUR">
