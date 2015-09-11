@@ -13,14 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.pedagogiksolution.poolavie.utils.DatabaseConnector;
 
 public class CheckForPick extends HttpServlet {
-	String result_of_test, first_result, second_result, team_id;
-	int team_id2;
-	String mTeamID;
-	Connection conn;
-	DatabaseConnector dbHelper;
-	ResultSet rs;
-	String statement, statement2, statement3;
-	int counterCount,counterCount2;
+	
 	/**
 	 * 
 	 */
@@ -29,41 +22,54 @@ public class CheckForPick extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-
+		
+		int first_result=0;
+		int second_result=0;
+		String team_id;
+		String result_of_test="0";
+		int team_id2=0;
+		int mTeamID = 1;
+		Connection conn;
+		DatabaseConnector dbHelper;
+		ResultSet rs;
+		String statement, statement2, statement3;
+		int counterCount=0;
+		int counterCount2=0;
+	
 		team_id = (String) req.getSession().getAttribute("mTeamId");
 
 		team_id2 = Integer.parseInt(team_id);
 
 		switch (team_id2) {
 		case 0:
-			mTeamID = "team_0";
+			mTeamID = 4;
 			break;
 		case 1:
-			mTeamID = "team_1";
+			mTeamID = 5;
 			break;
 		case 2:
-			mTeamID = "team_2";
+			mTeamID = 6;
 			break;
 		case 3:
-			mTeamID = "team_3";
+			mTeamID = 7;
 			break;
 		case 4:
-			mTeamID = "team_4";
+			mTeamID = 8;
 			break;
 		case 5:
-			mTeamID = "team_5";
+			mTeamID = 9;
 			break;
 		case 6:
-			mTeamID = "team_6";
+			mTeamID = 10;
 			break;
 		case 7:
-			mTeamID = "team_7";
+			mTeamID = 11;
 			break;
 		case 8:
-			mTeamID = "team_8";
+			mTeamID = 12;
 			break;
 		case 9:
-			mTeamID = "team_9";
+			mTeamID = 13;
 			break;
 		}
 		dbHelper = new DatabaseConnector();
@@ -77,42 +83,53 @@ public class CheckForPick extends HttpServlet {
 
 					rs = conn.createStatement().executeQuery(statement);
 					if (rs.next()) {
-						first_result = rs.getString("reload");
-						second_result = rs.getString(mTeamID);
-						counterCount2 = rs.getInt("counter");
+						first_result = rs.getInt(2);
+						second_result = rs.getInt(mTeamID);
+						counterCount2 = rs.getInt(3);
 						counterCount = counterCount2 + 1;
 					}
+					rs.close();
+					if (second_result==0) {
 
-					if (second_result.equals("0")) {
+						if (first_result==1) {
 
-						if (first_result.equals("1")) {
-
-							statement2 = "UPDATE reload_counter SET counter = counter+1,"
-									+ mTeamID + "=1 WHERE _id=1";
+							statement2 = "UPDATE reload_counter SET counter ="+counterCount+",team_" + team_id2 + "=1 WHERE _id=1";
 							
 							conn.createStatement().executeUpdate(statement2);
 						
 							
 
-							if (counterCount == 10) {
+							if (counterCount==10) {
 
 								statement3 = "UPDATE reload_counter SET reload=0,counter=0,team_0=0,team_1=0,team_2=0,team_3=0,team_4=0,team_5=0,team_6=0,team_7=0,team_8=0,team_9=0";
 								conn.createStatement()
 										.executeUpdate(statement3);
 								result_of_test = "1";
+								resp.setContentType("text/plain");
+								resp.setCharacterEncoding("UTF-8");
+								resp.getWriter().write(result_of_test);
 
 							} else {
 								result_of_test = "1";
+								resp.setContentType("text/plain");
+								resp.setCharacterEncoding("UTF-8");
+								resp.getWriter().write(result_of_test);
 
 							}
 
 						} else {
 							result_of_test = "0";
+							resp.setContentType("text/plain");
+							resp.setCharacterEncoding("UTF-8");
+							resp.getWriter().write(result_of_test);
 						}
 
 					} else {
 
 						result_of_test = "0";
+						resp.setContentType("text/plain");
+						resp.setCharacterEncoding("UTF-8");
+						resp.getWriter().write(result_of_test);
 					}
 
 				} catch (SQLException e) {
@@ -131,9 +148,6 @@ public class CheckForPick extends HttpServlet {
 
 		}
 
-		resp.setContentType("text/plain");
-		resp.setCharacterEncoding("UTF-8");
-		resp.getWriter().write(result_of_test);
 
 	}
 

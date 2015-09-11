@@ -203,10 +203,16 @@ public class PickConfirmerServlet extends HttpServlet {
 
 		}
 		
-
+		statement3 = "UPDATE reload_counter SET reload=0,counter=0,team_0=0,team_1=0,team_2=0,team_3=0,team_4=0,team_5=0,team_6=0,team_7=0,team_8=0,team_9=0";
+		try {
+			conn.createStatement().executeUpdate(statement3);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	
 
-		statement8 = "UPDATE reload_counter SET reload=1,counter=counter+1,"
+		statement8 = "UPDATE reload_counter SET reload=1,counter=1,"
 				+ mTeamID + "=1 WHERE _id=1";
 
 		if (is_rookie.equalsIgnoreCase("1")) {
@@ -307,16 +313,12 @@ public class PickConfirmerServlet extends HttpServlet {
 		} else {
 			// une erreur de connexion s'est produite, gérer ce problème pour
 			// être transparent pour l'utilisateur
-			req.getRequestDispatcher("/jsp/no_connexion.jsp")
-					.forward(req, resp);
-			return;
+			
 		}
 		
 		
 		
-		req.getRequestDispatcher("/draft")
-		.forward(req, resp);
-		//resp.sendRedirect("/draft");
+		resp.sendRedirect("/draft");
 
 	}
 
