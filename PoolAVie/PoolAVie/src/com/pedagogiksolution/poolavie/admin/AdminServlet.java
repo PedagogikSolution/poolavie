@@ -43,11 +43,14 @@ public class AdminServlet extends HttpServlet {
 	case 1: administration.archivageFinSaison();
 		resp.sendRedirect("/admin");
 	    break;
-	case 2 :
+	case 2 : administration.vidageFinSaison();
+		resp.sendRedirect("/admin");
 	    break;
-	case 3:
+	case 3:	administration.archivageJoueurs();
+		resp.sendRedirect("/admin");
 	    break;
-	case 4 :
+	case 4 : administration.vidageJoueurs();
+		resp.sendRedirect("/admin");
 	    break;
 	case 5:
 	    break;
