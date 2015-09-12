@@ -25,10 +25,11 @@ public class Administration {
     public void vidageFinSaison() {
 	Boolean dejaFait = testSiDejaFait();
 	if (dejaFait) {
-	} else {
 	    reinitialisationTableClassement();
 	    reinitialisationTableDraftRound();
 	    reinitialisationTableTradeMade();
+	} else {
+	    
 	}
 
     }
@@ -46,8 +47,9 @@ public class Administration {
     public void vidageJoueurs() {
 	Boolean dejaFaitJoueurs = testSiDejaFaitJoueur();
 	if (dejaFaitJoueurs) {
+	    vidageJoueursFinDeSaison(); 
 	} else {
-	    vidageJoueursFinDeSaison();
+	    
 	}
 	
     }
@@ -56,16 +58,15 @@ public class Administration {
 
     /**************************** Methode privée de la class *********************************************/
     private void vidageJoueursFinDeSaison() {
-	PreparedStatement mPreparedStatementA;
+	Statement mStatementA;
 	String QueryA;
 	// ouverture de la connexion a la bdd
 	conn = mDbHelper.open();
 	
 	QueryA = "UPDATE players SET equipe=null,contrat=0,salaire_contrat=null,contrat_cours=null,contrat_max_years=null,type_contrat=null,club_ecole=null,years_1=null,years_2=null,years_3=null,years_4=null,years_5=null,team_id=null,projection=null WHERE years_2='X' OR years_2='JA'";
 	try {
-	    mPreparedStatementA = conn.prepareStatement(QueryA);
-	    mPreparedStatementA.setInt(1, 1);
-	    mPreparedStatementA.executeUpdate();
+	    mStatementA = conn.createStatement();
+	    mStatementA.executeUpdate(QueryA);
 	} catch (SQLException e) {
 	    e.printStackTrace();
 	} finally {
@@ -95,18 +96,17 @@ public class Administration {
 	String QueryA;
 	Boolean testA = false;
 	ResultSet rsA;
-	PreparedStatement mPreparedStatementA;
+	Statement mStatementA;
 
 	// ouverture de la connexion a la bdd
 	conn = mDbHelper.open();
 
-	QueryA = "SELECT * FROM players_archives WHERE pool_id=? AND year=?";
+	QueryA = "SELECT * FROM players_archives";
 
 	try {
-	    mPreparedStatementA = conn.prepareStatement(QueryA);
-	    mPreparedStatementA.setInt(1, 1);
-	    mPreparedStatementA.setInt(2, 2015);
-	    rsA = mPreparedStatementA.executeQuery();
+	    mStatementA = conn.createStatement();
+
+	    rsA = mStatementA.executeQuery(QueryA);
 
 	    if (rsA.next()) {
 		testA = true;
@@ -170,7 +170,7 @@ public class Administration {
 	// ouverture de la connexion a la bdd
 	conn = mDbHelper.open();
 
-	QueryA = "UPDATE classement SET pj=0,but=0,passe=0,points=0,hier=0,semaine=0,mois=0,moyenne=0,difference=0,last_day_pts_total=0,year=2016 WHERE pool_id=?";
+	QueryA = "UPDATE classement SET pj=0,but=0,passe=0,points=0,hier=0,semaine=0,mois=0,moyenne=0,difference=0,last_day_pts_total=0,year_of_the_standing=2016 WHERE pool_id=?";
 	try {
 	    mPreparedStatementA = conn.prepareStatement(QueryA);
 	    mPreparedStatementA.setInt(1, 1);
@@ -190,7 +190,7 @@ public class Administration {
 	// ouverture de la connexion a la bdd
 	conn = mDbHelper.open();
 
-	QueryA = "INSERT INTO classement_archives (`equipe`,`pj`,`but`,`passe`,`points`,`hier`,`semaine`,`mois`,`moyenne`,`difference`,`team_id`,`last_day_pts_total`,`pool_id`,`year`) SELECT equipe,pj,but,passe,points,hier,semaine,mois,moyenne,difference,team_id,last_day_pts_total,pool_id, year FROM classement WHERE pool_id=?";
+	QueryA = "INSERT INTO classement_archives (`equipe`,`pj`,`but`,`passe`,`points`,`hier`,`semaine`,`mois`,`moyenne`,`difference`,`team_id`,`last_day_pts_total`,`pool_id`,`year_of_the_standing`) SELECT equipe,pj,but,passe,points,hier,semaine,mois,moyenne,difference,team_id,last_day_pts_total,pool_id, year_of_the_standing FROM classement WHERE pool_id=?";
 	QueryB = "INSERT INTO draft_round_archives (`draft_pick_no`,`ronde`,`equipe`,`team_id`,`from_who`,`team_id_from`,`team_count`,`follow_up`,`player_drafted`,`year_of_draft`,`pool_id`) SELECT draft_pick_no,ronde,equipe,team_id,from_who,team_id_from,team_count,follow_up,player_drafted,year_of_draft,pool_id FROM draft_round WHERE pool_id=?";
 	QueryC = "INSERT INTO trade_made_archives (team_1,team_2,t1j1,t1j2,t1j3,t1j4,t1j5,t1j6,t1j7,t1p1,t1p2,t1p3,t1_cash,t2j1,t2j2,t2j3,t2j4,t2j5,t2j6,t2j7,t2p1,t2p2,t2p3,t2_cash,date_heure,periode_echange,years,pool_id) SELECT team_1,team_2,t1j1,t1j2,t1j3,t1j4,t1j5,t1j6,t1j7,t1p1,t1p2,t1p3,t1_cash,t2j1,t2j2,t2j3,t2j4,t2j5,t2j6,t2j7,t2p1,t2p2,t2p3,t2_cash,date_heure,periode_echange,years,pool_id FROM trade_made WHERE pool_id=?";
 	try {
@@ -221,7 +221,7 @@ public class Administration {
 	// ouverture de la connexion a la bdd
 	conn = mDbHelper.open();
 
-	QueryD = "SELECT * FROM classement_archives WHERE pool_id=? AND year=?";
+	QueryD = "SELECT * FROM classement_archives WHERE pool_id=? AND year_of_the_standing=?";
 	QueryE = "SELECT * FROM draft_round_archives WHERE pool_id=? AND year_of_draft=?";
 	QueryF = "SELECT * FROM trade_made_archives WHERE pool_id=? AND years=?";
 
