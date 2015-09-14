@@ -420,6 +420,9 @@
 				Budget restant : <br><%=session.getAttribute("budget_restant")%>
 			</p>
 			<p>
+				Argent Reçu : <br><%=session.getAttribute("argent_recu")%>
+			</p>
+			<p>
 				Moyenne restante par joueurs : <br><%=session.getAttribute("moy_restante")%>
 			</p>
 			</div>

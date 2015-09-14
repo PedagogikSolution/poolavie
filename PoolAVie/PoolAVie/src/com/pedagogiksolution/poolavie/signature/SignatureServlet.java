@@ -16,109 +16,169 @@ import javax.servlet.http.HttpServletResponse;
 import com.pedagogiksolution.poolavie.utils.DatabaseConnector;
 
 public class SignatureServlet extends HttpServlet {
-	DatabaseConnector dbHelper;
-	Connection conn;
-	Date today, start, finish;
-	boolean isBefore, isAfter;
-	String statement1, statement2, statement3;
-	int team_id, nb_contrat;
-	ResultSet rs1, rs2, rs3;
-	String team_id_temp;
-	/**
+    DatabaseConnector dbHelper;
+    Connection conn;
+    Date today, start1, finish1, start2, finish2, start3, finish3, start4, finish4, start5, finish5, start6, finish6;
+    boolean isBefore, isAfter;
+    String statement1, statement2, statement3;
+    int team_id, nb_contrat;
+    ResultSet rs1, rs2, rs3;
+    String team_id_temp;
+    SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy");
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 763180796186293473L;
+    private static final long serialVersionUID = 763180796186293473L;
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+	    throws ServletException, IOException {
 
-		/***** récupération de l'équipe active *****/
+	long now = System.currentTimeMillis();
+	today = new Date(now);
+	
+	initialisationDate();
 
-		team_id_temp = (String) req.getSession().getAttribute("mTeamId");
-		team_id = Integer.parseInt(team_id_temp);
+	if (today.after(start1) && today.before(finish1)) {
+	    RachatApresSaison mClass = new RachatApresSaison();
+	    mClass.preparationRachatApresSaison(req);
+	    req.getRequestDispatcher("/jsp/rachat_fin_saison.jsp").forward(req,resp);
+	} else if (today.after(start2) && today.before(finish2)) {
+	    req.getRequestDispatcher("/jsp/signature_fin_saison.jsp").forward(req,resp);
+	} else if (today.after(start3) && today.before(finish3)) {
+	    req.getRequestDispatcher("/jsp/rachat_after_signature.jsp").forward(req,resp);
+	} else if (today.after(start4) && today.before(finish4)) {
+	    req.getRequestDispatcher("/jsp/rachat_after_trade.jsp").forward(req,resp);
+	} else if (today.after(start5) && today.before(finish5)) {
+	    req.getRequestDispatcher("/jsp/drop_upgrade_rookie.jsp").forward(req,resp);
+	} else if (today.after(start6) && today.before(finish6)){
+	    req.getRequestDispatcher("/jsp/drop_upgrade_rookie.jsp").forward(req,resp);
+	} else {
+	    req.getRequestDispatcher("/jsp/aucune_signature_possible.jsp").forward(req,resp);
+	}
 
-		/****
-		 * vérification si la date est éligible pour la période de siganture
-		 * apres draft
-		 *****/
-		long now = System.currentTimeMillis();
+	
 
-		today = new Date(now);
+    }
+/* ******************************* methode prive  *****************************/
+    private void initialisationDate() {
+	String date_start1 = "14-09-2015";
+	String date_finish1 = "16-09-2015";
+	String date_start2 = "18-09-2015";
+	String date_finish2 = "22-09-2015";
+	String date_start3 = "01-01-2000";
+	String date_finish3 = "01-01-2000";
+	String date_start4 = "29-09-2015";
+	String date_finish4 = "30-09-2015";
+	String date_start5 = "01-10-2015";
+	String date_finish5 = "05-10-2015";
+	String date_start6 = "01-01-2015";
+	String date_finish6 = "01-01-2015";
+	try {
+	    start1 = sdf.parse(date_start1);
+	    finish1 = sdf.parse(date_finish1);
+	    start2 = sdf.parse(date_start2);
+	    finish2 = sdf.parse(date_finish2);
+	    start3 = sdf.parse(date_start3);
+	    finish3 = sdf.parse(date_finish3);
+	    start4 = sdf.parse(date_start4);
+	    finish4 = sdf.parse(date_finish4);
+	    start5 = sdf.parse(date_start5);
+	    finish5 = sdf.parse(date_finish5);
+	    start6 = sdf.parse(date_start6);
+	    finish6 = sdf.parse(date_finish6);
+	} catch (ParseException e) {
+	    e.printStackTrace();
+	}
+	
+    }
 
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy");
-		String date_start = "23-10-2014";
+/* **********************   Do Post    ********************************* */    
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+	    throws ServletException, IOException {
+	/***** récupération de l'équipe active *****/
+
+	team_id_temp = (String) req.getSession().getAttribute("mTeamId");
+	team_id = Integer.parseInt(team_id_temp);
+
+	/****
+	 * vérification si la date est éligible pour la période de siganture
+	 * apres draft
+	 *****/
+
+	String date_start = "23-10-2014";
+	try {
+	    start1 = sdf.parse(date_start);
+	} catch (ParseException e) {
+	    e.printStackTrace();
+	}
+	String date_finish = "31-10-2014";
+	try {
+	    finish1 = sdf.parse(date_finish);
+	} catch (ParseException e) {
+	    e.printStackTrace();
+	}
+
+	isBefore = today.before(finish1);
+	isAfter = today.after(start1);
+
+	if (isBefore && isAfter) {
+	    /*** connection au bd ****/
+	    dbHelper = new DatabaseConnector();
+
+	    conn = dbHelper.open();
+
+	    try {
+
+		/****** on calcul le nombre de contrat actuel du team actif ************/
+		statement1 = "SELECT * FROM equipes WHERE team_id =" + team_id
+			+ "";
 		try {
-			start = sdf.parse(date_start);
-		} catch (ParseException e) {
-			e.printStackTrace();
+		    rs1 = conn.createStatement().executeQuery(statement1);
+
+		    if (rs1.next()) {
+			nb_contrat = rs1.getInt("nb_contrat");
+		    }
+
+		    /** on vérifie si il y a de la place sur les contrats ***/
+
+		    if (nb_contrat < 12) {
+
+			/****** recupération de la liste des joueurs autonome *****/
+
+			statement2 = "SELECT * FROM players WHERE team_id = "
+				+ team_id
+				+ " AND club_ecole=0 AND years_2='JA'";
+
+			rs2 = conn.createStatement().executeQuery(statement2);
+
+			req.setAttribute("all_possible_signature", rs2);
+
+			req.getRequestDispatcher(
+				"/jsp/signature_draft_fini.jsp").forward(req,
+				resp);
+
+		    } else {
+			resp.sendRedirect("/jsp/signature_max_atteint.jsp");
+
+		    }
+
+		} catch (SQLException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
 		}
-		String date_finish = "31-10-2014";
-		try {
-			finish = sdf.parse(date_finish);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
 
-		isBefore = today.before(finish);
-		isAfter = today.after(start);
+	    } finally {
+		dbHelper.close(conn);
+	    }
 
-		if (isBefore && isAfter) {
-			/*** connection au bd ****/
-			dbHelper = new DatabaseConnector();
-			
-			conn = dbHelper.open();
+	} else {
 
-			try {
-
-				/****** on calcul le nombre de contrat actuel du team actif ************/
-				statement1 = "SELECT * FROM equipes WHERE team_id ="
-						+ team_id + "";
-				try {
-					rs1 = conn.createStatement().executeQuery(statement1);
-					
-					if (rs1.next()) {
-						nb_contrat = rs1.getInt("nb_contrat");
-					}
-
-					/** on vérifie si il y a de la place sur les contrats ***/
-
-					if (nb_contrat < 12) {
-						
-						/****** recupération de la liste des joueurs autonome  *****/
-						
-						statement2 = "SELECT * FROM players WHERE team_id = "+ team_id + " AND club_ecole=0 AND years_2='JA'";
-						
-						rs2= conn.createStatement().executeQuery(statement2);
-												
-						req.setAttribute("all_possible_signature", rs2);
-						
-						req.getRequestDispatcher("/jsp/signature_draft_fini.jsp").forward(req,
-								resp);
-							
-
-					} else {
-						resp.sendRedirect("/jsp/signature_max_atteint.jsp");
-
-					}
-
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-			} finally {
-				dbHelper.close(conn);
-			}
-
-			
-
-		} else {
-
-			resp.sendRedirect("/jsp/signature_after_draft.jsp");
-
-		}
+	    resp.sendRedirect("/jsp/signature_after_draft.jsp");
 
 	}
 
+    }
 }
