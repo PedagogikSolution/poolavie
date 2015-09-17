@@ -53,6 +53,29 @@ public class Administration {
 	}
 	
     }
+    
+    public void update_take_proj() {
+	Statement mStatementA,mStatementB;
+	String QueryA,QueryB;
+	// ouverture de la connexion a la bdd
+	conn = mDbHelper.open();
+	
+	QueryA = "UPDATE players SET take_proj=0";
+	QueryB = "UPDATE players SET take_proj=1 WHERE pj<50";
+	try {
+	    mStatementA = conn.createStatement();
+	    mStatementA.executeUpdate(QueryA);
+	    mStatementB = conn.createStatement();
+	    mStatementB.executeUpdate(QueryB);
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	} finally {
+	    mDbHelper.close(conn);
+	}
+	
+	
+	
+    }
 
   
 
@@ -266,6 +289,8 @@ public class Administration {
 	}
 
     }
+
+    
 
     
 

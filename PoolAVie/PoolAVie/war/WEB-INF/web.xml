@@ -369,6 +369,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/rachat</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>rookieFin</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.signature.RookieApresSaisonServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>rookieFin</servlet-name>
+		<url-pattern>/rookieFin</url-pattern>
+	</servlet-mapping>
+	
 	
 	
 	<jsp-config>

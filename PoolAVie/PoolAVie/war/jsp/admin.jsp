@@ -118,24 +118,28 @@
 	<input type="hidden" value="4" name="admin"/>	
 	<input type="submit" class="btn_menu" style="width:100%" value="Étape 5.4 : Vidage de l de la table players pour les sans équipes"/>	
 	</form>
+	<form action="/admin" method="post">
+	<input type="hidden" value="5" name="admin"/>	
+	<input type="submit" class="btn_menu" style="width:100%" value="Étape 5.5 : Update du champs take_proj"/>	
+	</form>
 	<form action="/admin" method="post">	
-	<input type="hidden" value="5" name="admin"/>
+	<input type="hidden" value="6" name="admin"/>
 	<input type="submit" class="btn_menu" style="width:100%" value="Étape 6.5 : MAJ table equipe (budget et effectif) pour changement d'année"/>	
 	</form>
 	<br>
 	<br>
 	<form action="/admin" method="post">
-	<input type="hidden" value="6" name="admin"/>	
+	<input type="hidden" value="7" name="admin"/>	
 	<input type="submit" class="btn_menu" style="width:100%" value="Étape 8.1 : Drop des joueurs non signé"/>	
 	</form>
 	<form action="/admin" method="post">	
-	<input type="hidden" value="7" name="admin"/>
+	<input type="hidden" value="8" name="admin"/>
 	<input type="submit" class="btn_menu" style="width:100%" value="Étape 9 : Ouvrir la période des échanges"/>	
 	</form>
 	<br>
 	<br>
 	<form action="/admin" method="post">
-	<input type="hidden" value="8" name="admin"/>	
+	<input type="hidden" value="9" name="admin"/>	
 	<input type="submit" class="btn_menu" style="width:100%" value="Étape 13 : Préparation finale du draft"/>	
 	</form>
 	

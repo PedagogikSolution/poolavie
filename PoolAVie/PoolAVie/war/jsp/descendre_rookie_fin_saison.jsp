@@ -98,7 +98,7 @@ break;
 
 	<div class="main_container">
 		<div class="main_content"></div>
-		<div id="main_content_title_classement">Rachat fin de saison</div>
+		<div id="main_content_title_classement">Descendre un joueur qui n'a pas 25 ans dans mon club école</div>
 		<div id="main_content_table_classement">
 		
 		<c:set var="longueur" value="${players_list.player_id}"/>
@@ -113,7 +113,7 @@ break;
 		<th>Year 3</th>
 		<th>Year 4</th>
 		<th>Year 5</th>
-		<th>Rachat</th>
+		<th>Descendre</th>
 		</tr>
 		<c:forEach var="i" begin="0" end="${fn:length(longueur)-(1)}">
 		<tr>			
@@ -127,8 +127,8 @@ break;
 		<td>${players_list.years_5[i]}</td>
 		<td><form action="/rachat" method="post">
 		<input type="hidden" value="${players_list.player_id[i]}" name="player_id"/>
-		<input type="hidden" value="verifRachat" name="rachat_type"/>
-		<input type="submit" value="Racheté ce joueur">
+		<input type="hidden" value="verifRookieFin" name="rookieFin_type"/>
+		<input type="submit" value="Descendre ce joueur">
 		</form></td>
 		</tr>
 		</c:forEach>
