@@ -225,7 +225,7 @@
 
 	<div class="main_container">
 		<div class="main_content">
-		<div id="main_content_title_classement">ALL AVAILABLE PLAYERS</div>
+		<div id="main_content_title_classement">DÉFENSEURS</div>
 		<div id="main_content_table_classement">
 			<br>
 			<%
