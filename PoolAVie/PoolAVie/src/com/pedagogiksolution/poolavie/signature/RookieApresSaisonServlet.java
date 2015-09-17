@@ -62,7 +62,6 @@ public class RookieApresSaisonServlet extends HttpServlet {
 
 	case "confirmationRookieFin":
 	    String mPlayerIdForRachat = req.getParameter("playerId");
-	    String mCoutForRachat = req.getParameter("coutPourRachat");
 	    RookieApresSaison mClass = new RookieApresSaison();
 	    mClass.descendreRookie(mPlayerIdForRachat,req);
 	    resp.sendRedirect("/equipes");

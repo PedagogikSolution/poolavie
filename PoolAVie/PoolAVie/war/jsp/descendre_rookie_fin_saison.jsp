@@ -125,7 +125,7 @@ break;
 		<td>${players_list.years_3[i]}</td>		
 		<td>${players_list.years_4[i]}</td>		
 		<td>${players_list.years_5[i]}</td>
-		<td><form action="/rachat" method="post">
+		<td><form action="/rookieFin" method="post">
 		<input type="hidden" value="${players_list.player_id[i]}" name="player_id"/>
 		<input type="hidden" value="verifRookieFin" name="rookieFin_type"/>
 		<input type="submit" value="Descendre ce joueur">

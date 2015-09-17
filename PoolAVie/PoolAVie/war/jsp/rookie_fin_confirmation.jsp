@@ -107,14 +107,14 @@ break;
 		<p>Voulez-vous vraiment descendre ce joueur dans vos rookie, cela vous coutera 1 Millions de votre budget restant de la saison venant de se terminer</p>
 		
 		
-		<form action="/rachat" method="post">
+		<form action="/rookieFin" method="post">
 		<input type="hidden" value="confirmationRookieFin" name="rookieFin_type"/>
 		<input type="hidden" value="${codeConfirmation.joueurIdPourRachat}" name="playerId"/>
 		<input type="hidden" value="${codeConfirmation.coutDuRachat}" name="coutPourRachat"/>
 		<input type="submit" value="Oui">
 		</form>
 		
-		<form action="/rachat" method="post">
+		<form action="/rookieFin" method="post">
 		<input type="hidden" value="annulationRookieFin" name="rookieFin_type"/>
 		<input type="submit" value="Non">
 		</form>

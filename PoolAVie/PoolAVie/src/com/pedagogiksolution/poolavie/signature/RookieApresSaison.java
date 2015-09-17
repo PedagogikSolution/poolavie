@@ -149,13 +149,13 @@ public class RookieApresSaison {
     }
 
     public void descendreRookie(String mPlayerIdForRachat,HttpServletRequest req) {
-	String QueryA, QueryB, QueryC, QueryD;
+	String QueryA, QueryB, QueryC, QueryD,QueryE, QueryF,QueryG;
 	DatabaseConnector dbHelper = new DatabaseConnector();
 	Connection conn;
 	PreparedStatement mPreparedStatement;
 	ResultSet rs;
 	int salaire_matrice=0,pts = 0, proj = 0, take_proj = 0, salaire_contrat = 0, points, iPosition = 0, salaire_type_a = 0, salaire_type_b = 0, salaire_type_2 = 0, salaire_type_4 = 0, salaire_type_5 = 0;
-	int salaire_type_3 = 0;
+	int salaire_type_3 = 0,budgetRestant=0;
 	String position = "", years2 = null, years3 = null, years4 = null, years5 = null;
 
 	int players_id = Integer.parseInt(mPlayerIdForRachat);
@@ -172,7 +172,7 @@ public class RookieApresSaison {
 	    if (rs.next()) {
 		position = rs.getString("position");
 		pts = rs.getInt("pts");
-		proj = rs.getInt("proj");
+		proj = rs.getInt("projection");
 		take_proj = rs.getInt("take_proj");
 		salaire_contrat = rs.getInt("salaire_contrat");
 		years2 = rs.getString("years_2");
@@ -298,6 +298,7 @@ public class RookieApresSaison {
 		mPreparedStatement = conn.prepareStatement(QueryD);
 		mPreparedStatement.setString(1, "X");
 		mPreparedStatement.setInt(2, players_id);
+		 mPreparedStatement.executeUpdate();
 		mPreparedStatement.close();
 	    }
 
@@ -306,16 +307,53 @@ public class RookieApresSaison {
 		mPreparedStatement = conn.prepareStatement(QueryD);
 		mPreparedStatement.setString(1, "X");
 		mPreparedStatement.setInt(2, players_id);
+		 mPreparedStatement.executeUpdate();
 		mPreparedStatement.close();
 	    }
+	    
 
 	    if (salaire_type_5 == 0) {
 		QueryD = "UPDATE players SET years_5=? WHERE _id=?";
 		mPreparedStatement = conn.prepareStatement(QueryD);
 		mPreparedStatement.setString(1, "X");
 		mPreparedStatement.setInt(2, players_id);
+		 mPreparedStatement.executeUpdate();
 		mPreparedStatement.close();
 	    }
+	    
+	    String team_id_temp = (String) req.getSession().getAttribute("mTeamId");
+	    int iTeamId = Integer.parseInt(team_id_temp);
+	    
+	    QueryE = "UPDATE equipes SET budget_restant=budget_restant-? WHERE team_id=?";
+	    mPreparedStatement = conn.prepareStatement(QueryE);
+	    mPreparedStatement.setInt(1, 1000000);
+	    mPreparedStatement.setInt(2, iTeamId);
+	    mPreparedStatement.executeUpdate();
+	    mPreparedStatement.close();
+	    
+	    QueryF = "SELECT budget_restant FROM equipes WHERE team_id=?";
+	    QueryG = "UPDATE equipes SET argent_recu=argent_recu+?,budget_restant=0 WHERE team_id=?";
+
+	    
+	    mPreparedStatement = conn.prepareStatement(QueryF);
+	    mPreparedStatement.setInt(1, iTeamId);
+	    rs = mPreparedStatement.executeQuery();
+	    if (rs.next()) {
+		budgetRestant = rs.getInt("budget_restant");
+	    }
+	    rs.close();
+	    mPreparedStatement.close();
+
+	    if (budgetRestant < 0) {
+				
+		mPreparedStatement = conn.prepareStatement(QueryG);
+		mPreparedStatement.setInt(1, budgetRestant);
+		mPreparedStatement.setInt(2, iTeamId);
+		mPreparedStatement.executeUpdate();
+		mPreparedStatement.close();
+	    }
+	    
+	   
 
 	} catch (SQLException e) {
 	    // TODO Auto-generated catch block
