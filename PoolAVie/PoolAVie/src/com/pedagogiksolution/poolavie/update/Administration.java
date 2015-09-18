@@ -29,37 +29,36 @@ public class Administration {
 	    reinitialisationTableDraftRound();
 	    reinitialisationTableTradeMade();
 	} else {
-	    
+
 	}
 
     }
-    
+
     public void archivageJoueurs() {
 	Boolean dejaFaitJoueurs = testSiDejaFaitJoueur();
 	if (dejaFaitJoueurs) {
 	} else {
 	    insertionDansArchivesJoueurs();
 	}
-	
+
     }
-   
 
     public void vidageJoueurs() {
 	Boolean dejaFaitJoueurs = testSiDejaFaitJoueur();
 	if (dejaFaitJoueurs) {
-	    vidageJoueursFinDeSaison(); 
+	    vidageJoueursFinDeSaison();
 	} else {
-	    
+
 	}
-	
+
     }
-    
+
     public void update_take_proj() {
-	Statement mStatementA,mStatementB;
-	String QueryA,QueryB;
+	Statement mStatementA, mStatementB;
+	String QueryA, QueryB;
 	// ouverture de la connexion a la bdd
 	conn = mDbHelper.open();
-	
+
 	QueryA = "UPDATE players SET take_proj=0";
 	QueryB = "UPDATE players SET take_proj=1 WHERE pj<50";
 	try {
@@ -72,20 +71,133 @@ public class Administration {
 	} finally {
 	    mDbHelper.close(conn);
 	}
-	
-	
-	
+
     }
 
-  
+    public void resetBudget() {
+	updateEffectif();
+
+    }
 
     /**************************** Methode privée de la class *********************************************/
+
+
+    private void updateEffectif() {
+	PreparedStatement mStatementA;
+	ResultSet rs;
+	String QueryA, QueryB, QueryC, QueryD,QueryG;
+	int nb_attaquant = 0, nb_defenseur = 0, nb_gardien = 0, nb_rookie = 0, nb_contrat = 0, nb_equipe = 0, manquant_equipe = 0, manquant_att = 0, manquant_def = 0, manquant_gardien = 0, manquant_recrue = 0, total_salaire_now = 0;
+	// ouverture de la connexion a la bdd
+	conn = mDbHelper.open();
+	int i;
+	QueryA = "SELECT COUNT(_id) FROM players WHERE years_2>1 AND team_id=? AND position=? AND club_ecole=0";
+	QueryB = "SELECT COUNT(_id) FROM players WHERE years_2>1 AND team_id=? AND club_ecole=1";
+	QueryC = "SELECT sum(salaire_contrat) FROM players WHERE years_2>1 AND team_id=? AND club_ecole=0";
+	QueryD = "UPDATE equipes SET nb_attaquant=?,nb_defenseur=?,nb_gardien=?,nb_rookie=?,nb_contrat=?,"
+		+ "nb_equipe=?,manquant_equipe=?,manquant_att=?,manquant_def=?,manquant_gardien=?,"
+		+ "manquant_recrue=?,total_salaire_now=? WHERE team_id=?";
+	QueryG = "UPDATE equipes SET max_salaire_begin=52000000+argent_recu+bonus_penalite,budget_restant=max_salaire_begin-total_salaire_now,moy_sal_restant_draft=budget_restant/? WHERE team_id=?";
+
+	try {
+
+	    for (i = 0; i < 10; i++) {
+
+		mStatementA = conn.prepareStatement(QueryA);
+		mStatementA.setInt(1, i);
+		mStatementA.setString(2, "attaquant");
+		rs = mStatementA.executeQuery();
+		if (rs.next()) {
+		    nb_attaquant = rs.getInt(1);
+		}
+		rs.close();
+		mStatementA.close();
+
+		mStatementA = conn.prepareStatement(QueryA);
+		mStatementA.setInt(1, i);
+		mStatementA.setString(2, "defenseur");
+		rs = mStatementA.executeQuery();
+		if (rs.next()) {
+		    nb_defenseur = rs.getInt(1);
+		}
+		rs.close();
+		mStatementA.close();
+
+		mStatementA = conn.prepareStatement(QueryA);
+		mStatementA.setInt(1, i);
+		mStatementA.setString(2, "gardien");
+		rs = mStatementA.executeQuery();
+		if (rs.next()) {
+		    nb_gardien = rs.getInt(1);
+		}
+		rs.close();
+		mStatementA.close();
+
+		mStatementA = conn.prepareStatement(QueryB);
+		mStatementA.setInt(1, i);
+		rs = mStatementA.executeQuery();
+		if (rs.next()) {
+		    nb_rookie = rs.getInt(1);
+		}
+		rs.close();
+		mStatementA.close();
+
+		mStatementA = conn.prepareStatement(QueryC);
+		mStatementA.setInt(1, i);
+		rs = mStatementA.executeQuery();
+		if (rs.next()) {
+		    total_salaire_now = rs.getInt(1);
+		}
+		rs.close();
+		mStatementA.close();
+
+		nb_contrat = nb_attaquant + nb_defenseur + nb_gardien;
+		nb_equipe = nb_contrat;
+		manquant_equipe = 23 - nb_equipe;
+		manquant_att = 8 - nb_attaquant;
+		manquant_def = 5 - nb_defenseur;
+		manquant_gardien = 2 - nb_gardien;
+		manquant_recrue = 8 - nb_rookie;
+
+		mStatementA = conn.prepareStatement(QueryD);
+		mStatementA.setInt(1, nb_attaquant);
+		mStatementA.setInt(2, nb_defenseur);
+		mStatementA.setInt(3, nb_gardien);
+		mStatementA.setInt(4, nb_rookie);
+		mStatementA.setInt(5, nb_contrat);
+		mStatementA.setInt(6, nb_equipe);
+		mStatementA.setInt(7, manquant_equipe);
+		mStatementA.setInt(8, manquant_att);
+		mStatementA.setInt(9, manquant_def);
+		mStatementA.setInt(10, manquant_gardien);
+		mStatementA.setInt(11, manquant_recrue);
+		mStatementA.setInt(12, total_salaire_now);
+		mStatementA.setInt(13, i);
+		mStatementA.executeUpdate();
+		rs.close();
+		mStatementA.close();
+
+		mStatementA = conn.prepareStatement(QueryG);
+		mStatementA.setInt(1, manquant_equipe);
+		mStatementA.setInt(2, i);
+		mStatementA.executeUpdate();
+		mStatementA.close();
+		// fin de la boucle
+	    }
+
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	} finally {
+	    mDbHelper.close(conn);
+	}
+
+    }
+
     private void vidageJoueursFinDeSaison() {
 	Statement mStatementA;
 	String QueryA;
 	// ouverture de la connexion a la bdd
 	conn = mDbHelper.open();
-	
+
 	QueryA = "UPDATE players SET equipe=null,contrat=0,salaire_contrat=null,contrat_cours=null,contrat_max_years=null,type_contrat=null,club_ecole=null,years_1=null,years_2=null,years_3=null,years_4=null,years_5=null,team_id=null,projection=null WHERE years_2='X' OR years_2='JA'";
 	try {
 	    mStatementA = conn.createStatement();
@@ -95,8 +207,9 @@ public class Administration {
 	} finally {
 	    mDbHelper.close(conn);
 	}
-	
-      }
+
+    }
+
     private void insertionDansArchivesJoueurs() {
 	Statement mStatementA;
 	String QueryA;
@@ -112,9 +225,9 @@ public class Administration {
 	} finally {
 	    mDbHelper.close(conn);
 	}
-   	
-       }
-    
+
+    }
+
     private Boolean testSiDejaFaitJoueur() {
 	String QueryA;
 	Boolean testA = false;
@@ -134,7 +247,7 @@ public class Administration {
 	    if (rsA.next()) {
 		testA = true;
 	    }
-	    
+
 	    rsA.close();
 
 	} catch (SQLException e) {
@@ -148,7 +261,7 @@ public class Administration {
 	} else {
 	    return false;
 	}
-       }
+    }
 
     private void reinitialisationTableTradeMade() {
 	Statement mStatementA;
@@ -289,10 +402,6 @@ public class Administration {
 	}
 
     }
-
-    
-
-    
 
 // fin de la class
 }

@@ -55,7 +55,9 @@ public class AdminServlet extends HttpServlet {
 	case 5: administration.update_take_proj();
 		resp.sendRedirect("/admin");
 	    break;
-	case 6 :
+	case 6 : administration.resetBudget();
+		resp.sendRedirect("/admin");
+	
 	    break;
 	case 7:
 	    break;
