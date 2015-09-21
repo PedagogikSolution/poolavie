@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pedagogiksolution.poolavie.beans.Rachat;
+import com.pedagogiksolution.poolavie.beans.Signature;
 
 public class RookieApresSaisonServlet extends HttpServlet {
 
@@ -28,7 +28,7 @@ public class RookieApresSaisonServlet extends HttpServlet {
 	int mPlayerId;
 	String sPlayerId, sRachatType;
 	Boolean goodToGo = false;
-	Rachat mBean = new Rachat();
+	Signature mBean = new Signature();
 
 	sRachatType = req.getParameter("rookieFin_type");
 	
@@ -43,7 +43,7 @@ public class RookieApresSaisonServlet extends HttpServlet {
 
 		if (goodToGo) {
 		    mBean.setCodePourMessageConfirmation(1);
-		    mBean.setJoueurIdPourRachat(mPlayerId);
+		    mBean.setJoueurId(mPlayerId);
 		    req.setAttribute("codeConfirmation", mBean);
 		    req.getRequestDispatcher("/jsp/rookie_fin_confirmation.jsp").forward(req, resp);
 

@@ -56,7 +56,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Rachat de contrat fin de saison</title>
+<title>Rachat de contrat début de la nouvelle saison</title>
 <link rel="stylesheet" type="text/css" href="../css/main.css" />
 </head>
 <body>
@@ -101,13 +101,13 @@
 		<div id="main_content_title_classement">Rachat fin de saison</div>
 		<div id="main_content_table_classement">
 
+
 			<c:set var="longueur" value="${players_list.player_id}" />
 			<c:set var="nombre" value="${fn:length(longueur)}" />
 
 			<c:choose>
 
 				<c:when test="${nombre>0}">
-
 					<table>
 						<tr>
 							<th>Nom</th>
@@ -130,7 +130,7 @@
 								<td>${players_list.years_3[i]}</td>
 								<td>${players_list.years_4[i]}</td>
 								<td>${players_list.years_5[i]}</td>
-								<td><form action="/rachat" method="post">
+								<td><form action="/rachat2" method="post">
 										<input type="hidden" value="${players_list.player_id[i]}"
 											name="player_id" /> <input type="hidden" value="verifRachat"
 											name="rachat_type" /> <input type="submit"
@@ -144,8 +144,8 @@
 				Vous n'avez pas de jouers pouvant être racheté
 					
 				</c:otherwise>
-
-			</c:choose>
+				
+				</c:choose>
 		</div>
 		<div class="main_sidebar">
 			<div class="section_budget_haut">

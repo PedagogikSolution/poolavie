@@ -56,7 +56,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Rachat de contrat fin de saison</title>
+<title>Rachat de contrat début de la nouvelle saison</title>
 <link rel="stylesheet" type="text/css" href="../css/main.css" />
 </head>
 <body>
@@ -98,8 +98,9 @@
 
 	<div class="main_container">
 		<div class="main_content"></div>
-		<div id="main_content_title_classement">Rachat fin de saison</div>
+		<div id="main_content_title_classement">Signature des joueurs A et B</div>
 		<div id="main_content_table_classement">
+
 
 			<c:set var="longueur" value="${players_list.player_id}" />
 			<c:set var="nombre" value="${fn:length(longueur)}" />
@@ -107,45 +108,63 @@
 			<c:choose>
 
 				<c:when test="${nombre>0}">
-
+				
 					<table>
 						<tr>
 							<th>Nom</th>
 							<th>Équipe</th>
 							<th>Position</th>
+							<th>Salaire</th>
 							<th>Year 1</th>
 							<th>Year 2</th>
 							<th>Year 3</th>
 							<th>Year 4</th>
-							<th>Year 5</th>
-							<th>Rachat</th>
+							<th>Signé ce joueur</th>
 						</tr>
+						
 						<c:forEach var="i" begin="0" end="${fn:length(longueur)-1}">
+						
 							<tr>
 								<td>${players_list.nom[i]}</td>
 								<td>${players_list.team_name[i]}</td>
 								<td>${players_list.position[i]}</td>
-								<td>${players_list.years_1[i]}</td>
-								<td>${players_list.years_2[i]}</td>
-								<td>${players_list.years_3[i]}</td>
-								<td>${players_list.years_4[i]}</td>
-								<td>${players_list.years_5[i]}</td>
-								<td><form action="/rachat" method="post">
-										<input type="hidden" value="${players_list.player_id[i]}"
-											name="player_id" /> <input type="hidden" value="verifRachat"
-											name="rachat_type" /> <input type="submit"
-											value="Racheté ce joueur">
-									</form></td>
+								<td>${players_list.salaire[i]}</td>
+								<td>
+								
+								<c:if test = "${(players_list.years_1[i] == 'A') || (players_list.years_1[i] == 'B')}"><input form="signatureAbform${i}" type="radio" name="nombre_annee" value="1"></c:if>
+								</td>
+								<td>
+								<c:if test = "${(players_list.years_2[i] == 'A') || (players_list.years_2[i] == 'B')}"><input form="signatureAbform${i}" type="radio" name="nombre_annee" value="2"></c:if>
+								</td>
+								<td>
+								<c:if test = "${(players_list.years_3[i] == 'A') || (players_list.years_3[i] == 'B')}"><input form="signatureAbform${i}" type="radio" name="nombre_annee" value="3"></c:if>
+								</td>
+								<td>
+								<c:if test = "${(players_list.years_4[i] == 'A') || (players_list.years_4[i] == 'B')}"><input form="signatureAbform${i}" type="radio" name="nombre_annee" value="4"></c:if>
+								</td>
+								<td>	<form id="signatureAbform${i}" action="/signatureAB" method="post">
+										<input type="hidden" value="${players_list.nom[i]}" name="nom_du_joueur" />
+										<input type="hidden" value="${players_list.salaire[i]}" name="salaire" />
+										<input type="hidden" value="${players_list.position[i]}" name="position" />
+										<input type="hidden" value="${players_list.player_id[i]}" name="player_id" />
+										<input type="hidden" value="signatureABverif" name="signatureAB" />
+										<input type="submit" value="Signé ce joueur">
+										</form>
+								</td>
+								
 							</tr>
+								
 						</c:forEach>
+						
 					</table>
+					
 				</c:when>
 				<c:otherwise>
-				Vous n'avez pas de jouers pouvant être racheté
+				Vous n'avez pas de joueurs pouvant être signé avec un contrat de type A et B
 					
 				</c:otherwise>
-
-			</c:choose>
+				
+				</c:choose>
 		</div>
 		<div class="main_sidebar">
 			<div class="section_budget_haut">

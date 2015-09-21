@@ -13,13 +13,13 @@ import com.pedagogiksolution.poolavie.beans.Joueurs;
 import com.pedagogiksolution.poolavie.beans.Signature;
 import com.pedagogiksolution.poolavie.utils.DatabaseConnector;
 
-public class RachatApresSaison {
+public class RachatApresChangementAnnee {
 
 /*
  * ************************ Métier pour recuperer les possiblités de rachat lors de la premiere période de rachat a la
  * fin de la saison ***********
  */
-    public void preparationRachatApresSaison(HttpServletRequest req) {
+    public void preparationRachatChangementAnnee(HttpServletRequest req) {
 	String QueryA;
 	DatabaseConnector dbHelper = new DatabaseConnector();
 	Connection conn;
@@ -235,22 +235,19 @@ public class RachatApresSaison {
 	int players_id = Integer.parseInt(mPlayerIdForRachat);
 	int coutDuRachat = Integer.parseInt(mCoutForRachat);
 	int budgetRestant = 0;
+	int manquant_equipe = 0;
 
 	conn = dbHelper.open();
 
 	QueryA = "UPDATE players SET equipe=null,contrat=0,salaire_contrat=null,contrat_cours=null,contrat_max_years=null,type_contrat=null,club_ecole=null,years_1=null,years_2=null,years_3=null,years_4=null,years_5=null,team_id=null,projection=null WHERE _id=?";
-	QueryB = "UPDATE equipes SET budget_restant=budget_restant-? WHERE team_id=?";
-	QueryC = "SELECT budget_restant FROM equipes WHERE team_id=?";
+	QueryB = "UPDATE equipes SET budget_restant=budget_restant-?,moy_sal_restant_draft=budget_restant/? WHERE team_id=?";
+	QueryC = "SELECT budget_restant,manquant_equipe FROM equipes WHERE team_id=?";
 	QueryD = "UPDATE equipes SET argent_recu=argent_recu+?,budget_restant=0 WHERE team_id=?";
+	
 
 	try {
 	    mPreparedStatement = conn.prepareStatement(QueryA);
 	    mPreparedStatement.setInt(1, players_id);
-	    mPreparedStatement.executeUpdate();
-	    mPreparedStatement.close();
-	    mPreparedStatement = conn.prepareStatement(QueryB);
-	    mPreparedStatement.setInt(1, coutDuRachat);
-	    mPreparedStatement.setInt(2, iTeamId);
 	    mPreparedStatement.executeUpdate();
 	    mPreparedStatement.close();
 	    mPreparedStatement = conn.prepareStatement(QueryC);
@@ -258,9 +255,19 @@ public class RachatApresSaison {
 	    rs = mPreparedStatement.executeQuery();
 	    if (rs.next()) {
 		budgetRestant = rs.getInt("budget_restant");
+		manquant_equipe= rs.getInt("manquant_equipe");
 	    }
 	    rs.close();
 	    mPreparedStatement.close();
+	    mPreparedStatement = conn.prepareStatement(QueryB);
+	    mPreparedStatement.setInt(1, coutDuRachat);
+	    mPreparedStatement.setInt(2, manquant_equipe);
+	    mPreparedStatement.setInt(3, iTeamId);
+	    mPreparedStatement.executeUpdate();
+	    mPreparedStatement.close();
+	   
+	    
+	    
 
 	    if (budgetRestant < 0) {
 				

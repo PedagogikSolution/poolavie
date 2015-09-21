@@ -18,6 +18,8 @@ public class Joueurs implements Serializable{
     private List<String> years_3;
     private List<String> years_4;
     private List<String> years_5;
+    private List<Integer> salaire;
+    private List<Integer> number_years_max;
     
     
     
@@ -74,6 +76,18 @@ public class Joueurs implements Serializable{
     }
     public void setYears_5(List<String> years_5) {
 	this.years_5 = years_5;
+    }
+    public List<Integer> getSalaire() {
+	return salaire;
+    }
+    public void setSalaire(List<Integer> salaire) {
+	this.salaire = salaire;
+    }
+    public List<Integer> getNumber_years_max() {
+	return number_years_max;
+    }
+    public void setNumber_years_max(List<Integer> number_years_max) {
+	this.number_years_max = number_years_max;
     }
 
 }

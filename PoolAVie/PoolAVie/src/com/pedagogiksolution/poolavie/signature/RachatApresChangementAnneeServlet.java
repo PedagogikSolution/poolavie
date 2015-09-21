@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.poolavie.beans.Signature;
 
-public class RachatApresSaisonServlet extends HttpServlet {
+public class RachatApresChangementAnneeServlet extends HttpServlet {
 
     /**
      * 
@@ -38,32 +38,32 @@ public class RachatApresSaisonServlet extends HttpServlet {
 	    sPlayerId = req.getParameter("player_id");
 	    if (sPlayerId != null) {
 		mPlayerId = Integer.parseInt(sPlayerId);
-		RachatApresSaison mClass = new RachatApresSaison();
+		RachatApresChangementAnnee mClass = new RachatApresChangementAnnee();
 		goodToGo = mClass.verifierSiArgent(req,mPlayerId,mBean);
 
 		if (goodToGo) {
 		    mBean.setCodePourMessageConfirmation(1);
 		    mBean.setJoueurId(mPlayerId);
 		    req.setAttribute("codeConfirmation", mBean);
-		    req.getRequestDispatcher("/jsp/rachat_confirmation.jsp").forward(req, resp);
+		    req.getRequestDispatcher("/jsp/rachat2_confirmation.jsp").forward(req, resp);
 
 		} else {
 		    mBean.setCodePourMessageConfirmation(2);
 		    req.setAttribute("codeConfirmation", mBean);
-		    req.getRequestDispatcher("/jsp/rachat_confirmation.jsp").forward(req, resp);
+		    req.getRequestDispatcher("/jsp/rachat2_confirmation.jsp").forward(req, resp);
 		}
 
 	    } else {
 		mBean.setCodePourMessageConfirmation(3);
 		req.setAttribute("codeConfirmation", mBean);
-		req.getRequestDispatcher("/jsp/rachat_confirmation.jsp").forward(req, resp);
+		req.getRequestDispatcher("/jsp/rachat2_confirmation.jsp").forward(req, resp);
 	    }
 	    break;
 
 	case "confirmationRachat":
 	    String mPlayerIdForRachat = req.getParameter("playerId");
 	    String mCoutForRachat = req.getParameter("coutPourRachat");
-	    RachatApresSaison mClass = new RachatApresSaison();
+	    RachatApresChangementAnnee mClass = new RachatApresChangementAnnee();
 	    mClass.racheterCeJoueur(mPlayerIdForRachat,mCoutForRachat,req);
 	    resp.sendRedirect("/equipes");
 	    break;

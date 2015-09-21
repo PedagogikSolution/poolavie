@@ -47,9 +47,13 @@ public class SignatureServlet extends HttpServlet {
 	    mClass.preparationRookieApresSaison(req);	    
 	    req.getRequestDispatcher("/jsp/descendre_rookie_fin_saison.jsp").forward(req,resp);
 	} else if (today.after(start3) && today.before(finish3)) {
-	    req.getRequestDispatcher("/jsp/rachat_after_signature.jsp").forward(req,resp);
+	    RachatApresChangementAnnee mClass = new RachatApresChangementAnnee();
+	    mClass.preparationRachatChangementAnnee(req);
+	    req.getRequestDispatcher("/jsp/rachat_debut_saison.jsp").forward(req,resp);
 	} else if (today.after(start4) && today.before(finish4)) {
-	    req.getRequestDispatcher("/jsp/rachat_after_trade.jsp").forward(req,resp);
+	    SignatureAB mClass = new SignatureAB();
+	    mClass.preparationSignatureAB(req);
+	    req.getRequestDispatcher("/jsp/signature_ab.jsp").forward(req,resp);
 	} else if (today.after(start5) && today.before(finish5)) {
 	    req.getRequestDispatcher("/jsp/drop_upgrade_rookie.jsp").forward(req,resp);
 	} else if (today.after(start6) && today.before(finish6)){
@@ -68,8 +72,8 @@ public class SignatureServlet extends HttpServlet {
 	String date_start2 = "18-09-2015";
 	String date_finish2 = "19-09-2015";
 	String date_start3 = "19-09-2015";
-	String date_finish3 = "20-09-2015";
-	String date_start4 = "20-09-2015";
+	String date_finish3 = "21-09-2015";
+	String date_start4 = "21-09-2015";
 	String date_finish4 = "25-09-2015";
 	String date_start5 = "25-09-2015";
 	String date_finish5 = "30-09-2015";

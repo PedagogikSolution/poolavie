@@ -1,7 +1,8 @@
 <%@ page language="java" import="java.sql.*"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ page isELIgnored ="false" %>
 <%
-ResultSet rs2 = (ResultSet) request.getAttribute("all_possible_signature");
 String teamId2 = session.getAttribute("mTeamId").toString();
 int teamId = Integer.parseInt(teamId2);
 String mLogoId = null;
@@ -51,11 +52,11 @@ break;
 
 }
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Welcome page</title>
+<title>Rachat de contrat fin de saison</title>
 <link rel="stylesheet" type="text/css" href="../css/main.css" />
 </head>
 <body>
@@ -97,33 +98,37 @@ break;
 
 	<div class="main_container">
 		<div class="main_content"></div>
-		<div id="main_content_title_classement">MY SIGNATURE AFTER DRAFT</div>
+		<div id="main_content_title_classement">Rachat fin de saison</div>
 		<div id="main_content_table_classement">
-		
-		AUCUNE ACTION POSSIBLE SUR VOTRE ÉQUIPE À CETTE DATE
-		<br>
-		Calendrier des actions 2015-2016 :
-		<br>12 au 15 septembre : Période de rachat de contrat avec argent restant de l'année dernière avec moitié prix des année restante en comptant l'année 2014-2015.
-		 De plus, durant cette période, vous pouvez descendre un joueur de votre club ferme dans votre club école pour le coût de 1 Millions.
-		 Si le joueur descendu est un joueur B, il sera augmenter de 1 Millions dans son salaire conformément au règle des J/A obtenu.
-		<br>19 septembre : fin de la saison 2014-2015. Reset des finances des équipes. Mise à jour des salaires des joueurs avec projections pour les moins de 50 et recrues.
-		<br>19 septembre : Début de la saison 2015-2016.
-		<br>22 au 24 septembre : Période de signature des joueurs en renouvellement de contrat ou recu via échange (A et B pour année).
-		<br>24 au 27 septembre : Période d'échange d'été
-		<br>29 au 30 septembre : rachat après échange 
-		<br>1 octobre au 5 octobre : monter ou dropper les recrues
-		<br>
-		
 	
-		</div>
-		<div class="main_sidebar">
+	    <c:if test="${codeConfirmation.codePourMessageConfirmation==1}">	
+	    <br>
+	    
+		<p>Voulez-vous vraiment racheter ${codeConfirmation.nomDuJoueurRachat} au cout de ${codeConfirmation.coutDuRachat}</p>
 		
 		
+		<form action="/rachat2" method="post">
+		<input type="hidden" value="confirmationRachat" name="rachat_type"/>
+		<input type="hidden" value="${codeConfirmation.joueurIdPourRachat}" name="playerId"/>
+		<input type="hidden" value="${codeConfirmation.coutDuRachat}" name="coutPourRachat"/>
+		<input type="submit" value="Oui">
+		</form>
+		
+		<form action="/rachat2" method="post">
+		<input type="hidden" value="annulationRachat" name="rachat_type"/>
+		<input type="submit" value="Non">
+		</form>
+		</c:if>
+		
+		<c:if test="${codeConfirmation.codePourMessageConfirmation==2}">
+		Tu n'a pas assez d'argent Ostie de pauvre
+		</c:if>
+		
+		<c:if test="${codeConfirmation.codePourMessageConfirmation==3}">
+		Qu'est-ce que tu as fais encore le Noob!!! remet ton ordinateur dans sa boîte et retourne le au magasin. Tu diras que tes trop con pour avoir un ordi!
+		</c:if>
+		
 		</div>
-
-
-
-
 		<!-- fin du main container -->
 	</div>
 

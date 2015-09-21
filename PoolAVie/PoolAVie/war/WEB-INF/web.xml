@@ -370,6 +370,24 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet-mapping>
 	
 	<servlet>
+		<servlet-name>rachat2</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.signature.RachatApresChangementAnneeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>rachat2</servlet-name>
+		<url-pattern>/rachat2</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>signatureAB</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.signature.SignatureABServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>signatureAB</servlet-name>
+		<url-pattern>/signatureAB</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<servlet-name>rookieFin</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.signature.RookieApresSaisonServlet</servlet-class>
 	</servlet>

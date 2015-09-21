@@ -10,7 +10,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.pedagogiksolution.poolavie.beans.Joueurs;
-import com.pedagogiksolution.poolavie.beans.Rachat;
+import com.pedagogiksolution.poolavie.beans.Signature;
 import com.pedagogiksolution.poolavie.utils.DatabaseConnector;
 
 public class RookieApresSaison {
@@ -99,7 +99,7 @@ public class RookieApresSaison {
     }
 
     public Boolean verifierSiArgent(HttpServletRequest req, int mPlayerId,
-	    Rachat mBean) {
+	    Signature mBean) {
 	int coutPourDescendre = 1000000;
 	String QueryB;
 	DatabaseConnector dbHelper = new DatabaseConnector();
@@ -118,7 +118,7 @@ public class RookieApresSaison {
 
 	try {
 
-	    mBean.setCoutDuRachat(coutPourDescendre);
+	    mBean.setMontant(coutPourDescendre);
 
 	    mPreparedStatement = conn.prepareStatement(QueryB);
 	    mPreparedStatement.setInt(1, iTeamId);

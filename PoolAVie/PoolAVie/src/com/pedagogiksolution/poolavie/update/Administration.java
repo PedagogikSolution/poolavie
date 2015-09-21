@@ -76,10 +76,30 @@ public class Administration {
 
     public void resetBudget() {
 	updateEffectif();
+	resetYears();
 
     }
 
+    
+
     /**************************** Methode privée de la class *********************************************/
+    
+    private void resetYears() {
+	Statement mStatementA;
+	String QueryA;
+	conn = mDbHelper.open();
+	
+	QueryA = "UPDATE players SET years_1=years_2,years_2=years_3,years_3=years_4,years_4=years_5,years_5='X'";
+	
+	try {
+	    mStatementA = conn.createStatement();
+	    mStatementA.executeUpdate(QueryA);
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	} finally {
+	    mDbHelper.close(conn);
+	}
+    }
 
 
     private void updateEffectif() {
@@ -96,7 +116,7 @@ public class Administration {
 	QueryD = "UPDATE equipes SET nb_attaquant=?,nb_defenseur=?,nb_gardien=?,nb_rookie=?,nb_contrat=?,"
 		+ "nb_equipe=?,manquant_equipe=?,manquant_att=?,manquant_def=?,manquant_gardien=?,"
 		+ "manquant_recrue=?,total_salaire_now=? WHERE team_id=?";
-	QueryG = "UPDATE equipes SET max_salaire_begin=52000000+argent_recu+bonus_penalite,budget_restant=max_salaire_begin-total_salaire_now,moy_sal_restant_draft=budget_restant/? WHERE team_id=?";
+	QueryG = "UPDATE equipes SET max_salaire_begin=52000000+argent_recu+bonus_penalite,budget_restant=max_salaire_begin-total_salaire_now,moy_sal_restant_draft=budget_restant/?,argent_recu=0,bonus_penalite=0 WHERE team_id=?";
 
 	try {
 
