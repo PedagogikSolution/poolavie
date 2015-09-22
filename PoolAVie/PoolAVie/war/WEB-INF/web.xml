@@ -242,8 +242,17 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet-mapping>
 	
 	<servlet>
-		<servlet-name>trade</servlet-name>
+		<servlet-name>trade_received</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.trade.ReceivedTradeOfferServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>trade_received</servlet-name>
+		<url-pattern>/trade_received</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>trade</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.trade.TradeServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>trade</servlet-name>

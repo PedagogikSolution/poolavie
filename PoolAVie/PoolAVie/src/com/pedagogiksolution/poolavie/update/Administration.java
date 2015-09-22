@@ -79,6 +79,30 @@ public class Administration {
 	resetYears();
 
     }
+    
+    public void dropJoueurAB() {
+   	Statement mStatementA;
+   	String QueryA;
+   	
+   	conn = mDbHelper.open();
+   	
+   	QueryA = "UPDATE players SET equipe=null,contrat=0,salaire_contrat=null,contrat_cours=null,contrat_max_years=null," +
+   			"type_contrat=null,club_ecole=null,years_1=null,years_2=null,years_3=null,years_4=null,years_5=null," +
+   			"team_id=null,projection=null WHERE years_2='A' OR years_2='B'";
+	
+   	
+   	try {
+	    mStatementA = conn.createStatement();
+	    mStatementA.executeUpdate(QueryA);
+	    mStatementA.close();
+	 
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	} finally {
+	    mDbHelper.close(conn);
+	}
+   	
+       }
 
     
 
@@ -422,6 +446,8 @@ public class Administration {
 	}
 
     }
+
+   
 
 // fin de la class
 }

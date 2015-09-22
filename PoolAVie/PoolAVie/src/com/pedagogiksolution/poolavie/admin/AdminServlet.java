@@ -59,7 +59,8 @@ public class AdminServlet extends HttpServlet {
 		resp.sendRedirect("/admin");
 	
 	    break;
-	case 7:
+	case 7:  administration.dropJoueurAB();
+		resp.sendRedirect("/admin");
 	    break;
 	case 8 :
 	    break;    

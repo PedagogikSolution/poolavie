@@ -210,7 +210,7 @@ public class SignatureAB {
 	Connection conn;
 	PreparedStatement mPreparedStatement;
 	ResultSet rs;
-	int budget_restant = 0, manquant_equipe = 0;
+	int budget_restant = 0, manquant_equipe = 0, nombre_contrat=0;
 
 	String team_id_temp = (String) req.getSession().getAttribute("mTeamId");
 	int iTeamId = Integer.parseInt(team_id_temp);
@@ -227,6 +227,7 @@ public class SignatureAB {
 	    if(rs.next()){
 	    budget_restant = rs.getInt("budget_restant");
 	    manquant_equipe = rs.getInt("manquant_equipe");
+	    nombre_contrat = rs.getInt("nb_contrat");
 	    }
 	    rs.close();
 	    mPreparedStatement.close();
@@ -239,7 +240,7 @@ public class SignatureAB {
 
 	int moyenne = (budget_restant - mSalaire) / (manquant_equipe - 1);
 
-	if (moyenne >= 1000000) {
+	if ((moyenne >= 1000000) && (nombre_contrat<12) ) {
 	    mBean.setMoyenne(moyenne);
 	    return true;
 	} else {

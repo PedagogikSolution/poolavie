@@ -75,7 +75,7 @@ public class SignatureABServlet extends HttpServlet {
 
 		} else {
 		    mBean.setCodePourMessageConfirmation(2);
-		    req.setAttribute("codeConfirmation", mBean);
+		    req.setAttribute("information_signature", mBean);
 		    req.getRequestDispatcher("/jsp/signature_ab_confirmation.jsp").forward(req, resp);
 		}
 

@@ -1,4 +1,7 @@
 <%@ page language="java" import="java.sql.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ page isELIgnored ="false" %>
 
 <%
 	String teamId2 = session.getAttribute("mTeamId").toString();
@@ -100,8 +103,10 @@
 		<button class="btn_menu">Admin</button>
 	</div>
 	<div class="trade_menu">
+	<c:if test="${sessionScope.periode_echange_ouverte==1}">
 		<a href="/trade"><button class="btn_menu_trade">RECEIVED</button></a>
 		<a href="/make_offer"><button class="btn_menu_trade">MAKE ONE</button></a>
+		</c:if>
 		<a href="/my_trade"><button class="btn_menu_trade">MY TRADE</button></a>
 		<a href="/all_trade"><button class="btn_menu_trade">ALL	TRADE</button></a>
 	</div>

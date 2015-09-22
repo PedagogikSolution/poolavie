@@ -98,7 +98,7 @@ break;
 
 	<div class="main_container">
 		<div class="main_content"></div>
-		<div id="main_content_title_classement">Rachat fin de saison</div>
+		<div id="main_content_title_classement">Signature</div>
 		<div id="main_content_table_classement">
 	
 	    <c:if test="${information_signature.codePourMessageConfirmation==1}">	
@@ -124,7 +124,7 @@ break;
 		</c:if>
 		
 		<c:if test="${information_signature.codePourMessageConfirmation==2}">
-		Tu n'a pas assez d'argent Ostie de pauvre
+		Tu n'a pas assez d'argent Ostie de pauvre ou tu as trop de contrat
 		</c:if>
 		
 		

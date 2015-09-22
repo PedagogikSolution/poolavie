@@ -1,4 +1,7 @@
 <%@ page language="java" import="java.sql.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ page isELIgnored ="false" %>
 
 <%
 	String teamId2 = session.getAttribute("mTeamId").toString();
@@ -51,8 +54,7 @@
 	}
 	
 	
-	
-	ResultSet rs = (ResultSet) request.getAttribute("my_offer");	
+
 	
 %>
 <!DOCTYPE html>
@@ -96,8 +98,10 @@
 		<button class="btn_menu">Admin</button>
 	</div>
 	<div class="trade_menu">
+	    <c:if test="${periode_echange_ouverte==1}">
 		<a href="/trade"><button class="btn_menu_trade">RECEIVED</button></a>
 		<a href="/make_offer"><button class="btn_menu_trade">MAKE ONE</button></a>
+		</c:if>
 		<a href="/my_trade"><button class="btn_menu_trade">MY TRADE</button></a>
 		<a href="/all_trade"><button class="btn_menu_trade">ALL	TRADE</button></a>
 	</div>
@@ -107,60 +111,14 @@
 	<div class="main_container">
 		<div class="main_content">
 			<div id="main_content_title_classement">
-			LA LISTE DES OFFRES QUE J'AI REÇU
+			ALL TRADE PAGE
 			
 			
 			</div>
 			
 			<div id="main_content_table_classement">
-			<table>
-			<tr>
-			<th>offre #</th>
-			<th>équipe</th>
-			<th>détail</th>		
 			
-			</tr>
-			
-			<% while (rs.next())  {
-			String team_name=null;
-			int trade_id = rs.getInt("_id");
-			String team_that_make_offer = rs.getString("team_1");
-			int team_that_make_offer2 = Integer.parseInt(team_that_make_offer);
-			switch (team_that_make_offer2) {
-			case 0: team_name="Los Angeles";
-				break;
-			case 1: team_name="Detroit";
-			break;
-			case 2: team_name="Montréal";
-			break;
-			case 3: team_name="Chicago";
-			break;
-			case 4: team_name="New York";
-			break;
-			case 5: team_name="Philadelphie";
-			break;
-			case 6: team_name="Toronto";
-			break;
-			case 7: team_name="St-Louis";
-			break;
-			case 8: team_name="Boston";
-			break;
-			case 9: team_name="Pittsburgh";
-			break;
-			}
-				
-			%>
-			<tr>
-			<td><%=trade_id %></td>
-			<td><%=team_name %></td>
-			<td><a href="/detail_trade_complete?trade_id=<%=trade_id %>"><button>voir détail</button></a></td>
-			
-			
-			</tr>
-			
-			<% }	%>
-			
-			</table>
+		
 			
 			
 		</div>	
