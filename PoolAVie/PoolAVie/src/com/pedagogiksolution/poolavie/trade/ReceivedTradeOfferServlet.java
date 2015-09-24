@@ -8,8 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ReceivedTradeOfferServlet extends HttpServlet {
+import com.pedagogiksolution.poolavie.beans.TradeBeans;
 
+public class ReceivedTradeOfferServlet extends HttpServlet {
+    	TradeBeans mBean = new TradeBeans();
 	/**
 	 * 
 	 */
@@ -18,19 +20,19 @@ public class ReceivedTradeOfferServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
-		ResultSet rs;
-		/* récupérer les trades offers du DG connecté */
-		
-		
-		String team_that_trade_string = (String) req.getSession().getAttribute("mTeamId");
-		int team_that_trade = Integer.parseInt(team_that_trade_string);
-		RecuperationMyOffer recupOffer = new RecuperationMyOffer();
-		rs = recupOffer.recuperationOfferToMe(team_that_trade);
-		req.setAttribute("my_offer", rs);
-		
-		
-		req.getRequestDispatcher("/jsp/received_offer.jsp").forward(req, resp);
+	    
+	    	TradeModel mClass = new TradeModel();
+	    	boolean isThereAOfferForMe = mClass.isThereAOfferForMe(req);
+	    	
+	    	if(isThereAOfferForMe){
+	    	mBean.setIsThereAOfferForMe(1);
+	    	req.setAttribute("beanTrade", mBean);
+	    	req.getRequestDispatcher("/jsp/received_offer.jsp").forward(req, resp); 
+	    	} else {
+	    	mBean.setIsThereAOfferForMe(0);
+	    	req.setAttribute("beanTrade", mBean);
+	    	req.getRequestDispatcher("/jsp/received_offer.jsp").forward(req, resp);   
+	    	}
 		
 	}
 

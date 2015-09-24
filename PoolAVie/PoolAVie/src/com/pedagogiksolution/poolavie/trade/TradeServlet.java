@@ -34,19 +34,19 @@ public class TradeServlet extends HttpServlet {
 
 	if (today.after(start1) && today.before(finish1)) {
 	    req.getSession().setAttribute("periode_echange_ouverte", "1");
-	    req.getRequestDispatcher("/jsp/received_offer.jsp").forward(req,resp);
+	    resp.sendRedirect("/trade_received");
 	} else if (today.after(start2) && today.before(finish2)) {
 	    req.getSession().setAttribute("periode_echange_ouverte", "1");
-	    req.getRequestDispatcher("/jsp/received_offer.jsp").forward(req,resp);
+	    resp.sendRedirect("/trade_received");
 	} else if (today.after(start3) && today.before(finish3)) {
 	    req.getSession().setAttribute("periode_echange_ouverte", "1");
-	    req.getRequestDispatcher("/jsp/received_offer.jsp").forward(req,resp);
+	    resp.sendRedirect("/trade_received");
 	} else if (today.after(start4) && today.before(finish4)) {
 	    req.getSession().setAttribute("periode_echange_ouverte", "1");
-	    req.getRequestDispatcher("/jsp/received_offer.jsp").forward(req,resp);
+	    resp.sendRedirect("/trade_received");
 	} else {
 	    req.getSession().setAttribute("periode_echange_ouverte", "0");
-	    req.getRequestDispatcher("/jsp/all_trade.jsp").forward(req,resp);
+	    resp.sendRedirect("/all_trade");
 	}
 
 	
@@ -54,7 +54,7 @@ public class TradeServlet extends HttpServlet {
     }
 /* ******************************* methode prive  *****************************/
     private void initialisationDate() {
-	String date_start1 = "25-09-2015";
+	String date_start1 = "22-09-2015";
 	String date_finish1 = "30-09-2015";
 	String date_start2 = "10-12-2015";
 	String date_finish2 = "10-12-2015";

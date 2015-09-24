@@ -100,7 +100,7 @@
 	</div>
 	<div class="trade_menu">
 		<c:if test="${periode_echange_ouverte==1}">
-		<a href="/trade"><button class="btn_menu_trade">RECEIVED</button></a>
+		<a href="/trade_received"><button class="btn_menu_trade">RECEIVED</button></a>
 		<a href="/make_offer"><button class="btn_menu_trade">MAKE ONE</button></a>
 		</c:if>
 		<a href="/my_trade"><button class="btn_menu_trade">MY TRADE</button></a>
@@ -112,64 +112,23 @@
 	<div class="main_container">
 		<div class="main_content">
 			<div id="main_content_title_classement">
-			LA LISTE DES OFFRES QUE J'AI REÇU
+			
+			SECTION DES OFFRES QUE J'AI RECU
 			
 			
 			</div>
 			
 			<div id="main_content_table_classement">
-			<table>
-			<tr>
-			<th>offre #</th>
-			<th>équipe</th>
-			<th>refuser</th>
-			<th>détail</th>		
-			<th>accepter</th>
-			</tr>
-			
-			<% while (rs.next())  {
-			String team_name=null;
-			int trade_id = rs.getInt("_id");
-			String team_that_make_offer = rs.getString("team_1");
-			int team_that_make_offer2 = Integer.parseInt(team_that_make_offer);
-			switch (team_that_make_offer2) {
-			case 0: team_name="Los Angeles";
-				break;
-			case 1: team_name="Detroit";
-			break;
-			case 2: team_name="Montréal";
-			break;
-			case 3: team_name="Chicago";
-			break;
-			case 4: team_name="New York";
-			break;
-			case 5: team_name="Philadelphie";
-			break;
-			case 6: team_name="Toronto";
-			break;
-			case 7: team_name="St-Louis";
-			break;
-			case 8: team_name="Boston";
-			break;
-			case 9: team_name="Pittsburgh";
-			break;
-			}
-				
-			%>
-			<tr>
-			<td><%=trade_id %></td>
-			<td><%=team_name %></td>
-			<td><a href="/cancel_offre_trade?trade_id=<%=trade_id %>"><button>annuler cette transaction</button></a></td>
-			<td><a href="/detail_offre_trade_received?trade_id=<%=trade_id %>"><button>voir détail</button></a></td>
-			<td><a href="/accepter_offre_trade?trade_id=<%=trade_id %>"><button>Accepter cette transaction</button></a></td>
-			
-			</tr>
-			
-			<% }	%>
-			
-			</table>
 			
 			
+			<c:if test="${beanTrade.isThereAOfferForMe==0}">
+			Tu n'as aucune offre pour le moment. Trouve toi des amis 
+			</c:if>
+			
+			<c:if test="${beanTrade.isThereAOfferForMe==1}">
+			LA LISTE DES OFFRES QUE J'AI REÇU 
+			
+			</c:if>
 		</div>	
 			
 			
