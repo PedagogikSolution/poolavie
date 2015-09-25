@@ -99,7 +99,7 @@
 	<c:if test="${sessionScope.periode_echange_ouverte==1}">
 		<a href="/trade"><button class="btn_menu_trade">RECEIVED</button></a>
 		<a href="/make_offer"><button class="btn_menu_trade">MAKE ONE</button></a>
-		</c:if>
+	</c:if>
 		<a href="/my_trade"><button class="btn_menu_trade">MY TRADE</button></a>
 		<a href="/all_trade"><button class="btn_menu_trade">ALL	TRADE</button></a>
 	</div>
@@ -121,6 +121,10 @@
 			<p style="color:red">(VOUS AVEZ TENTÉ DE FAIRE UN ÉCHANGE AVEC VOUS-MÊME!!!CONNARD)</p>	
 			</c:if>
 			
+			<c:if test="${messageErreur.codeErreurOffreTrade==7}">
+			<h1 style="color:red"><strong>Vous ne pouvez pas faire un échange ne contenant pas de joueur ou échanger de l'Argent contre de l'argent</strong></h1>
+			</c:if>
+				
 			
 			<br>
 			<br>
@@ -152,6 +156,7 @@
 			<input type="radio" name="team_to_trade" value="9">Pittsburgh
 			<br>
 			<br>
+			<input type="hidden" value="getTeam" name="etape">
 			<input type="submit" value="Faire une offre à cette équipe">
 			<br>
 			</form>

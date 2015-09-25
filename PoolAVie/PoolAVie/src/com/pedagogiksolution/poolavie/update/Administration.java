@@ -88,7 +88,7 @@ public class Administration {
    	
    	QueryA = "UPDATE players SET equipe=null,contrat=0,salaire_contrat=null,contrat_cours=null,contrat_max_years=null," +
    			"type_contrat=null,club_ecole=null,years_1=null,years_2=null,years_3=null,years_4=null,years_5=null," +
-   			"team_id=null,projection=null WHERE years_2='A' OR years_2='B'";
+   			"team_id=null,projection=null WHERE years_1='A' OR years_1='B'";
 	
    	
    	try {

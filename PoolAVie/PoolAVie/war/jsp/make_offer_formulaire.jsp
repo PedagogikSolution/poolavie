@@ -107,10 +107,14 @@
 	<hr class="hr_header">
 
 	<div class="main_container">
-
+		
+	
+		<form action="/make_offer" method="post">
+		<input type="hidden" value="need_confirm" name="etape">
+		<input type="hidden" value="${teamReceivingOffer.teamReceivingOfferId}" name="teamReceivingOfferId">
+		<input type="hidden" value="${teamMakingOffer.teamMakingOfferId}" name="teamMakingOfferId">
 		<c:set var="longueur" value="${teamMakingOffer.player_id}" />
-		<h1>Ce que je trade</h1>
-		<br>
+		<h1><u>Ce que je trade</u></h1>
 		<h2>Attaquant</h2>
 		<table>
 			<tr>
@@ -135,7 +139,7 @@
 						<td>${teamMakingOffer.years_3[i]}</td>
 						<td>${teamMakingOffer.years_4[i]}</td>
 						<td>${teamMakingOffer.years_5[i]}</td>
-						<td><input type="checkbox" name="players_id" value="${players_list.player_id[i]}">Inclus</td>
+						<td><input type="checkbox" name="players_id_my_team" value="${players_list.player_id[i]}">Inclus</td>
 					</tr>
 				</c:if>
 			</c:forEach>
@@ -165,7 +169,7 @@
 						<td>${teamMakingOffer.years_3[i]}</td>
 						<td>${teamMakingOffer.years_4[i]}</td>
 						<td>${teamMakingOffer.years_5[i]}</td>
-						<td><input type="checkbox" name="players_id" value="${players_list.player_id[i]}">Inclus</td>
+						<td><input type="checkbox" name="players_id_my_team" value="${players_list.player_id[i]}">Inclus</td>
 					</tr>
 				</c:if>
 			</c:forEach>
@@ -195,7 +199,7 @@
 						<td>${teamMakingOffer.years_3[i]}</td>
 						<td>${teamMakingOffer.years_4[i]}</td>
 						<td>${teamMakingOffer.years_5[i]}</td>
-						<td><input type="checkbox" name="players_id" value="${players_list.player_id[i]}">Inclus</td>
+						<td><input type="checkbox" name="players_id_my_team" value="${players_list.player_id[i]}">Inclus</td>
 					</tr>
 				</c:if>
 			</c:forEach>
@@ -225,7 +229,54 @@
 						<td>${teamMakingOffer.years_3[i]}</td>
 						<td>${teamMakingOffer.years_4[i]}</td>
 						<td>${teamMakingOffer.years_5[i]}</td>
-						<td><input type="checkbox" name="players_id" value="${players_list.player_id[i]}">Inclus</td>
+						<td><input type="checkbox" name="players_id_my_team" value="${players_list.player_id[i]}">Inclus</td>
+					</tr>
+				</c:if>
+			</c:forEach>
+		</table>
+		<br>
+		<br>
+		<table>
+		<tr>
+		<th>Montant à donner dans l'échange</th>
+		<th>Inclure</th>		
+		</tr>		
+		<tr>
+		<td>0</td>
+		<td><input type="radio" name="cash_trade_by" value="0" checked></td>				
+		</tr>		
+		<tr>
+		<td>500 000</td>
+		<td><input type="radio" name="cash_trade_by" value="500000"></td>			
+		</tr>
+		<tr>
+		<td>1 000 000</td>	
+		<td><input type="radio" name="cash_trade_by" value="1000000"></td>			
+		</tr>
+		<tr>
+		<td>1 500 000</td>
+		<td><input type="radio" name="cash_trade_by" value="1500000"></td>				
+		</tr>
+		<tr>
+		<td>2 000 000</td>
+		<td><input type="radio" name="cash_trade_by" value="2000000"></td>				
+		</tr>
+		</table>
+		<br>
+		<h2>Mes draft pick que je donne</h2>
+		<c:set var="longueur_draft_bean" value="${draft_pick_for_exchange.draft_id}" />
+		<table>
+			<tr>
+				<th>Round</th>
+				<th>Provient de</th>
+				<th>Inclure dans l'échange</th>
+			</tr>
+			<c:forEach var="i" begin="0" end="${fn:length(longueur_draft_bean)-1}">
+				<c:if test="${draft_pick_for_exchange.role_echange[i]==1 }">
+					<tr>
+						<td>${draft_pick_for_exchange.round[i]}</td>
+						<td>${draft_pick_for_exchange.from[i]}</td>
+						<td><input type="checkbox" name="draft_pick_my_team" value="${draft_pick_for_exchange.draft_id[i]}">Inclus</td>
 					</tr>
 				</c:if>
 			</c:forEach>
@@ -233,11 +284,14 @@
 		<br>
 		
 		<hr class="hr_header">
+		<hr class="hr_header">
+		
+		<br>
+		
 		
 		<c:set var="longueur2" value="${teamReceivingOffer.player_id}" />
 		
-		<h1>Ce que je veux recevoir</h1>
-		<br>
+		<h1><u>Ce que je veux recevoir</u></h1>
 		<h2>Attaquant</h2>
 		<table>
 			<tr>
@@ -262,7 +316,7 @@
 						<td>${teamReceivingOffer.years_3[i]}</td>
 						<td>${teamReceivingOffer.years_4[i]}</td>
 						<td>${teamReceivingOffer.years_5[i]}</td>
-						<td><input type="checkbox" name="players_id" value="${players_list.player_id[i]}">Inclus</td>
+						<td><input type="checkbox" name="players_id_other_team" value="${players_list.player_id[i]}">Inclus</td>
 					</tr>
 				</c:if>
 			</c:forEach>
@@ -292,7 +346,7 @@
 						<td>${teamReceivingOffer.years_3[i]}</td>
 						<td>${teamReceivingOffer.years_4[i]}</td>
 						<td>${teamReceivingOffer.years_5[i]}</td>
-						<td><input type="checkbox" name="players_id" value="${players_list.player_id[i]}">Inclus</td>
+						<td><input type="checkbox" name="players_id_other_team" value="${players_list.player_id[i]}">Inclus</td>
 					</tr>
 				</c:if>
 			</c:forEach>
@@ -322,7 +376,7 @@
 						<td>${teamReceivingOffer.years_3[i]}</td>
 						<td>${teamReceivingOffer.years_4[i]}</td>
 						<td>${teamReceivingOffer.years_5[i]}</td>
-						<td><input type="checkbox" name="players_id" value="${players_list.player_id[i]}">Inclus</td>
+						<td><input type="checkbox" name="players_id_other_team" value="${players_list.player_id[i]}">Inclus</td>
 					</tr>
 				</c:if>
 			</c:forEach>
@@ -352,12 +406,68 @@
 						<td>${teamReceivingOffer.years_3[i]}</td>
 						<td>${teamReceivingOffer.years_4[i]}</td>
 						<td>${teamReceivingOffer.years_5[i]}</td>
-						<td><input type="checkbox" name="players_id" value="${players_list.player_id[i]}">Inclus</td>
+						<td><input type="checkbox" name="players_id_other_team" value="${players_list.player_id[i]}">Inclus</td>
 					</tr>
 				</c:if>
 			</c:forEach>
 		</table>
-
+		<br>
+		<br>
+		<table>
+		<tr>
+		<th>Montant à donner dans l'échange</th>
+		<th>Inclure</th>		
+		</tr>		
+		<tr>
+		<td>0</td>
+		<td><input type="radio" name="cash_trade_to" value="0" checked></td>				
+		</tr>		
+		<tr>
+		<td>500 000</td>
+		<td><input type="radio" name="cash_trade_to" value="500000"></td>			
+		</tr>
+		<tr>
+		<td>1 000 000</td>	
+		<td><input type="radio" name="cash_trade_to" value="1000000"></td>			
+		</tr>
+		<tr>
+		<td>1 500 000</td>
+		<td><input type="radio" name="cash_trade_to" value="1500000"></td>				
+		</tr>
+		<tr>
+		<td>2 000 000</td>
+		<td><input type="radio" name="cash_trade_to" value="2000000"></td>				
+		</tr>
+		</table>
+		<br>
+		<h2>Mes draft pick que je donne</h2>
+		<c:set var="longueur_draft_bean" value="${draft_pick_for_exchange.draft_id}" />
+		<table>
+			<tr>
+				<th>Round</th>
+				<th>Provient de</th>
+				<th>Inclure dans l'échange</th>
+			</tr>
+			<c:forEach var="i" begin="0" end="${fn:length(longueur_draft_bean)-1}">
+				<c:if test="${draft_pick_for_exchange.role_echange[i]==2 }">
+					<tr>
+						<td>${draft_pick_for_exchange.round[i]}</td>
+						<td>${draft_pick_for_exchange.from[i]}</td>
+						<td><input type="checkbox" name="draft_pick_other_team" value="${draft_pick_for_exchange.draft_id[i]}">Inclus</td>
+					</tr>
+				</c:if>
+			</c:forEach>
+		</table>
+		
+		<br>
+		<hr class="hr_header">
+		<br>
+		<br>
+		<h1><input type="submit" value="FAIRE CETTE OFFRE"></h1>
+		
+		</form>
+		
+		
 
 		<!-- fin du main container -->
 	</div>

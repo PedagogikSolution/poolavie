@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 public class TradeServlet extends HttpServlet {
     
   
-    Date today, start1, finish1, start2, finish2, start3, finish3, start4, finish4;
+    Date today, start1, finish1, start2, finish2, start3, finish3, start4, finish4, start5, finish5;
     SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy");
 
     /**
@@ -33,15 +33,23 @@ public class TradeServlet extends HttpServlet {
 	initialisationDate();
 
 	if (today.after(start1) && today.before(finish1)) {
+	    req.getSession().setAttribute("periode_echange_number", "1");
 	    req.getSession().setAttribute("periode_echange_ouverte", "1");
 	    resp.sendRedirect("/trade_received");
 	} else if (today.after(start2) && today.before(finish2)) {
+	    req.getSession().setAttribute("periode_echange_number", "2");
 	    req.getSession().setAttribute("periode_echange_ouverte", "1");
 	    resp.sendRedirect("/trade_received");
 	} else if (today.after(start3) && today.before(finish3)) {
+	    req.getSession().setAttribute("periode_echange_number", "2");
 	    req.getSession().setAttribute("periode_echange_ouverte", "1");
 	    resp.sendRedirect("/trade_received");
 	} else if (today.after(start4) && today.before(finish4)) {
+	    req.getSession().setAttribute("periode_echange_number", "2");
+	    req.getSession().setAttribute("periode_echange_ouverte", "1");
+	    resp.sendRedirect("/trade_received");
+	} else if (today.after(start5) && today.before(finish5)) {
+	    req.getSession().setAttribute("periode_echange_number", "3");
 	    req.getSession().setAttribute("periode_echange_ouverte", "1");
 	    resp.sendRedirect("/trade_received");
 	} else {
@@ -54,7 +62,7 @@ public class TradeServlet extends HttpServlet {
     }
 /* ******************************* methode prive  *****************************/
     private void initialisationDate() {
-	String date_start1 = "22-09-2015";
+	String date_start1 = "26-09-2015";
 	String date_finish1 = "30-09-2015";
 	String date_start2 = "10-12-2015";
 	String date_finish2 = "10-12-2015";
@@ -62,6 +70,8 @@ public class TradeServlet extends HttpServlet {
 	String date_finish3 = "10-12-2015";
 	String date_start4 = "10-12-2015";
 	String date_finish4 = "10-12-2015";
+	String date_start5 = "09-10-2015";
+	String date_finish5 = "10-10-2015";
 	try {
 	    start1 = sdf.parse(date_start1);
 	    finish1 = sdf.parse(date_finish1);
@@ -71,6 +81,8 @@ public class TradeServlet extends HttpServlet {
 	    finish3 = sdf.parse(date_finish3);
 	    start4 = sdf.parse(date_start4);
 	    finish4 = sdf.parse(date_finish4);
+	    start5 = sdf.parse(date_start5);
+	    finish5 = sdf.parse(date_finish5);
 	} catch (ParseException e) {
 	    e.printStackTrace();
 	}

@@ -20,6 +20,7 @@ public class TeamReceivingOffer implements Serializable{
     private List<String> years_5;
     private List<Integer> points;
     private List<Integer> club_ecole;
+    private int teamReceivingOfferId;
     
     
     
@@ -89,6 +90,13 @@ public class TeamReceivingOffer implements Serializable{
     }
     public void setClub_ecole(List<Integer> club_ecole) {
 	this.club_ecole = club_ecole;
+    }
+   
+    public int getTeamReceivingOfferId() {
+	return teamReceivingOfferId;
+    }
+    public void setTeamReceivingOfferId(int teamReceivingOfferId) {
+	this.teamReceivingOfferId = teamReceivingOfferId;
     }
 
 }
