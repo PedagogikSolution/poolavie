@@ -274,8 +274,8 @@ String mEquipe ="";
 					<td><%=can_rook%></td>
 					<td><%=salaire_draft%></td>
 					<td><%=rs.getString("projection")%></td>
-					<td><form action="/pick_made" method="post">
-
+					<td><!-- 
+							<form action="/pick_made" method="post">
 							<input type="hidden" name="draft_pick_no" value="<%=draft_pick_no%>">
 							<input type="hidden" name="draft_player_id" value="<%=rs.getString("_id")%>">
 							<input type="hidden" name="team_id" value="<%=teamId%>">
@@ -285,7 +285,9 @@ String mEquipe ="";
 							<input type="hidden" name="can_be_rookie" value="<%=can_rook%>">
 							<input type="hidden" name="salaire"	value="<%=salaire_draft%>">
 							<input type="submit" value="PICK">
-						</form></td>
+							</form>
+						-->
+					</td>
 
 				</tr>
 
