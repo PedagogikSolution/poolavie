@@ -21,6 +21,40 @@ public class TradeModel {
     TeamReceivingOffer mBeanReceiving = new TeamReceivingOffer();
 
     public boolean isThereAOfferForMe(HttpServletRequest req) {
+	String QueryA;
+	DatabaseConnector dbHelper = new DatabaseConnector();
+	Connection conn;
+	PreparedStatement mPreparedStatement;
+	ResultSet rs;
+
+	String team_id = (String) req.getSession().getAttribute("mTeamId");
+	int m_team_id = Integer.parseInt(team_id);
+
+	conn = dbHelper.open();
+
+	QueryA = "SELECT * FROM trade_offer WHERE team_2=?";
+
+	try {
+	    mPreparedStatement = conn.prepareStatement(QueryA);
+	    mPreparedStatement.setInt(1, m_team_id);
+	    rs = mPreparedStatement.executeQuery();
+
+	    if (rs.next()) {
+		rs.close();
+		mPreparedStatement.close();
+		return true;
+	    } else {
+		rs.close();
+		mPreparedStatement.close();
+		return false;
+	    }
+
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} finally {
+	    dbHelper.close(conn);
+	}
 	return false;
 
     }
@@ -64,6 +98,52 @@ public class TradeModel {
 
     }
 
+    public void getTheOfferThatIReceived(HttpServletRequest req) {
+	String QueryA;
+	DatabaseConnector dbHelper = new DatabaseConnector();
+	Connection conn;
+	PreparedStatement mPreparedStatement;
+	ResultSet rs;
+	List<Integer> trade_id = new ArrayList<Integer>();
+	List<String> nom_equipe_trading_to = new ArrayList<String>();
+	
+	String team_id = (String) req.getSession().getAttribute("mTeamId");
+	int m_team_id = Integer.parseInt(team_id);
+
+	conn = dbHelper.open();
+
+	QueryA = "SELECT * FROM trade_offer WHERE team_2=?";
+
+	try {
+	    mPreparedStatement = conn.prepareStatement(QueryA);
+	    mPreparedStatement.setInt(1, m_team_id);
+	    rs = mPreparedStatement.executeQuery();
+	    	    
+	    while (rs.next()) {
+		int t_id = (rs.getInt("_id"));
+		trade_id.add(t_id);
+		mBean.setTradeOfferId(trade_id);
+
+		String team2Id = (rs.getString("team_1"));
+		int team2 = Integer.parseInt(team2Id);
+		String nom = getTeamNameFromString(team2);
+		nom_equipe_trading_to.add(nom);
+		mBean.setTradeOfferNameTeamTradeWith(nom_equipe_trading_to);
+	    }
+
+	   
+
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} finally {
+	    dbHelper.close(conn);
+	}
+	
+	req.setAttribute("beanAffichageOfferMade", mBean);
+	
+    }
+    
     public void getTheOfferThatIMade(HttpServletRequest req) {
 	String QueryA;
 	DatabaseConnector dbHelper = new DatabaseConnector();
@@ -561,7 +641,7 @@ public class TradeModel {
 
 // check for nombre contrat trop elevé dans une des deux equipes
 
-	    if ((nb_contrat_make_offer + nbPlayersTeamThatReceived > 12) || (nb_contrat_received_offer + nbPlayersTeamThatOffer > 12)) {
+	    if ((nb_contrat_make_offer + nbPlayersTeamThatReceived - nbPlayersTeamThatOffer > 12) || (nb_contrat_received_offer + nbPlayersTeamThatOffer - nbPlayersTeamThatReceived > 12)) {
 		mBean.setCodeErreurOffreTrade(1);
 		req.setAttribute("messageErreur", mBean);
 		return false;
@@ -737,8 +817,8 @@ public class TradeModel {
 	mBean = (TradeBeans) req.getSession().getAttribute("tradeOfferBean");
 	String[] playersIdMakingOffer = mBean.getPlayerIdMakingOffer();
 	String[] playersIdReceivingOffer = mBean.getPlayerIdReceivingOffer();
-	String[] pickMakingOffer = mBean.getRoundPickMakingOffer();
-	String[] pickReceivingOffer = mBean.getRoundPickReceivingOffer();
+	String[] pickMakingOffer = mBean.getPickNumMakingOffer();
+	String[] pickReceivingOffer = mBean.getPickNumReceivingOffer();
 	int cashMakingOffer = mBean.getCashMakingOffer();
 	int cashReceivingOffer = mBean.getCashReceivingOffer();	
 	int teamMakingOfferId = mBean.getTeamThatTrade();
@@ -1148,22 +1228,22 @@ public class TradeModel {
 		    playersTeamThatReceivedTemp.add(t2j7);
 		}
 		if(t1p1!=null){
-		    draftPickTeamThatOfferTemp.add(t1j1);
+		    draftPickTeamThatOfferTemp.add(t1p1);
 		}
 		if(t1p2!=null){
-		    draftPickTeamThatOfferTemp.add(t1j2);
+		    draftPickTeamThatOfferTemp.add(t1p2);
 		}
 		if(t1p3!=null){
-		    draftPickTeamThatOfferTemp.add(t1j3);
+		    draftPickTeamThatOfferTemp.add(t1p3);
 		}
 		if(t2p1!=null){
-		    draftPickTeamThatReceivedTemp.add(t2j1);
+		    draftPickTeamThatReceivedTemp.add(t2p1);
 		}
 		if(t2p2!=null){
-		    draftPickTeamThatReceivedTemp.add(t2j2);
+		    draftPickTeamThatReceivedTemp.add(t2p2);
 		}
 		if(t2p3!=null){
-		    draftPickTeamThatReceivedTemp.add(t2j3);
+		    draftPickTeamThatReceivedTemp.add(t2p3);
 		}
 		
 	    }
@@ -1177,10 +1257,10 @@ public class TradeModel {
 	}
 	
 	
-	playersTeamThatOffer = (String[]) playersTeamThatOfferTemp.toArray();
-	playersTeamThatReceived = (String[]) playersTeamThatReceivedTemp.toArray();
-	draftPickTeamThatOffer = (String[]) draftPickTeamThatOfferTemp.toArray();
-	draftPickTeamThatReceived = (String[]) draftPickTeamThatReceivedTemp.toArray();
+	playersTeamThatOffer = playersTeamThatOfferTemp.toArray(new String[playersTeamThatOfferTemp.size()]);
+	playersTeamThatReceived = playersTeamThatReceivedTemp.toArray(new String[playersTeamThatReceivedTemp.size()]);
+	draftPickTeamThatOffer = draftPickTeamThatOfferTemp.toArray(new String[draftPickTeamThatOfferTemp.size()]);
+	draftPickTeamThatReceived = draftPickTeamThatReceivedTemp.toArray(new String[draftPickTeamThatReceivedTemp.size()]);
 	
 	
 	
@@ -1252,6 +1332,7 @@ public class TradeModel {
 	    
 	    if (draftPickTeamThatOffer != null) {
 		int i = 0;
+		String from_temp2 = null;
 		for (String s : draftPickTeamThatOffer) {
 		    int toInt = Integer.parseInt(s);
 		    QueryC = "SELECT * FROM draft_pick_current_year WHERE _id=?";
@@ -1262,7 +1343,7 @@ public class TradeModel {
 		    if (rs.next()) {
 			int round_temp = rs.getInt("pick_no");
 			int from_temp = rs.getInt("original_team_id");
-			String from_temp2 = null;
+			
 			switch (from_temp) {
 			case 0:
 			    from_temp2 = "Los Angeles";
@@ -1309,6 +1390,7 @@ public class TradeModel {
 
 	    if (draftPickTeamThatReceived != null) {
 		int i = 0;
+		String from_temp2 = null;
 		for (String s : draftPickTeamThatReceived) {
 		    int toInt = Integer.parseInt(s);
 		    QueryC = "SELECT * FROM draft_pick_current_year WHERE _id=?";
@@ -1319,7 +1401,6 @@ public class TradeModel {
 		    if (rs.next()) {
 			int round_temp = rs.getInt("pick_no");
 			int from_temp = rs.getInt("original_team_id");
-			String from_temp2 = null;
 			switch (from_temp) {
 			case 0:
 			    from_temp2 = "Los Angeles";
@@ -1388,5 +1469,7 @@ public class TradeModel {
 
 	
     }
+
+    
 
 }

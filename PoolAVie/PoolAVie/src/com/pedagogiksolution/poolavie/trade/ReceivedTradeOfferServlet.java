@@ -27,6 +27,7 @@ public class ReceivedTradeOfferServlet extends HttpServlet {
 	    	if(isThereAOfferForMe){
 	    	mBean.setIsThereAOfferForMe(1);
 	    	req.setAttribute("beanTrade", mBean);
+	    	mClass.getTheOfferThatIReceived(req);
 	    	req.getRequestDispatcher("/jsp/received_offer.jsp").forward(req, resp); 
 	    	} else {
 	    	mBean.setIsThereAOfferForMe(0);
@@ -35,6 +36,43 @@ public class ReceivedTradeOfferServlet extends HttpServlet {
 	    	}
 		
 	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	    
+	    TradeModel mClass = new TradeModel();
+		String etape = req.getParameter("etape");
+		
+		switch(etape){
+		
+		    
+		case "showOffer" :
+		    
+		    mClass.showOfferNumberX(req);
+		    req.getRequestDispatcher("/jsp/show_offer_received.jsp").forward(req, resp);
+		    
+		    break;
+		
+		case "cancelOffer":
+		    
+		    mClass.annulerOffre(req);
+		    req.getRequestDispatcher("/jsp/received_offer.jsp").forward(req, resp);
+		    
+		    break;
+		    
+		case "acceptOffer":
+		    
+		  //  mClass.acceptOffre(req);
+		    req.getRequestDispatcher("/jsp/received_offer.jsp").forward(req, resp);
+		    
+		    break;
+		    
+		
+		}
+
+	}
+	
+	
 
 	
 	

@@ -182,14 +182,14 @@
 								<form action="/make_offer" method="post">
 									<input type="hidden" value="${beanAffichageOfferMade.tradeOfferId[i]}" name="trade_id" />
 									<input type="hidden" value="showOffer" name="etape" />
-									<input type="submit" value="Show Detail">
+									<input style="font-size: 18px" type="submit" value="Show Detail">
 								</form>
 							</td>
 							<td>
 								<form action="/make_offer" method="post">
 									<input type="hidden" value="${beanAffichageOfferMade.tradeOfferId[i]}" name="trade_id" />
 									<input type="hidden" value="cancelOffer" name="etape" />
-									<input type="submit" value="Annuler cette offre">
+									<input style="font-size: 18px" type="submit" value="Annuler cette offre">
 								</form>
 							</td>
 
@@ -202,7 +202,7 @@
 
 				<br> <br>
 
-				<button onclick="onNewOfferButtonClick()">Faire une
+				<button style="font-size: 28px" onclick="onNewOfferButtonClick()">Faire une
 					nouvelle offre</button>
 			</div>
 			<div id="main_content_title_classement2">AVEC QUI VEUX-TU
@@ -221,13 +221,12 @@
 					<br> <input type="radio" name="team_to_trade" value="7">St-Louis
 					<br> <input type="radio" name="team_to_trade" value="8">Boston
 					<br> <input type="radio" name="team_to_trade" value="9">Pittsburgh
-					<br> <br> <input type="hidden" value="getTeam"
-						name="etape"> <input type="submit"
-						value="Faire une offre à cette équipe"> <br>
+					<br> <input type="hidden" value="getTeam" name="etape">
+					<br> <input style="font-size: 18px" type="submit" value="Faire une offre à cette équipe"> <br>
 				</form>
 
 				<br>
-				<button onclick="onAnnulerNewOfferButtonClick()">Annuler</button>
+				<button style="font-size: 18px" onclick="onAnnulerNewOfferButtonClick()">Annuler</button>
 			</div>
 
 

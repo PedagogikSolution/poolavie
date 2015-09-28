@@ -115,7 +115,7 @@
 			<br>
 			<br>
 			
-			et les draft pick suivant :
+			et les rounds de draft suivantes :
 			<br>
 			<br>
 				
@@ -151,7 +151,7 @@
 			<br>
 			<br>
 			
-			et les draft pick suivant :
+			et les rounds de draft suivantes :
 			<br>
 			<br>
 			
@@ -173,7 +173,7 @@
 
 			<form action="/make_offer" method="get">
 				
-				<input type="submit" value="Revenir à mes offres">
+				<input style="font-size: 24px" type="submit" value="Revenir à mes offres">
 			</form>
 
 			

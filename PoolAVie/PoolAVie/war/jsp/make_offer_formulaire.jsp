@@ -463,7 +463,7 @@
 		<hr class="hr_header">
 		<br>
 		<br>
-		<h1><input type="submit" value="FAIRE CETTE OFFRE"></h1>
+		<h1><input  style="font-size: 28px" type="submit" value="FAIRE CETTE OFFRE"></h1>
 		
 		</form>
 		

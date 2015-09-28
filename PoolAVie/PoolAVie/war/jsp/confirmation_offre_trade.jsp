@@ -173,12 +173,12 @@
 
 			<form action="/confirm_offer" method="post">
 				<input type="hidden" value="oui" name="confirmation" />
-				<input type="submit" value="Oui je le veux">
+				<input style="font-size: 18px" type="submit" value="Oui je le veux">
 			</form>
 
 			<form action="/confirm_offer" method="post">
 				<input type="hidden" value="non" name="confirmation" />
-				<input type="submit" value="Qu'elle crève cette salope">
+				<input style="font-size: 18px" type="submit" value="Qu'elle crève cette salope">
 			</form>
 
 

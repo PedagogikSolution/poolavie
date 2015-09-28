@@ -126,8 +126,53 @@
 			</c:if>
 			
 			<c:if test="${beanTrade.isThereAOfferForMe==1}">
-			LA LISTE DES OFFRES QUE J'AI REÇU 
 			
+			<br>
+			<c:set var="longueur" value="${beanAffichageOfferMade.tradeOfferId}" />
+				<table>
+					<tr>
+						<th>offre #</th>
+						<th>équipe</th>
+						<th>détail</th>						
+						<th>rejeter</th>
+						<th>accepter</th>
+					</tr>
+					<c:if test="${(fn:length(longueur))>0}">
+					<c:forEach var="i" begin="0" end="${fn:length(longueur)-1}">
+						<tr>
+							<td>${beanAffichageOfferMade.tradeOfferId[i]}</td>
+							<td>${beanAffichageOfferMade.tradeOfferNameTeamTradeWith[i]}</td>
+							<td>
+								<form action="/trade_received" method="post">
+									<input type="hidden" value="${beanAffichageOfferMade.tradeOfferId[i]}" name="trade_id" />
+									<input type="hidden" value="showOffer" name="etape" />
+									<input style="font-size: 18px" type="submit" value="Show Detail">
+								</form>
+							</td>
+							
+							<td>
+								<form action="/trade_received" method="post">
+									<input type="hidden" value="${beanAffichageOfferMade.tradeOfferId[i]}" name="trade_id" />
+									<input type="hidden" value="cancelOffer" name="etape" />
+									<input  style="font-size: 18px"type="submit" value="Annuler cette offre">
+								</form>
+							</td>
+							<td>
+								<form action="/trade_received" method="post">
+									<input type="hidden" value="${beanAffichageOfferMade.tradeOfferId[i]}" name="trade_id" />
+									<input type="hidden" value="acceptOffer" name="etape" />
+									<input  style="font-size: 18px" type="submit" value="Accepter cette offre">
+								</form>
+							</td>
+
+						</tr>
+
+					</c:forEach>
+					</c:if>
+				</table>
+
+
+				<br> <br>
 			</c:if>
 		</div>	
 			

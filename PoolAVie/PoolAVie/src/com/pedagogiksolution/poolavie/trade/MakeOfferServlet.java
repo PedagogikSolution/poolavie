@@ -21,7 +21,7 @@ public class MakeOfferServlet extends HttpServlet {
 	    throws ServletException, IOException {
 
 	TradeModel mClass = new TradeModel();
-Boolean isThereAOfferMadeByMe = mClass.isThereAOfferMadeByMe(req);
+	Boolean isThereAOfferMadeByMe = mClass.isThereAOfferMadeByMe(req);
 
 	if (isThereAOfferMadeByMe) {
 	    mClass.getTheOfferThatIMade(req);
