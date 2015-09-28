@@ -1,7 +1,13 @@
 package com.pedagogiksolution.poolavie.beans;
 
-public class Signature {
+import java.io.Serializable;
 
+public class Signature implements Serializable {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4132033802597904045L;
     private int joueurId;
     private int codePourMessageConfirmation;
     private String nomDuJoueur;

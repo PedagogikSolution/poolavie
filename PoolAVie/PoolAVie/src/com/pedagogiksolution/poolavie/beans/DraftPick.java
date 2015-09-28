@@ -1,8 +1,13 @@
 package com.pedagogiksolution.poolavie.beans;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class DraftPick {
+public class DraftPick implements Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5217025060117505886L;
     private List<Integer> draft_id;
     private List<String> equipe;
     private List<Integer> round;

@@ -139,7 +139,7 @@
 						<td>${teamMakingOffer.years_3[i]}</td>
 						<td>${teamMakingOffer.years_4[i]}</td>
 						<td>${teamMakingOffer.years_5[i]}</td>
-						<td><input type="checkbox" name="players_id_my_team" value="${players_list.player_id[i]}">Inclus</td>
+						<td><input type="checkbox" name="players_id_my_team" value="${teamMakingOffer.player_id[i]}">Inclus</td>
 					</tr>
 				</c:if>
 			</c:forEach>
@@ -169,7 +169,7 @@
 						<td>${teamMakingOffer.years_3[i]}</td>
 						<td>${teamMakingOffer.years_4[i]}</td>
 						<td>${teamMakingOffer.years_5[i]}</td>
-						<td><input type="checkbox" name="players_id_my_team" value="${players_list.player_id[i]}">Inclus</td>
+						<td><input type="checkbox" name="players_id_my_team" value="${teamMakingOffer.player_id[i]}">Inclus</td>
 					</tr>
 				</c:if>
 			</c:forEach>
@@ -199,7 +199,7 @@
 						<td>${teamMakingOffer.years_3[i]}</td>
 						<td>${teamMakingOffer.years_4[i]}</td>
 						<td>${teamMakingOffer.years_5[i]}</td>
-						<td><input type="checkbox" name="players_id_my_team" value="${players_list.player_id[i]}">Inclus</td>
+						<td><input type="checkbox" name="players_id_my_team" value="${teamMakingOffer.player_id[i]}">Inclus</td>
 					</tr>
 				</c:if>
 			</c:forEach>
@@ -229,7 +229,7 @@
 						<td>${teamMakingOffer.years_3[i]}</td>
 						<td>${teamMakingOffer.years_4[i]}</td>
 						<td>${teamMakingOffer.years_5[i]}</td>
-						<td><input type="checkbox" name="players_id_my_team" value="${players_list.player_id[i]}">Inclus</td>
+						<td><input type="checkbox" name="players_id_my_team" value="${teamMakingOffer.player_id[i]}">Inclus</td>
 					</tr>
 				</c:if>
 			</c:forEach>
@@ -316,7 +316,7 @@
 						<td>${teamReceivingOffer.years_3[i]}</td>
 						<td>${teamReceivingOffer.years_4[i]}</td>
 						<td>${teamReceivingOffer.years_5[i]}</td>
-						<td><input type="checkbox" name="players_id_other_team" value="${players_list.player_id[i]}">Inclus</td>
+						<td><input type="checkbox" name="players_id_other_team" value="${teamReceivingOffer.player_id[i]}">Inclus</td>
 					</tr>
 				</c:if>
 			</c:forEach>
@@ -346,7 +346,7 @@
 						<td>${teamReceivingOffer.years_3[i]}</td>
 						<td>${teamReceivingOffer.years_4[i]}</td>
 						<td>${teamReceivingOffer.years_5[i]}</td>
-						<td><input type="checkbox" name="players_id_other_team" value="${players_list.player_id[i]}">Inclus</td>
+						<td><input type="checkbox" name="players_id_other_team" value="${teamReceivingOffer.player_id[i]}">Inclus</td>
 					</tr>
 				</c:if>
 			</c:forEach>
@@ -376,7 +376,7 @@
 						<td>${teamReceivingOffer.years_3[i]}</td>
 						<td>${teamReceivingOffer.years_4[i]}</td>
 						<td>${teamReceivingOffer.years_5[i]}</td>
-						<td><input type="checkbox" name="players_id_other_team" value="${players_list.player_id[i]}">Inclus</td>
+						<td><input type="checkbox" name="players_id_other_team" value="${teamReceivingOffer.player_id[i]}">Inclus</td>
 					</tr>
 				</c:if>
 			</c:forEach>
@@ -406,7 +406,7 @@
 						<td>${teamReceivingOffer.years_3[i]}</td>
 						<td>${teamReceivingOffer.years_4[i]}</td>
 						<td>${teamReceivingOffer.years_5[i]}</td>
-						<td><input type="checkbox" name="players_id_other_team" value="${players_list.player_id[i]}">Inclus</td>
+						<td><input type="checkbox" name="players_id_other_team" value="${teamReceivingOffer.player_id[i]}">Inclus</td>
 					</tr>
 				</c:if>
 			</c:forEach>

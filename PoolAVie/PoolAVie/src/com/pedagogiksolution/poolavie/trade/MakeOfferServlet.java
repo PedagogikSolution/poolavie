@@ -21,7 +21,7 @@ public class MakeOfferServlet extends HttpServlet {
 	    throws ServletException, IOException {
 
 	TradeModel mClass = new TradeModel();
-	Boolean isThereAOfferMadeByMe = mClass.isThereAOfferMadeByMe();
+Boolean isThereAOfferMadeByMe = mClass.isThereAOfferMadeByMe(req);
 
 	if (isThereAOfferMadeByMe) {
 	    mClass.getTheOfferThatIMade(req);
@@ -35,7 +35,7 @@ public class MakeOfferServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 	    throws ServletException, IOException {
-	/* récupération des deux équipes impliqués dans le trade */
+	TradeModel mClass = new TradeModel();
 	String etape = req.getParameter("etape");
 	
 	switch(etape){
@@ -50,7 +50,7 @@ public class MakeOfferServlet extends HttpServlet {
 
 		if (team_to_trade != team_that_trade) {
 
-		    TradeModel mClass = new TradeModel();
+		   
 		    mClass.getTheTeamsThatTrade(team_to_trade,team_that_trade,req);
 		    mClass.getDraftPick(team_to_trade,team_that_trade,req);
 		    req.getRequestDispatcher("/jsp/make_offer_formulaire.jsp").forward(req, resp);
@@ -69,7 +69,7 @@ public class MakeOfferServlet extends HttpServlet {
 	    
 	    String periode_echange_number_string = (String)req.getSession().getAttribute("periode_echange_number");
 	    int periode_echange_number = Integer.parseInt(periode_echange_number_string);
-	    TradeModel mClass = new TradeModel();
+	    
 	    boolean tradeIsValid;
 	    
 	    switch(periode_echange_number){
@@ -98,14 +98,22 @@ public class MakeOfferServlet extends HttpServlet {
 		break;
 	    
 	    }
+	    break;
 	    
+	case "showOffer" :
 	    
-	    
+	    mClass.showOfferNumberX(req);
+	    req.getRequestDispatcher("/jsp/show_offer.jsp").forward(req, resp);
 	    
 	    break;
 	
-	
-	
+	case "cancelOffer":
+	    
+	    mClass.annulerOffre(req);
+	    req.getRequestDispatcher("/jsp/make_offer.jsp").forward(req, resp);
+	    
+	    break;
+	    
 	
 	}
 

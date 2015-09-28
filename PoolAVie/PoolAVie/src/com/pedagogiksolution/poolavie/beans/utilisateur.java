@@ -1,7 +1,13 @@
 package com.pedagogiksolution.poolavie.beans;
 
-public class utilisateur {
+import java.io.Serializable;
 
+public class utilisateur implements Serializable {
+
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 492462404208272326L;
 	String username;
 
 	public String getUsername() {

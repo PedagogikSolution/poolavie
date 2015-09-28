@@ -103,7 +103,6 @@
 
 
 			<c:set var="longueur" value="${players_list.player_id}" />
-			<c:set var="nombre" value="${fn:length(longueur)}" />
 
 			<c:choose>
 
