@@ -604,7 +604,7 @@ public class TradeModel {
 		    rs = mPreparedStatement.executeQuery();
 
 		    if (rs.next()) {
-			int salaire_joueur_temp = rs.getInt("salaire_contrat");
+			int salaire_joueur_temp = rs.getInt("years_1");
 			total_salaire_team_making_offer = total_salaire_team_making_offer + salaire_joueur_temp;
 			String nomMakingOfferString = rs.getString("nom");
 			nomMakingOffer[i] = nomMakingOfferString;
@@ -646,7 +646,7 @@ public class TradeModel {
 		    mPreparedStatement.setInt(1, toInt);
 		    rs = mPreparedStatement.executeQuery();
 		    if (rs.next()) {
-			int salaire_joueur_temp = rs.getInt("salaire_contrat");
+			int salaire_joueur_temp = rs.getInt("years_1");
 			total_salaire_team_receiving_offer = total_salaire_team_receiving_offer + salaire_joueur_temp;
 			String nomReceivingOfferString = rs.getString("nom");
 			nomReceivingOffer[i] = nomReceivingOfferString;
@@ -1516,7 +1516,8 @@ public class TradeModel {
 	ArrayList<String> playersTeamThatReceivedTemp = new ArrayList<String>();
 	String[] playersTeamThatOffer = null;
 	String[] playersTeamThatReceived = null;
-
+	
+	
 	conn = dbHelper.open();
 
 	String QueryA;
@@ -1656,44 +1657,45 @@ public class TradeModel {
 		    return false;
 		}
 	    }
+	    
 	    if (t1p1 != null) {
 		Boolean isStillInPick = checkIfPickStillInTeam(team1, t1p1, conn);
 		if (!isStillInPick) {
 		    return false;
 		}
-		playersTeamThatReceivedTemp.add(t2j7);
 
 	    }
+	   
 	    if (t1p2 != null) {
-		Boolean isStillInPick = checkIfPickStillInTeam(team1, t1p1, conn);
+		Boolean isStillInPick = checkIfPickStillInTeam(team1, t1p2, conn);
 		if (!isStillInPick) {
 		    return false;
 		}
 
 	    }
 	    if (t1p3 != null) {
-		Boolean isStillInPick = checkIfPickStillInTeam(team1, t1p1, conn);
+		Boolean isStillInPick = checkIfPickStillInTeam(team1, t1p3, conn);
 		if (!isStillInPick) {
 		    return false;
 		}
 
 	    }
 	    if (t2p1 != null) {
-		Boolean isStillInPick = checkIfPickStillInTeam(team1, t1p1, conn);
+		Boolean isStillInPick = checkIfPickStillInTeam(team1, t2p1, conn);
 		if (!isStillInPick) {
 		    return false;
 		}
 
 	    }
 	    if (t2p2 != null) {
-		Boolean isStillInPick = checkIfPickStillInTeam(team1, t1p1, conn);
+		Boolean isStillInPick = checkIfPickStillInTeam(team1, t2p2, conn);
 		if (!isStillInPick) {
 		    return false;
 		}
 
 	    }
 	    if (t2p3 != null) {
-		Boolean isStillInPick = checkIfPickStillInTeam(team1, t1p1, conn);
+		Boolean isStillInPick = checkIfPickStillInTeam(team1, t2p3, conn);
 		if (!isStillInPick) {
 		    return false;
 		}
@@ -1774,6 +1776,7 @@ public class TradeModel {
 	    if (playersTeamThatOffer != null) {
 
 		for (String s : playersTeamThatOffer) {
+		    
 		    int toInt = Integer.parseInt(s);
 		    QueryB = "SELECT * FROM players WHERE _id=? AND club_ecole=0";
 		    mPreparedStatement = conn.prepareStatement(QueryB);
@@ -1781,7 +1784,7 @@ public class TradeModel {
 		    rs = mPreparedStatement.executeQuery();
 
 		    if (rs.next()) {
-			int salaire_joueur_temp = rs.getInt("salaire_contrat");
+			int salaire_joueur_temp = rs.getInt("years_1");
 			total_salaire_team_making_offer = total_salaire_team_making_offer + salaire_joueur_temp;
 
 		    }
@@ -1815,7 +1818,7 @@ public class TradeModel {
 		    mPreparedStatement.setInt(1, toInt);
 		    rs = mPreparedStatement.executeQuery();
 		    if (rs.next()) {
-			int salaire_joueur_temp = rs.getInt("salaire_contrat");
+			int salaire_joueur_temp = rs.getInt("years_1");
 			total_salaire_team_receiving_offer = total_salaire_team_receiving_offer + salaire_joueur_temp;
 
 		    }
@@ -1857,8 +1860,8 @@ public class TradeModel {
 	    int new_budget_restant_team_making_offer = budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer - casht1 + casht2;
 	    int new_budget_restant_team_receiving_offer = budget_restant_received_offer + total_salaire_team_receiving_offer - total_salaire_team_making_offer + casht2 - casht1;
 
-	    int new_manquant_team_making_offer = manquant_equipe_make_offer - nbPlayersTeamThatOffer + nbPlayersTeamThatReceived + nbRookieTeamThatReceived - nbRookieTeamThatOffer;
-	    int new_manquant_team_receiving_offer = manquant_equipe_received_offer - nbPlayersTeamThatReceived + nbPlayersTeamThatOffer - nbRookieTeamThatReceived
+	    int new_manquant_team_making_offer = manquant_equipe_make_offer + nbPlayersTeamThatOffer - nbPlayersTeamThatReceived + nbRookieTeamThatReceived - nbRookieTeamThatOffer;
+	    int new_manquant_team_receiving_offer = manquant_equipe_received_offer + nbPlayersTeamThatReceived - nbPlayersTeamThatOffer - nbRookieTeamThatReceived
 		    + nbRookieTeamThatOffer;
 
 	    if (((new_budget_restant_team_making_offer / new_manquant_team_making_offer) < 1000000)
@@ -2141,7 +2144,7 @@ public class TradeModel {
 	conn = dbHelper.open();
 
 	QueryA = "UPDATE players SET team_id=? WHERE _id=?";
-	QueryB = "SELECT salaire_contrat,club_ecole,position FROM players WHERE _id=?";
+	QueryB = "SELECT years_1,club_ecole,position FROM players WHERE _id=?";
 	QueryC = "UPDATE equipes SET total_salaire_now=total_salaire_now-?,budget_restant=budget_restant+?,manquant_equipe=manquant_equipe+1,nb_equipe=nb_equipe-1,"
 		+ "moy_sal_restant_draft=budget_restant/manquant_equipe,nb_contrat=nb_contrat-1,nb_attaquant=nb_attaquant-1,manquant_att=manquant_att+1 WHERE team_id=?";
 	QueryD = "UPDATE equipes SET total_salaire_now=total_salaire_now-?,budget_restant=budget_restant+?,manquant_equipe=manquant_equipe+1,nb_equipe=nb_equipe-1,"
@@ -2173,7 +2176,7 @@ public class TradeModel {
 
 	    if (rs.next()) {
 		club_ecole = rs.getInt("club_ecole");
-		salaire = rs.getInt("salaire_contrat");
+		salaire = rs.getInt("years_1");
 		position = rs.getString("position");
 	    }
 	    rs.close();
