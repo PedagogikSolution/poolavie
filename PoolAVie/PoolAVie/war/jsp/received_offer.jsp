@@ -120,7 +120,11 @@
 			
 			<div id="main_content_table_classement">
 			
-			
+			<c:if test="${messageErreur.codeErreurOffreTrade==11}">
+					<h1 style="color: red">
+						<strong>Un ou des joueurs ou un ou des pick ne sont plus disponible dans l'une des équipes</strong>
+					</h1>
+				</c:if>
 			<c:if test="${beanTrade.isThereAOfferForMe==0}">
 			Tu n'as aucune offre pour le moment. Trouve toi des amis 
 			</c:if>

@@ -324,14 +324,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/signature_confirmation</url-pattern>
 	</servlet-mapping>
 	
-	<servlet>
-		<servlet-name>cancel_offre_trade</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.trade.AnnulationOffreTradeServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>cancel_offre_trade</servlet-name>
-		<url-pattern>/cancel_offre_trade</url-pattern>
-	</servlet-mapping>
+	
 	
 	<servlet>
 		<servlet-name>detail_offre_trade</servlet-name>

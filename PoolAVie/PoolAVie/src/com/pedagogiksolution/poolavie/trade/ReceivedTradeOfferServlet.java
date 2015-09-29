@@ -56,14 +56,14 @@ public class ReceivedTradeOfferServlet extends HttpServlet {
 		case "cancelOffer":
 		    
 		    mClass.annulerOffre(req);
-		    req.getRequestDispatcher("/jsp/received_offer.jsp").forward(req, resp);
+		    resp.sendRedirect("/trade_received");
 		    
 		    break;
 		    
 		case "acceptOffer":
 		    
-		  //  mClass.acceptOffre(req);
-		    req.getRequestDispatcher("/jsp/received_offer.jsp").forward(req, resp);
+		    mClass.showOfferNumberX(req);
+		    req.getRequestDispatcher("/jsp/confirmation_accepter_trade.jsp").forward(req, resp);
 		    
 		    break;
 		    

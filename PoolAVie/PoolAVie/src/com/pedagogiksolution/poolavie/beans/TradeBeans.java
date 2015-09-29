@@ -13,6 +13,7 @@ public class TradeBeans implements Serializable{
     private int isThereAOfferForMe;
     private int echangeAvecSoiMeme;
     private int codeErreurOffreTrade;
+    private int trade_id;
     private String[] nomMakingOffer;
     private String[] pickNumMakingOffer;
     private String[] nomReceivingOffer;
@@ -42,6 +43,7 @@ public class TradeBeans implements Serializable{
      * 8:pas de joueur
      * 9:trop de joueur max 7
      * 10:trop de pick max 3
+     * 11:Joueur ou pick pu disponible
      * 
      * 
      * 
@@ -204,6 +206,14 @@ public class TradeBeans implements Serializable{
 
     public void setTeamTradeTo(int teamTradeTo) {
 	this.teamTradeTo = teamTradeTo;
+    }
+
+    public int getTrade_id() {
+	return trade_id;
+    }
+
+    public void setTrade_id(int trade_id) {
+	this.trade_id = trade_id;
     }
 
     
