@@ -695,8 +695,8 @@ public class TradeModel {
 	    int new_budget_restant_team_receiving_offer = budget_restant_received_offer + total_salaire_team_receiving_offer - total_salaire_team_making_offer
 		    + argentOfferTeamThatTrade - argentOfferTeamThatReceivedOffer;
 
-	    int new_manquant_team_making_offer = manquant_equipe_make_offer - nbPlayersTeamThatOffer + nbPlayersTeamThatReceived + nbRookieTeamThatReceived - nbRookieTeamThatOffer;
-	    int new_manquant_team_receiving_offer = manquant_equipe_received_offer - nbPlayersTeamThatReceived + nbPlayersTeamThatOffer - nbRookieTeamThatReceived
+	    int new_manquant_team_making_offer = manquant_equipe_make_offer + nbPlayersTeamThatOffer - nbPlayersTeamThatReceived + nbRookieTeamThatReceived - nbRookieTeamThatOffer;
+	    int new_manquant_team_receiving_offer = manquant_equipe_received_offer + nbPlayersTeamThatReceived - nbPlayersTeamThatOffer - nbRookieTeamThatReceived
 		    + nbRookieTeamThatOffer;
 
 	    if (((new_budget_restant_team_making_offer / new_manquant_team_making_offer) < 1000000)
