@@ -2080,13 +2080,15 @@ public class TradeModel {
 	 try {
 	    mPreparedStatement = conn.prepareStatement(QueryA);
 	    mPreparedStatement.setInt(1, cash);
-	    mPreparedStatement.setInt(2, teamId1);
+	    mPreparedStatement.setInt(2, cash);
+	    mPreparedStatement.setInt(3, teamId1);
 	    mPreparedStatement.executeUpdate();
 	    mPreparedStatement.close();
 	    
 	    mPreparedStatement = conn.prepareStatement(QueryB);
 	    mPreparedStatement.setInt(1, cash);
-	    mPreparedStatement.setInt(2, teamId2);
+	    mPreparedStatement.setInt(2, cash);
+	    mPreparedStatement.setInt(3, teamId2);
 	    mPreparedStatement.executeUpdate();
 	    mPreparedStatement.close();
 	} catch (SQLException e) {
