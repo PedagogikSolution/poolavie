@@ -25,7 +25,7 @@ public class AllTradeServlet extends HttpServlet {
 		
 		RecuperationMyOffer recupOffer = new RecuperationMyOffer();
 		rs = recupOffer.recuperationAllTrade();
-		req.setAttribute("my_offer", rs);
+		req.setAttribute("all_offer", rs);
 		
 		
 		req.getRequestDispatcher("/jsp/all_trade.jsp").forward(req, resp);

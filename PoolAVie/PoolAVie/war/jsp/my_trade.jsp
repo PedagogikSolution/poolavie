@@ -112,7 +112,7 @@
 	<div class="main_container">
 		<div class="main_content">
 			<div id="main_content_title_classement">
-			LA LISTE DES OFFRES QUE J'AI REÇU
+			LA LISTE DE MES TRADE
 			
 			
 			</div>
