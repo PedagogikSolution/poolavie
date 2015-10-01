@@ -15,6 +15,7 @@ public class Signature implements Serializable {
     private int nombreAnnee;
     private int moyenne;
     private int position;
+    private int salaire;
     
     
     public int getCodePourMessageConfirmation() {
@@ -59,6 +60,12 @@ public class Signature implements Serializable {
     }
     public void setPosition(int position) {
 	this.position = position;
+    }
+    public int getSalaire() {
+	return salaire;
+    }
+    public void setSalaire(int salaire) {
+	this.salaire = salaire;
     }
   
     

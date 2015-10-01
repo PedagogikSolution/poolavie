@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.pedagogiksolution.poolavie.beans.Signature;
 
 public class RachatApresSaisonServlet extends HttpServlet {
-
+    Signature mBean = new Signature();
     /**
      * 
      */
@@ -28,7 +28,7 @@ public class RachatApresSaisonServlet extends HttpServlet {
 	int mPlayerId;
 	String sPlayerId, sRachatType;
 	Boolean goodToGo = false;
-	Signature mBean = new Signature();
+	
 
 	sRachatType = req.getParameter("rachat_type");
 	

@@ -79,42 +79,39 @@ public class Administration {
 	resetYears();
 
     }
-    
+
     public void dropJoueurAB() {
-   	Statement mStatementA;
-   	String QueryA;
-   	
-   	conn = mDbHelper.open();
-   	
-   	QueryA = "UPDATE players SET equipe=null,contrat=0,salaire_contrat=null,contrat_cours=null,contrat_max_years=null," +
-   			"type_contrat=null,club_ecole=null,years_1=null,years_2=null,years_3=null,years_4=null,years_5=null," +
-   			"team_id=null,projection=null WHERE (years_1='A' OR years_1='B') AND club_ecole=0";
-	
-   	
-   	try {
+	Statement mStatementA;
+	String QueryA;
+
+	conn = mDbHelper.open();
+
+	QueryA = "UPDATE players SET equipe=null,contrat=0,salaire_contrat=null,contrat_cours=null,contrat_max_years=null,"
+		+ "type_contrat=null,club_ecole=null,years_1=null,years_2=null,years_3=null,years_4=null,years_5=null,"
+		+ "team_id=null,projection=null WHERE (years_1='A' OR years_1='B') AND club_ecole=0";
+
+	try {
 	    mStatementA = conn.createStatement();
 	    mStatementA.executeUpdate(QueryA);
 	    mStatementA.close();
-	 
+
 	} catch (SQLException e) {
 	    e.printStackTrace();
 	} finally {
 	    mDbHelper.close(conn);
 	}
-   	
-       }
 
-    
+    }
 
     /**************************** Methode privée de la class *********************************************/
-    
+
     private void resetYears() {
 	Statement mStatementA;
 	String QueryA;
 	conn = mDbHelper.open();
-	
+
 	QueryA = "UPDATE players SET years_1=years_2,years_2=years_3,years_3=years_4,years_4=years_5,years_5='X'";
-	
+
 	try {
 	    mStatementA = conn.createStatement();
 	    mStatementA.executeUpdate(QueryA);
@@ -125,11 +122,10 @@ public class Administration {
 	}
     }
 
-
     private void updateEffectif() {
 	PreparedStatement mStatementA;
 	ResultSet rs;
-	String QueryA, QueryB, QueryC, QueryD,QueryG;
+	String QueryA, QueryB, QueryC, QueryD, QueryG;
 	int nb_attaquant = 0, nb_defenseur = 0, nb_gardien = 0, nb_rookie = 0, nb_contrat = 0, nb_equipe = 0, manquant_equipe = 0, manquant_att = 0, manquant_def = 0, manquant_gardien = 0, manquant_recrue = 0, total_salaire_now = 0;
 	// ouverture de la connexion a la bdd
 	conn = mDbHelper.open();
@@ -138,8 +134,7 @@ public class Administration {
 	QueryB = "SELECT COUNT(_id) FROM players WHERE years_2>1 AND team_id=? AND club_ecole=1";
 	QueryC = "SELECT sum(salaire_contrat) FROM players WHERE years_2>1 AND team_id=? AND club_ecole=0";
 	QueryD = "UPDATE equipes SET nb_attaquant=?,nb_defenseur=?,nb_gardien=?,nb_rookie=?,nb_contrat=?,"
-		+ "nb_equipe=?,manquant_equipe=?,manquant_att=?,manquant_def=?,manquant_gardien=?,"
-		+ "manquant_recrue=?,total_salaire_now=? WHERE team_id=?";
+		+ "nb_equipe=?,manquant_equipe=?,manquant_att=?,manquant_def=?,manquant_gardien=?," + "manquant_recrue=?,total_salaire_now=? WHERE team_id=?";
 	QueryG = "UPDATE equipes SET max_salaire_begin=52000000+argent_recu+bonus_penalite,budget_restant=max_salaire_begin-total_salaire_now,moy_sal_restant_draft=budget_restant/?,argent_recu=0,bonus_penalite=0 WHERE team_id=?";
 
 	try {
@@ -447,7 +442,25 @@ public class Administration {
 
     }
 
-   
+    public void updateAge() {
+	PreparedStatement mPreparedStatementA;
+	String QueryA;
+	// ouverture de la connexion a la bdd
+	conn = mDbHelper.open();
+	String birthday="1990-09-15";
+
+	QueryA = "UPDATE players SET age = 1 WHERE birthday<?";
+	try {
+	    mPreparedStatementA = conn.prepareStatement(QueryA);
+	    mPreparedStatementA.setString(1, birthday);
+	    mPreparedStatementA.executeUpdate();
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	} finally {
+	    mDbHelper.close(conn);
+	}
+
+    }
 
 // fin de la class
 }

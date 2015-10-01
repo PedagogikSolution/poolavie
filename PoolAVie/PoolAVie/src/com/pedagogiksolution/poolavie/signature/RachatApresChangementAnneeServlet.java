@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.pedagogiksolution.poolavie.beans.Signature;
 
 public class RachatApresChangementAnneeServlet extends HttpServlet {
-
+    Signature mBean = new Signature();
     /**
      * 
      */
@@ -28,7 +28,7 @@ public class RachatApresChangementAnneeServlet extends HttpServlet {
 	int mPlayerId;
 	String sPlayerId, sRachatType;
 	Boolean goodToGo = false;
-	Signature mBean = new Signature();
+	
 
 	sRachatType = req.getParameter("rachat_type");
 	
@@ -63,8 +63,11 @@ public class RachatApresChangementAnneeServlet extends HttpServlet {
 	case "confirmationRachat":
 	    String mPlayerIdForRachat = req.getParameter("playerId");
 	    String mCoutForRachat = req.getParameter("coutPourRachat");
+	    String mPosition = req.getParameter("position");
+	    String salaire = req.getParameter("salaire");
+	    int position = Integer.parseInt(mPosition);
 	    RachatApresChangementAnnee mClass = new RachatApresChangementAnnee();
-	    mClass.racheterCeJoueur(mPlayerIdForRachat,mCoutForRachat,req);
+	    mClass.racheterCeJoueur(mPlayerIdForRachat,mCoutForRachat,position,salaire,req);
 	    resp.sendRedirect("/equipes");
 	    break;
 	    

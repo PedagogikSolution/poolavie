@@ -62,7 +62,8 @@ public class AdminServlet extends HttpServlet {
 	case 7:  administration.dropJoueurAB();
 		resp.sendRedirect("/admin");
 	    break;
-	case 8 :
+	case 8 : administration.updateAge();
+	resp.sendRedirect("/admin");
 	    break;    
 	
 	

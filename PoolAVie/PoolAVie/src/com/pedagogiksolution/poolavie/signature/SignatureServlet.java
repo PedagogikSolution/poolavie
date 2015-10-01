@@ -55,9 +55,13 @@ public class SignatureServlet extends HttpServlet {
 	    mClass.preparationSignatureAB(req);
 	    req.getRequestDispatcher("/jsp/signature_ab.jsp").forward(req,resp);
 	} else if (today.after(start5) && today.before(finish5)) {
-	    req.getRequestDispatcher("/jsp/drop_upgrade_rookie.jsp").forward(req,resp);
+	    RachatApresChangementAnnee mClass = new RachatApresChangementAnnee();
+	    mClass.preparationRachatChangementAnnee2(req);
+	    req.getRequestDispatcher("/jsp/rachat_debut_saison.jsp").forward(req,resp);
 	} else if (today.after(start6) && today.before(finish6)){
-	    req.getRequestDispatcher("/jsp/drop_upgrade_rookie.jsp").forward(req,resp);
+	    RookieApresSaison mClass = new RookieApresSaison();
+	    mClass.preparationRookieApresSaison2(req);
+	    req.getRequestDispatcher("/jsp/drop_rookie.jsp").forward(req,resp);
 	} else {
 	    req.getRequestDispatcher("/jsp/aucune_signature_possible.jsp").forward(req,resp);
 	}
@@ -75,10 +79,10 @@ public class SignatureServlet extends HttpServlet {
 	String date_finish3 = "21-09-2015";
 	String date_start4 = "21-09-2015";
 	String date_finish4 = "25-09-2015";
-	String date_start5 = "03-10-2015";
-	String date_finish5 = "04-10-2015";
-	String date_start6 = "04-10-2015";
-	String date_finish6 = "07-10-2015";
+	String date_start5 = "25-09-2015";
+	String date_finish5 = "29-09-2015";
+	String date_start6 = "30-09-2015";
+	String date_finish6 = "06-10-2015";
 	try {
 	    start1 = sdf.parse(date_start1);
 	    finish1 = sdf.parse(date_finish1);

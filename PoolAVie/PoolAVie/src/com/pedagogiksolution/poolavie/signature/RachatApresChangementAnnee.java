@@ -99,6 +99,86 @@ public class RachatApresChangementAnnee {
 	}
 
     }
+    
+    public void preparationRachatChangementAnnee2(HttpServletRequest req) {
+	String QueryA;
+	DatabaseConnector dbHelper = new DatabaseConnector();
+	Connection conn;
+	PreparedStatement mPreparedStatement;
+	ResultSet rs;
+	Joueurs mBean = new Joueurs();
+	List<Integer> player_id = new ArrayList<Integer>();
+	List<String> nom2 = new ArrayList<String>();
+	List<String> team_name2 = new ArrayList<String>();
+	List<String> position2 = new ArrayList<String>();
+	List<String> years_12 = new ArrayList<String>();
+	List<String> years_22 = new ArrayList<String>();
+	List<String> years_32 = new ArrayList<String>();
+	List<String> years_42 = new ArrayList<String>();
+	List<String> years_52 = new ArrayList<String>();
+
+	conn = dbHelper.open();
+
+	String team_id = (String) req.getSession().getAttribute("mTeamId");
+	int m_team_id = Integer.parseInt(team_id);
+
+	QueryA = "SELECT * FROM players WHERE years_1>? AND club_ecole=? AND team_id=?";
+
+	try {
+	    mPreparedStatement = conn.prepareStatement(QueryA);
+	    mPreparedStatement.setInt(1, 1);
+	    mPreparedStatement.setInt(2, 0);
+	    mPreparedStatement.setInt(3, m_team_id);
+	    rs = mPreparedStatement.executeQuery();
+
+	    while (rs.next()) {
+		int p_id = (rs.getInt("_id"));
+		player_id.add(p_id);
+		mBean.setPlayer_id(player_id);
+
+		String nom = (rs.getString("nom"));
+		nom2.add(nom);
+		mBean.setNom(nom2);
+
+		String team_name = (rs.getString("team"));
+		team_name2.add(team_name);
+		mBean.setTeam_name(team_name2);
+
+		String position = (rs.getString("position"));
+		position2.add(position);
+		mBean.setPosition(position2);
+
+		String years_1 = (rs.getString("years_1"));
+		years_12.add(years_1);
+		mBean.setYears_1(years_12);
+
+		String years_2 = (rs.getString("years_2"));
+		years_22.add(years_2);
+		mBean.setYears_2(years_22);
+
+		String years_3 = (rs.getString("years_3"));
+		years_32.add(years_3);
+		mBean.setYears_3(years_32);
+
+		String years_4 = (rs.getString("years_4"));
+		years_42.add(years_4);
+		mBean.setYears_4(years_42);
+
+		String years_5 = (rs.getString("years_5"));
+		years_52.add(years_5);
+		mBean.setYears_5(years_52);
+
+	    }
+	    rs.close();
+	    req.setAttribute("players_list", mBean);
+
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	} finally {
+	    dbHelper.close(conn);
+	}
+
+    }
 
 /* ************************** methode pour premier periode de rachat 5.5 ******************* */
     public Boolean verifierSiArgent(HttpServletRequest req, int mPlayerId,
@@ -118,6 +198,7 @@ public class RachatApresChangementAnnee {
 	int budget_restant = 0;
 	int argent_recu = 0;
 	int total_argent = 0;
+	String position = null;
 
 	conn = dbHelper.open();
 
@@ -136,6 +217,7 @@ public class RachatApresChangementAnnee {
 		sYears4 = rs.getString("years_4");
 		sYears5 = rs.getString("years_5");
 		nomDuJoueurRachat = rs.getString("nom");
+		position = rs.getString("position");
 	    }
 	    rs.close();
 	    mPreparedStatement.close();
@@ -192,9 +274,24 @@ public class RachatApresChangementAnnee {
 	    if (bYears1 && bYears2 && bYears3 && bYears4 && bYears5) {
 		coutDuRachat = (iYears1 + iYears2 + iYears3 + iYears4 + iYears5) / 2;
 	    }
+	    int position2 = 0;
+	    switch(position){
+	    case "attaquant":
+		position2 = 1;
+		break;
+	    case "defenseur":
+		position2 = 2;
+		break;
+	    case "gardien":
+		position2 = 3;
+		break;
+		
+	    }
 
 	    mBean.setMontant(coutDuRachat);
 	    mBean.setNomDuJoueur(nomDuJoueurRachat);
+	    mBean.setPosition(position2);
+	    mBean.setSalaire(iYears1);
 
 	    mPreparedStatement = conn.prepareStatement(QueryB);
 	    mPreparedStatement.setInt(1, iTeamId);
@@ -224,25 +321,21 @@ public class RachatApresChangementAnnee {
     }
 
     public void racheterCeJoueur(String mPlayerIdForRachat,
-	    String mCoutForRachat, HttpServletRequest req) {
-	String QueryA, QueryB, QueryC, QueryD;
+	    String mCoutForRachat, int position, String salaire2, HttpServletRequest req) {
+	String QueryA, QueryB = null;
 	DatabaseConnector dbHelper = new DatabaseConnector();
 	Connection conn;
 	PreparedStatement mPreparedStatement;
-	ResultSet rs;
 	String team_id_temp = (String) req.getSession().getAttribute("mTeamId");
 	int iTeamId = Integer.parseInt(team_id_temp);
 	int players_id = Integer.parseInt(mPlayerIdForRachat);
 	int coutDuRachat = Integer.parseInt(mCoutForRachat);
-	int budgetRestant = 0;
-	int manquant_equipe = 0;
+	int salaire = Integer.parseInt(salaire2);
+	
 
 	conn = dbHelper.open();
 
 	QueryA = "UPDATE players SET equipe=null,contrat=0,salaire_contrat=null,contrat_cours=null,contrat_max_years=null,type_contrat=null,club_ecole=null,years_1=null,years_2=null,years_3=null,years_4=null,years_5=null,team_id=null,projection=null WHERE _id=?";
-	QueryB = "UPDATE equipes SET budget_restant=budget_restant-?,moy_sal_restant_draft=budget_restant/? WHERE team_id=?";
-	QueryC = "SELECT budget_restant,manquant_equipe FROM equipes WHERE team_id=?";
-	QueryD = "UPDATE equipes SET argent_recu=argent_recu+?,budget_restant=0 WHERE team_id=?";
 	
 
 	try {
@@ -250,36 +343,31 @@ public class RachatApresChangementAnnee {
 	    mPreparedStatement.setInt(1, players_id);
 	    mPreparedStatement.executeUpdate();
 	    mPreparedStatement.close();
-	    mPreparedStatement = conn.prepareStatement(QueryC);
-	    mPreparedStatement.setInt(1, iTeamId);
-	    rs = mPreparedStatement.executeQuery();
-	    if (rs.next()) {
-		budgetRestant = rs.getInt("budget_restant");
-		manquant_equipe= rs.getInt("manquant_equipe");
+	   	    
+	    
+	    switch(position){
+	    case 1: QueryB = "UPDATE equipes SET max_salaire_begin=max_salaire_begin-?,total_salaire_now=total_salaire_now-?,budget_restant=budget_restant+?-?,manquant_equipe=manquant_equipe+1,nb_equipe=nb_equipe-1,"
+			+ "moy_sal_restant_draft=budget_restant/manquant_equipe,nb_contrat=nb_contrat-1,nb_attaquant=nb_attaquant-1,manquant_att=manquant_att+1 WHERE team_id=?";
+		break;
+	    case 2: QueryB = "UPDATE equipes SET max_salaire_begin=max_salaire_begin-?,total_salaire_now=total_salaire_now-?,budget_restant=budget_restant+?-?,manquant_equipe=manquant_equipe+1,nb_equipe=nb_equipe-1,"
+			+ "moy_sal_restant_draft=budget_restant/manquant_equipe,nb_contrat=nb_contrat-1,nb_defenseur=nb_defenseur-1,manquant_def=manquant_def+1 WHERE team_id=?";
+		break;
+	    case 3: QueryB = "UPDATE equipes SET max_salaire_begin=max_salaire_begin-?,total_salaire_now=total_salaire_now-?,budget_restant=budget_restant+?-?,manquant_equipe=manquant_equipe+1,nb_equipe=nb_equipe-1,"
+			+ "moy_sal_restant_draft=budget_restant/manquant_equipe,nb_contrat=nb_contrat-1,nb_gardien=nb_gardien-1,manquant_gardien=manquant_gardien+1 WHERE team_id=?";
+		break;
 	    }
-	    rs.close();
 	    mPreparedStatement.close();
 	    mPreparedStatement = conn.prepareStatement(QueryB);
 	    mPreparedStatement.setInt(1, coutDuRachat);
-	    mPreparedStatement.setInt(2, manquant_equipe);
-	    mPreparedStatement.setInt(3, iTeamId);
+	    mPreparedStatement.setInt(2, salaire);
+	    mPreparedStatement.setInt(3, coutDuRachat);
+	    mPreparedStatement.setInt(4, salaire);
+	    mPreparedStatement.setInt(5, iTeamId);
 	    mPreparedStatement.executeUpdate();
 	    mPreparedStatement.close();
 	   
-	    
-	    
-
-	    if (budgetRestant < 0) {
-				
-		mPreparedStatement = conn.prepareStatement(QueryD);
-		mPreparedStatement.setInt(1, budgetRestant);
-		mPreparedStatement.setInt(2, iTeamId);
-		mPreparedStatement.executeUpdate();
-		mPreparedStatement.close();
-	    }
 
 	} catch (SQLException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	} finally {
 	    dbHelper.close(conn);

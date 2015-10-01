@@ -98,8 +98,7 @@ public class RookieApresSaison {
 
     }
 
-    public Boolean verifierSiArgent(HttpServletRequest req, int mPlayerId,
-	    Signature mBean) {
+    public Boolean verifierSiArgent(HttpServletRequest req, int mPlayerId, Signature mBean) {
 	int coutPourDescendre = 1000000;
 	String QueryB;
 	DatabaseConnector dbHelper = new DatabaseConnector();
@@ -140,22 +139,21 @@ public class RookieApresSaison {
 	    dbHelper.close(conn);
 	}
 
-	if ((budget_restant > coutPourDescendre)
-		|| (total_argent > coutPourDescendre)) {
+	if ((budget_restant > coutPourDescendre) || (total_argent > coutPourDescendre)) {
 	    return true;
 	} else {
 	    return false;
 	}
     }
 
-    public void descendreRookie(String mPlayerIdForRachat,HttpServletRequest req) {
-	String QueryA, QueryB, QueryC, QueryD,QueryE, QueryF,QueryG;
+    public void descendreRookie(String mPlayerIdForRachat, HttpServletRequest req) {
+	String QueryA, QueryB, QueryC, QueryD, QueryE, QueryF, QueryG;
 	DatabaseConnector dbHelper = new DatabaseConnector();
 	Connection conn;
 	PreparedStatement mPreparedStatement;
 	ResultSet rs;
-	int salaire_matrice=0,pts = 0, proj = 0, take_proj = 0, salaire_contrat = 0, points, iPosition = 0, salaire_type_a = 0, salaire_type_b = 0, salaire_type_2 = 0, salaire_type_4 = 0, salaire_type_5 = 0;
-	int salaire_type_3 = 0,budgetRestant=0;
+	int salaire_matrice = 0, pts = 0, proj = 0, take_proj = 0, salaire_contrat = 0, points, iPosition = 0, salaire_type_a = 0, salaire_type_b = 0, salaire_type_2 = 0, salaire_type_4 = 0, salaire_type_5 = 0;
+	int salaire_type_3 = 0, budgetRestant = 0;
 	String position = "", years2 = null, years3 = null, years4 = null, years5 = null;
 
 	int players_id = Integer.parseInt(mPlayerIdForRachat);
@@ -298,7 +296,7 @@ public class RookieApresSaison {
 		mPreparedStatement = conn.prepareStatement(QueryD);
 		mPreparedStatement.setString(1, "X");
 		mPreparedStatement.setInt(2, players_id);
-		 mPreparedStatement.executeUpdate();
+		mPreparedStatement.executeUpdate();
 		mPreparedStatement.close();
 	    }
 
@@ -307,34 +305,32 @@ public class RookieApresSaison {
 		mPreparedStatement = conn.prepareStatement(QueryD);
 		mPreparedStatement.setString(1, "X");
 		mPreparedStatement.setInt(2, players_id);
-		 mPreparedStatement.executeUpdate();
+		mPreparedStatement.executeUpdate();
 		mPreparedStatement.close();
 	    }
-	    
 
 	    if (salaire_type_5 == 0) {
 		QueryD = "UPDATE players SET years_5=? WHERE _id=?";
 		mPreparedStatement = conn.prepareStatement(QueryD);
 		mPreparedStatement.setString(1, "X");
 		mPreparedStatement.setInt(2, players_id);
-		 mPreparedStatement.executeUpdate();
+		mPreparedStatement.executeUpdate();
 		mPreparedStatement.close();
 	    }
-	    
+
 	    String team_id_temp = (String) req.getSession().getAttribute("mTeamId");
 	    int iTeamId = Integer.parseInt(team_id_temp);
-	    
+
 	    QueryE = "UPDATE equipes SET budget_restant=budget_restant-? WHERE team_id=?";
 	    mPreparedStatement = conn.prepareStatement(QueryE);
 	    mPreparedStatement.setInt(1, 1000000);
 	    mPreparedStatement.setInt(2, iTeamId);
 	    mPreparedStatement.executeUpdate();
 	    mPreparedStatement.close();
-	    
+
 	    QueryF = "SELECT budget_restant FROM equipes WHERE team_id=?";
 	    QueryG = "UPDATE equipes SET argent_recu=argent_recu+?,budget_restant=0 WHERE team_id=?";
 
-	    
 	    mPreparedStatement = conn.prepareStatement(QueryF);
 	    mPreparedStatement.setInt(1, iTeamId);
 	    rs = mPreparedStatement.executeQuery();
@@ -345,15 +341,13 @@ public class RookieApresSaison {
 	    mPreparedStatement.close();
 
 	    if (budgetRestant < 0) {
-				
+
 		mPreparedStatement = conn.prepareStatement(QueryG);
 		mPreparedStatement.setInt(1, budgetRestant);
 		mPreparedStatement.setInt(2, iTeamId);
 		mPreparedStatement.executeUpdate();
 		mPreparedStatement.close();
 	    }
-	    
-	   
 
 	} catch (SQLException e) {
 	    // TODO Auto-generated catch block
@@ -362,6 +356,130 @@ public class RookieApresSaison {
 	    dbHelper.close(conn);
 	}
 
+    }
+
+    public void dropperRookie(int mPlayerId, HttpServletRequest req) {
+	String team_id_temp = (String) req.getSession().getAttribute("mTeamId");
+	int iTeamId = Integer.parseInt(team_id_temp);
+
+	String QueryA, QueryB;
+	DatabaseConnector dbHelper = new DatabaseConnector();
+	Connection conn;
+	PreparedStatement mPreparedStatement;
+
+	conn = dbHelper.open();
+
+	QueryA = "UPDATE equipes SET nb_rookie=nb_rookie-1,manquant_recrue=manquant_recrue+1 WHERE team_id=?";
+	QueryB = "UPDATE players SET equipe=null,contrat=0,salaire_contrat=null,contrat_cours=null,contrat_max_years=null," +
+			"type_contrat=null,club_ecole=null,years_1=null,years_2=null,years_3=null,years_4=null,years_5=null," +
+			"team_id=null,projection=null WHERE _id=?";
+
+	try {
+	    mPreparedStatement = conn.prepareStatement(QueryA);
+	    mPreparedStatement.setInt(1, iTeamId);
+	    mPreparedStatement.executeUpdate();
+	    mPreparedStatement.close();
+	    
+	    mPreparedStatement = conn.prepareStatement(QueryB);
+	    mPreparedStatement.setInt(1, mPlayerId);
+	    mPreparedStatement.executeUpdate();
+	    mPreparedStatement.close();
+	    
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} finally {
+	    dbHelper.close(conn);
+	}
+
+    }
+
+    public void preparationRookieApresSaison2(HttpServletRequest req) {
+
+	String QueryA;
+	DatabaseConnector dbHelper = new DatabaseConnector();
+	Connection conn;
+	PreparedStatement mPreparedStatement;
+	ResultSet rs;
+	Joueurs mBean = new Joueurs();
+	List<Integer> player_id = new ArrayList<Integer>();
+	List<String> nom2 = new ArrayList<String>();
+	List<String> team_name2 = new ArrayList<String>();
+	List<String> position2 = new ArrayList<String>();
+	List<String> years_12 = new ArrayList<String>();
+	List<String> years_22 = new ArrayList<String>();
+	List<String> years_32 = new ArrayList<String>();
+	List<String> years_42 = new ArrayList<String>();
+	List<String> years_52 = new ArrayList<String>();
+	List<String> age2 = new ArrayList<String>();
+	conn = dbHelper.open();
+
+	String team_id = (String) req.getSession().getAttribute("mTeamId");
+	int m_team_id = Integer.parseInt(team_id);
+
+
+
+	QueryA = "SELECT * FROM players WHERE club_ecole=? AND team_id=?";
+
+	try {
+	    mPreparedStatement = conn.prepareStatement(QueryA);
+	    mPreparedStatement.setInt(1, 1);
+	    mPreparedStatement.setInt(2, m_team_id);
+	    rs = mPreparedStatement.executeQuery();
+
+	    while (rs.next()) {
+		int p_id = (rs.getInt("_id"));
+		player_id.add(p_id);
+		mBean.setPlayer_id(player_id);
+
+		String nom = (rs.getString("nom"));
+		nom2.add(nom);
+		mBean.setNom(nom2);
+
+		String team_name = (rs.getString("team"));
+		team_name2.add(team_name);
+		mBean.setTeam_name(team_name2);
+
+		String position = (rs.getString("position"));
+		position2.add(position);
+		mBean.setPosition(position2);
+
+		String years_1 = (rs.getString("years_1"));
+		years_12.add(years_1);
+		mBean.setYears_1(years_12);
+
+		String years_2 = (rs.getString("years_2"));
+		years_22.add(years_2);
+		mBean.setYears_2(years_22);
+
+		String years_3 = (rs.getString("years_3"));
+		years_32.add(years_3);
+		mBean.setYears_3(years_32);
+
+		String years_4 = (rs.getString("years_4"));
+		years_42.add(years_4);
+		mBean.setYears_4(years_42);
+
+		String years_5 = (rs.getString("years_5"));
+		years_52.add(years_5);
+		mBean.setYears_5(years_52);
+		
+		String age = (rs.getString("age"));
+		age2.add(age);
+		mBean.setAge(age2);
+
+	    }
+	    rs.close();
+	    req.setAttribute("players_list", mBean);
+
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} finally {
+	    dbHelper.close(conn);
+	}
+
+	
     }
 
 }

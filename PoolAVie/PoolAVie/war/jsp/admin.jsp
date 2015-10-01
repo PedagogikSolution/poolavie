@@ -116,7 +116,7 @@
 	<br>
 	<form action="/admin" method="post">
 	<input type="hidden" value="4" name="admin"/>	
-	<input type="submit" class="btn_menu" style="width:100%" value="Étape 5.4 : Vidage de l de la table players pour les sans équipes"/>	
+	<input type="submit" class="btn_menu" style="width:100%" value="Étape 5.4 : Vidage de la table players pour les sans équipes **salaire pour les rookie A et B avant a faire**"/>	
 	</form>
 	<form action="/admin" method="post">
 	<input type="hidden" value="5" name="admin"/>	
@@ -134,7 +134,7 @@
 	</form>
 	<form action="/admin" method="post">	
 	<input type="hidden" value="8" name="admin"/>
-	<input type="submit" class="btn_menu" style="width:100%" value="Étape 9 : Ouvrir la période des échanges"/>	
+	<input type="submit" class="btn_menu" style="width:100%" value="Étape 9 : Calculer le champs age pour les joueurs  ** changer la valeur de l'Année dasn script avant**"/>	
 	</form>
 	<br>
 	<br>

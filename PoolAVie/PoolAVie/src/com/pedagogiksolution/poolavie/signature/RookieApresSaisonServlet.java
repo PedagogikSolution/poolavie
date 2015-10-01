@@ -33,6 +33,18 @@ public class RookieApresSaisonServlet extends HttpServlet {
 	sRachatType = req.getParameter("rookieFin_type");
 	
 	switch (sRachatType) {
+	
+	case "dropRookie" :
+	    
+	    sPlayerId = req.getParameter("player_id");
+	    if (sPlayerId != null) {
+		mPlayerId = Integer.parseInt(sPlayerId);
+		RookieApresSaison mClass = new RookieApresSaison();
+		mClass.dropperRookie(mPlayerId,req);
+		resp.sendRedirect("/equipes");
+	    }
+	    
+	    break;
 
 	case "verifRookieFin":
 	    sPlayerId = req.getParameter("player_id");

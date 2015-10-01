@@ -109,9 +109,9 @@ break;
 		<br>19 septembre : fin de la saison 2014-2015. Reset des finances des équipes. Mise à jour des salaires des joueurs avec projections pour les moins de 50 et recrues.
 		<br>19 septembre : Début de la saison 2015-2016.
 		<br>22 au 24 septembre : Période de signature des joueurs en renouvellement de contrat ou recu via échange (A et B pour année).
-		<br>24 au 27 septembre : Période d'échange d'été
-		<br>29 au 30 septembre : rachat après échange 
-		<br>1 octobre au 5 octobre : monter ou dropper les recrues
+		<br>29 au 2 octobre : Période d'échange d'été
+		<br>2 au 3 septembre : rachat après échange 
+		<br>3 octobre au 6 octobre : monter ou dropper les recrues
 		<br>
 		
 	

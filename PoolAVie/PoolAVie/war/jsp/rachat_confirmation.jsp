@@ -104,13 +104,13 @@ break;
 	    <c:if test="${codeConfirmation.codePourMessageConfirmation==1}">	
 	    <br>
 	    
-		<p>Voulez-vous vraiment racheter ${codeConfirmation.nomDuJoueurRachat} au cout de ${codeConfirmation.coutDuRachat}</p>
+		<p>Voulez-vous vraiment racheter ${codeConfirmation.nomDuJoueur} au cout de ${codeConfirmation.montant}</p>
 		
 		
 		<form action="/rachat" method="post">
 		<input type="hidden" value="confirmationRachat" name="rachat_type"/>
-		<input type="hidden" value="${codeConfirmation.joueurIdPourRachat}" name="playerId"/>
-		<input type="hidden" value="${codeConfirmation.coutDuRachat}" name="coutPourRachat"/>
+		<input type="hidden" value="${codeConfirmation.joueurId}" name="playerId"/>
+		<input type="hidden" value="${codeConfirmation.montant}" name="coutPourRachat"/>
 		<input type="submit" value="Oui">
 		</form>
 		

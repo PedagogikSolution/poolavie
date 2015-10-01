@@ -56,7 +56,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Rachat de contrat début de la nouvelle saison</title>
+<title>Rachat de contrat fin de saison</title>
 <link rel="stylesheet" type="text/css" href="../css/main.css" />
 </head>
 <body>
@@ -98,16 +98,16 @@
 
 	<div class="main_container">
 		<div class="main_content"></div>
-		<div id="main_content_title_classement">Rachat fin de saison</div>
+		<div id="main_content_title_classement">Signature ou libération des rookies</div>
 		<div id="main_content_table_classement">
 
-
 			<c:set var="longueur" value="${players_list.player_id}" />
-			<c:set var="mEnd" value="${fn:length(longueur)}"/>
+			<c:set var="nombre" value="${fn:length(longueur)}" />
 
 			<c:choose>
 
-				<c:when test="${mEnd>0}">
+				<c:when test="${nombre>0}">
+
 					<table>
 						<tr>
 							<th>Nom</th>
@@ -118,35 +118,51 @@
 							<th>Year 3</th>
 							<th>Year 4</th>
 							<th>Year 5</th>
-							<th>Rachat</th>
+							<th>Dropper</th>
+							<th>Monter</th>
 						</tr>
-						<c:forEach var="i" begin="0" end="${mEnd-1}">
+
+						<c:forEach var="i" begin="0" end="${fn:length(longueur)-(1)}">
 							<tr>
 								<td>${players_list.nom[i]}</td>
 								<td>${players_list.team_name[i]}</td>
 								<td>${players_list.position[i]}</td>
-								<td>${players_list.years_1[i]}</td>
+								<td>
+								<c:if test="${players_list.age[i]==1}">
+								<span style="background-color:yellow;">${players_list.years_1[i]}</span>
+								</c:if>
+								<c:if test="${players_list.age[i]==0}">
+								${players_list.years_1[i]}
+								</c:if>							
+								</td>
 								<td>${players_list.years_2[i]}</td>
 								<td>${players_list.years_3[i]}</td>
 								<td>${players_list.years_4[i]}</td>
 								<td>${players_list.years_5[i]}</td>
-								<td><form action="/rachat2" method="post">
+								<td><form action="/rookieFin" method="post">
 										<input type="hidden" value="${players_list.player_id[i]}"
-											name="player_id" /> <input type="hidden" value="verifRachat"
-											name="rachat_type" /> <input type="submit"
-											value="Racheté ce joueur">
+											name="player_id" /> <input type="hidden"
+											value="dropRookie" name="rookieFin_type" /> <input
+											type="submit" value="Libérer cet recrue">
+									</form></td>
+								<td><form action="/rookieFin" method="post">
+										<input type="hidden" value="${players_list.player_id[i]}"
+											name="player_id" /> <input type="hidden"
+											value="verifRookieFin" name="rookieFin_type" /> <input
+											type="submit" value="Monter et signé ce joueur">
 									</form></td>
 							</tr>
 						</c:forEach>
 					</table>
 				</c:when>
 				<c:otherwise>
-				Vous n'avez pas de joueurs pouvant être racheté
-					
+				Vous n'avez aucun joueur de moins de 25 ans pouvant être descendus dans votre club école		
 				</c:otherwise>
-				
-				</c:choose>
+
+			</c:choose>
+
 		</div>
+
 		<div class="main_sidebar">
 			<div class="section_budget_haut">
 				<h3>MON BUDGET</h3>
