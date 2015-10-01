@@ -11,6 +11,11 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<welcome-file-list>
 		<welcome-file>jsp/home.jsp</welcome-file>
 	</welcome-file-list>
+	
+	<!-- Configuration de la durée de la session -->
+	<session-config>
+		<session-timeout>200</session-timeout>
+	</session-config>
 
 	<!-- Initialisation des servlets -->
 

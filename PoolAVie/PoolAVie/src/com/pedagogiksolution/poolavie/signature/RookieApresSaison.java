@@ -370,21 +370,20 @@ public class RookieApresSaison {
 	conn = dbHelper.open();
 
 	QueryA = "UPDATE equipes SET nb_rookie=nb_rookie-1,manquant_recrue=manquant_recrue+1 WHERE team_id=?";
-	QueryB = "UPDATE players SET equipe=null,contrat=0,salaire_contrat=null,contrat_cours=null,contrat_max_years=null," +
-			"type_contrat=null,club_ecole=null,years_1=null,years_2=null,years_3=null,years_4=null,years_5=null," +
-			"team_id=null,projection=null WHERE _id=?";
+	QueryB = "UPDATE players SET equipe=null,contrat=0,salaire_contrat=null,contrat_cours=null,contrat_max_years=null,"
+		+ "type_contrat=null,club_ecole=null,years_1=null,years_2=null,years_3=null,years_4=null,years_5=null," + "team_id=null,projection=null WHERE _id=?";
 
 	try {
 	    mPreparedStatement = conn.prepareStatement(QueryA);
 	    mPreparedStatement.setInt(1, iTeamId);
 	    mPreparedStatement.executeUpdate();
 	    mPreparedStatement.close();
-	    
+
 	    mPreparedStatement = conn.prepareStatement(QueryB);
 	    mPreparedStatement.setInt(1, mPlayerId);
 	    mPreparedStatement.executeUpdate();
 	    mPreparedStatement.close();
-	    
+
 	} catch (SQLException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
@@ -416,8 +415,6 @@ public class RookieApresSaison {
 
 	String team_id = (String) req.getSession().getAttribute("mTeamId");
 	int m_team_id = Integer.parseInt(team_id);
-
-
 
 	QueryA = "SELECT * FROM players WHERE club_ecole=? AND team_id=?";
 
@@ -463,7 +460,7 @@ public class RookieApresSaison {
 		String years_5 = (rs.getString("years_5"));
 		years_52.add(years_5);
 		mBean.setYears_5(years_52);
-		
+
 		String age = (rs.getString("age"));
 		age2.add(age);
 		mBean.setAge(age2);
@@ -479,7 +476,211 @@ public class RookieApresSaison {
 	    dbHelper.close(conn);
 	}
 
-	
+    }
+
+    public Boolean monterRookieVerifArgentContrat(int mPlayerId, int nbAnnee, String salaire, HttpServletRequest req, Signature mBean) {
+	String QueryA, QueryB;
+	DatabaseConnector dbHelper = new DatabaseConnector();
+	Connection conn;
+	PreparedStatement mPreparedStatement;
+	ResultSet rs;
+	int budget_restant = 0, manquant_equipe = 0, nombre_contrat = 0;
+	int mSalaire = 0;
+	String playerName = null;
+
+	if (salaire != null) {
+	    mSalaire = Integer.parseInt(salaire);
+	}
+
+	String team_id_temp = (String) req.getSession().getAttribute("mTeamId");
+	int iTeamId = Integer.parseInt(team_id_temp);
+
+	conn = dbHelper.open();
+
+	QueryA = "SELECT * FROM equipes WHERE team_id=?";
+	QueryB = "SELECT nom FROM players WHERE _id=?";
+
+	try {
+	    mPreparedStatement = conn.prepareStatement(QueryA);
+	    mPreparedStatement.setInt(1, iTeamId);
+	    rs = mPreparedStatement.executeQuery();
+
+	    if (rs.next()) {
+		budget_restant = rs.getInt("budget_restant");
+		manquant_equipe = rs.getInt("manquant_equipe");
+		nombre_contrat = rs.getInt("nb_contrat");
+	    }
+	    rs.close();
+	    mPreparedStatement.close();
+
+	    mPreparedStatement = conn.prepareStatement(QueryB);
+	    mPreparedStatement.setInt(1, mPlayerId);
+	    rs = mPreparedStatement.executeQuery();
+
+	    if (rs.next()) {
+		playerName = rs.getString("nom");
+	    }
+	    rs.close();
+	    mPreparedStatement.close();
+
+	    mBean.setNomDuJoueur(playerName);
+	    mBean.setSalaire(mSalaire);
+
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	} finally {
+	    dbHelper.close(conn);
+	}
+
+	if (nombre_contrat + 1 > 12) {
+	    return false;
+	}
+
+	int moyenne = (budget_restant - mSalaire) / (manquant_equipe - 1);
+
+	if ((moyenne >= 1000000) && (nombre_contrat < 12)) {
+
+	    return true;
+	} else {
+	    return false;
+	}
+
+    }
+
+    public void monterRookie(String sPlayerId, String nb_annee, String salaire, HttpServletRequest req) {
+	int playerId = 0, nbAnnee = 0, salaireFirstYear = 0;
+
+	String team_id_temp = (String) req.getSession().getAttribute("mTeamId");
+	int iTeamId = Integer.parseInt(team_id_temp);
+
+	if (sPlayerId != null) {
+	    playerId = Integer.parseInt(sPlayerId);
+	}
+	if (nb_annee != null) {
+	    nbAnnee = Integer.parseInt(nb_annee);
+	}
+	if (salaire != null) {
+	    salaireFirstYear = Integer.parseInt(salaire);
+	}
+
+	String QueryA, QueryB = null, QueryC=null;
+	DatabaseConnector dbHelper = new DatabaseConnector();
+	Connection conn;
+	PreparedStatement mPreparedStatement;
+	ResultSet rs;
+	String position = null;
+	String years_1 = null, years_2 = null, years_3= null, years_4= null;
+
+	conn = dbHelper.open();
+
+	QueryA = "SELECT * FROM players WHERE _id=?";
+
+	try {
+	    mPreparedStatement = conn.prepareStatement(QueryA);
+	    mPreparedStatement.setInt(1, playerId);
+	    rs = mPreparedStatement.executeQuery();
+
+	    if (rs.next()) {
+
+		position = rs.getString("position");
+		years_1 = rs.getString("years_1");
+		years_2 = rs.getString("years_2");
+		years_3 = rs.getString("years_3");
+		years_4 = rs.getString("years_4");
+
+	    }
+	    rs.close();
+	    mPreparedStatement.close();
+
+	    switch (position) {
+	    case "attaquant":
+		QueryB = "UPDATE equipes SET total_salaire_now=total_salaire_now+?,budget_restant=budget_restant-?,"
+			+ "nb_contrat=nb_contrat+1,nb_equipe=nb_equipe+1,manquant_equipe=manquant_equipe-1,"
+			+ "moy_sal_restant_draft=budget_restant/manquant_equipe,nb_attaquant=nb_attaquant+1,manquant_att=manquant_att-1,"
+			+ "nb_rookie=nb_rookie-1,manquant_recrue=manquant_recrue+1 WHERE team_id=?";
+		break;
+	    case "defenseur":
+		QueryB = "UPDATE equipes SET total_salaire_now=total_salaire_now+?,budget_restant=budget_restant-?,"
+			+ "nb_contrat=nb_contrat+1,nb_equipe=nb_equipe+1,manquant_equipe=manquant_equipe-1,"
+			+ "moy_sal_restant_draft=budget_restant/manquant_equipe,nb_defenseur=nb_defenseur+1,manquant_def=manquant_def-1,"
+			+ "nb_rookie=nb_rookie-1,manquant_recrue=manquant_recrue+1 WHERE team_id=?";
+		break;
+	    case "gardien":
+		QueryB = "UPDATE equipes SET total_salaire_now=total_salaire_now+?,budget_restant=budget_restant-?,"
+			+ "nb_contrat=nb_contrat+1,nb_equipe=nb_equipe+1,manquant_equipe=manquant_equipe-1,"
+			+ "moy_sal_restant_draft=budget_restant/manquant_equipe,nb_gardien=nb_gardien+1,manquant_gardien=manquant_gardien-1,"
+			+ "nb_rookie=nb_rookie-1,manquant_recrue=manquant_recrue+1 WHERE team_id=?";
+		break;
+	    }
+
+	    mPreparedStatement = conn.prepareStatement(QueryB);
+	    mPreparedStatement.setInt(1, salaireFirstYear);
+	    mPreparedStatement.setInt(2, salaireFirstYear);
+	    mPreparedStatement.setInt(3, iTeamId);
+	    mPreparedStatement.executeUpdate();
+
+	    mPreparedStatement.close();
+
+	    switch (nbAnnee) {
+
+	    case 1:
+		QueryC = "UPDATE players SET club_ecole=0,contrat=1,years_1=?,years_2='X',years_3='X',years_4='X',years_5='X' WHERE _id=?";
+		mPreparedStatement = conn.prepareStatement(QueryC);
+		mPreparedStatement.setString(1, years_1);
+		mPreparedStatement.setInt(2, playerId);
+		mPreparedStatement.executeUpdate();
+
+		mPreparedStatement.close();
+
+		break;
+
+	    case 2:
+		QueryC = "UPDATE players SET club_ecole=0,contrat=1,years_1=?,years_2=?,years_3='X',years_4='X',years_5='X' WHERE _id=?";
+		mPreparedStatement.close();
+		mPreparedStatement = conn.prepareStatement(QueryC);
+		mPreparedStatement.setString(1, years_1);
+		mPreparedStatement.setString(2, years_2);
+		mPreparedStatement.setInt(3, playerId);
+		mPreparedStatement.executeUpdate();
+
+		mPreparedStatement.close();
+		break;
+
+	    case 3:
+		QueryC = "UPDATE players SET club_ecole=0,contrat=1,years_1=?,years_2=?,years_3=?,years_4='X',years_5='X' WHERE _id=?";
+		mPreparedStatement.close();
+		mPreparedStatement = conn.prepareStatement(QueryC);
+		mPreparedStatement.setString(1, years_1);
+		mPreparedStatement.setString(2, years_2);
+		mPreparedStatement.setString(3, years_3);
+		mPreparedStatement.setInt(4, playerId);
+		mPreparedStatement.executeUpdate();
+
+		mPreparedStatement.close();
+		break;
+
+	    case 4:
+		QueryC = "UPDATE players SET club_ecole=0,contrat=1,years_1=?,years_2=?,years_3=?,years_4=?,years_5='X' WHERE _id=?";
+		mPreparedStatement.close();
+		mPreparedStatement = conn.prepareStatement(QueryC);
+		mPreparedStatement.setString(1, years_1);
+		mPreparedStatement.setString(2, years_2);
+		mPreparedStatement.setString(3, years_3);
+		mPreparedStatement.setString(4, years_4);
+		mPreparedStatement.setInt(5, playerId);
+		mPreparedStatement.executeUpdate();
+
+		mPreparedStatement.close();
+		break;
+
+	    }
+
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	} finally {
+	    dbHelper.close(conn);
+	}
+
     }
 
 }

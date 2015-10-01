@@ -100,6 +100,21 @@
 		<div class="main_content"></div>
 		<div id="main_content_title_classement">Signature ou libération des rookies</div>
 		<div id="main_content_table_classement">
+		
+		<c:if test="${codeErreur.codePourMessageConfirmation==1 }">
+			<h2 style="color: red">
+			<strong>
+				Vous n'avez pas choisi de nombre d'année. Tu penses que ca sert à quoi les boutons radios clicables Einstein
+			</strong>
+			</h2>
+		</c:if>
+		<c:if test="${codeErreur.codePourMessageConfirmation==2 }">
+			<h2 style="color: red">
+			<strong>
+				Vous avez trop de contrat ou pu assez d'Argent pour drafter. Impossible de monter cette recrue cette année.
+			</strong>
+			</h2>
+		</c:if>
 
 			<c:set var="longueur" value="${players_list.player_id}" />
 			<c:set var="nombre" value="${fn:length(longueur)}" />
@@ -130,33 +145,58 @@
 								<td>
 								<c:if test="${players_list.age[i]==1}">
 								<span style="background-color:yellow;">${players_list.years_1[i]}</span>
+								<c:if test="${players_list.years_1[i]!='X' }">
+								 : <input form="monterRookie${i}" type="radio" name="nombre_annee" value="1">
+								</c:if>
 								</c:if>
 								<c:if test="${players_list.age[i]==0}">
 								${players_list.years_1[i]}
+								<c:if test="${players_list.years_1[i]!='X'}">
+								 : <input form="monterRookie${i}" type="radio" name="nombre_annee" value="1">
+								</c:if>
 								</c:if>							
 								</td>
-								<td>${players_list.years_2[i]}</td>
-								<td>${players_list.years_3[i]}</td>
-								<td>${players_list.years_4[i]}</td>
-								<td>${players_list.years_5[i]}</td>
+								<td>${players_list.years_2[i]}
+								<c:if test="${players_list.years_2[i]!='X'}">
+								 : <input form="monterRookie${i}" type="radio" name="nombre_annee" value="2">
+								</c:if>
+								</td>
+								<td>${players_list.years_3[i]}
+								<c:if test="${players_list.years_3[i]!='X'}">
+								 : <input form="monterRookie${i}" type="radio" name="nombre_annee" value="3">
+								</c:if>
+								</td>
+								<td>${players_list.years_4[i]}
+								<c:if test="${players_list.years_4[i]!='X'}">
+								 : <input form="monterRookie${i}" type="radio" name="nombre_annee" value="4">
+								</c:if>
+								</td>
+								<td>${players_list.years_5[i]}
+								<c:if test="${players_list.years_5[i]!='X'}">
+								 : <input form="monterRookie${i}" type="radio" name="nombre_annee" value="5">
+								</c:if>
+								</td>
 								<td><form action="/rookieFin" method="post">
 										<input type="hidden" value="${players_list.player_id[i]}"
 											name="player_id" /> <input type="hidden"
 											value="dropRookie" name="rookieFin_type" /> <input
 											type="submit" value="Libérer cet recrue">
 									</form></td>
-								<td><form action="/rookieFin" method="post">
-										<input type="hidden" value="${players_list.player_id[i]}"
-											name="player_id" /> <input type="hidden"
-											value="verifRookieFin" name="rookieFin_type" /> <input
-											type="submit" value="Monter et signé ce joueur">
-									</form></td>
+								
+								<td>
+									<form id="monterRookie${i}" action="/rookieFin" method="post">
+										<input type="hidden" value="${players_list.player_id[i]}" name="player_id" />
+										<input type="hidden" value="${players_list.years_1[i]}" name="salaire" />
+										<input type="hidden" value="monterRookieVerif" name="rookieFin_type" />
+										<input type="submit" value="Monter et signé ce joueur">
+									</form>
+								</td>
 							</tr>
 						</c:forEach>
 					</table>
 				</c:when>
 				<c:otherwise>
-				Vous n'avez aucun joueur de moins de 25 ans pouvant être descendus dans votre club école		
+				Vous n'avez aucune recrue dans votre club école		
 				</c:otherwise>
 
 			</c:choose>
