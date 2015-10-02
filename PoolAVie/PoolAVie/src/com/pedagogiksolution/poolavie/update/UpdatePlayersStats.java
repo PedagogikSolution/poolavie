@@ -41,6 +41,7 @@ public class UpdatePlayersStats {
 			but_att_0 = rs11.getInt(3);
 			passe_att_0 = rs11.getInt(4);
 		}
+		rs11.close();
 
 		rs22 = conn.createStatement().executeQuery(statement22);
 		if (rs22.next()) {
@@ -49,6 +50,7 @@ public class UpdatePlayersStats {
 			but_def_0 = rs22.getInt(3);
 			passe_def_0 = rs22.getInt(4);
 		}
+		rs22.close();
 		rs33 = conn.createStatement().executeQuery(statement33);
 		if (rs33.next()) {
 			pts_goal_0 = rs33.getInt(1);
@@ -56,7 +58,7 @@ public class UpdatePlayersStats {
 			but_goal_0 = rs33.getInt(3);
 			passe_goal_0 = rs33.getInt(4);
 		}
-		
+		rs33.close();
 		pts_total_0 = pts_att_0 + pts_def_0 + pts_goal_0;
 		pj_total_0 = pj_att_0 + pj_def_0 + pj_goal_0;
 		but_total_0 = but_att_0 + but_def_0;

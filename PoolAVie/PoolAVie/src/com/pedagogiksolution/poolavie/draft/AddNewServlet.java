@@ -46,24 +46,16 @@ public class AddNewServlet extends HttpServlet {
 								" VALUES ('" + nom + "','" + team + "','" + position + "','" + birthday + "','" + salaire_draft + "','" +can_be_rookie+"','0')";
 									
 						
-						try {
+						
 							
 							try {
 								conn.createStatement().executeUpdate(statement);
 							} catch (SQLException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
-							}
-							
-							
-							
-							
-							
-						
-							
-						}finally {
+							} finally {
 							dbHelper.close(conn);
-						}
+							}
 					} else {
 						// une erreur de connexion s'est produite, gérer ce problème pour
 						// être transparent pour l'utilisateur

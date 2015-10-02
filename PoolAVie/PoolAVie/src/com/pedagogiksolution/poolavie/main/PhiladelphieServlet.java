@@ -24,7 +24,7 @@ public class PhiladelphieServlet extends HttpServlet {
 	Connection conn;
 	ResultSet rs, rs2, rs3, rs4,rs5,rs6;
 	String mTeamIdentifiant;
-	String mTeam;
+	int mTeam;
 	String mUsername;
 	DatabaseConnector dbHelper;
 	int max_salaire,total_salaire,budget_restant,moy_restante,nb_att,nb_def,nb_gar,
@@ -47,7 +47,7 @@ public class PhiladelphieServlet extends HttpServlet {
 		List<Object> dataList4 = new ArrayList<Object>();
 		List<Object> dataList5 = new ArrayList<Object>();
 		String teamIdentifiant = (String) req.getSession().getAttribute("mTeamId");
-		int mTeam = Integer.parseInt(teamIdentifiant);
+		if(teamIdentifiant!=null){mTeam = Integer.parseInt(teamIdentifiant);}
 		// connexion aux serveurs4 de base de donnée
 		dbHelper = new DatabaseConnector();
 		conn = dbHelper.open();
@@ -79,7 +79,7 @@ public class PhiladelphieServlet extends HttpServlet {
 						dataList.add(rs.getString("years_4"));
 						dataList.add(rs.getString("years_5"));
 					}
-					
+					rs.close();
 					rs2 = conn.createStatement().executeQuery(statement2);
 
 					while (rs2.next()) {
@@ -99,6 +99,7 @@ public class PhiladelphieServlet extends HttpServlet {
 						
 
 					}
+					rs2.close();
 					rs3 = conn.createStatement().executeQuery(statement3);
 
 					while (rs3.next()) {
@@ -119,6 +120,7 @@ public class PhiladelphieServlet extends HttpServlet {
 						
 
 					}
+					rs3.close();
 					rs4 = conn.createStatement().executeQuery(statement4);
 
 					while (rs4.next()) {
@@ -138,7 +140,7 @@ public class PhiladelphieServlet extends HttpServlet {
 						
 
 					}
-					
+					rs4.close();
 					rs5 = conn.createStatement().executeQuery(statement5);
 					if (rs5.next()) {
 					max_salaire = rs5.getInt("max_salaire_begin");
@@ -163,7 +165,7 @@ public class PhiladelphieServlet extends HttpServlet {
 	pick_manquant = rs5.getInt("manquant_equipe") + rs5.getInt("manquant_recrue");
 					
 					statement6 = "SELECT * FROM draft_round WHERE team_id=5 LIMIT " + pick_manquant;
-					
+					rs5.close();
 					rs6 = conn.createStatement().executeQuery(statement6);
 					while (rs6.next()) {
 						dataList5.add( rs6.getInt("team_count"));
@@ -173,7 +175,7 @@ public class PhiladelphieServlet extends HttpServlet {
 						
 						
 					}
-					
+					rs6.close();
 					RecuperationTeamForExchange recupTeam = new RecuperationTeamForExchange();
 					ResultSet rs9 = recupTeam.recuperationPick(5);
 					

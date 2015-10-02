@@ -43,7 +43,8 @@ public class AttaquantServlet extends HttpServlet {
 				sortBy="null";
 			}
 			teamIdentifiant = (String) req.getSession().getAttribute("mTeamId");
-			mTeam_id = Integer.parseInt(teamIdentifiant);
+			if(teamIdentifiant!=null){
+			mTeam_id = Integer.parseInt(teamIdentifiant);}
 			// connexion aux serveurs4 de base de donnée
 			dbHelper = new DatabaseConnector();
 			conn = dbHelper.open();
@@ -77,9 +78,14 @@ public class AttaquantServlet extends HttpServlet {
 							draft_pick_no = rs6.getInt("draft_pick_no");
 							team_id = rs6.getInt("team_id");
 						}
+						
+						rs6.close();
+						
 						statement7 = "SELECT team_id,equipe FROM draft_round WHERE draft_pick_no > '" + draft_pick_no + "' LIMIT 10";
 						rs7 = conn.createStatement().executeQuery(statement7);
 						req.setAttribute("next_10", rs7);
+						
+						rs7.close();
 						
 						
 						if(team_id==mTeam_id){
@@ -95,6 +101,8 @@ public class AttaquantServlet extends HttpServlet {
 						rs = conn.createStatement().executeQuery(statement);
 
 						req.setAttribute("draft_all_player", rs);
+						
+						rs.close();
 
 						rs5 = conn.createStatement().executeQuery(statement5);
 
@@ -118,6 +126,8 @@ public class AttaquantServlet extends HttpServlet {
 							argent_recu = rs5.getInt("argent_recu");
 							bonus_penalite = rs5.getInt("bonus_penalite");
 						}
+						
+						rs5.close();
 
 						req.getSession().setAttribute("max_salaire", max_salaire);
 						req.getSession().setAttribute("total_salaire",
@@ -180,7 +190,9 @@ public class AttaquantServlet extends HttpServlet {
 				sortBy="null";
 			}
 			teamIdentifiant = (String) req.getSession().getAttribute("mTeamId");
-			mTeam_id = Integer.parseInt(teamIdentifiant);
+			
+			if(teamIdentifiant!=null){
+			mTeam_id = Integer.parseInt(teamIdentifiant);}
 			// connexion aux serveurs4 de base de donnée
 			dbHelper = new DatabaseConnector();
 			conn = dbHelper.open();
@@ -214,11 +226,13 @@ public class AttaquantServlet extends HttpServlet {
 							draft_pick_no = rs6.getInt("draft_pick_no");
 							team_id = rs6.getInt("team_id");
 						}
+						
+						rs6.close();
 						statement7 = "SELECT team_id,equipe FROM draft_round WHERE draft_pick_no > '" + draft_pick_no + "' LIMIT 10";
 						rs7 = conn.createStatement().executeQuery(statement7);
 						req.setAttribute("next_10", rs7);
 						
-						
+						rs7.close();
 						if(team_id==mTeam_id){
 							req.setAttribute("myTurn", true);
 							req.setAttribute("draft_pick_now", team_id);
@@ -230,6 +244,8 @@ public class AttaquantServlet extends HttpServlet {
 						}
 
 						rs = conn.createStatement().executeQuery(statement);
+						
+						rs.close();
 
 						req.setAttribute("draft_all_player", rs);
 
@@ -255,7 +271,7 @@ public class AttaquantServlet extends HttpServlet {
 							argent_recu = rs5.getInt("argent_recu");
 							bonus_penalite = rs5.getInt("bonus_penalite");
 						}
-
+						rs5.close();
 						req.getSession().setAttribute("max_salaire", max_salaire);
 						req.getSession().setAttribute("total_salaire",
 								total_salaire);

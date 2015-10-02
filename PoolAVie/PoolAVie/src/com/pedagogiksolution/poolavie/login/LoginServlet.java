@@ -91,6 +91,7 @@ public class LoginServlet extends HttpServlet {
 							 * si recupération ok, testing du password sur le
 							 * username
 							 */
+							rs.close();
 							try {
 								validateHash = pEncrypt.validatePassword(
 										password, mPassword);
@@ -123,6 +124,7 @@ public class LoginServlet extends HttpServlet {
 									dataList.add(rs2.getInt("difference"));
 
 								}
+								rs2.close();
 								if(teamIdentifiant==1){
 								    req.getSession().setAttribute("adminIn","ok");
 								}

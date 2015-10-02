@@ -24,7 +24,7 @@ public class EquipesServlet extends HttpServlet {
 	Connection conn;
 	ResultSet rs, rs2, rs3, rs4,rs5,rs6;
 	String mTeamIdentifiant;
-	String mTeam;
+	int mTeam;
 	String mUsername;
 	DatabaseConnector dbHelper;
 	int max_salaire,total_salaire,budget_restant,moy_restante,nb_att,nb_def,nb_gar,
@@ -47,7 +47,7 @@ public class EquipesServlet extends HttpServlet {
 		List<Object> dataList4 = new ArrayList<Object>();
 		List<Object> dataList5 = new ArrayList<Object>();
 		String teamIdentifiant = (String) req.getSession().getAttribute("mTeamId");
-		int mTeam = Integer.parseInt(teamIdentifiant);
+		if(teamIdentifiant!=null){mTeam = Integer.parseInt(teamIdentifiant);}
 		// connexion aux serveurs4 de base de donnée
 		dbHelper = new DatabaseConnector();
 		conn = dbHelper.open();
@@ -86,6 +86,7 @@ public class EquipesServlet extends HttpServlet {
 						dataList.add(rs.getString("years_4"));
 						dataList.add(rs.getString("years_5"));
 					}
+					rs.close();
 					
 					rs2 = conn.createStatement().executeQuery(statement2);
 
@@ -106,6 +107,7 @@ public class EquipesServlet extends HttpServlet {
 						
 
 					}
+					rs2.close();
 					rs3 = conn.createStatement().executeQuery(statement3);
 
 					while (rs3.next()) {
@@ -126,6 +128,7 @@ public class EquipesServlet extends HttpServlet {
 						
 
 					}
+					rs3.close();
 					rs4 = conn.createStatement().executeQuery(statement4);
 
 					while (rs4.next()) {
@@ -145,6 +148,7 @@ public class EquipesServlet extends HttpServlet {
 						
 
 					}
+					rs4.close();
 					
 					rs5 = conn.createStatement().executeQuery(statement5);
 					if (rs5.next()) {
@@ -167,7 +171,7 @@ public class EquipesServlet extends HttpServlet {
 					argent_recu= rs5.getInt("argent_recu");
 					bonus_penalite = rs5.getInt("bonus_penalite");
 					}
-					
+					rs5.close();
 					pick_manquant = rs5.getInt("manquant_equipe") + rs5.getInt("manquant_recrue");
 					
 					statement6 = "SELECT * FROM draft_round WHERE team_id='" + teamIdentifiant + "' LIMIT " + pick_manquant;
@@ -182,7 +186,7 @@ public class EquipesServlet extends HttpServlet {
 						
 					}
 					
-					
+					rs6.close();
 					RecuperationTeamForExchange recupTeam = new RecuperationTeamForExchange();
 					ResultSet rs9 = recupTeam.recuperationPick(mTeam);
 					

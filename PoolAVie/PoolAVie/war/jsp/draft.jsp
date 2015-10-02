@@ -403,7 +403,7 @@ String mEquipe ="";
 				Recrue manquante : <br><%=session.getAttribute("manq_rook")%>
 			</p>
 			</div>
-			<!--  		<p>
+			<p>
 				Bonus de 5 Millions : <br><%=session.getAttribute("bonus_5")%>
 			</p>
 			<p>
@@ -411,7 +411,7 @@ String mEquipe ="";
 			</p>
 			<p>
 				Bonus et pénalité : <br><%=session.getAttribute("bonus_penalite")%>
-			</p> -->
+			</p> 
 		</div>
 
 
