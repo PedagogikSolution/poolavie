@@ -216,6 +216,7 @@ String mEquipe ="";
 
 		<%
 			}
+			rs7.close();
  	
 		%>
 
@@ -293,7 +294,7 @@ String mEquipe ="";
 
 				<%
 					}
-					
+					rs.close();
 					
 				%>
 			</table>
@@ -338,6 +339,8 @@ String mEquipe ="";
 				<%
 					
 				}
+				
+				rs.close();
 				%>
 			</table>
 			<%

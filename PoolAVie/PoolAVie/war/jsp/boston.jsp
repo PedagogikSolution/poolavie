@@ -398,7 +398,7 @@ rs9 = (ResultSet) request.getAttribute("picks");
 				</tr>
 				<%
 					}
-				
+				rs9.close();
 				%>
 			</table>
 			<br>

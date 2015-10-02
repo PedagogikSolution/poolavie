@@ -5,7 +5,7 @@
 
 
 <%
-	Boolean myTurn = false;
+    Boolean myTurn = false;
 	String mDraftPickNow = "";
 	String mDraftPickImage= "";
 	myTurn = (Boolean) request.getAttribute("myTurn");
@@ -178,9 +178,9 @@
 	<div class="main_menu">
 		<a href="/jsp/main.jsp"><button class="btn_menu">Classement</button></a>
 		<a href="/draft?sortby=all"><button class="btn_menu">Draft</button></a>
-		<a href="/trade"><button class="btn_menu">Trade</button></a>
-		<a href="/equipes"><button class="btn_menu">Team</button></a>
-		<a href="/signature"><button class="btn_menu">Signature</button></a>
+		<a href="/trade"><button class="btn_menu">Trade</button></a> <a
+			href="/equipes"><button class="btn_menu">Team</button></a> <a
+			href="/signature"><button class="btn_menu">Signature</button></a>
 		<button class="btn_menu">Règlement</button>
 		<button class="btn_menu">Admin</button>
 	</div>
@@ -202,12 +202,8 @@
 			src="images/<%=mDraftPickImage%>"></a> NEXT 10 TO PICK :
 
 		<%
-		
-	
-		
- 	while (rs7.next()) {
- 		String mEquipe = rs7.getString("equipe");
- 		
+     while (rs7.next()) {
+  		String mEquipe = rs7.getString("equipe");
  %>
 
 
@@ -216,8 +212,8 @@
 
 
 		<%
-			}
- 	
+		    }
+					rs7.close();
 		%>
 
 
@@ -226,54 +222,52 @@
 
 	<div class="main_container">
 		<div class="main_content">
-		<div id="main_content_title_classement">RECRUES</div>
-		<div id="main_content_table_classement">
-			<br>
-			<%
-				if (myTurn == true) {
-			%>
-
-			<table>
-				<tr>
-					<th>Nom</th>
-					<th>Team</th>
-					<th>Pos</th>
-					<th>Pj</th>
-					<th>But</th>
-					<th>Passe</th>
-					<th><a href="/recrue?sortby=pts">Pts</a></th>
-					<th>Rookie</th>
-					<th><a href="/recrue?sortby=salaire">Salaire</a></th>
-					<th><a href="/recrue?sortby=proj">Proj</a></th>
-					<th>Draft Pick</th>
-				</tr>
-<%
-				
-				
-					while (rs.next()) {
-						
-					String nom = rs.getString("nom");	
-					String position = rs.getString("position");	
-						String team = rs.getString("team");
-						String can_rook=rs.getString("can_be_rookie");
-						String salaire_draft=rs.getString("salaire_draft");
-						
+			<div id="main_content_title_classement">RECRUES</div>
+			<div id="main_content_table_classement">
+				<br>
+				<%
+				    if (myTurn == true) {
 				%>
 
+				<table>
+					<tr>
+						<th>Nom</th>
+						<th>Team</th>
+						<th>Pos</th>
+						<th>Pj</th>
+						<th>But</th>
+						<th>Passe</th>
+						<th><a href="/recrue?sortby=pts">Pts</a></th>
+						<th>Rookie</th>
+						<th><a href="/recrue?sortby=salaire">Salaire</a></th>
+						<th><a href="/recrue?sortby=proj">Proj</a></th>
+						<th>Draft Pick</th>
+					</tr>
+					<%
+					    while (rs.next()) {
+											
+										String nom = rs.getString("nom");	
+										String position = rs.getString("position");	
+											String team = rs.getString("team");
+											String can_rook=rs.getString("can_be_rookie");
+											String salaire_draft=rs.getString("salaire_draft");
+					%>
 
-				<tr>
 
-					<td><%=nom%></td>
-					<td><%=team%></td>
-					<td><%=position%></td>
-					<td><%=rs.getString("pj")%></td>
-					<td><%=rs.getString("but_victoire")%></td>
-					<td><%=rs.getString("aide_overtime")%></td>
-					<td><%=rs.getString("pts")%></td>
-					<td><%=can_rook%></td>
-					<td><%=salaire_draft%></td>
-					<td><%=rs.getString("projection")%></td>
-					<td><!-- 
+					<tr>
+
+						<td><%=nom%></td>
+						<td><%=team%></td>
+						<td><%=position%></td>
+						<td><%=rs.getString("pj")%></td>
+						<td><%=rs.getString("but_victoire")%></td>
+						<td><%=rs.getString("aide_overtime")%></td>
+						<td><%=rs.getString("pts")%></td>
+						<td><%=can_rook%></td>
+						<td><%=salaire_draft%></td>
+						<td><%=rs.getString("projection")%></td>
+						<td>
+							<!-- 
 							<form action="/pick_made" method="post">
 							<input type="hidden" name="draft_pick_no" value="<%=draft_pick_no%>">
 							<input type="hidden" name="draft_player_id" value="<%=rs.getString("_id")%>">
@@ -286,119 +280,121 @@
 							<input type="submit" value="PICK">
 							</form>
 						-->
-					</td>
+						</td>
 
-				</tr>
+					</tr>
+
+					<%
+					    }
+					rs.close();
+					%>
+				</table>
 
 				<%
-					}
+				    } else {
+				%>
+				<table>
+					<tr>
+						<th>Nom</th>
+						<th>Team</th>
+						<th>Pos</th>
+						<th>Pj</th>
+						<th>But</th>
+						<th>Passe</th>
+						<th><a href="/recrue?sortby=pts">Pts</a></th>
+						<th>Rookie</th>
+						<th><a href="/recrue?sortby=salaire">Salaire</a></th>
+						<th><a href="/recrue?sortby=proj">Proj</a></th>
+						<th>Draft Pick</th>
+					</tr>
+
+					<%
+					    while (rs.next()) {
+					%>
+
+					<tr>
+						<td><%=rs.getString("nom")%></td>
+						<td><%=rs.getString("team")%></td>
+						<td><%=rs.getString("position")%></td>
+						<td><%=rs.getString("pj")%></td>
+						<td><%=rs.getString("but_victoire")%></td>
+						<td><%=rs.getString("aide_overtime")%></td>
+						<td><%=rs.getString("pts")%></td>
+						<td><%=rs.getString("can_be_rookie")%></td>
+						<td><%=rs.getString("salaire_draft")%></td>
+						<td><%=rs.getString("projection")%></td>
+						<td><button>NOT YOUR TURN</button></td>
+
+					</tr>
+					<%
+					    }
 					
-					
-				%>
-			</table>
-
-			<%
-				} else {
-			%>
-			<table>
-				<tr>
-					<th>Nom</th>
-					<th>Team</th>
-					<th>Pos</th>
-					<th>Pj</th>
-					<th>But</th>
-					<th>Passe</th>
-					<th><a href="/recrue?sortby=pts">Pts</a></th>
-					<th>Rookie</th>
-					<th><a href="/recrue?sortby=salaire">Salaire</a></th>
-					<th><a href="/recrue?sortby=proj">Proj</a></th>
-					<th>Draft Pick</th>
-				</tr>
-
+					%>
+				</table>
 				<%
-					while (rs.next()) {
+				    }
+				rs.close();
 				%>
 
-				<tr>
-					<td><%=rs.getString("nom")%></td>
-					<td><%=rs.getString("team")%></td>
-					<td><%=rs.getString("position")%></td>
-					<td><%=rs.getString("pj")%></td>
-					<td><%=rs.getString("but_victoire")%></td>
-					<td><%=rs.getString("aide_overtime")%></td>
-					<td><%=rs.getString("pts")%></td>
-					<td><%=rs.getString("can_be_rookie")%></td>
-					<td><%=rs.getString("salaire_draft")%></td>
-					<td><%=rs.getString("projection")%></td>
-					<td><button>NOT YOUR TURN</button></td>
 
-				</tr>
-				<%
-					}
-				%>
-			</table>
-			<%
-				}
-			%>
-
-
+			</div>
 		</div>
-</div>
 
 		<div class="main_sidebar">
-			<div class="section_budget_haut"><h3>MON BUDGET</h3>
+			<div class="section_budget_haut">
+				<h3>MON BUDGET</h3>
 
-			<p>
-				Masse salarial maximum : <br>
-				<%=session.getAttribute("max_salaire")%>
-			</p>
-			<p>
-				Total des salaires actuel : <br>
-				<%=session.getAttribute("total_salaire")%>
-			</p>
-			<p>
-				Budget restant : <br><%=session.getAttribute("budget_restant")%>
-			</p>
-			<p>
-				Moyenne restante par joueurs : <br><%=session.getAttribute("moy_restante")%>
-			</p>
+				<p>
+					Masse salarial maximum : <br>
+					<%=session.getAttribute("max_salaire")%>
+				</p>
+				<p>
+					Total des salaires actuel : <br>
+					<%=session.getAttribute("total_salaire")%>
+				</p>
+				<p>
+					Budget restant : <br><%=session.getAttribute("budget_restant")%>
+				</p>
+				<p>
+					Moyenne restante par joueurs : <br><%=session.getAttribute("moy_restante")%>
+				</p>
 			</div>
 			<br>
 			<div class="section_budget_bas">
-			<h3>MES STATS D'ÉQUIPE</h3>
-			<p>
-				Nombre d'attanquant : <br><%=session.getAttribute("nb_att")%>
-			</p>
-			<p>
-				Nombre de défenseur : <br><%=session.getAttribute("nb_def")%>
-			</p>
-			<p>
-				Nombre de Gardien : <br><%=session.getAttribute("nb_gar")%>
-			</p>
-			<p>
-				Nombre de Recrue : <br><%=session.getAttribute("nb_rook")%>
-			</p>
-			<p>
-				Nombre de contrat : <br><%=session.getAttribute("nb_contrat")%>
-			</p>
-			<p>
-				Nombre de joueur dans l'équipe : <br><%=session.getAttribute("nb_equipe")%>
-			</p>
-			<p>
-				Nombre de joueur manquant : <br><%=session.getAttribute("manq_equipe")%>
-			</p>
-			<p>
-				Attanquant manquant : <br><%=session.getAttribute("manq_att")%>
-			</p>
-			<p>
-				Defenseur manquant : <br><%=session.getAttribute("manq_def")%>
-			</p>
-			<p>
-				Gardien manquant : <br><%=session.getAttribute("manq_gar")%>
-			</p>
-			<p>
-				Recrue manquante : <br><%=session.getAttribute("manq_rook")%>
-			</p>
+				<h3>MES STATS D'ÉQUIPE</h3>
+				<p>
+					Nombre d'attanquant : <br><%=session.getAttribute("nb_att")%>
+				</p>
+				<p>
+					Nombre de défenseur : <br><%=session.getAttribute("nb_def")%>
+				</p>
+				<p>
+					Nombre de Gardien : <br><%=session.getAttribute("nb_gar")%>
+				</p>
+				<p>
+					Nombre de Recrue : <br><%=session.getAttribute("nb_rook")%>
+				</p>
+				<p>
+					Nombre de contrat : <br><%=session.getAttribute("nb_contrat")%>
+				</p>
+				<p>
+					Nombre de joueur dans l'équipe : <br><%=session.getAttribute("nb_equipe")%>
+				</p>
+				<p>
+					Nombre de joueur manquant : <br><%=session.getAttribute("manq_equipe")%>
+				</p>
+				<p>
+					Attanquant manquant : <br><%=session.getAttribute("manq_att")%>
+				</p>
+				<p>
+					Defenseur manquant : <br><%=session.getAttribute("manq_def")%>
+				</p>
+				<p>
+					Gardien manquant : <br><%=session.getAttribute("manq_gar")%>
+				</p>
+				<p>
+					Recrue manquante : <br><%=session.getAttribute("manq_rook")%>
+				</p>
 			</div>
 			<!--  		<p>
 				Bonus de 5 Millions : <br><%=session.getAttribute("bonus_5")%>
@@ -410,7 +406,7 @@
 				Bonus et pénalité : <br><%=session.getAttribute("bonus_penalite")%>
 			</p> -->
 		</div>
-</div>
+	</div>
 </body>
 
 </html>

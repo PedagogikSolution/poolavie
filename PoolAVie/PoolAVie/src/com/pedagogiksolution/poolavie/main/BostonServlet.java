@@ -161,10 +161,11 @@ public class BostonServlet extends HttpServlet {
 					bonus_5= rs5.getInt("bonus_5m");
 					argent_recu= rs5.getInt("argent_recu");
 					bonus_penalite = rs5.getInt("bonus_penalite");
+					pick_manquant = rs5.getInt("manquant_equipe") + rs5.getInt("manquant_recrue");
 					}
-					rs5.close();
-	pick_manquant = rs5.getInt("manquant_equipe") + rs5.getInt("manquant_recrue");
-					
+	
+
+	rs5.close();
 					statement6 = "SELECT * FROM draft_round WHERE team_id=8 LIMIT " + pick_manquant;
 					
 					rs6 = conn.createStatement().executeQuery(statement6);

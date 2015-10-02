@@ -29,7 +29,7 @@
 	
 	ResultSet rs9=null;
 	rs9 = (ResultSet) request.getAttribute("picks");
-
+	
 	switch (teamId2) {
 	case 0:
 		mLogoId = "los_angeles.png";
@@ -398,6 +398,7 @@
 				</tr>
 				<%
 					}
+				rs9.close();
 				
 				%>
 			</table>

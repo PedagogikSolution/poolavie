@@ -6,10 +6,9 @@
 
 <%
 	Iterator<Object> itr;
-	List<Object> dataAttaquant, dataDefenseur, dataGardien, dataRecrue, dataDraftRound;
+	List<Object> dataDraftRound;
 
-	dataDraftRound = (List<Object>) request
-			.getAttribute("dataDraftOrder");
+	dataDraftRound = (List<Object>) request.getAttribute("dataDraftOrder");
 	String teamId2 = session.getAttribute("mTeamId").toString();
 	int teamId = Integer.parseInt(teamId2);
 	String mLogoId = null;

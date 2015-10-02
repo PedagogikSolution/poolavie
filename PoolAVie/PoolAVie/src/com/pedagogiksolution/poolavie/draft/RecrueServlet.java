@@ -80,7 +80,7 @@ public class RecrueServlet extends HttpServlet {
 						statement7 = "SELECT team_id,equipe FROM draft_round WHERE draft_pick_no > '" + draft_pick_no + "' LIMIT 10";
 						rs7 = conn.createStatement().executeQuery(statement7);
 						req.setAttribute("next_10", rs7);
-						rs7.close();
+						
 						if(team_id==mTeam_id){
 							req.setAttribute("myTurn", true);
 							req.setAttribute("draft_pick_now", team_id);
@@ -92,7 +92,7 @@ public class RecrueServlet extends HttpServlet {
 						}
 
 						rs = conn.createStatement().executeQuery(statement);
-						rs.close();
+						
 						req.setAttribute("draft_all_player", rs);
 
 						rs5 = conn.createStatement().executeQuery(statement5);
@@ -217,7 +217,7 @@ public class RecrueServlet extends HttpServlet {
 						statement7 = "SELECT team_id,equipe FROM draft_round WHERE draft_pick_no > '" + draft_pick_no + "' LIMIT 10";
 						rs7 = conn.createStatement().executeQuery(statement7);
 						req.setAttribute("next_10", rs7);
-						rs7.close();
+						
 						if(team_id==mTeam_id){
 							req.setAttribute("myTurn", true);
 							req.setAttribute("draft_pick_now", team_id);
@@ -229,7 +229,7 @@ public class RecrueServlet extends HttpServlet {
 						}
 
 						rs = conn.createStatement().executeQuery(statement);
-						rs.close();
+						
 						req.setAttribute("draft_all_player", rs);
 
 						rs5 = conn.createStatement().executeQuery(statement5);

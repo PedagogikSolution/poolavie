@@ -161,9 +161,10 @@ public class TorontoServlet extends HttpServlet {
 					bonus_5= rs5.getInt("bonus_5m");
 					argent_recu= rs5.getInt("argent_recu");
 					bonus_penalite = rs5.getInt("bonus_penalite");
+					pick_manquant = rs5.getInt("manquant_equipe") + rs5.getInt("manquant_recrue");
 					}
 					rs5.close();
-	pick_manquant = rs5.getInt("manquant_equipe") + rs5.getInt("manquant_recrue");
+	
 					
 					statement6 = "SELECT * FROM draft_round WHERE team_id=6 LIMIT " + pick_manquant;
 					

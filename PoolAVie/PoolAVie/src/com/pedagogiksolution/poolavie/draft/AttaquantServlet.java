@@ -85,7 +85,7 @@ public class AttaquantServlet extends HttpServlet {
 						rs7 = conn.createStatement().executeQuery(statement7);
 						req.setAttribute("next_10", rs7);
 						
-						rs7.close();
+					
 						
 						
 						if(team_id==mTeam_id){
@@ -102,7 +102,7 @@ public class AttaquantServlet extends HttpServlet {
 
 						req.setAttribute("draft_all_player", rs);
 						
-						rs.close();
+						
 
 						rs5 = conn.createStatement().executeQuery(statement5);
 
@@ -232,7 +232,6 @@ public class AttaquantServlet extends HttpServlet {
 						rs7 = conn.createStatement().executeQuery(statement7);
 						req.setAttribute("next_10", rs7);
 						
-						rs7.close();
 						if(team_id==mTeam_id){
 							req.setAttribute("myTurn", true);
 							req.setAttribute("draft_pick_now", team_id);
@@ -245,7 +244,7 @@ public class AttaquantServlet extends HttpServlet {
 
 						rs = conn.createStatement().executeQuery(statement);
 						
-						rs.close();
+						
 
 						req.setAttribute("draft_all_player", rs);
 
