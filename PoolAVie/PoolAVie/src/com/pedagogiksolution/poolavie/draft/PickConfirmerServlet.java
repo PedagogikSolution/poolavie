@@ -55,10 +55,16 @@ public class PickConfirmerServlet extends HttpServlet {
 	
 	if (team_id != null) {
 	    team_id2 = Integer.parseInt(team_id);
+	} else {
+	    resp.sendRedirect("/equipes");
+	    return;
 	}
 
 	if (draft_pick_no != null) {
 	    draft_pick_no2 = Integer.parseInt(draft_pick_no);
+	} else {
+	    resp.sendRedirect("/equipes");
+	    return;
 	}
 		
 	statement42 = "SELECT draft_pick_no FROM draft_round WHERE follow_up=0 LIMIT 1";

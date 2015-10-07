@@ -150,7 +150,7 @@ break;
 			au salaire de
 			<%=salaire_draft%></p>
 		<br>
-		<form action="/pick_confirmer" method="post">
+		<form action="/pick_confirmer" method="post" onsubmit="return checkForm(this);">
 			<input type="hidden" name="is_rookie" value="0"> <input
 				type="hidden" name="draft_player_id" value="<%=draft_player_id%>">
 			<input type="hidden" name="team_id" value="<%=team_id%>">
@@ -161,7 +161,7 @@ break;
 			
 			
 			<input
-				type="submit" value="JE CONFIRME MON CHOIX">
+				type="submit" name="myButton" value="JE CONFIRME MON CHOIX">
 		</form>
 		<%
 			} else {
@@ -176,7 +176,7 @@ break;
 			<%=salaire_draft%></p>
 		<br>
 		<p>Je place ce joueur dans mon équipe école</p>
-		<form action="/pick_confirmer" method="post">
+		<form action="/pick_confirmer" method="post" onsubmit="return checkForm(this);">
 			<input type="hidden" name="is_rookie" value="1"> <input
 				type="hidden" name="draft_player_id" value="<%=draft_player_id%>">
 			<input type="hidden" name="team_id" value="<%=team_id%>">
@@ -195,7 +195,7 @@ break;
 			<input type="hidden" name="nom" value="<%=nom%>"> 
 			<input type="hidden" name="salaire" value="<%=salaire_draft%>"> 
 			<input type="hidden" name="draft_pick_no" value="<%=draft_pick_no%>">  <input
-				type="submit" value="DANS MON TEAM">
+				type="submit" name="myButton" value="DANS MON TEAM">
 		</form>
 
 
@@ -224,5 +224,21 @@ break;
 
 
 </body>
+<script type="text/javascript">
+
+  function checkForm(form) // Submit button clicked
+  {
+    //
+    // check form input values
+    //
+
+    form.myButton.disabled = true;
+    form.myButton.value = "Please wait...stop clicking bastard";
+    return true;
+  }
+
+  
+
+</script>
 
 </html>

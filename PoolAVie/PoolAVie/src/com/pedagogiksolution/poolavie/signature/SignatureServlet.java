@@ -17,7 +17,7 @@ import com.pedagogiksolution.poolavie.utils.DatabaseConnector;
 public class SignatureServlet extends HttpServlet {
     DatabaseConnector dbHelper;
     Connection conn;
-    Date today, start1, finish1, start2, finish2, start3, finish3, start4, finish4, start5, finish5, start6, finish6;
+    Date today, start1, finish1, start2, finish2, start3, finish3, start4, finish4, start5, finish5, start6, finish6, start7, finish7;
     boolean isBefore, isAfter;
     String statement1, statement2, statement3;
     int team_id, nb_contrat;
@@ -62,6 +62,10 @@ public class SignatureServlet extends HttpServlet {
 	    RookieApresSaison mClass = new RookieApresSaison();
 	    mClass.preparationRookieApresSaison2(req);
 	    req.getRequestDispatcher("/jsp/drop_rookie.jsp").forward(req,resp);
+	} else if (today.after(start7) && today.before(finish7)){
+	    SignatureAfterDraft mClass = new SignatureAfterDraft();
+	    mClass.preparationSignatureAfterDraft(req);
+	    req.getRequestDispatcher("/jsp/drop_rookie.jsp").forward(req,resp);
 	} else {
 	    req.getRequestDispatcher("/jsp/aucune_signature_possible.jsp").forward(req,resp);
 	}
@@ -83,6 +87,8 @@ public class SignatureServlet extends HttpServlet {
 	String date_finish5 = "04-10-2015";
 	String date_start6 = "04-10-2015";
 	String date_finish6 = "06-10-2015";
+	String date_start7 = "06-10-2015";
+	String date_finish7 = "09-10-2015";
 	try {
 	    start1 = sdf.parse(date_start1);
 	    finish1 = sdf.parse(date_finish1);
@@ -96,6 +102,8 @@ public class SignatureServlet extends HttpServlet {
 	    finish5 = sdf.parse(date_finish5);
 	    start6 = sdf.parse(date_start6);
 	    finish6 = sdf.parse(date_finish6);
+	    start7 = sdf.parse(date_start7);
+	    finish7 = sdf.parse(date_finish7);
 	} catch (ParseException e) {
 	    e.printStackTrace();
 	}
