@@ -82,7 +82,7 @@ public class SignatureServlet extends HttpServlet {
 	String date_start5 = "02-10-2015";
 	String date_finish5 = "04-10-2015";
 	String date_start6 = "04-10-2015";
-	String date_finish6 = "07-10-2015";
+	String date_finish6 = "06-10-2015";
 	try {
 	    start1 = sdf.parse(date_start1);
 	    finish1 = sdf.parse(date_finish1);

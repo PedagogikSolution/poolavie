@@ -68,7 +68,7 @@ public ResultSet recuperationRookieThatTrade(int team_that_trade) {
 		
 			try {
 				rs = conn.createStatement().executeQuery(statement);
-				rs.close();
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

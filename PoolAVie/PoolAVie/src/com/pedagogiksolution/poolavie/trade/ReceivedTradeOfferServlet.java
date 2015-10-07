@@ -1,7 +1,6 @@
 package com.pedagogiksolution.poolavie.trade;
 
 import java.io.IOException;
-import java.sql.ResultSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

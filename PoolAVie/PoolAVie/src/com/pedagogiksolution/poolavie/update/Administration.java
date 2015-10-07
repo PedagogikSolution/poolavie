@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import com.pedagogiksolution.poolavie.utils.DatabaseConnector;
 
@@ -447,7 +448,7 @@ public class Administration {
 	String QueryA;
 	// ouverture de la connexion a la bdd
 	conn = mDbHelper.open();
-	String birthday="1990-09-15";
+	String birthday = "1990-09-15";
 
 	QueryA = "UPDATE players SET age = 1 WHERE birthday<?";
 	try {
@@ -462,5 +463,256 @@ public class Administration {
 
     }
 
+    public void dropRookieTropAge() {
+	PreparedStatement mPreparedStatementA;
+	String QueryA;
+	// ouverture de la connexion a la bdd
+	conn = mDbHelper.open();
+
+	QueryA = "UPDATE players SET equipe=null,contrat=0,salaire_contrat=null,contrat_cours=null,contrat_max_years=null,"
+		+ "type_contrat=null,club_ecole=null,years_1=null,years_2=null,years_3=null,years_4=null,years_5=null,"
+		+ "team_id=null,projection=null WHERE club_ecole=1 AND age=1";
+	try {
+	    mPreparedStatementA = conn.prepareStatement(QueryA);
+	    mPreparedStatementA.executeUpdate();
+	    mPreparedStatementA.close();
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	} finally {
+	    mDbHelper.close(conn);
+	}
+
+    }
+
+    public void updateSalaireDraft() {
+	PreparedStatement mPreparedStatementA;
+	String QueryA, QueryB, QueryC, QueryD, QueryE, QueryF;
+	// ouverture de la connexion a la bdd
+	conn = mDbHelper.open();
+
+	QueryA = "UPDATE players AS p INNER JOIN salaires_matrice AS s ON p.pts=s.points SET p.salaire_draft = s.salaire"
+		+ " WHERE s.position=1 AND p.position='attaquant' AND take_proj=0";
+	QueryB = "UPDATE players AS p INNER JOIN salaires_matrice AS s ON p.projection=s.points SET p.salaire_draft = s.salaire"
+		+ " WHERE s.position=1 AND p.position='attaquant' AND take_proj=1";
+	QueryC = "UPDATE players AS p INNER JOIN salaires_matrice AS s ON p.pts=s.points SET p.salaire_draft = s.salaire"
+		+ " WHERE s.position=2 AND p.position='defenseur' AND take_proj=0";
+	QueryD = "UPDATE players AS p INNER JOIN salaires_matrice AS s ON p.projection=s.points SET p.salaire_draft = s.salaire"
+		+ " WHERE s.position=2 AND p.position='defenseur' AND take_proj=1";
+	QueryE = "UPDATE players AS p INNER JOIN salaires_matrice AS s ON p.pts=s.points SET p.salaire_draft = s.salaire"
+		+ " WHERE s.position=3 AND p.position='gardien' AND take_proj=0";
+	QueryF = "UPDATE players AS p INNER JOIN salaires_matrice AS s ON p.projection=s.points SET p.salaire_draft = s.salaire"
+		+ " WHERE s.position=3 AND p.position='gardien' AND take_proj=1";
+	try {
+	    mPreparedStatementA = conn.prepareStatement(QueryA);
+	    mPreparedStatementA.executeUpdate();
+	    mPreparedStatementA.close();
+	    mPreparedStatementA = conn.prepareStatement(QueryB);
+	    mPreparedStatementA.executeUpdate();
+	    mPreparedStatementA.close();
+	    mPreparedStatementA = conn.prepareStatement(QueryC);
+	    mPreparedStatementA.executeUpdate();
+	    mPreparedStatementA.close();
+	    mPreparedStatementA = conn.prepareStatement(QueryD);
+	    mPreparedStatementA.executeUpdate();
+	    mPreparedStatementA.close();
+	    mPreparedStatementA = conn.prepareStatement(QueryE);
+	    mPreparedStatementA.executeUpdate();
+	    mPreparedStatementA.close();
+	    mPreparedStatementA = conn.prepareStatement(QueryF);
+	    mPreparedStatementA.executeUpdate();
+	    mPreparedStatementA.close();
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	} finally {
+	    mDbHelper.close(conn);
+	}
+
+    }
+
+    public void updateProjection() {
+	PreparedStatement mPreparedStatementA;
+	String QueryA;
+	// ouverture de la connexion a la bdd
+	conn = mDbHelper.open();
+
+	QueryA = "UPDATE players AS b INNER JOIN feuil1 AS g ON b._id = g._id SET b.projection = g.projection";
+	try {
+	    mPreparedStatementA = conn.prepareStatement(QueryA);
+	    mPreparedStatementA.executeUpdate();
+	    mPreparedStatementA.close();
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	} finally {
+	    mDbHelper.close(conn);
+	}
+
+    }
+
+    public void updateDraftOrder() {
+
+	PreparedStatement mPreparedStatementA;
+	String QueryA1, QueryA2, QueryD, QueryE, QueryA, QueryB, QueryC;
+	ResultSet rs;
+	ArrayList<Integer> pickOrder = new ArrayList<Integer>();
+	// ouverture de la connexion a la bdd
+	conn = mDbHelper.open();
+	QueryA1 = "TRUNCATE TABLE draft_round";
+	QueryA2 = "INSERT INTO draft_round (draft_pick_no,ronde,year_of_draft,pool_id,follow_up) VALUE(?,?,?,?,?)";
+	QueryA = "SELECT team_id FROM classement_archives WHERE pool_id=1 AND year_of_the_standing=2015 ORDER BY points DESC";
+	QueryB = "UPDATE draft_round SET team_id_from=? WHERE ronde=? AND draft_pick_no=?";
+	QueryC = "UPDATE draft_round AS a INNER JOIN draft_pick_current_year AS b ON a.team_id_from=b.original_team_id SET a.team_id=b.team_id WHERE a.ronde=b.pick_no";
+	QueryD = "UPDATE draft_round SET equipe=? WHERE team_id=?";
+	QueryE = "UPDATE draft_round SET from_who=? WHERE team_id_from=?";
+	try {
+
+	    mPreparedStatementA = conn.prepareStatement(QueryA1);
+	    mPreparedStatementA.executeUpdate();
+	    mPreparedStatementA.close();
+
+	    int draft_pick_no = 1;
+	    for (int ronde = 1; ronde < 35; ronde++) {
+		for (int itr = 1; itr < 11; itr++) {
+		    mPreparedStatementA = conn.prepareStatement(QueryA2);
+		    mPreparedStatementA.setInt(1, draft_pick_no);
+		    mPreparedStatementA.setInt(2, ronde);
+		    mPreparedStatementA.setInt(3, 2016);
+		    mPreparedStatementA.setInt(4, 1);
+		    mPreparedStatementA.setInt(5, 0);
+		    mPreparedStatementA.executeUpdate();
+		    mPreparedStatementA.close();
+		    draft_pick_no++;
+		}
+
+	    }
+
+	    mPreparedStatementA = conn.prepareStatement(QueryA);
+	    rs = mPreparedStatementA.executeQuery();
+
+	    while (rs.next()) {
+		int i = 0;
+		pickOrder.add(i, rs.getInt("team_id"));
+		i++;
+	    }
+	    rs.close();
+	    mPreparedStatementA.close();
+
+	    int pick_no_total = 1;
+	    for (int round_no = 1; round_no < 35; round_no++) {
+		for (int i : pickOrder) {
+
+		    mPreparedStatementA = conn.prepareStatement(QueryB);
+		    mPreparedStatementA.setInt(1, i);
+		    mPreparedStatementA.setInt(2, round_no);
+		    mPreparedStatementA.setInt(3, pick_no_total);
+		    mPreparedStatementA.executeUpdate();
+		    mPreparedStatementA.close();
+		    pick_no_total++;
+		}
+	    }
+
+	    mPreparedStatementA = conn.prepareStatement(QueryC);
+	    mPreparedStatementA.executeUpdate();
+	    mPreparedStatementA.close();
+
+	    ArrayList<String> equipe = new ArrayList<String>();
+	    equipe.add("los_angeles");
+	    equipe.add("detroit");
+	    equipe.add("montreal");
+	    equipe.add("chicago");
+	    equipe.add("new_york");
+	    equipe.add("philadelphie");
+	    equipe.add("toronto");
+	    equipe.add("st_louis");
+	    equipe.add("boston");
+	    equipe.add("pittsburgh");
+	    
+	    
+	    int team_id = 0;
+	    for (String equipe2 : equipe) {
+
+		
+		mPreparedStatementA = conn.prepareStatement(QueryD);
+		mPreparedStatementA.setString(1, equipe2);
+		mPreparedStatementA.setInt(2, team_id);
+		mPreparedStatementA.executeUpdate();
+		mPreparedStatementA.close();
+		team_id++;
+
+	    }
+
+	    ArrayList<String> from_who = new ArrayList<String>();
+	    from_who.add("LAK");
+	    from_who.add("DET");
+	    from_who.add("MTL");
+	    from_who.add("CHI");
+	    from_who.add("NYR");
+	    from_who.add("PHI");
+	    from_who.add("TOR");
+	    from_who.add("STL");
+	    from_who.add("BOS");
+	    from_who.add("PIT");
+
+	    
+	    int team_id2 = 0;
+	    for (String from_who2 : from_who) {
+		
+
+		    mPreparedStatementA = conn.prepareStatement(QueryE);
+		    mPreparedStatementA.setString(1, from_who2);
+		    mPreparedStatementA.setInt(2, team_id2);
+		    mPreparedStatementA.executeUpdate();
+		    mPreparedStatementA.close();
+
+		    team_id2++;
+	    }
+	    
+	    
+	    String QueryF="SELECT * FROM draft_round WHERE team_id=? ORDER BY draft_pick_no";
+	    
+	    for (int team = 0; team < 10; team++) {
+		
+		ArrayList<Integer> draft_pick_number_for_a_team = new ArrayList<Integer>();
+		    mPreparedStatementA = conn.prepareStatement(QueryF);
+		    mPreparedStatementA.setInt(1, team);
+		    rs=mPreparedStatementA.executeQuery();
+		    
+		    while(rs.next()){
+			
+			int draft_pick_number_for_a_team2 = rs.getInt("draft_pick_no");
+			draft_pick_number_for_a_team.add(draft_pick_number_for_a_team2);
+		    }
+		    rs.close();
+		    mPreparedStatementA.close();
+		    
+		    int nombrePickDansArray = draft_pick_number_for_a_team.size();
+		    int itr2=1;
+		    for(itr2=1;itr2<nombrePickDansArray;itr2++){
+			
+		    String QueryG="UPDATE draft_round SET team_count=? WHERE team_id=? AND draft_pick_no=? ORDER BY draft_pick_no";
+		    mPreparedStatementA = conn.prepareStatement(QueryG);
+		    mPreparedStatementA.setInt(1, itr2);
+		    mPreparedStatementA.setInt(2, team);
+		    mPreparedStatementA.setInt(3, draft_pick_number_for_a_team.get(itr2-1));
+		    mPreparedStatementA.executeUpdate();
+		    mPreparedStatementA.close();
+		    }
+		    
+	    }
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	} finally {
+	    mDbHelper.close(conn);
+	}
+
+    }
 // fin de la class
 }

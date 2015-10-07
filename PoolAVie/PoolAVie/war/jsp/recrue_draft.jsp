@@ -5,118 +5,124 @@
 
 
 <%
-    Boolean myTurn = false;
+    String mEquipe ="";
+	Boolean myTurn = false;
 	String mDraftPickNow = "";
-	String mDraftPickImage= "";
+	String mDraftPickImage = "";
 	myTurn = (Boolean) request.getAttribute("myTurn");
-
+	int draft_pick_now=99;
+	int draft_pick_no=99;
+	
 	ResultSet rs = (ResultSet) request.getAttribute("draft_all_player");
 	ResultSet rs7 = (ResultSet) request.getAttribute("next_10");
 
 	String draft_pick_now2 = (String) request.getAttribute(
 			"draft_pick_now").toString();
-	
-	int draft_pick_now = Integer.parseInt(draft_pick_now2);
+	if(draft_pick_now2!=null){
+	draft_pick_now = Integer.parseInt(draft_pick_now2);}
 	
 	String draft_pick_no2 = (String) request.getAttribute(
 			"draft_pick_no").toString();
-
-	int draft_pick_no = Integer.parseInt(draft_pick_no2);
-	
-	switch (draft_pick_now){
-	case 0:
-		mDraftPickNow = "/los_angeles";
-		mDraftPickImage = "los_angeles.png";
-		break;
-	case 1:
-		mDraftPickNow = "/detroit";
-		mDraftPickImage = "detroit.png";
-		break;
-	case 2:
-		mDraftPickNow = "/montreal";
-		mDraftPickImage = "montreal.png";
-		break;
-	case 3:
-		mDraftPickNow = "/chicago";
-		mDraftPickImage = "chicago.png";
-		break;
-	case 4:
-		mDraftPickNow = "/new_york";
-		mDraftPickImage = "new_york.png";
-		break;
-	case 5:
-		mDraftPickNow = "/philadelphie";
-		mDraftPickImage = "philadelphie.png";
-		break;
-	case 6:
-		mDraftPickNow = "/toronto";
-		mDraftPickImage = "toronto.png";
-		break;
-	case 7:
-		mDraftPickNow = "/st_louis";
-		mDraftPickImage = "st_louis.png";
-		break;
-	case 8:
-		mDraftPickNow = "/boston";
-		mDraftPickImage = "boston.png";
-		break;
-	case 9:
-		mDraftPickNow = "/pittsburgh";
-		mDraftPickImage = "pittsburgh.png";
-		break;
-	
-	
-	
+	if(draft_pick_no2!=null){
+	draft_pick_no = Integer.parseInt(draft_pick_no2);
 	}
+	if(draft_pick_now!=99){
+	switch (draft_pick_now) {
+		case 0 :
+			mDraftPickNow = "/los_angeles";
+			mDraftPickImage = "los_angeles.png";
+			break;
+		case 1 :
+			mDraftPickNow = "/detroit";
+			mDraftPickImage = "detroit.png";
+			break;
+		case 2 :
+			mDraftPickNow = "/montreal";
+			mDraftPickImage = "montreal.png";
+			break;
+		case 3 :
+			mDraftPickNow = "/chicago";
+			mDraftPickImage = "chicago.png";
+			break;
+		case 4 :
+			mDraftPickNow = "/new_york";
+			mDraftPickImage = "new_york.png";
+			break;
+		case 5 :
+			mDraftPickNow = "/philadelphie";
+			mDraftPickImage = "philadelphie.png";
+			break;
+		case 6 :
+			mDraftPickNow = "/toronto";
+			mDraftPickImage = "toronto.png";
+			break;
+		case 7 :
+			mDraftPickNow = "/st_louis";
+			mDraftPickImage = "st_louis.png";
+			break;
+		case 8 :
+			mDraftPickNow = "/boston";
+			mDraftPickImage = "boston.png";
+			break;
+		case 9 :
+			mDraftPickNow = "/pittsburgh";
+			mDraftPickImage = "pittsburgh.png";
+			break;
 
+	}
+	}
+	
+	int teamId=99;
 	String teamId2 = session.getAttribute("mTeamId").toString();
-	int teamId = Integer.parseInt(teamId2);
-	String mLogoId = null;
-	String mFirstTeamName = null;
-
+	if(teamId2!=null){
+	teamId = Integer.parseInt(teamId2);}
+	String mLogoId = "";
+	String mFirstTeamName = "";
+if(teamId!=99){
 	switch (teamId) {
-	case 0:
-		mLogoId = "los_angeles.png";
-		mFirstTeamName = "Kings de";
-		break;
-	case 1:
-		mLogoId = "detroit.png";
-		mFirstTeamName = "Red Wings de";
-		break;
-	case 2:
-		mLogoId = "montreal.png";
-		mFirstTeamName = "Canadiens de";
-		break;
-	case 3:
-		mLogoId = "chicago.png";
-		mFirstTeamName = "Blackhawks de";
-		break;
-	case 4:
-		mLogoId = "new_york.png";
-		mFirstTeamName = "Rangers de";
-		break;
-	case 5:
-		mLogoId = "philadelphie.png";
-		mFirstTeamName = "Flyers de";
-		break;
-	case 6:
-		mLogoId = "toronto.png";
-		mFirstTeamName = "Maple Leafs de";
-		break;
-	case 7:
-		mLogoId = "st_louis.png";
-		mFirstTeamName = "Blues de";
-		break;
-	case 8:
-		mLogoId = "boston.png";
-		mFirstTeamName = "Bruins de";
-		break;
-	case 9:
-		mLogoId = "pittsburgh.png";
-		mFirstTeamName = "Penguins de";
-		break;
+		case 0 :
+			mLogoId = "los_angeles.png";
+			mFirstTeamName = "Kings de";
+			break;
+		case 1 :
+			mLogoId = "detroit.png";
+			mFirstTeamName = "Red Wings de";
+			break;
+		case 2 :
+			mLogoId = "montreal.png";
+			mFirstTeamName = "Canadiens de";
+			break;
+		case 3 :
+			mLogoId = "chicago.png";
+			mFirstTeamName = "Blackhawks de";
+			break;
+		case 4 :
+			mLogoId = "new_york.png";
+			mFirstTeamName = "Rangers de";
+			break;
+		case 5 :
+			mLogoId = "philadelphie.png";
+			mFirstTeamName = "Flyers de";
+			break;
+		case 6 :
+			mLogoId = "toronto.png";
+			mFirstTeamName = "Maple Leafs de";
+			break;
+		case 7 :
+			mLogoId = "st_louis.png";
+			mFirstTeamName = "Blues de";
+			break;
+		case 8 :
+			mLogoId = "boston.png";
+			mFirstTeamName = "Bruins de";
+			break;
+		case 9 :
+			mLogoId = "pittsburgh.png";
+			mFirstTeamName = "Penguins de";
+			break;
 
 	}
+}
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -203,7 +209,7 @@
 
 		<%
      while (rs7.next()) {
-  		String mEquipe = rs7.getString("equipe");
+  		mEquipe = rs7.getString("equipe");
  %>
 
 
@@ -244,6 +250,7 @@
 						<th>Draft Pick</th>
 					</tr>
 					<%
+				
 					    while (rs.next()) {
 											
 										String nom = rs.getString("nom");	
@@ -257,7 +264,7 @@
 					<tr>
 
 						<td><%=nom%></td>
-						<td><%=team%></td>
+						<td><%=rs.getString("team")%></td>
 						<td><%=position%></td>
 						<td><%=rs.getString("pj")%></td>
 						<td><%=rs.getString("but_victoire")%></td>
@@ -286,7 +293,7 @@
 
 					<%
 					    }
-					rs.close();
+										rs.close();
 					%>
 				</table>
 

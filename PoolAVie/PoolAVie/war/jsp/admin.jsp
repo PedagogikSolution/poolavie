@@ -139,8 +139,26 @@
 	<br>
 	<br>
 	<form action="/admin" method="post">
+	<input type="hidden" value="11" name="admin"/>	
+	<input type="submit" class="btn_menu" style="width:100%" value="Étape 9.4 : Update Projection via feuil1"/>	
+	</form>
+	<br>
+	<br>
+	<form action="/admin" method="post">
+	<input type="hidden" value="10" name="admin"/>	
+	<input type="submit" class="btn_menu" style="width:100%" value="Étape 9.5 : Update des salaires pour le draft"/>	
+	</form>
+	<br>
+	<br>
+	<form action="/admin" method="post">
 	<input type="hidden" value="9" name="admin"/>	
-	<input type="submit" class="btn_menu" style="width:100%" value="Étape 13 : Préparation finale du draft"/>	
+	<input type="submit" class="btn_menu" style="width:100%" value="Étape 10 : Dropper les rookies qui ne sont pas monter et qui ont plus de 25 ans"/>	
+	</form>
+	<br>
+	<br>
+	<form action="/admin" method="post">
+	<input type="hidden" value="12" name="admin"/>	
+	<input type="submit" class="btn_menu" style="width:100%" value="Étape 12 : Update Draft Order"/>	
 	</form>
 	
 		
