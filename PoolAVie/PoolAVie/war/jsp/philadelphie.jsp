@@ -464,7 +464,7 @@ rs9 = (ResultSet) request.getAttribute("picks");
 				Recrue manquante : <br><%=session.getAttribute("manq_rook")%>
 			</p>
 			</div>
-			<!--  		<p>
+			  		<p>
 				Bonus de 5 Millions : <br><%=session.getAttribute("bonus_5")%>
 			</p>
 			<p>
@@ -472,7 +472,7 @@ rs9 = (ResultSet) request.getAttribute("picks");
 			</p>
 			<p>
 				Bonus et pénalité : <br><%=session.getAttribute("bonus_penalite")%>
-			</p> -->
+			</p> 
 		</div>
 
 </body>

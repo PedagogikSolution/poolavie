@@ -407,7 +407,7 @@ if(teamId!=99){
 				Recrue manquante : <br><%=session.getAttribute("manq_rook")%>
 			</p>
 			</div>
-			<!--  		<p>
+					<p>
 				Bonus de 5 Millions : <br><%=session.getAttribute("bonus_5")%>
 			</p>
 			<p>
@@ -415,7 +415,7 @@ if(teamId!=99){
 			</p>
 			<p>
 				Bonus et pénalité : <br><%=session.getAttribute("bonus_penalite")%>
-			</p> -->
+			</p> 
 		</div>
 
 
