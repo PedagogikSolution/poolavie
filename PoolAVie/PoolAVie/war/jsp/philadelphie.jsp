@@ -20,7 +20,10 @@ dataRecrue = (List<Object>) request
 dataDraftRound = (List<Object>) request
 		.getAttribute("dataDraftRound");
 String teamId = session.getAttribute("mTeamId").toString();
-int teamId2 = Integer.parseInt(teamId);
+int teamId2=99;
+if(teamId!=null){
+teamId2 = Integer.parseInt(teamId);
+}
 
 String mLogoId = null;
 String mFirstTeamName = null;
@@ -362,8 +365,10 @@ rs9 = (ResultSet) request.getAttribute("picks");
 					String round = rs9.getString("pick_no");
 					String team = rs9.getString("original_team_id");
 					
-					int team_2 = Integer.parseInt(team);
-					
+					int team_2=99;
+					if(team!=null){
+					team_2 = Integer.parseInt(team);
+					}
 					switch (team_2) {
 					case 0: team_name="Los Angeles";
 						break;

@@ -70,7 +70,7 @@ public class DraftServlet extends HttpServlet {
 					
 					
 					
-					try {
+					
 						
 						rs6 = conn.createStatement().executeQuery(statement6);
 						
@@ -123,6 +123,7 @@ public class DraftServlet extends HttpServlet {
 							bonus_penalite = rs5.getInt("bonus_penalite");
 						}
 						rs5.close();
+						
 						req.getSession().setAttribute("max_salaire", max_salaire);
 						req.getSession().setAttribute("total_salaire",
 								total_salaire);
@@ -156,8 +157,7 @@ public class DraftServlet extends HttpServlet {
 
 					} catch (SQLException e) {
 						e.printStackTrace();
-					}
-
+					
 				} finally {
 					dbHelper.close(conn);
 				}

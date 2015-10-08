@@ -264,7 +264,7 @@ if(teamId!=99){
 					<tr>
 
 						<td><%=nom%></td>
-						<td><%=rs.getString("team")%></td>
+						<td><%=team%></td>
 						<td><%=position%></td>
 						<td><%=rs.getString("pj")%></td>
 						<td><%=rs.getString("but_victoire")%></td>

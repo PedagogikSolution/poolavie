@@ -164,7 +164,7 @@ if(teamId!=99){
 		<div id="logo_main">
 
 			<img alt="logo" src="../images/<%=mLogoId%>" width="150px"
-				height="150px"/>
+				height="150px" />
 
 		</div>
 		<div id="welcome_main">
@@ -209,7 +209,7 @@ if(teamId!=99){
 
 		<%
      while (rs7.next()) {
-  		mEquipe = rs7.getString("equipe");
+   		mEquipe = rs7.getString("equipe");
  %>
 
 
@@ -219,7 +219,7 @@ if(teamId!=99){
 
 		<%
 		    }
-					rs7.close();
+							rs7.close();
 		%>
 
 
@@ -253,19 +253,19 @@ if(teamId!=99){
 
 					<%
 					    while (rs.next()) {
-											
-										String nom = rs.getString("nom");	
-										String position = rs.getString("position");	
-											String team = rs.getString("team");
-											String can_rook=rs.getString("can_be_rookie");
-											String salaire_draft=rs.getString("salaire_draft");
+																
+															String nom = rs.getString("nom");	
+															String position = rs.getString("position");	
+																String team = rs.getString("team");
+																String can_rook=rs.getString("can_be_rookie");
+																String salaire_draft=rs.getString("salaire_draft");
 					%>
 
 
 					<tr>
 
 						<td><%=nom%></td>
-						<td><%=rs.getString("team")%></td>
+						<td><%=team%></td>
 						<td><%=position%></td>
 						<td><%=rs.getString("pj")%></td>
 						<td><%=rs.getString("but_victoire")%></td>
@@ -294,7 +294,7 @@ if(teamId!=99){
 
 					<%
 					    }
-										rs.close();
+															rs.close();
 					%>
 				</table>
 
@@ -336,8 +336,8 @@ if(teamId!=99){
 					</tr>
 					<%
 					    }
-									
-									rs.close();
+														
+														rs.close();
 					%>
 				</table>
 				<%
