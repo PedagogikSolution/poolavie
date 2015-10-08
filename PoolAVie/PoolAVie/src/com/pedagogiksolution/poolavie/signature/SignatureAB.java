@@ -250,7 +250,7 @@ public class SignatureAB {
 
     @SuppressWarnings("resource")
     public void signerCeJoueur(String sPlayerId, String sSalaire,
-	    String sNombreAnnee, int mPosition, int mMoyenne, HttpServletRequest req) {
+	String sNombreAnnee, int mPosition, int mMoyenne, HttpServletRequest req) {
 	String QueryA, QueryB, QueryC, QueryD;
 	DatabaseConnector dbHelper = new DatabaseConnector();
 	Connection conn;

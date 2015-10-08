@@ -317,19 +317,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>signature_after_draft_check</servlet-name>
-		<url-pattern>/signature_after_draft_check</url-pattern>
+		<url-pattern>/signatureAfterDraft</url-pattern>
 	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>signature_confirmation</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.signature.SignatureAfterDraftConfirmationServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>signature_confirmation</servlet-name>
-		<url-pattern>/signature_confirmation</url-pattern>
-	</servlet-mapping>
-	
-	
+		
 	
 	<servlet>
 		<servlet-name>detail_offre_trade</servlet-name>

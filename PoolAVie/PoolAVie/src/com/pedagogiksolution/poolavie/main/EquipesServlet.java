@@ -164,7 +164,7 @@ public class EquipesServlet extends HttpServlet {
 	    while (rs6.next()) {
 		dataList5.add(rs6.getInt("team_count"));
 		dataList5.add(rs6.getInt("ronde"));
-		dataList5.add(rs6.getString("from"));
+		dataList5.add(rs6.getString("from_who"));
 		dataList5.add(rs6.getInt("draft_pick_no"));
 
 	    }

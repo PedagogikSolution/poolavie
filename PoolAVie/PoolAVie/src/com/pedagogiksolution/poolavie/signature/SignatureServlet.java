@@ -64,8 +64,8 @@ public class SignatureServlet extends HttpServlet {
 	    req.getRequestDispatcher("/jsp/drop_rookie.jsp").forward(req,resp);
 	} else if (today.after(start7) && today.before(finish7)){
 	    SignatureAfterDraft mClass = new SignatureAfterDraft();
-	    mClass.preparationSignatureAfterDraft(req);
-	    req.getRequestDispatcher("/jsp/drop_rookie.jsp").forward(req,resp);
+	    mClass.preparationSignatureAfterDraft(req,resp);
+	    req.getRequestDispatcher("/jsp/signature_after_draft.jsp").forward(req,resp);
 	} else {
 	    req.getRequestDispatcher("/jsp/aucune_signature_possible.jsp").forward(req,resp);
 	}

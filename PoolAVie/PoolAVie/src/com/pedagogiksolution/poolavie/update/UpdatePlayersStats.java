@@ -3,7 +3,6 @@ package com.pedagogiksolution.poolavie.update;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 
 import com.pedagogiksolution.poolavie.utils.DatabaseConnector;
 
@@ -64,13 +63,12 @@ public class UpdatePlayersStats {
 		but_total_0 = but_att_0 + but_def_0;
 		passe_total_0 = passe_att_0 + passe_def_0;
 		
-		moyenne_pts = (double)((double)pts_total_0/(double)pj_total_0);
-		DecimalFormat df = new DecimalFormat("0.00");
-	    String moyenne = df.format(moyenne_pts);
+		moyenne_pts = ((double) pts_total_0/pj_total_0);
+		
 	    
 		
 
-		statement44 = "UPDATE classement SET moyenne = '" + moyenne + "', points=" + pts_total_0
+		statement44 = "UPDATE classement SET moyenne = '" + moyenne_pts + "', points=" + pts_total_0
 				+ ", pj=" + pj_total_0
 				+ ", but=" + but_total_0
 				+ ", passe=" + passe_total_0

@@ -1,7 +1,8 @@
 <%@ page language="java" import="java.sql.*"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ page isELIgnored ="false" %>
 <%
-ResultSet rs2 = (ResultSet) request.getAttribute("all_possible_signature");
 String teamId2 = session.getAttribute("mTeamId").toString();
 int teamId = Integer.parseInt(teamId2);
 String mLogoId = null;
@@ -51,11 +52,11 @@ break;
 
 }
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Welcome page</title>
+<title>Rachat de contrat fin de saison</title>
 <link rel="stylesheet" type="text/css" href="../css/main.css" />
 </head>
 <body>
@@ -90,51 +91,44 @@ break;
 		<button class="btn_menu">Règlement</button>
 		<button class="btn_menu">Admin</button>
 	</div>
-	<div class="trade_menu">
-		<a href="/signature"><button class="btn_menu_trade">AFTER DRAFT</button></a>
-		<a href="/signature"><button class="btn_menu_trade">AFTER SEASON</button></a>
-		<a href="/signature"><button class="btn_menu_trade">SUMMER</button></a>
-		
-	</div>
+	
 	<hr class="hr_header">
 	
 	<hr class="hr_header">
 
 	<div class="main_container">
 		<div class="main_content"></div>
-		<div id="main_content_title_classement">MY SIGNATURE AFTER DRAFT</div>
+		<div id="main_content_title_classement">Signature</div>
 		<div id="main_content_table_classement">
+	
+	    <c:if test="${information_signature.codePourMessageConfirmation==1}">	
+	    <br>
+	    
+		<p>Voulez-vous vraiment signé ${information_signature.nomDuJoueur} au salaire de ${information_signature.montant} pour ${information_signature.nombreAnnee} ans</p>
 		
 		
-		<%
-		String nom = (String) request.getAttribute("nom");
-		String salaire = (String) request.getAttribute("salaire");
-		String player_id = (String) request.getAttribute("player_id");		
-		%>		
-		
-		<p>Vous voulez signer <%=nom%> au salaire de <%=salaire%> pour combien d'année (maximum 4 ans de plus que l'année en cours)</p>
-		<br>
-		<form action="/signature_confirmation" method="post">
-		<input type="hidden" name="player_id" value="<%=player_id%>">
-		<input type="radio" name="nb_annee" value="1">1<br>
-		<input type="radio" name="nb_annee" value="2">2<br>
-		<input type="radio" name="nb_annee" value="3">3<br>
-		<input type="radio" name="nb_annee" value="4">4<br>
-		
-		<input type="submit" value="Valider">
-		
+		<form action="/signatureAfterDraft" method="post">
+		<input type="hidden" value="confirmationSignatureAD" name="signatureAfterDraft"/>
+		<input type="hidden" value="${information_signature.joueurId}" name="playerId"/>
+		<input type="hidden" value="${information_signature.position}" name="position"/>
+		<input type="hidden" value="${information_signature.montant}" name="salaire"/>
+		<input type="hidden" value="${information_signature.nombreAnnee}" name="nombreAnnee"/>
+		<input type="submit" value="Oui">
 		</form>
 		
-	
-		</div>
-		<div class="main_sidebar">
+		<form action="/signatureAfterDraft" method="post">
+		<input type="hidden" value="annulationSignatureAD" name="signatureAfterDraft"/>
+		<input type="submit" value="Non">
+		</form>
+		</c:if>
+		
+		<c:if test="${information_signature.codePourMessageConfirmation==2}">
+		Tu n'a pas de place dans tes contrats (maximum 12)
+		</c:if>
 		
 		
+		
 		</div>
-
-
-
-
 		<!-- fin du main container -->
 	</div>
 
