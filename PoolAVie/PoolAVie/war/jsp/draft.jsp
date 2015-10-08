@@ -257,8 +257,8 @@ if(teamId!=99){
 															String nom = rs.getString("nom");	
 															String position = rs.getString("position");	
 																String team = rs.getString("team");
-																String can_rook=rs.getString("can_be_rookie");
-																String salaire_draft=rs.getString("salaire_draft");
+																int can_rook=rs.getInt("can_be_rookie");
+																int salaire_draft=rs.getInt("salaire_draft");
 					%>
 
 
@@ -267,18 +267,18 @@ if(teamId!=99){
 						<td><%=nom%></td>
 						<td><%=team%></td>
 						<td><%=position%></td>
-						<td><%=rs.getString("pj")%></td>
-						<td><%=rs.getString("but_victoire")%></td>
-						<td><%=rs.getString("aide_overtime")%></td>
-						<td><%=rs.getString("pts")%></td>
+						<td><%=rs.getInt("pj")%></td>
+						<td><%=rs.getInt("but_victoire")%></td>
+						<td><%=rs.getInt("aide_overtime")%></td>
+						<td><%=rs.getInt("pts")%></td>
 						<td><%=can_rook%></td>
 						<td><%=salaire_draft%></td>
-						<td><%=rs.getString("projection")%></td>
+						<td><%=rs.getInt("projection")%></td>
 						<td>
 							<!-- 
 							<form action="/pick_made" method="post">
 							<input type="hidden" name="draft_pick_no" value="<%=draft_pick_no%>">
-							<input type="hidden" name="draft_player_id" value="<%=rs.getString("_id")%>">
+							<input type="hidden" name="draft_player_id" value="<%=rs.getInt("_id")%>">
 							<input type="hidden" name="team_id" value="<%=teamId%>">
 							<input type="hidden" name="nom" value="<%=nom%>">
 							<input type="hidden" name="position" value="<%=position%>">
@@ -324,13 +324,13 @@ if(teamId!=99){
 						<td><%=rs.getString("nom")%></td>
 						<td><%=rs.getString("team")%></td>
 						<td><%=rs.getString("position")%></td>
-						<td><%=rs.getString("pj")%></td>
-						<td><%=rs.getString("but_victoire")%></td>
-						<td><%=rs.getString("aide_overtime")%></td>
-						<td><%=rs.getString("pts")%></td>
-						<td><%=rs.getString("can_be_rookie")%></td>
-						<td><%=rs.getString("salaire_draft")%></td>
-						<td><%=rs.getString("projection")%></td>
+						<td><%=rs.getInt("pj")%></td>
+						<td><%=rs.getInt("but_victoire")%></td>
+						<td><%=rs.getInt("aide_overtime")%></td>
+						<td><%=rs.getInt("pts")%></td>
+						<td><%=rs.getInt("can_be_rookie")%></td>
+						<td><%=rs.getInt("salaire_draft")%></td>
+						<td><%=rs.getInt("projection")%></td>
 						<td><button>NOT YOUR TURN</button></td>
 
 					</tr>
