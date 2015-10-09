@@ -11,11 +11,21 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<welcome-file-list>
 		<welcome-file>jsp/home.jsp</welcome-file>
 	</welcome-file-list>
-	
+
 	<!-- Configuration de la durée de la session -->
 	<session-config>
 		<session-timeout>200</session-timeout>
 	</session-config>
+	<!-- Configuration du filtre -->
+	<filter>
+		<filter-name>NoCacheFilter</filter-name>
+		<filter-class>com.pedagogiksolution.poolavie.utils.NoCacheFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>NoCacheFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
 
 	<!-- Initialisation des servlets -->
 
@@ -45,7 +55,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>deconnexion</servlet-name>
 		<url-pattern>/deconnexion</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>admin</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.admin.AdminServlet</servlet-class>
@@ -63,7 +73,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>equipes</servlet-name>
 		<url-pattern>/equipes</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>boston</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.main.BostonServlet</servlet-class>
@@ -72,7 +82,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>boston</servlet-name>
 		<url-pattern>/boston</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>chicago</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.main.ChicagoServlet</servlet-class>
@@ -81,7 +91,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>chicago</servlet-name>
 		<url-pattern>/chicago</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>detroit</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.main.DetroitServlet</servlet-class>
@@ -90,7 +100,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>detroit</servlet-name>
 		<url-pattern>/detroit</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>los_angeles</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.main.LosAngelesServlet</servlet-class>
@@ -99,7 +109,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>los_angeles</servlet-name>
 		<url-pattern>/los_angeles</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>montreal</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.main.MontrealServlet</servlet-class>
@@ -108,7 +118,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>montreal</servlet-name>
 		<url-pattern>/montreal</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>pittsburgh</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.main.PittsburghServlet</servlet-class>
@@ -117,7 +127,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>pittsburgh</servlet-name>
 		<url-pattern>/pittsburgh</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>philadelphie</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.main.PhiladelphieServlet</servlet-class>
@@ -126,7 +136,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>philadelphie</servlet-name>
 		<url-pattern>/philadelphie</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>new_york</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.main.NewYorkServlet</servlet-class>
@@ -135,7 +145,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>new_york</servlet-name>
 		<url-pattern>/new_york</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>st_louis</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.main.StLouisServlet</servlet-class>
@@ -144,7 +154,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>st_louis</servlet-name>
 		<url-pattern>/st_louis</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>toronto</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.main.TorontoServlet</servlet-class>
@@ -153,7 +163,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>toronto</servlet-name>
 		<url-pattern>/toronto</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>draft</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.draft.DraftServlet</servlet-class>
@@ -162,7 +172,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>draft</servlet-name>
 		<url-pattern>/draft</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>attaquant</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.draft.AttaquantServlet</servlet-class>
@@ -171,7 +181,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>attaquant</servlet-name>
 		<url-pattern>/attaquant</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>defenseur</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.draft.DefenseurServlet</servlet-class>
@@ -180,7 +190,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>defenseur</servlet-name>
 		<url-pattern>/defenseur</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>gardien</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.draft.GardienServlet</servlet-class>
@@ -189,7 +199,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>gardien</servlet-name>
 		<url-pattern>/gardien</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>recrue</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.draft.RecrueServlet</servlet-class>
@@ -198,7 +208,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>recrue</servlet-name>
 		<url-pattern>/recrue</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>draft_order</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.draft.DraftOrderServlet</servlet-class>
@@ -207,7 +217,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>draft_order</servlet-name>
 		<url-pattern>/draft_order</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>check_for_pick</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.ajax.CheckForPick</servlet-class>
@@ -216,9 +226,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>check_for_pick</servlet-name>
 		<url-pattern>/check_for_pick</url-pattern>
 	</servlet-mapping>
-	
 
-	
+
+
 	<servlet>
 		<servlet-name>pick_made</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.draft.PickMadeServlet</servlet-class>
@@ -227,7 +237,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>pick_made</servlet-name>
 		<url-pattern>/pick_made</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>pick_confirmer</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.draft.PickConfirmerServlet</servlet-class>
@@ -236,7 +246,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>pick_confirmer</servlet-name>
 		<url-pattern>/pick_confirmer</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>add_player</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.draft.AddNewServlet</servlet-class>
@@ -245,7 +255,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>add_player</servlet-name>
 		<url-pattern>/add_new_player</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>trade_received</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.trade.ReceivedTradeOfferServlet</servlet-class>
@@ -254,7 +264,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>trade_received</servlet-name>
 		<url-pattern>/trade_received</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>trade</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.trade.TradeServlet</servlet-class>
@@ -263,7 +273,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>trade</servlet-name>
 		<url-pattern>/trade</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>make_offer</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.trade.MakeOfferServlet</servlet-class>
@@ -272,7 +282,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>make_offer</servlet-name>
 		<url-pattern>/make_offer</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>confirm_offer</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.trade.ConfirmOfferServlet</servlet-class>
@@ -281,9 +291,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>confirm_offer</servlet-name>
 		<url-pattern>/confirm_offer</url-pattern>
 	</servlet-mapping>
-	
 
-	
+
+
 	<servlet>
 		<servlet-name>my_trade</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.trade.MyTradeServlet</servlet-class>
@@ -292,7 +302,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>my_trade</servlet-name>
 		<url-pattern>/my_trade</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>all_trade</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.trade.AllTradeServlet</servlet-class>
@@ -301,7 +311,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>all_trade</servlet-name>
 		<url-pattern>/all_trade</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>signature</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.signature.SignatureServlet</servlet-class>
@@ -310,7 +320,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>signature</servlet-name>
 		<url-pattern>/signature</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>signature_after_draft_check</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.signature.SignatureAfterDraftCheckServlet</servlet-class>
@@ -319,8 +329,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>signature_after_draft_check</servlet-name>
 		<url-pattern>/signatureAfterDraft</url-pattern>
 	</servlet-mapping>
-		
-	
+
+
 	<servlet>
 		<servlet-name>detail_offre_trade</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.trade.DetailOffreTradeServlet</servlet-class>
@@ -329,7 +339,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>detail_offre_trade</servlet-name>
 		<url-pattern>/detail_offre_trade</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>detail_trade_complete</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.trade.DetailTradeCompleteServlet</servlet-class>
@@ -338,7 +348,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>detail_trade_complete</servlet-name>
 		<url-pattern>/detail_trade_complete</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>detail_offre_trade_received</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.trade.DetailOffreTradeReceivedServlet</servlet-class>
@@ -347,7 +357,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>detail_offre_trade_received</servlet-name>
 		<url-pattern>/detail_offre_trade_received</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>accepter_offre_trade</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.trade.AccepterOffreTradeServlet</servlet-class>
@@ -365,7 +375,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>rachat</servlet-name>
 		<url-pattern>/rachat</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>rachat2</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.signature.RachatApresChangementAnneeServlet</servlet-class>
@@ -374,7 +384,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>rachat2</servlet-name>
 		<url-pattern>/rachat2</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>signatureAB</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.signature.SignatureABServlet</servlet-class>
@@ -383,7 +393,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>signatureAB</servlet-name>
 		<url-pattern>/signatureAB</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>rookieFin</servlet-name>
 		<servlet-class>com.pedagogiksolution.poolavie.signature.RookieApresSaisonServlet</servlet-class>
@@ -392,9 +402,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>rookieFin</servlet-name>
 		<url-pattern>/rookieFin</url-pattern>
 	</servlet-mapping>
-	
-	
-	
+
+
+
 	<jsp-config>
 		<jsp-property-group>
 			<url-pattern>*.jsp</url-pattern>
