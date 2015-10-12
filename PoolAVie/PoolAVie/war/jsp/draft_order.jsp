@@ -64,33 +64,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Welcome page</title>
 <link rel="stylesheet" type="text/css" href="../css/main.css" />
-<!--  <script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script>
-	$(document).ready(checkForPickMade);
 
-	function checkForPickMade() {
-		// va vérifier si un pick a eu lieu toute les 10 secondes afin de permettre refresh de la page
-		//ouverte chez le client et ainsi avoir la liste de repechage a jour sans le dernier joueurs choisis et ajuster l'ordre de draft (next to et 10 next pick to come)
-		setInterval(launchAjaxCheckForChange, 10000);
-
-	}
-	function launchAjaxCheckForChange() {
-		// requete a un script .jsp qui interroge une bdd et qui retourne 1 en output si un pick a été fait depuis le dernier reload
-		$.ajaxSetup({ cache: false });
-		$.get("check_for_pick", function(data) {
-			if (data == 1) {
-				
-				alert("Un pick vient d'être fait. Votre page va se rafraichir pour enlever le joueur sélectionné et mettre à jour l'ordre de draft");
-				location.reload();
-				//window.location.replace("/draft");
-			} else {
-				
-			}
-		});
-
-	}
-</script>-->
 </head>
 <body>
 	<div class="main_navbar">

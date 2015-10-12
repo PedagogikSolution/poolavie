@@ -92,9 +92,13 @@ public class PickConfirmerServlet extends HttpServlet {
 		budget_restant = rs.getInt("budget_restant");
 		calcul_1 = budget_restant - salaireInt;
 		calcul_2 = manquant_equipe - 1;
+		
+		if (calcul_2==0){
+		    calcul_2=1;
+		}
 		if (calcul_2 != 0) {
 		    moyenneRestante = calcul_1 / calcul_2;
-		}
+		} 
 		total_manquant = manquant_att + manquant_def + manquant_gardien;
 	    }
 
@@ -146,13 +150,16 @@ public class PickConfirmerServlet extends HttpServlet {
 	    /**** verification si draft possible ******/
 
 	    if (calcul_2 != 0) {
-		if (moyenneRestante < 1000000) {
+		
+		
+		
+		if (moyenneRestante < 0) {
 
 		    resp.sendRedirect("/jsp/miss_cash.jsp");
 		    return;
 
 		}
-
+		
 	    }
 	    
 	    

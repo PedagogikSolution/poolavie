@@ -65,6 +65,7 @@
 <title>Welcome page</title>
 <link rel="stylesheet" type="text/css" href="../css/main.css" />
 <script type="text/javascript" src="js/make_offer.js"></script>
+
 </head>
 <body>
 	<div class="main_navbar">

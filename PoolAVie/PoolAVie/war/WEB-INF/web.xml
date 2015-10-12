@@ -17,15 +17,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<session-timeout>200</session-timeout>
 	</session-config>
 	<!-- Configuration du filtre -->
-	<filter>
-		<filter-name>NoCacheFilter</filter-name>
-		<filter-class>com.pedagogiksolution.poolavie.utils.NoCacheFilter</filter-class>
-	</filter>
-
-	<filter-mapping>
-		<filter-name>NoCacheFilter</filter-name>
-		<url-pattern>*.jsp</url-pattern>
-	</filter-mapping>
+	
 
 	<!-- Initialisation des servlets -->
 

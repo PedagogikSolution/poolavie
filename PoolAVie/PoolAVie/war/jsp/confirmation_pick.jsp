@@ -76,6 +76,7 @@ break;
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Welcome page</title>
 <link rel="stylesheet" type="text/css" href="../css/main.css" />
+
 </head>
 <body>
 	<div class="main_navbar">

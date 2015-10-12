@@ -34,11 +34,8 @@ public class DraftServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		try{
-			sortBy = req.getParameter("sortby");}
-			catch (Exception e){
-				return;
-			}
+		
+			sortBy = req.getParameter("sortby");
 			if(sortBy==null){
 				sortBy="null";
 			}
@@ -174,11 +171,8 @@ public class DraftServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		try{
-		sortBy = req.getParameter("sortby");}
-		catch (Exception e){
-			return;
-		}
+		
+		sortBy = req.getParameter("sortby");
 		if(sortBy==null){
 			sortBy="null";
 		}

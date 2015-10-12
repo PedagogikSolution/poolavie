@@ -130,33 +130,7 @@ if(teamId!=99){
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Welcome page</title>
 <link rel="stylesheet" type="text/css" href="../css/main.css" />
-<!--  <script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script>
-	$(document).ready(checkForPickMade);
 
-	function checkForPickMade() {
-		// va vérifier si un pick a eu lieu toute les 10 secondes afin de permettre refresh de la page
-		//ouverte chez le client et ainsi avoir la liste de repechage a jour sans le dernier joueurs choisis et ajuster l'ordre de draft (next to et 10 next pick to come)
-		setInterval(launchAjaxCheckForChange, 10000);
-
-	}
-	function launchAjaxCheckForChange() {
-		// requete a un script .jsp qui interroge une bdd et qui retourne 1 en output si un pick a été fait depuis le dernier reload
-		$.ajaxSetup({ cache: false });
-		$.get("check_for_pick", function(data) {
-			if (data == 1) {
-				
-				alert("Un pick vient d'être fait. Votre page va se rafraichir pour enlever le joueur sélectionné et mettre à jour l'ordre de draft");
-				location.reload();
-				//window.location.replace("/draft");
-			} else {
-				
-			}
-		});
-
-	}
-</script>-->
 </head>
 <body>
 	<div class="main_navbar">
@@ -244,10 +218,10 @@ if(teamId!=99){
 						<th>Pj</th>
 						<th>But</th>
 						<th>Passe</th>
-						<th><a href="/draft?sortby=pts">Pts</a></th>
+						<th><a href="/attaquant?sortby=pts">Pts</a></th>
 						<th>Rookie</th>
-						<th><a href="/draft?sortby=salaire">Salaire</a></th>
-						<th><a href="/draft?sortby=proj">Proj</a></th>
+						<th><a href="/attaquant?sortby=salaire">Salaire</a></th>
+						<th><a href="/attaquant?sortby=proj">Proj</a></th>
 						<th>Draft Pick</th>
 					</tr>
 
@@ -275,7 +249,7 @@ if(teamId!=99){
 						<td><%=salaire_draft%></td>
 						<td><%=rs.getInt("projection")%></td>
 						<td>
-							<!-- 
+							 
 							<form action="/pick_made" method="post">
 							<input type="hidden" name="draft_pick_no" value="<%=draft_pick_no%>">
 							<input type="hidden" name="draft_player_id" value="<%=rs.getInt("_id")%>">
@@ -287,7 +261,7 @@ if(teamId!=99){
 							<input type="hidden" name="salaire"	value="<%=salaire_draft%>">
 							<input type="submit" value="PICK">
 							</form>
-						-->
+						
 						</td>
 
 					</tr>
@@ -309,10 +283,10 @@ if(teamId!=99){
 						<th>Pj</th>
 						<th>But</th>
 						<th>Passe</th>
-						<th><a href="/draft?sortby=pts">Pts</a></th>
+						<th><a href="/attaquant?sortby=pts">Pts</a></th>
 						<th>Rookie</th>
-						<th><a href="/draft?sortby=salaire">Salaire</a></th>
-						<th><a href="/draft?sortby=proj">Proj</a></th>
+						<th><a href="/attaquant?sortby=salaire">Salaire</a></th>
+						<th><a href="/attaquant?sortby=proj">Proj</a></th>
 						<th>Draft Pick</th>
 					</tr>
 
