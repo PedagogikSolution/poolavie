@@ -45,7 +45,7 @@ public class SignatureAfterDraft {
 		e.printStackTrace();
 	    }
 	}
-	QueryA = "SELECT * FROM players WHERE years_1='JA' AND club_ecole=? AND team_id=?";
+	QueryA = "SELECT * FROM players WHERE years_2='JA' AND club_ecole=? AND team_id=?";
 
 	
 
@@ -132,7 +132,7 @@ public class SignatureAfterDraft {
 
     public void signerCeJoueur(String sPlayerId, String sSalaire, String sNombreAnnee, int mPosition, HttpServletRequest req, HttpServletResponse resp) {
 		
-		String QueryA, QueryB, QueryC, QueryD;
+		String QueryA, QueryB;
 		DatabaseConnector dbHelper = new DatabaseConnector();
 		Connection conn;
 		PreparedStatement mPreparedStatement;
@@ -147,9 +147,7 @@ public class SignatureAfterDraft {
 		conn = dbHelper.open();
 
 		QueryA = "UPDATE players SET years_1=?,years_2=?,years_3=?,years_4=?,years_5=? WHERE _id=?";
-		QueryB = "UPDATE equipes SET total_salaire_now=total_salaire_now+?,budget_restant=budget_restant-?,nb_attaquant=nb_attaquant+1,nb_contrat=nb_contrat+1,nb_equipe=nb_equipe+1,manquant_equipe=manquant_equipe-1,manquant_att=manquant_att-1 WHERE team_id=?";
-		QueryC = "UPDATE equipes SET total_salaire_now=total_salaire_now+?,budget_restant=budget_restant-?,nb_defenseur=nb_defenseur+1,nb_contrat=nb_contrat+1,nb_equipe=nb_equipe+1,manquant_equipe=manquant_equipe-1,manquant_def=manquant_def-1 WHERE team_id=?";
-		QueryD = "UPDATE equipes SET total_salaire_now=total_salaire_now+?,budget_restant=budget_restant-?,nb_gardien=nb_gardien+1,nb_contrat=nb_contrat+1,nb_equipe=nb_equipe+1,manquant_equipe=manquant_equipe-1,manquant_gardien=manquant_gardien-1 WHERE team_id=?";
+		QueryB = "UPDATE equipes SET nb_contrat=nb_contrat+1 WHERE team_id=?";
 		try {
 		    mPreparedStatement = conn.prepareStatement(QueryA);
 		    switch (iNombreAnnee) {
@@ -195,24 +193,11 @@ public class SignatureAfterDraft {
 		    mPreparedStatement.executeUpdate();
 		    mPreparedStatement.close();
 
-		    switch (mPosition) {
-		    case 1:
-			 mPreparedStatement.close();
-			mPreparedStatement = conn.prepareStatement(QueryB);
-			break;
-		    case 2:
-			 mPreparedStatement.close();
-			mPreparedStatement = conn.prepareStatement(QueryC);
-			break;
-		    case 3:
-			 mPreparedStatement.close();
-			mPreparedStatement = conn.prepareStatement(QueryD);
-			break;
-		    }
-
-		    mPreparedStatement.setInt(1, iSalaire);
-		    mPreparedStatement.setInt(2, iSalaire);
-		    mPreparedStatement.setInt(3, iTeamId);
+		    
+		    
+		    
+		    mPreparedStatement = conn.prepareStatement(QueryB);		   
+		    mPreparedStatement.setInt(1, iTeamId);
 		    mPreparedStatement.executeUpdate();
 		    mPreparedStatement.close();
 
