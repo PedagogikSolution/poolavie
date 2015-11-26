@@ -160,8 +160,15 @@
 	<input type="hidden" value="12" name="admin"/>	
 	<input type="submit" class="btn_menu" style="width:100%" value="Étape 12 : Update Draft Order"/>	
 	</form>
-	
-		
+	<br>
+	<br>
+	<form action="/admin" method="post">
+	<input type="hidden" value="13" name="admin"/>	
+	<input type="submit" class="btn_menu" style="width:100%" value="Étape 13 : Reset draft_current_years by truncating table and repopulate for each team"/>	
+	</form>
+	<br>
+	<br>
+			
 
 		<!-- fin du main container -->
 	</div>

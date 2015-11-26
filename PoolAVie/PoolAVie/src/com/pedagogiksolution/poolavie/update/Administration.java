@@ -104,7 +104,68 @@ public class Administration {
 
     }
 
+    public void updateDraftCurrentYear() {
+// Truncate the table of last years
+	truncateDraftCurrentYear();
+
+	populateDraftCurrentYear();
+
+    }
+
     /**************************** Methode privée de la class *********************************************/
+
+    private void populateDraftCurrentYear() {
+	String mQuery;
+	PreparedStatement mPreparedStatement;
+	
+// ouverture de la connexion a la bdd
+	conn = mDbHelper.open();
+	
+	int teamInt;
+	int pickInt;
+	int maxTeamInt = 10;
+	int maxPickInt = 32;
+	
+	
+	for (teamInt=0;teamInt<maxTeamInt;teamInt++){
+	    
+	    for(pickInt=1;pickInt<maxPickInt;pickInt++){
+		
+		mQuery = "INSERT INTO draft_pick_current_year (team_id,pick_no,original_team_id) VALUE (?,?,?)";
+		
+		try {
+		    mPreparedStatement = conn.prepareStatement(mQuery);
+		    mPreparedStatement.setInt(1, teamInt);
+		    mPreparedStatement.setInt(2, pickInt);
+		    mPreparedStatement.setInt(3, teamInt);
+		    mPreparedStatement.executeUpdate();
+		} catch (SQLException e) {
+		    e.printStackTrace();
+		} 
+		
+	    }
+	    
+	}
+
+    }
+
+    private void truncateDraftCurrentYear() {
+	Statement mStatementA;
+	String QueryA;
+	// ouverture de la connexion a la bdd
+	conn = mDbHelper.open();
+
+	QueryA = "TRUNCATE draft_pick_current_year";
+	try {
+	    mStatementA = conn.createStatement();
+	    mStatementA.executeUpdate(QueryA);
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	} finally {
+	    mDbHelper.close(conn);
+	}
+
+    }
 
     private void resetYears() {
 	Statement mStatementA;
@@ -625,12 +686,10 @@ public class Administration {
 	    equipe.add("st_louis");
 	    equipe.add("boston");
 	    equipe.add("pittsburgh");
-	    
-	    
+
 	    int team_id = 0;
 	    for (String equipe2 : equipe) {
 
-		
 		mPreparedStatementA = conn.prepareStatement(QueryD);
 		mPreparedStatementA.setString(1, equipe2);
 		mPreparedStatementA.setInt(2, team_id);
@@ -652,60 +711,49 @@ public class Administration {
 	    from_who.add("BOS");
 	    from_who.add("PIT");
 
-	    
 	    int team_id2 = 0;
 	    for (String from_who2 : from_who) {
-		
 
-		    mPreparedStatementA = conn.prepareStatement(QueryE);
-		    mPreparedStatementA.setString(1, from_who2);
-		    mPreparedStatementA.setInt(2, team_id2);
-		    mPreparedStatementA.executeUpdate();
-		    mPreparedStatementA.close();
+		mPreparedStatementA = conn.prepareStatement(QueryE);
+		mPreparedStatementA.setString(1, from_who2);
+		mPreparedStatementA.setInt(2, team_id2);
+		mPreparedStatementA.executeUpdate();
+		mPreparedStatementA.close();
 
-		    team_id2++;
+		team_id2++;
 	    }
-	    
-	    
-	    String QueryF="SELECT * FROM draft_round WHERE team_id=? ORDER BY draft_pick_no";
-	    
+
+	    String QueryF = "SELECT * FROM draft_round WHERE team_id=? ORDER BY draft_pick_no";
+
 	    for (int team = 0; team < 10; team++) {
-		
+
 		ArrayList<Integer> draft_pick_number_for_a_team = new ArrayList<Integer>();
-		    mPreparedStatementA = conn.prepareStatement(QueryF);
-		    mPreparedStatementA.setInt(1, team);
-		    rs=mPreparedStatementA.executeQuery();
-		    
-		    while(rs.next()){
-			
-			int draft_pick_number_for_a_team2 = rs.getInt("draft_pick_no");
-			draft_pick_number_for_a_team.add(draft_pick_number_for_a_team2);
-		    }
-		    rs.close();
-		    mPreparedStatementA.close();
-		    
-		    int nombrePickDansArray = draft_pick_number_for_a_team.size();
-		    int itr2=1;
-		    for(itr2=1;itr2<nombrePickDansArray;itr2++){
-			
-		    String QueryG="UPDATE draft_round SET team_count=? WHERE team_id=? AND draft_pick_no=? ORDER BY draft_pick_no";
+		mPreparedStatementA = conn.prepareStatement(QueryF);
+		mPreparedStatementA.setInt(1, team);
+		rs = mPreparedStatementA.executeQuery();
+
+		while (rs.next()) {
+
+		    int draft_pick_number_for_a_team2 = rs.getInt("draft_pick_no");
+		    draft_pick_number_for_a_team.add(draft_pick_number_for_a_team2);
+		}
+		rs.close();
+		mPreparedStatementA.close();
+
+		int nombrePickDansArray = draft_pick_number_for_a_team.size();
+		int itr2 = 1;
+		for (itr2 = 1; itr2 < nombrePickDansArray; itr2++) {
+
+		    String QueryG = "UPDATE draft_round SET team_count=? WHERE team_id=? AND draft_pick_no=? ORDER BY draft_pick_no";
 		    mPreparedStatementA = conn.prepareStatement(QueryG);
 		    mPreparedStatementA.setInt(1, itr2);
 		    mPreparedStatementA.setInt(2, team);
-		    mPreparedStatementA.setInt(3, draft_pick_number_for_a_team.get(itr2-1));
+		    mPreparedStatementA.setInt(3, draft_pick_number_for_a_team.get(itr2 - 1));
 		    mPreparedStatementA.executeUpdate();
 		    mPreparedStatementA.close();
-		    }
-		    
+		}
+
 	    }
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
 
 	} catch (SQLException e) {
 	    e.printStackTrace();
@@ -714,5 +762,7 @@ public class Administration {
 	}
 
     }
+
 // fin de la class
+
 }

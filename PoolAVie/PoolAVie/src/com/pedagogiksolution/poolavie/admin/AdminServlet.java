@@ -78,6 +78,9 @@ public class AdminServlet extends HttpServlet {
 	case 12 : administration.updateDraftOrder();
 	resp.sendRedirect("/admin");
 	    break; 
+	case 13 : administration.updateDraftCurrentYear();
+	resp.sendRedirect("/admin");
+	    break;
 	
 	
 	
