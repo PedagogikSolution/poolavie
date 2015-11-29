@@ -40,17 +40,24 @@ public class TradeModel {
 	    rs = mPreparedStatement.executeQuery();
 
 	    if (rs.next()) {
+
+		mBean.setIsThereAOfferForMe(1);
+		req.setAttribute("beanTrade", mBean);
+
+		getTheOfferThatIReceived(rs, req);
 		rs.close();
 		mPreparedStatement.close();
 		return true;
 	    } else {
+
+		mBean.setIsThereAOfferForMe(0);
+		req.setAttribute("beanTrade", mBean);
 		rs.close();
 		mPreparedStatement.close();
 		return false;
 	    }
 
 	} catch (SQLException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	} finally {
 	    dbHelper.close(conn);
@@ -79,6 +86,8 @@ public class TradeModel {
 	    rs = mPreparedStatement.executeQuery();
 
 	    if (rs.next()) {
+
+		getTheOfferThatIMade(rs, req);
 		rs.close();
 		mPreparedStatement.close();
 		return true;
@@ -89,7 +98,6 @@ public class TradeModel {
 	    }
 
 	} catch (SQLException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	} finally {
 	    dbHelper.close(conn);
@@ -98,27 +106,13 @@ public class TradeModel {
 
     }
 
-    public void getTheOfferThatIReceived(HttpServletRequest req) {
-	String QueryA;
-	DatabaseConnector dbHelper = new DatabaseConnector();
-	Connection conn;
-	PreparedStatement mPreparedStatement;
-	ResultSet rs;
+    public void getTheOfferThatIReceived(ResultSet rs, HttpServletRequest req) {
+
 	List<Integer> trade_id = new ArrayList<Integer>();
 	List<String> nom_equipe_trading_to = new ArrayList<String>();
 
-	String team_id = (String) req.getSession().getAttribute("mTeamId");
-	int m_team_id = Integer.parseInt(team_id);
-
-	conn = dbHelper.open();
-
-	QueryA = "SELECT * FROM trade_offer WHERE team_2=?";
-
 	try {
-	    mPreparedStatement = conn.prepareStatement(QueryA);
-	    mPreparedStatement.setInt(1, m_team_id);
-	    rs = mPreparedStatement.executeQuery();
-
+	    rs.beforeFirst();
 	    while (rs.next()) {
 		int t_id = (rs.getInt("_id"));
 		trade_id.add(t_id);
@@ -130,47 +124,29 @@ public class TradeModel {
 		nom_equipe_trading_to.add(nom);
 		mBean.setTradeOfferNameTeamTradeWith(nom_equipe_trading_to);
 	    }
-
 	} catch (SQLException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
-	} finally {
-	    dbHelper.close(conn);
 	}
 
 	req.setAttribute("beanAffichageOfferMade", mBean);
 
     }
 
-    public void getTheOfferThatIMade(HttpServletRequest req) {
-	String QueryA;
-	DatabaseConnector dbHelper = new DatabaseConnector();
-	Connection conn;
-	PreparedStatement mPreparedStatement;
-	ResultSet rs;
+    public void getTheOfferThatIMade(ResultSet rs, HttpServletRequest req) {
+
 	List<Integer> trade_id = new ArrayList<Integer>();
 	List<String> nom_equipe_trading_to = new ArrayList<String>();
 
-	String team_id = (String) req.getSession().getAttribute("mTeamId");
-	int m_team_id = Integer.parseInt(team_id);
-
-	conn = dbHelper.open();
-
-	QueryA = "SELECT * FROM trade_offer WHERE team_1=?";
-
 	try {
-	    mPreparedStatement = conn.prepareStatement(QueryA);
-	    mPreparedStatement.setInt(1, m_team_id);
-	    rs = mPreparedStatement.executeQuery();
-
+	    rs.beforeFirst();
 	    while (rs.next()) {
 		int t_id = (rs.getInt("_id"));
 		trade_id.add(t_id);
 		mBean.setTradeOfferId(trade_id);
 
-		String team2Id = (rs.getString("team_2"));
-		int team2 = Integer.parseInt(team2Id);
-		String nom = getTeamNameFromString(team2);
+		String team1Id = (rs.getString("team_2"));
+		int team1 = Integer.parseInt(team1Id);
+		String nom = getTeamNameFromString(team1);
 		nom_equipe_trading_to.add(nom);
 		mBean.setTradeOfferNameTeamTradeWith(nom_equipe_trading_to);
 	    }
@@ -178,8 +154,6 @@ public class TradeModel {
 	} catch (SQLException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
-	} finally {
-	    dbHelper.close(conn);
 	}
 
 	req.setAttribute("beanAffichageOfferMade", mBean);
@@ -847,8 +821,460 @@ public class TradeModel {
     }
 
     public boolean validationTradeAnnée(HttpServletRequest req) {
-	// TODO Auto-generated method stub
-	return false;
+	String QueryA, QueryB, QueryC;
+	DatabaseConnector dbHelper = new DatabaseConnector();
+	Connection conn;
+	PreparedStatement mPreparedStatement;
+	ResultSet rs;
+
+	int budget_restant_make_offer = 0;
+
+	int budget_restant_received_offer = 0;
+
+	int total_salaire_team_making_offer = 0;
+	int total_salaire_team_receiving_offer = 0;
+
+	int nbPlayersTeamThatOffer = 0;
+	int nbRookieTeamThatOffer = 0;
+	int nbDraftPickTeamThatOffer = 0;
+	int nbPlayersTeamThatReceived = 0;
+	int nbRookieTeamThatReceived = 0;
+	int nbDraftPickTeamThatReceived = 0;
+
+	int nbAttInTeamThatOffer = 0;
+	int nbDefInTeamThatOffer = 0;
+	int nbGoalInTeamThatOffer = 0;
+
+	int nbAttInTeamThatReceived = 0;
+	int nbDefInTeamThatReceived = 0;
+	int nbGoalInTeamThatReceived = 0;
+
+	int nb_attaquant_make_offer = 0;
+	int nb_defenseur_make_offer = 0;
+	int nb_goaler_make_offer = 0;
+	int argent_recu_make_offer = 0;
+
+	int nb_attaquant_rec_offer = 0;
+	int nb_defenseur_rec_offer = 0;
+	int nb_goaler_rec_offer = 0;
+	int argent_recu_rec_offer = 0;
+
+	String teamMakingOfferId = req.getParameter("teamMakingOfferId");
+	int teamThatTrade = Integer.parseInt(teamMakingOfferId);
+	String teamReceivingOfferId = req.getParameter("teamReceivingOfferId");
+	int teamToTrade = Integer.parseInt(teamReceivingOfferId);
+
+	String argentOfferTeamThatTradeString = req.getParameter("cash_trade_by");
+	int argentOfferTeamThatTrade = Integer.parseInt(argentOfferTeamThatTradeString);
+
+	String argentOfferTeamThatReceivedOfferString = req.getParameter("cash_trade_to");
+	int argentOfferTeamThatReceivedOffer = Integer.parseInt(argentOfferTeamThatReceivedOfferString);
+
+	String[] playersTeamThatOffer = req.getParameterValues("players_id_my_team");
+
+	String[] draftPickTeamThatOffer = req.getParameterValues("draft_pick_my_team");
+
+	String[] playersTeamThatReceived = req.getParameterValues("players_id_other_team");
+	String[] draftPickTeamThatReceived = req.getParameterValues("draft_pick_other_team");
+
+	if (playersTeamThatOffer != null) {
+	    nbPlayersTeamThatOffer = playersTeamThatOffer.length;
+	}
+	if (draftPickTeamThatOffer != null) {
+	    nbDraftPickTeamThatOffer = draftPickTeamThatOffer.length;
+	}
+	if (playersTeamThatReceived != null) {
+	    nbPlayersTeamThatReceived = playersTeamThatReceived.length;
+	}
+	if (draftPickTeamThatReceived != null) {
+	    nbDraftPickTeamThatReceived = draftPickTeamThatReceived.length;
+	}
+
+	String[] nomMakingOffer = new String[nbPlayersTeamThatOffer];
+	String[] nomReceivingOffer = new String[nbPlayersTeamThatReceived];
+	String[] RoundPickMakingOffer = new String[nbDraftPickTeamThatOffer];
+	String[] RoundPickReceivingOffer = new String[nbDraftPickTeamThatReceived];
+	String[] FromPickMakingOffer = new String[nbDraftPickTeamThatOffer];
+	String[] FromPickReceivingOffer = new String[nbDraftPickTeamThatReceived];
+
+// checking for to many players trade max 7
+	if (nbPlayersTeamThatOffer > 7 || nbPlayersTeamThatReceived > 7) {
+	    mBean.setCodeErreurOffreTrade(9);
+	    req.setAttribute("messageErreur", mBean);
+	    return false;
+	}
+// checking for to many draft pick trade max 3
+	if (nbDraftPickTeamThatOffer > 3 || nbDraftPickTeamThatReceived > 3) {
+	    mBean.setCodeErreurOffreTrade(10);
+	    req.setAttribute("messageErreur", mBean);
+	    return false;
+	}
+
+// checking for cash on the two side
+	if (argentOfferTeamThatTrade > 0 && argentOfferTeamThatReceivedOffer > 0) {
+	    mBean.setCodeErreurOffreTrade(7);
+	    req.setAttribute("messageErreur", mBean);
+	    return false;
+	}
+// checking if there no players on the two side
+	if (nbPlayersTeamThatOffer < 1 && nbPlayersTeamThatReceived < 1) {
+	    mBean.setCodeErreurOffreTrade(8);
+	    req.setAttribute("messageErreur", mBean);
+	    return false;
+	}
+
+	QueryA = "SELECT * FROM equipes WHERE team_id=?";
+
+	conn = dbHelper.open();
+
+	try {
+// recuperation des infos de equipes qui trade
+	    mPreparedStatement = conn.prepareStatement(QueryA);
+	    mPreparedStatement.setInt(1, teamThatTrade);
+	    rs = mPreparedStatement.executeQuery();
+	    if (rs.next()) {
+		budget_restant_make_offer = rs.getInt("budget_restant");
+		nb_attaquant_make_offer = rs.getInt("nb_attaquant");
+		nb_defenseur_make_offer = rs.getInt("nb_defenseur");
+		nb_goaler_make_offer = rs.getInt("nb_gardien");
+		argent_recu_make_offer = rs.getInt("argent_recu");
+
+	    }
+	    rs.close();
+	    mPreparedStatement.close();
+
+// recuperation des infos de equipes qui trade
+	    mPreparedStatement = conn.prepareStatement(QueryA);
+	    mPreparedStatement.setInt(1, teamToTrade);
+	    rs = mPreparedStatement.executeQuery();
+
+	    if (rs.next()) {
+		budget_restant_received_offer = rs.getInt("budget_restant");
+		nb_attaquant_rec_offer = rs.getInt("nb_attaquant");
+		nb_defenseur_rec_offer = rs.getInt("nb_defenseur");
+		nb_goaler_rec_offer = rs.getInt("nb_gardien");
+		argent_recu_rec_offer = rs.getInt("argent_recu");
+
+	    }
+	    rs.close();
+	    mPreparedStatement.close();
+
+// on calcul le total d'Argent des salaire des joueurs de l'Equipe qui trade, le nombre par position inclus dans trade
+// et on ajoute leur nom dans un array
+	    if (playersTeamThatOffer != null) {
+		int i = 0;
+		for (String s : playersTeamThatOffer) {
+		    int toInt = Integer.parseInt(s);
+		    QueryB = "SELECT * FROM players WHERE _id=? AND club_ecole=0";
+		    mPreparedStatement = conn.prepareStatement(QueryB);
+		    mPreparedStatement.setInt(1, toInt);
+		    rs = mPreparedStatement.executeQuery();
+
+		    if (rs.next()) {
+			int salaire_joueur_temp = rs.getInt("years_1");
+			total_salaire_team_making_offer = total_salaire_team_making_offer + salaire_joueur_temp;
+			String nomMakingOfferString = rs.getString("nom");
+			nomMakingOffer[i] = nomMakingOfferString;
+
+			String positionDuJoueurTrade = rs.getString("position");
+
+			switch (positionDuJoueurTrade) {
+			case "attaquant":
+			    nbAttInTeamThatOffer = nbAttInTeamThatOffer + 1;
+			    break;
+			case "defenseur":
+			    nbDefInTeamThatOffer = nbDefInTeamThatOffer + 1;
+			    break;
+			case "gardien":
+			    nbGoalInTeamThatOffer = nbGoalInTeamThatOffer + 1;
+			    break;
+
+			}
+
+			i++;
+
+		    }
+		}
+	    }
+	    rs.close();
+	    mPreparedStatement.close();
+
+// on ajoute les recrues dans un array sans compter leur salaire
+	    if (playersTeamThatOffer != null) {
+		int i = 0;
+		for (String s : playersTeamThatOffer) {
+		    int toInt = Integer.parseInt(s);
+		    QueryB = "SELECT * FROM players WHERE _id=? AND club_ecole=1";
+		    mPreparedStatement = conn.prepareStatement(QueryB);
+		    mPreparedStatement.setInt(1, toInt);
+		    rs = mPreparedStatement.executeQuery();
+
+		    if (rs.next()) {
+			nbRookieTeamThatOffer = nbRookieTeamThatOffer + 1;
+			String nomMakingOfferString = rs.getString("nom");
+			nomMakingOffer[i] = nomMakingOfferString;
+
+			i++;
+
+		    }
+		}
+	    }
+	    rs.close();
+	    mPreparedStatement.close();
+
+// on calcul le total d'Argent des salaire des joueurs de l'Equipe qui recoit et on ajoute leur nom dans un array
+	    if (playersTeamThatReceived != null) {
+		int i = 0;
+		for (String s : playersTeamThatReceived) {
+		    int toInt = Integer.parseInt(s);
+		    QueryB = "SELECT * FROM players WHERE _id=? AND club_ecole=0";
+		    mPreparedStatement = conn.prepareStatement(QueryB);
+		    mPreparedStatement.setInt(1, toInt);
+		    rs = mPreparedStatement.executeQuery();
+		    if (rs.next()) {
+			int salaire_joueur_temp = rs.getInt("years_1");
+			total_salaire_team_receiving_offer = total_salaire_team_receiving_offer + salaire_joueur_temp;
+			String nomReceivingOfferString = rs.getString("nom");
+			nomReceivingOffer[i] = nomReceivingOfferString;
+
+			String positionDuJoueurTrade = rs.getString("position");
+
+			switch (positionDuJoueurTrade) {
+			case "attaquant":
+			    nbAttInTeamThatReceived = nbAttInTeamThatReceived + 1;
+			    break;
+			case "defenseur":
+			    nbDefInTeamThatReceived = nbDefInTeamThatReceived + 1;
+			    break;
+			case "gardien":
+			    nbGoalInTeamThatReceived = nbGoalInTeamThatReceived + 1;
+			    break;
+
+			}
+			i++;
+		    }
+
+		}
+	    }
+	    rs.close();
+	    mPreparedStatement.close();
+
+// on ajoute les recrues dans un array sans compter leur salaire
+	    if (playersTeamThatReceived != null) {
+		int i = 0;
+		for (String s : playersTeamThatReceived) {
+		    int toInt = Integer.parseInt(s);
+		    QueryB = "SELECT * FROM players WHERE _id=? AND club_ecole=1";
+		    mPreparedStatement = conn.prepareStatement(QueryB);
+		    mPreparedStatement.setInt(1, toInt);
+		    rs = mPreparedStatement.executeQuery();
+		    if (rs.next()) {
+			nbRookieTeamThatReceived = nbRookieTeamThatReceived + 1;
+			String nomReceivingOfferString = rs.getString("nom");
+			nomReceivingOffer[i] = nomReceivingOfferString;
+			i++;
+		    }
+
+		}
+	    }
+	    rs.close();
+	    mPreparedStatement.close();
+
+// check si le nombre par position va resister l'echange (min 8 attaquant, 5 def et 2 goal)
+
+	    if ((nb_attaquant_make_offer - nbAttInTeamThatOffer + nbAttInTeamThatReceived) < 8) {
+		mBean.setCodeErreurOffreTrade(3);
+		req.setAttribute("messageErreur", mBean);
+		return false;
+	    }
+
+	    if ((nb_attaquant_rec_offer + nbAttInTeamThatOffer - nbAttInTeamThatReceived) < 8) {
+		mBean.setCodeErreurOffreTrade(3);
+		req.setAttribute("messageErreur", mBean);
+		return false;
+	    }
+
+	    if ((nb_defenseur_make_offer - nbDefInTeamThatOffer + nbDefInTeamThatReceived) < 5) {
+		mBean.setCodeErreurOffreTrade(4);
+		req.setAttribute("messageErreur", mBean);
+		return false;
+	    }
+
+	    if ((nb_defenseur_rec_offer + nbDefInTeamThatOffer - nbDefInTeamThatReceived) < 5) {
+		mBean.setCodeErreurOffreTrade(4);
+		req.setAttribute("messageErreur", mBean);
+		return false;
+	    }
+
+	    if ((nb_goaler_make_offer - nbGoalInTeamThatOffer + nbGoalInTeamThatReceived) < 2) {
+		mBean.setCodeErreurOffreTrade(5);
+		req.setAttribute("messageErreur", mBean);
+		return false;
+	    }
+
+	    if ((nb_goaler_rec_offer + nbGoalInTeamThatOffer - nbGoalInTeamThatReceived) < 2) {
+		mBean.setCodeErreurOffreTrade(5);
+		req.setAttribute("messageErreur", mBean);
+		return false;
+	    }
+
+// check si budget pour abosrber la transaction
+
+	    if ((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer + argent_recu_make_offer) < 0) {
+
+		mBean.setCodeErreurOffreTrade(12);
+		req.setAttribute("messageErreur", mBean);
+		return false;
+
+	    }
+
+	    if ((budget_restant_received_offer - total_salaire_team_making_offer + total_salaire_team_receiving_offer + argent_recu_rec_offer) < 0) {
+
+		mBean.setCodeErreurOffreTrade(13);
+		req.setAttribute("messageErreur", mBean);
+		return false;
+
+	    }
+
+// recuperation des infos sur les picks
+
+	    if (draftPickTeamThatOffer != null) {
+		int i = 0;
+		for (String s : draftPickTeamThatOffer) {
+		    int toInt = Integer.parseInt(s);
+		    QueryC = "SELECT * FROM draft_pick_current_year WHERE _id=?";
+		    mPreparedStatement = conn.prepareStatement(QueryC);
+		    mPreparedStatement.setInt(1, toInt);
+		    rs = mPreparedStatement.executeQuery();
+
+		    if (rs.next()) {
+			int round_temp = rs.getInt("pick_no");
+			int from_temp = rs.getInt("original_team_id");
+			String from_temp2 = null;
+			switch (from_temp) {
+			case 0:
+			    from_temp2 = "Los Angeles";
+			    break;
+			case 1:
+			    from_temp2 = "Détroit";
+			    break;
+			case 2:
+			    from_temp2 = "Montréal";
+			    break;
+			case 3:
+			    from_temp2 = "Chicago";
+			    break;
+			case 4:
+			    from_temp2 = "New York";
+			    break;
+			case 5:
+			    from_temp2 = "Philadelphie";
+			    break;
+			case 6:
+			    from_temp2 = "Toronto";
+			    break;
+			case 7:
+			    from_temp2 = "St-Louis";
+			    break;
+			case 8:
+			    from_temp2 = "Boston";
+			    break;
+			case 9:
+			    from_temp2 = "Pittsburgh";
+			    break;
+			}
+			String round_temp2 = Integer.toString(round_temp);
+
+			RoundPickMakingOffer[i] = round_temp2;
+			FromPickMakingOffer[i] = from_temp2;
+			i++;
+
+		    }
+		}
+	    }
+	    rs.close();
+	    mPreparedStatement.close();
+
+	    if (draftPickTeamThatReceived != null) {
+		int i = 0;
+		for (String s : draftPickTeamThatReceived) {
+		    int toInt = Integer.parseInt(s);
+		    QueryC = "SELECT * FROM draft_pick_current_year WHERE _id=?";
+		    mPreparedStatement = conn.prepareStatement(QueryC);
+		    mPreparedStatement.setInt(1, toInt);
+		    rs = mPreparedStatement.executeQuery();
+
+		    if (rs.next()) {
+			int round_temp = rs.getInt("pick_no");
+			int from_temp = rs.getInt("original_team_id");
+			String from_temp2 = null;
+			switch (from_temp) {
+			case 0:
+			    from_temp2 = "Los Angeles";
+			    break;
+			case 1:
+			    from_temp2 = "Détroit";
+			    break;
+			case 2:
+			    from_temp2 = "Montréal";
+			    break;
+			case 3:
+			    from_temp2 = "Chicago";
+			    break;
+			case 4:
+			    from_temp2 = "New York";
+			    break;
+			case 5:
+			    from_temp2 = "Philadelphie";
+			    break;
+			case 6:
+			    from_temp2 = "Toronto";
+			    break;
+			case 7:
+			    from_temp2 = "St-Louis";
+			    break;
+			case 8:
+			    from_temp2 = "Boston";
+			    break;
+			case 9:
+			    from_temp2 = "Pittsburgh";
+			    break;
+			}
+			String round_temp2 = Integer.toString(round_temp);
+			RoundPickReceivingOffer[i] = round_temp2;
+			FromPickReceivingOffer[i] = from_temp2;
+			i++;
+
+		    }
+		}
+	    }
+	    rs.close();
+	    mPreparedStatement.close();
+
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	} finally {
+	    dbHelper.close(conn);
+	}
+
+	mBean.setPlayerIdMakingOffer(playersTeamThatOffer);
+	mBean.setPlayerIdReceivingOffer(playersTeamThatReceived);
+	mBean.setPickNumMakingOffer(draftPickTeamThatOffer);
+	mBean.setPickNumReceivingOffer(draftPickTeamThatReceived);
+	mBean.setCashMakingOffer(argentOfferTeamThatTrade);
+	mBean.setCashReceivingOffer(argentOfferTeamThatReceivedOffer);
+	mBean.setNomMakingOffer(nomMakingOffer);
+	mBean.setNomReceivingOffer(nomReceivingOffer);
+	mBean.setRoundPickMakingOffer(RoundPickMakingOffer);
+	mBean.setRoundPickReceivingOffer(RoundPickReceivingOffer);
+	mBean.setFromPickMakingOffer(FromPickMakingOffer);
+	mBean.setFromPickReceivingOffer(FromPickReceivingOffer);
+	mBean.setTeamThatTrade(teamThatTrade);
+	mBean.setTeamTradeTo(teamToTrade);
+
+	req.getSession().setAttribute("tradeOfferBean", mBean);
+
+	return true;
     }
 
     public boolean validationTradeDraft(HttpServletRequest req) {
@@ -1534,12 +1960,14 @@ public class TradeModel {
     }
 
     public void showOfferNumberX(HttpServletRequest req) {
+
+// recuperation de l'identifiant unique du trade representé par la clef primaire de la table trade_offer des bdd
 	String trade_id_string = req.getParameter("trade_id");
 	int trade_id = Integer.parseInt(trade_id_string);
 
+// initialisation des objets pour le metier
 	String QueryA, QueryB, QueryC;
-	DatabaseConnector dbHelper = new DatabaseConnector();
-	Connection conn;
+
 	PreparedStatement mPreparedStatement = null;
 	ResultSet rs = null;
 	ArrayList<String> playersTeamThatOfferTemp = new ArrayList<String>();
@@ -1557,8 +1985,13 @@ public class TradeModel {
 	int argentOfferTeamThatTrade = 0;
 	int argentOfferTeamThatReceivedOffer = 0;
 
+// connection au base de donnée via JDBC
+	DatabaseConnector dbHelper = new DatabaseConnector();
+	Connection conn;
 	conn = dbHelper.open();
 
+// requete permettant d'aller chercher les informations contenu dans la bdd sur le trade unique dont l'on veut afficher
+// l'offre
 	QueryA = "SELECT * FROM trade_offer WHERE _id=?";
 
 	try {
@@ -1883,8 +2316,7 @@ public class TradeModel {
 	ArrayList<String> playersTeamThatReceivedTemp = new ArrayList<String>();
 	String[] playersTeamThatOffer = null;
 	String[] playersTeamThatReceived = null;
-	
-	
+
 	conn = dbHelper.open();
 
 	String QueryA;
@@ -2024,7 +2456,7 @@ public class TradeModel {
 		    return false;
 		}
 	    }
-	    
+
 	    if (t1p1 != null) {
 		Boolean isStillInPick = checkIfPickStillInTeam(team1, t1p1, conn);
 		if (!isStillInPick) {
@@ -2032,7 +2464,7 @@ public class TradeModel {
 		}
 
 	    }
-	   
+
 	    if (t1p2 != null) {
 		Boolean isStillInPick = checkIfPickStillInTeam(team1, t1p2, conn);
 		if (!isStillInPick) {
@@ -2089,61 +2521,104 @@ public class TradeModel {
 
     private boolean checkIfTradeIsStillValidateByRule(HttpServletRequest req, String team1, String team2, String[] playersTeamThatOffer, String[] playersTeamThatReceived,
 	    int casht1, int casht2) {
+	String QueryA, QueryB;
 	DatabaseConnector dbHelper = new DatabaseConnector();
 	Connection conn;
 	PreparedStatement mPreparedStatement;
 	ResultSet rs;
-	String QueryA, QueryB;
-	int teamThatTrade = Integer.parseInt(team1);
-	int teamToTrade = Integer.parseInt(team2);
-	int budget_restant_make_offer = 0, manquant_equipe_make_offer = 0, nb_contrat_make_offer = 0, budget_restant_received_offer = 0, manquant_equipe_received_offer = 0, nb_contrat_received_offer = 0;
-	int total_salaire_team_making_offer = 0, total_salaire_team_receiving_offer = 0, nbPlayersTeamThatReceived = 0, nbPlayersTeamThatOffer = 0;
-	int nbRookieTeamThatOffer = 0;
-	int nbRookieTeamThatReceived = 0;
+
+	int budget_restant_make_offer = 0;
+
+	int budget_restant_received_offer = 0;
+
+	int total_salaire_team_making_offer = 0;
+	int total_salaire_team_receiving_offer = 0;
+
+	int nbPlayersTeamThatOffer = 0;
+	int nbPlayersTeamThatReceived = 0;
+
+	int nbAttInTeamThatOffer = 0;
+	int nbDefInTeamThatOffer = 0;
+	int nbGoalInTeamThatOffer = 0;
+
+	int nbAttInTeamThatReceived = 0;
+	int nbDefInTeamThatReceived = 0;
+	int nbGoalInTeamThatReceived = 0;
+
+	int nb_attaquant_make_offer = 0;
+	int nb_defenseur_make_offer = 0;
+	int nb_goaler_make_offer = 0;
+	int argent_recu_make_offer = 0;
+
+	int nb_attaquant_rec_offer = 0;
+	int nb_defenseur_rec_offer = 0;
+	int nb_goaler_rec_offer = 0;
+	int argent_recu_rec_offer = 0;
+
+	String teamMakingOfferId = team1;
+	int teamThatTrade = Integer.parseInt(teamMakingOfferId);
+	String teamReceivingOfferId = team2;
+	int teamToTrade = Integer.parseInt(teamReceivingOfferId);
+
+
+	
+
+	
+	if (playersTeamThatOffer != null) {
+	    nbPlayersTeamThatOffer = playersTeamThatOffer.length;
+	}
+	
+	if (playersTeamThatReceived != null) {
+	    nbPlayersTeamThatReceived = playersTeamThatReceived.length;
+	}
+	
+
+	String[] nomMakingOffer = new String[nbPlayersTeamThatOffer];
+	String[] nomReceivingOffer = new String[nbPlayersTeamThatReceived];
+
+
 
 	QueryA = "SELECT * FROM equipes WHERE team_id=?";
 
 	conn = dbHelper.open();
 
 	try {
+// recuperation des infos de equipes qui trade
 	    mPreparedStatement = conn.prepareStatement(QueryA);
 	    mPreparedStatement.setInt(1, teamThatTrade);
 	    rs = mPreparedStatement.executeQuery();
-
 	    if (rs.next()) {
 		budget_restant_make_offer = rs.getInt("budget_restant");
-		manquant_equipe_make_offer = rs.getInt("manquant_equipe");
-		nb_contrat_make_offer = rs.getInt("nb_contrat");
+		nb_attaquant_make_offer = rs.getInt("nb_attaquant");
+		nb_defenseur_make_offer = rs.getInt("nb_defenseur");
+		nb_goaler_make_offer = rs.getInt("nb_gardien");
+		argent_recu_make_offer = rs.getInt("argent_recu");
 
 	    }
 	    rs.close();
 	    mPreparedStatement.close();
 
+// recuperation des infos de equipes qui trade
 	    mPreparedStatement = conn.prepareStatement(QueryA);
 	    mPreparedStatement.setInt(1, teamToTrade);
 	    rs = mPreparedStatement.executeQuery();
 
 	    if (rs.next()) {
 		budget_restant_received_offer = rs.getInt("budget_restant");
-		manquant_equipe_received_offer = rs.getInt("manquant_equipe");
-		nb_contrat_received_offer = rs.getInt("nb_contrat");
+		nb_attaquant_rec_offer = rs.getInt("nb_attaquant");
+		nb_defenseur_rec_offer = rs.getInt("nb_defenseur");
+		nb_goaler_rec_offer = rs.getInt("nb_gardien");
+		argent_recu_rec_offer = rs.getInt("argent_recu");
 
 	    }
 	    rs.close();
 	    mPreparedStatement.close();
 
+// on calcul le total d'Argent des salaire des joueurs de l'Equipe qui trade, le nombre par position inclus dans trade
+// et on ajoute leur nom dans un array
 	    if (playersTeamThatOffer != null) {
-		nbPlayersTeamThatOffer = playersTeamThatOffer.length;
-	    }
-
-	    if (playersTeamThatReceived != null) {
-		nbPlayersTeamThatReceived = playersTeamThatReceived.length;
-	    }
-
-	    if (playersTeamThatOffer != null) {
-
+		int i = 0;
 		for (String s : playersTeamThatOffer) {
-		    
 		    int toInt = Integer.parseInt(s);
 		    QueryB = "SELECT * FROM players WHERE _id=? AND club_ecole=0";
 		    mPreparedStatement = conn.prepareStatement(QueryB);
@@ -2153,31 +2628,37 @@ public class TradeModel {
 		    if (rs.next()) {
 			int salaire_joueur_temp = rs.getInt("years_1");
 			total_salaire_team_making_offer = total_salaire_team_making_offer + salaire_joueur_temp;
+			String nomMakingOfferString = rs.getString("nom");
+			nomMakingOffer[i] = nomMakingOfferString;
+
+			String positionDuJoueurTrade = rs.getString("position");
+
+			switch (positionDuJoueurTrade) {
+			case "attaquant":
+			    nbAttInTeamThatOffer = nbAttInTeamThatOffer + 1;
+			    break;
+			case "defenseur":
+			    nbDefInTeamThatOffer = nbDefInTeamThatOffer + 1;
+			    break;
+			case "gardien":
+			    nbGoalInTeamThatOffer = nbGoalInTeamThatOffer + 1;
+			    break;
+
+			}
+
+			i++;
 
 		    }
 		}
 	    }
 	    rs.close();
 	    mPreparedStatement.close();
-	    if (playersTeamThatOffer != null) {
-		for (String s : playersTeamThatOffer) {
-		    int toInt = Integer.parseInt(s);
-		    QueryB = "SELECT * FROM players WHERE _id=? AND club_ecole=1";
-		    mPreparedStatement = conn.prepareStatement(QueryB);
-		    mPreparedStatement.setInt(1, toInt);
-		    rs = mPreparedStatement.executeQuery();
 
-		    if (rs.next()) {
-			nbRookieTeamThatOffer = nbRookieTeamThatOffer + 1;
 
-		    }
-		}
-	    }
-	    rs.close();
-	    mPreparedStatement.close();
 
+// on calcul le total d'Argent des salaire des joueurs de l'Equipe qui recoit et on ajoute leur nom dans un array
 	    if (playersTeamThatReceived != null) {
-
+		int i = 0;
 		for (String s : playersTeamThatReceived) {
 		    int toInt = Integer.parseInt(s);
 		    QueryB = "SELECT * FROM players WHERE _id=? AND club_ecole=0";
@@ -2187,7 +2668,24 @@ public class TradeModel {
 		    if (rs.next()) {
 			int salaire_joueur_temp = rs.getInt("years_1");
 			total_salaire_team_receiving_offer = total_salaire_team_receiving_offer + salaire_joueur_temp;
+			String nomReceivingOfferString = rs.getString("nom");
+			nomReceivingOffer[i] = nomReceivingOfferString;
 
+			String positionDuJoueurTrade = rs.getString("position");
+
+			switch (positionDuJoueurTrade) {
+			case "attaquant":
+			    nbAttInTeamThatReceived = nbAttInTeamThatReceived + 1;
+			    break;
+			case "defenseur":
+			    nbDefInTeamThatReceived = nbDefInTeamThatReceived + 1;
+			    break;
+			case "gardien":
+			    nbGoalInTeamThatReceived = nbGoalInTeamThatReceived + 1;
+			    break;
+
+			}
+			i++;
 		    }
 
 		}
@@ -2195,48 +2693,65 @@ public class TradeModel {
 	    rs.close();
 	    mPreparedStatement.close();
 
-	    if (playersTeamThatReceived != null) {
-		for (String s : playersTeamThatReceived) {
-		    int toInt = Integer.parseInt(s);
-		    QueryB = "SELECT * FROM players WHERE _id=? AND club_ecole=1";
-		    mPreparedStatement = conn.prepareStatement(QueryB);
-		    mPreparedStatement.setInt(1, toInt);
-		    rs = mPreparedStatement.executeQuery();
-		    if (rs.next()) {
-			nbRookieTeamThatReceived = nbRookieTeamThatReceived + 1;
 
-		    }
 
-		}
+// check si le nombre par position va resister l'echange (min 8 attaquant, 5 def et 2 goal)
+
+	    if ((nb_attaquant_make_offer - nbAttInTeamThatOffer + nbAttInTeamThatReceived) < 8) {
+		mBean.setCodeErreurOffreTrade(3);
+		req.setAttribute("messageErreur", mBean);
+		return false;
 	    }
-	    rs.close();
-	    mPreparedStatement.close();
 
-	    // check for nombre contrat trop elevé dans une des deux equipes
+	    if ((nb_attaquant_rec_offer + nbAttInTeamThatOffer - nbAttInTeamThatReceived) < 8) {
+		mBean.setCodeErreurOffreTrade(3);
+		req.setAttribute("messageErreur", mBean);
+		return false;
+	    }
 
-	    if ((nb_contrat_make_offer + nbPlayersTeamThatReceived - nbPlayersTeamThatOffer - nbRookieTeamThatReceived + nbRookieTeamThatOffer > 12)
-		    || (nb_contrat_received_offer + nbPlayersTeamThatOffer - nbPlayersTeamThatReceived + nbRookieTeamThatReceived - nbRookieTeamThatOffer > 12)) {
-		mBean.setCodeErreurOffreTrade(1);
+	    if ((nb_defenseur_make_offer - nbDefInTeamThatOffer + nbDefInTeamThatReceived) < 5) {
+		mBean.setCodeErreurOffreTrade(4);
+		req.setAttribute("messageErreur", mBean);
+		return false;
+	    }
+
+	    if ((nb_defenseur_rec_offer + nbDefInTeamThatOffer - nbDefInTeamThatReceived) < 5) {
+		mBean.setCodeErreurOffreTrade(4);
+		req.setAttribute("messageErreur", mBean);
+		return false;
+	    }
+
+	    if ((nb_goaler_make_offer - nbGoalInTeamThatOffer + nbGoalInTeamThatReceived) < 2) {
+		mBean.setCodeErreurOffreTrade(5);
+		req.setAttribute("messageErreur", mBean);
+		return false;
+	    }
+
+	    if ((nb_goaler_rec_offer + nbGoalInTeamThatOffer - nbGoalInTeamThatReceived) < 2) {
+		mBean.setCodeErreurOffreTrade(5);
+		req.setAttribute("messageErreur", mBean);
+		return false;
+	    }
+
+// check si budget pour abosrber la transaction
+
+	    if ((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer+argent_recu_make_offer) < 0) {
+
+		mBean.setCodeErreurOffreTrade(12);
 		req.setAttribute("messageErreur", mBean);
 		return false;
 
 	    }
 
-	    // check for argent dispo pour faire draft apres echange
+	    if ((budget_restant_received_offer - total_salaire_team_making_offer + total_salaire_team_receiving_offer+argent_recu_rec_offer) < 0) {
 
-	    int new_budget_restant_team_making_offer = budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer - casht1 + casht2;
-	    int new_budget_restant_team_receiving_offer = budget_restant_received_offer + total_salaire_team_receiving_offer - total_salaire_team_making_offer + casht2 - casht1;
-
-	    int new_manquant_team_making_offer = manquant_equipe_make_offer + nbPlayersTeamThatOffer - nbPlayersTeamThatReceived + nbRookieTeamThatReceived - nbRookieTeamThatOffer;
-	    int new_manquant_team_receiving_offer = manquant_equipe_received_offer + nbPlayersTeamThatReceived - nbPlayersTeamThatOffer - nbRookieTeamThatReceived
-		    + nbRookieTeamThatOffer;
-
-	    if (((new_budget_restant_team_making_offer / new_manquant_team_making_offer) < 1000000)
-		    || ((new_budget_restant_team_receiving_offer / new_manquant_team_receiving_offer) < 1000000)) {
-		mBean.setCodeErreurOffreTrade(2);
+		mBean.setCodeErreurOffreTrade(13);
 		req.setAttribute("messageErreur", mBean);
 		return false;
+
 	    }
+
+
 
 	} catch (SQLException e) {
 
@@ -2399,22 +2914,22 @@ public class TradeModel {
 		movePlayersFromFirstToSecondTeam(team2, team1, t2j7);
 	    }
 	    if (t1p1 != null) {
-		movePickFromFirstToSecondTeam(team2,t1p1);
+		movePickFromFirstToSecondTeam(team2, t1p1);
 	    }
 	    if (t1p2 != null) {
-		movePickFromFirstToSecondTeam(team2,t1p1);
+		movePickFromFirstToSecondTeam(team2, t1p1);
 	    }
 	    if (t1p3 != null) {
-		movePickFromFirstToSecondTeam(team2,t1p1);
+		movePickFromFirstToSecondTeam(team2, t1p1);
 	    }
 	    if (t2p1 != null) {
-		movePickFromFirstToSecondTeam(team1,t2p1);
+		movePickFromFirstToSecondTeam(team1, t2p1);
 	    }
 	    if (t2p2 != null) {
-		movePickFromFirstToSecondTeam(team1,t2p2);
+		movePickFromFirstToSecondTeam(team1, t2p2);
 	    }
 	    if (t2p3 != null) {
-		movePickFromFirstToSecondTeam(team1,t2p3);
+		movePickFromFirstToSecondTeam(team1, t2p3);
 	    }
 	    if (casht1 > 0) {
 		movCashFromTeamtoArgentRecu(team1, team2, casht1);
@@ -2423,7 +2938,6 @@ public class TradeModel {
 		movCashFromTeamtoArgentRecu(team2, team1, casht2);
 	    }
 	} catch (SQLException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	} finally {
 	    dbHelper.close(conn);
@@ -2432,7 +2946,7 @@ public class TradeModel {
     }
 
     private void movCashFromTeamtoArgentRecu(String team1, String team2, int cash) {
-	String QueryA,QueryB;
+	String QueryA, QueryB;
 	DatabaseConnector dbHelper = new DatabaseConnector();
 	Connection conn;
 	PreparedStatement mPreparedStatement;
@@ -2440,18 +2954,18 @@ public class TradeModel {
 	int teamId2 = Integer.parseInt(team2);
 
 	conn = dbHelper.open();
-	
-	QueryA="UPDATE equipes SET max_salaire_begin=max_salaire_begin-?,budget_restant=budget_restant-?,moy_sal_restant_draft=budget_restant/manquant_equipe WHERE team_id=?";
-	QueryB="UPDATE equipes SET max_salaire_begin=max_salaire_begin+?,budget_restant=budget_restant+?,moy_sal_restant_draft=budget_restant/manquant_equipe WHERE team_id=?";
 
-	 try {
+	QueryA = "UPDATE equipes SET max_salaire_begin=max_salaire_begin-?,budget_restant=budget_restant-?,moy_sal_restant_draft=budget_restant/manquant_equipe WHERE team_id=?";
+	QueryB = "UPDATE equipes SET max_salaire_begin=max_salaire_begin+?,budget_restant=budget_restant+?,moy_sal_restant_draft=budget_restant/manquant_equipe WHERE team_id=?";
+
+	try {
 	    mPreparedStatement = conn.prepareStatement(QueryA);
 	    mPreparedStatement.setInt(1, cash);
 	    mPreparedStatement.setInt(2, cash);
 	    mPreparedStatement.setInt(3, teamId1);
 	    mPreparedStatement.executeUpdate();
 	    mPreparedStatement.close();
-	    
+
 	    mPreparedStatement = conn.prepareStatement(QueryB);
 	    mPreparedStatement.setInt(1, cash);
 	    mPreparedStatement.setInt(2, cash);
@@ -2464,9 +2978,7 @@ public class TradeModel {
 	} finally {
 	    dbHelper.close(conn);
 	}
-	    
-	
-	
+
     }
 
     private void movePickFromFirstToSecondTeam(String team, String round) {
@@ -2478,17 +2990,16 @@ public class TradeModel {
 	int roundId2 = Integer.parseInt(round);
 
 	conn = dbHelper.open();
-	
+
 	QueryA = "UPDATE draft_pick_current_year SET team_id=? WHERE _id=?";
-	
+
 	try {
 	    mPreparedStatement = conn.prepareStatement(QueryA);
 	    mPreparedStatement.setInt(1, teamId1);
 	    mPreparedStatement.setInt(2, roundId2);
 	    mPreparedStatement.executeUpdate();
 	    mPreparedStatement.close();
-	    
-	   
+
 	} catch (SQLException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
@@ -2625,9 +3136,9 @@ public class TradeModel {
 	DatabaseConnector dbHelper = new DatabaseConnector();
 	Connection conn;
 	PreparedStatement mPreparedStatement;
-	
-	conn=dbHelper.open();
-	
+
+	conn = dbHelper.open();
+
 	QueryA = "INSERT INTO trade_made SELECT * FROM trade_offer WHERE _id=?";
 	try {
 	    mPreparedStatement = conn.prepareStatement(QueryA);
@@ -2635,12 +3146,12 @@ public class TradeModel {
 	    mPreparedStatement.executeUpdate();
 
 	} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
 	} finally {
 	    dbHelper.close(conn);
 	}
 
     }
- 
+
 }

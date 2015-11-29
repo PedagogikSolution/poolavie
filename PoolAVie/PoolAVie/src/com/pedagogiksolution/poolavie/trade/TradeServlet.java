@@ -26,10 +26,11 @@ public class TradeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 	    throws ServletException, IOException {
 	
-
+// obtenir la date d'aujourd'hui selon les serveurs (peut-etre temps de greenwich, a verifier)
 	long now = System.currentTimeMillis();
 	today = new Date(now);
-	
+
+// attribution de la date de depart et de la date de fin pour gerer les types d'ouverture
 	initialisationDate();
 
 	if (today.after(start1) && today.before(finish1)) {
@@ -64,8 +65,8 @@ public class TradeServlet extends HttpServlet {
     private void initialisationDate() {
 	String date_start1 = "28-09-2015";
 	String date_finish1 = "03-10-2015";
-	String date_start2 = "10-12-2015";
-	String date_finish2 = "10-12-2015";
+	String date_start2 = "27-11-2015";
+	String date_finish2 = "28-11-2015";
 	String date_start3 = "10-12-2015";
 	String date_finish3 = "10-12-2015";
 	String date_start4 = "10-12-2015";

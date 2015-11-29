@@ -111,6 +111,28 @@ public class Administration {
 	populateDraftCurrentYear();
 
     }
+    
+    public void updateSalaireWith5MillionsBonus() {
+	Statement mStatementA;
+	String QueryA;
+
+	conn = mDbHelper.open();
+	
+	QueryA = "UPDATE equipes SET max_salaire_begin=max_salaire_begin+5000000, budget_restant=budget_restant+5000000, bonus_5m=0";
+	
+	try {
+	    mStatementA = conn.createStatement();
+	    mStatementA.executeUpdate(QueryA);
+	    mStatementA.close();
+
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	} finally {
+	    mDbHelper.close(conn);
+	}
+	
+   	
+       }
 
     /**************************** Methode privée de la class *********************************************/
 
@@ -762,6 +784,8 @@ public class Administration {
 	}
 
     }
+
+   
 
 // fin de la class
 

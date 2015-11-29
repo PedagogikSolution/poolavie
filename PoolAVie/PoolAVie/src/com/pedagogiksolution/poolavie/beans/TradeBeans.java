@@ -44,7 +44,8 @@ public class TradeBeans implements Serializable{
      * 9:trop de joueur max 7
      * 10:trop de pick max 3
      * 11:Joueur ou pick pu disponible
-     * 
+     * 12: l'Equipe offrant ne peux absorber les salaires
+     * 13: l'equipe recevant ne paeux absorber les salaires
      * 
      * 
      * 

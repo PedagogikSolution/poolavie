@@ -7,10 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pedagogiksolution.poolavie.beans.TradeBeans;
-
 public class ReceivedTradeOfferServlet extends HttpServlet {
-    	TradeBeans mBean = new TradeBeans();
+  
 	/**
 	 * 
 	 */
@@ -19,18 +17,14 @@ public class ReceivedTradeOfferServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-	    
+// initialisation du metier pour les trades qui initialise aussi le TradeBean	    
 	    	TradeModel mClass = new TradeModel();
+// method qui verifie si une offre existe pour le client connecter et retourne true si une offre existe	    	
 	    	boolean isThereAOfferForMe = mClass.isThereAOfferForMe(req);
-	    	
+//	    	
 	    	if(isThereAOfferForMe){
-	    	mBean.setIsThereAOfferForMe(1);
-	    	req.setAttribute("beanTrade", mBean);
-	    	mClass.getTheOfferThatIReceived(req);
 	    	req.getRequestDispatcher("/jsp/received_offer.jsp").forward(req, resp); 
 	    	} else {
-	    	mBean.setIsThereAOfferForMe(0);
-	    	req.setAttribute("beanTrade", mBean);
 	    	req.getRequestDispatcher("/jsp/received_offer.jsp").forward(req, resp);   
 	    	}
 		

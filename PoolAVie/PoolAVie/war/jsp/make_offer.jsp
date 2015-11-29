@@ -106,15 +106,18 @@
 	<hr class="hr_header">
 
 
+
+
+<!--  SECTION PRINCIPALE PERMETTANT DE VISUALISER LES OFFRES FAIT SOUS FORME DE TABLEAUX OU DE FAIRE UNE NOUVELLE OFFRE VIA UN BOUTON MAKE OFFER -->
 	<div class="main_container">
 		<div class="main_content">
 			<div id="main_content_title_classement">LA LISTE DE MES OFFRES
 			</div>
 
 			<div id="main_content_table_classement">
-
-
 				<br>
+				
+<!--   SECTION ALTERNATIVE POUR LES MESSAGES D'ERREUR LORS D'UNE OFFRE   ****************************************************************         -->
 
 				<c:if test="${beanTrade.echangeAvecSoiMeme==1}">
 					<p style="color: red">(VOUS AVEZ TENTÉ DE FAIRE UN ÉCHANGE AVEC
@@ -163,7 +166,41 @@
 							d'argent pour compléter son draft. Reglement 2.4</strong>
 					</h1>
 				</c:if>
+				
+				<c:if test="${messageErreur.codeErreurOffreTrade==3}">
+					<h1 style="color: red">
+						<strong>Vous ne pouvez pas vous retrouver avec moins de 8 attaquants</strong>
+					</h1>
+				</c:if>
 
+				<c:if test="${messageErreur.codeErreurOffreTrade==4}">
+					<h1 style="color: red">
+						<strong>Vous ne pouvez pas vous retrouvez avec moin sde 5 defenseurs</strong>
+					</h1>
+				</c:if>
+
+				<c:if test="${messageErreur.codeErreurOffreTrade==5}">
+					<h1 style="color: red">
+						<strong>Vous ne pouvez pas vous retrouver avec moins de 2 gardiens</strong>
+					</h1>
+				</c:if>
+				
+				<c:if test="${messageErreur.codeErreurOffreTrade==12}">
+					<h1 style="color: red">
+						<strong>Vous n'avez pas assez d'argent pour absorber cette transaction</strong>
+					</h1>
+				</c:if>
+
+				<c:if test="${messageErreur.codeErreurOffreTrade==13}">
+					<h1 style="color: red">
+						<strong>L'équipe avec qui vous trader ne possede pas assez d'Argent pour absorber cette transaction</strong>
+					</h1>
+				</c:if>
+
+				
+				
+				
+<!--   SECTION TABLEAU AFFICHANT LES OFFRES DE TRADE FAIT PAR L'UTILISATEUR CONNECTÉ        ********************************************         -->
 
 				<c:set var="longueur" value="${beanAffichageOfferMade.tradeOfferId}" />
 				<table>
