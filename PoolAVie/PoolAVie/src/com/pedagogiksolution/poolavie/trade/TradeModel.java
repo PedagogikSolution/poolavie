@@ -2577,7 +2577,6 @@ public class TradeModel {
 	String[] nomReceivingOffer = new String[nbPlayersTeamThatReceived];
 
 
-
 	QueryA = "SELECT * FROM equipes WHERE team_id=?";
 
 	conn = dbHelper.open();
