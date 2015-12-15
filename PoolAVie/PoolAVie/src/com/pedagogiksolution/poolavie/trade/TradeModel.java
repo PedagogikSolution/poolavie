@@ -167,10 +167,10 @@ public class TradeModel {
 	    nom_equipe_qui_trade = "Los Angeles";
 	    break;
 	case 1:
-	    nom_equipe_qui_trade = "Détroit";
+	    nom_equipe_qui_trade = "Dï¿½troit";
 	    break;
 	case 2:
-	    nom_equipe_qui_trade = "Montréal";
+	    nom_equipe_qui_trade = "Montrï¿½al";
 	    return nom_equipe_qui_trade;
 	case 3:
 	    nom_equipe_qui_trade = "Chicago";
@@ -393,10 +393,10 @@ public class TradeModel {
 		    nom_equipe_qui_trade = "Los Angeles";
 		    break;
 		case 1:
-		    nom_equipe_qui_trade = "Détroit";
+		    nom_equipe_qui_trade = "Dï¿½troit";
 		    break;
 		case 2:
-		    nom_equipe_qui_trade = "Montréal";
+		    nom_equipe_qui_trade = "Montrï¿½al";
 		    break;
 		case 3:
 		    nom_equipe_qui_trade = "Chicago";
@@ -652,7 +652,7 @@ public class TradeModel {
 	    rs.close();
 	    mPreparedStatement.close();
 
-// check for nombre contrat trop elevé dans une des deux equipes
+// check for nombre contrat trop elevï¿½ dans une des deux equipes
 
 	    if ((nb_contrat_make_offer + nbPlayersTeamThatReceived - nbPlayersTeamThatOffer - nbRookieTeamThatReceived + nbRookieTeamThatOffer > 12)
 		    || (nb_contrat_received_offer + nbPlayersTeamThatOffer - nbPlayersTeamThatReceived + nbRookieTeamThatReceived - nbRookieTeamThatOffer > 12)) {
@@ -698,10 +698,10 @@ public class TradeModel {
 			    from_temp2 = "Los Angeles";
 			    break;
 			case 1:
-			    from_temp2 = "Détroit";
+			    from_temp2 = "Dï¿½troit";
 			    break;
 			case 2:
-			    from_temp2 = "Montréal";
+			    from_temp2 = "Montrï¿½al";
 			    break;
 			case 3:
 			    from_temp2 = "Chicago";
@@ -755,10 +755,10 @@ public class TradeModel {
 			    from_temp2 = "Los Angeles";
 			    break;
 			case 1:
-			    from_temp2 = "Détroit";
+			    from_temp2 = "Dï¿½troit";
 			    break;
 			case 2:
-			    from_temp2 = "Montréal";
+			    from_temp2 = "Montrï¿½al";
 			    break;
 			case 3:
 			    from_temp2 = "Chicago";
@@ -820,7 +820,7 @@ public class TradeModel {
 	return true;
     }
 
-    public boolean validationTradeAnnée(HttpServletRequest req) {
+    public boolean validationTradeAnnÃ©e(HttpServletRequest req) {
 	String QueryA, QueryB, QueryC;
 	DatabaseConnector dbHelper = new DatabaseConnector();
 	Connection conn;
@@ -1120,7 +1120,7 @@ public class TradeModel {
 
 // check si budget pour abosrber la transaction
 
-	    if ((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer + argent_recu_make_offer) < 0) {
+	    if ((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer + argent_recu_make_offer - argentOfferTeamThatTrade) < 0) {
 
 		mBean.setCodeErreurOffreTrade(12);
 		req.setAttribute("messageErreur", mBean);
@@ -1128,7 +1128,7 @@ public class TradeModel {
 
 	    }
 
-	    if ((budget_restant_received_offer - total_salaire_team_making_offer + total_salaire_team_receiving_offer + argent_recu_rec_offer) < 0) {
+	    if ((budget_restant_received_offer - total_salaire_team_making_offer + total_salaire_team_receiving_offer + argent_recu_rec_offer - argentOfferTeamThatReceivedOffer) < 0) {
 
 		mBean.setCodeErreurOffreTrade(13);
 		req.setAttribute("messageErreur", mBean);
@@ -1156,10 +1156,10 @@ public class TradeModel {
 			    from_temp2 = "Los Angeles";
 			    break;
 			case 1:
-			    from_temp2 = "Détroit";
+			    from_temp2 = "Dï¿½troit";
 			    break;
 			case 2:
-			    from_temp2 = "Montréal";
+			    from_temp2 = "Montrï¿½al";
 			    break;
 			case 3:
 			    from_temp2 = "Chicago";
@@ -1213,10 +1213,10 @@ public class TradeModel {
 			    from_temp2 = "Los Angeles";
 			    break;
 			case 1:
-			    from_temp2 = "Détroit";
+			    from_temp2 = "Dï¿½troit";
 			    break;
 			case 2:
-			    from_temp2 = "Montréal";
+			    from_temp2 = "Montrï¿½al";
 			    break;
 			case 3:
 			    from_temp2 = "Chicago";
@@ -1481,7 +1481,7 @@ public class TradeModel {
 	    rs.close();
 	    mPreparedStatement.close();
 
-// check for nombre contrat trop elevé dans une des deux equipes
+// check for nombre contrat trop elevï¿½ dans une des deux equipes
 
 	    if ((nb_contrat_make_offer + nbPlayersTeamThatReceived - nbPlayersTeamThatOffer - nbRookieTeamThatReceived + nbRookieTeamThatOffer > 12)
 		    || (nb_contrat_received_offer + nbPlayersTeamThatOffer - nbPlayersTeamThatReceived + nbRookieTeamThatReceived - nbRookieTeamThatOffer > 12)) {
@@ -1527,10 +1527,10 @@ public class TradeModel {
 			    from_temp2 = "Los Angeles";
 			    break;
 			case 1:
-			    from_temp2 = "Détroit";
+			    from_temp2 = "Dï¿½troit";
 			    break;
 			case 2:
-			    from_temp2 = "Montréal";
+			    from_temp2 = "Montrï¿½al";
 			    break;
 			case 3:
 			    from_temp2 = "Chicago";
@@ -1584,10 +1584,10 @@ public class TradeModel {
 			    from_temp2 = "Los Angeles";
 			    break;
 			case 1:
-			    from_temp2 = "Détroit";
+			    from_temp2 = "Dï¿½troit";
 			    break;
 			case 2:
-			    from_temp2 = "Montréal";
+			    from_temp2 = "Montrï¿½al";
 			    break;
 			case 3:
 			    from_temp2 = "Chicago";
@@ -1961,7 +1961,7 @@ public class TradeModel {
 
     public void showOfferNumberX(HttpServletRequest req) {
 
-// recuperation de l'identifiant unique du trade representé par la clef primaire de la table trade_offer des bdd
+// recuperation de l'identifiant unique du trade representï¿½ par la clef primaire de la table trade_offer des bdd
 	String trade_id_string = req.getParameter("trade_id");
 	int trade_id = Integer.parseInt(trade_id_string);
 
@@ -1985,7 +1985,7 @@ public class TradeModel {
 	int argentOfferTeamThatTrade = 0;
 	int argentOfferTeamThatReceivedOffer = 0;
 
-// connection au base de donnée via JDBC
+// connection au base de donnï¿½e via JDBC
 	DatabaseConnector dbHelper = new DatabaseConnector();
 	Connection conn;
 	conn = dbHelper.open();
@@ -2184,10 +2184,10 @@ public class TradeModel {
 			    from_temp2 = "Los Angeles";
 			    break;
 			case 1:
-			    from_temp2 = "Détroit";
+			    from_temp2 = "Dï¿½troit";
 			    break;
 			case 2:
-			    from_temp2 = "Montréal";
+			    from_temp2 = "Montrï¿½al";
 			    break;
 			case 3:
 			    from_temp2 = "Chicago";
@@ -2241,10 +2241,10 @@ public class TradeModel {
 			    from_temp2 = "Los Angeles";
 			    break;
 			case 1:
-			    from_temp2 = "Détroit";
+			    from_temp2 = "Dï¿½troit";
 			    break;
 			case 2:
-			    from_temp2 = "Montréal";
+			    from_temp2 = "Montrï¿½al";
 			    break;
 			case 3:
 			    from_temp2 = "Chicago";
@@ -2480,21 +2480,21 @@ public class TradeModel {
 
 	    }
 	    if (t2p1 != null) {
-		Boolean isStillInPick = checkIfPickStillInTeam(team1, t2p1, conn);
+		Boolean isStillInPick = checkIfPickStillInTeam(team2, t2p1, conn);
 		if (!isStillInPick) {
 		    return false;
 		}
 
 	    }
 	    if (t2p2 != null) {
-		Boolean isStillInPick = checkIfPickStillInTeam(team1, t2p2, conn);
+		Boolean isStillInPick = checkIfPickStillInTeam(team2, t2p2, conn);
 		if (!isStillInPick) {
 		    return false;
 		}
 
 	    }
 	    if (t2p3 != null) {
-		Boolean isStillInPick = checkIfPickStillInTeam(team1, t2p3, conn);
+		Boolean isStillInPick = checkIfPickStillInTeam(team2, t2p3, conn);
 		if (!isStillInPick) {
 		    return false;
 		}
@@ -2734,7 +2734,7 @@ public class TradeModel {
 
 // check si budget pour abosrber la transaction
 
-	    if ((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer+argent_recu_make_offer) < 0) {
+	    if ((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer+argent_recu_make_offer-casht1) < 0) {
 
 		mBean.setCodeErreurOffreTrade(12);
 		req.setAttribute("messageErreur", mBean);
@@ -2742,7 +2742,7 @@ public class TradeModel {
 
 	    }
 
-	    if ((budget_restant_received_offer - total_salaire_team_making_offer + total_salaire_team_receiving_offer+argent_recu_rec_offer) < 0) {
+	    if ((budget_restant_received_offer - total_salaire_team_making_offer + total_salaire_team_receiving_offer+argent_recu_rec_offer-casht2) < 0) {
 
 		mBean.setCodeErreurOffreTrade(13);
 		req.setAttribute("messageErreur", mBean);
@@ -2954,8 +2954,8 @@ public class TradeModel {
 
 	conn = dbHelper.open();
 
-	QueryA = "UPDATE equipes SET max_salaire_begin=max_salaire_begin-?,budget_restant=budget_restant-?,moy_sal_restant_draft=budget_restant/manquant_equipe WHERE team_id=?";
-	QueryB = "UPDATE equipes SET max_salaire_begin=max_salaire_begin+?,budget_restant=budget_restant+?,moy_sal_restant_draft=budget_restant/manquant_equipe WHERE team_id=?";
+	QueryA = "UPDATE equipes SET max_salaire_begin=max_salaire_begin-?,budget_restant=budget_restant-? WHERE team_id=?";
+	QueryB = "UPDATE equipes SET max_salaire_begin=max_salaire_begin+?,argent_recu=argent_recu+? WHERE team_id=?";
 
 	try {
 	    mPreparedStatement = conn.prepareStatement(QueryA);

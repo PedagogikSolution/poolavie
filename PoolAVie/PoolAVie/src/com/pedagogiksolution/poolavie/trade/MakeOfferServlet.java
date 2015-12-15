@@ -45,7 +45,7 @@ public class MakeOfferServlet extends HttpServlet {
 	
 // initialisation du metier pour les trade et des beans en meme temps	
 	TradeModel mClass = new TradeModel();
-// recupération du parametre etape qui permet un filtrage du type d'operation voulu	
+// recupï¿½ration du parametre etape qui permet un filtrage du type d'operation voulu	
 	String etape = req.getParameter("etape");
 	
 	switch(etape){
@@ -91,7 +91,7 @@ public class MakeOfferServlet extends HttpServlet {
 	    		    req.getRequestDispatcher("/jsp/make_offer.jsp").forward(req, resp);
 	    		}		
 		break;
-	    case 2: tradeIsValid = mClass.validationTradeAnnée(req);
+	    case 2: tradeIsValid = mClass.validationTradeAnnÃ©e(req);
 		if(tradeIsValid){
     		    req.getRequestDispatcher("/jsp/confirmation_offre_trade.jsp").forward(req, resp);
     		} else {

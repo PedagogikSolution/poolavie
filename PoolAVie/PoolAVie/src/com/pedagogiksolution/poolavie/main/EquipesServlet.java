@@ -159,6 +159,10 @@ public class EquipesServlet extends HttpServlet {
 	    
 	    rs5.close();
 	    statement6 = "SELECT * FROM draft_round WHERE team_id='" + teamIdentifiant + "' LIMIT " + pick_manquant;
+	    
+	    if(pick_manquant<0){
+	    
+	    } else {
 
 	    rs6 = conn.createStatement().executeQuery(statement6);
 	    while (rs6.next()) {
@@ -170,6 +174,8 @@ public class EquipesServlet extends HttpServlet {
 	    }
 
 	    rs6.close();
+	    
+	    }
 	    
 	    RecuperationTeamForExchange recupTeam = new RecuperationTeamForExchange();
 	    ResultSet rs9 = recupTeam.recuperationPick(mTeam);
