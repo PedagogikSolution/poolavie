@@ -19,7 +19,7 @@ public class MyTradeServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		ResultSet rs;
-		/* récupérer les trades offers du DG connecté */
+		/* rÃ©cupÃ©rer les trades offers du DG connectÃ© */
 		
 		
 		String team_that_trade_string = (String) req.getSession().getAttribute("mTeamId");

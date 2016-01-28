@@ -167,10 +167,10 @@ public class TradeModel {
 	    nom_equipe_qui_trade = "Los Angeles";
 	    break;
 	case 1:
-	    nom_equipe_qui_trade = "D�troit";
+	    nom_equipe_qui_trade = "Détroit";
 	    break;
 	case 2:
-	    nom_equipe_qui_trade = "Montr�al";
+	    nom_equipe_qui_trade = "Montréal";
 	    return nom_equipe_qui_trade;
 	case 3:
 	    nom_equipe_qui_trade = "Chicago";
@@ -2825,6 +2825,7 @@ public class TradeModel {
 	int casht1 = 0, casht2 = 0;
 	String team1 = null, team2 = null;
 	String QueryA;
+	
 	DatabaseConnector dbHelper = new DatabaseConnector();
 	Connection conn;
 	PreparedStatement mPreparedStatement;
@@ -3009,7 +3010,7 @@ public class TradeModel {
     }
 
     private void movePlayersFromFirstToSecondTeam(String team1, String team2, String playerId) {
-	String QueryA, QueryB, QueryC, QueryC2, QueryD, QueryE, QueryF, QueryD2, QueryE2, QueryF2;
+	String QueryA, QueryB,QueryB2, QueryC, QueryC2, QueryD, QueryE, QueryF, QueryD2, QueryE2, QueryF2;
 	DatabaseConnector dbHelper = new DatabaseConnector();
 	Connection conn;
 	PreparedStatement mPreparedStatement;
@@ -3020,23 +3021,26 @@ public class TradeModel {
 	int salaire = 0;
 	int club_ecole = 0;
 	String position = null;
+	String years2 = null,years3 = null,years4 = null,years5 = null;
+	
 	conn = dbHelper.open();
 
 	QueryA = "UPDATE players SET team_id=? WHERE _id=?";
 	QueryB = "SELECT years_1,club_ecole,position FROM players WHERE _id=?";
-	QueryC = "UPDATE equipes SET total_salaire_now=total_salaire_now-?,budget_restant=budget_restant+?,manquant_equipe=manquant_equipe+1,nb_equipe=nb_equipe-1,"
+	QueryB2 = "SELECT years_1,years_2,years_3,years_4,years_5 FROM players WHERE _id=?";
+	QueryC = "UPDATE equipes SET total_salaire_now=total_salaire_now-?,budget_restant=budget_restant+?,nb_equipe=nb_equipe-1,"
 		+ "moy_sal_restant_draft=budget_restant/manquant_equipe,nb_contrat=nb_contrat-1,nb_attaquant=nb_attaquant-1,manquant_att=manquant_att+1 WHERE team_id=?";
-	QueryD = "UPDATE equipes SET total_salaire_now=total_salaire_now-?,budget_restant=budget_restant+?,manquant_equipe=manquant_equipe+1,nb_equipe=nb_equipe-1,"
+	QueryD = "UPDATE equipes SET total_salaire_now=total_salaire_now-?,budget_restant=budget_restant+?,nb_equipe=nb_equipe-1,"
 		+ "moy_sal_restant_draft=budget_restant/manquant_equipe,nb_contrat=nb_contrat-1,nb_defenseur=nb_defenseur-1,manquant_def=manquant_def+1 WHERE team_id=?";
-	QueryE = "UPDATE equipes SET total_salaire_now=total_salaire_now-?,budget_restant=budget_restant+?,manquant_equipe=manquant_equipe+1,nb_equipe=nb_equipe-1,"
+	QueryE = "UPDATE equipes SET total_salaire_now=total_salaire_now-?,budget_restant=budget_restant+?,nb_equipe=nb_equipe-1,"
 		+ "moy_sal_restant_draft=budget_restant/manquant_equipe,nb_contrat=nb_contrat-1,nb_gardien=nb_gardien-1,manquant_gardien=manquant_gardien+1 WHERE team_id=?";
 	QueryF = "UPDATE equipes SET nb_rookie=nb_rookie-1,manquant_recrue=manquant_recrue+1 WHERE team_id=?";
 
-	QueryC2 = "UPDATE equipes SET total_salaire_now=total_salaire_now+?,budget_restant=budget_restant-?,manquant_equipe=manquant_equipe-1,nb_equipe=nb_equipe+1,"
+	QueryC2 = "UPDATE equipes SET total_salaire_now=total_salaire_now+?,budget_restant=budget_restant-?,nb_equipe=nb_equipe+1,"
 		+ "moy_sal_restant_draft=budget_restant/manquant_equipe,nb_contrat=nb_contrat+1,nb_attaquant=nb_attaquant+1,manquant_att=manquant_att-1 WHERE team_id=?";
-	QueryD2 = "UPDATE equipes SET total_salaire_now=total_salaire_now+?,budget_restant=budget_restant-?,manquant_equipe=manquant_equipe-1,nb_equipe=nb_equipe+1,"
+	QueryD2 = "UPDATE equipes SET total_salaire_now=total_salaire_now+?,budget_restant=budget_restant-?,nb_equipe=nb_equipe+1,"
 		+ "moy_sal_restant_draft=budget_restant/manquant_equipe,nb_contrat=nb_contrat+1,nb_defenseur=nb_defenseur+1,manquant_def=manquant_def-1 WHERE team_id=?";
-	QueryE2 = "UPDATE equipes SET total_salaire_now=total_salaire_now+?,budget_restant=budget_restant-?,manquant_equipe=manquant_equipe-1,nb_equipe=nb_equipe+1,"
+	QueryE2 = "UPDATE equipes SET total_salaire_now=total_salaire_now+?,budget_restant=budget_restant-?,nb_equipe=nb_equipe+1,"
 		+ "moy_sal_restant_draft=budget_restant/manquant_equipe,nb_contrat=nb_contrat+1,nb_gardien=nb_gardien+1,manquant_gardien=manquant_gardien-1 WHERE team_id=?";
 
 	QueryF2 = "UPDATE equipes SET nb_rookie=nb_rookie+1,manquant_recrue=manquant_recrue-1 WHERE team_id=?";
@@ -3118,6 +3122,84 @@ public class TradeModel {
 		mPreparedStatement.close();
 
 	    }
+	    
+	    mPreparedStatement = conn.prepareStatement(QueryB2);
+	    mPreparedStatement.setInt(1, playerId2);
+	    rs = mPreparedStatement.executeQuery();
+
+	    if (rs.next()) {
+		years2 = rs.getString("years_2");
+		years3 = rs.getString("years_3");
+		years4 = rs.getString("years_4");
+		years5 = rs.getString("years_5");
+	    }
+	    rs.close();
+	    mPreparedStatement.close();
+	    
+	    if (years2.equalsIgnoreCase("JA")){
+		String QueryYears2 = "UPDATE players SET years_2='B',years_3='B',years_4='B',years_5='B' WHERE _id=?";
+		mPreparedStatement = conn.prepareStatement(QueryYears2);
+		mPreparedStatement.setInt(1, playerId2);
+		mPreparedStatement.executeUpdate();
+		mPreparedStatement.close();
+		
+	    } 
+	    
+	    if (years2.equalsIgnoreCase("A")){
+		String QueryYears2 = "UPDATE players SET years_2='A',years_3='A',years_4='A',years_5='A' WHERE _id=?";
+		mPreparedStatement = conn.prepareStatement(QueryYears2);
+		mPreparedStatement.setInt(1, playerId2);
+		mPreparedStatement.executeUpdate();
+		mPreparedStatement.close();
+		
+	    } 
+	    
+	    if (years2.equalsIgnoreCase("B")) {
+		String QueryYears2 = "UPDATE players SET years_2='B',years_3='B',years_4='B',years_5='B' WHERE _id=?";
+		mPreparedStatement = conn.prepareStatement(QueryYears2);
+		mPreparedStatement.setInt(1, playerId2);
+		mPreparedStatement.executeUpdate();
+		mPreparedStatement.close();
+		
+	    } 
+	    
+	    if (years2.equalsIgnoreCase("X")) {
+		String QueryYears2 = "UPDATE players SET years_2='A',years_3='A',years_4='A',years_5='A' WHERE _id=?";
+		mPreparedStatement = conn.prepareStatement(QueryYears2);
+		mPreparedStatement.setInt(1, playerId2);
+		mPreparedStatement.executeUpdate();
+		mPreparedStatement.close();
+		
+	    } 
+	    
+	    if (years3.equalsIgnoreCase("X")) {
+		String QueryYears2 = "UPDATE players SET years_3='A',years_4='A',years_5='A' WHERE _id=?";
+		mPreparedStatement = conn.prepareStatement(QueryYears2);
+		mPreparedStatement.setInt(1, playerId2);
+		mPreparedStatement.executeUpdate();
+		mPreparedStatement.close();
+		
+	    } 
+	    
+	    if (years4.equalsIgnoreCase("X")) {
+		String QueryYears2 = "UPDATE players SET years_4='A',years_5='A' WHERE _id=?";
+		mPreparedStatement = conn.prepareStatement(QueryYears2);
+		mPreparedStatement.setInt(1, playerId2);
+		mPreparedStatement.executeUpdate();
+		mPreparedStatement.close();
+		
+	    } 
+	    
+	    if (years5.equalsIgnoreCase("X")) {
+		String QueryYears2 = "UPDATE players SET years_5='A' WHERE _id=?";
+		mPreparedStatement = conn.prepareStatement(QueryYears2);
+		mPreparedStatement.setInt(1, playerId2);
+		mPreparedStatement.executeUpdate();
+		mPreparedStatement.close();
+		
+	    }
+	    
+	    
 
 	} catch (SQLException e) {
 

@@ -51,27 +51,27 @@ public class LoginServlet extends HttpServlet {
 		updateProcess.updateClassement();
 		
 	
-		String date_start = "12 avril 2015";
+		String date_start = "16 dÃ©cembre 2015";
 		req.getSession().setAttribute("dateLastUpdate", date_start);
 		
-		// recupération des input du formulaire de login
+		// recupï¿½ration des input du formulaire de login
 		username = req.getParameter("user");
 		password = req.getParameter("password");
 
-		// connexion aux serveurs de base de donnée
+		// connexion aux serveurs de base de donnï¿½e
 		dbHelper = new DatabaseConnector();
 
 		List<Object> dataList = new ArrayList<Object>();
 		pEncrypt = new PasswordEncryption();
 		 
 		conn = dbHelper.open();
-		// si connexion est bonne on récupère les informations de la table
+		// si connexion est bonne on rï¿½cupï¿½re les informations de la table
 		// utilisateur
 
 		if (conn != null) {
 
 			// 
-			/* récupération des informations selon le username */
+			/* rï¿½cupï¿½ration des informations selon le username */
 			try {
 
 				
@@ -88,7 +88,7 @@ public class LoginServlet extends HttpServlet {
 							mTeam = rs.getString("team");
 							mUsername = rs.getString("username");
 							/*
-							 * si recupération ok, testing du password sur le
+							 * si recupï¿½ration ok, testing du password sur le
 							 * username
 							 */
 							rs.close();
@@ -162,8 +162,8 @@ public class LoginServlet extends HttpServlet {
 
 			// fin du if connected
 		} else {
-			// une erreur de connexion s'est produite, gérer ce problème pour
-			// être transparent pour l'utilisateur
+			// une erreur de connexion s'est produite, gï¿½rer ce problï¿½me pour
+			// ï¿½tre transparent pour l'utilisateur
 			req.getRequestDispatcher("/jsp/no_connexion.jsp")
 					.forward(req, resp);
 		}

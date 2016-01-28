@@ -98,85 +98,85 @@
 
 	<div class="main_container">
 		<div class="main_content"></div>
-		<div id="main_content_title_classement">Confirmation d'une offre de trade</div>
+		<div id="main_content_title_classement">Confirmation d'une offre
+			de trade</div>
 		<div id="main_content_table_classement">
-			
+
 			<h1>On vous offre les joueurs suivants :</h1>
 
 			<c:forEach var="nomJoueurA" items="${tradeOfferBean.nomMakingOffer}">
-			<c:out value="${nomJoueurA}" />
-			<br>
+				<c:out value="${nomJoueurA}" />
+				<br>
 			</c:forEach>
 			<br>
 			<c:if test="${tradeOfferBean.cashMakingOffer>0 }">
-			 ainsi que la somme de <c:out value="${tradeOfferBean.cashMakingOffer}"/> $
+			 ainsi que la somme de <c:out
+					value="${tradeOfferBean.cashMakingOffer}" /> $
 			</c:if>
-			
-			<br>
-			<br>
-			
-			et les rounds de draft suivantes :
-			<br>
-			<br>
-				
-						
+
+			<br> <br> et les rounds de draft suivantes : <br> <br>
+
+
 			<c:forEach var="pickA" items="${tradeOfferBean.roundPickMakingOffer}">
-			
-			<c:out value="${pickA}" />
-			<br>
-		<br>
+
+				<c:out value="${pickA}" />
+				<br>
+				<br>
 			</c:forEach>
-			
-			provenant respectivement de
-			<br>
-			<br>
-			<c:forEach var="pickB" items="${tradeOfferBean.fromPickMakingOffer}">			
-		
-			<c:out value="${pickB}" />
-			<br>
-			
+
+			provenant respectivement de <br> <br>
+			<c:forEach var="pickB" items="${tradeOfferBean.fromPickMakingOffer}">
+
+				<c:out value="${pickB}" />
+				<br>
+
 			</c:forEach>
-			
+
 
 			<h2>en retour de vos joueurs suivants :</h2>
-			
-			<c:forEach var="nomJoueurB" items="${tradeOfferBean.nomReceivingOffer}">
-			<c:out value="${nomJoueurB}" />
-			<br>
+
+			<c:forEach var="nomJoueurB"
+				items="${tradeOfferBean.nomReceivingOffer}">
+				<c:out value="${nomJoueurB}" />
+				<br>
 			</c:forEach>
 			<br>
 			<c:if test="${tradeOfferBean.cashReceivingOffer>0 }">
-			 ainsi que la somme de <c:out value="${tradeOfferBean.cashReceivingOffer}"/> $
+			 ainsi que la somme de <c:out
+					value="${tradeOfferBean.cashReceivingOffer}" /> $
 			</c:if>
-			<br>
-			<br>
-			
-			et les round de draft suivantes :
-			<br>
-			<br>
-			
-			<c:forEach var="pickC" items="${tradeOfferBean.roundPickReceivingOffer}">
-			<c:out value="${pickC}" />
-			<br>
+			<br> <br> et les round de draft suivantes : <br> <br>
+
+			<c:forEach var="pickC"
+				items="${tradeOfferBean.roundPickReceivingOffer}">
+				<c:out value="${pickC}" />
+				<br>
 			</c:forEach>
-			provenant respectivement de
-			<br>
-			<br>
-			<c:forEach var="pickD" items="${tradeOfferBean.fromPickReceivingOffer}">
-			<c:out value="${pickD}" />
-			<br>
+			provenant respectivement de <br> <br>
+			<c:forEach var="pickD"
+				items="${tradeOfferBean.fromPickReceivingOffer}">
+				<c:out value="${pickD}" />
+				<br>
 			</c:forEach>
-			
-		
-			
+
+
+
 			<hr>
 
 			<form action="/trade_received" method="get">
-				
-				<input style="font-size: 24px" type="submit" value="Revenir à mes offres reçues">
+
+				<input style="font-size: 24px" type="submit"
+					value="Revenir à mes offres reçues">
 			</form>
 
-			
+			<form action="/trade_received" method="post">
+				<input type="hidden"
+					value="${tradeOfferBean.trade_id}" name="trade_id" />
+				<input type="hidden" value="cancelOffer" name="etape" /> <input
+					style="font-size: 18px" type="submit" value="Annuler cette offre">
+			</form>
+
+
 		</div>
 		<!-- fin du main container -->
 	</div>

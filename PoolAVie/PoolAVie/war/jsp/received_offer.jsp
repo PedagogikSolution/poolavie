@@ -121,8 +121,8 @@
 					</h1>
 				</c:if>
 				<c:if test="${beanTrade.isThereAOfferForMe==0}">
-			Tu n'as aucune offre pour le moment. Trouve toi des amis 
-			</c:if>
+				Tu n'as aucune offre pour le moment. Trouve toi des amis 
+				</c:if>
 
 				<c:if test="${beanTrade.isThereAOfferForMe==1}">
 
