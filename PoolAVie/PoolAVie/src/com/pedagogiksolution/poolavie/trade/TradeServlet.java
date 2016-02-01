@@ -67,8 +67,8 @@ public class TradeServlet extends HttpServlet {
 	String date_finish1 = "03-10-2015";
 	String date_start2 = "11-12-2015";
 	String date_finish2 = "12-12-2015";
-	String date_start3 = "27-01-2016";
-	String date_finish3 = "31-01-2016";
+	String date_start3 = "01-02-2016";
+	String date_finish3 = "08-02-2016";
 	String date_start4 = "10-12-2015";
 	String date_finish4 = "10-12-2015";
 	String date_start5 = "10-10-2015";

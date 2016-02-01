@@ -167,7 +167,12 @@
 			<br>
 			</c:forEach>
 			
-		
+			<br>
+			<br>
+			
+			Ainsi que le message suivant :
+			<br>
+			<textarea rows="8" cols="150">${tradeOfferBean.messageOffre}</textarea>
 			
 			<hr>
 

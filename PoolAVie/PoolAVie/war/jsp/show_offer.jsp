@@ -166,7 +166,10 @@
 			<c:out value="${pickD}" />
 			<br>
 			</c:forEach>
+			<br>
+			<h2>Message supplémentaire pour aller avec l'offre</h2>
 			
+			<textarea rows="8" cols="150">${tradeOfferBean.messageOffre}</textarea>
 		
 			
 			<hr>

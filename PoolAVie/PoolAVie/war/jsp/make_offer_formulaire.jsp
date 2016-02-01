@@ -462,6 +462,7 @@
 		<br>
 		<hr class="hr_header">
 		<br>
+		<textarea name="message_vente" rows="8" cols="150"></textarea>
 		<br>
 		<h1><input  style="font-size: 28px" type="submit" value="FAIRE CETTE OFFRE"></h1>
 		

@@ -64,8 +64,7 @@
 
 		<div id="logo_main">
 
-			<img alt="logo" src="../images/<%=mLogoId%>" width="150px"
-				height="150px">
+			<img alt="logo" src="../images/<%=mLogoId%>" width="150px" height="150px">
 
 		</div>
 		<div id="welcome_main">
@@ -83,11 +82,8 @@
 	</div>
 	<hr class="hr_header">
 	<div class="main_menu">
-		<a href="/jsp/main.jsp"><button class="btn_menu">Classement</button></a>
-		<a href="/draft?sortby=all"><button class="btn_menu">Draft</button></a>
-		<a href="/trade"><button class="btn_menu">Trade</button></a> <a
-			href="/equipes"><button class="btn_menu">Team</button></a> <a
-			href="/signature"><button class="btn_menu">Signature</button></a>
+		<a href="/jsp/main.jsp"><button class="btn_menu">Classement</button></a> <a href="/draft?sortby=all"><button class="btn_menu">Draft</button></a> <a href="/trade"><button class="btn_menu">Trade</button></a>
+		<a href="/equipes"><button class="btn_menu">Team</button></a> <a href="/signature"><button class="btn_menu">Signature</button></a>
 		<button class="btn_menu">Règlement</button>
 		<button class="btn_menu">Admin</button>
 	</div>
@@ -98,8 +94,7 @@
 
 	<div class="main_container">
 		<div class="main_content"></div>
-		<div id="main_content_title_classement">Confirmation d'une offre
-			de trade</div>
+		<div id="main_content_title_classement">Confirmation d'une offre de trade</div>
 		<div id="main_content_table_classement">
 
 			<h1>On vous offre les joueurs suivants :</h1>
@@ -110,8 +105,7 @@
 			</c:forEach>
 			<br>
 			<c:if test="${tradeOfferBean.cashMakingOffer>0 }">
-			 ainsi que la somme de <c:out
-					value="${tradeOfferBean.cashMakingOffer}" /> $
+			 ainsi que la somme de <c:out value="${tradeOfferBean.cashMakingOffer}" /> $
 			</c:if>
 
 			<br> <br> et les rounds de draft suivantes : <br> <br>
@@ -135,29 +129,30 @@
 
 			<h2>en retour de vos joueurs suivants :</h2>
 
-			<c:forEach var="nomJoueurB"
-				items="${tradeOfferBean.nomReceivingOffer}">
+			<c:forEach var="nomJoueurB" items="${tradeOfferBean.nomReceivingOffer}">
 				<c:out value="${nomJoueurB}" />
 				<br>
 			</c:forEach>
 			<br>
 			<c:if test="${tradeOfferBean.cashReceivingOffer>0 }">
-			 ainsi que la somme de <c:out
-					value="${tradeOfferBean.cashReceivingOffer}" /> $
+			 ainsi que la somme de <c:out value="${tradeOfferBean.cashReceivingOffer}" /> $
 			</c:if>
 			<br> <br> et les round de draft suivantes : <br> <br>
 
-			<c:forEach var="pickC"
-				items="${tradeOfferBean.roundPickReceivingOffer}">
+			<c:forEach var="pickC" items="${tradeOfferBean.roundPickReceivingOffer}">
 				<c:out value="${pickC}" />
 				<br>
 			</c:forEach>
 			provenant respectivement de <br> <br>
-			<c:forEach var="pickD"
-				items="${tradeOfferBean.fromPickReceivingOffer}">
+			<c:forEach var="pickD" items="${tradeOfferBean.fromPickReceivingOffer}">
 				<c:out value="${pickD}" />
 				<br>
 			</c:forEach>
+
+			<br>
+			<h2>Message supplémentaire pour aller avec l'offre</h2>
+
+			<textarea rows="8" cols="150">${tradeOfferBean.messageOffre}</textarea>
 
 
 
@@ -165,15 +160,12 @@
 
 			<form action="/trade_received" method="get">
 
-				<input style="font-size: 24px" type="submit"
-					value="Revenir à mes offres reçues">
+				<input style="font-size: 24px" type="submit" value="Revenir à mes offres reçues">
 			</form>
 
 			<form action="/trade_received" method="post">
-				<input type="hidden"
-					value="${tradeOfferBean.trade_id}" name="trade_id" />
-				<input type="hidden" value="cancelOffer" name="etape" /> <input
-					style="font-size: 18px" type="submit" value="Annuler cette offre">
+				<input type="hidden" value="${tradeOfferBean.trade_id}" name="trade_id" /> <input type="hidden" value="cancelOffer" name="etape" /> <input style="font-size: 18px" type="submit"
+					value="Annuler cette offre">
 			</form>
 
 

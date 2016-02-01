@@ -896,6 +896,9 @@ public class TradeModel {
 	String[] RoundPickReceivingOffer = new String[nbDraftPickTeamThatReceived];
 	String[] FromPickMakingOffer = new String[nbDraftPickTeamThatOffer];
 	String[] FromPickReceivingOffer = new String[nbDraftPickTeamThatReceived];
+	
+	String messageVente = req.getParameter("message_vente");
+	
 
 // checking for to many players trade max 7
 	if (nbPlayersTeamThatOffer > 7 || nbPlayersTeamThatReceived > 7) {
@@ -1256,7 +1259,8 @@ public class TradeModel {
 	} finally {
 	    dbHelper.close(conn);
 	}
-
+	
+	mBean.setMessageOffre(messageVente);
 	mBean.setPlayerIdMakingOffer(playersTeamThatOffer);
 	mBean.setPlayerIdReceivingOffer(playersTeamThatReceived);
 	mBean.setPickNumMakingOffer(draftPickTeamThatOffer);
@@ -1659,6 +1663,7 @@ public class TradeModel {
 	int cashReceivingOffer = mBean.getCashReceivingOffer();
 	int teamMakingOfferId = mBean.getTeamThatTrade();
 	int teamReceivingOfferId = mBean.getTeamTradeTo();
+	String messageOffre = mBean.getMessageOffre();
 
 	String t1j1 = null, t1j2 = null, t1j3 = null, t1j4 = null, t1j5 = null, t1j6 = null, t1j7 = null, t2j1 = null, t2j2 = null, t2j3 = null, t2j4 = null, t2j5 = null, t2j6 = null, t2j7 = null, t1p1 = null, t1p2 = null, t1p3 = null, t2p1 = null, t2p2 = null, t2p3 = null;
 	int number_of_player_trade_by = 0;
@@ -1891,8 +1896,8 @@ public class TradeModel {
 	conn = dbHelper.open();
 
 	QueryA = "INSERT INTO trade_offer (team_1, team_2, t1j1, t1j2, t1j3, t1j4, t1j5,"
-		+ " t1j6, t1j7, t2j1, t2j2, t2j3, t2j4, t2j5, t2j6, t2j7, t1p1, t1p2, t1p3, t2p1, t2p2, t2p3,t1_cash, t2_cash,periode_echange,annee)"
-		+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		+ " t1j6, t1j7, t2j1, t2j2, t2j3, t2j4, t2j5, t2j6, t2j7, t1p1, t1p2, t1p3, t2p1, t2p2, t2p3,t1_cash, t2_cash,periode_echange,annee,message)"
+		+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 	try {
 	    mPreparedStatement = conn.prepareStatement(QueryA);
@@ -1922,6 +1927,7 @@ public class TradeModel {
 	    mPreparedStatement.setInt(24, cashReceivingOffer);
 	    mPreparedStatement.setInt(25, 0);
 	    mPreparedStatement.setInt(26, 2016);
+	    mPreparedStatement.setString(27,messageOffre);
 	    mPreparedStatement.executeUpdate();
 	    mPreparedStatement.close();
 	} catch (SQLException e) {
@@ -1984,6 +1990,7 @@ public class TradeModel {
 	int nbDraftPickTeamThatReceived = 0;
 	int argentOfferTeamThatTrade = 0;
 	int argentOfferTeamThatReceivedOffer = 0;
+	String messageOffre = "";
 
 // connection au base de donn�e via JDBC
 	DatabaseConnector dbHelper = new DatabaseConnector();
@@ -2024,6 +2031,7 @@ public class TradeModel {
 		String t2p1 = rs.getString("t2p1");
 		String t2p2 = rs.getString("t2p2");
 		String t2p3 = rs.getString("t2p3");
+		messageOffre = rs.getString("message");
 
 		if (t1j1 != null) {
 		    playersTeamThatOfferTemp.add(t1j1);
@@ -2285,7 +2293,9 @@ public class TradeModel {
 	} finally {
 	    dbHelper.close(conn);
 	}
-
+	
+	
+	mBean.setMessageOffre(messageOffre);
 	mBean.setPickNumMakingOffer(draftPickTeamThatOffer);
 	mBean.setPickNumReceivingOffer(draftPickTeamThatReceived);
 	mBean.setCashMakingOffer(argentOfferTeamThatTrade);

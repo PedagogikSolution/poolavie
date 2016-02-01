@@ -30,6 +30,7 @@ public class TradeBeans implements Serializable{
     private List<String> tradeOfferNameTeamTradeWith;
     private int teamThatTrade;
     private int teamTradeTo;
+    private String messageOffre;
     
     
     /* 
@@ -215,6 +216,14 @@ public class TradeBeans implements Serializable{
 
     public void setTrade_id(int trade_id) {
 	this.trade_id = trade_id;
+    }
+
+    public String getMessageOffre() {
+	return messageOffre;
+    }
+
+    public void setMessageOffre(String messageOffre) {
+	this.messageOffre = messageOffre;
     }
 
     
