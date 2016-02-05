@@ -858,6 +858,9 @@ public class TradeModel {
 	int nb_defenseur_rec_offer = 0;
 	int nb_goaler_rec_offer = 0;
 	int argent_recu_rec_offer = 0;
+	
+	String[] playersTeamThatOffer=null;
+	String[] playersTeamThatReceived=null;
 
 	String teamMakingOfferId = req.getParameter("teamMakingOfferId");
 	int teamThatTrade = Integer.parseInt(teamMakingOfferId);
@@ -870,11 +873,11 @@ public class TradeModel {
 	String argentOfferTeamThatReceivedOfferString = req.getParameter("cash_trade_to");
 	int argentOfferTeamThatReceivedOffer = Integer.parseInt(argentOfferTeamThatReceivedOfferString);
 
-	String[] playersTeamThatOffer = req.getParameterValues("players_id_my_team");
+	playersTeamThatOffer = req.getParameterValues("players_id_my_team");
 
 	String[] draftPickTeamThatOffer = req.getParameterValues("draft_pick_my_team");
 
-	String[] playersTeamThatReceived = req.getParameterValues("players_id_other_team");
+	playersTeamThatReceived = req.getParameterValues("players_id_other_team");
 	String[] draftPickTeamThatReceived = req.getParameterValues("draft_pick_other_team");
 
 	if (playersTeamThatOffer != null) {
@@ -964,8 +967,9 @@ public class TradeModel {
 
 // on calcul le total d'Argent des salaire des joueurs de l'Equipe qui trade, le nombre par position inclus dans trade
 // et on ajoute leur nom dans un array
+	    int i = 0;
 	    if (playersTeamThatOffer != null) {
-		int i = 0;
+		
 		for (String s : playersTeamThatOffer) {
 		    int toInt = Integer.parseInt(s);
 		    QueryB = "SELECT * FROM players WHERE _id=? AND club_ecole=0";
@@ -1001,10 +1005,10 @@ public class TradeModel {
 	    }
 	    rs.close();
 	    mPreparedStatement.close();
-
+	    
 // on ajoute les recrues dans un array sans compter leur salaire
 	    if (playersTeamThatOffer != null) {
-		int i = 0;
+		
 		for (String s : playersTeamThatOffer) {
 		    int toInt = Integer.parseInt(s);
 		    QueryB = "SELECT * FROM players WHERE _id=? AND club_ecole=1";
@@ -1026,8 +1030,9 @@ public class TradeModel {
 	    mPreparedStatement.close();
 
 // on calcul le total d'Argent des salaire des joueurs de l'Equipe qui recoit et on ajoute leur nom dans un array
+	    int j = 0;
 	    if (playersTeamThatReceived != null) {
-		int i = 0;
+		
 		for (String s : playersTeamThatReceived) {
 		    int toInt = Integer.parseInt(s);
 		    QueryB = "SELECT * FROM players WHERE _id=? AND club_ecole=0";
@@ -1038,7 +1043,7 @@ public class TradeModel {
 			int salaire_joueur_temp = rs.getInt("years_1");
 			total_salaire_team_receiving_offer = total_salaire_team_receiving_offer + salaire_joueur_temp;
 			String nomReceivingOfferString = rs.getString("nom");
-			nomReceivingOffer[i] = nomReceivingOfferString;
+			nomReceivingOffer[j] = nomReceivingOfferString;
 
 			String positionDuJoueurTrade = rs.getString("position");
 
@@ -1054,17 +1059,18 @@ public class TradeModel {
 			    break;
 
 			}
-			i++;
+			j++;
 		    }
 
 		}
 	    }
 	    rs.close();
 	    mPreparedStatement.close();
-
+	    
 // on ajoute les recrues dans un array sans compter leur salaire
+	    
 	    if (playersTeamThatReceived != null) {
-		int i = 0;
+		
 		for (String s : playersTeamThatReceived) {
 		    int toInt = Integer.parseInt(s);
 		    QueryB = "SELECT * FROM players WHERE _id=? AND club_ecole=1";
@@ -1074,8 +1080,8 @@ public class TradeModel {
 		    if (rs.next()) {
 			nbRookieTeamThatReceived = nbRookieTeamThatReceived + 1;
 			String nomReceivingOfferString = rs.getString("nom");
-			nomReceivingOffer[i] = nomReceivingOfferString;
-			i++;
+			nomReceivingOffer[j] = nomReceivingOfferString;
+			j++;
 		    }
 
 		}
@@ -1142,7 +1148,7 @@ public class TradeModel {
 // recuperation des infos sur les picks
 
 	    if (draftPickTeamThatOffer != null) {
-		int i = 0;
+		int k = 0;
 		for (String s : draftPickTeamThatOffer) {
 		    int toInt = Integer.parseInt(s);
 		    QueryC = "SELECT * FROM draft_pick_current_year WHERE _id=?";
@@ -1188,9 +1194,9 @@ public class TradeModel {
 			}
 			String round_temp2 = Integer.toString(round_temp);
 
-			RoundPickMakingOffer[i] = round_temp2;
-			FromPickMakingOffer[i] = from_temp2;
-			i++;
+			RoundPickMakingOffer[k] = round_temp2;
+			FromPickMakingOffer[k] = from_temp2;
+			k++;
 
 		    }
 		}
@@ -1199,7 +1205,7 @@ public class TradeModel {
 	    mPreparedStatement.close();
 
 	    if (draftPickTeamThatReceived != null) {
-		int i = 0;
+		int l = 0;
 		for (String s : draftPickTeamThatReceived) {
 		    int toInt = Integer.parseInt(s);
 		    QueryC = "SELECT * FROM draft_pick_current_year WHERE _id=?";
@@ -1244,9 +1250,9 @@ public class TradeModel {
 			    break;
 			}
 			String round_temp2 = Integer.toString(round_temp);
-			RoundPickReceivingOffer[i] = round_temp2;
-			FromPickReceivingOffer[i] = from_temp2;
-			i++;
+			RoundPickReceivingOffer[l] = round_temp2;
+			FromPickReceivingOffer[l] = from_temp2;
+			l++;
 
 		    }
 		}
