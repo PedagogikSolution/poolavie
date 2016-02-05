@@ -48,15 +48,15 @@ public class ChicagoServlet extends HttpServlet {
 		List<Object> dataList5 = new ArrayList<Object>();
 		String teamIdentifiant = (String) req.getSession().getAttribute("mTeamId");
 		if(teamIdentifiant!=null){mTeam = Integer.parseInt(teamIdentifiant);}
-		// connexion aux serveurs4 de base de donnée
+		// connexion aux serveurs4 de base de donnï¿½e
 		dbHelper = new DatabaseConnector();
 		conn = dbHelper.open();
-		// si connexion est bonne on récupère les informations de la table
+		// si connexion est bonne on rï¿½cupï¿½re les informations de la table
 		// utilisateur
 		if (conn != null) {
 
 			try {
-				/* récupération des informations selon le identifiant equipe */
+				/* rï¿½cupï¿½ration des informations selon le identifiant equipe */
 				statement = "SELECT * FROM players WHERE players.position='attaquant' AND players.club_ecole='0' AND players.team_id=3 ORDER BY pts DESC";
 				statement2 = "SELECT * FROM players WHERE players.position='defenseur' AND players.club_ecole='0' AND players.team_id=3 ORDER BY pts DESC";
 				statement3 = "SELECT * FROM players WHERE players.position='gardien' AND players.club_ecole='0' AND players.team_id=3 ORDER BY pts DESC";
@@ -161,29 +161,17 @@ public class ChicagoServlet extends HttpServlet {
 					bonus_5= rs5.getInt("bonus_5m");
 					argent_recu= rs5.getInt("argent_recu");
 					bonus_penalite = rs5.getInt("bonus_penalite");
-					pick_manquant = rs5.getInt("manquant_equipe") + rs5.getInt("manquant_recrue");
 					}
 	
-					
-					statement6 = "SELECT * FROM draft_round WHERE team_id=3 LIMIT " + pick_manquant;
 					rs5.close();
-					rs6 = conn.createStatement().executeQuery(statement6);
-					while (rs6.next()) {
-						dataList5.add( rs6.getInt("team_count"));
-						dataList5.add(rs6.getInt("ronde"));
-						dataList5.add(rs6.getString("from_who"));	
-						dataList5.add(rs6.getInt("draft_pick_no"));
-						
-						
-					}
-					rs6.close();
+					
 					RecuperationTeamForExchange recupTeam = new RecuperationTeamForExchange();
 					ResultSet rs9 = recupTeam.recuperationPick(3);
 					
 					req.setAttribute("picks", rs9);
 					
 					
-					req.setAttribute("dataDraftRound", dataList5);
+					
 					
 					
 					
@@ -227,8 +215,8 @@ public class ChicagoServlet extends HttpServlet {
 			}
 
 		} else {
-			// une erreur de connexion s'est produite, gérer ce problème pour
-			// être transparent pour l'utilisateur
+			// une erreur de connexion s'est produite, gï¿½rer ce problï¿½me pour
+			// ï¿½tre transparent pour l'utilisateur
 			req.getRequestDispatcher("/jsp/no_connexion.jsp")
 					.forward(req, resp);
 		}

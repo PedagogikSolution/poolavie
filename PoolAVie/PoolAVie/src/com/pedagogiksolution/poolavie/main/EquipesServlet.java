@@ -35,23 +35,25 @@ public class EquipesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	// rÃ©cupÃ©ration de l'identifiant de l'Ã©quipe
+	String teamIdentifiant = (String) req.getSession().getAttribute("mTeamId");
+	if (teamIdentifiant != null) {
+	    mTeam = Integer.parseInt(teamIdentifiant);
+	}
+	
 
 	List<Object> dataList = new ArrayList<Object>();
 	List<Object> dataList2 = new ArrayList<Object>();
 	List<Object> dataList3 = new ArrayList<Object>();
 	List<Object> dataList4 = new ArrayList<Object>();
-	List<Object> dataList5 = new ArrayList<Object>();
-	String teamIdentifiant = (String) req.getSession().getAttribute("mTeamId");
-	if (teamIdentifiant != null) {
-	    mTeam = Integer.parseInt(teamIdentifiant);
-	}
-	// connexion aux serveurs4 de base de donnée
+	
+	// connexion aux serveurs4 de base de donnï¿½e
 	dbHelper = new DatabaseConnector();
 	conn = dbHelper.open();
-	// si connexion est bonne on récupère les informations de la table
+	// si connexion est bonne on rï¿½cupï¿½re les informations de la table
 	// utilisateur
 
-	/* récupération des informations selon le identifiant equipe */
+	/* rï¿½cupï¿½ration des informations selon le identifiant equipe */
 	statement = "SELECT * FROM players WHERE players.position='attaquant' AND players.club_ecole='0' AND players.team_id='" + teamIdentifiant + "' ORDER BY pts DESC";
 	statement2 = "SELECT * FROM players WHERE players.position='defenseur' AND players.club_ecole='0' AND players.team_id='" + teamIdentifiant + "' ORDER BY pts DESC";
 	statement3 = "SELECT * FROM players WHERE players.position='gardien' AND players.club_ecole='0' AND players.team_id='" + teamIdentifiant + "' ORDER BY pts DESC";
@@ -153,29 +155,11 @@ public class EquipesServlet extends HttpServlet {
 		bonus_5 = rs5.getInt("bonus_5m");
 		argent_recu = rs5.getInt("argent_recu");
 		bonus_penalite = rs5.getInt("bonus_penalite");
-		pick_manquant = rs5.getInt("manquant_equipe") + rs5.getInt("manquant_recrue");
 	    }
 	    
 	    
 	    rs5.close();
-	    statement6 = "SELECT * FROM draft_round WHERE team_id='" + teamIdentifiant + "' LIMIT " + pick_manquant;
-	    
-	    if(pick_manquant<0){
-	    
-	    } else {
-
-	    rs6 = conn.createStatement().executeQuery(statement6);
-	    while (rs6.next()) {
-		dataList5.add(rs6.getInt("team_count"));
-		dataList5.add(rs6.getInt("ronde"));
-		dataList5.add(rs6.getString("from_who"));
-		dataList5.add(rs6.getInt("draft_pick_no"));
-
-	    }
-
-	    rs6.close();
-	    
-	    }
+	   
 	    
 	    RecuperationTeamForExchange recupTeam = new RecuperationTeamForExchange();
 	    ResultSet rs9 = recupTeam.recuperationPick(mTeam);
@@ -207,7 +191,6 @@ public class EquipesServlet extends HttpServlet {
 	    req.setAttribute("mTeamDataListDefenseur", dataList2);
 	    req.setAttribute("mTeamDataListGardien", dataList3);
 	    req.setAttribute("mTeamDataListRecrue", dataList4);
-	    req.setAttribute("dataDraftRound", dataList5);
 	    
 	    req.getRequestDispatcher("/jsp/equipes.jsp").forward(req, resp);
 

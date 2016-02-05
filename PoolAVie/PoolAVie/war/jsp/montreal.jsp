@@ -17,8 +17,6 @@ dataGardien = (List<Object>) request
 		.getAttribute("mTeamDataListGardien");
 dataRecrue = (List<Object>) request
 		.getAttribute("mTeamDataListRecrue");
-dataDraftRound = (List<Object>) request
-		.getAttribute("dataDraftRound");
 String teamId = session.getAttribute("mTeamId").toString();
 int teamId2=99;
 if(teamId!=null){

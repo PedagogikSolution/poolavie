@@ -18,12 +18,10 @@ import com.pedagogiksolution.poolavie.update.UpdatePlayersStats;
 import com.pedagogiksolution.poolavie.utils.DatabaseConnector;
 import com.pedagogiksolution.poolavie.utils.PasswordEncryption;
 
+@SuppressWarnings("serial")
 public class LoginServlet extends HttpServlet {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	
 	String username;
 	String password;
 	String url;
