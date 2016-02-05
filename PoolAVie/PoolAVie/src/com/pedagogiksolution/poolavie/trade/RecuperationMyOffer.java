@@ -112,7 +112,7 @@ public ResultSet recuperationOfferToMe(int team_that_trade) {
 }
 
 public ResultSet recuperationAllTrade() {
-	statement = "SELECT * FROM trade_made";
+	statement = "SELECT * FROM trade_made ORDER BY date_heure ASC";
 	dbHelper = new DatabaseConnector();
 	conn = dbHelper.open();
 	
