@@ -820,7 +820,7 @@ public class TradeModel {
 	return true;
     }
 
-    public boolean validationTradeAnnée(HttpServletRequest req) {
+    public boolean validationTradeAnnee(HttpServletRequest req) {
 	String QueryA, QueryB, QueryC;
 	DatabaseConnector dbHelper = new DatabaseConnector();
 	Connection conn;
