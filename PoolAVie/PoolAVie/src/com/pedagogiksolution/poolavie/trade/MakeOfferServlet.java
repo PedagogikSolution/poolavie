@@ -91,7 +91,7 @@ public class MakeOfferServlet extends HttpServlet {
 	    		    req.getRequestDispatcher("/jsp/make_offer.jsp").forward(req, resp);
 	    		}		
 		break;
-	    case 2: tradeIsValid = mClass.validationTradeAnnée(req);
+	    case 2: tradeIsValid = mClass.validationTradeAnnee(req);
 		if(tradeIsValid){
     		    req.getRequestDispatcher("/jsp/confirmation_offre_trade.jsp").forward(req, resp);
     		} else {

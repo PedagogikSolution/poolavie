@@ -79,6 +79,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Welcome page</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 <link rel="stylesheet" type="text/css" href="../css/main.css" />
 
 </head>
@@ -142,9 +145,9 @@
 		<div id="main_content_title_classement">MON ÉQUIPE</div>
 		<div id="main_content_table_classement">
 			<br>
-			<table>
+			<table class="w3-table w3-bordered w3-striped w3-card-4">
 				<caption>Attaquants</caption>
-				<tr>
+				<tr class="w3-blue">
 					<th>Pos</th>
 					<th>Nom</th>
 					<th>Équipe</th>
