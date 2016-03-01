@@ -25,9 +25,10 @@
 <div id="pub_main_content_home">
 <h1>Bienvenue sur le site des vrais poolers de hockey</h1>
 <p>Pool à vie est un site de gestion des pools de hockey qui propose une plateforme
- vous permettant de créer et gérer votre pool de hockey sur plusieurs saison. Il étant le concept des pools de Keepers
+ vous permettant de créer et gérer votre pool de hockey sur plusieurs saison. Il permet l'extension du concept des pools de Keepers
  avec une gestion élaborer des salaires, des contrats, des club-écoles et des échanges ainsi que la mise en place d'un système
- informatisé de draft live.</p>
+ informatisé de draft live et de l'administration des différentes phases du cycle de vie avec des fonctionnalités informatisées
+  tel que les signatures de contrat, rachat de contrat, monter et descendre des recrues.</p>
 
 </div>
 
