@@ -33,7 +33,7 @@ public class BostonServlet extends HttpServlet {
 	int draft_pick_no,ronde,team_id,team_id_from,team_count;
 	String equipe_who_draft,from;
 	int pick_manquant;
-
+// ligbne bidon
 	
 	
 	
