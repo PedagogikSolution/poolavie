@@ -72,7 +72,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Welcome page</title>
-<link rel="stylesheet" type="text/css" href="../css/main.css" />
+<link rel="stylesheet" type="text/css" href="/css/main.css" />
 <script>
 	$(document).ready(checkForPickMade);
 	function checkForPickMade() {
@@ -101,7 +101,7 @@
 
 	  	<div id="logo_main">
 	
-			<img alt="logo" src="../images/<%=mLogoId%>" width="150px"
+			<img alt="logo" src="/images/<%=mLogoId%>" width="150px"
 				height="150px">
 	
 
