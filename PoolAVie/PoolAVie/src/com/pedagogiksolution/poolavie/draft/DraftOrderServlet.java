@@ -51,7 +51,7 @@ public class DraftOrderServlet extends HttpServlet {
 		rs.close();
 		req.setAttribute("dataDraftOrder", dataList);
 
-		req.getRequestDispatcher("/jsp/draft_order.jsp").forward(req, resp);
+		req.getRequestDispatcher("/jsp/draft/draft_order.jsp").forward(req, resp);
 
 	    } catch (SQLException e) {
 		e.printStackTrace();

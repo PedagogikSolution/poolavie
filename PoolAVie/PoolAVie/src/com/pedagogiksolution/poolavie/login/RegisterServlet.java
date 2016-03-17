@@ -118,21 +118,21 @@ public class RegisterServlet extends HttpServlet {
 								req.setAttribute("mTeam", team);
 								req.setAttribute("mTeamId", teamIdentifiant);
 								req.setAttribute("mUsername", username);								
-								req.getRequestDispatcher("/jsp/main.jsp").forward(req,
+								req.getRequestDispatcher("/jsp/main/main.jsp").forward(req,
 										resp);
 								
 								
 							} else {
 								// erreur d'insertion a trouver
 								req.setAttribute("login_message", "4");
-								req.getRequestDispatcher("/jsp/home.jsp").forward(req,
+								req.getRequestDispatcher("/jsp/accueil/home.jsp").forward(req,
 										resp);
 								
 							}
 
 						} else {
 							req.setAttribute("login_message", "3");
-							req.getRequestDispatcher("/jsp/home.jsp").forward(req,
+							req.getRequestDispatcher("/jsp/accueil/home.jsp").forward(req,
 									resp);
 
 						}

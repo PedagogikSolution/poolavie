@@ -39,7 +39,7 @@ public class AccepterOffreTradeServlet extends HttpServlet {
 	    } else {
 		mBean.setCodeErreurOffreTrade(11);
 		req.setAttribute("messageErreur", mBean);
-		req.getRequestDispatcher("/jsp/received_offer.jsp").forward(req, resp);
+		req.getRequestDispatcher("/jsp/trade/received_offer.jsp").forward(req, resp);
 	    }
 	    
 	    

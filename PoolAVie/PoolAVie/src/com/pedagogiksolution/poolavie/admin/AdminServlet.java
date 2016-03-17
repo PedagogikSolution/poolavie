@@ -22,7 +22,7 @@ public class AdminServlet extends HttpServlet {
 	
 	
 	if(mTeamId.equals("ok")){
-	    req.getRequestDispatcher("/jsp/admin.jsp").forward(req,resp);
+	    req.getRequestDispatcher("/jsp/admin/admin.jsp").forward(req,resp);
 	} else {
 	    resp.sendRedirect("/equipes");
 	}

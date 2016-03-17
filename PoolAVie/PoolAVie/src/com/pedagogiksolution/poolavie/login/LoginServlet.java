@@ -130,24 +130,24 @@ public class LoginServlet extends HttpServlet {
 								req.setAttribute("mTeamId", teamIdentifiant);
 								req.setAttribute("mTeam", mTeam);
 								req.setAttribute("mUsername", mUsername);
-								req.getRequestDispatcher("/jsp/main.jsp")
+								req.getRequestDispatcher("/jsp/main/main.jsp")
 										.forward(req, resp);
 
 							} else {
 
 								req.setAttribute("login_message", "2");
-								req.getRequestDispatcher("/jsp/home.jsp")
+								req.getRequestDispatcher("/jsp/accueil/home.jsp")
 										.forward(req, resp);
 							}
 						} else {
 							req.setAttribute("login_message", "1");
-							req.getRequestDispatcher("/jsp/home.jsp").forward(
+							req.getRequestDispatcher("/jsp/accueil/home.jsp").forward(
 									req, resp);
 						}
 
 					} else {
 						req.setAttribute("login_message", "0");
-						req.getRequestDispatcher("/jsp/home.jsp").forward(req,
+						req.getRequestDispatcher("/jsp/accueil/home.jsp").forward(req,
 								resp);
 					}
 				} finally {

@@ -64,12 +64,12 @@ public class RookieApresSaisonServlet extends HttpServlet {
 			    mBean.setJoueurId(mPlayerId);
 			    mBean.setNombreAnnee(nbAnnee);
 			    req.setAttribute("monterRookie", mBean);
-			    req.getRequestDispatcher("/jsp/rookie_confirmation_monter.jsp").forward(req, resp);}
+			    req.getRequestDispatcher("/jsp/signature/rookie_confirmation_monter.jsp").forward(req, resp);}
 			 
 			else {
 			    mBean.setCodePourMessageConfirmation(2);
 			    req.setAttribute("codeErreur", mBean);
-			    req.getRequestDispatcher("/jsp/dropRookie.jsp").forward(req, resp); 
+			    req.getRequestDispatcher("/jsp/signature/dropRookie.jsp").forward(req, resp); 
 			 
 			}
 		    }
@@ -79,7 +79,7 @@ public class RookieApresSaisonServlet extends HttpServlet {
 	    mClass.preparationRookieApresSaison2(req);
 	    mBean.setCodePourMessageConfirmation(1);
 	    req.setAttribute("codeErreur", mBean);
-	    req.getRequestDispatcher("/jsp/drop_rookie.jsp").forward(req, resp);
+	    req.getRequestDispatcher("/jsp/signature/drop_rookie.jsp").forward(req, resp);
 	    }
 	    
 	    break;
@@ -95,18 +95,18 @@ public class RookieApresSaisonServlet extends HttpServlet {
 		    mBean.setCodePourMessageConfirmation(1);
 		    mBean.setJoueurId(mPlayerId);
 		    req.setAttribute("codeConfirmation", mBean);
-		    req.getRequestDispatcher("/jsp/rookie_fin_confirmation.jsp").forward(req, resp);
+		    req.getRequestDispatcher("/jsp/signature/rookie_fin_confirmation.jsp").forward(req, resp);
 
 		} else {
 		    mBean.setCodePourMessageConfirmation(2);
 		    req.setAttribute("codeConfirmation", mBean);
-		    req.getRequestDispatcher("/jsp/rookie_fin_confirmation.jsp").forward(req, resp);
+		    req.getRequestDispatcher("/jsp/signature/rookie_fin_confirmation.jsp").forward(req, resp);
 		}
 
 	    } else {
 		mBean.setCodePourMessageConfirmation(3);
 		req.setAttribute("codeConfirmation", mBean);
-		req.getRequestDispatcher("/jsp/rookie_fin_confirmation.jsp").forward(req, resp);
+		req.getRequestDispatcher("/jsp/signature/rookie_fin_confirmation.jsp").forward(req, resp);
 	    }
 	    break;
 

@@ -41,33 +41,33 @@ public class SignatureServlet extends HttpServlet {
 	if (today.after(start1) && today.before(finish1)) {
 	    RachatApresSaison mClass = new RachatApresSaison();
 	    mClass.preparationRachatApresSaison(req);
-	    req.getRequestDispatcher("/jsp/rachat_fin_saison.jsp").forward(req,resp);
+	    req.getRequestDispatcher("/jsp/signature/rachat_fin_saison.jsp").forward(req,resp);
 	} else if (today.after(start2) && today.before(finish2)) {
 	    RookieApresSaison mClass = new RookieApresSaison();
 	    mClass.preparationRookieApresSaison(req);	    
-	    req.getRequestDispatcher("/jsp/descendre_rookie_fin_saison.jsp").forward(req,resp);
+	    req.getRequestDispatcher("/jsp/signature/descendre_rookie_fin_saison.jsp").forward(req,resp);
 	} else if (today.after(start3) && today.before(finish3)) {
 	    RachatApresChangementAnnee mClass = new RachatApresChangementAnnee();
 	    mClass.preparationRachatChangementAnnee(req);
-	    req.getRequestDispatcher("/jsp/rachat_debut_saison.jsp").forward(req,resp);
+	    req.getRequestDispatcher("/jsp/signature/rachat_debut_saison.jsp").forward(req,resp);
 	} else if (today.after(start4) && today.before(finish4)) {
 	    SignatureAB mClass = new SignatureAB();
 	    mClass.preparationSignatureAB(req);
-	    req.getRequestDispatcher("/jsp/signature_ab.jsp").forward(req,resp);
+	    req.getRequestDispatcher("/jsp/signature/signature_ab.jsp").forward(req,resp);
 	} else if (today.after(start5) && today.before(finish5)) {
 	    RachatApresChangementAnnee mClass = new RachatApresChangementAnnee();
 	    mClass.preparationRachatChangementAnnee2(req);
-	    req.getRequestDispatcher("/jsp/rachat_debut_saison.jsp").forward(req,resp);
+	    req.getRequestDispatcher("/jsp/signature/rachat_debut_saison.jsp").forward(req,resp);
 	} else if (today.after(start6) && today.before(finish6)){
 	    RookieApresSaison mClass = new RookieApresSaison();
 	    mClass.preparationRookieApresSaison2(req);
-	    req.getRequestDispatcher("/jsp/drop_rookie.jsp").forward(req,resp);
+	    req.getRequestDispatcher("/jsp/signature/drop_rookie.jsp").forward(req,resp);
 	} else if (today.after(start7) && today.before(finish7)){
 	    SignatureAfterDraft mClass = new SignatureAfterDraft();
 	    mClass.preparationSignatureAfterDraft(req,resp);
-	    req.getRequestDispatcher("/jsp/signature_after_draft.jsp").forward(req,resp);
+	    req.getRequestDispatcher("/jsp/signature/signature_after_draft.jsp").forward(req,resp);
 	} else {
-	    req.getRequestDispatcher("/jsp/aucune_signature_possible.jsp").forward(req,resp);
+	    req.getRequestDispatcher("/jsp/signature/aucune_signature_possible.jsp").forward(req,resp);
 	}
 
 	

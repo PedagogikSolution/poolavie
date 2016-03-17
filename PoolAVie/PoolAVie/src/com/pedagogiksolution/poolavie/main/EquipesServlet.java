@@ -192,7 +192,7 @@ public class EquipesServlet extends HttpServlet {
 	    req.setAttribute("mTeamDataListGardien", dataList3);
 	    req.setAttribute("mTeamDataListRecrue", dataList4);
 	    
-	    req.getRequestDispatcher("/jsp/equipes.jsp").forward(req, resp);
+	    req.getRequestDispatcher("/jsp/equipes/equipes.jsp").forward(req, resp);
 
 	} catch (SQLException e) {
 	    e.printStackTrace();

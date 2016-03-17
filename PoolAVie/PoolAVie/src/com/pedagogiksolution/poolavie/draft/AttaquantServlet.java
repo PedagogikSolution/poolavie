@@ -154,7 +154,7 @@ public class AttaquantServlet extends HttpServlet {
 						
 						
 
-						req.getRequestDispatcher("/jsp/attaquant_draft.jsp").forward(req,
+						req.getRequestDispatcher("/jsp/draft/attaquant_draft.jsp").forward(req,
 								resp);
 
 					} catch (SQLException e) {
@@ -294,7 +294,7 @@ public class AttaquantServlet extends HttpServlet {
 						
 						
 
-						req.getRequestDispatcher("/jsp/attaquant_draft.jsp").forward(req,
+						req.getRequestDispatcher("/jsp/draft/attaquant_draft.jsp").forward(req,
 								resp);
 
 					} catch (SQLException e) {

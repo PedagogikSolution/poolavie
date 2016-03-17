@@ -144,7 +144,7 @@ public class DefenseurServlet extends HttpServlet {
 						
 						
 
-						req.getRequestDispatcher("/jsp/defenseur_draft.jsp").forward(req,
+						req.getRequestDispatcher("/jsp/draft/defenseur_draft.jsp").forward(req,
 								resp);
 
 					} catch (SQLException e) {
@@ -281,7 +281,7 @@ public class DefenseurServlet extends HttpServlet {
 						
 						
 
-						req.getRequestDispatcher("/jsp/defenseur_draft.jsp").forward(req,
+						req.getRequestDispatcher("/jsp/draft/defenseur_draft.jsp").forward(req,
 								resp);
 
 					} catch (SQLException e) {

@@ -143,7 +143,7 @@ public class RecrueServlet extends HttpServlet {
 						
 						
 
-						req.getRequestDispatcher("/jsp/recrue_draft.jsp").forward(req,
+						req.getRequestDispatcher("/jsp/draft/recrue_draft.jsp").forward(req,
 								resp);
 
 					} catch (SQLException e) {
@@ -277,7 +277,7 @@ public class RecrueServlet extends HttpServlet {
 						
 						
 
-						req.getRequestDispatcher("/jsp/recrue_draft.jsp").forward(req,
+						req.getRequestDispatcher("/jsp/draft/recrue_draft.jsp").forward(req,
 								resp);
 
 					} catch (SQLException e) {

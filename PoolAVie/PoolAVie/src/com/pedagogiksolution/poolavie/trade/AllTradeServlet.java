@@ -28,7 +28,7 @@ public class AllTradeServlet extends HttpServlet {
 		req.setAttribute("all_offer", rs);
 		
 		
-		req.getRequestDispatcher("/jsp/all_trade.jsp").forward(req, resp);
+		req.getRequestDispatcher("/jsp/trade/all_trade.jsp").forward(req, resp);
 	}
 
 	

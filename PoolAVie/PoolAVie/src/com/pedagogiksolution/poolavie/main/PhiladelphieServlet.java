@@ -199,7 +199,7 @@ public class PhiladelphieServlet extends HttpServlet {
 					req.setAttribute("mTeamDataListDefenseur", dataList2);
 					req.setAttribute("mTeamDataListGardien", dataList3);
 					req.setAttribute("mTeamDataListRecrue", dataList4);
-					req.getRequestDispatcher("/jsp/philadelphie.jsp").forward(
+					req.getRequestDispatcher("/jsp/equipes/philadelphie.jsp").forward(
 							req, resp);
 					
 					

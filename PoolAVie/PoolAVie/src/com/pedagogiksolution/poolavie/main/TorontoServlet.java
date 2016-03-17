@@ -198,7 +198,7 @@ public class TorontoServlet extends HttpServlet {
 					req.setAttribute("mTeamDataListDefenseur", dataList2);
 					req.setAttribute("mTeamDataListGardien", dataList3);
 					req.setAttribute("mTeamDataListRecrue", dataList4);
-					req.getRequestDispatcher("/jsp/toronto.jsp").forward(
+					req.getRequestDispatcher("/jsp/equipes/toronto.jsp").forward(
 							req, resp);
 					
 					

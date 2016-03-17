@@ -23,9 +23,9 @@ public class ReceivedTradeOfferServlet extends HttpServlet {
 	    	boolean isThereAOfferForMe = mClass.isThereAOfferForMe(req);
 //	    	
 	    	if(isThereAOfferForMe){
-	    	req.getRequestDispatcher("/jsp/received_offer.jsp").forward(req, resp); 
+	    	req.getRequestDispatcher("/jsp/trade/received_offer.jsp").forward(req, resp); 
 	    	} else {
-	    	req.getRequestDispatcher("/jsp/received_offer.jsp").forward(req, resp);   
+	    	req.getRequestDispatcher("/jsp/trade/received_offer.jsp").forward(req, resp);   
 	    	}
 		
 	}
@@ -42,7 +42,7 @@ public class ReceivedTradeOfferServlet extends HttpServlet {
 		case "showOffer" :
 		    
 		    mClass.showOfferNumberX(req);
-		    req.getRequestDispatcher("/jsp/show_offer_received.jsp").forward(req, resp);
+		    req.getRequestDispatcher("/jsp/trade/show_offer_received.jsp").forward(req, resp);
 		    
 		    break;
 		
@@ -56,7 +56,7 @@ public class ReceivedTradeOfferServlet extends HttpServlet {
 		case "acceptOffer":
 		    
 		    mClass.showOfferNumberX(req);
-		    req.getRequestDispatcher("/jsp/confirmation_accepter_trade.jsp").forward(req, resp);
+		    req.getRequestDispatcher("/jsp/trade/confirmation_accepter_trade.jsp").forward(req, resp);
 		    
 		    break;
 		    

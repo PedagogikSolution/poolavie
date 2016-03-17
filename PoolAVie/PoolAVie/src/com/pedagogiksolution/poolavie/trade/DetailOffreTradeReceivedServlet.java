@@ -80,7 +80,7 @@ public class DetailOffreTradeReceivedServlet extends HttpServlet {
 		
 		
 		
-		req.getRequestDispatcher("/jsp/show_offer_received.jsp").forward(req, resp);
+		req.getRequestDispatcher("/jsp/trade/show_offer_received.jsp").forward(req, resp);
 	}
 
 }

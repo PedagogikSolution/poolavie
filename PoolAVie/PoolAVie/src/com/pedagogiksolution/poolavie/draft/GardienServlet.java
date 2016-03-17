@@ -143,7 +143,7 @@ public class GardienServlet extends HttpServlet {
 						
 						
 
-						req.getRequestDispatcher("/jsp/gardien_draft.jsp").forward(req,
+						req.getRequestDispatcher("/jsp/draft/gardien_draft.jsp").forward(req,
 								resp);
 
 					} catch (SQLException e) {
@@ -279,7 +279,7 @@ public class GardienServlet extends HttpServlet {
 						
 						
 
-						req.getRequestDispatcher("/jsp/gardien_draft.jsp").forward(req,
+						req.getRequestDispatcher("/jsp/draft/gardien_draft.jsp").forward(req,
 								resp);
 
 					} catch (SQLException e) {

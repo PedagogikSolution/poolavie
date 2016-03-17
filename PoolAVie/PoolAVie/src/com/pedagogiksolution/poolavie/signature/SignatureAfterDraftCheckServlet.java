@@ -71,12 +71,12 @@ public class SignatureAfterDraftCheckServlet extends HttpServlet {
 		    mBean.setNombreAnnee(mNombreAnnee);
 		    mBean.setPosition(mPosition);
 		    req.setAttribute("information_signature", mBean);
-		    req.getRequestDispatcher("/jsp/signature_after_draft_confirmation.jsp").forward(req, resp);
+		    req.getRequestDispatcher("/jsp/signature/signature_after_draft_confirmation.jsp").forward(req, resp);
 
 		} else {
 		    mBean.setCodePourMessageConfirmation(2);
 		    req.setAttribute("information_signature", mBean);
-		    req.getRequestDispatcher("/jsp/signature_after_draft_confirmation.jsp").forward(req, resp);
+		    req.getRequestDispatcher("/jsp/signature/signature_after_draft_confirmation.jsp").forward(req, resp);
 		}
 
 	

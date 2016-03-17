@@ -22,7 +22,7 @@ public class AddNewServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		req.getRequestDispatcher("/jsp/add_new_player.jsp").forward(req, resp);
+		req.getRequestDispatcher("/jsp/draft/add_new_player.jsp").forward(req, resp);
 	}
 
 	@Override

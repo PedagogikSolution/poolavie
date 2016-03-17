@@ -19,14 +19,11 @@
 		session.setAttribute("mTeamName", mTeamName2);
 		session.setAttribute("mUsername", mUsername2);
 	}
-
 	data = (List<Object>) session.getAttribute("data");
 	String teamId = session.getAttribute("mTeamId").toString();
 	int teamId2 = Integer.parseInt(teamId);
-
 	String mLogoId = null;
 	String mFirstTeamName = null;
-
 	switch (teamId2) {
 	case 0:
 		mLogoId = "los_angeles.png";
@@ -68,7 +65,6 @@
 		mLogoId = "pittsburgh.png";
 		mFirstTeamName = "Penguins de";
 		break;
-
 	}
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -79,12 +75,10 @@
 <link rel="stylesheet" type="text/css" href="../css/main.css" />
 <script>
 	$(document).ready(checkForPickMade);
-
 	function checkForPickMade() {
 		// va vérifier si un pick a eu lieu toute les 10 secondes afin de permettre refresh de la page
 		//ouverte chez le client et ainsi avoir la liste de repechage a jour sans le dernier joueurs choisis et ajuster l'ordre de draft (next to et 10 next pick to come)
 		setInterval(launchAjaxCheckForChange, 10000);
-
 	}
 	function launchAjaxCheckForChange() {
 		// requete a un script .jsp qui interroge une bdd et qui retourne 1 en output si un pick a été fait depuis le dernier reload
@@ -99,7 +93,6 @@
 				
 			}
 		});
-
 	}
 </script>
 </head>

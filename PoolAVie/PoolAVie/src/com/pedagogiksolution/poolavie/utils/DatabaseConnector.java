@@ -14,9 +14,9 @@ public class DatabaseConnector {
 
 	// Database credentials
 	static final String USER = "root";
-	static final String USER2 = "Farfworld";
+	static final String USER2 = "root";
 	static final String PASS = "";
-	static final String PASS2 = "Sac55sac!!";
+	static final String PASS2 = "root";
 	Connection conn;
 
 	public Connection open() {

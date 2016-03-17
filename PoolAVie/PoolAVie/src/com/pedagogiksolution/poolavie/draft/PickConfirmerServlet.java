@@ -114,7 +114,7 @@ public class PickConfirmerServlet extends HttpServlet {
 	    if (is_rookie.equals("1")) {
 
 		if (nb_rookie >= 8) {
-		    resp.sendRedirect("/jsp/to_much_rookie.jsp");
+		    resp.sendRedirect("/jsp/draft/to_much_rookie.jsp");
 		    return;
 		}
 
@@ -125,7 +125,7 @@ public class PickConfirmerServlet extends HttpServlet {
 	    if (position.equals("defenseur") || position.equals("gardien")) {
 		if (manquant_att >= manquant_equipe) {
 
-		    resp.sendRedirect("/jsp/miss_attaquant.jsp");
+		    resp.sendRedirect("/jsp/draft/miss_attaquant.jsp");
 		    return;
 		}
 	    }
@@ -133,7 +133,7 @@ public class PickConfirmerServlet extends HttpServlet {
 	    if (position.equals("attaquant") || position.equals("gardien")) {
 		if (manquant_def >= manquant_equipe) {
 
-		    resp.sendRedirect("/jsp/miss_defenseur.jsp");
+		    resp.sendRedirect("/jsp/draft/miss_defenseur.jsp");
 		    return;
 		}
 	    }
@@ -141,7 +141,7 @@ public class PickConfirmerServlet extends HttpServlet {
 	    if (position.equals("defenseur") || position.equals("attaquant")) {
 		if (manquant_gardien >= manquant_equipe) {
 
-		    resp.sendRedirect("/jsp/miss_gardien.jsp");
+		    resp.sendRedirect("/jsp/draft/miss_gardien.jsp");
 		    return;
 
 		}
@@ -155,7 +155,7 @@ public class PickConfirmerServlet extends HttpServlet {
 		
 		if (moyenneRestante < 0) {
 
-		    resp.sendRedirect("/jsp/miss_cash.jsp");
+		    resp.sendRedirect("/jsp/draft/miss_cash.jsp");
 		    return;
 
 		}
@@ -259,7 +259,7 @@ public class PickConfirmerServlet extends HttpServlet {
 		
 		conn.createStatement().executeUpdate(statementFinal);
 		
-		resp.sendRedirect("/jsp/draft_fini.jsp");
+		resp.sendRedirect("/jsp/draft/draft_fini.jsp");
 		return;
 	    }
 

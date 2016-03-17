@@ -27,10 +27,10 @@ public class MakeOfferServlet extends HttpServlet {
 	Boolean isThereAOfferMadeByMe = mClass.isThereAOfferMadeByMe(req);
 // si des offres sont fait, retourne a la page make offer avec le bean pour le tableau
 	if (isThereAOfferMadeByMe) {
-	    req.getRequestDispatcher("/jsp/make_offer.jsp").forward(req, resp);
+	    req.getRequestDispatcher("/jsp/trade/make_offer.jsp").forward(req, resp);
 // si pas d'offre, message de pas d'offre plus bouton faire une offre	    
 	} else {
-	    req.getRequestDispatcher("/jsp/make_offer.jsp").forward(req, resp);
+	    req.getRequestDispatcher("/jsp/trade/make_offer.jsp").forward(req, resp);
 	}
 
     }
@@ -63,13 +63,13 @@ public class MakeOfferServlet extends HttpServlet {
 		   
 		    mClass.getTheTeamsThatTrade(team_to_trade,team_that_trade,req);
 		    mClass.getDraftPick(team_to_trade,team_that_trade,req);
-		    req.getRequestDispatcher("/jsp/make_offer_formulaire.jsp").forward(req, resp);
+		    req.getRequestDispatcher("/jsp/trade/make_offer_formulaire.jsp").forward(req, resp);
 
 		} else {
 		    mBean.setEchangeAvecSoiMeme(1);
 		    req.setAttribute("beanTrade", mBean);
 		    req.setAttribute("erreur", true);
-		    req.getRequestDispatcher("/jsp/make_offer.jsp").forward(req, resp);
+		    req.getRequestDispatcher("/jsp/trade/make_offer.jsp").forward(req, resp);
 		}
 	    
 	    
@@ -86,24 +86,24 @@ public class MakeOfferServlet extends HttpServlet {
 	    
 	    case 1: tradeIsValid = mClass.validationTradeEte(req);
 	    		if(tradeIsValid){
-	    		    req.getRequestDispatcher("/jsp/confirmation_offre_trade.jsp").forward(req, resp);
+	    		    req.getRequestDispatcher("/jsp/trade/confirmation_offre_trade.jsp").forward(req, resp);
 	    		} else {
-	    		    req.getRequestDispatcher("/jsp/make_offer.jsp").forward(req, resp);
+	    		    req.getRequestDispatcher("/jsp/trade/make_offer.jsp").forward(req, resp);
 	    		}		
 		break;
 	    case 2: tradeIsValid = mClass.validationTradeAnnee(req);
 		if(tradeIsValid){
-    		    req.getRequestDispatcher("/jsp/confirmation_offre_trade.jsp").forward(req, resp);
+    		    req.getRequestDispatcher("/jsp/trade/confirmation_offre_trade.jsp").forward(req, resp);
     		} else {
-    		    req.getRequestDispatcher("/jsp/make_offer.jsp").forward(req, resp);
+    		    req.getRequestDispatcher("/jsp/trade/make_offer.jsp").forward(req, resp);
     		}
 		break;
 	    case 3:
 		tradeIsValid = mClass.validationTradeDraft(req);
 		if(tradeIsValid){
-    		    req.getRequestDispatcher("/jsp/confirmation_offre_trade.jsp").forward(req, resp);
+    		    req.getRequestDispatcher("/jsp/trade/confirmation_offre_trade.jsp").forward(req, resp);
     		} else {
-    		    req.getRequestDispatcher("/jsp/make_offer.jsp").forward(req, resp);
+    		    req.getRequestDispatcher("/jsp/trade/make_offer.jsp").forward(req, resp);
     		}
 		break;
 	    
@@ -114,7 +114,7 @@ public class MakeOfferServlet extends HttpServlet {
 
 // methode permettant de recuperer les informations pour afficher les details d'une offre de trade en les placant dans un bean	    
 	    mClass.showOfferNumberX(req);
-	    req.getRequestDispatcher("/jsp/show_offer.jsp").forward(req, resp);
+	    req.getRequestDispatcher("/jsp/trade/show_offer.jsp").forward(req, resp);
 	    
 	    break;
 	

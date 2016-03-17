@@ -45,18 +45,18 @@ public class RachatApresChangementAnneeServlet extends HttpServlet {
 		    mBean.setCodePourMessageConfirmation(1);
 		    mBean.setJoueurId(mPlayerId);
 		    req.setAttribute("codeConfirmation", mBean);
-		    req.getRequestDispatcher("/jsp/rachat2_confirmation.jsp").forward(req, resp);
+		    req.getRequestDispatcher("/jsp/signature/rachat2_confirmation.jsp").forward(req, resp);
 
 		} else {
 		    mBean.setCodePourMessageConfirmation(2);
 		    req.setAttribute("codeConfirmation", mBean);
-		    req.getRequestDispatcher("/jsp/rachat2_confirmation.jsp").forward(req, resp);
+		    req.getRequestDispatcher("/jsp/signature/rachat2_confirmation.jsp").forward(req, resp);
 		}
 
 	    } else {
 		mBean.setCodePourMessageConfirmation(3);
 		req.setAttribute("codeConfirmation", mBean);
-		req.getRequestDispatcher("/jsp/rachat2_confirmation.jsp").forward(req, resp);
+		req.getRequestDispatcher("/jsp/signature/rachat2_confirmation.jsp").forward(req, resp);
 	    }
 	    break;
 

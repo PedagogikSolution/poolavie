@@ -115,7 +115,7 @@ rs9 = (ResultSet) request.getAttribute("picks");
 	</div>
 	<hr class="hr_header">
 	<div class="main_menu">
-		<a href="/jsp/main.jsp"><button class="btn_menu">Classement</button></a>
+		<a href="/jsp/main/main.jsp"><button class="btn_menu">Classement</button></a>
 		<a href="/draft?sortby=all"><button class="btn_menu">Draft</button></a>
 		<a href="/trade"><button class="btn_menu">Trade</button></a>
 		<a href="/equipes"><button class="btn_menu">Team</button></a>
