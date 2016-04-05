@@ -6,10 +6,13 @@
 
     <persistence-unit name="transactions-optional">
         <provider>org.datanucleus.api.jpa.PersistenceProviderImpl</provider>
+        <class>com.pedagogiksolution.datastorebeans.Utilisateur</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes> 
         <properties>
             <property name="datanucleus.NontransactionalRead" value="true"/>
             <property name="datanucleus.NontransactionalWrite" value="true"/>
             <property name="datanucleus.ConnectionURL" value="appengine"/>
         </properties>
     </persistence-unit>
+    
 </persistence>

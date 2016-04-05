@@ -33,6 +33,15 @@
 <!-- Permet la connection a GOOGLE CLOUD SQL -->
 <use-google-connector-j>true</use-google-connector-j>
 
+<!-- Identification des ressources static servis directement par le serveur sans passer par l'APPS,
+ ne jamais mettre eune date d'expiration longue sauf pour des cookie que nous sommes sure a 100% qu'ils ne changeront pas-->
+
+<static-files>
+<include path="images/**"/>
+<include path="/**.css" />
+<include path="jsp/accueil/home.html"/>
+</static-files>
+
 
 
 </appengine-web-app>

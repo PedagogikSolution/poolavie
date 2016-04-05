@@ -9,21 +9,27 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 
 	<!-- Page d'Acceuil de l'application web -->
 	<welcome-file-list>
-		<welcome-file>jsp/accueil/home.jsp</welcome-file>
+		<welcome-file>jsp/accueil/home.html</welcome-file>
 	</welcome-file-list>
 
 	<!-- Configuration de la durée de la session -->
 	<session-config>
 		<session-timeout>200</session-timeout>
 	</session-config>
-	<!-- Configuration du filtre -->
+	<!-- Configuration de la librairie EL pour l'ensemble des pages jsp -->
+	<jsp-config>
+		<jsp-property-group>
+			<url-pattern>*.jsp</url-pattern>
+			<el-ignored>false</el-ignored>
+		</jsp-property-group>
+	</jsp-config>
 	
 
 	<!-- Initialisation des servlets -->
 
 	<servlet>
 		<servlet-name>login</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.login.LoginServlet</servlet-class>
+		<servlet-class>com.pedagogiksolution.servlet.LoginServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>login</servlet-name>
@@ -32,376 +38,49 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 
 	<servlet>
 		<servlet-name>register</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.login.RegisterServlet</servlet-class>
+		<servlet-class>com.pedagogiksolution.servlet.RegisterServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>register</servlet-name>
 		<url-pattern>/register</url-pattern>
 	</servlet-mapping>
-
+	
 	<servlet>
-		<servlet-name>deconnexion</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.login.DeconnexionServlet</servlet-class>
+		<servlet-name>marketing</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.MarketingServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>deconnexion</servlet-name>
-		<url-pattern>/deconnexion</url-pattern>
+		<servlet-name>marketing</servlet-name>
+		<url-pattern>/marketing</url-pattern>
 	</servlet-mapping>
-
+	
 	<servlet>
-		<servlet-name>admin</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.admin.AdminServlet</servlet-class>
+		<servlet-name>recuperation</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.RecuperationServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>admin</servlet-name>
-		<url-pattern>/admin</url-pattern>
+		<servlet-name>recuperation</servlet-name>
+		<url-pattern>/recuperation</url-pattern>
 	</servlet-mapping>
-
+	
 	<servlet>
-		<servlet-name>equipes</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.main.EquipesServlet</servlet-class>
+		<servlet-name>validation</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.ValidationServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>equipes</servlet-name>
-		<url-pattern>/equipes</url-pattern>
+		<servlet-name>validation</servlet-name>
+		<url-pattern>/validation</url-pattern>
 	</servlet-mapping>
-
+	
 	<servlet>
-		<servlet-name>boston</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.main.BostonServlet</servlet-class>
+		<servlet-name>main</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.MainServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>boston</servlet-name>
-		<url-pattern>/boston</url-pattern>
+		<servlet-name>main</servlet-name>
+		<url-pattern>/MenuPrincipal</url-pattern>
 	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>chicago</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.main.ChicagoServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>chicago</servlet-name>
-		<url-pattern>/chicago</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>detroit</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.main.DetroitServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>detroit</servlet-name>
-		<url-pattern>/detroit</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>los_angeles</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.main.LosAngelesServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>los_angeles</servlet-name>
-		<url-pattern>/los_angeles</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>montreal</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.main.MontrealServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>montreal</servlet-name>
-		<url-pattern>/montreal</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>pittsburgh</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.main.PittsburghServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>pittsburgh</servlet-name>
-		<url-pattern>/pittsburgh</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>philadelphie</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.main.PhiladelphieServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>philadelphie</servlet-name>
-		<url-pattern>/philadelphie</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>new_york</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.main.NewYorkServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>new_york</servlet-name>
-		<url-pattern>/new_york</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>st_louis</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.main.StLouisServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>st_louis</servlet-name>
-		<url-pattern>/st_louis</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>toronto</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.main.TorontoServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>toronto</servlet-name>
-		<url-pattern>/toronto</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>draft</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.draft.DraftServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>draft</servlet-name>
-		<url-pattern>/draft</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>attaquant</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.draft.AttaquantServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>attaquant</servlet-name>
-		<url-pattern>/attaquant</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>defenseur</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.draft.DefenseurServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>defenseur</servlet-name>
-		<url-pattern>/defenseur</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>gardien</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.draft.GardienServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>gardien</servlet-name>
-		<url-pattern>/gardien</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>recrue</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.draft.RecrueServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>recrue</servlet-name>
-		<url-pattern>/recrue</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>draft_order</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.draft.DraftOrderServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>draft_order</servlet-name>
-		<url-pattern>/draft_order</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>check_for_pick</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.ajax.CheckForPick</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>check_for_pick</servlet-name>
-		<url-pattern>/check_for_pick</url-pattern>
-	</servlet-mapping>
-
-
-
-	<servlet>
-		<servlet-name>pick_made</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.draft.PickMadeServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>pick_made</servlet-name>
-		<url-pattern>/pick_made</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>pick_confirmer</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.draft.PickConfirmerServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>pick_confirmer</servlet-name>
-		<url-pattern>/pick_confirmer</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>add_player</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.draft.AddNewServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>add_player</servlet-name>
-		<url-pattern>/add_new_player</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>trade_received</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.trade.ReceivedTradeOfferServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>trade_received</servlet-name>
-		<url-pattern>/trade_received</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>trade</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.trade.TradeServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>trade</servlet-name>
-		<url-pattern>/trade</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>make_offer</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.trade.MakeOfferServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>make_offer</servlet-name>
-		<url-pattern>/make_offer</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>confirm_offer</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.trade.ConfirmOfferServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>confirm_offer</servlet-name>
-		<url-pattern>/confirm_offer</url-pattern>
-	</servlet-mapping>
-
-
-
-	<servlet>
-		<servlet-name>my_trade</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.trade.MyTradeServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>my_trade</servlet-name>
-		<url-pattern>/my_trade</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>all_trade</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.trade.AllTradeServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>all_trade</servlet-name>
-		<url-pattern>/all_trade</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>signature</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.signature.SignatureServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>signature</servlet-name>
-		<url-pattern>/signature</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>signature_after_draft_check</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.signature.SignatureAfterDraftCheckServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>signature_after_draft_check</servlet-name>
-		<url-pattern>/signatureAfterDraft</url-pattern>
-	</servlet-mapping>
-
-
-	<servlet>
-		<servlet-name>detail_offre_trade</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.trade.DetailOffreTradeServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>detail_offre_trade</servlet-name>
-		<url-pattern>/detail_offre_trade</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>detail_trade_complete</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.trade.DetailTradeCompleteServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>detail_trade_complete</servlet-name>
-		<url-pattern>/detail_trade_complete</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>detail_offre_trade_received</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.trade.DetailOffreTradeReceivedServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>detail_offre_trade_received</servlet-name>
-		<url-pattern>/detail_offre_trade_received</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>accepter_offre_trade</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.trade.AccepterOffreTradeServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>accepter_offre_trade</servlet-name>
-		<url-pattern>/accepter_offre_trade</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>rachat</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.signature.RachatApresSaisonServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>rachat</servlet-name>
-		<url-pattern>/rachat</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>rachat2</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.signature.RachatApresChangementAnneeServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>rachat2</servlet-name>
-		<url-pattern>/rachat2</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>signatureAB</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.signature.SignatureABServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>signatureAB</servlet-name>
-		<url-pattern>/signatureAB</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>rookieFin</servlet-name>
-		<servlet-class>com.pedagogiksolution.poolavie.signature.RookieApresSaisonServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>rookieFin</servlet-name>
-		<url-pattern>/rookieFin</url-pattern>
-	</servlet-mapping>
-
-
-
-	<jsp-config>
-		<jsp-property-group>
-			<url-pattern>*.jsp</url-pattern>
-			<el-ignored>false</el-ignored>
-		</jsp-property-group>
-	</jsp-config>
-
+	
+	
+	
 </web-app>
