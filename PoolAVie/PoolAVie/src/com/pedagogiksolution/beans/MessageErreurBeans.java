@@ -13,6 +13,7 @@ public class MessageErreurBeans implements java.io.Serializable {
     private String erreurCodeValidationType2; // suite a demande de nouveau code
     private String erreurFormulaireLogin;
     private String erreurFormulaireRecuperation;
+    private String erreurNotLogIn;
 
     public String getErreurFormulaireRegistration() {
 	return erreurFormulaireRegistration;
@@ -52,6 +53,14 @@ public class MessageErreurBeans implements java.io.Serializable {
 
     public void setErreurFormulaireRecuperation(String erreurFormulaireRecuperation) {
 	this.erreurFormulaireRecuperation = erreurFormulaireRecuperation;
+    }
+
+    public String getErreurNotLogIn() {
+	return erreurNotLogIn;
+    }
+
+    public void setErreurNotLogIn(String erreurNotLogIn) {
+	this.erreurNotLogIn = erreurNotLogIn;
     }
 
 }

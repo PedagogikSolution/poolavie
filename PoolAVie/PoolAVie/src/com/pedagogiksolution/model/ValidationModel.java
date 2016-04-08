@@ -26,6 +26,7 @@ public class ValidationModel {
 	if (codeValide.equalsIgnoreCase(mCode)) {
 	    // inscrire dans la session les modifications au Bean Utilisateur
 	    mBean.setValidationReussi(1);
+	    mBean.setLoginReussi(1);
 	    req.setAttribute("Utilisateur", mBean);
 
 	    // modifier la memcache et le datastore

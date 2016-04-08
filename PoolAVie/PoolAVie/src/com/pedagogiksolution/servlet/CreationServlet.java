@@ -7,32 +7,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pedagogiksolution.model.MainModel;
-
-public class MainServlet extends HttpServlet {
+public class CreationServlet extends HttpServlet {
 
     /**
      * 
      */
-    private static final long serialVersionUID = 7516956807248666211L;
+    private static final long serialVersionUID = -2677090836243950997L;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-	MainModel mModel = new MainModel();
-	Boolean checkIfRegistrationFinish = mModel.checkIfRegistrationFinish(req);
-
-	if (!checkIfRegistrationFinish) {
-	    resp.sendRedirect("/CreationNouveauPool");
-	} else {
-	    req.getRequestDispatcher("jsp/main/main.jsp").forward(req, resp);
-	}
-
+	req.getRequestDispatcher("jsp/main/creation.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+	
     }
+    
+    
 
 }

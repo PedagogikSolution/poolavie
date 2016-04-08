@@ -11,6 +11,7 @@ public class MessageErreurConstants {
     public static String LOGIN_USERNAME_DONT_EXIST = "Ce nom d'utilisateur n'existe pas. Pour créer un nouveau compte, cliquez sur le bouton registration, si vous avez perdu votre nom d'utilisateur, appuyez ici pour le récupérer via courriel";
     public static String LOGIN_PASSWORD_NOT_GOOD = "Mauvais mot de passe. Veuillez ré-essayer. Cliquez ici si vous avez oublier votre mot de passe";
     public static String RECUPERATION_COURRIEL_INEXISTANT = "Ce courriel n'est associé à aucun compte";
+    public static String NOT_LOG_IN ="Vous devez être connecté pour accéder à cette section. Merci de vous connecter ci-bas";
 
     private MessageErreurConstants() {
 	// empeche les classes native d'Appeler le constructeur

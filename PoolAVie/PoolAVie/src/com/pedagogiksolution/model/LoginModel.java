@@ -48,7 +48,8 @@ public class LoginModel {
 		    if (passwordMatch) {
 			// on place dans bean et puis dans session
 			mBean = mapUtilisateurFromDatastore(mEntity, mBean);
-			req.getSession().setAttribute("utilisateur", mBean);
+			mBean.setLoginReussi(1);
+			req.getSession().setAttribute("Utilisateur", mBean);
 			return true;
 		    } else {
 			MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
@@ -82,7 +83,8 @@ public class LoginModel {
 	    try {
 		boolean passwordMatch = mEncrypt.validatePassword(motDePasse, mPasswordEncrypt);
 		if (passwordMatch) {
-		    // on place les informations du beans utilisateurs dans un objet de session
+		    // on place les informations du beans utilisateurs dans un objet de session en ayant placer la valeur loginReussi a 1.
+		    mBean.setLoginReussi(1);
 		    req.getSession().setAttribute("Utilisateur", mBean);
 		    return true;
 		} else {

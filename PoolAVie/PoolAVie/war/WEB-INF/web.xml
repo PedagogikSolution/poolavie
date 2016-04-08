@@ -73,6 +73,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet-mapping>
 	
 	<servlet>
+		<servlet-name>creation</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.CreationServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>creation</servlet-name>
+		<url-pattern>/CreationNouveauPool</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<servlet-name>main</servlet-name>
 		<servlet-class>com.pedagogiksolution.servlet.MainServlet</servlet-class>
 	</servlet>

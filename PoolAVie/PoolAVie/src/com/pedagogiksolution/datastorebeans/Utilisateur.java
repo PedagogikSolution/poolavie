@@ -23,6 +23,8 @@ public class Utilisateur implements Serializable{
     private int teamId;
     private int typeUtilisateur;
     private int validationReussi;
+    private int loginReussi;
+    private int firstConnexionFinish;
     
     
     public String getNomUtilisateur() {
@@ -79,6 +81,18 @@ public class Utilisateur implements Serializable{
     }
     public void setValidationReussi(int validationReussi) {
 	this.validationReussi = validationReussi;
+    }
+    public int getLoginReussi() {
+	return loginReussi;
+    }
+    public void setLoginReussi(int loginReussi) {
+	this.loginReussi = loginReussi;
+    }
+    public int getFirstConnexionFinish() {
+	return firstConnexionFinish;
+    }
+    public void setFirstConnexionFinish(int firstConnexionFinish) {
+	this.firstConnexionFinish = firstConnexionFinish;
     }
     
     

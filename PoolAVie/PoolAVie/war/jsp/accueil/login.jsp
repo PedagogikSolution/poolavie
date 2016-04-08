@@ -37,7 +37,13 @@
 		</div>
 
 		<form class="w3-container w3-card-24 w3-white" action="/login" method="post">
-
+			
+			
+				<c:if test="${MessageErreurBeans.erreurNotLogIn!=null }">
+					<p class="w3-container w3-red w3-large">${MessageErreurBeans.erreurNotLogIn}</p>
+				</c:if>
+			
+			
 			<p>
 				<label>Nom d'utilisateur</label> <input class="w3-input w3-validate" type="text" name="username">
 			</p>
@@ -48,7 +54,9 @@
 
 
 			<button class="w3-btn w3-blue w3-xlarge">Se connecter</button>
-			<p>     <a href="/recuperation">Vous avez oubliez vos identifiants?</a></p>
+			<p>
+				<a href="/recuperation">Vous avez oubliez vos identifiants?</a>
+			</p>
 			<br>
 
 			<c:if test="${MessageErreurBeans.erreurFormulaireLogin!=null }">
