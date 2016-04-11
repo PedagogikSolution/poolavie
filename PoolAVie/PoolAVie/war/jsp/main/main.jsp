@@ -73,7 +73,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Welcome page</title>
 <link rel="stylesheet" type="text/css" href="/css/main.css" />
-<script>
+<!--  <script>
 	$(document).ready(checkForPickMade);
 	function checkForPickMade() {
 		// va vérifier si un pick a eu lieu toute les 10 secondes afin de permettre refresh de la page
@@ -94,7 +94,7 @@
 			}
 		});
 	}
-</script>
+</script>-->
 </head>
 <body>
 	<div class="main_navbar">
@@ -134,7 +134,7 @@
 		<div id="main_content_title_classement">CLASSEMENT</div>
 		<div id="main_content_table_classement">
 		<br>
-	 <p>Le classement a été mise à jour le <%=session.getAttribute("dateLastUpdate") %></p> 	
+	 <p>FÉLICATION AU RANGERS DE NEW YORK, CHAMPION DE LA SAISON 2015-1016</p> 	
 		<br>
 			<table>
 				<tr>
