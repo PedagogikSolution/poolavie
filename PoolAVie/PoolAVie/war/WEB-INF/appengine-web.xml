@@ -39,6 +39,8 @@
 <static-files>
 <include path="images/**"/>
 <include path="/**.css" />
+
+<include path="/**.js" />
 <include path="jsp/accueil/home.html"/>
 </static-files>
 

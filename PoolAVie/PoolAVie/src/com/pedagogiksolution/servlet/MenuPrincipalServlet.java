@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pedagogiksolution.model.MainModel;
+import com.pedagogiksolution.model.MenuPrincipalModel;
 
-public class MainServlet extends HttpServlet {
+public class MenuPrincipalServlet extends HttpServlet {
 
     /**
      * 
@@ -19,11 +19,23 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-	MainModel mModel = new MainModel();
+	MenuPrincipalModel mModel = new MenuPrincipalModel();
+
+	// on verifie si processus de creation terminer
 	Boolean checkIfRegistrationFinish = mModel.checkIfRegistrationFinish(req);
 
 	if (!checkIfRegistrationFinish) {
-	    resp.sendRedirect("/CreationNouveauPool");
+
+	    // si pas terminé, on vérifie le type d'Utilisateur
+	    int checkTypeOfUser = mModel.checkTypeOfUser(req);
+	    
+	    // si type 1 on envoie finir la creation du Pool, si type 2, on envoie finir Creation d'un joueur du pool
+	    if (checkTypeOfUser == 1) {
+		resp.sendRedirect("/CreationPool");
+	    } else {
+		resp.sendRedirect("/CreationUtilisateur");
+	    }
+	// si terminé, on envoie a la page principal
 	} else {
 	    req.getRequestDispatcher("jsp/main/main.jsp").forward(req, resp);
 	}

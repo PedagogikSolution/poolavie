@@ -49,7 +49,7 @@
 		</form>
 		<br> <br> <br>
 
-		<c:if test="${(MessageErreurBeans.erreurCodeValidationType2!=null)||(MessageErreurBeans.erreurCodeValidationType1!=null)}">
+		
 			<div class="w3-container w3-blue">
 			<h2>Entrez le courriel associé à votre compte pour recevoir un nouveau Code</h2>
 		</div>
@@ -58,9 +58,6 @@
 				<p>
 					<label>Courriel</label> <input class="w3-input w3-validate" type="text" name="email">
 				</p>
-
-
-
 				<button class="w3-btn w3-blue">Envoyer le courriel</button>
 <br>
 <br>
@@ -68,8 +65,6 @@
 
 			</form>
 
-
-		</c:if>
 
 
 
