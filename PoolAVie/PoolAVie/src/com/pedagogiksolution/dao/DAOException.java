@@ -1,4 +1,4 @@
-package com.pedagogiksolution.poolavie.dao;
+package com.pedagogiksolution.dao;
 
 @SuppressWarnings("serial")
 public class DAOException extends RuntimeException {

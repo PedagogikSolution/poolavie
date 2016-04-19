@@ -34,6 +34,10 @@ public class Equipe implements Serializable{
     private int bonus_5m;
     private int argent_recu;
     private int bonus_penalite;
+    private int num_annee;
+    private int num_champion;
+    private int meilleur_classement;
+    private int classement_last_year;
     
     
     public String getPoolTeamId() {
@@ -161,6 +165,30 @@ public class Equipe implements Serializable{
     }
     public void setPoolId(int poolId) {
 	this.poolId = poolId;
+    }
+    public int getNum_annee() {
+	return num_annee;
+    }
+    public void setNum_annee(int num_annee) {
+	this.num_annee = num_annee;
+    }
+    public int getNum_champion() {
+	return num_champion;
+    }
+    public void setNum_champion(int num_champion) {
+	this.num_champion = num_champion;
+    }
+    public int getMeilleur_classement() {
+	return meilleur_classement;
+    }
+    public void setMeilleur_classement(int meilleur_classement) {
+	this.meilleur_classement = meilleur_classement;
+    }
+    public int getClassement_last_year() {
+	return classement_last_year;
+    }
+    public void setClassement_last_year(int classement_last_year) {
+	this.classement_last_year = classement_last_year;
     }
    
 }

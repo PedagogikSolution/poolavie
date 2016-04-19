@@ -1,4 +1,4 @@
-package com.pedagogiksolution.poolavie.dao;
+package com.pedagogiksolution.dao;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,6 +30,33 @@ public class DAOFactory {
 	this.username = username;
 	this.password = password;
     }
+
+    /*
+     * Méthodes de récupération de l'implémentation des différents DAO (un seul
+     * pour le moment)
+     */
+    public ClassementDao getClassementDao() {
+	return new ClassementDaoImpl(this);
+    }
+    public PlayersDao getPlayersDao() {
+   	return new PlayersDaoImpl(this);
+       }
+    public DraftDao getDraftDao() {
+   	return new DraftDaoImpl(this);
+       }
+    public SalaireDao getSalaireDao() {
+   	return new SalaireDaoImpl(this);
+       }
+    public TradeMadeDao getTradeMadeDao() {
+   	return new TradeMadeDaoImpl(this);
+       }
+    public TradeOfferDao getTradeOfferDao() {
+   	return new TradeOfferDaoImpl(this);
+       }
+    
+    public DraftPickDao getDraftPickDao() {
+   	return new DraftPickDaoImpl(this);
+       }
 
     /*
      * Méthode chargée de récupérer les informations de connexion à la base de
@@ -69,9 +96,9 @@ public class DAOFactory {
 	}
 
 	try {
-	   
-		Class.forName(driver);
-	   
+
+	    Class.forName(driver);
+
 	} catch (ClassNotFoundException e) {
 	    throw new DAOConfigurationException("Le driver est introuvable dans le classpath.", e);
 	}
@@ -85,11 +112,4 @@ public class DAOFactory {
 	return DriverManager.getConnection(url, username, password);
     }
 
-    /*
-     * Méthodes de récupération de l'implémentation des différents DAO (un seul
-     * pour le moment)
-     */
-    public UtilisateurDao getUtilisateurDao() {
-	return new UtilisateurDaoImpl(this);
-    }
 }

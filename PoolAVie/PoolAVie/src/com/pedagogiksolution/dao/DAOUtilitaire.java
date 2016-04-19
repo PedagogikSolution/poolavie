@@ -1,4 +1,4 @@
-package com.pedagogiksolution.poolavie.dao;
+package com.pedagogiksolution.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

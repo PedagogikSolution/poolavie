@@ -11,6 +11,11 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<welcome-file-list>
 		<welcome-file>jsp/accueil/home.html</welcome-file>
 	</welcome-file-list>
+	
+	<!-- Création du listener pour le DaoFactory -->
+	<listener>
+		<listener-class>com.pedagogiksolution.config.InitialisationDaoFactory</listener-class>
+	</listener>
 
 	<!-- Configuration de la durée de la session -->
 	<session-config>

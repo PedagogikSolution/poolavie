@@ -14,13 +14,39 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
+import com.pedagogiksolution.dao.ClassementDao;
+import com.pedagogiksolution.dao.DraftDao;
+import com.pedagogiksolution.dao.DraftPickDao;
+import com.pedagogiksolution.dao.PlayersDao;
+import com.pedagogiksolution.dao.SalaireDao;
+import com.pedagogiksolution.dao.TradeMadeDao;
+import com.pedagogiksolution.dao.TradeOfferDao;
 import com.pedagogiksolution.datastorebeans.Equipe;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
 import com.pedagogiksolution.utils.EMF;
 
 public class CreationPoolModel {
-    String nomDuPool, nombreEquipe, typeTrade, typeDraft,nomDuTeam;
+
+    private ClassementDao classementDao;
+    private PlayersDao playersDao;
+    private DraftDao draftDao;
+    private TradeMadeDao tradeMadeDao;
+    private TradeOfferDao tradeOfferDao;
+    private SalaireDao salaireDao;
+    private DraftPickDao draftPickDao;
+
+    public CreationPoolModel(ClassementDao classementDao, PlayersDao playersDao, DraftDao draftDao, TradeMadeDao tradeMadeDao, TradeOfferDao tradeOfferDao, SalaireDao salaireDao, DraftPickDao draftPickDao) {
+	this.classementDao = classementDao;
+	this.playersDao = playersDao;
+	this.draftDao = draftDao;
+	this.tradeMadeDao = tradeMadeDao;
+	this.tradeOfferDao = tradeOfferDao;
+	this.salaireDao = salaireDao;
+	this.draftPickDao = draftPickDao;
+    }
+
+    String nomDuPool, nombreEquipe, typeTrade, typeDraft, nomDuTeam;
     String email1, email2, email3, email4, email5, email6, email7, email8, email9, email10, email11;
     int team_id, max_salaire_begin, total_salaire_now, budget_restant, moy_sal_restant_draft, nb_attaquant;
     int nb_defenseur, nb_gardien, nb_rookie, nb_contrat, nb_equipe, manquant_equipe, manquant_att, manquant_def;
@@ -139,6 +165,10 @@ public class CreationPoolModel {
 		mBean.setArgent_recu(argent_recu);
 		mBean.setBonus_5m(bonus_5m);
 		mBean.setBonus_penalite(bonus_penalite);
+		mBean.setClassement_last_year(0);
+		mBean.setMeilleur_classement(0);
+		mBean.setNum_annee(1);
+		mBean.setNum_champion(0);
 
 		// on place le bean dans un attribut de session
 		req.getSession().setAttribute(jspSessionName, mBean);
@@ -168,7 +198,40 @@ public class CreationPoolModel {
     }
 
     public void createDatabase(HttpServletRequest req) {
-	// TODO Auto-generated method stub
+
+	// on récupère le nom du team
+	nomDuTeam = req.getParameter("nomDuTeam");
+	// on récupère le numero du Pool et de l'équipe
+	Utilisateur mBean = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+	int poolID = mBean.getPoolId();
+	int teamID = mBean.getTeamId();
+	//on trouve la date de l'année
+	//TODO rendre dynamique
+	int years = 2017;
+	
+	// on recupere le nombre d'équipe et le nombre de joueurs par équipe
+	nombreEquipe = req.getParameter("nombreEquipe");
+	int numTeam = Integer.parseInt(nombreEquipe);
+	int numPickByTeam=31;
+
+	// on crée les bases de donnée classement et insère la ligne
+	classementDao.createClassementTable(poolID);
+	classementDao.createClassementArchiveTable(poolID);
+	classementDao.insertTeamInClassement(nomDuTeam,teamID,poolID,years);
+
+	// on crée les bases de donnée player
+	playersDao.createPlayersTable(poolID);
+	playersDao.createPlayersArchiveTable(poolID);
+	draftDao.createDraftTable(poolID);
+	draftDao.createDraftArchiveTable(poolID);
+	tradeMadeDao.createTradeMadeTable(poolID);
+	tradeMadeDao.createTradeMadeArchiveTable(poolID);
+	tradeOfferDao.createTradeOfferTable(poolID);
+	tradeOfferDao.createTradeOfferArchiveTable(poolID);
+	salaireDao.createSalaireTable(poolID);
+	
+	draftPickDao.createDraftPickTable(poolID);
+	draftPickDao.insertPickByTeam(poolID,numTeam,numPickByTeam);
 
     }
 
