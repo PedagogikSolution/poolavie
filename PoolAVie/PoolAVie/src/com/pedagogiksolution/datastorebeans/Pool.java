@@ -14,7 +14,7 @@ public class Pool implements Serializable{
     private static final long serialVersionUID = -1746403313888742471L;
 
     @Id
-    private int poolID;
+    private String poolID;
     private String poolName;
     private int poolType;
     private int draftType;
@@ -36,14 +36,15 @@ public class Pool implements Serializable{
     private String nomTeam11;
     private String nomTeam12;
     private String derniereMAJ;
+    private String codeValidationPool;
 
 
-    public int getPoolID() {
+    public String getPoolID() {
 	return poolID;
     }
 
 
-    public void setPoolID(int poolID) {
+    public void setPoolID(String poolID) {
 	this.poolID = poolID;
     }
 
@@ -255,6 +256,16 @@ public class Pool implements Serializable{
 
     public void setDerniereMAJ(String derniereMAJ) {
 	this.derniereMAJ = derniereMAJ;
+    }
+
+
+    public String getCodeValidationPool() {
+	return codeValidationPool;
+    }
+
+
+    public void setCodeValidationPool(String codeValidationPool) {
+	this.codeValidationPool = codeValidationPool;
     }
     
     

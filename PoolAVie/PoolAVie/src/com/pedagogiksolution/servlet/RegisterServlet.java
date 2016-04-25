@@ -53,7 +53,7 @@ public class RegisterServlet extends HttpServlet {
 	    // étape 1 : on encrypte mot de passe, créer un code de validation, assigne un poolId et player ID, et crée
 	    // le bean Utilisateur, le dattastore et le Memcache
 
-	    String validationCode = mModel.createDatastoreUserEntity(nomUtilisateur, motDePasse, courriel, req);
+	    String validationCode = mModel.createDatastoreUserEntity(nomUtilisateur, motDePasse, courriel,1,1, req);
 
 	    // si le code est retourné, c'est que tout à réussi, donc on envoie un courriel avec Code Validation à l'utilisateur
 	    if (validationCode != null) {

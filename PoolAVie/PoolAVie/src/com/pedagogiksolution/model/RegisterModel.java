@@ -2,9 +2,8 @@ package com.pedagogiksolution.model;
 
 import static com.pedagogiksolution.constants.MessageErreurConstants.REGISTRATION_ERREUR_PARAM_NULL;
 import static com.pedagogiksolution.constants.MessageErreurConstants.REGISTRATION_ERREUR_PASSWORD_ENCRYPTION;
-import static com.pedagogiksolution.constants.MessageErreurConstants.REGISTRATION_USERNAME_PASSWORD_MATCH;
 import static com.pedagogiksolution.constants.MessageErreurConstants.REGISTRATION_USERNAME_MATCH;
-
+import static com.pedagogiksolution.constants.MessageErreurConstants.REGISTRATION_USERNAME_PASSWORD_MATCH;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -60,10 +59,10 @@ public class RegisterModel {
 	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
 	Key clefMemCache = KeyFactory.createKey("Utilisateur", nomUtilisateur);
 	Utilisateur mBean = (Utilisateur) memcache.get(clefMemCache);
-	
+
 	// si l'objet existe pas, on verifie si existe dans Datastore
 	if (mBean == null) {
-	    
+
 	    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	    Key clefDatastore = KeyFactory.createKey("Utilisateur", nomUtilisateur);
 	    try {
@@ -75,7 +74,7 @@ public class RegisterModel {
 		    if (passwordMatch) {
 			MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
 			mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_USERNAME_PASSWORD_MATCH);
-			req.setAttribute("MessageErreurBeans", mBeanMessageErreur);			
+			req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
 			return true;
 		    } else {
 			MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
@@ -83,42 +82,41 @@ public class RegisterModel {
 			req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
 			return true;
 		    }
-		    		    
+
 		} catch (NoSuchAlgorithmException e) {
 		    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-			mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_USERNAME_PASSWORD_MATCH);
-			req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-			return true;
+		    mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_USERNAME_PASSWORD_MATCH);
+		    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+		    return true;
 		} catch (InvalidKeySpecException e) {
 		    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-			mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_USERNAME_PASSWORD_MATCH);
-			req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-			return true;
+		    mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_USERNAME_PASSWORD_MATCH);
+		    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+		    return true;
 		}
-				
-		
+
 	    } catch (EntityNotFoundException e) {
 		return false;
 	    }
-	 // si object existe on verifie si le mot de passe est le bon   	    
-	} else { 
+	    // si object existe on verifie si le mot de passe est le bon
+	} else {
 	    String mPasswordEncrypt = mBean.getMotDePasse();
 	    PasswordEncryption mEncrypt = new PasswordEncryption();
 	    try {
 		boolean passwordMatch = mEncrypt.validatePassword(motDePasse, mPasswordEncrypt);
 		if (passwordMatch) {
-			MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-			mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_USERNAME_PASSWORD_MATCH);
-			req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-			System.out.print(mBean.getCourriel());
-			return true;
-		    } else {
-			MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-			mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_USERNAME_MATCH);
-			req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-			System.out.print(mBean.getCourriel());
-			return true;
-		    }
+		    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+		    mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_USERNAME_PASSWORD_MATCH);
+		    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+		    System.out.print(mBean.getCourriel());
+		    return true;
+		} else {
+		    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+		    mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_USERNAME_MATCH);
+		    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+		    System.out.print(mBean.getCourriel());
+		    return true;
+		}
 	    } catch (NoSuchAlgorithmException e) {
 		MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
 		mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_ERREUR_PASSWORD_ENCRYPTION);
@@ -134,9 +132,7 @@ public class RegisterModel {
 	}
     }
 
-
-
-    public String createDatastoreUserEntity(String nomUtilisateur, String motDePasse, String courriel, HttpServletRequest req) {
+    public String createDatastoreUserEntity(String nomUtilisateur, String motDePasse, String courriel, int teamId, int typeUtilisateur, HttpServletRequest req) {
 
 	// On encrypte le mot de passe
 	PasswordEncryption mEncryptProcess = new PasswordEncryption();
@@ -156,15 +152,20 @@ public class RegisterModel {
 	}
 
 	if (!Strings.isNullOrEmpty(motDePasseEncrypter)) {
-
+	    int poolId;
 	    // génération d'un Code de Validation
 	    String validationCode = generateValidationCode();
 
 	    // on appel le service
 	    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-	    // on recupere le dernier pool_id du datastore of Kind Utilisateur
-	    int poolId = generatePoolId(datastore);
+	    if (typeUtilisateur == 1) {
+		// on recupere le dernier pool_id du datastore of Kind Utilisateur
+		poolId = generatePoolId(datastore);
+	    } else {
+		String temp_poolId = (String) req.getSession().getAttribute("temp_poolId");
+		poolId = Integer.parseInt(temp_poolId);
+	    }
 
 	    // on recupere la date et place dans un format Date
 
@@ -186,8 +187,8 @@ public class RegisterModel {
 		mBean.setCodeValidation(validationCode);
 		mBean.setDateCreation(dateCreation);
 		mBean.setPoolId(poolId);
-		mBean.setTeamId(1);
-		mBean.setTypeUtilisateur(1);
+		mBean.setTeamId(teamId);
+		mBean.setTypeUtilisateur(typeUtilisateur);
 		mBean.setValidationReussi(0);
 		mBean.setFirstConnexionFinish(0);
 
@@ -255,7 +256,8 @@ public class RegisterModel {
 
     public boolean sendingValidationCode(String nomUtilisateur, String courriel, HttpServletRequest req) {
 	// TODO faire la methode et retourné true si reussi, false et message d'erreur sinon
-	// j'ai lu qu'il n'y avait pas de moyen de savoir si l'envoie a reussi, ni le delai, c'est un queue push hors de nos controles
+	// j'ai lu qu'il n'y avait pas de moyen de savoir si l'envoie a reussi, ni le delai, c'est un queue push hors de
+// nos controles
 
 	// pour developpement, la valeur est par defaut a true pour l'instant
 	return true;

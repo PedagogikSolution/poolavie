@@ -33,7 +33,7 @@ public class MenuPrincipalServlet extends HttpServlet {
 	    if (checkTypeOfUser == 1) {
 		resp.sendRedirect("/CreationPool");
 	    } else {
-		resp.sendRedirect("/CreationUtilisateur");
+		resp.sendRedirect("/CreationDirecteurGeneral");
 	    }
 	// si terminé, on envoie a la page principal
 	} else {

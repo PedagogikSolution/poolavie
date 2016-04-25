@@ -69,12 +69,16 @@ public class CreationPoolModel {
 	int typePool = 1;
 	int numTeamCreate = 1;
 	int poolYear = 0;
+	
+	//Generate a Code for the Pool
+	
+	String codeValidation = "A1B1C1D1";
 
 	// on appel le service
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
 	// on recupere le dernier pool_id du datastore of Kind Utilisateur
-	int poolID = recuperationPoolId(req, datastore);
+	String poolID = recuperationPoolId(req, datastore);
 
 	// on recupere la date et place dans un format Date
 
@@ -100,6 +104,7 @@ public class CreationPoolModel {
 	    mBean.setNumTeamCreate(numTeamCreate);
 	    mBean.setPoolYear(poolYear);
 	    mBean.setNomTeam1(nomDuTeam);
+	    mBean.setCodeValidationPool(codeValidation);
 
 	    // on place le bean dans un attribut de session
 	    req.getSession().setAttribute("Pool", mBean);
@@ -126,7 +131,10 @@ public class CreationPoolModel {
 	initEquipeStorage(req);
 
 	// on recupere le dernier pool_id du datastore of Kind Utilisateur
-	int poolID = recuperationPoolId(req, datastore);
+	String poolID = recuperationPoolId(req, datastore);
+	
+	// on reparse en int pour le stockage
+	int poolId = Integer.parseInt(poolID);
 
 	nombreEquipe = req.getParameter("nombreEquipe");
 
@@ -145,7 +153,7 @@ public class CreationPoolModel {
 		String datastoreId = poolID + "_" + i;
 
 		mBean.setPoolTeamId(datastoreId);
-		mBean.setPoolId(poolID);
+		mBean.setPoolId(poolId);
 		mBean.setTeamId(i);
 		mBean.setMax_salaire_begin(max_salaire_begin);
 		mBean.setTotal_salaire_now(total_salaire_now);
@@ -213,6 +221,8 @@ public class CreationPoolModel {
 	nombreEquipe = req.getParameter("nombreEquipe");
 	int numTeam = Integer.parseInt(nombreEquipe);
 	int numPickByTeam=31;
+	
+	
 
 	// on crée les bases de donnée classement et insère la ligne
 	classementDao.createClassementTable(poolID);
@@ -271,9 +281,9 @@ public class CreationPoolModel {
 
     }
 
-    private int recuperationPoolId(HttpServletRequest req, DatastoreService datastore) {
+    private String recuperationPoolId(HttpServletRequest req, DatastoreService datastore) {
 	Utilisateur mBean = (Utilisateur) req.getSession().getAttribute("Utilisateur");
-	int poolID = mBean.getPoolId();
+	String poolID = Integer.toString(mBean.getPoolId());
 
 	// TODO recuperer du Memcache ou Datastore si la session est vide
 

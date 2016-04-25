@@ -12,6 +12,7 @@ public class MessageErreurConstants {
     public static String LOGIN_PASSWORD_NOT_GOOD = "Mauvais mot de passe. Veuillez ré-essayer. Cliquez ici si vous avez oublier votre mot de passe";
     public static String RECUPERATION_COURRIEL_INEXISTANT = "Ce courriel n'est associé à aucun compte";
     public static String NOT_LOG_IN ="Vous devez être connecté pour accéder à cette section. Merci de vous connecter ci-bas";
+    public static String CREATE_NEW_USER_NO_GOOD ="Une erreur s'est produite. Essayez de nouveau en vous assurant de cliquer sur le lien ou de copier celui-ci en entier. Si l'erreur persiste, contacter votre Commissaire/Administrateur de Pool";
 
     private MessageErreurConstants() {
 	// empeche les classes native d'Appeler le constructeur
