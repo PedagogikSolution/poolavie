@@ -7,9 +7,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pedagogiksolution.cron.model.ClassementCronModel;
 import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.dao.DAOFactory;
 import com.pedagogiksolution.model.CreationDGModel;
+import com.pedagogiksolution.model.LoginModel;
 import com.pedagogiksolution.model.RegisterModel;
 
 public class CreationNouveauDGServlet extends HttpServlet {
@@ -106,6 +108,14 @@ public class CreationNouveauDGServlet extends HttpServlet {
 		// si succes du courriel, on envoie vers la page permettant a l'utilisateur d'entrée son code de
 // Validation et ainsi confirmer son abonnement
 		if (sendingEmail) {
+		    
+		    ClassementCronModel mModelClassement = new ClassementCronModel(classementDao);
+		    
+		    
+		    mModelClassement.putDatabaseInDatastore(poolId);
+		    LoginModel mModelLogin = new LoginModel(req);
+
+			mModelLogin.createSessionClassementBean();
 		    resp.sendRedirect("/validation");
 		} else {
 		    req.getRequestDispatcher("jsp/accueil/creationnouveaudg.jsp").forward(req, resp);

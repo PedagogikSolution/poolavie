@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pedagogiksolution.cron.model.ClassementCronModel;
 import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.dao.DAOFactory;
 import com.pedagogiksolution.dao.DraftDao;
@@ -15,12 +16,14 @@ import com.pedagogiksolution.dao.PlayersDao;
 import com.pedagogiksolution.dao.SalaireDao;
 import com.pedagogiksolution.dao.TradeMadeDao;
 import com.pedagogiksolution.dao.TradeOfferDao;
+import com.pedagogiksolution.datastorebeans.Utilisateur;
 import com.pedagogiksolution.model.CreationPoolModel;
+import com.pedagogiksolution.model.LoginModel;
 
 public class CreationPoolServlet extends HttpServlet {
 
     private static final long serialVersionUID = -2677090836243950997L;
-    
+
     public static final String CONF_DAO_FACTORY = "daofactory";
     private ClassementDao classementDao;
     private PlayersDao playersDao;
@@ -50,7 +53,7 @@ public class CreationPoolServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 	// initilisation du métier
-	CreationPoolModel mModel = new CreationPoolModel(classementDao,playersDao,draftDao,tradeMadeDao,tradeOfferDao,salaireDao,draftPickDao);
+	CreationPoolModel mModel = new CreationPoolModel(classementDao, playersDao, draftDao, tradeMadeDao, tradeOfferDao, salaireDao, draftPickDao);
 
 	// test des parametres formulaire bien rempli
 	Boolean validationFormulaireCreation = mModel.validationFormulaireCreation(req);
@@ -62,11 +65,21 @@ public class CreationPoolServlet extends HttpServlet {
 
 	    mModel.createPoolBean(req);
 	    mModel.createEquipeBean(req);
-	  //  mModel.sendEmail(req);
+	    // mModel.sendEmail(req);
 	    mModel.createDatabase(req);
 	    mModel.createSucceed(req);
+	    
+	    ClassementCronModel mModelClassement = new ClassementCronModel(classementDao);
+	    Utilisateur mBeanUser  = (Utilisateur)req.getSession().getAttribute("Utilisateur");
+	    int poolId = mBeanUser.getPoolId();
+	    
+	    mModelClassement.putDatabaseInDatastore(poolId);
+	    
+	    LoginModel mModelLogin = new LoginModel(req);
 
-	    resp.sendRedirect("/MenuPrincipal");
+	    mModelLogin.createSessionClassementBean();
+
+	    resp.sendRedirect("/Nouvelles");
 
 	}
 

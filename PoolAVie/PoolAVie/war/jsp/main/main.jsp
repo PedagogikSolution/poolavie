@@ -7,21 +7,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Pool à vie</title>
+<title>Nouvelles ${Pool.poolName}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 </head>
 
 <body>
 
-	<!-- Header avec titre et images de promo -->
-	<div class="w3-container w3-blue w3-center">
-
-		<h1>PAGE PRINCIPALE</h1>
-
-	</div>
+	<!-- Header du menu principal-->
+	<jsp:directive.include file="navbar_main.jsp" />
+	<jsp:directive.include file="menu_secondaire.jsp" />
 	
-	${Utilisateur.codeValidation};
+	<!-- Body de la page news -->
+	
+	<!-- contient une page d'article avec possibilité d'écrire un nouvelle article en pop-up,
+	 image et nom du poster et éventuelleent script auto-news avec image du pool
+	 + meilleur pointeur de hier, top 10 score et mini-classement a droite  -->
+	 
+	 bienvenue dans la page des news du pool nommé ${Pool.poolName}.
+	 <br>
+	 Elle contiendra :
+	 <br>
+	 une page d'article avec possibilité d'écrire un nouvelle article en pop-up,
+	 image et nom du poster et éventuelleent script auto-news avec image du pool
+	 + meilleur pointeur de hier, top 10 score et mini-classement a droite
+	 
+	 
+	
+	
+	
+	
+	
+	
+	
+	
 
 </body>
 </html>

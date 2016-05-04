@@ -162,10 +162,17 @@ public class RegisterModel {
 	    if (typeUtilisateur == 1) {
 		// on recupere le dernier pool_id du datastore of Kind Utilisateur
 		poolId = generatePoolId(datastore);
+		
+		if(poolId==0){
+		    return null;
+		}
+		
 	    } else {
 		String temp_poolId = (String) req.getSession().getAttribute("temp_poolId");
 		poolId = Integer.parseInt(temp_poolId);
 	    }
+	    
+	    
 
 	    // on recupere la date et place dans un format Date
 
@@ -232,7 +239,7 @@ public class RegisterModel {
 	for (Entity result : pq) {
 	    Long poolIdTemp = (Long) result.getProperty("poolId");
 	    int poolId = poolIdTemp.intValue();
-	    System.out.println(poolId);
+	   
 
 	    return poolId + 1;
 	}

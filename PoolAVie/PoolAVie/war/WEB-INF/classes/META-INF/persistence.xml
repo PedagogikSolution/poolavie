@@ -9,6 +9,7 @@
         <class>com.pedagogiksolution.datastorebeans.Utilisateur</class>
         <class>com.pedagogiksolution.datastorebeans.Pool</class>
         <class>com.pedagogiksolution.datastorebeans.Equipe</class>
+        <class>com.pedagogiksolution.datastorebeans.Classement</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes> 
         <properties>
             <property name="datanucleus.NontransactionalRead" value="true"/>

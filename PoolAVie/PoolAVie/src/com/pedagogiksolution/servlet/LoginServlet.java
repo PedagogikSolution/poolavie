@@ -38,18 +38,26 @@ public class LoginServlet extends HttpServlet {
 	String motDePasse = req.getParameter("password");
 
 	// Instantiation de la classe métier pour le processus de registration
-	LoginModel mModel = new LoginModel();
+	LoginModel mModel = new LoginModel(nomUtilisateur,motDePasse,req);
 
 	// verifie si le compte est valide
-	Boolean validateCredential = mModel.validateCredential(nomUtilisateur, motDePasse, req);
+	Boolean validateCredential = mModel.validateCredential();
 
 	// si valide on verifie les identifiants, si pas bon , on retourne a login page avec message d'erreur
 	if (validateCredential) {
 
-	    Boolean checkIfValidateAccount = mModel.checkIfValidateAccount(req);
+	    Boolean checkIfValidateAccount = mModel.checkIfValidateAccount();
 
 	    if (checkIfValidateAccount) {
-		resp.sendRedirect("/MenuPrincipal");
+		
+		Boolean createSessionPoolBean= mModel.createSessionPoolBean();
+		Boolean createSessionClassementBean= mModel.createSessionClassementBean();
+		if(createSessionPoolBean&&createSessionClassementBean){
+		    
+		resp.sendRedirect("/Nouvelles");
+		} else {
+		    req.getRequestDispatcher("jsp/accueil/login.jsp").forward(req, resp);    
+		}
 	    } else {
 		req.getRequestDispatcher("jsp/accueil/validation.jsp").forward(req, resp);
 	    }

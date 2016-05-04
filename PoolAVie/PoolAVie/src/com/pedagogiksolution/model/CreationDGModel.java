@@ -314,7 +314,7 @@ public class CreationDGModel {
 	    try {
 		Entity mEntity = datastore.get(clefMemCachePool);
 		
-		mBeanPool = mapUtilisateurFromDatastore(mEntity, mBeanPool);
+		mBeanPool = mapPoolFromDatastore(mEntity, mBeanPool);
 		
 		   
 
@@ -404,7 +404,7 @@ public class CreationDGModel {
 
     }
     
-    private Pool mapUtilisateurFromDatastore(Entity mEntity, Pool mBeanPool) {
+    private Pool mapPoolFromDatastore(Entity mEntity, Pool mBeanPool) {
 
    	EntityManagerFactory emf = EMF.get();
    	EntityManager em = null;

@@ -101,7 +101,92 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>main</servlet-name>
-		<url-pattern>/MenuPrincipal</url-pattern>
+		<url-pattern>/Nouvelles</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>classement</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.ClassementServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>classement</servlet-name>
+		<url-pattern>/Classement</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>equipes</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.EquipesServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>equipes</servlet-name>
+		<url-pattern>/Equipes</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>draft</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.DraftServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>draft</servlet-name>
+		<url-pattern>/Draft</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>trade</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.TradeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>trade</servlet-name>
+		<url-pattern>/Trade</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>signature</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.SignatureServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>signature</servlet-name>
+		<url-pattern>/Signature</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>rules</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.ReglementServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>rules</servlet-name>
+		<url-pattern>/Reglements</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>archives</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.ArchivesServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>archives</servlet-name>
+		<url-pattern>/Archives</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>admin</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.AdminServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>admin</servlet-name>
+		<url-pattern>/Admin</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+	<!-- Mapping des servlet pour les Cron Job -->
+	
+	<servlet>
+		<servlet-name>classementCron</servlet-name>
+		<servlet-class>com.pedagogiksolution.cron.ClassementCron</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>classementCron</servlet-name>
+		<url-pattern>/ClassementCron</url-pattern>
 	</servlet-mapping>
 	
 	

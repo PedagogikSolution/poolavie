@@ -37,7 +37,10 @@ public class ValidationServlet extends HttpServlet {
 	    Boolean validationDuCode = mModel.validerCode(mCode, req);
 
 	    if (validationDuCode) {
-		resp.sendRedirect("/MenuPrincipal");
+
+		
+
+		resp.sendRedirect("/Nouvelles");
 	    } else {
 		req.getRequestDispatcher("jsp/accueil/validation.jsp").forward(req, resp);
 	    }
