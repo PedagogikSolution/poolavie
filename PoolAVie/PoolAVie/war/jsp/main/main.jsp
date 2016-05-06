@@ -24,7 +24,7 @@
 	 image et nom du poster et éventuelleent script auto-news avec image du pool
 	 + meilleur pointeur de hier, top 10 score et mini-classement a droite  -->
 	 
-	 bienvenue dans la page des news du pool nommé ${Pool.poolName}.
+	 Bienvenue dans la page des news du pool nommé ${Pool.poolName}.
 	 <br>
 	 Elle contiendra :
 	 <br>
