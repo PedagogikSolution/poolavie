@@ -172,8 +172,14 @@ public class LoginModel {
 	    try {
 		// si existe, aucun EntityNotFoundException, donc on recupère l'info pour tester password
 		Entity mEntity = datastore.get(clefDatastore);
+		
+		// on met dans SessionBean
 		mBeanPool = mapPoolFromDatastore(mEntity, mBeanPool);
 		requestObject.getSession().setAttribute("Pool", mBeanPool);
+		
+		// on met dans MemCache 
+		memcache.put(clefMemCache, mBeanPool);
+		
 		return true;
 
 	    } catch (EntityNotFoundException e) {
@@ -212,8 +218,14 @@ public class LoginModel {
 		    try {
 			// si existe, aucun EntityNotFoundException, donc on recupère l'info pour tester password
 			Entity mEntity = datastore.get(clefDatastore);
+			
+			// on met dans SessionBean
 			mBeanClassement = mapClassementFromDatastore(mEntity, mBeanClassement);
 			requestObject.getSession().setAttribute("Classement", mBeanClassement);
+			
+			// on met dans memcache
+			memcache.put(clefMemCache, mBeanClassement);
+			
 			return true;
 
 		    } catch (EntityNotFoundException e) {

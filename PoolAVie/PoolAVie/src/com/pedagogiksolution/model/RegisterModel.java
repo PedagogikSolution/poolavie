@@ -67,6 +67,8 @@ public class RegisterModel {
 	    Key clefDatastore = KeyFactory.createKey("Utilisateur", nomUtilisateur);
 	    try {
 		Entity mEntity = datastore.get(clefDatastore);
+				
+		// on verifie si password est le même
 		String mEncryptPassword = (String) mEntity.getProperty("motDePasse");
 		PasswordEncryption mEncrypt = new PasswordEncryption();
 		try {
@@ -164,6 +166,7 @@ public class RegisterModel {
 		poolId = generatePoolId(datastore);
 		
 		if(poolId==0){
+		    //TODO message d'erreur inatendue
 		    return null;
 		}
 		
