@@ -53,7 +53,7 @@
 			<button class="w3-btn w3-blue">Register</button>
 			<br> <br>
 			<c:if test="${MessageErreurBeans.erreurFormulaireRegistration!=null }">
-				<p>${MessageErreurBeans.erreurFormulaireRegistration}</p>
+				<p class="w3-red">${MessageErreurBeans.erreurFormulaireRegistration}</p>
 			</c:if>
 
 		</form>
