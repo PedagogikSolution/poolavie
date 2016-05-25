@@ -8,8 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.memcache.MemcacheService;
@@ -60,25 +58,27 @@ public class CreationPoolModel {
 	return true;
     }
 
-    public void createPoolBean(HttpServletRequest req) {
+    public Boolean createPoolBean(HttpServletRequest req) {
 
 	// initialisation des parametres recu du formulaire
-	initParamFromFormulaire(req);
+	Boolean testInput = initParamFromFormulaire(req);
+	if(!testInput){
+	    //TODO messaeg erreur
+	    return false;
+	}
 
 	// on initialise les variables non recu via le formulaire ou pas encore
 	int typePool = 1;
 	int numTeamCreate = 1;
 	int poolYear = 0;
 	
-	//Generate a Code for the Pool
+	//TODO Generate a Code for the Pool
 	
 	String codeValidation = "A1B1C1D1";
 
-	// on appel le service
-	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
-	// on recupere le dernier pool_id du datastore of Kind Utilisateur
-	String poolID = recuperationPoolId(req, datastore);
+	// on recupere le pool_id 
+	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+   	String poolID = Integer.toString(mBeanUser.getPoolId());
 
 	// on recupere la date et place dans un format Date
 
@@ -120,18 +120,19 @@ public class CreationPoolModel {
 	    if (em != null)
 		em.close();
 	}
+	
+	return true;
 
     }
 
     public void createEquipeBean(HttpServletRequest req) {
 
-	// on appel le service
-	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-	//
+	
+	// valeur de depart de la table Equipe
 	initEquipeStorage(req);
 
-	// on recupere le dernier pool_id du datastore of Kind Utilisateur
-	String poolID = recuperationPoolId(req, datastore);
+	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+   	String poolID = Integer.toString(mBeanUser.getPoolId());
 	
 	// on reparse en int pour le stockage
 	int poolId = Integer.parseInt(poolID);
@@ -232,12 +233,16 @@ public class CreationPoolModel {
 	// on crée les bases de donnée player
 	playersDao.createPlayersTable(poolID);
 	playersDao.createPlayersArchiveTable(poolID);
+	
 	draftDao.createDraftTable(poolID);
 	draftDao.createDraftArchiveTable(poolID);
+	
 	tradeMadeDao.createTradeMadeTable(poolID);
 	tradeMadeDao.createTradeMadeArchiveTable(poolID);
+	
 	tradeOfferDao.createTradeOfferTable(poolID);
 	tradeOfferDao.createTradeOfferArchiveTable(poolID);
+	
 	salaireDao.createSalaireTable(poolID);
 	
 	draftPickDao.createDraftPickTable(poolID);
@@ -281,21 +286,27 @@ public class CreationPoolModel {
 
     }
 
-    private String recuperationPoolId(HttpServletRequest req, DatastoreService datastore) {
-	Utilisateur mBean = (Utilisateur) req.getSession().getAttribute("Utilisateur");
-	String poolID = Integer.toString(mBean.getPoolId());
+   
+    
+    /**********************************   méthode privée de la classe   *******************************/
 
-	// TODO recuperer du Memcache ou Datastore si la session est vide
-
-	return poolID;
-    }
-
-    private void initParamFromFormulaire(HttpServletRequest req) {
+    private Boolean initParamFromFormulaire(HttpServletRequest req) {
+	
+	// on recupere les inputs du formulaire de la page creationnouveaupool.jsp
 	nomDuPool = req.getParameter("nomDuPool");
 	nombreEquipe = req.getParameter("nombreEquipe");
 	typeTrade = req.getParameter("typeTrade");
 	typeDraft = req.getParameter("typeDraft");
 	nomDuTeam = req.getParameter("nomDuTeam");
+	
+	// TODO on valide si pas vide et fonctionne, si bon on retourne true, sinon on retourne false avec message d'erreur
+	if(nomDuPool==null){
+	    
+	    return true;
+	} else {
+	    
+	    return false;
+	}
 
     }
 
@@ -346,5 +357,10 @@ public class CreationPoolModel {
 	bonus_penalite = 0;
 
     }
+    
+   
+   	
+
+   	
 
 }

@@ -11,9 +11,6 @@ import com.pedagogiksolution.model.RegisterModel;
 
 public class RegisterServlet extends HttpServlet {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -3396449704222494947L;
 
     @Override
@@ -43,7 +40,7 @@ public class RegisterServlet extends HttpServlet {
 
 	// on verifie si username existe dans le Datastore, si existe on verifie si password match, sinon on crée un nouveau compte client admin
 
-	if (mModel.checkIfUsernameExist(nomUtilisateur,motDePasse,req)) {
+	if (mModel.checkIfUsernameExist(nomUtilisateur,req)) {
 	    		
 	    req.getRequestDispatcher("jsp/accueil/register.jsp").forward(req, resp);
 	  	   

@@ -3,7 +3,6 @@ package com.pedagogiksolution.model;
 import static com.pedagogiksolution.constants.MessageErreurConstants.REGISTRATION_ERREUR_PARAM_NULL;
 import static com.pedagogiksolution.constants.MessageErreurConstants.REGISTRATION_ERREUR_PASSWORD_ENCRYPTION;
 import static com.pedagogiksolution.constants.MessageErreurConstants.REGISTRATION_USERNAME_MATCH;
-import static com.pedagogiksolution.constants.MessageErreurConstants.REGISTRATION_USERNAME_PASSWORD_MATCH;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -54,7 +53,7 @@ public class RegisterModel {
 
     }
 
-    public boolean checkIfUsernameExist(String nomUtilisateur, String motDePasse, HttpServletRequest req) {
+    public boolean checkIfUsernameExist(String nomUtilisateur, HttpServletRequest req) {
 	// on verifie si un objet existe dans le memCache
 	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
 	Key clefMemCache = KeyFactory.createKey("Utilisateur", nomUtilisateur);
@@ -66,72 +65,26 @@ public class RegisterModel {
 	    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	    Key clefDatastore = KeyFactory.createKey("Utilisateur", nomUtilisateur);
 	    try {
-		Entity mEntity = datastore.get(clefDatastore);
-				
-		// on verifie si password est le même
-		String mEncryptPassword = (String) mEntity.getProperty("motDePasse");
-		PasswordEncryption mEncrypt = new PasswordEncryption();
-		try {
-		    boolean passwordMatch = mEncrypt.validatePassword(motDePasse, mEncryptPassword);
-		    if (passwordMatch) {
-			MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-			mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_USERNAME_PASSWORD_MATCH);
-			req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-			return true;
-		    } else {
-			MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-			mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_USERNAME_MATCH);
-			req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-			return true;
-		    }
-
-		} catch (NoSuchAlgorithmException e) {
-		    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-		    mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_USERNAME_PASSWORD_MATCH);
-		    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-		    return true;
-		} catch (InvalidKeySpecException e) {
-		    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-		    mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_USERNAME_PASSWORD_MATCH);
-		    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-		    return true;
-		}
+		datastore.get(clefDatastore);
+		// Si username existe, on retourne avec message erreur et true
+		MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+		mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_USERNAME_MATCH);
+		req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+		return true;
 
 	    } catch (EntityNotFoundException e) {
+		// si existe pas, on continue avec false
 		return false;
 	    }
 	    // si object existe on verifie si le mot de passe est le bon
 	} else {
-	    String mPasswordEncrypt = mBean.getMotDePasse();
-	    PasswordEncryption mEncrypt = new PasswordEncryption();
-	    try {
-		boolean passwordMatch = mEncrypt.validatePassword(motDePasse, mPasswordEncrypt);
-		if (passwordMatch) {
-		    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-		    mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_USERNAME_PASSWORD_MATCH);
-		    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-		    System.out.print(mBean.getCourriel());
-		    return true;
-		} else {
-		    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-		    mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_USERNAME_MATCH);
-		    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-		    System.out.print(mBean.getCourriel());
-		    return true;
-		}
-	    } catch (NoSuchAlgorithmException e) {
-		MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-		mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_ERREUR_PASSWORD_ENCRYPTION);
-		req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-		return true;
-	    } catch (InvalidKeySpecException e) {
-		MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-		mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_ERREUR_PASSWORD_ENCRYPTION);
-		req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-		return true;
-	    }
-
+	    // Si username existe, on retourne avec message erreur et true
+	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+	    mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_USERNAME_MATCH);
+	    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+	    return true;
 	}
+
     }
 
     public String createDatastoreUserEntity(String nomUtilisateur, String motDePasse, String courriel, int teamId, int typeUtilisateur, HttpServletRequest req) {
@@ -164,18 +117,16 @@ public class RegisterModel {
 	    if (typeUtilisateur == 1) {
 		// on recupere le dernier pool_id du datastore of Kind Utilisateur
 		poolId = generatePoolId(datastore);
-		
-		if(poolId==0){
-		    //TODO message d'erreur inatendue
+
+		if (poolId == 0) {
+		    // TODO message d'erreur inatendue
 		    return null;
 		}
-		
+
 	    } else {
 		String temp_poolId = (String) req.getSession().getAttribute("temp_poolId");
 		poolId = Integer.parseInt(temp_poolId);
 	    }
-	    
-	    
 
 	    // on recupere la date et place dans un format Date
 
@@ -242,7 +193,6 @@ public class RegisterModel {
 	for (Entity result : pq) {
 	    Long poolIdTemp = (Long) result.getProperty("poolId");
 	    int poolId = poolIdTemp.intValue();
-	   
 
 	    return poolId + 1;
 	}

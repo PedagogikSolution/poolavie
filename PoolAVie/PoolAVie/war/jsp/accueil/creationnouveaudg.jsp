@@ -19,11 +19,11 @@
 	<c:choose>
 		<c:when test="${MessageErreurBeans.erreurCreateNewTeam!=null }">
 			<!-- message d'erreur avec solution possible du type envoyer courriel a commissaire 
-	ou simplement reclicker sur lien dans message ou en copiant celui-ci au complet -->
+			ou simplement reclicker sur lien dans message ou en copiant celui-ci au complet -->
 	
-	${MessageErreurBeans.erreurCreateNewTeam}
+		${MessageErreurBeans.erreurCreateNewTeam}
 	
-	</c:when>
+		</c:when>
 		<c:otherwise>
 			<!-- On affiche le formulaire de creation d'une équipe et de son DG -->
 			<!-- Section centrale -->

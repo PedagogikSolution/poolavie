@@ -34,7 +34,7 @@ public class CreationPoolServlet extends HttpServlet {
     private DraftPickDao draftPickDao;
 
     public void init() throws ServletException {
-	/* Récupération d'une instance de notre DAO Utilisateur */
+	/* Récupération d'une instance de notre nos DAO */
 	this.classementDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getClassementDao();
 	this.playersDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getPlayersDao();
 	this.draftDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftDao();
@@ -62,14 +62,25 @@ public class CreationPoolServlet extends HttpServlet {
 	if (!validationFormulaireCreation) {
 	    req.getRequestDispatcher("jsp/accueil/creationnouveaupool.jsp").forward(req, resp);
 	} else {
-
-	    mModel.createPoolBean(req);
+	    
+	    // on crée les datastores POOL et EQUIPE
+	    Boolean createPool = mModel.createPoolBean(req);
+	    if(!createPool){
+		req.getRequestDispatcher("jsp/accueil/creationnouveaupool.jsp").forward(req, resp);
+		return;
+	    }
 	    mModel.createEquipeBean(req);
+	    
+	    // on envoie les courriels au futur DG
 	    // mModel.sendEmail(req);
+	    
+	    // on créer les bases de donnée du POOL
 	    mModel.createDatabase(req);
 	    mModel.createSucceed(req);
 	    
+	    // on met les database dans objet session, memcache et datastore
 	    ClassementCronModel mModelClassement = new ClassementCronModel(classementDao);
+	    // on recupere le poolID de ce pool via le bean de Session Utilisateur
 	    Utilisateur mBeanUser  = (Utilisateur)req.getSession().getAttribute("Utilisateur");
 	    int poolId = mBeanUser.getPoolId();
 	    
