@@ -58,7 +58,7 @@ public class CreationNouveauDGServlet extends HttpServlet {
 		    req.getSession().setAttribute("temp_poolId", poolID);
 		    req.getSession().setAttribute("temp_teamId", teamID);
 
-		    resp.sendRedirect("CreationDirecteurGeneral");
+		    req.getRequestDispatcher("/jsp/accueil/creationnouveaudg.jsp").forward(req, resp);
 		} else {
 		    req.getRequestDispatcher("/jsp/accueil/creationnouveaudg.jsp").forward(req, resp);
 		}
@@ -81,6 +81,7 @@ public class CreationNouveauDGServlet extends HttpServlet {
 	int teamId = Integer.parseInt(temp_teamId);
 	String team_poolId = (String) req.getSession().getAttribute("temp_poolId");
 	int poolId = Integer.parseInt(team_poolId);
+	
 	// Instantiation de la classe métier pour le processus de registration
 	RegisterModel mModel = new RegisterModel();
 

@@ -15,6 +15,7 @@ public class MessageErreurBeans implements java.io.Serializable {
     private String erreurFormulaireRecuperation;
     private String erreurNotLogIn;
     private String erreurCreateNewTeam;
+    
 
     public String getErreurFormulaireRegistration() {
 	return erreurFormulaireRegistration;

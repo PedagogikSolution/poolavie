@@ -152,6 +152,7 @@ public class RegisterModel {
 		mBean.setTypeUtilisateur(typeUtilisateur);
 		mBean.setValidationReussi(0);
 		mBean.setFirstConnexionFinish(0);
+		
 
 		// on place le bean dans un attribut de session
 		req.getSession().setAttribute("Utilisateur", mBean);

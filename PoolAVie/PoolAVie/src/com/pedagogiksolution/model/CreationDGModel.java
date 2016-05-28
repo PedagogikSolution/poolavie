@@ -73,8 +73,16 @@ public class CreationDGModel {
 	    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	    Key clefDatastore = KeyFactory.createKey("Pool", poolID);
 	    try {
-		datastore.get(clefDatastore);
-		return true;
+		Entity mEntity = datastore.get(clefDatastore);
+		if (mEntity != null) {
+		    return true;
+		} else {
+		    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+		    mBeanMessageErreur.setErreurCreateNewTeam(CREATE_NEW_USER_NO_GOOD);
+		    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+
+		    return false;
+		}
 
 	    } catch (EntityNotFoundException e) {
 		MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
@@ -278,12 +286,10 @@ public class CreationDGModel {
 
     public void storePoolAndUserInfo(String nomDuTeam, int poolId2, HttpServletRequest req) {
 	// TODO ajouter les info partout
-	
-	
-	
+
 	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 	// on récupère le numero du Pool et de l'équipe
-	
+
 	int poolID = mBeanUser.getPoolId();
 	int teamID = mBeanUser.getTeamId();
 	String username = mBeanUser.getNomUtilisateur();
@@ -304,24 +310,22 @@ public class CreationDGModel {
 
 	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
 	Key clefMemCachePool = KeyFactory.createKey("Pool", Integer.toString(mBeanUser.getPoolId()));
-	
+
 	Pool mBeanPool = (Pool) memcache.get(clefMemCachePool);
-	
-	if(mBeanPool==null){
-	    
+
+	if (mBeanPool == null) {
+
 	    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-	   
+
 	    try {
 		Entity mEntity = datastore.get(clefMemCachePool);
-		
+
 		mBeanPool = mapPoolFromDatastore(mEntity, mBeanPool);
-		
-		   
 
 	    } catch (EntityNotFoundException e) {
-		//TODO gérer cette erreur
+		// TODO gérer cette erreur
 	    }
-	    
+
 	}
 
 	int tempNumTeam = mBeanPool.getNumTeamCreate();
@@ -379,7 +383,6 @@ public class CreationDGModel {
 	Key clefMemCacheUser = KeyFactory.createKey("Utilisateur", username);
 	memcache.put(clefMemCacheUser, mBeanUser);
 	memcache.put(clefMemCachePool, mBeanPool);
-	
 
 	// on persiste dans Datastore
 
@@ -403,22 +406,21 @@ public class CreationDGModel {
 	}
 
     }
-    
+
     private Pool mapPoolFromDatastore(Entity mEntity, Pool mBeanPool) {
 
-   	EntityManagerFactory emf = EMF.get();
-   	EntityManager em = null;
+	EntityManagerFactory emf = EMF.get();
+	EntityManager em = null;
 
-   	try {
-   	    em = emf.createEntityManager();
-   	    mBeanPool = em.find(Pool.class, mEntity.getKey());
-   	} finally {
-   	    if (em != null)
-   		em.close();
-   	}
+	try {
+	    em = emf.createEntityManager();
+	    mBeanPool = em.find(Pool.class, mEntity.getKey());
+	} finally {
+	    if (em != null)
+		em.close();
+	}
 
-   	return mBeanPool;
-       }
-
+	return mBeanPool;
+    }
 
 }

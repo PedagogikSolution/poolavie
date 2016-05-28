@@ -1,5 +1,8 @@
 package com.pedagogiksolution.cron.model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -8,14 +11,20 @@ import javax.persistence.EntityManagerFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.memcache.MemcacheService;
+import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.datastorebeans.Classement;
+import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.utils.EMF;
 
 public class ClassementCronModel {
@@ -29,7 +38,7 @@ public class ClassementCronModel {
     public void putDatabaseInDatastore(int poolId) {
 
 	Classement mBeanClassement = classementDao.cronJobGetClassementbyPoolId(poolId);
-
+	
 	EntityManagerFactory emf = EMF.get();
 	EntityManager em = null;
 	try {
@@ -43,6 +52,10 @@ public class ClassementCronModel {
 		em.close();
 	}
 
+	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+	Key clefMemCachePool = KeyFactory.createKey("Classement", poolId);
+	memcache.put(clefMemCachePool, mBeanClassement);
+
     }
 
     public int getNumberOfPool() {
@@ -50,7 +63,7 @@ public class ClassementCronModel {
 	int poolId = 0;
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-	Filter firstConnexionFinish  = new FilterPredicate("firstConnexionFinish", FilterOperator.EQUAL, 1);
+	Filter firstConnexionFinish = new FilterPredicate("firstConnexionFinish", FilterOperator.EQUAL, 1);
 	// Use class Query to assemble a query
 	Query q = new Query("Utilisateur").setFilter(firstConnexionFinish).addSort("poolId", SortDirection.DESCENDING);
 
@@ -63,6 +76,36 @@ public class ClassementCronModel {
 
 	}
 	return poolId;
+
+    }
+
+    public void setDerniereMAJ(int i) {
+	
+	String poolID = String.valueOf(i);
+
+	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+	Key clefMemCache = KeyFactory.createKey("Pool", i);
+	Pool mBean = (Pool) memcache.get(clefMemCache);
+
+	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	Date date = new Date();
+	String derniereMAJ = dateFormat.format(date);
+
+	if(mBean!=null){
+	mBean.setDerniereMAJ(derniereMAJ);
+	memcache.put(clefMemCache, mBean);
+	}
+	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	Key clefDatastore = KeyFactory.createKey("Pool", poolID);
+	Entity mEntity;
+	try {
+	    mEntity = datastore.get(clefDatastore);
+	    mEntity.setProperty("derniereMAJ", derniereMAJ);
+	    datastore.put(mEntity);
+	} catch (EntityNotFoundException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
 
     }
 

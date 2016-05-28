@@ -25,6 +25,7 @@ public class Utilisateur implements Serializable{
     private int validationReussi;
     private int loginReussi;
     private int firstConnexionFinish;
+    private String teamName;
     
     
     public String getNomUtilisateur() {
@@ -93,6 +94,12 @@ public class Utilisateur implements Serializable{
     }
     public void setFirstConnexionFinish(int firstConnexionFinish) {
 	this.firstConnexionFinish = firstConnexionFinish;
+    }
+    public String getTeamName() {
+	return teamName;
+    }
+    public void setTeamName(String teamName) {
+	this.teamName = teamName;
     }
     
     

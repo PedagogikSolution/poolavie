@@ -74,13 +74,15 @@
 
 				<button class="w3-margin-top w3-btn w3-blue">Register</button>
 
-
+				<c:if test="${MessageErreurBeans.erreurFormulaireLogin!=null }">
+					<p>${MessageErreurBeans.erreurFormulaireLogin}</p>
+				</c:if>
 			</div>
 			<div class="w3-third w3-container">
 
 				<p>Type de pool</p>
-				<label>For life</label><input class="w3-input" type="radio" name="typeTrade" value="1" checked disabled> <label>One years</label><input class="w3-input w3-validate"
-					type="radio" name="typeTrade" value="2" disabled> <br>
+				<label>For life</label><input class="w3-input" type="radio" name="typeTrade" value="1" checked disabled> <label>One years</label><input class="w3-input w3-validate" type="radio"
+					name="typeTrade" value="2" disabled> <br>
 
 				<p>
 					<label>Nom du pool</label> <input class="w3-input" type="text" name="nomDuPool" placeholder="Exemple : Challenge de Saint-Clinclin">
@@ -91,19 +93,18 @@
 				</p>
 
 				<p>Nombre de Joueur</p>
-				<label>8</label><input class="w3-input" type="radio" name="nombreEquipe" value="8" checked onclick="m8players()"> <label>9</label><input class="w3-input"
-					type="radio" name="nombreEquipe" value="9" onclick="m9players()"> <label>10</label><input class="w3-input" type="radio" name="nombreEquipe" value="10" onclick="m10players()">
-				<label>11</label><input class="w3-input" type="radio" name="nombreEquipe" value="11" onclick="m11players()"> <label>12</label><input class="w3-input" type="radio"
-					name="nombreEquipe" value="12" onclick="m12players()"> <br>
+				<label>8</label><input class="w3-input" type="radio" name="nombreEquipe" value="8" checked onclick="m8players()"> <label>9</label><input class="w3-input" type="radio" name="nombreEquipe"
+					value="9" onclick="m9players()"> <label>10</label><input class="w3-input" type="radio" name="nombreEquipe" value="10" onclick="m10players()"> <label>11</label><input
+					class="w3-input" type="radio" name="nombreEquipe" value="11" onclick="m11players()"> <label>12</label><input class="w3-input" type="radio" name="nombreEquipe" value="12"
+					onclick="m12players()"> <br>
 
 				<p>Option de trade</p>
-				<label>All years</label><input class="w3-input" type="radio" name="typeTrade" value="1" checked> <label>Ponctual Period</label><input class="w3-input" type="radio"
-					name="typeTrade" value="2"> <br>
+				<label>All years</label><input class="w3-input" type="radio" name="typeTrade" value="1" checked> <label>Ponctual Period</label><input class="w3-input" type="radio" name="typeTrade"
+					value="2"> <br>
 
 
 				<p>Option de draft</p>
-				<label>Live</label><input class="w3-input" type="radio" name="typeDraft" value="1" checked> <label>Manuel</label><input class="w3-input" type="radio"
-					name="typeDraft" value="2">
+				<label>Live</label><input class="w3-input" type="radio" name="typeDraft" value="1" checked> <label>Manuel</label><input class="w3-input" type="radio" name="typeDraft" value="2">
 
 
 			</div>

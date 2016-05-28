@@ -58,14 +58,11 @@ public class CreationPoolModel {
 	return true;
     }
 
-    public Boolean createPoolBean(HttpServletRequest req) {
+    public void createPoolBean(HttpServletRequest req) {
 
 	// initialisation des parametres recu du formulaire
-	Boolean testInput = initParamFromFormulaire(req);
-	if(!testInput){
-	    //TODO messaeg erreur
-	    return false;
-	}
+	initParamFromFormulaire(req);
+	
 
 	// on initialise les variables non recu via le formulaire ou pas encore
 	int typePool = 1;
@@ -73,8 +70,8 @@ public class CreationPoolModel {
 	int poolYear = 0;
 	
 	//TODO Generate a Code for the Pool
+	String codeValidation = generateValidationCode();
 	
-	String codeValidation = "A1B1C1D1";
 
 	// on recupere le pool_id 
 	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
@@ -121,7 +118,6 @@ public class CreationPoolModel {
 		em.close();
 	}
 	
-	return true;
 
     }
 
@@ -290,7 +286,7 @@ public class CreationPoolModel {
     
     /**********************************   méthode privée de la classe   *******************************/
 
-    private Boolean initParamFromFormulaire(HttpServletRequest req) {
+    private void initParamFromFormulaire(HttpServletRequest req) {
 	
 	// on recupere les inputs du formulaire de la page creationnouveaupool.jsp
 	nomDuPool = req.getParameter("nomDuPool");
@@ -299,14 +295,7 @@ public class CreationPoolModel {
 	typeDraft = req.getParameter("typeDraft");
 	nomDuTeam = req.getParameter("nomDuTeam");
 	
-	// TODO on valide si pas vide et fonctionne, si bon on retourne true, sinon on retourne false avec message d'erreur
-	if(nomDuPool==null){
-	    
-	    return true;
-	} else {
-	    
-	    return false;
-	}
+	
 
     }
 
@@ -355,6 +344,20 @@ public class CreationPoolModel {
 	bonus_5m = 0;
 	argent_recu = 0;
 	bonus_penalite = 0;
+
+    }
+    
+ // TODO methode privée pour générer un code alphanumérique de 8 carateres
+    private String generateValidationCode() {
+
+	// genere un code si reussi, return le code, sinon retourne null
+
+	/* presentemetn, on assigne toujours le code pour test de emailing et validation process */
+	String fakeCodeForTest;
+
+	fakeCodeForTest = "A1B1C1D1";
+
+	return fakeCodeForTest;
 
     }
     

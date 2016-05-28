@@ -27,4 +27,5 @@ public class MenuPrincipalModel {
 	return typeUser;
     }
 
+
 }

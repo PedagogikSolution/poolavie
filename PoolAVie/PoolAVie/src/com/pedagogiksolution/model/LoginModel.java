@@ -1,5 +1,6 @@
 package com.pedagogiksolution.model;
 
+import static com.pedagogiksolution.constants.MessageErreurConstants.CREATE_POOL_PAS_FINI;
 import static com.pedagogiksolution.constants.MessageErreurConstants.LOGIN_PASSWORD_NOT_GOOD;
 import static com.pedagogiksolution.constants.MessageErreurConstants.LOGIN_USERNAME_DONT_EXIST;
 import static com.pedagogiksolution.constants.MessageErreurConstants.REGISTRATION_ERREUR_PASSWORD_ENCRYPTION;
@@ -22,6 +23,7 @@ import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.datastorebeans.Classement;
+import com.pedagogiksolution.datastorebeans.Equipe;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
 import com.pedagogiksolution.utils.EMF;
@@ -74,6 +76,8 @@ public class LoginModel {
 			mBean.setLoginReussi(1);
 			// on place dans la session le Bean Utilisateur
 			requestObject.getSession().setAttribute("Utilisateur", mBean);
+			// on place dans la Memcache pour connexion futur
+			memcache.put(clefMemCache, mBean);
 			return true;
 		    } else {
 			MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
@@ -111,6 +115,8 @@ public class LoginModel {
 // valeur loginReussi a 1.
 		    mBean.setLoginReussi(1);
 		    requestObject.getSession().setAttribute("Utilisateur", mBean);
+		    // on place dans MemCache pour connexion futur
+		    memcache.put(clefMemCache, mBean);
 		    return true;
 		} else {
 		    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
@@ -172,19 +178,19 @@ public class LoginModel {
 	    try {
 		// si existe, aucun EntityNotFoundException, donc on recupère l'info pour tester password
 		Entity mEntity = datastore.get(clefDatastore);
-		
+
 		// on met dans SessionBean
 		mBeanPool = mapPoolFromDatastore(mEntity, mBeanPool);
 		requestObject.getSession().setAttribute("Pool", mBeanPool);
-		
-		// on met dans MemCache 
+
+		// on met dans MemCache
 		memcache.put(clefMemCache, mBeanPool);
-		
+
 		return true;
 
 	    } catch (EntityNotFoundException e) {
 		MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-		mBeanMessageErreur.setErreurFormulaireLogin(LOGIN_USERNAME_DONT_EXIST);
+		mBeanMessageErreur.setErreurFormulaireLogin(CREATE_POOL_PAS_FINI);
 		requestObject.setAttribute("MessageErreurBeans", mBeanMessageErreur);
 		return false;
 	    }
@@ -196,53 +202,99 @@ public class LoginModel {
 	}
 
     }
-    
 
     public Boolean createSessionClassementBean() {
 	// on recupere le poolID et le teamId du Session Bean Utilisateur
-		Utilisateur mBean = (Utilisateur) requestObject.getSession().getAttribute("Utilisateur");
+	Utilisateur mBean = (Utilisateur) requestObject.getSession().getAttribute("Utilisateur");
 
-		// int teamId = mBean.getTeamId();
-		int poolId = mBean.getPoolId();
+	// int teamId = mBean.getTeamId();
+	int poolId = mBean.getPoolId();
 
-		// on verifie si le bean Pool existe dans le memCache
-		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-		Key clefMemCache = KeyFactory.createKey("Classement", poolId);
-		Classement mBeanClassement = (Classement) memcache.get(clefMemCache);
+	// on verifie si le bean Pool existe dans le memCache
+	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+	Key clefMemCache = KeyFactory.createKey("Classement", poolId);
+	Classement mBeanClassement = (Classement) memcache.get(clefMemCache);
 
-		// si l'objet n'existe pas, on verifie si il existe dans le Datastore
-		if (mBeanClassement == null) {
+	// si l'objet n'existe pas, on verifie si il existe dans le Datastore
+	if (mBeanClassement == null) {
 
-		    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		    Key clefDatastore = KeyFactory.createKey("Classement", Integer.toString(poolId));
-		    try {
-			// si existe, aucun EntityNotFoundException, donc on recupère l'info pour tester password
-			Entity mEntity = datastore.get(clefDatastore);
-			
-			// on met dans SessionBean
-			mBeanClassement = mapClassementFromDatastore(mEntity, mBeanClassement);
-			requestObject.getSession().setAttribute("Classement", mBeanClassement);
-			
-			// on met dans memcache
-			memcache.put(clefMemCache, mBeanClassement);
-			
-			return true;
+	    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	    Key clefDatastore = KeyFactory.createKey("Classement", poolId);
+	    try {
+		// si existe, aucun EntityNotFoundException, donc on recupère l'info pour tester password
+		Entity mEntity = datastore.get(clefDatastore);
 
-		    } catch (EntityNotFoundException e) {
-			MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-			mBeanMessageErreur.setErreurFormulaireLogin(LOGIN_USERNAME_DONT_EXIST);
-			requestObject.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-			return false;
-		    }
-		    // si le bean existe on verifie si le mot de passe est le bon, si bon on place dans session et retourne true
-		} else {
-		    requestObject.getSession().setAttribute("Classement", mBeanClassement);
-		    return true;
+		// on met dans SessionBean
+		mBeanClassement = mapClassementFromDatastore(mEntity, mBeanClassement);
+		requestObject.getSession().setAttribute("Classement", mBeanClassement);
 
-		}
+		// on met dans memcache
+		memcache.put(clefMemCache, mBeanClassement);
+
+		return true;
+
+	    } catch (EntityNotFoundException e) {
+		MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+		mBeanMessageErreur.setErreurFormulaireLogin(CREATE_POOL_PAS_FINI);
+		requestObject.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+		return false;
+	    }
+	    // si le bean existe on verifie si le mot de passe est le bon, si bon on place dans session et retourne true
+	} else {
+	    requestObject.getSession().setAttribute("Classement", mBeanClassement);
+	    return true;
+
+	}
     }
 
-   
+    public Boolean createSessionEquipeBean() {
+
+	Utilisateur mBeanUser = (Utilisateur) requestObject.getSession().getAttribute("Utilisateur");
+	Pool mBeanPool = (Pool) requestObject.getSession().getAttribute("Pool");
+	// on reparse en int pour le stockage
+	int poolId = mBeanUser.getPoolId();
+	int nombreEquipe = mBeanPool.getNumberTeam();
+
+	for (int i = 1; i < (nombreEquipe + 1); i++) {
+
+	    String jspSessionName = "Equipe" + i;
+	    String datastoreId = poolId + "_" + i;
+
+	    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+	    Key clefMemCache = KeyFactory.createKey("Equipe", datastoreId);
+	    Equipe mBeanEquipe = (Equipe) memcache.get(clefMemCache);
+
+	    if (mBeanEquipe == null) {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Key clefDatastore = KeyFactory.createKey("Equipe", datastoreId);
+		try {
+		    // si existe, aucun EntityNotFoundException, donc on recupère l'info pour tester password
+		    Entity mEntity = datastore.get(clefDatastore);
+
+		    // on met dans SessionBean
+		    mBeanEquipe = mapEquipeFromDatastore(mEntity, mBeanEquipe);
+		    requestObject.getSession().setAttribute(jspSessionName, mBeanEquipe);
+
+		    // on met dans memcache
+		    memcache.put(clefMemCache, mBeanEquipe);
+
+		   
+
+		} catch (EntityNotFoundException e) {
+		    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+		    mBeanMessageErreur.setErreurFormulaireLogin(CREATE_POOL_PAS_FINI);
+		    requestObject.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+		    return false;
+		}
+
+	    } else {
+		requestObject.getSession().setAttribute(jspSessionName, mBeanEquipe);
+	    }
+
+	}
+	return true;
+
+    }
 
     /********** methode privée à la classe métier *************/
 
@@ -277,7 +329,7 @@ public class LoginModel {
 
 	return mBeanPool;
     }
-    
+
     private Classement mapClassementFromDatastore(Entity mEntity, Classement mBeanClassement) {
 	EntityManagerFactory emf = EMF.get();
 	EntityManager em = null;
@@ -291,7 +343,21 @@ public class LoginModel {
 	}
 
 	return mBeanClassement;
-       }
+    }
 
+    private Equipe mapEquipeFromDatastore(Entity mEntity, Equipe mBeanEquipe) {
+	EntityManagerFactory emf = EMF.get();
+	EntityManager em = null;
+
+	try {
+	    em = emf.createEntityManager();
+	    mBeanEquipe = em.find(Equipe.class, mEntity.getKey());
+	} finally {
+	    if (em != null)
+		em.close();
+	}
+
+	return mBeanEquipe;
+    }
 
 }

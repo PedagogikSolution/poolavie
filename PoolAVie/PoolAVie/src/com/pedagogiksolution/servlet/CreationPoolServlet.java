@@ -64,11 +64,7 @@ public class CreationPoolServlet extends HttpServlet {
 	} else {
 	    
 	    // on crée les datastores POOL et EQUIPE
-	    Boolean createPool = mModel.createPoolBean(req);
-	    if(!createPool){
-		req.getRequestDispatcher("jsp/accueil/creationnouveaupool.jsp").forward(req, resp);
-		return;
-	    }
+	    mModel.createPoolBean(req);
 	    mModel.createEquipeBean(req);
 	    
 	    // on envoie les courriels au futur DG

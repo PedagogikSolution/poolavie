@@ -40,6 +40,7 @@ public class ClassementCron extends HttpServlet {
 
 	    for (int i = 1; i < (numberOfPool + 1); i++) {
 		mModel.putDatabaseInDatastore(i);
+		mModel.setDerniereMAJ(i);
 	    }
 
 	}
