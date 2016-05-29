@@ -96,7 +96,7 @@
 	
 	<servlet>
 		<servlet-name>main</servlet-name>
-		<servlet-class>com.pedagogiksolution.servlet.MenuPrincipalServlet</servlet-class>
+		<servlet-class>com.pedagogiksolution.servlet.NouvellesServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>main</servlet-name>

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.model.MenuPrincipalModel;
 
-public class MenuPrincipalServlet extends HttpServlet {
+public class NouvellesServlet extends HttpServlet {
 
     /**
      * 
@@ -38,7 +38,7 @@ public class MenuPrincipalServlet extends HttpServlet {
 	// si terminé, on envoie a la page principal
 	} else {
 	    
-	    req.getRequestDispatcher("jsp/main/main.jsp").forward(req, resp);
+	    req.getRequestDispatcher("jsp/main/nouvelles.jsp").forward(req, resp);
 	}
 
     }
