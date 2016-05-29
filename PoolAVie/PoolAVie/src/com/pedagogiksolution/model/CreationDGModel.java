@@ -331,7 +331,7 @@ public class CreationDGModel {
 	int tempNumTeam = mBeanPool.getNumTeamCreate();
 	int numTeamCreate = tempNumTeam + 1;
 	// on modifie les beans
-
+	mBeanUser.setTeamName(nomDuTeam);
 	mBeanUser.setFirstConnexionFinish(1);
 	mBeanPool.setNumTeamCreate(numTeamCreate);
 	switch (teamID) {

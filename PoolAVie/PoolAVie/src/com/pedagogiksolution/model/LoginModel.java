@@ -209,6 +209,7 @@ public class LoginModel {
 
 	// int teamId = mBean.getTeamId();
 	int poolId = mBean.getPoolId();
+	String poolID = String.valueOf(poolId);
 
 	// on verifie si le bean Pool existe dans le memCache
 	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
@@ -219,7 +220,7 @@ public class LoginModel {
 	if (mBeanClassement == null) {
 
 	    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-	    Key clefDatastore = KeyFactory.createKey("Classement", poolId);
+	    Key clefDatastore = KeyFactory.createKey("Classement", poolID);
 	    try {
 		// si existe, aucun EntityNotFoundException, donc on recupère l'info pour tester password
 		Entity mEntity = datastore.get(clefDatastore);

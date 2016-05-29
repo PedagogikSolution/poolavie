@@ -1,11 +1,4 @@
-<!-- Indices written at Fri, 27 May 2016 22:03:39 EDT -->
+<!-- Indices written at Sun, 29 May 2016 11:45:07 EDT -->
 
-<datastore-indexes>
+<datastore-indexes/>
 
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="Utilisateur" ancestor="false" source="auto">
-        <property name="firstConnexionFinish" direction="asc"/>
-        <property name="poolId" direction="desc"/>
-    </datastore-index>
-
-</datastore-indexes>

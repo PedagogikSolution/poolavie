@@ -252,10 +252,13 @@ public class CreationPoolModel {
 	// check if session exist and parse,modify and persist if yes
 	Utilisateur mBean = new Utilisateur();
 	mBean = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+	
+	String nomDuTeam = req.getParameter("nomDuTeam");
 
 	if (mBean != null) {
 	    // bean
 	    mBean.setFirstConnexionFinish(1);
+	    mBean.setTeamName(nomDuTeam);
 	    // session
 	    req.getSession().setAttribute("Utilisateur", mBean);
 
