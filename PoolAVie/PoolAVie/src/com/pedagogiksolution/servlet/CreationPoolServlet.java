@@ -19,6 +19,7 @@ import com.pedagogiksolution.dao.TradeOfferDao;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
 import com.pedagogiksolution.model.CreationPoolModel;
 import com.pedagogiksolution.model.LoginModel;
+import com.pedagogiksolution.model.NouvellesModel;
 
 public class CreationPoolServlet extends HttpServlet {
 
@@ -85,6 +86,19 @@ public class CreationPoolServlet extends HttpServlet {
 	    LoginModel mModelLogin = new LoginModel(req);
 
 	    mModelLogin.createSessionClassementBean();
+	    
+	    NouvellesModel mModelNouvelles = new NouvellesModel();
+	    // initialisation du message du bienvenue
+	    String titre = "Bienvenue dans poolavie.ca";
+	    String body = "L'équipe de poolavie.ca vous souhaite la bienvenue dans votre nouveau pool." +
+	    		" Nous espérons que vous apprécierez votre expérience. Si ce n'est pas encore fait," +
+	    		" vous recevrez sous peu un courriel vous indiquant la date de votre premier repêchage" +
+	    		" une fois que le commissaire de votre pool l'aura déterminer." +
+	    		" Il ne reste qu'à vous souhaitez la meilleure des chances!!!";
+	    
+	    mModelNouvelles.createMessageForNewsBySystem(titre, body, req);
+	    
+	    mModelNouvelles.putNewsInBean(req);
 
 	    resp.sendRedirect("/Nouvelles");
 

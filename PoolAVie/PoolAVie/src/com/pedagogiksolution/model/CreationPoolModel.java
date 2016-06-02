@@ -102,6 +102,7 @@ public class CreationPoolModel {
 	    mBean.setPoolYear(poolYear);
 	    mBean.setNomTeam1(nomDuTeam);
 	    mBean.setCodeValidationPool(codeValidation);
+	    mBean.setCycleAnnuel(1);
 
 	    // on place le bean dans un attribut de session
 	    req.getSession().setAttribute("Pool", mBean);

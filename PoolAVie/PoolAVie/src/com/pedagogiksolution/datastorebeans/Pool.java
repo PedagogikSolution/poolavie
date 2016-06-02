@@ -21,6 +21,7 @@ public class Pool implements Serializable{
     private int tradeType;
     private int numberTeam;
     private int poolYear;
+    private int cycleAnnuel;
     private String creationDate;
     private int numTeamCreate;
     private String nomTeam1;
@@ -266,6 +267,16 @@ public class Pool implements Serializable{
 
     public void setCodeValidationPool(String codeValidationPool) {
 	this.codeValidationPool = codeValidationPool;
+    }
+
+
+    public int getCycleAnnuel() {
+	return cycleAnnuel;
+    }
+
+
+    public void setCycleAnnuel(int cycleAnnuel) {
+	this.cycleAnnuel = cycleAnnuel;
     }
     
     

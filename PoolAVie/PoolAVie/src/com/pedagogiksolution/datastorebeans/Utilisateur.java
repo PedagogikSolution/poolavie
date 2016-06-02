@@ -26,6 +26,7 @@ public class Utilisateur implements Serializable{
     private int loginReussi;
     private int firstConnexionFinish;
     private String teamName;
+    private String urlTeamLogo;
     
     
     public String getNomUtilisateur() {
@@ -100,6 +101,12 @@ public class Utilisateur implements Serializable{
     }
     public void setTeamName(String teamName) {
 	this.teamName = teamName;
+    }
+    public String getUrlTeamLogo() {
+	return urlTeamLogo;
+    }
+    public void setUrlTeamLogo(String urlTeamLogo) {
+	this.urlTeamLogo = urlTeamLogo;
     }
     
     

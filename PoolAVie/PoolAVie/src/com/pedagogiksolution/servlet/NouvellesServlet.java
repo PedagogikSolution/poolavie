@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.model.MenuPrincipalModel;
+import com.pedagogiksolution.model.NouvellesModel;
 
 public class NouvellesServlet extends HttpServlet {
 
@@ -38,6 +39,8 @@ public class NouvellesServlet extends HttpServlet {
 	// si terminé, on envoie a la page principal
 	} else {
 	    
+	    NouvellesModel mModelNouvelles = new NouvellesModel();
+	    mModelNouvelles.putNewsInBean(req);
 	    req.getRequestDispatcher("jsp/main/nouvelles.jsp").forward(req, resp);
 	}
 
