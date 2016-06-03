@@ -19,13 +19,18 @@ import com.pedagogiksolution.datastorebeans.Utilisateur;
 
 public class NouvellesModel {
 
-    public void createMessageForNewsByUser(String titre, String body, int writer, HttpServletRequest req) {
+    public void createMessageForNewsByUser(String titre, String body, HttpServletRequest req) {
 
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 	String writerName = mBeanUser.getTeamName();
 	String writerLogo = mBeanUser.getUrlTeamLogo();
 	String poolID = mBeanPool.getPoolID();
+	
+	// en attendant le processus d'upload des images et avatars
+	if(writerLogo==null){
+	    writerLogo = "http://payload41.cargocollective.com/1/6/222178/3122272/wbhp_logo.jpg";
+	}
 
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 

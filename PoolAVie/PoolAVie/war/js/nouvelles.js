@@ -1,6 +1,6 @@
-function newPost(teamId){
+function newPost(){
 	
-	mTeamId = teamId;
+
 	
 	document.getElementById('all').classList.add('w3-overlay');
 	document.getElementById('all').classList.add('w3-show');

@@ -11,6 +11,7 @@
 <title>Nouvelles ${Pool.poolName}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+<jsp:directive.include file="/jsp/utils/firebase.jsp" />
 <script src="/js/nouvelles.js"></script>
 </head>
 
@@ -128,7 +129,7 @@
 	</div>
 
 
-	<a id="btnNewPost" onclick="newPost(${Utilisateur.teamId})" class="w3-btn-floating-large w3-theme-action w3-right w3-red" style="position: fixed; bottom: 25px; left: 25px;">+</a>
+	<a id="btnNewPost" onclick="newPost()" class="w3-btn-floating-large w3-theme-action w3-right w3-red" style="position: fixed; bottom: 25px; left: 25px;">+</a>
 	
 	
 	<div  id="postForm" class="w3-container w3-hide w3-display-middle" >
@@ -138,7 +139,7 @@
 			<h2>Votre nouvelles/vos commentaires</h2>
 		</div>
 
-		<form class="w3-container w3-card-24 w3-white" action="/nouvelles" method="post">			
+		<form class="w3-container w3-card-24 w3-white" action="/Nouvelles" method="post">			
 							
 			<p>
 				<label>Titre</label><input class="w3-input w3-validate" type="text" name="titre">

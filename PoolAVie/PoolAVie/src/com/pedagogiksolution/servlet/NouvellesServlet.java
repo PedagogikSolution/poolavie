@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pedagogiksolution.datastorebeans.Utilisateur;
 import com.pedagogiksolution.model.MenuPrincipalModel;
 import com.pedagogiksolution.model.NouvellesModel;
 
@@ -48,7 +49,15 @@ public class NouvellesServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+	
+	String titre = req.getParameter("titre");
+	String body = req.getParameter("body");
+	
+	NouvellesModel mModelNouvelles = new NouvellesModel();
+	mModelNouvelles.createMessageForNewsByUser(titre, body, req);
+	
+	resp.sendRedirect("/Nouvelles");
+	
     }
 
 }

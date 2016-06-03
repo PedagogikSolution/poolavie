@@ -11,6 +11,7 @@
 <title>Classement ${Pool.poolName}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+<jsp:directive.include file="/jsp/utils/firebase.jsp" />
 </head>
 
 <body>
