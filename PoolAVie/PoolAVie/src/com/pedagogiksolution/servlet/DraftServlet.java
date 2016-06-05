@@ -15,7 +15,7 @@ public class DraftServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	req.getRequestDispatcher("jsp/accueil/marketing.jsp").forward(req, resp);
+	req.getRequestDispatcher("jsp/draft/draft_center.jsp").forward(req, resp);
     }
 
     @Override

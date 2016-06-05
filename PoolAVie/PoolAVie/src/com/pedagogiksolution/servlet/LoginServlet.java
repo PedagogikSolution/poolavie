@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.model.LoginModel;
-import com.pedagogiksolution.model.NouvellesModel;
 
 public class LoginServlet extends HttpServlet {
 

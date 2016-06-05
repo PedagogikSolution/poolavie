@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pedagogiksolution.datastorebeans.Utilisateur;
 import com.pedagogiksolution.model.MenuPrincipalModel;
 import com.pedagogiksolution.model.NouvellesModel;
 
