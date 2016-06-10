@@ -17,8 +17,8 @@
 
 <body>
 	<!-- Header du menu principal-->
-	<jsp:directive.include file="navbar_main.jsp" />
-	<jsp:directive.include file="menu_secondaire.jsp" />
+	<jsp:directive.include file="../main/navbar_main.jsp" />
+	<jsp:directive.include file="../main/menu_secondaire.jsp" />
 	<jsp:directive.include file="menu_team.jsp" />
 
 	<!-- Body de la page reglements -->

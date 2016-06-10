@@ -38,6 +38,7 @@ public class Pool implements Serializable{
     private String nomTeam12;
     private String derniereMAJ;
     private String codeValidationPool;
+    private String draftDate;
 
 
     public String getPoolID() {
@@ -277,6 +278,16 @@ public class Pool implements Serializable{
 
     public void setCycleAnnuel(int cycleAnnuel) {
 	this.cycleAnnuel = cycleAnnuel;
+    }
+
+
+    public String getDraftDate() {
+	return draftDate;
+    }
+
+
+    public void setDraftDate(String dt) {
+	this.draftDate = dt;
     }
     
     

@@ -11,6 +11,8 @@
 <title>Nouvelles ${Pool.poolName}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="../../css/material_design.css" rel="stylesheet">
 <jsp:directive.include file="/jsp/utils/firebase.jsp" />
 <script src="/js/nouvelles.js"></script>
 </head>
@@ -19,19 +21,32 @@
 	<!-- Header du menu principal-->
 	<jsp:directive.include file="../main/navbar_main.jsp" />
 	<jsp:directive.include file="../main/menu_secondaire.jsp" />
-	<jsp:directive.include file="menu_archives.jsp" />
+	<jsp:directive.include file="menu_admin.jsp" />
 
-	<!-- Body de la page reglements -->
+	<!-- Body de la page draft_center -->
 
-	<div class="w3-container">
-	
-	CONTIENT UN TABLEAU RECAPITULATIF DES MEILLEURS MOMENTS DU POOL ET DES LIENS POUR AFFICHERS LES CLASSEMENTS, LES DRAFTS, LES TRADES ET LES TEAMS ANTÉRIEURS
-	
-	
+	<div class="w3-container w3-margin-top">
+
+		<div class="w3-row w3-container">
+			<div class="w3-container w3-half">
+				<div class="w3-card-24 w3-blue">
+					<i class="w3-container material-icons md-96">settings</i>
+					
+					<h2 class="w3-right w3-padding-right w3-jumbo">Choisir la date du draft</h2>
+					
+
+
+				</div>
+
+			</div>
+			<div class="w3-container w3-half"></div>
+		</div>
+
+
 	</div>
-	
-	
-	
+
+
+
 
 
 

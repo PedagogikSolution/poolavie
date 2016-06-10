@@ -123,11 +123,11 @@
 	
 	<servlet>
 		<servlet-name>draft</servlet-name>
-		<servlet-class>com.pedagogiksolution.servlet.DraftServlet</servlet-class>
+		<servlet-class>com.pedagogiksolution.servlet.DraftCenterServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>draft</servlet-name>
-		<url-pattern>/Draft</url-pattern>
+		<url-pattern>/DraftCenter</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
@@ -167,12 +167,39 @@
 	</servlet-mapping>
 	
 	<servlet>
-		<servlet-name>admin</servlet-name>
-		<servlet-class>com.pedagogiksolution.servlet.AdminServlet</servlet-class>
+		<servlet-name>adminPool</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.AdminPoolServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>admin</servlet-name>
-		<url-pattern>/Admin</url-pattern>
+		<servlet-name>adminPool</servlet-name>
+		<url-pattern>/AdminPool</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>adminTrade</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.AdminTradeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>adminTrade</servlet-name>
+		<url-pattern>/AdminTrade</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>adminDraft</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.AdminDraftServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>adminDraft</servlet-name>
+		<url-pattern>/AdminDraft</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>adminSignature</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.AdminSignatureServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>adminSignature</servlet-name>
+		<url-pattern>/AdminSignature</url-pattern>
 	</servlet-mapping>
 	
 	

@@ -7,7 +7,7 @@
 
 		<li class="w3-xlarge"><a href="/Classement">CLASSEMENT</a></li>
 
-		<li class="w3-xlarge"><a href="/Draft">DRAFT</a></li>
+		<li class="w3-xlarge"><a href="/DraftCenter">DRAFT</a></li>
 
 		<li class="w3-xlarge"><a href="/Trade">TRADE</a></li>
 
@@ -20,7 +20,7 @@
 		<li class="w3-xlarge"><a href="/Archives">ARCHIVES</a></li>
 
 		<c:if test="${Utilisateur.typeUtilisateur==1 }">
-			<li class="w3-xlarge"><a href="/Admin">ADMIN</a></li>
+			<li class="w3-xlarge"><a href="/AdminPool">ADMIN</a></li>
 		</c:if>
 	</ul>
 

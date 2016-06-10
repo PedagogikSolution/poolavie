@@ -86,7 +86,7 @@ public class CreationNouveauDGServlet extends HttpServlet {
 	RegisterModel mModel = new RegisterModel();
 
 	// validation des parametres du formulaire
-	boolean mValidation = mModel.validationParametre(nomUtilisateur, motDePasse, courriel, req);
+	boolean mValidation = mModel.validationParametreDG(nomUtilisateur, motDePasse, courriel, nomDuTeam, req);
 
 	if (mValidation) {
 	    req.getRequestDispatcher("jsp/accueil/creationnouveaudg.jsp").forward(req, resp);
@@ -125,6 +125,9 @@ public class CreationNouveauDGServlet extends HttpServlet {
 		    LoginModel mModelLogin = new LoginModel(req);
 
 		    mModelLogin.createSessionClassementBean();
+		    
+		    
+		    
 		    resp.sendRedirect("/validation");
 		} else {
 		    req.getRequestDispatcher("jsp/accueil/creationnouveaudg.jsp").forward(req, resp);

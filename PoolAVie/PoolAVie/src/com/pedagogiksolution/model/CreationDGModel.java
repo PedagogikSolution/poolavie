@@ -309,16 +309,16 @@ public class CreationDGModel {
 	// on recupere le bean POOL du memcache ou du datastore
 
 	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-	Key clefMemCachePool = KeyFactory.createKey("Pool", Integer.toString(mBeanUser.getPoolId()));
+	Key clefMemCachePool = KeyFactory.createKey("Pool", mBeanUser.getPoolId());
 
 	Pool mBeanPool = (Pool) memcache.get(clefMemCachePool);
 
 	if (mBeanPool == null) {
 
 	    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
+	    Key clefDatastorePool = KeyFactory.createKey("Pool",Integer.toString(mBeanUser.getPoolId()));
 	    try {
-		Entity mEntity = datastore.get(clefMemCachePool);
+		Entity mEntity = datastore.get(clefDatastorePool);
 
 		mBeanPool = mapPoolFromDatastore(mEntity, mBeanPool);
 
@@ -330,10 +330,15 @@ public class CreationDGModel {
 
 	int tempNumTeam = mBeanPool.getNumTeamCreate();
 	int numTeamCreate = tempNumTeam + 1;
+	int numberTeamForPool = mBeanPool.getNumberTeam();
 	// on modifie les beans
 	mBeanUser.setTeamName(nomDuTeam);
 	mBeanUser.setFirstConnexionFinish(1);
 	mBeanPool.setNumTeamCreate(numTeamCreate);
+	
+	if(numTeamCreate==numberTeamForPool){
+	    mBeanPool.setCycleAnnuel(1);
+	}
 	switch (teamID) {
 
 	case 1:

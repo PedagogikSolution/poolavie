@@ -51,7 +51,7 @@ public class LoginServlet extends HttpServlet {
 	// verifie si le compte est valide, si oui creation du Bean Utilisateur
 	Boolean validateCredential = mModel.validateCredential();
 
-	// si valide on verifie les identifiants, si pas bon , on retourne a login page avec message d'erreur
+	// si valide on verifie si le compte est Valider
 	if (validateCredential) {
 
 	    Boolean checkIfValidateAccount = mModel.checkIfValidateAccount();
@@ -64,6 +64,7 @@ public class LoginServlet extends HttpServlet {
 		
 		if(createSessionPoolBean&&createSessionClassementBean&&createSessionEquipeBean){
 		   
+		    
 		    resp.sendRedirect("/Nouvelles");
 		    
 		} else {

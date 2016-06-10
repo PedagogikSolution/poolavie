@@ -52,6 +52,23 @@ public class RegisterModel {
 	return false;
 
     }
+    
+    public boolean validationParametreDG(String nomUtilisateur, String motDePasse, String courriel, String nomTeam, HttpServletRequest req) {
+
+	// verification si null, si oui, on retourne message d'erreur a la page register via beans d'erreur
+	if (Strings.isNullOrEmpty(nomUtilisateur) || Strings.isNullOrEmpty(motDePasse) || Strings.isNullOrEmpty(courriel) || Strings.isNullOrEmpty(nomTeam)) {
+	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+	    mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_ERREUR_PARAM_NULL);
+	    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+	    return true;
+	}
+
+	// TODO voir TRELLO pour validation REGEX
+
+	// si pas de validation négative, on retourne false et on continu le processus de registration
+	return false;
+
+    }
 
     public boolean checkIfUsernameExist(String nomUtilisateur, HttpServletRequest req) {
 	// on verifie si un objet existe dans le memCache
