@@ -7,9 +7,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.pedagogiksolution.datastorebeans.DraftRound;
 import com.pedagogiksolution.datastorebeans.Pool;
 
 public class DraftDaoImpl implements DraftDao {
@@ -111,9 +113,36 @@ public class DraftDaoImpl implements DraftDao {
 	    ronde++;
 
 	    for (ronde = 2; ronde < 32; ronde++) {
-
+		
 		Collections.reverse(permutation);
 		for (int teamId : permutation) {
+		    switch(teamId){
+			case 1: nomTeam =mBeanPool.getNomTeam1();
+			    break;
+			case 2: nomTeam =mBeanPool.getNomTeam2();
+			    break;
+			case 3: nomTeam =mBeanPool.getNomTeam3();
+			    break;
+			case 4: nomTeam =mBeanPool.getNomTeam4();
+			    break;
+			case 5: nomTeam =mBeanPool.getNomTeam5();
+			    break;
+			case 6: nomTeam =mBeanPool.getNomTeam6();
+			    break;
+			case 7: nomTeam =mBeanPool.getNomTeam7();
+			    break;
+			case 8: nomTeam =mBeanPool.getNomTeam8();
+			    break;
+			case 9: nomTeam =mBeanPool.getNomTeam9();
+			    break;
+			case 10: nomTeam =mBeanPool.getNomTeam10();
+			    break;
+			case 11: nomTeam =mBeanPool.getNomTeam11();
+			    break;
+			case 12: nomTeam =mBeanPool.getNomTeam12();
+			    break;
+			    
+			}
 
 		    preparedStatement = initialisationRequetePreparee(connexion, INSERT_DRAFT_FIRST_YEAR, false,poolId,draft_pick_no, teamId, ronde, ronde, poolId, 0,years_of_the_draft,nomTeam);
 		    preparedStatement.execute();
@@ -131,7 +160,7 @@ public class DraftDaoImpl implements DraftDao {
     }
 
     @Override
-    public ResultSet getDraftRoundOrder(int poolId) throws DAOException {
+    public DraftRound setDraftRoundOrder(int poolId) throws DAOException {
 	
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
@@ -140,7 +169,57 @@ public class DraftDaoImpl implements DraftDao {
 	    connexion = daoFactory.getConnection();
 	    preparedStatement = initialisationRequetePreparee(connexion, GET_DRAFT_ROUND_ORDER, false, poolId);
 	    rs = preparedStatement.executeQuery();
-	    return rs;
+	    List<Integer> draft_pick_no = new ArrayList<Integer>();
+		List<String> equipe = new ArrayList<String>();
+		List<Integer> ronde = new ArrayList<Integer>();
+		List<Integer> team_id = new ArrayList<Integer>();
+		List<String> from_who = new ArrayList<String>();
+		List<Integer> team_id_from = new ArrayList<Integer>();
+		List<Integer> team_count = new ArrayList<Integer>();
+		List<Integer> follow_up = new ArrayList<Integer>();
+		List<String> player_drafted = new ArrayList<String>();
+		List<Integer> year_of_draft = new ArrayList<Integer>();
+
+		
+		    while (rs.next()) {
+			int draft_pick_no2 = rs.getInt("draft_pick_no");
+			draft_pick_no.add(draft_pick_no2);
+			String equipe2 = rs.getString("equipe");
+			equipe.add(equipe2);
+			int ronde2 = rs.getInt("ronde");
+			ronde.add(ronde2);
+			int team_id2 = rs.getInt("team_id");
+			team_id.add(team_id2);
+			String from_who2 = rs.getString("from_who");
+			from_who.add(from_who2);
+			int team_id_from2 = rs.getInt("team_id_from");
+			team_id_from.add(team_id_from2);
+			int team_count2 = rs.getInt("team_count");
+			team_count.add(team_count2);
+			int follow_up2 = rs.getInt("follow_up");
+			follow_up.add(follow_up2);
+			String player_drafted2 = rs.getString("player_drafted");
+			player_drafted.add(player_drafted2);
+			int year_of_draft2 = rs.getInt("year_of_draft");
+			year_of_draft.add(year_of_draft2);
+		    }
+
+		    DraftRound mBeanDraft = new DraftRound();
+		    mBeanDraft.setPoolId(String.valueOf(poolId));
+		    mBeanDraft.setDraft_pick_no(draft_pick_no);
+		    mBeanDraft.setEquipe(equipe);
+		    mBeanDraft.setRonde(ronde);
+		    mBeanDraft.setTeam_id(team_id);
+		    mBeanDraft.setFrom_who(from_who);
+		    mBeanDraft.setTeam_id_from(team_id_from);
+		    mBeanDraft.setTeam_count(team_count);
+		    mBeanDraft.setFollow_up(follow_up);
+		    mBeanDraft.setPlayer_drafted(player_drafted);
+		    mBeanDraft.setYear_of_draft(year_of_draft);
+
+		    
+		    return mBeanDraft;
+		
 	} catch (SQLException e) {
 	    throw new DAOException(e);
 	} finally {

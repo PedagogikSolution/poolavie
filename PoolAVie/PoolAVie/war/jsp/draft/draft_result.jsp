@@ -40,11 +40,39 @@
 	</c:if>
 	
 	
-	<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.poolYear==0&&Pool.cycleAnnuel==2}">
+	<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.poolYear==0&&Pool.cycleAnnuel>=2}">
 	<!-- Si first years and avant draft avec date set-->	
 		
 		<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width:80%">
-		<caption class="w3-blue w3-xlarge"><h1>First 2 round Draft Order first year of the pool </h1></caption>
+		<caption class="w3-blue w3-xlarge"><h1>Draft Order and Result</h1></caption>
+			<tr class="w3-blue">
+					<th>Overall pick no</th>
+					<th>Joueur repêché</th>
+					<th>Ronde</th>
+					<th>Equipe</th>
+					
+			</tr>
+			<c:set var="nombreDeTeam" value="${DraftRound.team_id}" />
+			<c:forEach var="i" begin="0" end="${fn:length(nombreDeTeam)-1}">
+				
+					<tr>
+						<td>${DraftRound.draft_pick_no[i]}</td>
+						<td>${DraftRound.player_drafted[i]}</td>
+						<td>${DraftRound.ronde[i]}</td>
+						<td>${DraftRound.equipe[i]}</td>
+												
+					</tr>
+				
+			</c:forEach>
+		</table>
+		
+	</c:if>
+	
+	<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.poolYear>=1&&Pool.cycleAnnuel>=2}">
+	<!-- Si first years and avant draft avec date set-->	
+		
+		<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width:80%">
+		<caption class="w3-blue w3-xlarge"><h1>Draft Order and Result</h1></caption>
 			<tr class="w3-blue">
 					<th>Overall pick no</th>
 					<th>Joueur repêché</th>
@@ -54,8 +82,8 @@
 					<th>Original Team</th>	
 					
 			</tr>
-			<c:set var="nombreDeTeam" value="${Pool.numberTeam}" />
-			<c:forEach var="i" begin="0" end="${(nombreDeTeam*2)-1}">
+			<c:set var="nombreDeTeam" value="${DraftRound.team_id}" />
+			<c:forEach var="i" begin="0" end="${fn:length(nombreDeTeam)-1}">
 				
 					<tr>
 						<td>${DraftRound.draft_pick_no[i]}</td>
@@ -69,13 +97,6 @@
 				
 			</c:forEach>
 		</table>
-		
-	</c:if>
-	
-	<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.cycleAnnuel==3}">
-	<!-- Si first years and avant draft avec date set-->	
-		
-		LE DRAFT EST EN COURS
 		
 	</c:if>
 	

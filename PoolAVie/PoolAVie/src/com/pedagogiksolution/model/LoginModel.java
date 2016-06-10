@@ -315,7 +315,7 @@ public class LoginModel {
 		if (mBeanDraftRound == null) {
 
 		    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		    Key clefDatastore = KeyFactory.createKey("Classement", poolID);
+		    Key clefDatastore = KeyFactory.createKey("DraftRound", poolID);
 		    try {
 			// si existe, aucun EntityNotFoundException, donc on recupère l'info pour tester password
 			Entity mEntity = datastore.get(clefDatastore);

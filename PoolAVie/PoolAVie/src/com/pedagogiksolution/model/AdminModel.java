@@ -1,8 +1,5 @@
 package com.pedagogiksolution.model;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -137,57 +134,9 @@ public class AdminModel {
 
 	draftDao.populateFirstYearsDraft(poolId, permutation, mBeanPool);
 
-	ResultSet rs = draftDao.getDraftRoundOrder(poolId);
-
-	List<Integer> draft_pick_no = new ArrayList<Integer>();
-	List<String> equipe = new ArrayList<String>();
-	List<Integer> ronde = new ArrayList<Integer>();
-	List<Integer> team_id = new ArrayList<Integer>();
-	List<String> from_who = new ArrayList<String>();
-	List<Integer> team_id_from = new ArrayList<Integer>();
-	List<Integer> team_count = new ArrayList<Integer>();
-	List<Integer> follow_up = new ArrayList<Integer>();
-	List<String> player_drafted = new ArrayList<String>();
-	List<Integer> year_of_draft = new ArrayList<Integer>();
-
-	try {
-	    while (rs.next()) {
-		int draft_pick_no2 = rs.getInt("draft_pick_no");
-		draft_pick_no.add(draft_pick_no2);
-		String equipe2 = rs.getString("equipe");
-		equipe.add(equipe2);
-		int ronde2 = rs.getInt("ronde");
-		ronde.add(ronde2);
-		int team_id2 = rs.getInt("team_id");
-		team_id.add(team_id2);
-		String from_who2 = rs.getString("from_who");
-		from_who.add(from_who2);
-		int team_id_from2 = rs.getInt("team_id_from");
-		team_id_from.add(team_id_from2);
-		int team_count2 = rs.getInt("team_count");
-		team_count.add(team_count2);
-		int follow_up2 = rs.getInt("follow_up");
-		follow_up.add(follow_up2);
-		String player_drafted2 = rs.getString("player_drafted");
-		player_drafted.add(player_drafted2);
-		int year_of_draft2 = rs.getInt("year_of_draft");
-		year_of_draft.add(year_of_draft2);
-	    }
-
-	    DraftRound mBeanDraft = new DraftRound();
-	    mBeanDraft.setPoolId(String.valueOf(poolId));
-	    mBeanDraft.setDraft_pick_no(draft_pick_no);
-	    mBeanDraft.setEquipe(equipe);
-	    mBeanDraft.setRonde(ronde);
-	    mBeanDraft.setTeam_id(team_id);
-	    mBeanDraft.setFrom_who(from_who);
-	    mBeanDraft.setTeam_id_from(team_id_from);
-	    mBeanDraft.setTeam_count(team_count);
-	    mBeanDraft.setFollow_up(follow_up);
-	    mBeanDraft.setPlayer_drafted(player_drafted);
-	    mBeanDraft.setYear_of_draft(year_of_draft);
-
-	    req.getSession().setAttribute("DraftRound", mBeanDraft);
+	DraftRound mBeanDraft = draftDao.setDraftRoundOrder(poolId);
+	
+	req.getSession().setAttribute("DraftRound", mBeanDraft);
 
 	    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
 	    Key clefMemCache = KeyFactory.createKey("DrafRound", Integer.parseInt(poolID));
@@ -204,10 +153,7 @@ public class AdminModel {
 		    em.close();
 	    }
 
-	} catch (SQLException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
+	
 
     }
 }

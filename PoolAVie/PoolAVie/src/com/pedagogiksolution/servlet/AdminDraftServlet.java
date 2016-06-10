@@ -72,7 +72,7 @@ public class AdminDraftServlet extends HttpServlet {
 	    String body2 = "La date de notre draft annuel aura lieu le " + dateDraft + " à partir de " + heureDraft + ". La section Draft est maintenant accessible avec l'ensemble des informations utiles";
 	    mNewsModel2.createMessageForNewsBySystem(titre2, body2, req);
 	    
-	 
+	    
 	    
 	 // on envoie un courriel pour avertir les joueur avec top 10 pick
 
@@ -81,7 +81,8 @@ public class AdminDraftServlet extends HttpServlet {
 	    break;
 	    
 	case 3:
-	    mAdminModel.setDraftTime(dateDraft, heureDraft, req);
+	    AdminModel mAdminModel3 = new AdminModel(draftDao);
+	    mAdminModel3.setDraftTime(dateDraft, heureDraft, req);
 
 	    // on écrit une news de la part du system pour annoncer la date
 	    NouvellesModel mNewsModel3 = new NouvellesModel();
@@ -89,7 +90,8 @@ public class AdminDraftServlet extends HttpServlet {
 	    String body3 = "La date de notre draft annuel aura finalement lieu le " + dateDraft + " à partir de " + heureDraft + ". La section Draft est maintenant accessible avec l'ensemble des informations utiles";
 	    mNewsModel3.createMessageForNewsBySystem(titre3, body3, req);
 	    
-	    
+	 // on détermine l'ordre de draft au hasard si Pool de premiere année
+	    mAdminModel3.determineOrderOfDraft(req);
 	
 	 // on envoie un courriel pour avertir les joueur avec top 10 pick
 

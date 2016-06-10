@@ -41,17 +41,26 @@ public class CreationDGModel {
 	Boolean checkIfPoolIdExist = checkIfPoolIdExist(poolID, req);
 
 	if (!checkIfPoolIdExist) {
+	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+		mBeanMessageErreur.setErreurCreateNewTeam(CREATE_NEW_USER_NO_GOOD);
+		req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
 	    return false;
 	} else {
 
 	    Boolean checkIfCodeValidate = checkIfCodeValidate(poolID, codeValidationPool, req);
 
 	    if (!checkIfCodeValidate) {
+		MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+		mBeanMessageErreur.setErreurCreateNewTeam(CREATE_NEW_USER_NO_GOOD);
+		req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
 		return false;
 	    } else {
 		Boolean checkIfTeamExist = checkIfTeamExist(poolID, teamID, req);
 
 		if (!checkIfTeamExist) {
+		    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+			mBeanMessageErreur.setErreurCreateNewTeam("Cette équipe a déjà été créée");
+			req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
 		    return false;
 		} else {
 		    return true;

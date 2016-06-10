@@ -131,6 +131,15 @@
 	</servlet-mapping>
 	
 	<servlet>
+		<servlet-name>draftResult</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.DraftResultServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>draftResult</servlet-name>
+		<url-pattern>/DraftResult</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<servlet-name>trade</servlet-name>
 		<servlet-class>com.pedagogiksolution.servlet.TradeServlet</servlet-class>
 	</servlet>
