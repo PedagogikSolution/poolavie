@@ -10,6 +10,7 @@
         <class>com.pedagogiksolution.datastorebeans.Pool</class>
         <class>com.pedagogiksolution.datastorebeans.Equipe</class>
         <class>com.pedagogiksolution.datastorebeans.Classement</class>
+        <class>com.pedagogiksolution.datastorebeans.DraftRound</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes> 
         <properties>
             <property name="datanucleus.NontransactionalRead" value="true"/>

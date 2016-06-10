@@ -23,6 +23,7 @@ import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.datastorebeans.Classement;
+import com.pedagogiksolution.datastorebeans.DraftRound;
 import com.pedagogiksolution.datastorebeans.Equipe;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
@@ -296,6 +297,51 @@ public class LoginModel {
 	return true;
 
     }
+    
+    public Boolean createSessionDraftRoundBean() {
+	// on recupere le poolID et le teamId du Session Bean Utilisateur
+		Utilisateur mBean = (Utilisateur) requestObject.getSession().getAttribute("Utilisateur");
+
+		// int teamId = mBean.getTeamId();
+		int poolId = mBean.getPoolId();
+		String poolID = String.valueOf(poolId);
+
+		// on verifie si le bean Pool existe dans le memCache
+		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+		Key clefMemCache = KeyFactory.createKey("DraftRound", poolId);
+		DraftRound mBeanDraftRound = (DraftRound) memcache.get(clefMemCache);
+
+		// si l'objet n'existe pas, on verifie si il existe dans le Datastore
+		if (mBeanDraftRound == null) {
+
+		    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		    Key clefDatastore = KeyFactory.createKey("Classement", poolID);
+		    try {
+			// si existe, aucun EntityNotFoundException, donc on recupère l'info pour tester password
+			Entity mEntity = datastore.get(clefDatastore);
+
+			// on met dans SessionBean
+			mBeanDraftRound = mapDraftRoundFromDatastore(mEntity, mBeanDraftRound);
+			requestObject.getSession().setAttribute("DraftRound", mBeanDraftRound);
+
+			// on met dans memcache
+			memcache.put(clefMemCache, mBeanDraftRound);
+
+			return true;
+
+		    } catch (EntityNotFoundException e) {
+			MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+			mBeanMessageErreur.setErreurFormulaireLogin(CREATE_POOL_PAS_FINI);
+			requestObject.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+			return false;
+		    }
+		    // si le bean existe on verifie si le mot de passe est le bon, si bon on place dans session et retourne true
+		} else {
+		    requestObject.getSession().setAttribute("DraftRound", mBeanDraftRound);
+		    return true;
+
+		}
+       }
 
     /********** methode privée à la classe métier *************/
 
@@ -345,6 +391,21 @@ public class LoginModel {
 
 	return mBeanClassement;
     }
+    
+    private DraftRound mapDraftRoundFromDatastore(Entity mEntity, DraftRound mBeanDraftRound) {
+	EntityManagerFactory emf = EMF.get();
+	EntityManager em = null;
+
+	try {
+	    em = emf.createEntityManager();
+	    mBeanDraftRound = em.find(DraftRound.class, mEntity.getKey());
+	} finally {
+	    if (em != null)
+		em.close();
+	}
+
+	return mBeanDraftRound;
+    }
 
     private Equipe mapEquipeFromDatastore(Entity mEntity, Equipe mBeanEquipe) {
 	EntityManagerFactory emf = EMF.get();
@@ -360,5 +421,7 @@ public class LoginModel {
 
 	return mBeanEquipe;
     }
+
+   
 
 }

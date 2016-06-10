@@ -61,8 +61,9 @@ public class LoginServlet extends HttpServlet {
 		Boolean createSessionPoolBean= mModel.createSessionPoolBean();
 		Boolean createSessionEquipeBean= mModel.createSessionEquipeBean();
 		Boolean createSessionClassementBean= mModel.createSessionClassementBean();
+		Boolean createSessionDraftRoundBean = mModel.createSessionDraftRoundBean();
 		
-		if(createSessionPoolBean&&createSessionClassementBean&&createSessionEquipeBean){
+		if(createSessionPoolBean&&createSessionClassementBean&&createSessionEquipeBean&&createSessionDraftRoundBean){
 		   
 		    
 		    resp.sendRedirect("/Nouvelles");
