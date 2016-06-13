@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pedagogiksolution.model.EquipeModel;
+
 public class EquipesServlet extends HttpServlet {
     /**
      * 
@@ -15,15 +17,20 @@ public class EquipesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	
+	EquipeModel mModel = new EquipeModel();
+	mModel.getBeanByTeam(req);
+
 	req.getRequestDispatcher("jsp/team/team.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
+
+
+
+	req.getRequestDispatcher("jsp/team/team.jsp").forward(req, resp);
+
     }
-    
-    
-    
 
 }

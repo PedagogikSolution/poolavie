@@ -13,6 +13,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.memcache.MemcacheService;
@@ -86,86 +90,105 @@ public class DraftPickDaoImpl implements DraftPickDao {
     }
 
     @Override
-    public DraftPick cronJobGetDraftPickbyPoolId(int poolId, int numberOfTeam) throws DAOException {
+    public void cronJobGetDraftPickbyPoolId(int poolId, int numberOfTeam) throws DAOException {
 
-	Connection connexion = null;
-	PreparedStatement preparedStatement = null;
-	ResultSet rs = null;
-	List<Integer> team_id = new ArrayList<Integer>();
-	List<Integer> pick_no = new ArrayList<Integer>();
-	List<Integer> original_team_id = new ArrayList<Integer>();
-	List<Integer> orderForTheRound = new ArrayList<Integer>();
-	// instanciation du bean Utilisateur
-	DraftPick mBean = new DraftPick();
+	for (int i = 1; i < (numberOfTeam + 1); i++) {
+	    Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet rs = null;
+	    DraftPick mBean = new DraftPick();
+	    List<Integer> team_id = new ArrayList<Integer>();
+	    List<Integer> pick_no = new ArrayList<Integer>();
+	    List<Integer> original_team_id = new ArrayList<Integer>();
+	    List<Integer> orderForTheRound = new ArrayList<Integer>();
+	    List<String> teamNameOriginalPick = new ArrayList<String>();
+	    String datastoreId;
 
-	try {
-	    connexion = daoFactory.getConnection();
-	    for (int i = 1; i < (numberOfTeam + 1);) {
+	    
+	    
 
-		// on crée le beans avec le processus JPA qui va créer le datastore en même temps
-		EntityManagerFactory emf = EMF.get();
-		EntityManager em = null;
-		try {
-		    em = emf.createEntityManager();
+	    try {
 
-		    String datastoreId = String.valueOf(poolId) + "_" + i;
+		connexion = daoFactory.getConnection();
 
+		// instanciation du bean Utilisateur
+
+		datastoreId = String.valueOf(poolId) + "_" + i;
+
+		preparedStatement = initialisationRequetePreparee(connexion, GET_DRAFT_PICK_BY_POOL_ID, false, poolId, i);
+		rs = preparedStatement.executeQuery();
+
+		while (rs.next()) {
+
+		    int m_team_id = (rs.getInt("team_id"));
+		    team_id.add(m_team_id);
+
+		    int m_pick_no = (rs.getInt("pick_no"));
+		    pick_no.add(m_pick_no);
+
+		    int m_original_team_id = (rs.getInt("original_team_id"));
+		    original_team_id.add(m_original_team_id);
+
+		    int m_orderForTheRound = (rs.getInt("orderForTheRound"));
+		    orderForTheRound.add(m_orderForTheRound);
 		    
-		    preparedStatement = initialisationRequetePreparee(connexion, GET_DRAFT_PICK_BY_POOL_ID, false, poolId);
-		    rs = preparedStatement.executeQuery();
-
-		    while (rs.next()) {
-
-			int m_team_id = (rs.getInt("team_id"));
-			team_id.add(m_team_id);
-
-			int m_pick_no = (rs.getInt("pick_no"));
-			pick_no.add(m_pick_no);
-
-			int m_original_team_id = (rs.getInt("original_team_id"));
-			original_team_id.add(m_original_team_id);
-
-			int m_orderForTheRound = (rs.getInt("orderForTheRound"));
-			orderForTheRound.add(m_orderForTheRound);
+		    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		    Key clefDatastore = KeyFactory.createKey("Pool", String.valueOf(poolId));
+		    Entity mEntity;
+		    String nomTeam = null;
+		    try {
+			mEntity = datastore.get(clefDatastore);
+			nomTeam = (String) mEntity.getProperty("nomTeam"+m_original_team_id);
+			teamNameOriginalPick.add(nomTeam);
+		    } catch (EntityNotFoundException e) {
+			e.printStackTrace();
 
 		    }
-
-		    mBean.setPoolTeamId(datastoreId);
-		    mBean.setPick_no(pick_no);
-		    mBean.setTeam_id(team_id);
-		    mBean.setOriginal_pick_id(original_team_id);
-		    mBean.setOrderForTheRound(orderForTheRound);
-
-		    // on persiste dans le datastore via notre EntityManager
-		    em.persist(mBean);
-		    // on persist le datastore/bean dans la MemCache
-		    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-		    Key userPrefsKey = KeyFactory.createKey("DraftPick", datastoreId);
-		    memcache.put(userPrefsKey, mBean);
 		    
-		    i++;
-		    return mBean;
+		    
+		    
 
-		} finally {
-
-		    // on ferme le manager pour libérer la mémoire
-		    if (em != null) {
-			em.close();
-
-		    }
 		}
+
+	    } catch (SQLException e) {
+
+		throw new DAOException(e);
+
+	    } finally {
+		fermeturesSilencieuses(rs, preparedStatement, connexion);
 
 	    }
 
-	} catch (SQLException e) {
+	    mBean.setPoolTeamId(datastoreId);
+	    mBean.setPick_no(pick_no);
+	    mBean.setTeam_id(team_id);
+	    mBean.setOriginal_pick_id(original_team_id);
+	    mBean.setOrderForTheRound(orderForTheRound);
+	    mBean.setTeamNameOriginalPick(teamNameOriginalPick);
 
-	    throw new DAOException(e);
+	    // on crée le beans avec le processus JPA qui va créer le datastore en même temps
+	    EntityManagerFactory emf = EMF.get();
+	    EntityManager em = null;
+	    try {
+		em = emf.createEntityManager();
 
-	} finally {
-	    fermeturesSilencieuses(rs, preparedStatement, connexion);
+		// on persiste dans le datastore via notre EntityManager
+		em.persist(mBean);
+
+	    } finally {
+
+		// on ferme le manager pour libérer la mémoire
+		if (em != null) {
+		    em.close();
+
+		}
+	    }
+	    // on persist le datastore/bean dans la MemCache
+	    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+	    Key userPrefsKey = KeyFactory.createKey("DraftPick", datastoreId);
+	    memcache.put(userPrefsKey, mBean);
 
 	}
-	return null;
 
     }
 

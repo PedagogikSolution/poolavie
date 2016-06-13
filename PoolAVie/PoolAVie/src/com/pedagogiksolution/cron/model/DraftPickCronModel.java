@@ -5,9 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -23,9 +20,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.pedagogiksolution.dao.DraftPickDao;
-import com.pedagogiksolution.datastorebeans.DraftPick;
 import com.pedagogiksolution.datastorebeans.Pool;
-import com.pedagogiksolution.utils.EMF;
 
 public class DraftPickCronModel {
 
@@ -37,25 +32,8 @@ public class DraftPickCronModel {
 
     public void putDatabaseInDatastore(int poolId, int numberOfTeam) {
 
-	DraftPick mBeanDraftPick = draftPickDao.cronJobGetDraftPickbyPoolId(poolId,numberOfTeam);
-	
-	EntityManagerFactory emf = EMF.get();
-	EntityManager em = null;
-	try {
-	    em = emf.createEntityManager();
-	    // on persiste dans le datastore via notre EntityManager
-	    em.persist(mBeanDraftPick);
-
-	} finally {
-	    // on ferme le manager pour libérer la mémoire
-	    if (em != null)
-		em.close();
-	}
-
-	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-	Key clefMemCachePool = KeyFactory.createKey("DraftPick", poolId);
-	memcache.put(clefMemCachePool, mBeanDraftPick);
-	
+	draftPickDao.cronJobGetDraftPickbyPoolId(poolId,numberOfTeam);
+		
 	
 
     }

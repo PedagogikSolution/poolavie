@@ -1,25 +1,17 @@
-package com.pedagogiksolution.datastorebeans;
+package com.pedagogiksolution.beans;
 
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 
-@Entity(name = "DraftPick")
-public class DraftPick implements Serializable {
+public class NonSessionDraftPick implements Serializable {
     
-  
-    
-  
-    
-    
+
     /**
      * 
      */
-    private static final long serialVersionUID = -2404958577056623673L;
-    @Id
-    private String poolTeamId;
+    private static final long serialVersionUID = 5563922177699273804L;
+    
     private List<Integer> team_id; 
     private List<Integer> pick_no;
     private List<Integer> original_pick_id;
@@ -34,12 +26,7 @@ public class DraftPick implements Serializable {
 	this.team_id = team_id;
     }
    
-    public String getPoolTeamId() {
-	return poolTeamId;
-    }
-    public void setPoolTeamId(String poolTeamId) {
-	this.poolTeamId = poolTeamId;
-    }
+ 
     public List<Integer> getPick_no() {
 	return pick_no;
     }

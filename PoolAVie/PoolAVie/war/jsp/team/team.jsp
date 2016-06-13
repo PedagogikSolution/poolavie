@@ -26,6 +26,32 @@
 	<div class="w3-container">
 	
 	CONTIENT LA PAGE DES ÉQUIPES ET LEUR BUDGET
+	<br>
+	<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width:80%">
+		<caption class="w3-blue w3-xlarge"><h1>Draft Pick this Years</h1></caption>
+			<tr class="w3-blue">
+					<th>Pick Number</th>
+					<th>Ronde</th>
+					<th>From</th>
+					
+			</tr>
+			<c:set var="nombreDePick" value="${NonSessionDraftPick.pick_no}" />
+			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
+				
+					<tr>
+						<td>${i+1}</td>
+						<td>${NonSessionDraftPick.pick_no[i]}</td>
+						<td>${NonSessionDraftPick.teamNameOriginalPick[i]}</td>
+												
+					</tr>
+				
+			</c:forEach>
+			
+		
+		
+		
+		
+		</table>
 	
 	
 	</div>

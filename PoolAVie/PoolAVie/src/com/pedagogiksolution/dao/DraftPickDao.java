@@ -1,6 +1,5 @@
 package com.pedagogiksolution.dao;
 
-import com.pedagogiksolution.datastorebeans.DraftPick;
 
 
 public interface DraftPickDao {
@@ -9,7 +8,7 @@ public interface DraftPickDao {
 
     void insertPickByTeam(int poolID, int nombreEquipe, int numPickByTeam);
     
-    DraftPick cronJobGetDraftPickbyPoolId(int poolId, int numberOfTeam) throws DAOException;
+    void cronJobGetDraftPickbyPoolId(int poolId, int numberOfTeam) throws DAOException;
     
     
 
