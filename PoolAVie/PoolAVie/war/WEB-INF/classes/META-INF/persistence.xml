@@ -11,6 +11,7 @@
         <class>com.pedagogiksolution.datastorebeans.Equipe</class>
         <class>com.pedagogiksolution.datastorebeans.Classement</class>
         <class>com.pedagogiksolution.datastorebeans.DraftRound</class>
+        <class>com.pedagogiksolution.datastorebeans.DraftPick</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes> 
         <properties>
             <property name="datanucleus.NontransactionalRead" value="true"/>

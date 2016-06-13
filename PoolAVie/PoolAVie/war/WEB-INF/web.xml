@@ -224,6 +224,15 @@
 		<url-pattern>/ClassementCron</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>draftPickCron</servlet-name>
+		<servlet-class>com.pedagogiksolution.cron.DraftPickCron</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>draftPickCron</servlet-name>
+		<url-pattern>/DraftPickCron</url-pattern>
+	</servlet-mapping>
+	
 	
 	
 </web-app>
