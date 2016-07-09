@@ -55,6 +55,18 @@
 	
 	
 	</div>
+	<div>
+	<br>
+	test pour valeur de la table Equipe
+	<br>
+	
+	${NonSessionEquipe.teamId}
+	
+	
+	
+	
+	
+	</div>
 	
 	
 	
