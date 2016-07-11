@@ -1,9 +1,10 @@
 package com.pedagogiksolution.beans;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
-import org.joda.time.DateTime;
+
 
 
 public class NonSessionGardien implements Serializable {
@@ -25,7 +26,7 @@ public class NonSessionGardien implements Serializable {
     private List<Integer> pts;
     private List<Integer> projection;
     private List<String> position;
-    private List<DateTime> birthday;
+    private List<Date> birthday;
     private List<Integer> can_be_rookie;
     private List<Integer> take_proj;
     private List<Integer> salaire_draft;
@@ -36,7 +37,7 @@ public class NonSessionGardien implements Serializable {
     private List<Integer> contrat_max_years;
     private List<Integer> type_contrat;
     private List<Integer> club_ecole;
-    private List<DateTime> date_calcul;
+    private List<Date> date_calcul;
     private List<String> years_1;
     private List<String> years_2;
     private List<String> years_3;
@@ -108,10 +109,10 @@ public class NonSessionGardien implements Serializable {
     public void setPosition(List<String> position) {
 	this.position = position;
     }
-    public List<DateTime> getBirthday() {
+    public List<Date> getBirthday() {
 	return birthday;
     }
-    public void setBirthday(List<DateTime> birthday) {
+    public void setBirthday(List<Date> birthday) {
 	this.birthday = birthday;
     }
     public List<Integer> getCan_be_rookie() {
@@ -174,10 +175,10 @@ public class NonSessionGardien implements Serializable {
     public void setClub_ecole(List<Integer> club_ecole) {
 	this.club_ecole = club_ecole;
     }
-    public List<DateTime> getDate_calcul() {
+    public List<Date> getDate_calcul() {
 	return date_calcul;
     }
-    public void setDate_calcul(List<DateTime> date_calcul) {
+    public void setDate_calcul(List<Date> date_calcul) {
 	this.date_calcul = date_calcul;
     }
     public List<String> getYears_1() {
