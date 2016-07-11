@@ -22,11 +22,15 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.pedagogiksolution.beans.MessageErreurBeans;
+import com.pedagogiksolution.datastorebeans.Attaquant;
 import com.pedagogiksolution.datastorebeans.Classement;
+import com.pedagogiksolution.datastorebeans.Defenseur;
 import com.pedagogiksolution.datastorebeans.DraftPick;
 import com.pedagogiksolution.datastorebeans.DraftRound;
 import com.pedagogiksolution.datastorebeans.Equipe;
+import com.pedagogiksolution.datastorebeans.Gardien;
 import com.pedagogiksolution.datastorebeans.Pool;
+import com.pedagogiksolution.datastorebeans.Recrue;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
 import com.pedagogiksolution.utils.EMF;
 import com.pedagogiksolution.utils.PasswordEncryption;
@@ -387,6 +391,187 @@ public class LoginModel {
 	}
 	return true;
     }
+    
+
+    public Boolean createSessionAttaquantBean() {
+	Utilisateur mBeanUser = (Utilisateur) requestObject.getSession().getAttribute("Utilisateur");
+	Pool mBeanPool = (Pool) requestObject.getSession().getAttribute("Pool");
+	// on reparse en int pour le stockage
+	int poolId = mBeanUser.getPoolId();
+	int nombreEquipe = mBeanPool.getNumberTeam();
+
+	for (int i = 1; i < (nombreEquipe + 1); i++) {
+
+	    String jspSessionName = "Attaquant" + i;
+	    String datastoreId = poolId + "_" + i;
+
+	    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+	    Key clefMemCache = KeyFactory.createKey("Attaquant", datastoreId);
+	    Attaquant mBeanAttaquant = (Attaquant) memcache.get(clefMemCache);
+
+	    if (mBeanAttaquant == null) {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Key clefDatastore = KeyFactory.createKey("Attaquant", datastoreId);
+		try {
+		    // si existe, aucun EntityNotFoundException, donc on recupère l'info pour tester password
+		    Entity mEntity = datastore.get(clefDatastore);
+
+		    // on met dans SessionBean
+		    mBeanAttaquant = mapAttaquantFromDatastore(mEntity, mBeanAttaquant);
+		    requestObject.getSession().setAttribute(jspSessionName, mBeanAttaquant);
+
+		    // on met dans memcache
+		    memcache.put(clefMemCache, mBeanAttaquant);
+
+		} catch (EntityNotFoundException e) {
+		    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+		    mBeanMessageErreur.setErreurFormulaireLogin(CREATE_POOL_PAS_FINI);
+		    requestObject.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+		    return false;
+		}
+
+	    } else {
+		requestObject.getSession().setAttribute(jspSessionName, mBeanAttaquant);
+	    }
+
+	}
+	return true;
+    }
+    
+    public Boolean createSessionDefenseurBean() {
+	Utilisateur mBeanUser = (Utilisateur) requestObject.getSession().getAttribute("Utilisateur");
+	Pool mBeanPool = (Pool) requestObject.getSession().getAttribute("Pool");
+	// on reparse en int pour le stockage
+	int poolId = mBeanUser.getPoolId();
+	int nombreEquipe = mBeanPool.getNumberTeam();
+
+	for (int i = 1; i < (nombreEquipe + 1); i++) {
+
+	    String jspSessionName = "Defenseur" + i;
+	    String datastoreId = poolId + "_" + i;
+
+	    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+	    Key clefMemCache = KeyFactory.createKey("Defenseur", datastoreId);
+	    Defenseur mBeanDefenseur = (Defenseur) memcache.get(clefMemCache);
+
+	    if (mBeanDefenseur == null) {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Key clefDatastore = KeyFactory.createKey("Defenseur", datastoreId);
+		try {
+		    // si existe, aucun EntityNotFoundException, donc on recupère l'info pour tester password
+		    Entity mEntity = datastore.get(clefDatastore);
+
+		    // on met dans SessionBean
+		    mBeanDefenseur = mapDefenseurFromDatastore(mEntity, mBeanDefenseur);
+		    requestObject.getSession().setAttribute(jspSessionName, mBeanDefenseur);
+
+		    // on met dans memcache
+		    memcache.put(clefMemCache, mBeanDefenseur);
+
+		} catch (EntityNotFoundException e) {
+		    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+		    mBeanMessageErreur.setErreurFormulaireLogin(CREATE_POOL_PAS_FINI);
+		    requestObject.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+		    return false;
+		}
+
+	    } else {
+		requestObject.getSession().setAttribute(jspSessionName, mBeanDefenseur);
+	    }
+
+	}
+	return true;
+    }
+    
+    public Boolean createSessionGardienBean() {
+	Utilisateur mBeanUser = (Utilisateur) requestObject.getSession().getAttribute("Utilisateur");
+	Pool mBeanPool = (Pool) requestObject.getSession().getAttribute("Pool");
+	// on reparse en int pour le stockage
+	int poolId = mBeanUser.getPoolId();
+	int nombreEquipe = mBeanPool.getNumberTeam();
+
+	for (int i = 1; i < (nombreEquipe + 1); i++) {
+
+	    String jspSessionName = "Gardien" + i;
+	    String datastoreId = poolId + "_" + i;
+
+	    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+	    Key clefMemCache = KeyFactory.createKey("Gardien", datastoreId);
+	    Gardien mBeanGardien = (Gardien) memcache.get(clefMemCache);
+
+	    if (mBeanGardien == null) {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Key clefDatastore = KeyFactory.createKey("Gardien", datastoreId);
+		try {
+		    // si existe, aucun EntityNotFoundException, donc on recupère l'info pour tester password
+		    Entity mEntity = datastore.get(clefDatastore);
+
+		    // on met dans SessionBean
+		    mBeanGardien = mapGardienFromDatastore(mEntity, mBeanGardien);
+		    requestObject.getSession().setAttribute(jspSessionName, mBeanGardien);
+
+		    // on met dans memcache
+		    memcache.put(clefMemCache, mBeanGardien);
+
+		} catch (EntityNotFoundException e) {
+		    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+		    mBeanMessageErreur.setErreurFormulaireLogin(CREATE_POOL_PAS_FINI);
+		    requestObject.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+		    return false;
+		}
+
+	    } else {
+		requestObject.getSession().setAttribute(jspSessionName, mBeanGardien);
+	    }
+
+	}
+	return true;
+    }
+    
+    public Boolean createSessionRecrueBean() {
+	Utilisateur mBeanUser = (Utilisateur) requestObject.getSession().getAttribute("Utilisateur");
+	Pool mBeanPool = (Pool) requestObject.getSession().getAttribute("Pool");
+	// on reparse en int pour le stockage
+	int poolId = mBeanUser.getPoolId();
+	int nombreEquipe = mBeanPool.getNumberTeam();
+
+	for (int i = 1; i < (nombreEquipe + 1); i++) {
+
+	    String jspSessionName = "Recrue" + i;
+	    String datastoreId = poolId + "_" + i;
+
+	    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+	    Key clefMemCache = KeyFactory.createKey("Recrue", datastoreId);
+	    Recrue mBeanRecrue = (Recrue) memcache.get(clefMemCache);
+
+	    if (mBeanRecrue == null) {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Key clefDatastore = KeyFactory.createKey("Recrue", datastoreId);
+		try {
+		    // si existe, aucun EntityNotFoundException, donc on recupère l'info pour tester password
+		    Entity mEntity = datastore.get(clefDatastore);
+
+		    // on met dans SessionBean
+		    mBeanRecrue = mapRecrueFromDatastore(mEntity, mBeanRecrue);
+		    requestObject.getSession().setAttribute(jspSessionName, mBeanRecrue);
+
+		    // on met dans memcache
+		    memcache.put(clefMemCache, mBeanRecrue);
+
+		} catch (EntityNotFoundException e) {
+		    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+		    mBeanMessageErreur.setErreurFormulaireLogin(CREATE_POOL_PAS_FINI);
+		    requestObject.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+		    return false;
+		}
+
+	    } else {
+		requestObject.getSession().setAttribute(jspSessionName, mBeanRecrue);
+	    }
+
+	}
+	return true;
+    }
 
     /********** methode privée à la classe métier *************/
 
@@ -481,5 +666,66 @@ public class LoginModel {
 
 	return mBeanDraftPick;
     }
+    
+    private Attaquant mapAttaquantFromDatastore(Entity mEntity, Attaquant mBeanAttaquant) {
+	EntityManagerFactory emf = EMF.get();
+	EntityManager em = null;
+
+	try {
+	    em = emf.createEntityManager();
+	    mBeanAttaquant = em.find(Attaquant.class, mEntity.getKey());
+	} finally {
+	    if (em != null)
+		em.close();
+	}
+
+	return mBeanAttaquant;
+    }
+    
+    private Defenseur mapDefenseurFromDatastore(Entity mEntity, Defenseur mBeanDefenseur) {
+   	EntityManagerFactory emf = EMF.get();
+   	EntityManager em = null;
+
+   	try {
+   	    em = emf.createEntityManager();
+   	    mBeanDefenseur = em.find(Defenseur.class, mEntity.getKey());
+   	} finally {
+   	    if (em != null)
+   		em.close();
+   	}
+
+   	return mBeanDefenseur;
+       }
+    
+    private Gardien mapGardienFromDatastore(Entity mEntity, Gardien mBeanGardien) {
+   	EntityManagerFactory emf = EMF.get();
+   	EntityManager em = null;
+
+   	try {
+   	    em = emf.createEntityManager();
+   	    mBeanGardien = em.find(Gardien.class, mEntity.getKey());
+   	} finally {
+   	    if (em != null)
+   		em.close();
+   	}
+
+   	return mBeanGardien;
+       }
+    
+    private Recrue mapRecrueFromDatastore(Entity mEntity, Recrue mBeanRecrue) {
+   	EntityManagerFactory emf = EMF.get();
+   	EntityManager em = null;
+
+   	try {
+   	    em = emf.createEntityManager();
+   	    mBeanRecrue = em.find(Recrue.class, mEntity.getKey());
+   	} finally {
+   	    if (em != null)
+   		em.close();
+   	}
+
+   	return mBeanRecrue;
+       }
+
 
 }

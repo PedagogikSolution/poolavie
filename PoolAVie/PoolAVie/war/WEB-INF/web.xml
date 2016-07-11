@@ -233,6 +233,42 @@
 		<url-pattern>/DraftPickCron</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>AttaquantCron</servlet-name>
+		<servlet-class>com.pedagogiksolution.cron.AttaquantCron</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AttaquantCron</servlet-name>
+		<url-pattern>/AttaquantCron</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>DefenseurCron</servlet-name>
+		<servlet-class>com.pedagogiksolution.cron.DefenseurCron</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DefenseurCron</servlet-name>
+		<url-pattern>/DefenseurCron</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>GardienCron</servlet-name>
+		<servlet-class>com.pedagogiksolution.cron.GardienCron</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GardienCron</servlet-name>
+		<url-pattern>/GardienCron</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>RecrueCron</servlet-name>
+		<servlet-class>com.pedagogiksolution.cron.RecrueCron</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RecrueCron</servlet-name>
+		<url-pattern>/RecrueCron</url-pattern>
+	</servlet-mapping>
+	
 	
 	
 </web-app>

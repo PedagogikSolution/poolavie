@@ -63,8 +63,12 @@ public class LoginServlet extends HttpServlet {
 		Boolean createSessionClassementBean= mModel.createSessionClassementBean();
 		Boolean createSessionDraftRoundBean = mModel.createSessionDraftRoundBean();
 		Boolean createSessionDraftPickBean = mModel.createSessionDraftPickBean();
+		Boolean createSessionAttaquantBean = mModel.createSessionAttaquantBean();
+		Boolean createSessionDefenseurBean = mModel.createSessionDefenseurBean();
+		Boolean createSessionGardienBean = mModel.createSessionGardienBean();
+		Boolean createSessionRecrueBean = mModel.createSessionRecrueBean();
 		
-		if(createSessionPoolBean&&createSessionClassementBean&&createSessionEquipeBean&&createSessionDraftRoundBean&&createSessionDraftPickBean){
+		if(createSessionDefenseurBean&&createSessionGardienBean&&createSessionRecrueBean&&createSessionPoolBean&&createSessionClassementBean&&createSessionEquipeBean&&createSessionDraftRoundBean&&createSessionDraftPickBean&&createSessionAttaquantBean){
 		   
 		    
 		    resp.sendRedirect("/Nouvelles");

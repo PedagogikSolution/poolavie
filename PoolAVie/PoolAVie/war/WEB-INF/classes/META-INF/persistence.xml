@@ -12,6 +12,10 @@
         <class>com.pedagogiksolution.datastorebeans.Classement</class>
         <class>com.pedagogiksolution.datastorebeans.DraftRound</class>
         <class>com.pedagogiksolution.datastorebeans.DraftPick</class>
+        <class>com.pedagogiksolution.datastorebeans.Attaquant</class>
+        <class>com.pedagogiksolution.datastorebeans.Defenseur</class>
+        <class>com.pedagogiksolution.datastorebeans.Gardien</class>
+        <class>com.pedagogiksolution.datastorebeans.Recrue</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes> 
         <properties>
             <property name="datanucleus.NontransactionalRead" value="true"/>
