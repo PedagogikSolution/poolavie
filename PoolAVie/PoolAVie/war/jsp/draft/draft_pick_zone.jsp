@@ -25,7 +25,43 @@
 
 	<div class="w3-container">
 	
-	
+	<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width:80%">
+		<caption class="w3-blue w3-xlarge"><h1>Joueurs disponible au Draft (TOUS)</h1></caption>
+			<tr class="w3-blue">
+					<th>Nom</th>
+					<th>Équipe</th>
+					<th>Position</th>
+					<th>Pj</th>
+					<th>But</th>
+					<th>Aide</th>
+					<th>Pts</th>
+					<th>Salaire</th>
+					<th>Rookie</th>
+					<th>Proj</th>
+					
+					
+					
+			</tr>
+			<c:set var="nombreDePlayers" value="${NonSessionPlayers.pj}" />
+			<c:forEach var="i" begin="0" end="${fn:length(nombreDePlayers)-1}">
+				
+					<tr>
+						<td>${NonSessionPlayers.nom[i]}</td>
+						<td>${NonSessionPlayers.teamOfPlayer[i]}</td>
+						<td>${NonSessionPlayers.position[i]}</td>
+						<td>${NonSessionPlayers.pj[i]}</td>
+						<td>${NonSessionPlayers.but_victoire[i]}</td>
+						<td>${NonSessionPlayers.aide_overtime[i]}</td>
+						<td>${NonSessionPlayers.pts[i]}</td>
+						<td>${NonSessionPlayers.salaire_draft[i]}</td>
+						<td>${NonSessionPlayers.can_be_rookie[i]}</td>
+						<td>${NonSessionPlayers.projection[i]}</td>
+						
+												
+					</tr>
+				
+			</c:forEach>
+		</table>
 
 	
 	

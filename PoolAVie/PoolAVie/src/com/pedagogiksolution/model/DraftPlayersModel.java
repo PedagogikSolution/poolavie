@@ -39,18 +39,18 @@ public class DraftPlayersModel {
 
     private NonSessionPlayers getDraftPlayersFromDatastore(String sort2, String segment2, NonSessionPlayers mBean) {
 
-	List<Integer> players_id = new ArrayList<Integer>();
+	List<Long> players_id = new ArrayList<Long>();
 	List<String> nom = new ArrayList<String>();
 	List<String> teamOfPlayer = new ArrayList<String>();
-	List<Integer> pj = new ArrayList<Integer>();
-	List<Integer> but_victoire = new ArrayList<Integer>();
-	List<Integer> aide_overtime = new ArrayList<Integer>();
-	List<Integer> blanchissage = new ArrayList<Integer>();
-	List<Integer> pts = new ArrayList<Integer>();
-	List<Integer> projection = new ArrayList<Integer>();
+	List<Long> pj = new ArrayList<Long>();
+	List<Long> but_victoire = new ArrayList<Long>();
+	List<Long> aide_overtime = new ArrayList<Long>();
+	List<Long> blanchissage = new ArrayList<Long>();
+	List<Long> pts = new ArrayList<Long>();
+	List<Long> projection = new ArrayList<Long>();
 	List<String> position = new ArrayList<String>();
-	List<Integer> can_be_rookie = new ArrayList<Integer>();
-	List<Integer> salaire_draft = new ArrayList<Integer>();
+	List<Long> can_be_rookie = new ArrayList<Long>();
+	List<Long> salaire_draft = new ArrayList<Long>();
 
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 	String poolID = mBeanPool.getPoolID();
@@ -71,9 +71,9 @@ public class DraftPlayersModel {
 	    mFiltre = CompositeFilterOperator.and(noContrat, byPosition);
 	    q = new Query(datastoreID).addSort(sort2, Query.SortDirection.DESCENDING).setFilter(mFiltre);
 	    break;
-	case "defense":
+	case "defenseur":
 	    noContrat = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
-	    byPosition = new FilterPredicate("position", FilterOperator.EQUAL, "defense");
+	    byPosition = new FilterPredicate("position", FilterOperator.EQUAL, "defenseur");
 	    mFiltre = CompositeFilterOperator.and(noContrat, byPosition);
 	    q = new Query(datastoreID).addSort(sort2, Query.SortDirection.DESCENDING).setFilter(mFiltre);
 	    break;
@@ -97,9 +97,9 @@ public class DraftPlayersModel {
 
 	for (Entity result : pq) {
 
-	    int m_players_id = (int) result.getProperty("players_id");
+	    Long m_players_id = (Long) result.getProperty("players_id");
 	    players_id.add(m_players_id);
-	    mBean.set_id(players_id);
+	    mBean.setPlayers_id(players_id);
 
 	    String m_nom = (String) result.getProperty("nom");
 	    nom.add(m_nom);
@@ -109,27 +109,27 @@ public class DraftPlayersModel {
 	    teamOfPlayer.add(m_teamOfPlayer);
 	    mBean.setTeamOfPlayer(teamOfPlayer);
 
-	    int m_pj = (int) result.getProperty("pj");
+	    Long m_pj = (Long) result.getProperty("pj");
 	    pj.add(m_pj);
 	    mBean.setPj(pj);
 
-	    int m_but_victoire = (int) result.getProperty("but_victoire");
+	    Long m_but_victoire = (Long) result.getProperty("but_victoire");
 	    but_victoire.add(m_but_victoire);
 	    mBean.setBut_victoire(but_victoire);
 
-	    int m_aide_overtime = (int) result.getProperty("aide_overtime");
+	    Long m_aide_overtime = (Long) result.getProperty("aide_overtime");
 	    aide_overtime.add(m_aide_overtime);
 	    mBean.setAide_overtime(aide_overtime);
 
-	    int m_blanchissage = (int) result.getProperty("blanchissage");
+	    Long m_blanchissage = (Long) result.getProperty("blanchissage");
 	    blanchissage.add(m_blanchissage);
 	    mBean.setBlanchissage(blanchissage);
 
-	    int m_pts = (int) result.getProperty("pts");
+	    Long m_pts = (Long) result.getProperty("pts");
 	    pts.add(m_pts);
 	    mBean.setPts(pts);
 
-	    int m_projection = (int) result.getProperty("projection");
+	    Long m_projection = (Long) result.getProperty("projection");
 	    projection.add(m_projection);
 	    mBean.setProjection(projection);
 
@@ -137,11 +137,11 @@ public class DraftPlayersModel {
 	    position.add(m_position);
 	    mBean.setPosition(position);
 
-	    int m_can_be_rookie = (int) result.getProperty("can_be_rookie");
+	    Long m_can_be_rookie = (Long) result.getProperty("can_be_rookie");
 	    can_be_rookie.add(m_can_be_rookie);
 	    mBean.setCan_be_rookie(can_be_rookie);
 
-	    int m_salaire_draft = (int) result.getProperty("salaire_draft");
+	    Long m_salaire_draft = (Long) result.getProperty("salaire_draft");
 	    salaire_draft.add(m_salaire_draft);
 	    mBean.setSalaire_draft(salaire_draft);
 	}

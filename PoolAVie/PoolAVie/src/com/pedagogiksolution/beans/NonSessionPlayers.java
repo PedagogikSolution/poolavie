@@ -15,50 +15,45 @@ public class NonSessionPlayers implements Serializable {
      */
     private static final long serialVersionUID = -4460611310628286985L;
     
-    private List<Integer> _id;
-    private List<Integer> team_id;
+    private List<Long> players_id;
+    private List<Long> team_id;
     private List<String> nom;
     private List<String> teamOfPlayer;
-    private List<Integer> pj;
-    private List<Integer> but_victoire;
-    private List<Integer> aide_overtime;
-    private List<Integer> blanchissage;
-    private List<Integer> pts;
-    private List<Integer> projection;
+    private List<Long> pj;
+    private List<Long> but_victoire;
+    private List<Long> aide_overtime;
+    private List<Long> blanchissage;
+    private List<Long> pts;
+    private List<Long> projection;
     private List<String> position;
     private List<Date> birthday;
-    private List<Integer> can_be_rookie;
-    private List<Integer> take_proj;
-    private List<Integer> salaire_draft;
-    private List<Integer> contrat;
+    private List<Long> can_be_rookie;
+    private List<Long> take_proj;
+    private List<Long> salaire_draft;
+    private List<Long> contrat;
     private List<String> equipe;
-    private List<Integer> salaire_contrat;
-    private List<Integer> contrat_cours;
-    private List<Integer> contrat_max_years;
-    private List<Integer> type_contrat;
-    private List<Integer> club_ecole;
+    private List<Long> salaire_contrat;
+    private List<Long> contrat_cours;
+    private List<Long> contrat_max_years;
+    private List<Long> type_contrat;
+    private List<Long> club_ecole;
     private List<Date> date_calcul;
     private List<String> years_1;
     private List<String> years_2;
     private List<String> years_3;
     private List<String> years_4;
     private List<String> years_5;
-    private List<Integer> team_was_update;
-    private List<Integer> age;
-    private List<Integer> hier;
-    private List<Integer> semaine;
-    private List<Integer> mois;
+    private List<Long> team_was_update;
+    private List<Long> age;
+    private List<Long> hier;
+    private List<Long> semaine;
+    private List<Long> mois;
     
-    public List<Integer> get_id() {
-	return _id;
-    }
-    public void set_id(List<Integer> _id) {
-	this._id = _id;
-    }
-    public List<Integer> getTeam_id() {
+   
+    public List<Long> getTeam_id() {
 	return team_id;
     }
-    public void setTeam_id(List<Integer> team_id) {
+    public void setTeam_id(List<Long> team_id) {
 	this.team_id = team_id;
     }
     public List<String> getNom() {
@@ -67,40 +62,40 @@ public class NonSessionPlayers implements Serializable {
     public void setNom(List<String> nom) {
 	this.nom = nom;
     }
-    public List<Integer> getPj() {
+    public List<Long> getPj() {
 	return pj;
     }
-    public void setPj(List<Integer> pj) {
+    public void setPj(List<Long> pj) {
 	this.pj = pj;
     }
-    public List<Integer> getBut_victoire() {
+    public List<Long> getBut_victoire() {
 	return but_victoire;
     }
-    public void setBut_victoire(List<Integer> but_victoire) {
+    public void setBut_victoire(List<Long> but_victoire) {
 	this.but_victoire = but_victoire;
     }
-    public List<Integer> getAide_overtime() {
+    public List<Long> getAide_overtime() {
 	return aide_overtime;
     }
-    public void setAide_overtime(List<Integer> aide_overtime) {
+    public void setAide_overtime(List<Long> aide_overtime) {
 	this.aide_overtime = aide_overtime;
     }
-    public List<Integer> getBlanchissage() {
+    public List<Long> getBlanchissage() {
 	return blanchissage;
     }
-    public void setBlanchissage(List<Integer> blanchissage) {
+    public void setBlanchissage(List<Long> blanchissage) {
 	this.blanchissage = blanchissage;
     }
-    public List<Integer> getPts() {
+    public List<Long> getPts() {
 	return pts;
     }
-    public void setPts(List<Integer> pts) {
+    public void setPts(List<Long> pts) {
 	this.pts = pts;
     }
-    public List<Integer> getProjection() {
+    public List<Long> getProjection() {
 	return projection;
     }
-    public void setProjection(List<Integer> projection) {
+    public void setProjection(List<Long> projection) {
 	this.projection = projection;
     }
     public List<String> getPosition() {
@@ -115,28 +110,28 @@ public class NonSessionPlayers implements Serializable {
     public void setBirthday(List<Date> list) {
 	this.birthday = list;
     }
-    public List<Integer> getCan_be_rookie() {
+    public List<Long> getCan_be_rookie() {
 	return can_be_rookie;
     }
-    public void setCan_be_rookie(List<Integer> can_be_rookie) {
+    public void setCan_be_rookie(List<Long> can_be_rookie) {
 	this.can_be_rookie = can_be_rookie;
     }
-    public List<Integer> getTake_proj() {
+    public List<Long> getTake_proj() {
 	return take_proj;
     }
-    public void setTake_proj(List<Integer> take_proj) {
+    public void setTake_proj(List<Long> take_proj) {
 	this.take_proj = take_proj;
     }
-    public List<Integer> getSalaire_draft() {
+    public List<Long> getSalaire_draft() {
 	return salaire_draft;
     }
-    public void setSalaire_draft(List<Integer> salaire_draft) {
+    public void setSalaire_draft(List<Long> salaire_draft) {
 	this.salaire_draft = salaire_draft;
     }
-    public List<Integer> getContrat() {
+    public List<Long> getContrat() {
 	return contrat;
     }
-    public void setContrat(List<Integer> contrat) {
+    public void setContrat(List<Long> contrat) {
 	this.contrat = contrat;
     }
     public List<String> getEquipe() {
@@ -145,34 +140,34 @@ public class NonSessionPlayers implements Serializable {
     public void setEquipe(List<String> equipe) {
 	this.equipe = equipe;
     }
-    public List<Integer> getSalaire_contrat() {
+    public List<Long> getSalaire_contrat() {
 	return salaire_contrat;
     }
-    public void setSalaire_contrat(List<Integer> salaire_contrat) {
+    public void setSalaire_contrat(List<Long> salaire_contrat) {
 	this.salaire_contrat = salaire_contrat;
     }
-    public List<Integer> getContrat_cours() {
+    public List<Long> getContrat_cours() {
 	return contrat_cours;
     }
-    public void setContrat_cours(List<Integer> contrat_cours) {
+    public void setContrat_cours(List<Long> contrat_cours) {
 	this.contrat_cours = contrat_cours;
     }
-    public List<Integer> getContrat_max_years() {
+    public List<Long> getContrat_max_years() {
 	return contrat_max_years;
     }
-    public void setContrat_max_years(List<Integer> contrat_max_years) {
+    public void setContrat_max_years(List<Long> contrat_max_years) {
 	this.contrat_max_years = contrat_max_years;
     }
-    public List<Integer> getType_contrat() {
+    public List<Long> getType_contrat() {
 	return type_contrat;
     }
-    public void setType_contrat(List<Integer> type_contrat) {
+    public void setType_contrat(List<Long> type_contrat) {
 	this.type_contrat = type_contrat;
     }
-    public List<Integer> getClub_ecole() {
+    public List<Long> getClub_ecole() {
 	return club_ecole;
     }
-    public void setClub_ecole(List<Integer> club_ecole) {
+    public void setClub_ecole(List<Long> club_ecole) {
 	this.club_ecole = club_ecole;
     }
     public List<Date> getDate_calcul() {
@@ -211,34 +206,34 @@ public class NonSessionPlayers implements Serializable {
     public void setYears_5(List<String> years_5) {
 	this.years_5 = years_5;
     }
-    public List<Integer> getTeam_was_update() {
+    public List<Long> getTeam_was_update() {
 	return team_was_update;
     }
-    public void setTeam_was_update(List<Integer> team_was_update) {
+    public void setTeam_was_update(List<Long> team_was_update) {
 	this.team_was_update = team_was_update;
     }
-    public List<Integer> getAge() {
+    public List<Long> getAge() {
 	return age;
     }
-    public void setAge(List<Integer> age) {
+    public void setAge(List<Long> age) {
 	this.age = age;
     }
-    public List<Integer> getHier() {
+    public List<Long> getHier() {
 	return hier;
     }
-    public void setHier(List<Integer> hier) {
+    public void setHier(List<Long> hier) {
 	this.hier = hier;
     }
-    public List<Integer> getSemaine() {
+    public List<Long> getSemaine() {
 	return semaine;
     }
-    public void setSemaine(List<Integer> semaine) {
+    public void setSemaine(List<Long> semaine) {
 	this.semaine = semaine;
     }
-    public List<Integer> getMois() {
+    public List<Long> getMois() {
 	return mois;
     }
-    public void setMois(List<Integer> mois) {
+    public void setMois(List<Long> mois) {
 	this.mois = mois;
     }
     public List<String> getTeamOfPlayer() {
@@ -246,6 +241,12 @@ public class NonSessionPlayers implements Serializable {
     }
     public void setTeamOfPlayer(List<String> teamOfPlayer) {
 	this.teamOfPlayer = teamOfPlayer;
+    }
+    public List<Long> getPlayers_id() {
+	return players_id;
+    }
+    public void setPlayers_id(List<Long> players_id) {
+	this.players_id = players_id;
     }
     
     

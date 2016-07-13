@@ -11,6 +11,7 @@ public class Players implements Serializable {
      */
     private static final long serialVersionUID = 2415967842901100625L;
     
+    private int _id;
     private int players_id;
     private int team_id;  
     private String nom;
@@ -244,6 +245,12 @@ public class Players implements Serializable {
     }
     public void setMois(int mois) {
         this.mois = mois;
+    }
+    public int get_id() {
+	return _id;
+    }
+    public void set_id(int _id) {
+	this._id = _id;
     }
     
     

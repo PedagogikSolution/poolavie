@@ -7,15 +7,15 @@
 		
 			<li class="w3-xlarge"><a href="/DraftResult">RESULT</a></li>
 		
-			<li class="w3-xlarge"><a href="/DraftPlayers?seg=all&sort=all">TOUS</a></li>
+			<li class="w3-xlarge"><a href="/DraftPlayers?seg=all&sort=pts">TOUS</a></li>
 		
-			<li class="w3-xlarge"><a href="/DraftPlayers?seg=foward&sort=all">ATTAQUANT</a></li>
+			<li class="w3-xlarge"><a href="/DraftPlayers?seg=foward&sort=pts">ATTAQUANT</a></li>
 		
-			<li class="w3-xlarge"><a href="/DraftPlayers?seg=defense&sort=all">DEFENSEUR</a></li>
+			<li class="w3-xlarge"><a href="/DraftPlayers?seg=defenseur&sort=pts">DEFENSEUR</a></li>
 		
-			<li class="w3-xlarge"><a href="/DraftPlayers?seg=goaler&sort=all">GARDIEN</a></li>
+			<li class="w3-xlarge"><a href="/DraftPlayers?seg=goaler&sort=pts">GARDIEN</a></li>
 		
-			<li class="w3-xlarge"><a href="/DraftPlayers?seg=rookie&sort=all">RECRUE</a></li>
+			<li class="w3-xlarge"><a href="/DraftPlayers?seg=rookie&sort=pts">RECRUE</a></li>
 		</ul>
 
 		

@@ -505,6 +505,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	PreparedStatement preparedStatement = null;
 	ResultSet rs = null;
 
+	int _id;
 	int players_id = 0;
 	int team_id = 0;
 	String nom = null;
@@ -547,7 +548,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	    rs = preparedStatement.executeQuery();
 
 	    while (rs.next()) {
-
+		_id = rs.getInt("_id");
 		players_id = rs.getInt("_id");
 		team_id = rs.getInt("team_id");
 		nom = rs.getString("nom");
@@ -585,7 +586,8 @@ public class PlayersDaoImpl implements PlayersDao {
 		String nomBean = "Players_" + poolId;
 
 		Players mBean = new Players();
-
+		
+		mBean.set_id(_id);
 		mBean.setPlayers_id(players_id);
 		mBean.setAge(age);
 		mBean.setAide_overtime(aide_overtime);
@@ -621,12 +623,12 @@ public class PlayersDaoImpl implements PlayersDao {
 		mBean.setYears_5(years_5);
 
 		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-		Key userPrefsKey = KeyFactory.createKey(nomBean, players_id);
+		Key userPrefsKey = KeyFactory.createKey(nomBean, _id);
 		memcache.put(userPrefsKey, mBean);
 
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-		Entity entity = mapEntityFromBeanToDatastore(mBean, poolId, players_id);
+		Entity entity = mapEntityFromBeanToDatastore(mBean, poolId, _id);
 		datastore.put(entity);
 
 	    }
@@ -671,6 +673,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	mEntity.setProperty("mois", mBean.getMois());
 	mEntity.setProperty("nom", mBean.getNom());
 	mEntity.setProperty("pj", mBean.getPj());
+	mEntity.setProperty("players_id", mBean.getPlayers_id());
 	mEntity.setProperty("position", mBean.getPosition());
 	mEntity.setProperty("projection", mBean.getProjection());
 	mEntity.setProperty("pts", mBean.getPts());
