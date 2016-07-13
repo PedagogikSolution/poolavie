@@ -156,4 +156,32 @@ public class AdminModel {
 	
 
     }
+
+    public void annulationStartDraft(HttpServletRequest req) {
+	
+	    Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");    
+	
+	    mBeanPool.setCycleAnnuel(2);
+
+	    req.getSession().setAttribute("Pool", mBeanPool);
+
+	    String poolID = mBeanPool.getPoolID();
+	    int poolId = Integer.parseInt(poolID);
+
+	    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+	    Key clefMemCache = KeyFactory.createKey("Pool", poolId);
+	    memcache.put(clefMemCache, mBeanPool);
+
+	    EntityManagerFactory emf = EMF.get();
+	    EntityManager em = null;
+
+	    try {
+		em = emf.createEntityManager();
+		mBeanPool = em.merge(mBeanPool);
+	    } finally {
+		if (em != null)
+		    em.close();
+	    }
+	
+    }
 }

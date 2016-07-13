@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +16,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.memcache.MemcacheService;
@@ -21,6 +26,7 @@ import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.pedagogiksolution.datastorebeans.Attaquant;
 import com.pedagogiksolution.datastorebeans.Defenseur;
 import com.pedagogiksolution.datastorebeans.Gardien;
+import com.pedagogiksolution.datastorebeans.Players;
 import com.pedagogiksolution.datastorebeans.Recrue;
 import com.pedagogiksolution.utils.EMF;
 
@@ -28,7 +34,8 @@ public class PlayersDaoImpl implements PlayersDao {
 
     private static final String CREATE_PLAYERS = "CREATE TABLE players_? AS SELECT * FROM players_template;";
     private static final String CREATE_PLAYERS_ARCHIVES = "CREATE TABLE players_archive_? LIKE players_template";
-    private static final String GET_PLAYERS_BY_POOL_ID_AND_POSITION = "SELECT * FROM players_? WHERE team_id=? AND position=? AND club_ecole=?";
+    private static final String GET_PLAYERS_BY_POOL_ID_AND_POSITION = "SELECT * FROM players_? WHERE team_id=? AND position=? AND club_ecole=? SORT BY pts DESC";
+    private static final String GET_PLAYERS_FOR_DRAFT = "SELECT * FROM players_?";
     private DAOFactory daoFactory;
 
     PlayersDaoImpl(DAOFactory daoFactory) {
@@ -246,7 +253,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		case "attaquant":
 		    Attaquant mBeanA = new Attaquant();
 		    nomBean = "Attaquant";
-		    
+
 		    mBeanA.setAge(age);
 		    mBeanA.setAide_overtime(aide_overtime);
 		    mBeanA.setBirthday(birthday);
@@ -282,7 +289,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		    mBeanA.setYears_5(years_5);
 
 		    // on crée le beans avec le processus JPA qui va créer le datastore en même temps
-		    
+
 		    try {
 			em = emf.createEntityManager();
 
@@ -298,7 +305,7 @@ public class PlayersDaoImpl implements PlayersDao {
 			}
 		    }
 		    // on persist le datastore/bean dans la MemCache
-		    
+
 		    Key userPrefsKeyA = KeyFactory.createKey(nomBean, datastoreId);
 		    memcache.put(userPrefsKeyA, mBeanA);
 
@@ -307,7 +314,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		case "defenseur":
 		    Defenseur mBeanD = new Defenseur();
 		    nomBean = "Defenseur";
-		    
+
 		    mBeanD.setAge(age);
 		    mBeanD.setAide_overtime(aide_overtime);
 		    mBeanD.setBirthday(birthday);
@@ -343,7 +350,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		    mBeanD.setYears_5(years_5);
 
 		    // on crée le beans avec le processus JPA qui va créer le datastore en même temps
-		   
+
 		    try {
 			em = emf.createEntityManager();
 
@@ -359,15 +366,15 @@ public class PlayersDaoImpl implements PlayersDao {
 			}
 		    }
 		    // on persist le datastore/bean dans la MemCache
-		   
+
 		    Key userPrefsKeyD = KeyFactory.createKey(nomBean, datastoreId);
 		    memcache.put(userPrefsKeyD, mBeanD);
-		    
+
 		    break;
 		case "gardien":
 		    Gardien mBeanG = new Gardien();
 		    nomBean = "Gardien";
-		       
+
 		    mBeanG.setAge(age);
 		    mBeanG.setAide_overtime(aide_overtime);
 		    mBeanG.setBirthday(birthday);
@@ -403,7 +410,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		    mBeanG.setYears_5(years_5);
 
 		    // on crée le beans avec le processus JPA qui va créer le datastore en même temps
-		   
+
 		    try {
 			em = emf.createEntityManager();
 
@@ -419,75 +426,269 @@ public class PlayersDaoImpl implements PlayersDao {
 			}
 		    }
 		    // on persist le datastore/bean dans la MemCache
-		   
+
 		    Key userPrefsKeyG = KeyFactory.createKey(nomBean, datastoreId);
 		    memcache.put(userPrefsKeyG, mBeanG);
-		    
+
 		    break;
 		}
 		break;
 	    case 1:
 		Recrue mBeanR = new Recrue();
 		nomBean = "Recrue";
-		 mBeanR.setAge(age);
-		    mBeanR.setAide_overtime(aide_overtime);
-		    mBeanR.setBirthday(birthday);
-		    mBeanR.setBlanchissage(blanchissage);
-		    mBeanR.setBut_victoire(but_victoire);
-		    mBeanR.setCan_be_rookie(can_be_rookie);
-		    mBeanR.setClub_ecole(club_ecole);
-		    mBeanR.setContrat(contrat);
-		    mBeanR.setContrat_cours(contrat_cours);
-		    mBeanR.setContrat_max_years(contrat_max_years);
-		    mBeanR.setDate_calcul(date_calcul);
-		    mBeanR.setEquipe(equipe);
-		    mBeanR.setHier(hier);
-		    mBeanR.setMois(mois);
-		    mBeanR.setNom(nom);
-		    mBeanR.setPj(pj);
-		    mBeanR.setPoolTeamId(datastoreId);
-		    mBeanR.setPosition(position);
-		    mBeanR.setProjection(projection);
-		    mBeanR.setPts(pts);
-		    mBeanR.setSalaire_contrat(salaire_contrat);
-		    mBeanR.setSalaire_draft(salaire_draft);
-		    mBeanR.setSemaine(semaine);
-		    mBeanR.setTake_proj(take_proj);
-		    mBeanR.setTeam_id(team_id);
-		    mBeanR.setTeam_was_update(team_was_update);
-		    mBeanR.setTeamOfPlayer(teamOfPlayer);
-		    mBeanR.setType_contrat(type_contrat);
-		    mBeanR.setYears_1(years_1);
-		    mBeanR.setYears_2(years_2);
-		    mBeanR.setYears_3(years_3);
-		    mBeanR.setYears_4(years_4);
-		    mBeanR.setYears_5(years_5);
+		mBeanR.setAge(age);
+		mBeanR.setAide_overtime(aide_overtime);
+		mBeanR.setBirthday(birthday);
+		mBeanR.setBlanchissage(blanchissage);
+		mBeanR.setBut_victoire(but_victoire);
+		mBeanR.setCan_be_rookie(can_be_rookie);
+		mBeanR.setClub_ecole(club_ecole);
+		mBeanR.setContrat(contrat);
+		mBeanR.setContrat_cours(contrat_cours);
+		mBeanR.setContrat_max_years(contrat_max_years);
+		mBeanR.setDate_calcul(date_calcul);
+		mBeanR.setEquipe(equipe);
+		mBeanR.setHier(hier);
+		mBeanR.setMois(mois);
+		mBeanR.setNom(nom);
+		mBeanR.setPj(pj);
+		mBeanR.setPoolTeamId(datastoreId);
+		mBeanR.setPosition(position);
+		mBeanR.setProjection(projection);
+		mBeanR.setPts(pts);
+		mBeanR.setSalaire_contrat(salaire_contrat);
+		mBeanR.setSalaire_draft(salaire_draft);
+		mBeanR.setSemaine(semaine);
+		mBeanR.setTake_proj(take_proj);
+		mBeanR.setTeam_id(team_id);
+		mBeanR.setTeam_was_update(team_was_update);
+		mBeanR.setTeamOfPlayer(teamOfPlayer);
+		mBeanR.setType_contrat(type_contrat);
+		mBeanR.setYears_1(years_1);
+		mBeanR.setYears_2(years_2);
+		mBeanR.setYears_3(years_3);
+		mBeanR.setYears_4(years_4);
+		mBeanR.setYears_5(years_5);
 
-		    // on crée le beans avec le processus JPA qui va créer le datastore en même temps
-		   
-		    try {
-			em = emf.createEntityManager();
+		// on crée le beans avec le processus JPA qui va créer le datastore en même temps
 
-			// on persiste dans le datastore via notre EntityManager
-			em.persist(mBeanR);
+		try {
+		    em = emf.createEntityManager();
 
-		    } finally {
+		    // on persiste dans le datastore via notre EntityManager
+		    em.persist(mBeanR);
 
-			// on ferme le manager pour libérer la mémoire
-			if (em != null) {
-			    em.close();
+		} finally {
 
-			}
+		    // on ferme le manager pour libérer la mémoire
+		    if (em != null) {
+			em.close();
+
 		    }
-		    // on persist le datastore/bean dans la MemCache
-		   
-		    Key userPrefsKeyG = KeyFactory.createKey(nomBean, datastoreId);
-		    memcache.put(userPrefsKeyG, mBeanR);
-		    
+		}
+		// on persist le datastore/bean dans la MemCache
+
+		Key userPrefsKeyG = KeyFactory.createKey(nomBean, datastoreId);
+		memcache.put(userPrefsKeyG, mBeanR);
+
 		break;
 	    }
 
 	}
+
+    }
+
+    @Override
+    public void cronJobPlayersAvailableForDraft(int poolId) throws DAOException {
+
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+	ResultSet rs = null;
+
+	int players_id = 0;
+	int team_id = 0;
+	String nom = null;
+	String teamOfPlayer = null;
+	int pj = 0;
+	int but_victoire = 0;
+	int aide_overtime = 0;
+	int blanchissage = 0;
+	int pts = 0;
+	int projection = 0;
+	String position = null;
+	Date birthday = null;
+	int can_be_rookie = 0;
+	int take_proj = 0;
+	int salaire_draft = 0;
+	int contrat = 0;
+	String equipe = null;
+	int salaire_contrat = 0;
+	int contrat_cours = 0;
+	int contrat_max_years = 0;
+	int type_contrat = 0;
+	int club_ecole = 0;
+	Date date_calcul = null;
+	String years_1 = null;
+	String years_2 = null;
+	String years_3 = null;
+	String years_4 = null;
+	String years_5 = null;
+	int team_was_update = 0;
+	int age = 0;
+	int hier = 0;
+	int semaine = 0;
+	int mois = 0;
+
+	try {
+
+	    connexion = daoFactory.getConnection();
+
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_FOR_DRAFT, false, poolId);
+	    rs = preparedStatement.executeQuery();
+
+	    while (rs.next()) {
+
+		players_id = rs.getInt("_id");
+		team_id = rs.getInt("team_id");
+		nom = rs.getString("nom");
+		teamOfPlayer = rs.getString("team");
+		pj = rs.getInt("pj");
+		but_victoire = rs.getInt("but_victoire");
+		aide_overtime = rs.getInt("aide_overtime");
+		blanchissage = rs.getInt("blanchissage");
+		pts = rs.getInt("pts");
+		projection = rs.getInt("projection");
+		position = rs.getString("position");
+		birthday = rs.getDate("birthday");
+		can_be_rookie = rs.getInt("can_be_rookie");
+		take_proj = rs.getInt("take_proj");
+		salaire_draft = rs.getInt("salaire_draft");
+		contrat = rs.getInt("contrat");
+		equipe = rs.getString("equipe");
+		salaire_contrat = rs.getInt("salaire_contrat");
+		contrat_cours = rs.getInt("contrat_cours");
+		contrat_max_years = rs.getInt("contrat_max_years");
+		type_contrat = rs.getInt("type_contrat");
+		club_ecole = rs.getInt("club_ecole");
+		date_calcul = rs.getDate("date_calcul");
+		years_1 = rs.getString("years_1");
+		years_2 = rs.getString("years_2");
+		years_3 = rs.getString("years_3");
+		years_4 = rs.getString("years_4");
+		years_5 = rs.getString("years_5");
+		team_was_update = rs.getInt("team_was_update");
+		age = rs.getInt("age");
+		hier = rs.getInt("hier");
+		semaine = rs.getInt("semaine");
+		mois = rs.getInt("mois");
+
+		String nomBean = "Players_" + poolId;
+
+		Players mBean = new Players();
+
+		mBean.setPlayers_id(players_id);
+		mBean.setAge(age);
+		mBean.setAide_overtime(aide_overtime);
+		mBean.setBirthday(birthday);
+		mBean.setBlanchissage(blanchissage);
+		mBean.setBut_victoire(but_victoire);
+		mBean.setCan_be_rookie(can_be_rookie);
+		mBean.setClub_ecole(club_ecole);
+		mBean.setContrat(contrat);
+		mBean.setContrat_cours(contrat_cours);
+		mBean.setContrat_max_years(contrat_max_years);
+		mBean.setDate_calcul(date_calcul);
+		mBean.setEquipe(equipe);
+		mBean.setHier(hier);
+		mBean.setMois(mois);
+		mBean.setNom(nom);
+		mBean.setPj(pj);
+		mBean.setPosition(position);
+		mBean.setProjection(projection);
+		mBean.setPts(pts);
+		mBean.setSalaire_contrat(salaire_contrat);
+		mBean.setSalaire_draft(salaire_draft);
+		mBean.setSemaine(semaine);
+		mBean.setTake_proj(take_proj);
+		mBean.setTeam_id(team_id);
+		mBean.setTeam_was_update(team_was_update);
+		mBean.setTeamOfPlayer(teamOfPlayer);
+		mBean.setType_contrat(type_contrat);
+		mBean.setYears_1(years_1);
+		mBean.setYears_2(years_2);
+		mBean.setYears_3(years_3);
+		mBean.setYears_4(years_4);
+		mBean.setYears_5(years_5);
+
+		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+		Key userPrefsKey = KeyFactory.createKey(nomBean, players_id);
+		memcache.put(userPrefsKey, mBean);
+
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+		Entity entity = mapEntityFromBeanToDatastore(mBean, poolId, players_id);
+		datastore.put(entity);
+
+	    }
+
+	} catch (SQLException e) {
+
+	    throw new DAOException(e);
+
+	} finally {
+	    fermeturesSilencieuses(rs, preparedStatement, connexion);
+
+	}
+
+    }
+
+    private Entity mapEntityFromBeanToDatastore(Players mBean, int poolId, int players_id) {
+	String birthday=null;
+	String date_calcul=null;
+	String nomEntity = "Players_" + poolId;
+	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+	try {
+	    birthday = dateFormat.format(mBean.getBirthday());
+	    date_calcul = dateFormat.format(mBean.getDate_calcul());
+	} catch (Exception ex) {
+	}
+
+	Entity mEntity = new Entity(nomEntity, players_id);
+
+	mEntity.setProperty("age", mBean.getAge());
+	mEntity.setProperty("aide_overtime", mBean.getAide_overtime());
+	mEntity.setProperty("birthday", birthday);
+	mEntity.setProperty("blanchissage", mBean.getBlanchissage());
+	mEntity.setProperty("but_victoire", mBean.getBut_victoire());
+	mEntity.setProperty("can_be_rookie", mBean.getCan_be_rookie());
+	mEntity.setProperty("club_ecole", mBean.getClub_ecole());
+	mEntity.setProperty("contrat", mBean.getContrat());
+	mEntity.setProperty("contrat_cours", mBean.getContrat_cours());
+	mEntity.setProperty("contrat_max_years", mBean.getContrat_max_years());
+	mEntity.setProperty("date_calcul", date_calcul);
+	mEntity.setProperty("equipe", mBean.getEquipe());
+	mEntity.setProperty("hier", mBean.getHier());
+	mEntity.setProperty("mois", mBean.getMois());
+	mEntity.setProperty("nom", mBean.getNom());
+	mEntity.setProperty("pj", mBean.getPj());
+	mEntity.setProperty("position", mBean.getPosition());
+	mEntity.setProperty("projection", mBean.getProjection());
+	mEntity.setProperty("pts", mBean.getPts());
+	mEntity.setProperty("salaire_contrat", mBean.getSalaire_contrat());
+	mEntity.setProperty("salaire_draft", mBean.getSalaire_draft());
+	mEntity.setProperty("semaine", mBean.getSemaine());
+	mEntity.setProperty("take_proj", mBean.getTake_proj());
+	mEntity.setProperty("team_id", mBean.getTeam_id());
+	mEntity.setProperty("team_was_update", mBean.getTeam_was_update());
+	mEntity.setProperty("teamOfPlayer", mBean.getTeamOfPlayer());
+	mEntity.setProperty("type_contrat", mBean.getType_contrat());
+	mEntity.setProperty("years_1", mBean.getYears_1());
+	mEntity.setProperty("years_2", mBean.getYears_2());
+	mEntity.setProperty("years_3", mBean.getYears_3());
+	mEntity.setProperty("years_4", mBean.getYears_4());
+	mEntity.setProperty("years_5", mBean.getYears_5());
+
+	return mEntity;
 
     }
 }

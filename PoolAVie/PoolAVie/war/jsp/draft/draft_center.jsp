@@ -72,8 +72,7 @@
 		
 	</c:if>
 	
-	<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.cycleAnnuel==3}">
-	<!-- Si first years and avant draft avec date set-->	
+	<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.cycleAnnuel==3&&Pool.poolYear==0}">
 		
 		LE DRAFT EST EN COURS
 		
@@ -82,7 +81,7 @@
 	
 	<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.poolYear==1&&Pool.cycleAnnuel==1}">
 	<!-- Si multi years and avant draft -->
-		Nous attendons la date de draft, rappel de l'ordre selon le classement de l'année derniere.
+		Nous attendons la date de draft, rappel de l'ordre selon la table draft round.
 		
 	</c:if>
 	

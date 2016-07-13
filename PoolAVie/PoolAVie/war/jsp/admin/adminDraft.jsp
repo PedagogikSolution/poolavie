@@ -101,6 +101,30 @@
 		</form>
 </c:if>
 
+<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3}">
+
+			<h2 class="w3-blue">Change the draft date and time</h2>
+		<form class="w3-container w3-card-24 w3-white" action="/AdminDraft" method="post">
+			
+			<input type="hidden" name="numeroFormulaire" value="4">
+			
+			
+			<p>
+				<label>Date</label> <input class="w3-input w3-validate" type="date" name="dateDraft" min="Date.now()">
+			</p>
+
+			<p>
+				<label>Heure</label> <input class="w3-input w3-validate" type="time" name="heureDraft">
+			</p>
+
+
+			<button class="w3-btn w3-blue w3-xlarge">Confirmer</button>
+			
+			<br>
+
+		</form>
+</c:if>
+
 
 
 	</div>

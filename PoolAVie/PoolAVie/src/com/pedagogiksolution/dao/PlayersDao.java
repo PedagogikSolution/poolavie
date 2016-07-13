@@ -6,6 +6,7 @@ public interface PlayersDao {
     void createPlayersTable(int poolID) throws DAOException;
     void createPlayersArchiveTable(int poolID) throws DAOException;
     void cronJobGetPlayersbyPoolIdAndPosition(int poolId, int numberOfTeam, String positionString, int recrue)throws DAOException;
+    void cronJobPlayersAvailableForDraft(int i)throws DAOException;
     
     
 

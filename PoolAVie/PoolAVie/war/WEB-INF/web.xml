@@ -140,6 +140,15 @@
 	</servlet-mapping>
 	
 	<servlet>
+		<servlet-name>DraftPlayers</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.DraftPlayersServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DraftPlayers</servlet-name>
+		<url-pattern>/DraftPlayers</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<servlet-name>trade</servlet-name>
 		<servlet-class>com.pedagogiksolution.servlet.TradeServlet</servlet-class>
 	</servlet>
@@ -267,6 +276,15 @@
 	<servlet-mapping>
 		<servlet-name>RecrueCron</servlet-name>
 		<url-pattern>/RecrueCron</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>DraftPlayersCron</servlet-name>
+		<servlet-class>com.pedagogiksolution.cron.DraftPlayersCron</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DraftPlayersCron</servlet-name>
+		<url-pattern>/DraftPlayersCron</url-pattern>
 	</servlet-mapping>
 	
 	

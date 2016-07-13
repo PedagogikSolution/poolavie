@@ -29,14 +29,15 @@
 
 		<div class="w3-row w3-container">
 			<div class="w3-container w3-half">
-				<div class="w3-card-24 w3-blue">
-					<i class="w3-container material-icons md-96">settings</i>
-					
-					<h2 class="w3-right w3-padding-right w3-jumbo">Choisir la date du draft</h2>
-					
+				<a href="/AdminDraft"><button class="w3-card-24 w3-blue">
+					 <i class="w3-container material-icons md-96">settings</i>
+
+						<h2 class="w3-right w3-padding-right w3-jumbo">Choisir la date du draft</h2>
 
 
-				</div>
+					
+				</button>
+				</a>
 
 			</div>
 			<div class="w3-container w3-half"></div>
