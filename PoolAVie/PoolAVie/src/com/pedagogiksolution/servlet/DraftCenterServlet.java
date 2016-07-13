@@ -7,6 +7,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pedagogiksolution.datastorebeans.Pool;
+import com.pedagogiksolution.model.DraftPlayersModel;
+import com.pedagogiksolution.model.EquipeModel;
+
 public class DraftCenterServlet extends HttpServlet {
     /**
      * 
@@ -15,6 +19,24 @@ public class DraftCenterServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	EquipeModel mModel = new EquipeModel();
+	mModel.getBeanByTeam(req);
+	
+	Pool mBean = (Pool) req.getSession().getAttribute("Pool");
+	int cycleAnnuel = mBean.getCycleAnnuel();
+	
+	if(cycleAnnuel==3){
+	    
+	    DraftPlayersModel mModelDraft = new DraftPlayersModel();
+	    
+	    mModelDraft.createDraftDatastoreForThatPool(mBean,req);
+	    
+	 //   DraftBean mBeanDraft = new DraftBean();
+	    
+	//    req.getSession().setAttribute("DraftBean", mBeanDraft);
+	    
+	}
+	
 	req.getRequestDispatcher("jsp/draft/draft_center.jsp").forward(req, resp);
     }
 

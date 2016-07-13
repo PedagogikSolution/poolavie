@@ -19,7 +19,7 @@ import com.pedagogiksolution.beans.NonSessionPlayers;
 import com.pedagogiksolution.datastorebeans.Pool;
 
 public class DraftPlayersModel {
-
+    int ascDescOrder;
     String segment, sort;
     HttpServletRequest req;
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -30,9 +30,15 @@ public class DraftPlayersModel {
 	this.req = req;
     }
 
+    public DraftPlayersModel() {
+	// TODO Auto-generated constructor stub
+    }
+
     public void showPlayersSortByParameter() {
 	NonSessionPlayers mBean = new NonSessionPlayers();
 	mBean = getDraftPlayersFromDatastore(sort, segment, mBean);
+
+	req.setAttribute("SegmentSort", segment);
 	req.setAttribute("NonSessionPlayers", mBean);
 
     }
@@ -60,40 +66,82 @@ public class DraftPlayersModel {
 	Filter noContrat;
 	Filter byPosition;
 	CompositeFilter mFiltre;
+	
+	
+	
+	if (req.getSession().getAttribute("ascDescOrder") == null) {
+	    ascDescOrder = 0;
+	} else {
+	    ascDescOrder= (int) req.getSession().getAttribute("ascDescOrder");
+	}
+
 	switch (segment2) {
 	case "all":
+
 	    Filter allPlayers = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
-	    q = new Query(datastoreID).addSort(sort2, Query.SortDirection.DESCENDING).setFilter(allPlayers);
+
+	    if (ascDescOrder == 0) {
+		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.DESCENDING).setFilter(allPlayers);
+		req.getSession().setAttribute("ascDescOrder", 1);
+	    } else {
+		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.ASCENDING).setFilter(allPlayers);
+		req.getSession().setAttribute("ascDescOrder", 0);
+	    } 
+
 	    break;
 	case "foward":
 	    noContrat = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
 	    byPosition = new FilterPredicate("position", FilterOperator.EQUAL, "attaquant");
 	    mFiltre = CompositeFilterOperator.and(noContrat, byPosition);
-	    q = new Query(datastoreID).addSort(sort2, Query.SortDirection.DESCENDING).setFilter(mFiltre);
+	    if (ascDescOrder == 0) {
+		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.DESCENDING).setFilter(mFiltre);
+		req.getSession().setAttribute("ascDescOrder", 1);
+	    } else {
+		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.ASCENDING).setFilter(mFiltre);
+		req.getSession().setAttribute("ascDescOrder", 0);
+	    } 
 	    break;
 	case "defenseur":
 	    noContrat = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
 	    byPosition = new FilterPredicate("position", FilterOperator.EQUAL, "defenseur");
 	    mFiltre = CompositeFilterOperator.and(noContrat, byPosition);
-	    q = new Query(datastoreID).addSort(sort2, Query.SortDirection.DESCENDING).setFilter(mFiltre);
+	    if (ascDescOrder == 0) {
+		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.DESCENDING).setFilter(mFiltre);
+		req.getSession().setAttribute("ascDescOrder", 1);
+	    } else {
+		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.ASCENDING).setFilter(mFiltre);
+		req.getSession().setAttribute("ascDescOrder", 0);
+	    } 
 	    break;
 	case "goaler":
 	    noContrat = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
 	    byPosition = new FilterPredicate("position", FilterOperator.EQUAL, "gardien");
 	    mFiltre = CompositeFilterOperator.and(noContrat, byPosition);
-	    q = new Query(datastoreID).addSort(sort2, Query.SortDirection.DESCENDING).setFilter(mFiltre);
+	    if (ascDescOrder == 0) {
+		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.DESCENDING).setFilter(mFiltre);
+		req.getSession().setAttribute("ascDescOrder", 1);
+	    } else {
+		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.ASCENDING).setFilter(mFiltre);
+		req.getSession().setAttribute("ascDescOrder", 0);
+	    } 
 	    break;
 	case "rookie":
 	    noContrat = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
-	    byPosition = new FilterPredicate("can_be_rookie", FilterOperator.EQUAL,1);
+	    byPosition = new FilterPredicate("can_be_rookie", FilterOperator.EQUAL, 1);
 	    mFiltre = CompositeFilterOperator.and(noContrat, byPosition);
-	    q = new Query(datastoreID).addSort(sort2, Query.SortDirection.DESCENDING).setFilter(mFiltre);
+	    if (ascDescOrder == 0) {
+		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.DESCENDING).setFilter(mFiltre);
+		req.getSession().setAttribute("ascDescOrder", 1);
+	    } else {
+		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.ASCENDING).setFilter(mFiltre);
+		req.getSession().setAttribute("ascDescOrder", 0);
+	    } 
 	    break;
 
 	}
 
 	// Use PreparedQuery interface to retrieve results
-	List<Entity> pq = datastore.prepare(q).asList(FetchOptions.Builder.withDefaults());
+	List<Entity> pq = datastore.prepare(q).asList(FetchOptions.Builder.withChunkSize(200));
 
 	for (Entity result : pq) {
 
@@ -148,5 +196,11 @@ public class DraftPlayersModel {
 
 	return mBean;
 
+    }
+
+    public void createDraftDatastoreForThatPool(Pool mBean, HttpServletRequest req2) {
+	
+	
+	
     }
 }

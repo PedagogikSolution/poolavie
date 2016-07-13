@@ -47,9 +47,11 @@
 		<caption class="w3-blue w3-xlarge"><h1>Draft Order and Result</h1></caption>
 			<tr class="w3-blue">
 					<th>Overall pick no</th>
-					<th>Joueur repêché</th>
-					<th>Ronde</th>
 					<th>Equipe</th>
+					<th>Ronde</th>
+					<th>Joueur repêché</th>
+					
+					
 					
 			</tr>
 			<c:set var="nombreDeTeam" value="${DraftRound.team_id}" />
@@ -57,9 +59,11 @@
 				
 					<tr>
 						<td>${DraftRound.draft_pick_no[i]}</td>
-						<td>${DraftRound.player_drafted[i]}</td>
-						<td>${DraftRound.ronde[i]}</td>
 						<td>${DraftRound.equipe[i]}</td>
+						<td>${DraftRound.ronde[i]}</td>
+						<td>${DraftRound.player_drafted[i]}</td>
+						
+						
 												
 					</tr>
 				
