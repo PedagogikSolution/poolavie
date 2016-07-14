@@ -8,7 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.CompositeFilter;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
@@ -16,6 +19,7 @@ import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.pedagogiksolution.beans.NonSessionPlayers;
+import com.pedagogiksolution.datastorebeans.DraftProcess;
 import com.pedagogiksolution.datastorebeans.Pool;
 
 public class DraftPlayersModel {
@@ -66,13 +70,11 @@ public class DraftPlayersModel {
 	Filter noContrat;
 	Filter byPosition;
 	CompositeFilter mFiltre;
-	
-	
-	
+
 	if (req.getSession().getAttribute("ascDescOrder") == null) {
 	    ascDescOrder = 0;
 	} else {
-	    ascDescOrder= (int) req.getSession().getAttribute("ascDescOrder");
+	    ascDescOrder = (int) req.getSession().getAttribute("ascDescOrder");
 	}
 
 	switch (segment2) {
@@ -86,7 +88,7 @@ public class DraftPlayersModel {
 	    } else {
 		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.ASCENDING).setFilter(allPlayers);
 		req.getSession().setAttribute("ascDescOrder", 0);
-	    } 
+	    }
 
 	    break;
 	case "foward":
@@ -99,7 +101,7 @@ public class DraftPlayersModel {
 	    } else {
 		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.ASCENDING).setFilter(mFiltre);
 		req.getSession().setAttribute("ascDescOrder", 0);
-	    } 
+	    }
 	    break;
 	case "defenseur":
 	    noContrat = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
@@ -111,7 +113,7 @@ public class DraftPlayersModel {
 	    } else {
 		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.ASCENDING).setFilter(mFiltre);
 		req.getSession().setAttribute("ascDescOrder", 0);
-	    } 
+	    }
 	    break;
 	case "goaler":
 	    noContrat = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
@@ -123,7 +125,7 @@ public class DraftPlayersModel {
 	    } else {
 		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.ASCENDING).setFilter(mFiltre);
 		req.getSession().setAttribute("ascDescOrder", 0);
-	    } 
+	    }
 	    break;
 	case "rookie":
 	    noContrat = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
@@ -135,7 +137,7 @@ public class DraftPlayersModel {
 	    } else {
 		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.ASCENDING).setFilter(mFiltre);
 		req.getSession().setAttribute("ascDescOrder", 0);
-	    } 
+	    }
 	    break;
 
 	}
@@ -198,9 +200,68 @@ public class DraftPlayersModel {
 
     }
 
-    public void createDraftDatastoreForThatPool(Pool mBean, HttpServletRequest req2) {
+    public void createDraftDatastoreForThatPool(Pool mBean) {
+
+	String poolID = mBean.getPoolID();
+	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	Key mKey = KeyFactory.createKey("DraftProcess",poolID);
 	
+	Entity mEntity = new Entity(mKey);
+	mEntity.setProperty("currentPick", 6);
+	datastore.put(mEntity);
+    }
+
+    public Boolean checkIfDatastoreCreate(Pool mBean) {
 	
+	String poolID = mBean.getPoolID();
+	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	Key mKey = KeyFactory.createKey("DraftProcess",poolID);
+	
+	try {
+	    datastore.get(mKey);
+	    return true;
+	} catch (EntityNotFoundException e) {
+	   return false;
+	}
+    }
+
+    public void putDatastoreIntoBean(Pool mBean, HttpServletRequest req2) {
+	Long currentPick;
+	DraftProcess mBeanDraft = new DraftProcess();
+	String poolID = mBean.getPoolID();
+	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	Key mKey = KeyFactory.createKey("DraftProcess",poolID);
+	
+	try {
+	    Entity mEntity = datastore.get(mKey);
+	    currentPick = (Long) mEntity.getProperty("currentPick");
+	    
+	    
+	    mBeanDraft.setCurrentPick(currentPick);
+	    
+	    
+	} catch (EntityNotFoundException e) {
+	   
+	}
+	
+	DatastoreService datastore2 = DatastoreServiceFactory.getDatastoreService();
+	Key mKey2 = KeyFactory.createKey("DraftRound",poolID);
+	
+	try {
+	    Entity mEntity = datastore2.get(mKey2);
+
+	    @SuppressWarnings("unchecked")
+	    List<Long> currentPickerArray =  (List<Long>) mEntity.getProperty("team_id");
+	    Long currentPicker =  (Long) currentPickerArray.get(6);
+	    
+	    mBeanDraft.setCurrentPicker(currentPicker);
+	    
+	    
+	} catch (EntityNotFoundException e) {
+	   
+	}
+	
+	req2.setAttribute("DraftBean", mBeanDraft);
 	
     }
 }

@@ -21,6 +21,9 @@
 	<jsp:directive.include file="../main/menu_secondaire.jsp" />
 	<jsp:directive.include file="menu_draft.jsp" />
 
+	<!-- PROCESS POUR DRAFT -->
+	<c:set var="currentPick" value="${DraftBean.currentPick}" />
+	<c:set var="currentPicker" value="${DraftBean.currentPicker}" />
 	<!-- Body de la page draft_center -->
 
 	<div class="w3-container">
@@ -41,7 +44,18 @@
 	
 	
 	<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.poolYear==0&&Pool.cycleAnnuel==2}">
-	<!-- Si first years and avant draft avec date set-->	
+	<!-- Si first years and avant draft avec date set-->
+	
+	<c:if test="${Utilisateur.teamId==currentPicker}">
+	<!-- Si first years and avant draft sans date set-->
+	<div class="w3-container w3-section w3-red">
+			<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+			<h3>C'EST VOTRE TOUR DE DRAFT !!!</h3>
+			<p>Faites votre choix dans la section TOUS, ATTAQUANT, DEFENSEUR, GARDIEN, RECRUE
+			</p>
+		</div>	
+		
+	</c:if>	
 		
 		<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width:80%">
 		<caption class="w3-blue w3-xlarge"><h1>First 2 round Draft Order first year of the pool </h1></caption>
@@ -306,7 +320,17 @@
 					
 			</tr>
 			
-			<c:forEach var="i" begin="${DraftBean.nextPick}" end="${(DraftBean.nextPick)+19}">
+					<tr class="w3-red">
+						<td>${DraftRound.draft_pick_no[currentPick-1]}</td>
+						<td>${DraftRound.ronde[currentPick-1]}</td>
+						<td>${DraftRound.equipe[currentPick-1]}</td>
+						<td>${DraftRound.player_drafted[currentPick-1]}</td>
+						<td>${DraftRound.team_count[currentPick-1]}</td>
+												
+					</tr>
+				
+			
+			<c:forEach var="i" begin="${DraftBean.currentPick}" end="${(DraftBean.currentPick)+18}">
 				
 					<tr>
 						<td>${DraftRound.draft_pick_no[i]}</td>

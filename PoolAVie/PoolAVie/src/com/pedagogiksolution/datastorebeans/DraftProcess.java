@@ -12,21 +12,23 @@ public class DraftProcess implements Serializable {
      */
     private static final long serialVersionUID = 4960685510731786182L;
     
-    private int pool_id;
-    private int currentPick;
-    
-    public int getPool_id() {
-	return pool_id;
-    }
-    public void setPool_id(int pool_id) {
-	this.pool_id = pool_id;
-    }
-    public int getCurrentPick() {
+
+    private Long currentPick;
+    private Long currentPicker;
+  
+    public Long getCurrentPick() {
 	return currentPick;
     }
-    public void setCurrentPick(int currentPick) {
-	this.currentPick = currentPick;
+    public void setCurrentPick(Long currentPick2) {
+	this.currentPick = currentPick2;
     }
+    public Long getCurrentPicker() {
+	return currentPicker;
+    }
+    public void setCurrentPicker(Long currentPicker2) {
+	this.currentPicker = currentPicker2;
+    }
+    
     
 
 }

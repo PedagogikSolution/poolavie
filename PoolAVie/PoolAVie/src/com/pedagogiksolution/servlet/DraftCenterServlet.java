@@ -29,7 +29,14 @@ public class DraftCenterServlet extends HttpServlet {
 	    
 	    DraftPlayersModel mModelDraft = new DraftPlayersModel();
 	    
-	    mModelDraft.createDraftDatastoreForThatPool(mBean,req);
+	    Boolean checkIfDatastoreCreate=  mModelDraft.checkIfDatastoreCreate(mBean);
+	    if(!checkIfDatastoreCreate){
+		mModelDraft.createDraftDatastoreForThatPool(mBean);
+	    } else {
+		mModelDraft.putDatastoreIntoBean(mBean,req);
+	    }
+	    
+	    
 	    
 	 //   DraftBean mBeanDraft = new DraftBean();
 	    
