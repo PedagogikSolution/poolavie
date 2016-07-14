@@ -21,13 +21,22 @@
 	<jsp:directive.include file="../main/menu_secondaire.jsp" />
 	<jsp:directive.include file="menu_draft.jsp" />
 
-	<!-- Body de la page draft_center -->
-	<c:set var="segment" value="${SegmentSort}"/>
-	<div class="w3-container">
+	<!-- PROCESS POUR DRAFT -->
+	<c:set var="currentPick" value="${DraftBean.currentPick}" />
+	<c:set var="currentPicker" value="${DraftBean.currentPicker}" />
 
+	<!-- Body de la page draft_center -->
+	<c:set var="segment" value="${SegmentSort}" />
+	<div class="w3-container">
+	
+	
 		<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
 			<caption class="w3-blue w3-xlarge">
-				<h1>Joueurs disponible au Draft (<c:out value="${segment}"/>)</h1>
+				<h1>
+					Joueurs disponible au Draft (
+					<c:out value="${segment}" />
+					)
+				</h1>
 			</caption>
 			<tr class="w3-blue">
 				<th><a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=nom">Nom</a></th>
@@ -40,7 +49,9 @@
 				<th><a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=salaire_draft">Salaire</a></th>
 				<th><a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=can_be_rookie">Rookie</a></th>
 				<th><a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=projection">Proj</a></th>
-
+				<c:if test="${Utilisateur.teamId==currentPicker}">
+					<th>Draft Pick</th>
+				</c:if>
 
 
 			</tr>
@@ -56,11 +67,20 @@
 					<td>${NonSessionPlayers.aide_overtime[i]}</td>
 					<td>${NonSessionPlayers.pts[i]}</td>
 					<td>${NonSessionPlayers.salaire_draft[i]}</td>
-					<td><c:if test="${NonSessionPlayers.can_be_rookie[i]==0}">Non</c:if>
-						<c:if test="${NonSessionPlayers.can_be_rookie[i]==1}">Oui</c:if>
-					</td>
+					<td><c:if test="${NonSessionPlayers.can_be_rookie[i]==0}">Non</c:if> <c:if test="${NonSessionPlayers.can_be_rookie[i]==1}">Oui</c:if></td>
 					<td>${NonSessionPlayers.projection[i]}</td>
+					<c:if test="${Utilisateur.teamId==currentPicker}">
+						<td>
+							<form action="/pick_made" method="post">
+								<input type="hidden" name="draft_pick_no" value="i"> <input type="hidden" name="draft_player_id" value="${NonSessionPlayers.players_id[i]}%>"> <input type="hidden"
+									name="team_id" value="${Utilisateur.teamId}"> <input type="hidden" name="nom" value="${NonSessionPlayers.nom[i]}"> <input type="hidden" name="position"
+									value="${NonSessionPlayers.position[i]}"> <input type="hidden" name="team" value="${NonSessionPlayers.teamOfPlayer[i]}"> <input type="hidden" name="can_be_rookie"
+									value="${NonSessionPlayers.can_be_rookie[i]}"> <input type="hidden" name="salaire" value="${NonSessionPlayers.salaire_draft[i]}"> <input type="submit"
+									value="PICK THAT PLAYERS">
+							</form>
 
+						</td>
+					</c:if>
 
 				</tr>
 

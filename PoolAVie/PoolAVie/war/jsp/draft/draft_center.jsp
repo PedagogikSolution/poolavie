@@ -46,16 +46,7 @@
 	<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.poolYear==0&&Pool.cycleAnnuel==2}">
 	<!-- Si first years and avant draft avec date set-->
 	
-	<c:if test="${Utilisateur.teamId==currentPicker}">
-	<!-- Si first years and avant draft sans date set-->
-	<div class="w3-container w3-section w3-red">
-			<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-			<h3>C'EST VOTRE TOUR DE DRAFT !!!</h3>
-			<p>Faites votre choix dans la section TOUS, ATTAQUANT, DEFENSEUR, GARDIEN, RECRUE
-			</p>
-		</div>	
-		
-	</c:if>	
+	
 		
 		<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width:80%">
 		<caption class="w3-blue w3-xlarge"><h1>First 2 round Draft Order first year of the pool </h1></caption>
@@ -91,6 +82,16 @@
 	
 	<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.cycleAnnuel==3&&Pool.poolYear==0}">
 	
+	<c:if test="${Utilisateur.teamId==currentPicker}">
+	<!-- Si first years and avant draft sans date set-->
+		<a href="/DraftPlayers?seg=all&sort=pts"><button class="w3-container w3-section w3-red">
+			<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+			<h2>C'EST VOTRE TOUR DE DRAFT !!!</h3>
+			<p>Faites votre choix dans la section TOUS, ATTAQUANT, DEFENSEUR, GARDIEN OU RECRUE en cliquant sur le bouton pick, choisissez ensuite si celui-ci sera dans votre club école ou pas dans la boite de dialogue. Cliquez ici pour aller directement à la section TOUS de repêchage.
+			</p>
+		</button>	
+		</a>
+	</c:if>	
 		
 	<!-- ***************SECTION TEAM -->
 	<div class="w3-half">

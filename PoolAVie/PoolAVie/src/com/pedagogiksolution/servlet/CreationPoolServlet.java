@@ -16,8 +16,10 @@ import com.pedagogiksolution.dao.PlayersDao;
 import com.pedagogiksolution.dao.SalaireDao;
 import com.pedagogiksolution.dao.TradeMadeDao;
 import com.pedagogiksolution.dao.TradeOfferDao;
+import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
 import com.pedagogiksolution.model.CreationPoolModel;
+import com.pedagogiksolution.model.DraftPlayersModel;
 import com.pedagogiksolution.model.LoginModel;
 import com.pedagogiksolution.model.NouvellesModel;
 
@@ -99,6 +101,13 @@ public class CreationPoolServlet extends HttpServlet {
 	    mModelNouvelles.createMessageForNewsBySystem(titre, body, req);
 	    
 	    mModelNouvelles.putNewsInBean(req);
+	    
+	    DraftPlayersModel mModelDraft = new DraftPlayersModel();
+	    Pool mBean = (Pool) req.getSession().getAttribute("Pool");
+	    Boolean checkIfDatastoreCreate=  mModelDraft.checkIfDatastoreCreate(mBean);
+	    if(!checkIfDatastoreCreate){
+		mModelDraft.createDraftDatastoreForThatPool(mBean);
+	    } 
 
 	    resp.sendRedirect("/Nouvelles");
 

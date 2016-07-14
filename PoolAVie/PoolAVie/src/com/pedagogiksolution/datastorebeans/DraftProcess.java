@@ -13,19 +13,19 @@ public class DraftProcess implements Serializable {
     private static final long serialVersionUID = 4960685510731786182L;
     
 
-    private Long currentPick;
-    private Long currentPicker;
+    private int currentPick;
+    private int currentPicker;
   
-    public Long getCurrentPick() {
+    public int getCurrentPick() {
 	return currentPick;
     }
-    public void setCurrentPick(Long currentPick2) {
+    public void setCurrentPick(int currentPick2) {
 	this.currentPick = currentPick2;
     }
-    public Long getCurrentPicker() {
+    public int getCurrentPicker() {
 	return currentPicker;
     }
-    public void setCurrentPicker(Long currentPicker2) {
+    public void setCurrentPicker(int currentPicker2) {
 	this.currentPicker = currentPicker2;
     }
     

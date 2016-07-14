@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.beans.MessageErreurBeans;
+import com.pedagogiksolution.datastorebeans.Pool;
+import com.pedagogiksolution.model.DraftPlayersModel;
 import com.pedagogiksolution.model.LoginModel;
 
 public class LoginServlet extends HttpServlet {
@@ -70,7 +72,12 @@ public class LoginServlet extends HttpServlet {
 		
 		if(createSessionDefenseurBean&&createSessionGardienBean&&createSessionRecrueBean&&createSessionPoolBean&&createSessionClassementBean&&createSessionEquipeBean&&createSessionDraftRoundBean&&createSessionDraftPickBean&&createSessionAttaquantBean){
 		   
-		    
+		    DraftPlayersModel mModelDraft = new DraftPlayersModel();
+		    Pool mBean = (Pool) req.getSession().getAttribute("Pool");
+		    Boolean checkIfDatastoreCreate=  mModelDraft.checkIfDatastoreCreate(mBean);
+		    if(!checkIfDatastoreCreate){
+			mModelDraft.createDraftDatastoreForThatPool(mBean);
+		    } 
 		    resp.sendRedirect("/Nouvelles");
 		    
 		} else {

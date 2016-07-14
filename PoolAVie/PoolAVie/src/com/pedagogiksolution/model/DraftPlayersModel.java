@@ -226,7 +226,8 @@ public class DraftPlayersModel {
     }
 
     public void putDatastoreIntoBean(Pool mBean, HttpServletRequest req2) {
-	Long currentPick;
+	
+	int currentPick2=0;
 	DraftProcess mBeanDraft = new DraftProcess();
 	String poolID = mBean.getPoolID();
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -234,15 +235,17 @@ public class DraftPlayersModel {
 	
 	try {
 	    Entity mEntity = datastore.get(mKey);
-	    currentPick = (Long) mEntity.getProperty("currentPick");
+	    Long currentPick =  (Long) mEntity.getProperty("currentPick");
+	    currentPick2 =  currentPick.intValue();
 	    
 	    
-	    mBeanDraft.setCurrentPick(currentPick);
+	    mBeanDraft.setCurrentPick(currentPick2);
 	    
 	    
 	} catch (EntityNotFoundException e) {
 	   
 	}
+	
 	
 	DatastoreService datastore2 = DatastoreServiceFactory.getDatastoreService();
 	Key mKey2 = KeyFactory.createKey("DraftRound",poolID);
@@ -252,9 +255,9 @@ public class DraftPlayersModel {
 
 	    @SuppressWarnings("unchecked")
 	    List<Long> currentPickerArray =  (List<Long>) mEntity.getProperty("team_id");
-	    Long currentPicker =  (Long) currentPickerArray.get(6);
-	    
-	    mBeanDraft.setCurrentPicker(currentPicker);
+	    Long currentPicker =  (Long) currentPickerArray.get(currentPick2-1);
+	    int currentPicker2 = currentPicker.intValue();
+	    mBeanDraft.setCurrentPicker(currentPicker2);
 	    
 	    
 	} catch (EntityNotFoundException e) {

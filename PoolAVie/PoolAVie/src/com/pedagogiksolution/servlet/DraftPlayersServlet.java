@@ -7,10 +7,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.DraftPlayersModel;
 
 public class DraftPlayersServlet extends HttpServlet {
-
 
     /**
      * 
@@ -19,23 +19,31 @@ public class DraftPlayersServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
+
 	String segment = req.getParameter("seg");
 	String sort = req.getParameter("sort");
-	DraftPlayersModel mModel = new DraftPlayersModel(req,segment,sort);
-	
+	DraftPlayersModel mModel = new DraftPlayersModel(req, segment, sort);
+
 	mModel.showPlayersSortByParameter();
-	    
+	
+	Pool mBean = (Pool) req.getSession().getAttribute("Pool");
+	int cycleAnnuel = mBean.getCycleAnnuel();
+	
+	if (cycleAnnuel == 3) {
+
+	    DraftPlayersModel mModelDraft = new DraftPlayersModel();
+
+	    mModelDraft.putDatastoreIntoBean(mBean, req);
+
+	}
+
 	req.getRequestDispatcher("jsp/draft/draft_pick_zone.jsp").forward(req, resp);
 
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
+
     }
-    
-    
-    
 
 }

@@ -28,19 +28,9 @@ public class DraftCenterServlet extends HttpServlet {
 	if(cycleAnnuel==3){
 	    
 	    DraftPlayersModel mModelDraft = new DraftPlayersModel();
-	    
-	    Boolean checkIfDatastoreCreate=  mModelDraft.checkIfDatastoreCreate(mBean);
-	    if(!checkIfDatastoreCreate){
-		mModelDraft.createDraftDatastoreForThatPool(mBean);
-	    } else {
-		mModelDraft.putDatastoreIntoBean(mBean,req);
-	    }
-	    
-	    
-	    
-	 //   DraftBean mBeanDraft = new DraftBean();
-	    
-	//    req.getSession().setAttribute("DraftBean", mBeanDraft);
+	    	   
+	    mModelDraft.putDatastoreIntoBean(mBean,req);	    
+ 
 	    
 	}
 	
