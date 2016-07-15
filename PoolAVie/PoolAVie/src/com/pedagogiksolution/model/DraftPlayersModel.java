@@ -76,13 +76,18 @@ public class DraftPlayersModel {
 	} else {
 	    ascDescOrder = (int) req.getSession().getAttribute("ascDescOrder");
 	}
+	Boolean fromMenu = false;
+	String menu = req.getParameter("from");
+	if(menu!=null){
+	   fromMenu=true; 
+	}
 
 	switch (segment2) {
 	case "all":
 
 	    Filter allPlayers = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
 
-	    if (ascDescOrder == 0) {
+	    if (ascDescOrder == 0||fromMenu) {
 		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.DESCENDING).setFilter(allPlayers);
 		req.getSession().setAttribute("ascDescOrder", 1);
 	    } else {
@@ -95,7 +100,7 @@ public class DraftPlayersModel {
 	    noContrat = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
 	    byPosition = new FilterPredicate("position", FilterOperator.EQUAL, "attaquant");
 	    mFiltre = CompositeFilterOperator.and(noContrat, byPosition);
-	    if (ascDescOrder == 0) {
+	    if (ascDescOrder == 0||fromMenu) {
 		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.DESCENDING).setFilter(mFiltre);
 		req.getSession().setAttribute("ascDescOrder", 1);
 	    } else {
@@ -107,7 +112,7 @@ public class DraftPlayersModel {
 	    noContrat = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
 	    byPosition = new FilterPredicate("position", FilterOperator.EQUAL, "defenseur");
 	    mFiltre = CompositeFilterOperator.and(noContrat, byPosition);
-	    if (ascDescOrder == 0) {
+	    if (ascDescOrder == 0||fromMenu) {
 		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.DESCENDING).setFilter(mFiltre);
 		req.getSession().setAttribute("ascDescOrder", 1);
 	    } else {
@@ -119,7 +124,7 @@ public class DraftPlayersModel {
 	    noContrat = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
 	    byPosition = new FilterPredicate("position", FilterOperator.EQUAL, "gardien");
 	    mFiltre = CompositeFilterOperator.and(noContrat, byPosition);
-	    if (ascDescOrder == 0) {
+	    if (ascDescOrder == 0||fromMenu) {
 		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.DESCENDING).setFilter(mFiltre);
 		req.getSession().setAttribute("ascDescOrder", 1);
 	    } else {
@@ -131,7 +136,7 @@ public class DraftPlayersModel {
 	    noContrat = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
 	    byPosition = new FilterPredicate("can_be_rookie", FilterOperator.EQUAL, 1);
 	    mFiltre = CompositeFilterOperator.and(noContrat, byPosition);
-	    if (ascDescOrder == 0) {
+	    if (ascDescOrder == 0||fromMenu) {
 		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.DESCENDING).setFilter(mFiltre);
 		req.getSession().setAttribute("ascDescOrder", 1);
 	    } else {

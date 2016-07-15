@@ -28,8 +28,8 @@
 	<!-- Body de la page draft_center -->
 	<c:set var="segment" value="${SegmentSort}" />
 	<div class="w3-container">
-	
-	
+
+
 		<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
 			<caption class="w3-blue w3-xlarge">
 				<h1>
@@ -59,7 +59,13 @@
 			<c:forEach var="i" begin="0" end="${fn:length(nombreDePlayers)-1}">
 
 				<tr>
-					<td>${NonSessionPlayers.nom[i]}</td>
+					<td>${NonSessionPlayers.nom[i]}
+					<!--  <script
+							src="http://www.hockeydb.com/em/?text_col=%23000000&linktext_col=%230000ee&linktext_hover_col=%23770000&bg_col=%23f0ecdd&border_col=%23000000&title_bg_col=%23d6cda5&row_bg_col=%23ffffff&row_alt_bg_col=%23f5f2e9&header=1&pid=73288"
+							type="text/javascript">
+					</script>
+					-->
+					</td>
 					<td>${NonSessionPlayers.teamOfPlayer[i]}</td>
 					<td>${NonSessionPlayers.position[i]}</td>
 					<td>${NonSessionPlayers.pj[i]}</td>

@@ -309,7 +309,7 @@ public class LoginModel {
 	int poolId = mBean.getPoolId();
 	String poolID = String.valueOf(poolId);
 
-	// on verifie si le bean Pool existe dans le memCache
+	// on verifie si le bean DraftRound existe dans le memCache
 	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
 	Key clefMemCache = KeyFactory.createKey("DraftRound", poolId);
 	DraftRound mBeanDraftRound = (DraftRound) memcache.get(clefMemCache);

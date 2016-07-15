@@ -34,8 +34,9 @@ public class PlayersDaoImpl implements PlayersDao {
 
     private static final String CREATE_PLAYERS = "CREATE TABLE players_? AS SELECT * FROM players_template;";
     private static final String CREATE_PLAYERS_ARCHIVES = "CREATE TABLE players_archive_? LIKE players_template";
-    private static final String GET_PLAYERS_BY_POOL_ID_AND_POSITION = "SELECT * FROM players_? WHERE team_id=? AND position=? AND club_ecole=? SORT BY pts DESC";
+    private static final String GET_PLAYERS_BY_POOL_ID_AND_POSITION = "SELECT * FROM players_? WHERE team_id=? AND position=? AND club_ecole=? ORDER BY pts DESC";
     private static final String GET_PLAYERS_FOR_DRAFT = "SELECT * FROM players_?";
+    private static final String GET_PLAYERS_BY_POOL_ID_FOR_ROOKIE = "SELECT * FROM players_? WHERE team_id=? AND club_ecole=? ORDER BY pts DESC";
     private DAOFactory daoFactory;
 
     PlayersDaoImpl(DAOFactory daoFactory) {
@@ -127,8 +128,14 @@ public class PlayersDaoImpl implements PlayersDao {
 		connexion = daoFactory.getConnection();
 
 		datastoreId = String.valueOf(poolId) + "_" + i;
-
+		
+		if(isRookie==0){
 		preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_BY_POOL_ID_AND_POSITION, false, poolId, i, positionString, isRookie);
+		} else {
+		preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_BY_POOL_ID_FOR_ROOKIE, false, poolId, i, isRookie);
+		}
+		
+		
 		rs = preparedStatement.executeQuery();
 
 		while (rs.next()) {

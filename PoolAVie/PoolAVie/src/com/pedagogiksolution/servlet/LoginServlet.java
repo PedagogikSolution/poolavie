@@ -63,20 +63,25 @@ public class LoginServlet extends HttpServlet {
 		Boolean createSessionPoolBean= mModel.createSessionPoolBean();
 		Boolean createSessionEquipeBean= mModel.createSessionEquipeBean();
 		Boolean createSessionClassementBean= mModel.createSessionClassementBean();
-		Boolean createSessionDraftRoundBean = mModel.createSessionDraftRoundBean();
+		
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		int cycleAnnuel = mBeanPool.getCycleAnnuel();
+		if(cycleAnnuel>=2){
+		mModel.createSessionDraftRoundBean();
+		}
 		Boolean createSessionDraftPickBean = mModel.createSessionDraftPickBean();
 		Boolean createSessionAttaquantBean = mModel.createSessionAttaquantBean();
 		Boolean createSessionDefenseurBean = mModel.createSessionDefenseurBean();
 		Boolean createSessionGardienBean = mModel.createSessionGardienBean();
 		Boolean createSessionRecrueBean = mModel.createSessionRecrueBean();
 		
-		if(createSessionDefenseurBean&&createSessionGardienBean&&createSessionRecrueBean&&createSessionPoolBean&&createSessionClassementBean&&createSessionEquipeBean&&createSessionDraftRoundBean&&createSessionDraftPickBean&&createSessionAttaquantBean){
+		if(createSessionDefenseurBean&&createSessionGardienBean&&createSessionRecrueBean&&createSessionPoolBean&&createSessionClassementBean&&createSessionEquipeBean&&createSessionDraftPickBean&&createSessionAttaquantBean){
 		   
 		    DraftPlayersModel mModelDraft = new DraftPlayersModel();
-		    Pool mBean = (Pool) req.getSession().getAttribute("Pool");
-		    Boolean checkIfDatastoreCreate=  mModelDraft.checkIfDatastoreCreate(mBean);
+		    
+		    Boolean checkIfDatastoreCreate=  mModelDraft.checkIfDatastoreCreate(mBeanPool);
 		    if(!checkIfDatastoreCreate){
-			mModelDraft.createDraftDatastoreForThatPool(mBean);
+			mModelDraft.createDraftDatastoreForThatPool(mBeanPool);
 		    } 
 		    resp.sendRedirect("/Nouvelles");
 		    

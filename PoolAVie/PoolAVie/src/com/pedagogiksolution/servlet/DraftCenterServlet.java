@@ -19,11 +19,15 @@ public class DraftCenterServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	EquipeModel mModel = new EquipeModel();
-	mModel.getBeanByTeam(req);
+	
 	
 	Pool mBean = (Pool) req.getSession().getAttribute("Pool");
 	int cycleAnnuel = mBean.getCycleAnnuel();
+	
+	if(cycleAnnuel>=2){
+	    EquipeModel mModel = new EquipeModel();
+		mModel.getBeanByTeam(req);
+	}
 	
 	if(cycleAnnuel==3){
 	    
