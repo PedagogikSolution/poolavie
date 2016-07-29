@@ -212,7 +212,7 @@ public class DraftPlayersModel {
 	Key mKey = KeyFactory.createKey("DraftProcess",poolID);
 	
 	Entity mEntity = new Entity(mKey);
-	mEntity.setProperty("currentPick", 6);
+	mEntity.setProperty("currentPick", 1);
 	datastore.put(mEntity);
     }
 

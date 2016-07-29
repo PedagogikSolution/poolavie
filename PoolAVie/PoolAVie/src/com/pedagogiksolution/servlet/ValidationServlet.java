@@ -39,7 +39,8 @@ public class ValidationServlet extends HttpServlet {
 	    if (validationDuCode) {
 
 		
-
+		//connectFilter Session Attribute
+		    req.getSession().setAttribute("connectUser", 1);
 		resp.sendRedirect("/Nouvelles");
 	    } else {
 		req.getRequestDispatcher("jsp/accueil/validation.jsp").forward(req, resp);

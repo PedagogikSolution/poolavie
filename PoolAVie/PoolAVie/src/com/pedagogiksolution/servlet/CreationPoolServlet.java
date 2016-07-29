@@ -138,7 +138,8 @@ public class CreationPoolServlet extends HttpServlet {
 	    if(!checkIfDatastoreCreate){
 		mModelDraft.createDraftDatastoreForThatPool(mBean);
 	    } 
-
+	  //connectFilter Session Attribute
+	    req.getSession().setAttribute("connectUser", 1);
 	    resp.sendRedirect("/Nouvelles");
 
 	}

@@ -28,8 +28,42 @@
 		</jsp-property-group>
 	</jsp-config>
 	
+	<!-- Initialisation des filtres -->
+	<filter>
+        <filter-name>ConnectUser</filter-name>
+        <filter-class>com.pedagogiksolution.filtre.ConnectUserFilter</filter-class>
+    </filter>  
+    <filter-mapping>
+        <filter-name>ConnectUser</filter-name>
+        <url-pattern>/jsp/admin/*</url-pattern>
+        <url-pattern>/jsp/archives/*</url-pattern>
+        <url-pattern>/jsp/classement/*</url-pattern>
+        <url-pattern>/jsp/draft/*</url-pattern>
+        <url-pattern>/jsp/main/*</url-pattern>
+        <url-pattern>/jsp/signature/*</url-pattern>
+        <url-pattern>/jsp/team/*</url-pattern>
+        <url-pattern>/jsp/trade/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>DraftChannel</filter-name>
+        <filter-class>com.pedagogiksolution.filtre.DraftChannelFilter</filter-class>
+    </filter>  
+    <filter-mapping>
+        <filter-name>DraftChannel</filter-name>        
+        <url-pattern>/DraftCenter</url-pattern>       
+    </filter-mapping>
+    
+   
 
 	<!-- Initialisation des servlets -->
+	<servlet>
+		<servlet-name>deconnexion</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.DeconnexionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>deconnexion</servlet-name>
+		<url-pattern>/deconnexion</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>login</servlet-name>
@@ -146,6 +180,15 @@
 	<servlet-mapping>
 		<servlet-name>DraftPlayers</servlet-name>
 		<url-pattern>/DraftPlayers</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ConnectDraft</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.ConnectDraftServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ConnectDraft</servlet-name>
+		<url-pattern>/ConnectDraft</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
@@ -285,6 +328,15 @@
 	<servlet-mapping>
 		<servlet-name>DraftPlayersCron</servlet-name>
 		<url-pattern>/DraftPlayersCron</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ResetForTestCron</servlet-name>
+		<servlet-class>com.pedagogiksolution.cron.ResetForTestCron</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ResetForTestCron</servlet-name>
+		<url-pattern>/ResetForTestCron</url-pattern>
 	</servlet-mapping>
 	
 	

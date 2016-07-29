@@ -13,6 +13,7 @@
 		<ul class="w3-navbar w3-third">
 
 			<li class="w3-right  w3-xlarge"><a href="/register">Modifier mon compte</a></li>
+			<li class="w3-right  w3-xlarge"><a href="/deconnexion">Déconnexion</a></li>
 		</ul>
 
 </header>

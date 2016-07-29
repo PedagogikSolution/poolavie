@@ -1,7 +1,5 @@
 package com.pedagogiksolution.servlet;
 
-import static com.pedagogiksolution.constants.MessageErreurConstants.NOT_LOG_IN;
-
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -9,7 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.DraftPlayersModel;
 import com.pedagogiksolution.model.LoginModel;
@@ -23,20 +20,10 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	//  test pour voir si arrive au servlet via le processus de validation de l'objet sesssion dans chaque page jsp des sections privées via
-	//  <c:if test="${Utilisateur.loginReussi != 1 }">
-	//  <c:redirect url="/login?notLoggin=1"></c:redirect>
-	//  </c:if>
-	String testLogin = req.getParameter("notLoggin");
-	if (testLogin != null) {
-	    // Si arrive avec le parametre notLoggin, on renvoie à la page de connexion avec message vous n'êtes pas login
-	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-	    mBeanMessageErreur.setErreurNotLogIn(NOT_LOG_IN);
-	    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-	} else {
-	    // sinon on renvoie normalement à la page de login sans message
+	
+	   
 	    req.getRequestDispatcher("jsp/accueil/login.jsp").forward(req, resp); 
-	}
+	
 	
 	
     }
@@ -83,6 +70,10 @@ public class LoginServlet extends HttpServlet {
 		    if(!checkIfDatastoreCreate){
 			mModelDraft.createDraftDatastoreForThatPool(mBeanPool);
 		    } 
+		    
+		    //connectFilter Session Attribute
+		    req.getSession().setAttribute("connectUser", 1);
+		    
 		    resp.sendRedirect("/Nouvelles");
 		    
 		} else {
