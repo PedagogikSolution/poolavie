@@ -31,7 +31,7 @@ public class NonSessionPlayers implements Serializable {
     private List<Long> take_proj;
     private List<Long> salaire_draft;
     private List<Long> contrat;
-    private List<String> equipe;
+    private List<Integer> acquire_years;
     private List<Long> salaire_contrat;
     private List<Long> contrat_cours;
     private List<Long> contrat_max_years;
@@ -133,12 +133,6 @@ public class NonSessionPlayers implements Serializable {
     }
     public void setContrat(List<Long> contrat) {
 	this.contrat = contrat;
-    }
-    public List<String> getEquipe() {
-	return equipe;
-    }
-    public void setEquipe(List<String> equipe) {
-	this.equipe = equipe;
     }
     public List<Long> getSalaire_contrat() {
 	return salaire_contrat;
@@ -247,6 +241,12 @@ public class NonSessionPlayers implements Serializable {
     }
     public void setPlayers_id(List<Long> players_id) {
 	this.players_id = players_id;
+    }
+    public List<Integer> getAcquire_years() {
+	return acquire_years;
+    }
+    public void setAcquire_years(List<Integer> acquire_years) {
+	this.acquire_years = acquire_years;
     }
     
     

@@ -16,6 +16,7 @@ public class MessageErreurBeans implements java.io.Serializable {
     private String erreurNotLogIn;
     private String erreurCreateNewTeam;
     private String erreurConnectionDraft;
+    private String erreurDraft;
     
 
     public String getErreurFormulaireRegistration() {
@@ -80,6 +81,14 @@ public class MessageErreurBeans implements java.io.Serializable {
 
     public void setErreurConnectionDraft(String erreurConnectionDraft) {
 	this.erreurConnectionDraft = erreurConnectionDraft;
+    }
+
+    public String getErreurDraft() {
+	return erreurDraft;
+    }
+
+    public void setErreurDraft(String erreurDraft) {
+	this.erreurDraft = erreurDraft;
     }
 
 }

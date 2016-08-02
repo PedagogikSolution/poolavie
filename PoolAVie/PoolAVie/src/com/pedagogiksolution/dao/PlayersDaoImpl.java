@@ -104,7 +104,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	    List<Integer> take_proj = new ArrayList<Integer>();
 	    List<Integer> salaire_draft = new ArrayList<Integer>();
 	    List<Integer> contrat = new ArrayList<Integer>();
-	    List<String> equipe = new ArrayList<String>();
+	    List<Integer> acquire_years = new ArrayList<Integer>();
 	    List<Integer> salaire_contrat = new ArrayList<Integer>();
 	    List<Integer> contrat_cours = new ArrayList<Integer>();
 	    List<Integer> contrat_max_years = new ArrayList<Integer>();
@@ -188,8 +188,8 @@ public class PlayersDaoImpl implements PlayersDao {
 		    int m_contrat = rs.getInt("contrat");
 		    contrat.add(m_contrat);
 
-		    String m_equipe = rs.getString("equipe");
-		    equipe.add(m_equipe);
+		    int m_acquire_years = rs.getInt("acquire_years");
+		    acquire_years.add(m_acquire_years);
 
 		    int m_salaire_contrat = rs.getInt("salaire_contrat");
 		    salaire_contrat.add(m_salaire_contrat);
@@ -272,7 +272,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		    mBeanA.setContrat_cours(contrat_cours);
 		    mBeanA.setContrat_max_years(contrat_max_years);
 		    mBeanA.setDate_calcul(date_calcul);
-		    mBeanA.setEquipe(equipe);
+		    mBeanA.setAcquire_years(acquire_years);
 		    mBeanA.setHier(hier);
 		    mBeanA.setMois(mois);
 		    mBeanA.setNom(nom);
@@ -333,7 +333,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		    mBeanD.setContrat_cours(contrat_cours);
 		    mBeanD.setContrat_max_years(contrat_max_years);
 		    mBeanD.setDate_calcul(date_calcul);
-		    mBeanD.setEquipe(equipe);
+		    mBeanD.setAcquire_years(acquire_years);
 		    mBeanD.setHier(hier);
 		    mBeanD.setMois(mois);
 		    mBeanD.setNom(nom);
@@ -393,7 +393,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		    mBeanG.setContrat_cours(contrat_cours);
 		    mBeanG.setContrat_max_years(contrat_max_years);
 		    mBeanG.setDate_calcul(date_calcul);
-		    mBeanG.setEquipe(equipe);
+		    mBeanG.setAcquire_years(acquire_years);
 		    mBeanG.setHier(hier);
 		    mBeanG.setMois(mois);
 		    mBeanG.setNom(nom);
@@ -402,6 +402,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		    mBeanG.setPosition(position);
 		    mBeanG.setProjection(projection);
 		    mBeanG.setPts(pts);
+		    mBeanG.setAcquire_years(acquire_years);
 		    mBeanG.setSalaire_contrat(salaire_contrat);
 		    mBeanG.setSalaire_draft(salaire_draft);
 		    mBeanG.setSemaine(semaine);
@@ -454,11 +455,12 @@ public class PlayersDaoImpl implements PlayersDao {
 		mBeanR.setContrat_cours(contrat_cours);
 		mBeanR.setContrat_max_years(contrat_max_years);
 		mBeanR.setDate_calcul(date_calcul);
-		mBeanR.setEquipe(equipe);
+		mBeanR.setAcquire_years(acquire_years);
 		mBeanR.setHier(hier);
 		mBeanR.setMois(mois);
 		mBeanR.setNom(nom);
 		mBeanR.setPj(pj);
+		mBeanR.setAcquire_years(acquire_years);
 		mBeanR.setPoolTeamId(datastoreId);
 		mBeanR.setPosition(position);
 		mBeanR.setProjection(projection);
@@ -529,7 +531,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	int take_proj = 0;
 	int salaire_draft = 0;
 	int contrat = 0;
-	String equipe = null;
+	int acquire_years = 0;
 	int salaire_contrat = 0;
 	int contrat_cours = 0;
 	int contrat_max_years = 0;
@@ -572,7 +574,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		take_proj = rs.getInt("take_proj");
 		salaire_draft = rs.getInt("salaire_draft");
 		contrat = rs.getInt("contrat");
-		equipe = rs.getString("equipe");
+		acquire_years = rs.getInt("acquire_years");
 		salaire_contrat = rs.getInt("salaire_contrat");
 		contrat_cours = rs.getInt("contrat_cours");
 		contrat_max_years = rs.getInt("contrat_max_years");
@@ -607,7 +609,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		mBean.setContrat_cours(contrat_cours);
 		mBean.setContrat_max_years(contrat_max_years);
 		mBean.setDate_calcul(date_calcul);
-		mBean.setEquipe(equipe);
+		mBean.setAcquire_years(acquire_years);
 		mBean.setHier(hier);
 		mBean.setMois(mois);
 		mBean.setNom(nom);
@@ -675,7 +677,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	mEntity.setProperty("contrat_cours", mBean.getContrat_cours());
 	mEntity.setProperty("contrat_max_years", mBean.getContrat_max_years());
 	mEntity.setProperty("date_calcul", date_calcul);
-	mEntity.setProperty("equipe", mBean.getEquipe());
+	mEntity.setProperty("acquire_years", mBean.getAcquire_years());
 	mEntity.setProperty("hier", mBean.getHier());
 	mEntity.setProperty("mois", mBean.getMois());
 	mEntity.setProperty("nom", mBean.getNom());

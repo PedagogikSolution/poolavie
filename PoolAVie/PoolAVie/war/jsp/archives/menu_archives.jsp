@@ -3,7 +3,7 @@
 <header class="w3-container w3-red">
 
 		<ul class="w3-navbar w3-center">
-			<li class="w3-xlarge"><a href="/Draft">DRAFT CENTER</a></li>
+			<li class="w3-xlarge"><a href="/DraftCenter">DRAFT CENTER</a></li>
 		
 			<li class="w3-xlarge"><a href="/DraftResult">RESULT</a></li>
 		

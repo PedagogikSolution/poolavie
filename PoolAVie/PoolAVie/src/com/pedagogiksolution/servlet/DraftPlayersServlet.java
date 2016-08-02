@@ -25,10 +25,10 @@ public class DraftPlayersServlet extends HttpServlet {
 	DraftPlayersModel mModel = new DraftPlayersModel(req, segment, sort);
 
 	mModel.showPlayersSortByParameter();
-	
+
 	Pool mBean = (Pool) req.getSession().getAttribute("Pool");
 	int cycleAnnuel = mBean.getCycleAnnuel();
-	
+
 	if (cycleAnnuel == 3) {
 
 	    DraftPlayersModel mModelDraft = new DraftPlayersModel();
@@ -43,7 +43,31 @@ public class DraftPlayersServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+	DraftPlayersModel mModel;	
+	String draftStep = req.getParameter("draftStep");
+	
+	
+	switch(Integer.parseInt(draftStep)){
+	
+	case 1: // provient du choix fait a la page draft_pick_zone
+	    mModel=new DraftPlayersModel(req);
+	    mModel.checkIfDraftIsPossible();
+	    req.getRequestDispatcher("jsp/draft/draft_pick_confirmation.jsp").forward(req, resp);
+	    break;
+	case 2: // persistence d'un pick dans club regulier
+	    mModel=new DraftPlayersModel(req);
+	    mModel.persistenceDraftPickRegulier();
+	    resp.sendRedirect("/DraftCenter");
+	    break;
+	case 3: // persitence d'un pick dans club recrue
+	    break;
+	case 4:
+	    break;
+	
+	}
+	
+	
+	
     }
 
 }

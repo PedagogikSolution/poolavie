@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.DraftPlayersModel;
 import com.pedagogiksolution.model.EquipeModel;
+import com.pedagogiksolution.model.LoginModel;
 
 public class DraftCenterServlet extends HttpServlet {
     /**
@@ -23,6 +24,17 @@ public class DraftCenterServlet extends HttpServlet {
 	
 	Pool mBean = (Pool) req.getSession().getAttribute("Pool");
 	int cycleAnnuel = mBean.getCycleAnnuel();
+	
+	if (cycleAnnuel == 3) {
+	    LoginModel mModel = new LoginModel(req);
+	    mModel.createSessionDraftRoundBean();
+	    mModel.createSessionEquipeBean();
+	    mModel.createSessionDraftPickBean();
+	    mModel.createSessionAttaquantBean();
+	    mModel.createSessionDefenseurBean();
+	    mModel.createSessionGardienBean();
+	    mModel.createSessionRecrueBean();
+	}
 	
 	if(cycleAnnuel>=2){
 	    EquipeModel mModel = new EquipeModel();

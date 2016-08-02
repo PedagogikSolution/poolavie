@@ -28,7 +28,7 @@ public class Players implements Serializable {
     private int take_proj;
     private int salaire_draft;
     private int contrat;
-    private String equipe;
+    private int acquire_years;
     private int salaire_contrat;
     private int contrat_cours;
     private int contrat_max_years;
@@ -144,13 +144,7 @@ public class Players implements Serializable {
     public void setContrat(int contrat) {
         this.contrat = contrat;
     }
-    public String getEquipe() {
-        return equipe;
-    }
-    public void setEquipe(String equipe) {
-        this.equipe = equipe;
-    }
-    public int getSalaire_contrat() {
+     public int getSalaire_contrat() {
         return salaire_contrat;
     }
     public void setSalaire_contrat(int salaire_contrat) {
@@ -251,6 +245,12 @@ public class Players implements Serializable {
     }
     public void set_id(int _id) {
 	this._id = _id;
+    }
+    public int getAcquire_years() {
+	return acquire_years;
+    }
+    public void setAcquire_years(int acquire_years) {
+	this.acquire_years = acquire_years;
     }
     
     

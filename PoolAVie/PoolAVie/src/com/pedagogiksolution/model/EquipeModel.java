@@ -107,7 +107,7 @@ public class EquipeModel {
 	    mNonSessionAttaquantBean.setContrat_cours(mBeanAttaquant.getContrat_cours());
 	    mNonSessionAttaquantBean.setContrat_max_years(mBeanAttaquant.getContrat_max_years());
 	    mNonSessionAttaquantBean.setDate_calcul(mBeanAttaquant.getDate_calcul());
-	    mNonSessionAttaquantBean.setEquipe(mBeanAttaquant.getEquipe());
+	    mNonSessionAttaquantBean.setAcquire_years(mBeanAttaquant.getAcquire_years());
 	    mNonSessionAttaquantBean.setHier(mBeanAttaquant.getHier());
 	    mNonSessionAttaquantBean.setMois(mBeanAttaquant.getMois());
 	    mNonSessionAttaquantBean.setNom(mBeanAttaquant.getNom());
@@ -141,7 +141,7 @@ public class EquipeModel {
 	    mNonSessionDefenseurBean.setContrat_cours(mBeanDefenseur.getContrat_cours());
 	    mNonSessionDefenseurBean.setContrat_max_years(mBeanDefenseur.getContrat_max_years());
 	    mNonSessionDefenseurBean.setDate_calcul(mBeanDefenseur.getDate_calcul());
-	    mNonSessionDefenseurBean.setEquipe(mBeanDefenseur.getEquipe());
+	    mNonSessionDefenseurBean.setAcquire_years(mBeanAttaquant.getAcquire_years());
 	    mNonSessionDefenseurBean.setHier(mBeanDefenseur.getHier());
 	    mNonSessionDefenseurBean.setMois(mBeanDefenseur.getMois());
 	    mNonSessionDefenseurBean.setNom(mBeanDefenseur.getNom());
@@ -175,7 +175,7 @@ public class EquipeModel {
 	    mNonSessionGardienBean.setContrat_cours(mBeanGardien.getContrat_cours());
 	    mNonSessionGardienBean.setContrat_max_years(mBeanGardien.getContrat_max_years());
 	    mNonSessionGardienBean.setDate_calcul(mBeanGardien.getDate_calcul());
-	    mNonSessionGardienBean.setEquipe(mBeanGardien.getEquipe());
+	    mNonSessionGardienBean.setAcquire_years(mBeanAttaquant.getAcquire_years());
 	    mNonSessionGardienBean.setHier(mBeanGardien.getHier());
 	    mNonSessionGardienBean.setMois(mBeanGardien.getMois());
 	    mNonSessionGardienBean.setNom(mBeanGardien.getNom());
@@ -209,7 +209,7 @@ public class EquipeModel {
 	    mNonSessionRecrueBean.setContrat_cours(mBeanRecrue.getContrat_cours());
 	    mNonSessionRecrueBean.setContrat_max_years(mBeanRecrue.getContrat_max_years());
 	    mNonSessionRecrueBean.setDate_calcul(mBeanRecrue.getDate_calcul());
-	    mNonSessionRecrueBean.setEquipe(mBeanRecrue.getEquipe());
+	    mNonSessionRecrueBean.setAcquire_years(mBeanAttaquant.getAcquire_years());
 	    mNonSessionRecrueBean.setHier(mBeanRecrue.getHier());
 	    mNonSessionRecrueBean.setMois(mBeanRecrue.getMois());
 	    mNonSessionRecrueBean.setNom(mBeanRecrue.getNom());

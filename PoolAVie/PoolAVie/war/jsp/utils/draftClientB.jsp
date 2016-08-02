@@ -1,6 +1,7 @@
 <script type="text/javascript">
-	
-
+   
+   
+   
 	onOpened = function() {
 		var xhttp = new XMLHttpRequest();
 	
@@ -12,11 +13,14 @@
 	onMessage = function(m) {
 		newState = JSON.parse(m.data);
 		testIfOpen = newState.testIfOpen;
+		pickMadeMessage = newState.pickMadeMessage;
 		if(testIfOpen==1){
 			alert("Vous êtes maintenant connecté au serveur de draft");
 		} else {
 			
 		}
+		
+		
 	};
 	
 	onError = function() {

@@ -54,7 +54,7 @@
 			
 		</c:if>
 
-		<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
+		<table id="playersPickBox" class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
 			<caption class="w3-blue w3-xlarge">
 				<h1>
 					Joueurs disponible au Draft (
@@ -82,7 +82,7 @@
 			<c:set var="nombreDePlayers" value="${NonSessionPlayers.pj}" />
 			<c:forEach var="i" begin="0" end="${fn:length(nombreDePlayers)-1}">
 
-				<tr>
+				<tr id=i>
 					<td>${NonSessionPlayers.nom[i]}
 					<!--  <script
 							src="http://www.hockeydb.com/em/?text_col=%23000000&linktext_col=%230000ee&linktext_hover_col=%23770000&bg_col=%23f0ecdd&border_col=%23000000&title_bg_col=%23d6cda5&row_bg_col=%23ffffff&row_alt_bg_col=%23f5f2e9&header=1&pid=73288"
@@ -101,12 +101,16 @@
 					<td>${NonSessionPlayers.projection[i]}</td>
 					<c:if test="${Utilisateur.teamId==currentPicker}">
 						<td>
-							<form action="/pick_made" method="post">
-								<input type="hidden" name="draft_pick_no" value="i"> <input type="hidden" name="draft_player_id" value="${NonSessionPlayers.players_id[i]}%>"> <input type="hidden"
-									name="team_id" value="${Utilisateur.teamId}"> <input type="hidden" name="nom" value="${NonSessionPlayers.nom[i]}"> <input type="hidden" name="position"
-									value="${NonSessionPlayers.position[i]}"> <input type="hidden" name="team" value="${NonSessionPlayers.teamOfPlayer[i]}"> <input type="hidden" name="can_be_rookie"
-									value="${NonSessionPlayers.can_be_rookie[i]}"> <input type="hidden" name="salaire" value="${NonSessionPlayers.salaire_draft[i]}"> <input type="submit"
-									value="PICK THAT PLAYERS">
+						<form action="/DraftPlayers" method="POST">
+						<input type="hidden" name="draftStep" value="1">
+							<input type="hidden" name="draft_player_id" value="${NonSessionPlayers.players_id[i]}">
+								  <input type="hidden" name="team_id" value="${Utilisateur.teamId}">
+									 <input type="hidden" name="nom" value="${NonSessionPlayers.nom[i]}">
+									  <input type="hidden" name="position" value="${NonSessionPlayers.position[i]}">
+									 <input type="hidden" name="team" value="${NonSessionPlayers.teamOfPlayer[i]}">
+									  <input type="hidden" name="can_be_rookie" value="${NonSessionPlayers.can_be_rookie[i]}">
+									 <input type="hidden" name="salaire" value="${NonSessionPlayers.salaire_draft[i]}">
+									  <input type="submit" value="PICK THIS PLAYERS">
 							</form>
 
 						</td>
@@ -116,8 +120,10 @@
 
 			</c:forEach>
 		</table>
-
-
+	
+		
+		
+		
 
 
 

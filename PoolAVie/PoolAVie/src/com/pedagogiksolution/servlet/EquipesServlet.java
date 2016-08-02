@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.EquipeModel;
+import com.pedagogiksolution.model.LoginModel;
 
 public class EquipesServlet extends HttpServlet {
     /**
@@ -17,7 +19,18 @@ public class EquipesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
+	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+	int cycleAnnuel = mBeanPool.getCycleAnnuel();
+	if (cycleAnnuel == 3) {
+	    LoginModel mModel = new LoginModel(req);
+	    mModel.createSessionDraftRoundBean();
+	    mModel.createSessionEquipeBean();
+	    mModel.createSessionDraftPickBean();
+	    mModel.createSessionAttaquantBean();
+	    mModel.createSessionDefenseurBean();
+	    mModel.createSessionGardienBean();
+	    mModel.createSessionRecrueBean();
+	}
 	EquipeModel mModel = new EquipeModel();
 	mModel.getBeanByTeam(req);
 
@@ -26,8 +39,6 @@ public class EquipesServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-
 
 	req.getRequestDispatcher("jsp/team/team.jsp").forward(req, resp);
 

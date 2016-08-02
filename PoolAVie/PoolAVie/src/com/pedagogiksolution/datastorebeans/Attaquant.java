@@ -37,7 +37,7 @@ public class Attaquant implements Serializable {
     private List<Integer> take_proj;
     private List<Integer> salaire_draft;
     private List<Integer> contrat;
-    private List<String> equipe;
+    private List<Integer> acquire_years;
     private List<Integer> salaire_contrat;
     private List<Integer> contrat_cours;
     private List<Integer> contrat_max_years;
@@ -144,12 +144,6 @@ public class Attaquant implements Serializable {
     }
     public void setContrat(List<Integer> contrat) {
 	this.contrat = contrat;
-    }
-    public List<String> getEquipe() {
-	return equipe;
-    }
-    public void setEquipe(List<String> equipe) {
-	this.equipe = equipe;
     }
     public List<Integer> getSalaire_contrat() {
 	return salaire_contrat;
@@ -258,6 +252,12 @@ public class Attaquant implements Serializable {
     }
     public void setPoolTeamId(String poolTeamId) {
 	this.poolTeamId = poolTeamId;
+    }
+    public List<Integer> getAcquire_years() {
+	return acquire_years;
+    }
+    public void setAcquire_years(List<Integer> acquire_years) {
+	this.acquire_years = acquire_years;
     }
     
     

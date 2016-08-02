@@ -61,7 +61,7 @@ public class ConnectDraftServlet extends HttpServlet {
 	    }
 	}
 
-	if (errorChannel != null) {
+	 if (errorChannel != null) {
 	    if (errorChannel.equalsIgnoreCase("1")) {
 
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
@@ -86,7 +86,7 @@ public class ConnectDraftServlet extends HttpServlet {
 		mModel.resetConnection(req);
 
 	    }
-	}
+	} 
 
     }
 
