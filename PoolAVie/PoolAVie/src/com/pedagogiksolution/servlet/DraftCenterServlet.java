@@ -34,6 +34,9 @@ public class DraftCenterServlet extends HttpServlet {
 	    mModel.createSessionDefenseurBean();
 	    mModel.createSessionGardienBean();
 	    mModel.createSessionRecrueBean();
+	    DraftPlayersModel mModelDraft = new DraftPlayersModel();
+	    	   
+	    mModelDraft.putDatastoreIntoBean(mBean,req);
 	}
 	
 	if(cycleAnnuel>=2){
@@ -41,14 +44,7 @@ public class DraftCenterServlet extends HttpServlet {
 		mModel.getBeanByTeam(req);
 	}
 	
-	if(cycleAnnuel==3){
-	    
-	    DraftPlayersModel mModelDraft = new DraftPlayersModel();
-	    	   
-	    mModelDraft.putDatastoreIntoBean(mBean,req);	    
- 
-	    
-	}
+	
 	
 	req.getRequestDispatcher("jsp/draft/draft_center.jsp").forward(req, resp);
     }

@@ -1,12 +1,15 @@
 package com.pedagogiksolution.model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -25,7 +28,6 @@ import com.google.appengine.api.datastore.Transaction;
 import com.google.appengine.api.datastore.TransactionOptions;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.beans.NonSessionPlayers;
-import com.pedagogiksolution.datastorebeans.Attaquant;
 import com.pedagogiksolution.datastorebeans.DraftProcess;
 import com.pedagogiksolution.datastorebeans.Players;
 import com.pedagogiksolution.datastorebeans.Pool;
@@ -35,6 +37,7 @@ public class DraftPlayersModel {
     int ascDescOrder;
     String segment, sort;
     HttpServletRequest req;
+    HttpServletResponse resp;
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     public DraftPlayersModel(HttpServletRequest req, String segment, String sort) {
@@ -47,8 +50,9 @@ public class DraftPlayersModel {
 	// TODO Auto-generated constructor stub
     }
 
-    public DraftPlayersModel(HttpServletRequest req2) {
+    public DraftPlayersModel(HttpServletRequest req2, HttpServletResponse resp2) {
 	this.req = req2;
+	this.resp = resp2;
     }
 
     public void showPlayersSortByParameter() {
@@ -404,7 +408,8 @@ public class DraftPlayersModel {
 
     }
 
-    public void persistenceDraftPickRegulier() {
+    @SuppressWarnings("unchecked")
+    public void persistenceDraftPickRegulier() throws ServletException, IOException {
 	// on recupere tous les variables utiles
 	EntityManagerFactory emf = EMF.get();
 	EntityManager em = null;
@@ -424,38 +429,38 @@ public class DraftPlayersModel {
 	Key mKey = KeyFactory.createKey("DraftProcess", poolID);
 	int currentPick = 0;
 	List<Integer> players_id = new ArrayList<Integer>();
-	    List<Integer> team_id = new ArrayList<Integer>();
-	    List<String> nom2 = new ArrayList<String>();
-	    List<String> teamOfPlayer = new ArrayList<String>();
-	    List<Integer> pj = new ArrayList<Integer>();
-	    List<Integer> but_victoire = new ArrayList<Integer>();
-	    List<Integer> aide_overtime = new ArrayList<Integer>();
-	    List<Integer> blanchissage = new ArrayList<Integer>();
-	    List<Integer> pts = new ArrayList<Integer>();
-	    List<Integer> projection = new ArrayList<Integer>();
-	    List<String> position2 = new ArrayList<String>();
-	    List<Date> birthday = new ArrayList<Date>();
-	    List<Integer> can_be_rookie = new ArrayList<Integer>();
-	    List<Integer> take_proj = new ArrayList<Integer>();
-	    List<Integer> salaire_draft = new ArrayList<Integer>();
-	    List<Integer> contrat = new ArrayList<Integer>();
-	    List<Integer> acquire_years = new ArrayList<Integer>();
-	    List<Integer> salaire_contrat = new ArrayList<Integer>();
-	    List<Integer> contrat_cours = new ArrayList<Integer>();
-	    List<Integer> contrat_max_years = new ArrayList<Integer>();
-	    List<Integer> type_contrat = new ArrayList<Integer>();
-	    List<Integer> club_ecole = new ArrayList<Integer>();
-	    List<Date> date_calcul = new ArrayList<Date>();
-	    List<String> years_1 = new ArrayList<String>();
-	    List<String> years_2 = new ArrayList<String>();
-	    List<String> years_3 = new ArrayList<String>();
-	    List<String> years_4 = new ArrayList<String>();
-	    List<String> years_5 = new ArrayList<String>();
-	    List<Integer> team_was_update = new ArrayList<Integer>();
-	    List<Integer> age = new ArrayList<Integer>();
-	    List<Integer> hier = new ArrayList<Integer>();
-	    List<Integer> semaine = new ArrayList<Integer>();
-	    List<Integer> mois = new ArrayList<Integer>();
+	List<Integer> team_id = new ArrayList<Integer>();
+	List<String> nom2 = new ArrayList<String>();
+	List<String> teamOfPlayer = new ArrayList<String>();
+	List<Integer> pj = new ArrayList<Integer>();
+	List<Integer> but_victoire = new ArrayList<Integer>();
+	List<Integer> aide_overtime = new ArrayList<Integer>();
+	List<Integer> blanchissage = new ArrayList<Integer>();
+	List<Integer> pts = new ArrayList<Integer>();
+	List<Integer> projection = new ArrayList<Integer>();
+	List<String> position2 = new ArrayList<String>();
+	List<Date> birthday = new ArrayList<Date>();
+	List<Integer> can_be_rookie = new ArrayList<Integer>();
+	List<Integer> take_proj = new ArrayList<Integer>();
+	List<Integer> salaire_draft = new ArrayList<Integer>();
+	List<Integer> contrat = new ArrayList<Integer>();
+	List<Integer> acquire_years = new ArrayList<Integer>();
+	List<Integer> salaire_contrat = new ArrayList<Integer>();
+	List<Integer> contrat_cours = new ArrayList<Integer>();
+	List<Integer> contrat_max_years = new ArrayList<Integer>();
+	List<Integer> type_contrat = new ArrayList<Integer>();
+	List<Integer> club_ecole = new ArrayList<Integer>();
+	List<Date> date_calcul = new ArrayList<Date>();
+	List<String> years_1 = new ArrayList<String>();
+	List<String> years_2 = new ArrayList<String>();
+	List<String> years_3 = new ArrayList<String>();
+	List<String> years_4 = new ArrayList<String>();
+	List<String> years_5 = new ArrayList<String>();
+	List<Integer> team_was_update = new ArrayList<Integer>();
+	List<Integer> age = new ArrayList<Integer>();
+	List<Integer> hier = new ArrayList<Integer>();
+	List<Integer> semaine = new ArrayList<Integer>();
+	List<Integer> mois = new ArrayList<Integer>();
 	try {
 	    Entity mEntity = datastore.get(mKey);
 	    Long currentPick2 = (Long) mEntity.getProperty("currentPick");
@@ -465,11 +470,12 @@ public class DraftPlayersModel {
 
 	}
 	String playersEntityName = "Players_" + poolID;
-	String attaquantDatastoreID = poolID + "_" + teamID;
+	String datastoreID = poolID + "_" + teamID;
+
 	// on commence une transaction pour mettre a jour les datastores Players, Attaquant, Defenseur, Gardien, Equipe,
 // draftRound, DraftPick,DraftProcess
 	TransactionOptions options = TransactionOptions.Builder.withXG(true);
-	Transaction txn = datastore.beginTransaction();
+	Transaction txn = datastore.beginTransaction(options);
 	try {
 
 	    Key playersKey = KeyFactory.createKey(playersEntityName, playersId);
@@ -490,51 +496,83 @@ public class DraftPlayersModel {
 	    } catch (EntityNotFoundException e) {
 
 	    }
-	    
-	    
-	    Key attaquantKey = KeyFactory.createKey("Attaquant", attaquantDatastoreID);
-	    Attaquant mBeanAttaquant = new Attaquant();
-	    Entity attaquant = null;
-	    try {
-	        em = emf.createEntityManager();
-	        mBeanAttaquant = em.find(Attaquant.class, attaquantKey);
-	        
-	        players_id.addAll(mBeanAttaquant.get_id());
-	        players_id.add((Integer) players.getProperty("player_id"));
-	        mBeanAttaquant.set_id(players_id);
-	        
-	        team_id.addAll(mBeanAttaquant.getTeam_id());
-	        team_id.add((Integer) players.getProperty("team_id"));
-	        mBeanAttaquant.setTeam_id(team_id);
-	        
-	        
-	        
-	        em.merge(mBeanAttaquant);
-	        
-	        try {
-		    attaquant = datastore.get(attaquantKey);
-		} catch (EntityNotFoundException e) {
-		    // TODO Auto-generated catch block
-		    e.printStackTrace();
-		}
-	        
-	        datastore.put(txn, attaquant);
-	        
-	    } finally {
-	        if (em != null)
-	    	em.close();
+	    Key entityKey = null;
+	    switch(position){
+	    case "attaquant":
+		 entityKey = KeyFactory.createKey("Attaquant", datastoreID);
+		break;
+	    case "defenseur":
+		 entityKey = KeyFactory.createKey("Defenseur", datastoreID);
+		break;
+	    case "gardien":
+		 entityKey = KeyFactory.createKey("Gardien", datastoreID);
+		break;
 	    }
 
-	    
-	    
+	   
+	    // Attaquant mBeanAttaquant = new Attaquant();
+	    Entity entity = null;
+	    try {
+
+		entity = datastore.get(entityKey);
+		players_id = (List<Integer>) entity.getProperty("players_id");
+		pj = (List<Integer>) entity.getProperty("pj");
+		if(players_id==null){
+		    	players_id = new ArrayList<Integer>();			
+			nom2 = new ArrayList<String>();
+			teamOfPlayer = new ArrayList<String>();
+			pj = new ArrayList<Integer>();
+			but_victoire = new ArrayList<Integer>();
+			aide_overtime = new ArrayList<Integer>();
+			blanchissage = new ArrayList<Integer>();
+			pts = new ArrayList<Integer>();
+			salaire_contrat = new ArrayList<Integer>();			
+			years_1 = new ArrayList<String>();
+			years_2 = new ArrayList<String>();
+			years_3 = new ArrayList<String>();
+			years_4 = new ArrayList<String>();
+			years_5 = new ArrayList<String>();			
+			hier = new ArrayList<Integer>();
+			semaine = new ArrayList<Integer>();
+			mois = new ArrayList<Integer>();    
+		}
+		players_id.add(playersId);
+		entity.setProperty("players_id", players_id);
+		
+		nom2.add(nom);
+		entity.setProperty("nom", nom2);
+		
+		String sTeamOfPlayer =  (String) players.getProperty("teamOfPlayer");
+		
+		teamOfPlayer.add(sTeamOfPlayer);
+		entity.setProperty("teamOfPlayer", teamOfPlayer);
+		
+		
+		Long longPj =  (Long) players.getProperty("pj");
+		int pjId = longPj.intValue();
+		pj.add(pjId);
+		entity.setProperty("pj", pj);
+		
+		
+		datastore.put(txn, entity);
+		
+	    } catch (EntityNotFoundException e) {
+
+	    }
+	  
+
 	    txn.commit();
 	} finally {
 	    if (txn.isActive()) {
 		txn.rollback();
+		// req.getRequestDispatcher("/DraftPlayers").forward(req, resp);
+
 	    }
 	}
 
     }
+
+    
 
     /* ******************************************* Methode privé ************************************************ */
 

@@ -70,7 +70,7 @@
 				<div>Voulez-vous confirmer le repêchage de ${confirmationPick.nom}, ${confirmationPick.position} de l'équipe de ${confirmationPick.teamOfPlayer} au salaire de
 					${confirmationPick.salaire_draft}</div>
 
-				<form class="w3-container w3-card-24 w3-white" action="/DraftPlayers" method="post">
+				<form onsubmit="confirmationButton.disabled = true; return true;" class="w3-container w3-card-24 w3-white" action="/DraftPlayers" method="post">
 					<input type="hidden" name="draftStep" value="2">
 					<input type="hidden" name="draft_player_id" value="${confirmationPick.players_id}">
 					<input type="hidden" name="team_id"	value="${Utilisateur.teamId}">
@@ -80,7 +80,7 @@
 					<input type="hidden" name="can_be_rookie" value="${confirmationPick.can_be_rookie}">
 					<input type="hidden" name="salaire" value="${confirmationPick.salaire_draft}">
 					<p>
-						<input type="submit" value="Oui je le veux">
+						<input name="confirmationButton" type="submit" value="Oui je le veux">
 					</p>
 
 				</form>
@@ -109,7 +109,7 @@
 				<div>Voulez-vous confirmer le repêchage de ${confirmationPick.nom}, ${confirmationPick.position} de l'équipe de ${confirmationPick.teamOfPlayer} au salaire de
 					${confirmationPick.salaire_draft}</div>
 
-				<form class="w3-container w3-card-24 w3-white" action="/DraftPlayers" method="post">
+				<form onsubmit="confirmationButtonA.disabled = true; return true;" class="w3-container w3-card-24 w3-white" action="/DraftPlayers" method="post">
 					<input type="hidden" name="draftStep" value="2">
 					<input type="hidden" name="draft_player_id" value="${confirmationPick.players_id}">
 					<input type="hidden" name="team_id"	value="${Utilisateur.teamId}">
@@ -119,11 +119,11 @@
 					<input type="hidden" name="can_be_rookie" value="${confirmationPick.can_be_rookie}">
 					<input type="hidden" name="salaire" value="${confirmationPick.salaire_draft}">
 					<p>
-						<input type="submit" value="Oui, dans mon club régulier">
+						<input name="confirmationButtonA" type="submit" value="Oui, dans mon club régulier">
 					</p>
 
 				</form>
-				<form class="w3-container w3-card-24 w3-white" action="/DraftPlayers" method="post">
+				<form onsubmit="confirmationButtonB.disabled = true; return true;" action="/DraftPlayers" method="post">
 					<input type="hidden" name="draftStep" value="3">
 					<input type="hidden" name="draft_player_id" value="${confirmationPick.players_id}">
 					<input type="hidden" name="team_id"	value="${Utilisateur.teamId}">
@@ -133,7 +133,7 @@
 					<input type="hidden" name="can_be_rookie" value="${confirmationPick.can_be_rookie}">
 					<input type="hidden" name="salaire" value="${confirmationPick.salaire_draft}">
 					<p>
-						<input type="submit" value="Oui, dans mon club école">
+						<input name="confirmationButtonB" onclick="this.disabled=true;" ondblclick="this.disabled=true;" type="submit" value="Oui, dans mon club école">
 					</p>
 
 				</form>

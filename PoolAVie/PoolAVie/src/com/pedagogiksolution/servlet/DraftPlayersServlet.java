@@ -50,12 +50,12 @@ public class DraftPlayersServlet extends HttpServlet {
 	switch(Integer.parseInt(draftStep)){
 	
 	case 1: // provient du choix fait a la page draft_pick_zone
-	    mModel=new DraftPlayersModel(req);
+	    mModel=new DraftPlayersModel(req,resp);
 	    mModel.checkIfDraftIsPossible();
 	    req.getRequestDispatcher("jsp/draft/draft_pick_confirmation.jsp").forward(req, resp);
 	    break;
 	case 2: // persistence d'un pick dans club regulier
-	    mModel=new DraftPlayersModel(req);
+	    mModel=new DraftPlayersModel(req,resp);
 	    mModel.persistenceDraftPickRegulier();
 	    resp.sendRedirect("/DraftCenter");
 	    break;

@@ -74,7 +74,7 @@
 			<tr><td>Vous n'avez aucun joueur présentementt</td><tr>
 			</c:if>
 			<c:if test="${not empty nombreDePick}">
-			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
+			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)}">
 				
 					<tr>
 					
@@ -128,7 +128,7 @@
 			<tr><td>Vous n'avez aucun joueur présentementt</td><tr>
 			</c:if>
 			<c:if test="${not empty nombreDePick}">
-			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
+			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)}">
 				
 					<tr>
 					
@@ -182,7 +182,7 @@
 			<tr><td>Vous n'avez aucun joueur présentementt</td><tr>
 			</c:if>
 			<c:if test="${not empty nombreDePick}">
-			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
+			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)}">
 				
 					<tr>
 					
@@ -236,7 +236,7 @@
 			<tr><td>Vous n'avez aucun joueur présentementt</td><tr>
 			</c:if>
 			<c:if test="${not empty nombreDePick}">
-			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
+			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)}">
 				
 					<tr>
 					

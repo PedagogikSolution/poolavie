@@ -127,14 +127,14 @@
 			<tr><td>Vous n'avez aucun joueur présentementt</td><tr>
 			</c:if>
 			<c:if test="${not empty nombreDePick}">
-			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
+			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)}">
 				
 					<tr>
 					
 						
 						<td>${i+1}</td>
 						<td>${NonSessionAttaquant.nom[i]}</td>
-						<td>${NonSessionAttaquant.equipe[i]}</td>
+						<td>${NonSessionAttaquant.teamOfPlayer[i]}</td>
 						<td>${NonSessionAttaquant.pts[i]}</td>
 												
 					</tr>
@@ -165,14 +165,14 @@
 			<tr><td>Vous n'avez aucun joueur présentementt</td><tr>
 			</c:if>
 			<c:if test="${not empty nombreDePick}">
-			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
+			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)}">
 				
 					<tr>
 					
 						
 						<td>${i+1}</td>
 						<td>${NonSessionDefenseur.nom[i]}</td>
-						<td>${NonSessionDefenseur.equipe[i]}</td>
+						<td>${NonSessionDefenseur.teamOfPlayer[i]}</td>
 						<td>${NonSessionDefenseur.pts[i]}</td>
 												
 					</tr>
@@ -203,14 +203,14 @@
 			<tr><td>Vous n'avez aucun joueur présentementt</td><tr>
 			</c:if>
 			<c:if test="${not empty nombreDePick}">
-			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
+			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)}">
 				
 					<tr>
 					
 						
 						<td>${i+1}</td>
 						<td>${NonSessionGardien.nom[i]}</td>
-						<td>${NonSessionGardien.equipe[i]}</td>
+						<td>${NonSessionGardien.teamOfPlayer[i]}</td>
 						<td>${NonSessionGardien.pts[i]}</td>
 												
 					</tr>
@@ -241,14 +241,14 @@
 			<tr><td>Vous n'avez aucun joueur présentementt</td><tr>
 			</c:if>
 			<c:if test="${not empty nombreDePick}">
-			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
+			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)}">
 				
 					<tr>
 					
 						
 						<td>${i+1}</td>
 						<td>${NonSessionRecrue.nom[i]}</td>
-						<td>${NonSessionRecrue.equipe[i]}</td>
+						<td>${NonSessionRecrue.teamOfPlayer[i]}</td>
 						<td>${NonSessionRecrue.pts[i]}</td>
 												
 					</tr>
