@@ -26,8 +26,11 @@ import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Transaction;
 import com.google.appengine.api.datastore.TransactionOptions;
+import com.google.appengine.api.memcache.MemcacheService;
+import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.beans.NonSessionPlayers;
+import com.pedagogiksolution.datastorebeans.Attaquant;
 import com.pedagogiksolution.datastorebeans.DraftProcess;
 import com.pedagogiksolution.datastorebeans.Players;
 import com.pedagogiksolution.datastorebeans.Pool;
@@ -517,6 +520,7 @@ public class DraftPlayersModel {
 		entity = datastore.get(entityKey);
 		players_id = (List<Integer>) entity.getProperty("players_id");
 		pj = (List<Integer>) entity.getProperty("pj");
+		String sTeamOfPlayer =  (String) players.getProperty("teamOfPlayer");
 		if(players_id==null){
 		    	players_id = new ArrayList<Integer>();			
 			nom2 = new ArrayList<String>();
@@ -532,33 +536,69 @@ public class DraftPlayersModel {
 			years_3 = new ArrayList<String>();
 			years_4 = new ArrayList<String>();
 			years_5 = new ArrayList<String>();			
-			hier = new ArrayList<Integer>();
-			semaine = new ArrayList<Integer>();
-			mois = new ArrayList<Integer>();    
+			   
 		}
 		players_id.add(playersId);
 		entity.setProperty("players_id", players_id);
 		
 		nom2.add(nom);
-		entity.setProperty("nom", nom2);
-		
-		String sTeamOfPlayer =  (String) players.getProperty("teamOfPlayer");
+		entity.setProperty("nom", nom2);		
 		
 		teamOfPlayer.add(sTeamOfPlayer);
 		entity.setProperty("teamOfPlayer", teamOfPlayer);
-		
-		
+				
 		Long longPj =  (Long) players.getProperty("pj");
 		int pjId = longPj.intValue();
 		pj.add(pjId);
 		entity.setProperty("pj", pj);
 		
+		Long longBut_victoire =  (Long) players.getProperty("but_victoire");
+		int but_victoireId = longBut_victoire.intValue();
+		but_victoire.add(but_victoireId);
+		entity.setProperty("but_victoire", but_victoire);
+		
+		Long longAide_overtime =  (Long) players.getProperty("aide_overtime");
+		int aide_overtimeId = longAide_overtime.intValue();
+		aide_overtime.add(aide_overtimeId);
+		entity.setProperty("aide_overtime", aide_overtime);
+		
+		if(position.equalsIgnoreCase("Gardien")){
+		Long longBlanchissage =  (Long) players.getProperty("blanchissage");
+		int blanchissageId = longBlanchissage.intValue();
+		blanchissage.add(blanchissageId);
+		entity.setProperty("blanchissage", blanchissage);
+		}
+		
+		Long longPts =  (Long) players.getProperty("pts");
+		int ptsId = longPts.intValue();
+		pts.add(ptsId);
+		entity.setProperty("pts", pts);
+		
+		salaire_contrat.add(salaireId);
+		entity.setProperty("salaire_contrat", salaire_contrat);
+		
+		years_1.add("A");
+		entity.setProperty("years_1", years_1);
+		
+		years_2.add("A");
+		entity.setProperty("years_2", years_2);
+		
+		years_3.add("A");
+		entity.setProperty("years_3", years_3);
+		
+		years_4.add("A");
+		entity.setProperty("years_4", years_4);
+		
+		years_5.add("A");
+		entity.setProperty("years_5", years_5);
 		
 		datastore.put(txn, entity);
 		
 	    } catch (EntityNotFoundException e) {
 
 	    }
+	    
+	   
 	  
 
 	    txn.commit();
@@ -569,13 +609,18 @@ public class DraftPlayersModel {
 
 	    }
 	}
-
+	
+	 
+	
+	
     }
 
     
 
     /* ******************************************* Methode privé ************************************************ */
 
+    
+    
     private Entity getEntityEquipe(String poolID, String teamID) {
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	String datastoreNameEquipeTable = poolID + "_" + teamID;

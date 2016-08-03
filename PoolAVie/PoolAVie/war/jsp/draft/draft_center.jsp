@@ -122,12 +122,12 @@
 					<th>Points</th>
 					
 			</tr>
-			<c:set var="nombreDePick" value="${NonSessionAttaquant.team_id}" />
+			<c:set var="nombreDePick" value="${NonSessionAttaquant.nom}" />
 			<c:if test="${empty nombreDePick}">
 			<tr><td>Vous n'avez aucun joueur présentementt</td><tr>
 			</c:if>
 			<c:if test="${not empty nombreDePick}">
-			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)}">
+			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 				
 					<tr>
 					
@@ -160,12 +160,12 @@
 					<th>Points</th>
 					
 			</tr>
-			<c:set var="nombreDePick" value="${NonSessionDefenseur.team_id}" />
+			<c:set var="nombreDePick" value="${NonSessionDefenseur.nom}" />
 			<c:if test="${empty nombreDePick}">
 			<tr><td>Vous n'avez aucun joueur présentementt</td><tr>
 			</c:if>
 			<c:if test="${not empty nombreDePick}">
-			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)}">
+			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 				
 					<tr>
 					
@@ -198,12 +198,12 @@
 					<th>Points</th>
 					
 			</tr>
-			<c:set var="nombreDePick" value="${NonSessionGardien.team_id}" />
+			<c:set var="nombreDePick" value="${NonSessionGardien.nom}" />
 			<c:if test="${empty nombreDePick}">
 			<tr><td>Vous n'avez aucun joueur présentementt</td><tr>
 			</c:if>
 			<c:if test="${not empty nombreDePick}">
-			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)}">
+			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 				
 					<tr>
 					
@@ -236,12 +236,12 @@
 					<th>Points</th>
 					
 			</tr>
-			<c:set var="nombreDePick" value="${NonSessionRecrue.team_id}" />
+			<c:set var="nombreDePick" value="${NonSessionRecrue.nom}" />
 			<c:if test="${empty nombreDePick}">
 			<tr><td>Vous n'avez aucun joueur présentementt</td><tr>
 			</c:if>
 			<c:if test="${not empty nombreDePick}">
-			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)}">
+			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 				
 					<tr>
 					

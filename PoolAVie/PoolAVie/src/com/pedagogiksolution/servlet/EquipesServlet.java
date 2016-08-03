@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.datastorebeans.Pool;
+import com.pedagogiksolution.model.DraftPlayersModel;
 import com.pedagogiksolution.model.EquipeModel;
 import com.pedagogiksolution.model.LoginModel;
 
@@ -30,6 +31,9 @@ public class EquipesServlet extends HttpServlet {
 	    mModel.createSessionDefenseurBean();
 	    mModel.createSessionGardienBean();
 	    mModel.createSessionRecrueBean();
+	    DraftPlayersModel mModelDraft = new DraftPlayersModel();
+	    	   
+	    mModelDraft.putDatastoreIntoBean(mBeanPool,req);
 	}
 	EquipeModel mModel = new EquipeModel();
 	mModel.getBeanByTeam(req);

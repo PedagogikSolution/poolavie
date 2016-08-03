@@ -69,22 +69,22 @@
 					<th>2019-20</th>
 					
 			</tr>
-			<c:set var="nombreDePick" value="${NonSessionAttaquant.team_id}" />
+			<c:set var="nombreDePick" value="${NonSessionAttaquant.nom}" />
 			<c:if test="${empty nombreDePick}">
 			<tr><td>Vous n'avez aucun joueur présentementt</td><tr>
 			</c:if>
 			<c:if test="${not empty nombreDePick}">
-			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)}">
+			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 				
 					<tr>
 					
 						
 						<td>${i+1}</td>
 						<td>${NonSessionAttaquant.nom[i]}</td>
-						<td>${NonSessionAttaquant.equipe[i]}</td>
+						<td>${NonSessionAttaquant.teamOfPlayer[i]}</td>
 						<td>${NonSessionAttaquant.pj[i]}</td>
 						<td>${NonSessionAttaquant.but_victoire[i]}</td>
-						<td>${NonSessionAttaquant.passe_overtime[i]}</td>
+						<td>${NonSessionAttaquant.aide_overtime[i]}</td>
 						<td>${NonSessionAttaquant.pts[i]}</td>
 						<td>${NonSessionAttaquant.years_1[i]}</td>
 						<td>${NonSessionAttaquant.years_2[i]}</td>
@@ -123,22 +123,22 @@
 					<th>2019-20</th>
 					
 			</tr>
-			<c:set var="nombreDePick" value="${NonSessionDefenseur.team_id}" />
+			<c:set var="nombreDePick" value="${NonSessionDefenseur.nom}" />
 			<c:if test="${empty nombreDePick}">
 			<tr><td>Vous n'avez aucun joueur présentementt</td><tr>
 			</c:if>
 			<c:if test="${not empty nombreDePick}">
-			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)}">
+			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 				
 					<tr>
 					
 						
 						<td>${i+1}</td>
 						<td>${NonSessionDefenseur.nom[i]}</td>
-						<td>${NonSessionDefenseur.equipe[i]}</td>
+						<td>${NonSessionDefenseur.teamOfPlayer[i]}</td>
 						<td>${NonSessionDefenseur.pj[i]}</td>
 						<td>${NonSessionDefenseur.but_victoire[i]}</td>
-						<td>${NonSessionDefenseur.passe_overtime[i]}</td>
+						<td>${NonSessionDefenseur.aide_overtime[i]}</td>
 						<td>${NonSessionDefenseur.pts[i]}</td>
 						<td>${NonSessionDefenseur.years_1[i]}</td>
 						<td>${NonSessionDefenseur.years_2[i]}</td>
@@ -177,22 +177,22 @@
 					<th>2019-20</th>
 					
 			</tr>
-			<c:set var="nombreDePick" value="${NonSessionGardien.team_id}" />
+			<c:set var="nombreDePick" value="${NonSessionGardien.nom}" />
 			<c:if test="${empty nombreDePick}">
 			<tr><td>Vous n'avez aucun joueur présentementt</td><tr>
 			</c:if>
 			<c:if test="${not empty nombreDePick}">
-			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)}">
+			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 				
 					<tr>
 					
 						
 						<td>${i+1}</td>
 						<td>${NonSessionGardien.nom[i]}</td>
-						<td>${NonSessionGardien.equipe[i]}</td>
+						<td>${NonSessionGardien.teamOfPlayer[i]}</td>
 						<td>${NonSessionGardien.pj[i]}</td>
 						<td>${NonSessionGardien.but_victoire[i]}</td>
-						<td>${NonSessionGardien.passe_overtime[i]}</td>
+						<td>${NonSessionGardien.aide_overtime[i]}</td>
 						<td>${NonSessionGardien.pts[i]}</td>
 						<td>${NonSessionGardien.years_1[i]}</td>
 						<td>${NonSessionGardien.years_2[i]}</td>
@@ -231,22 +231,22 @@
 					<th>2019-20</th>
 					
 			</tr>
-			<c:set var="nombreDePick" value="${NonSessionRecrue.team_id}" />
+			<c:set var="nombreDePick" value="${NonSessionRecrue.nom}" />
 			<c:if test="${empty nombreDePick}">
 			<tr><td>Vous n'avez aucun joueur présentementt</td><tr>
 			</c:if>
 			<c:if test="${not empty nombreDePick}">
-			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)}">
+			<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 				
 					<tr>
 					
 						
 						<td>${i+1}</td>
 						<td>${NonSessionRecrue.nom[i]}</td>
-						<td>${NonSessionRecrue.equipe[i]}</td>
+						<td>${NonSessionRecrue.teamOfPlayer[i]}</td>
 						<td>${NonSessionRecrue.pj[i]}</td>
 						<td>${NonSessionRecrue.but_victoire[i]}</td>
-						<td>${NonSessionRecrue.passe_overtime[i]}</td>
+						<td>${NonSessionRecrue.aide_overtime[i]}</td>
 						<td>${NonSessionRecrue.pts[i]}</td>
 						<td>${NonSessionRecrue.years_1[i]}</td>
 						<td>${NonSessionRecrue.years_2[i]}</td>
