@@ -21,7 +21,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	
-	   
+	    req.getSession().invalidate();
 	    req.getRequestDispatcher("jsp/accueil/login.jsp").forward(req, resp); 
 	
 	
@@ -30,6 +30,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	
 	// recuperation des 2 inputs du formulaire de la page login.jsp
 	String nomUtilisateur = req.getParameter("username");
 	String motDePasse = req.getParameter("password");

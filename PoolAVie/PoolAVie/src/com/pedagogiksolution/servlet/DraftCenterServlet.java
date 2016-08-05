@@ -29,18 +29,17 @@ public class DraftCenterServlet extends HttpServlet {
 	    LoginModel mModel = new LoginModel(req);
 	    mModel.createSessionDraftRoundBean();
 	    mModel.createSessionEquipeBean();
-	    mModel.createSessionDraftPickBean();
 	    mModel.createSessionAttaquantBean();
 	    mModel.createSessionDefenseurBean();
 	    mModel.createSessionGardienBean();
 	    mModel.createSessionRecrueBean();
-	    DraftPlayersModel mModelDraft = new DraftPlayersModel();
-	    	   
+	    
+	    DraftPlayersModel mModelDraft = new DraftPlayersModel();	    	   
 	    mModelDraft.putDatastoreIntoBean(mBean,req);
 	}
 	
 	if(cycleAnnuel>=2){
-	    EquipeModel mModel = new EquipeModel();
+	    	EquipeModel mModel = new EquipeModel();
 		mModel.getBeanByTeam(req);
 	}
 	

@@ -56,6 +56,8 @@ public class ResetForTestCron extends HttpServlet {
 	    if (em != null)
 		em.close();
 	}
+	
+	req.getSession().invalidate();
 
     }
 }

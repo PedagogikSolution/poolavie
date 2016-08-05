@@ -26,13 +26,12 @@ public class EquipesServlet extends HttpServlet {
 	    LoginModel mModel = new LoginModel(req);
 	    mModel.createSessionDraftRoundBean();
 	    mModel.createSessionEquipeBean();
-	    mModel.createSessionDraftPickBean();
 	    mModel.createSessionAttaquantBean();
 	    mModel.createSessionDefenseurBean();
 	    mModel.createSessionGardienBean();
 	    mModel.createSessionRecrueBean();
-	    DraftPlayersModel mModelDraft = new DraftPlayersModel();
-	    	   
+	    
+	    DraftPlayersModel mModelDraft = new DraftPlayersModel();	    	   
 	    mModelDraft.putDatastoreIntoBean(mBeanPool,req);
 	}
 	EquipeModel mModel = new EquipeModel();
