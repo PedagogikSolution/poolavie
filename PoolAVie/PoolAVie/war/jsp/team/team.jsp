@@ -308,7 +308,7 @@
 				${NonSessionEquipe.max_salaire_begin}
 			</p>
 			<p>
-				Budget restant : <br>${NonSessionEquipe.max_salaire_begin}
+				Budget restant : <br>${NonSessionEquipe.budget_restant}
 			</p>
 			<p>
 				Argent Reçu : <br>${NonSessionEquipe.max_salaire_begin}

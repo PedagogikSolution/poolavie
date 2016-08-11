@@ -20,6 +20,7 @@ public class DraftPlayersCron extends HttpServlet {
     public static final String CONF_DAO_FACTORY = "daofactory";
     private PlayersDao playersDao;
 
+    @Override
     public void init() throws ServletException {
 	/* Récupération d'une instance de notre DAO Utilisateur */
 	this.playersDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getPlayersDao();

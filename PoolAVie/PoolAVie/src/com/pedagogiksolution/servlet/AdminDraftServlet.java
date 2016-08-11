@@ -21,6 +21,7 @@ public class AdminDraftServlet extends HttpServlet {
     public static final String CONF_DAO_FACTORY = "daofactory";
     private DraftDao draftDao;
 
+    @Override
     public void init() throws ServletException {
 	/* Récupération d'une instance de notre DAO Utilisateur */
 	this.draftDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftDao();

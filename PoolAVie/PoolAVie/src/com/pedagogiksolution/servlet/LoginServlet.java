@@ -47,6 +47,8 @@ public class LoginServlet extends HttpServlet {
 	    Boolean checkIfValidateAccount = mModel.checkIfValidateAccount();
 
 	    if (checkIfValidateAccount) {
+	    //Reset de la propriété isOpen dans le datastore DraftProcess
+	    	mModel.resetConnexionOpen();
 		// creation des bean Pool et Classement et Equipe
 		Boolean createSessionPoolBean= mModel.createSessionPoolBean();
 		Boolean createSessionEquipeBean= mModel.createSessionEquipeBean();

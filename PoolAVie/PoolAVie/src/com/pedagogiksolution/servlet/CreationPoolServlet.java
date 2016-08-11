@@ -38,6 +38,7 @@ public class CreationPoolServlet extends HttpServlet {
     private SalaireDao salaireDao;
     private DraftPickDao draftPickDao;
 
+    @Override
     public void init() throws ServletException {
 	/* Récupération d'une instance de notre nos DAO */
 	this.classementDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getClassementDao();
