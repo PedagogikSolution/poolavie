@@ -11,11 +11,37 @@
 	};
 
 	onMessage = function(m) {
-		newState = JSON.parse(m.data);
-		testIfOpen = newState.testIfOpen;
-		pickMadeMessage = newState.pickMadeMessage;
+		messageReceived = JSON.parse(m.data);
+		testIfOpen = messageReceived.testIfOpen;
+		draftPickMade = messageReceived.draftPickMade;
+		// connexion avec les serveurs établie
 		if(testIfOpen==1){
 			alert("Vous êtes maintenant connecté au serveur de draft");
+			
+		}
+		// regular player drafted
+		else if(draftPickMade==1){
+			teamThatDraft = messageReceived.teamThatDraft;
+			round = messageReceived.round;
+			pickNumber = messageReceived.pickNumber;
+			fromWho = messageReceived.fromWho;
+			playerDrafted = messageReceived.playerDrafted;
+			teamOfPlayer = messageReceived.teamOfPlayer;
+			salaire = messageReceived.salaire;
+			position = messageReceived.position;
+			alert(teamThatDraft + " a repêcher avec le "+pickNumber+"ième choix overall : "+playerDrafted+" ,"+position+", de "+teamOfPlayer+" au salaire de "+salaire+"$");
+		}
+		// recrue drafted
+		else if(draftPickMade==2){
+			teamThatDraft = messageReceived.teamThatDraft;
+			round = messageReceived.round;
+			pickNumber = messageReceived.pickNumber;
+			fromWho = messageReceived.fromWho;
+			playerDrafted = messageReceived.playerDrafted;
+			teamOfPlayer = messageReceived.teamOfPlayer;
+			salaire = messageReceived.salaire;
+			position = messageReceived.position;
+			alert("Vous avez choisis une rookie");
 		} else {
 			
 		}

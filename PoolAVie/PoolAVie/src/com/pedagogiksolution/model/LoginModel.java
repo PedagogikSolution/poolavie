@@ -591,10 +591,11 @@ public class LoginModel {
 	}
 
 public void resetConnexionOpen() {
-		
-		Utilisateur mUserBean = (Utilisateur) requestObject.getAttribute("Utilisateur");
+		Utilisateur mUserBean = new Utilisateur();
+		Pool mBeanPool = new Pool();
+		mUserBean = (Utilisateur) requestObject.getSession().getAttribute("Utilisateur");
 		int teamId= mUserBean.getTeamId();
-		Pool mBeanPool = (Pool) requestObject.getAttribute("Pool");
+		mBeanPool = (Pool) requestObject.getSession().getAttribute("Pool");
 		String poolID = mBeanPool.getPoolID();
 		
 		DraftProcess mBeanDraftProcess = new DraftProcess();

@@ -57,6 +57,8 @@ public class DraftPlayersServlet extends HttpServlet {
 	case 2: // persistence d'un pick dans club regulier
 	    mModel=new DraftPlayersModel(req,resp);
 	    mModel.persistenceDraftPickRegulier();
+	    mModel.persistenceDraftInDatabase();
+	    mModel.channelMessage();
 	    resp.sendRedirect("/DraftCenter");
 	    break;
 	case 3: // persitence d'un pick dans club recrue

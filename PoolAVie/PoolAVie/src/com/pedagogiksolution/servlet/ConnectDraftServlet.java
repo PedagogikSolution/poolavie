@@ -52,6 +52,7 @@ public class ConnectDraftServlet extends HttpServlet {
 		    String tokenString = poolID + "_" + teamId;
 		    Map<String, String> messageToClient = new HashMap<String, String>();
 		    messageToClient.put("testIfOpen", "1");
+		    messageToClient.put("draftPickMade", "0");
 		    JSONObject JSONmessage = new JSONObject(messageToClient);
 		    String message = JSONmessage.toString();
 

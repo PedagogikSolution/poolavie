@@ -2,12 +2,17 @@ package com.pedagogiksolution.model;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.channel.ChannelMessage;
+import com.google.appengine.api.channel.ChannelService;
+import com.google.appengine.api.channel.ChannelServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -25,6 +30,7 @@ import com.google.appengine.api.datastore.Transaction;
 import com.google.appengine.api.datastore.TransactionOptions;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
+import com.google.appengine.labs.repackaged.org.json.JSONObject;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.beans.NonSessionPlayers;
 import com.pedagogiksolution.datastorebeans.Attaquant;
@@ -837,6 +843,71 @@ public class DraftPlayersModel {
 		
 
 	}
+	
+	public void persistenceDraftInDatabase() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void channelMessage() {
+		String currentPick="";
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		String poolID = mBeanPool.getPoolID();
+		int numberOfTeam = mBeanPool.getNumberTeam();
+		String salaire = req.getParameter("salaire");
+		String teamID = req.getParameter("team_id");
+		int teamId = Integer.parseInt(teamID);
+		String position = req.getParameter("position");
+		String nom = req.getParameter("nom");
+		String team = req.getParameter("team");
+		Key mKey = KeyFactory.createKey("DraftProcess", poolID);
+		try {
+			Entity mEntity = datastore.get(mKey);
+			Long currentPick2 = (Long) mEntity.getProperty("currentPick");
+			currentPick = currentPick2.toString();
+
+		} catch (EntityNotFoundException e) {
+
+		}
+		
+		
+	    Map<String, String> messageToClient = new HashMap<String, String>();
+	    messageToClient.put("testIfOpen", "0");
+	    messageToClient.put("draftPickMade", "1");
+	    messageToClient.put("pickNumber",currentPick);
+	    messageToClient.put("playerDrafted",nom);
+	    messageToClient.put("teamOfPlayer",team);
+	    messageToClient.put("salaire",salaire);
+	    messageToClient.put("position",position);
+	    messageToClient.put("teamThatDraft",teamID);
+	    
+	  
+	    
+	    
+	    JSONObject JSONmessage = new JSONObject(messageToClient);
+	    String message = JSONmessage.toString();
+
+	    ChannelService channelService = ChannelServiceFactory.getChannelService();
+	    
+	    
+	    for(int i=1;i<numberOfTeam;i++){
+	    	
+	    	if(teamId==i){
+	    		
+	    	} else {
+	    		String tokenString = poolID + "_" + i;
+	    	    channelService.sendMessage(new ChannelMessage(tokenString, message));
+	    	}
+	    	
+	    	
+	    }
+	    
+	    
+	    
+		
+		
+	}
+
 
 	/*
 	 * ******************************************* Methode privé
@@ -955,5 +1026,8 @@ public class DraftPlayersModel {
 		}
 
 	}
+
+	
+	
 
 }

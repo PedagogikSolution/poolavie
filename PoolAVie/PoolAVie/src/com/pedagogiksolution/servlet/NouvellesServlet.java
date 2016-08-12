@@ -24,7 +24,7 @@ public class NouvellesServlet extends HttpServlet {
 
 	MenuPrincipalModel mModel = new MenuPrincipalModel();
 
-	// on verifie si processus de creation terminer
+	// on verifie si processus de creation de cette utilisateur est terminé terminer
 	Boolean checkIfRegistrationFinish = mModel.checkIfRegistrationFinish(req);
 
 	if (!checkIfRegistrationFinish) {
