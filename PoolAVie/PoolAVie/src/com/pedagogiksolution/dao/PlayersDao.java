@@ -7,6 +7,7 @@ public interface PlayersDao {
     void createPlayersArchiveTable(int poolID) throws DAOException;
     void cronJobGetPlayersbyPoolIdAndPosition(int poolId, int numberOfTeam, String positionString, int recrue)throws DAOException;
     void cronJobPlayersAvailableForDraft(int i)throws DAOException;
+	void persistPlayerPick(int playerId, int salaireId, int poolId, int teamId, int clubEcoleId,int acquire_years);
     
     
 

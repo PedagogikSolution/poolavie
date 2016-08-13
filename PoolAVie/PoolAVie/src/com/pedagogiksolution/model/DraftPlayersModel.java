@@ -30,6 +30,9 @@ import com.google.appengine.api.datastore.Transaction;
 import com.google.appengine.api.datastore.TransactionOptions;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
+import com.google.appengine.api.taskqueue.TaskOptions;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.beans.NonSessionPlayers;
@@ -621,7 +624,7 @@ public class DraftPlayersModel {
 				String jspName;
 				switch (position) {
 				case "attaquant":
-					jspName="Attaquant"+teamID;
+					jspName = "Attaquant" + teamID;
 					mBeanAttaquant = (Attaquant) req.getSession().getAttribute(jspName);
 					mBeanAttaquant.setAide_overtime(aide_overtime);
 					mBeanAttaquant.setBlanchissage(blanchissage);
@@ -639,7 +642,7 @@ public class DraftPlayersModel {
 					memcache.put(clefMemCache, mBeanAttaquant);
 					break;
 				case "defenseur":
-					jspName="Defenseur"+teamID;
+					jspName = "Defenseur" + teamID;
 					mBeanDefenseur = (Defenseur) req.getSession().getAttribute(jspName);
 					mBeanDefenseur.setAide_overtime(aide_overtime);
 					mBeanDefenseur.setBlanchissage(blanchissage);
@@ -656,7 +659,7 @@ public class DraftPlayersModel {
 					memcache.put(clefMemCache, mBeanDefenseur);
 					break;
 				case "gardien":
-					jspName="Gardien"+teamID;
+					jspName = "Gardien" + teamID;
 					mBeanGardien = (Gardien) req.getSession().getAttribute(jspName);
 					mBeanGardien.setAide_overtime(aide_overtime);
 					mBeanGardien.setBlanchissage(blanchissage);
@@ -758,13 +761,13 @@ public class DraftPlayersModel {
 				equipeEntity.setProperty("moy_sal_restant_draft", moy_sal_restant_draft);
 
 				datastore.put(txn, equipeEntity);
-				
+
 				String jspName;
-				jspName="Equipe"+teamID;
+				jspName = "Equipe" + teamID;
 				clefMemCache = KeyFactory.createKey("Equipe", datastoreID);
-				Equipe mBeanEquipe = new Equipe();			
+				Equipe mBeanEquipe = new Equipe();
 				mBeanEquipe = (Equipe) req.getSession().getAttribute(jspName);
-				
+
 				mBeanEquipe.setBudget_restant(budget_restant);
 				mBeanEquipe.getManquant_equipe();
 				mBeanEquipe.setNb_equipe(nb_equipe);
@@ -784,7 +787,7 @@ public class DraftPlayersModel {
 					mBeanEquipe.setNb_gardien(nb_gardien);
 					break;
 				}
-								
+
 				memcache.put(clefMemCache, mBeanEquipe);
 
 			} catch (EntityNotFoundException e) {
@@ -822,6 +825,16 @@ public class DraftPlayersModel {
 			} catch (EntityNotFoundException e) {
 
 			}
+			
+			clefMemCache = KeyFactory.createKey("DraftRound", poolId);
+			DraftRound mBeanDraftRound = (DraftRound) req.getSession().getAttribute("DraftRound");
+			mBeanDraftRound = mapDraftRound(draftRoundEntity, mBeanDraftRound);
+			memcache.put(clefMemCache, mBeanDraftRound);
+			
+			String clubEcole = "0";
+			int acquireYearsId= mBeanPool.getPoolYear();
+			String acquireYearsID = String.valueOf((acquireYearsId));
+			persistenceDraftInDatabase(poolID,salaire,playersID,teamID,nom,team,position,clubEcole,acquireYearsID);
 
 			// commit
 			txn.commit();
@@ -835,22 +848,10 @@ public class DraftPlayersModel {
 
 		
 
-		clefMemCache = KeyFactory.createKey("DraftRound", poolId);
-		DraftRound mBeanDraftRound = (DraftRound) req.getSession().getAttribute("DraftRound");
-		mBeanDraftRound = mapDraftRound(draftRoundEntity, mBeanDraftRound);
-		memcache.put(clefMemCache, mBeanDraftRound);
-
-		
-
 	}
-	
-	public void persistenceDraftInDatabase() {
-		// TODO Auto-generated method stub
-		
-	}
-	
+
 	public void channelMessage() {
-		String currentPick="";
+		String currentPick = "";
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		String poolID = mBeanPool.getPoolID();
 		int numberOfTeam = mBeanPool.getNumberTeam();
@@ -869,45 +870,71 @@ public class DraftPlayersModel {
 		} catch (EntityNotFoundException e) {
 
 		}
-		
-		
-	    Map<String, String> messageToClient = new HashMap<String, String>();
-	    messageToClient.put("testIfOpen", "0");
-	    messageToClient.put("draftPickMade", "1");
-	    messageToClient.put("pickNumber",currentPick);
-	    messageToClient.put("playerDrafted",nom);
-	    messageToClient.put("teamOfPlayer",team);
-	    messageToClient.put("salaire",salaire);
-	    messageToClient.put("position",position);
-	    messageToClient.put("teamThatDraft",teamID);
-	    
-	  
-	    
-	    
-	    JSONObject JSONmessage = new JSONObject(messageToClient);
-	    String message = JSONmessage.toString();
 
-	    ChannelService channelService = ChannelServiceFactory.getChannelService();
-	    
-	    
-	    for(int i=1;i<numberOfTeam;i++){
-	    	
-	    	if(teamId==i){
-	    		
-	    	} else {
-	    		String tokenString = poolID + "_" + i;
-	    	    channelService.sendMessage(new ChannelMessage(tokenString, message));
-	    	}
-	    	
-	    	
-	    }
-	    
-	    
-	    
-		
-		
+		Map<String, String> messageToClient = new HashMap<String, String>();
+		messageToClient.put("testIfOpen", "0");
+		messageToClient.put("draftPickMade", "1");
+		messageToClient.put("pickNumber", currentPick);
+		messageToClient.put("playerDrafted", nom);
+		messageToClient.put("teamOfPlayer", team);
+		messageToClient.put("salaire", salaire);
+		messageToClient.put("position", position);
+		messageToClient.put("teamThatDraft", teamID);
+
+		JSONObject JSONmessage = new JSONObject(messageToClient);
+		String message = JSONmessage.toString();
+
+		ChannelService channelService = ChannelServiceFactory.getChannelService();
+
+		for (int i = 1; i < numberOfTeam; i++) {
+
+			if (teamId == i) {
+
+			} else {
+				String tokenString = poolID + "_" + i;
+				channelService.sendMessage(new ChannelMessage(tokenString, message));
+			}
+
+		}
+
 	}
 
+	public Boolean checkIfDraftFinish() {
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		String poolID = mBeanPool.getPoolID();
+		String teamID = req.getParameter("team_id");
+		String jspName = poolID = "_" + teamID;
+		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+
+		Key clefMemCache = KeyFactory.createKey("Equipe", jspName);
+
+		Equipe mBeanEquipe = (Equipe) memcache.get(clefMemCache);
+
+		if (mBeanEquipe == null) {
+
+			Entity entity = getEntityEquipe(poolID, teamID);
+
+			int manquant_equipe = (int) entity.getProperty("manquant_equipe");
+			int manquant_recrue = (int) entity.getProperty("manquant_recrue");
+
+			if (manquant_equipe == 0 && manquant_recrue == 0) {
+				return true;
+			} else {
+				return false;
+			}
+
+		} else {
+			int manquant_equipe = mBeanEquipe.getManquant_equipe();
+			int manquant_recrue = mBeanEquipe.getManquant_recrue();
+
+			if (manquant_equipe == 0 && manquant_recrue == 0) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+	}
 
 	/*
 	 * ******************************************* Methode privé
@@ -921,7 +948,6 @@ public class DraftPlayersModel {
 
 		return mBean;
 	}
-
 
 	private Entity getEntityEquipe(String poolID, String teamID) {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -1027,7 +1053,22 @@ public class DraftPlayersModel {
 
 	}
 
-	
-	
+	private void persistenceDraftInDatabase(String poolID, String salaire, String playersID, String teamID, String nom, String team, String position, String clubEcole,String acquireYearsID) {
+		
+		// persister dans les databases draft(x) et player_(x) via un taskqueue process
+		
+		
+		Queue queue = QueueFactory.getDefaultQueue();
+	    queue.add(TaskOptions.Builder.withUrl("/TaskQueueDraftPlayer")
+	    		.param("poolID", poolID)
+	    		.param("salaire", salaire)
+	    		.param("playersID", playersID)
+	    		.param("teamID", teamID)
+	    		.param("nom", nom)
+	    		.param("team", team)
+	    		.param("acquireYearsID", acquireYearsID)
+	    		.param("club_ecole", clubEcole)
+	    		.param("position", position));
 
+	}
 }

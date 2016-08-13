@@ -70,6 +70,7 @@ public class AdminModel {
     public void checkIfDraftDay(Pool mBeanPool, HttpServletRequest req) {
 	// on verifie si c'est la date du draft, si oui, on met le cycle annuel a 3
 	String dateDraft = mBeanPool.getDraftDate();
+	int poolYearId = mBeanPool.getPoolYear();
 
 	DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
 	DateTime dt = formatter.parseDateTime(dateDraft);
@@ -77,6 +78,7 @@ public class AdminModel {
 	if (dt.isBeforeNow()) {
 
 	    mBeanPool.setCycleAnnuel(3);
+		mBeanPool.setPoolYear((poolYearId+1));
 
 	    req.getSession().setAttribute("Pool", mBeanPool);
 

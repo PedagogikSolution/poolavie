@@ -37,6 +37,7 @@ public class PlayersDaoImpl implements PlayersDao {
     private static final String GET_PLAYERS_BY_POOL_ID_AND_POSITION = "SELECT * FROM players_? WHERE team_id=? AND position=? AND club_ecole=? ORDER BY pts DESC";
     private static final String GET_PLAYERS_FOR_DRAFT = "SELECT * FROM players_?";
     private static final String GET_PLAYERS_BY_POOL_ID_FOR_ROOKIE = "SELECT * FROM players_? WHERE team_id=? AND club_ecole=? ORDER BY pts DESC";
+    private static final String UPDATE_PLAYERS_AFTER_DRAFT_PICK = "UPDATE players_? SET team_id=?,contrat=?,acquire_years=?,salaire_contrat=?,club_ecole=?,years_1='A',years_2='A',years_3='A',years_4='A',years_5='A' WHERE _id=?"; 
     private DAOFactory daoFactory;
 
     PlayersDaoImpl(DAOFactory daoFactory) {
@@ -653,6 +654,27 @@ public class PlayersDaoImpl implements PlayersDao {
 
     }
 
+    @Override
+	public void persistPlayerPick(int playerId, int salaireId, int poolId, int teamId, int clubEcoleId,int acquire_years) {
+		
+    	Connection connexion = null;
+    	PreparedStatement preparedStatement = null;
+    	
+    	try {
+    	    connexion = daoFactory.getConnection();
+    	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_AFTER_DRAFT_PICK, false, poolId,teamId,1,acquire_years,salaireId,clubEcoleId,playerId);
+    	    preparedStatement.executeUpdate();
+
+    	} catch (SQLException e) {
+    	    throw new DAOException(e);
+    	} finally {
+    	    fermeturesSilencieuses(preparedStatement, connexion);
+    	}
+
+        
+		
+	}
+    
     private Entity mapEntityFromBeanToDatastore(Players mBean, int poolId, int players_id) {
 	String birthday=null;
 	String date_calcul=null;
@@ -703,4 +725,6 @@ public class PlayersDaoImpl implements PlayersDao {
 	return mEntity;
 
     }
+
+	
 }

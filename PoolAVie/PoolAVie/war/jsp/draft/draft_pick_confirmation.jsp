@@ -181,7 +181,7 @@
 
 
 
-
+<jsp:directive.include file="../utils/draftMessage.jsp" />
 
 
 		<!-- fin du container principal -->

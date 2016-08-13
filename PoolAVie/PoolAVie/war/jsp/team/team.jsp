@@ -365,7 +365,7 @@
 			</p> -->
 		</div>
 
-	
+	<jsp:directive.include file="../utils/draftMessage.jsp" />
 	
 	</div>
 

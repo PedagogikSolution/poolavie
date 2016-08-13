@@ -86,7 +86,7 @@
 		</table>
 	 
 	 
-	
+	<jsp:directive.include file="../utils/draftMessage.jsp" />
 	
 <c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token!=null}">
 <jsp:directive.include file="../utils/draftClientB.jsp" />

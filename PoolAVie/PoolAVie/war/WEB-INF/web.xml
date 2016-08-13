@@ -348,6 +348,15 @@
 		<url-pattern>/ResetForTestCron</url-pattern>
 	</servlet-mapping>
 	
+	<!-- Mapping des servlet pour les TaskQueue -->
 	
+	<servlet>
+		<servlet-name>TaskQueueDraftPlayer</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.TaskQueueDraftPlayer</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TaskQueueDraftPlayer</servlet-name>
+		<url-pattern>/TaskQueueDraftPlayer</url-pattern>
+	</servlet-mapping>
 	
 </web-app>

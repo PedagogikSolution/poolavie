@@ -16,7 +16,8 @@
 		draftPickMade = messageReceived.draftPickMade;
 		// connexion avec les serveurs établie
 		if(testIfOpen==1){
-			alert("Vous êtes maintenant connecté au serveur de draft");
+			document.getElementById('connexionAlert').classList.remove('w3-hide');
+			document.getElementById('connexionAlert').classList.add('w3-show');
 			
 		}
 		// regular player drafted
@@ -29,7 +30,16 @@
 			teamOfPlayer = messageReceived.teamOfPlayer;
 			salaire = messageReceived.salaire;
 			position = messageReceived.position;
-			alert(teamThatDraft + " a repêcher avec le "+pickNumber+"ième choix overall : "+playerDrafted+" ,"+position+", de "+teamOfPlayer+" au salaire de "+salaire+"$");
+			
+			document.getElementById('draftPickAlert').classList.remove('w3-hide');
+			document.getElementById('draftPickAlert').classList.add('w3-show');
+			document.getElementById('pickNumber').innerHTML=pickNumber;
+			document.getElementById('teamThatDraft').innerHTML=teamThatDraft;
+			document.getElementById('playerDrafted').innerHTML=playerDrafted;
+			document.getElementById('position').innerHTML=position;
+			document.getElementById('teamOfPlayer').innerHTML=teamOfPlayer;
+			document.getElementById('salaire').innerHTML=salaire;
+			
 		}
 		// recrue drafted
 		else if(draftPickMade==2){
@@ -41,7 +51,14 @@
 			teamOfPlayer = messageReceived.teamOfPlayer;
 			salaire = messageReceived.salaire;
 			position = messageReceived.position;
-			alert("Vous avez choisis une rookie");
+			document.getElementById('draftPickAlertRookie').classList.remove('w3-hide');
+			document.getElementById('draftPickAlertRookie').classList.add('w3-show');
+			document.getElementById('pickNumber').innerHTML=pickNumber;
+			document.getElementById('teamThatDraft').innerHTML=teamThatDraft;
+			document.getElementById('playerDrafted').innerHTML=playerDrafted;
+			document.getElementById('position').innerHTML=position;
+			document.getElementById('teamOfPlayer').innerHTML=teamOfPlayer;
+			document.getElementById('salaire').innerHTML=salaire;
 		} else {
 			
 		}
