@@ -59,7 +59,44 @@
 			document.getElementById('position').innerHTML=position;
 			document.getElementById('teamOfPlayer').innerHTML=teamOfPlayer;
 			document.getElementById('salaire').innerHTML=salaire;
+		} else if(draftPickMade==3){
+			teamThatDraft = messageReceived.teamThatDraft;
+			round = messageReceived.round;
+			pickNumber = messageReceived.pickNumber;
+			fromWho = messageReceived.fromWho;
+			playerDrafted = messageReceived.playerDrafted;
+			teamOfPlayer = messageReceived.teamOfPlayer;
+			salaire = messageReceived.salaire;
+			position = messageReceived.position;
+			document.getElementById('draftPickAlertFinish').classList.remove('w3-hide');
+			document.getElementById('draftPickAlertFinish').classList.add('w3-show');
+			document.getElementById('pickNumber').innerHTML=pickNumber;
+			document.getElementById('teamThatDraft').innerHTML=teamThatDraft;
+			document.getElementById('playerDrafted').innerHTML=playerDrafted;
+			document.getElementById('position').innerHTML=position;
+			document.getElementById('teamOfPlayer').innerHTML=teamOfPlayer;
+			document.getElementById('salaire').innerHTML=salaire;
+			
+		} else if(draftPickMade==4){
+			teamThatDraft = messageReceived.teamThatDraft;
+			round = messageReceived.round;
+			pickNumber = messageReceived.pickNumber;
+			fromWho = messageReceived.fromWho;
+			playerDrafted = messageReceived.playerDrafted;
+			teamOfPlayer = messageReceived.teamOfPlayer;
+			salaire = messageReceived.salaire;
+			position = messageReceived.position;
+			document.getElementById('draftPickAlertRookieFinish').classList.remove('w3-hide');
+			document.getElementById('draftPickAlertRookieFinish').classList.add('w3-show');
+			document.getElementById('pickNumber').innerHTML=pickNumber;
+			document.getElementById('teamThatDraft').innerHTML=teamThatDraft;
+			document.getElementById('playerDrafted').innerHTML=playerDrafted;
+			document.getElementById('position').innerHTML=position;
+			document.getElementById('teamOfPlayer').innerHTML=teamOfPlayer;
+			document.getElementById('salaire').innerHTML=salaire;
+			
 		} else {
+			
 			
 		}
 		

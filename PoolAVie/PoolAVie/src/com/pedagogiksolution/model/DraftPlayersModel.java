@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,6 +46,8 @@ import com.pedagogiksolution.datastorebeans.Equipe;
 import com.pedagogiksolution.datastorebeans.Gardien;
 import com.pedagogiksolution.datastorebeans.Players;
 import com.pedagogiksolution.datastorebeans.Pool;
+import com.pedagogiksolution.datastorebeans.Recrue;
+import com.pedagogiksolution.utils.EMF;
 
 public class DraftPlayersModel {
 	int ascDescOrder;
@@ -163,6 +167,7 @@ public class DraftPlayersModel {
 			break;
 		case "rookie":
 			noContrat = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
+			byPosition = new FilterPredicate("club_ecole", FilterOperator.EQUAL, 0);
 			byPosition = new FilterPredicate("can_be_rookie", FilterOperator.EQUAL, 1);
 			mFiltre = CompositeFilterOperator.and(noContrat, byPosition);
 			if (ascDescOrder == 0 || fromMenu) {
@@ -825,32 +830,344 @@ public class DraftPlayersModel {
 			} catch (EntityNotFoundException e) {
 
 			}
-			
+
 			clefMemCache = KeyFactory.createKey("DraftRound", poolId);
 			DraftRound mBeanDraftRound = (DraftRound) req.getSession().getAttribute("DraftRound");
 			mBeanDraftRound = mapDraftRound(draftRoundEntity, mBeanDraftRound);
 			memcache.put(clefMemCache, mBeanDraftRound);
-			
+
 			String clubEcole = "0";
-			int acquireYearsId= mBeanPool.getPoolYear();
+			int acquireYearsId = mBeanPool.getPoolYear();
 			String acquireYearsID = String.valueOf((acquireYearsId));
-			persistenceDraftInDatabase(poolID,salaire,playersID,teamID,nom,team,position,clubEcole,acquireYearsID);
+
+			persistenceDraftInDatabase(poolID, salaire, playersID, teamID, nom, team, position, clubEcole,
+					acquireYearsID, currentPick);
 
 			// commit
 			txn.commit();
 		} finally {
 			if (txn.isActive()) {
 				txn.rollback();
-				// persistenceDraftPickRegulier();
 
 			}
 		}
 
-		
-
 	}
 
-	public void channelMessage() {
+	@SuppressWarnings("unchecked")
+	public void persistenceDraftPickRookie() throws ServletException, IOException {
+
+		// on recupere tous les variables utiles
+		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+		Key entityKey = null;
+		Key clefMemCache = null;
+		Recrue mBeanRecrue = null;
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		String poolID = mBeanPool.getPoolID();
+		int poolId = Integer.parseInt(poolID);
+		int poolYear = mBeanPool.getPoolYear();
+		String salaire = req.getParameter("salaire");
+		int salaireId = Integer.parseInt(salaire);
+		String playersID = req.getParameter("draft_player_id");
+		int playersId = Integer.parseInt(playersID);
+		String teamID = req.getParameter("team_id");
+		int teamId = Integer.parseInt(teamID);
+		String position = req.getParameter("position");
+		String nom = req.getParameter("nom");
+		String team = req.getParameter("team");
+		Key mKey = KeyFactory.createKey("DraftProcess", poolID);
+		int currentPick = 0;
+		List<Integer> players_id = new ArrayList<Integer>();
+		List<String> nom2 = new ArrayList<String>();
+		List<String> teamOfPlayer = new ArrayList<String>();
+		List<Integer> pj = new ArrayList<Integer>();
+		List<Integer> but_victoire = new ArrayList<Integer>();
+		List<Integer> aide_overtime = new ArrayList<Integer>();
+		List<Integer> blanchissage = new ArrayList<Integer>();
+		List<Integer> pts = new ArrayList<Integer>();
+		List<String> years_1 = new ArrayList<String>();
+		List<String> years_2 = new ArrayList<String>();
+		List<String> years_3 = new ArrayList<String>();
+		List<String> years_4 = new ArrayList<String>();
+		List<String> years_5 = new ArrayList<String>();
+		List<Integer> salaire_contrat = new ArrayList<Integer>();
+		Entity draftRoundEntity = null, players = null, entity = null, equipeEntity = null;
+		Key equipeKey;
+
+		try {
+			Entity mEntity = datastore.get(mKey);
+			Long currentPick2 = (Long) mEntity.getProperty("currentPick");
+			currentPick = currentPick2.intValue();
+
+		} catch (EntityNotFoundException e) {
+
+		}
+		String playersEntityName = "Players_" + poolID;
+		String datastoreID = poolID + "_" + teamID;
+
+		// on commence une transaction pour mettre a jour les datastores
+		// Players, Attaquant, Defenseur, Gardien, Equipe,
+		// draftRound, DraftPick,DraftProcess
+		TransactionOptions options = TransactionOptions.Builder.withXG(true);
+		Transaction txn = datastore.beginTransaction(options);
+		try {
+
+			// table players_X
+			Key playersKey = KeyFactory.createKey(playersEntityName, playersId);
+
+			try {
+				players = datastore.get(playersKey);
+				players.setProperty("team_id", teamId);
+				players.setProperty("salaire_contrat", salaireId);
+				players.setProperty("contrat", 1);
+				players.setProperty("years_1", "A");
+				players.setProperty("years_2", "A");
+				players.setProperty("years_3", "A");
+				players.setProperty("years_4", "A");
+				players.setProperty("years_5", "A");
+				players.setProperty("acquire_years", poolYear);
+				players.setProperty("club_ecole", 1);
+
+				datastore.put(txn, players);
+
+			} catch (EntityNotFoundException e) {
+
+			}
+
+			// table Attaquant, Defenseur ou Gardien selon le pick
+
+			
+			
+				clefMemCache = KeyFactory.createKey("Recrue", datastoreID);
+				mBeanRecrue = new Recrue();
+				entityKey = KeyFactory.createKey("Recrue", datastoreID);
+				
+			
+
+			try {
+
+				entity = datastore.get(entityKey);
+				players_id = (List<Integer>) entity.getProperty("players_id");
+				nom2 = (List<String>) entity.getProperty("nom");
+				teamOfPlayer = (List<String>) entity.getProperty("teamOfPlayer");
+				pj = (List<Integer>) entity.getProperty("pj");
+				but_victoire = (List<Integer>) entity.getProperty("but_victoire");
+				aide_overtime = (List<Integer>) entity.getProperty("aide_overtime");
+				if (position.equalsIgnoreCase("Gardien")) {
+					blanchissage = (List<Integer>) entity.getProperty("blanchissage");
+				}
+				pts = (List<Integer>) entity.getProperty("pts");
+				salaire_contrat = (List<Integer>) entity.getProperty("salaire_contrat");
+				years_1 = (List<String>) entity.getProperty("years_1");
+				years_2 = (List<String>) entity.getProperty("years_2");
+				years_3 = (List<String>) entity.getProperty("years_3");
+				years_4 = (List<String>) entity.getProperty("years_4");
+				years_5 = (List<String>) entity.getProperty("years_5");
+
+				if (players_id == null) {
+					players_id = new ArrayList<Integer>();
+					nom2 = new ArrayList<String>();
+					teamOfPlayer = new ArrayList<String>();
+					pj = new ArrayList<Integer>();
+					but_victoire = new ArrayList<Integer>();
+					aide_overtime = new ArrayList<Integer>();
+					if (position.equalsIgnoreCase("Gardien")) {
+						blanchissage = new ArrayList<Integer>();
+					}
+					pts = new ArrayList<Integer>();
+					salaire_contrat = new ArrayList<Integer>();
+					years_1 = new ArrayList<String>();
+					years_2 = new ArrayList<String>();
+					years_3 = new ArrayList<String>();
+					years_4 = new ArrayList<String>();
+					years_5 = new ArrayList<String>();
+
+				}
+				players_id.add(playersId);
+				entity.setProperty("players_id", players_id);
+
+				nom2.add(nom);
+				entity.setProperty("nom", nom2);
+
+				teamOfPlayer.add(team);
+				entity.setProperty("teamOfPlayer", teamOfPlayer);
+
+				Long longPj = (Long) players.getProperty("pj");
+				int pjId = longPj.intValue();
+				pj.add(pjId);
+				entity.setProperty("pj", pj);
+
+				Long longBut_victoire = (Long) players.getProperty("but_victoire");
+				int but_victoireId = longBut_victoire.intValue();
+				but_victoire.add(but_victoireId);
+				entity.setProperty("but_victoire", but_victoire);
+
+				Long longAide_overtime = (Long) players.getProperty("aide_overtime");
+				int aide_overtimeId = longAide_overtime.intValue();
+				aide_overtime.add(aide_overtimeId);
+				entity.setProperty("aide_overtime", aide_overtime);
+
+				if (position.equalsIgnoreCase("Gardien")) {
+					Long longBlanchissage = (Long) players.getProperty("blanchissage");
+					int blanchissageId = longBlanchissage.intValue();
+					blanchissage.add(blanchissageId);
+					entity.setProperty("blanchissage", blanchissage);
+				}
+
+				Long longPts = (Long) players.getProperty("pts");
+				int ptsId = longPts.intValue();
+				pts.add(ptsId);
+				entity.setProperty("pts", pts);
+
+				salaire_contrat.add(salaireId);
+				entity.setProperty("salaire_contrat", salaire_contrat);
+
+				years_1.add(salaire);
+				entity.setProperty("years_1", years_1);
+
+				years_2.add(salaire);
+				entity.setProperty("years_2", years_2);
+
+				years_3.add(salaire);
+				entity.setProperty("years_3", years_3);
+
+				years_4.add(salaire);
+				entity.setProperty("years_4", years_4);
+
+				years_5.add(salaire);
+				entity.setProperty("years_5", years_5);
+
+				datastore.put(txn, entity);
+				String jspName;
+				
+					jspName = "Recrue" + teamID;
+					mBeanRecrue = (Recrue) req.getSession().getAttribute(jspName);
+					mBeanRecrue.setAide_overtime(aide_overtime);
+					mBeanRecrue.setBlanchissage(blanchissage);
+					mBeanRecrue.setBut_victoire(but_victoire);
+					mBeanRecrue.setNom(nom2);
+					mBeanRecrue.setPj(pj);
+					mBeanRecrue.setPts(pts);
+					mBeanRecrue.setTeamOfPlayer(teamOfPlayer);
+					mBeanRecrue.setYears_1(years_1);
+					mBeanRecrue.setYears_2(years_2);
+					mBeanRecrue.setYears_3(years_3);
+					mBeanRecrue.setYears_4(years_4);
+					mBeanRecrue.setYears_5(years_5);
+
+					memcache.put(clefMemCache, mBeanRecrue);
+					
+
+			} catch (EntityNotFoundException e) {
+
+			}
+
+			// Table Equipe
+			equipeKey = KeyFactory.createKey("Equipe", datastoreID);
+
+			try {
+				equipeEntity = datastore.get(equipeKey);
+
+				
+
+				Long temp_manquant_recrue = (Long) equipeEntity.getProperty("manquant_recrue");
+				int manquant_recrue = temp_manquant_recrue.intValue();
+
+				
+
+				Long temp_nb_recrue = (Long) equipeEntity.getProperty("nb_rookie");
+				int nb_recrue = temp_nb_recrue.intValue();
+
+				
+				
+			
+				manquant_recrue = manquant_recrue - 1;
+				nb_recrue = nb_recrue + 1;
+					equipeEntity.setProperty("manquant_recrue", manquant_recrue);
+					equipeEntity.setProperty("nb_rookie", nb_recrue);
+					
+				
+
+				datastore.put(txn, equipeEntity);
+
+				String jspName;
+				jspName = "Equipe" + teamID;
+				clefMemCache = KeyFactory.createKey("Equipe", datastoreID);
+				Equipe mBeanEquipe = new Equipe();
+				mBeanEquipe = (Equipe) req.getSession().getAttribute(jspName);
+
+				
+				
+					mBeanEquipe.setManquant_recrue(manquant_recrue);
+					mBeanEquipe.setNb_rookie(nb_recrue);
+					
+
+				memcache.put(clefMemCache, mBeanEquipe);
+
+			} catch (EntityNotFoundException e) {
+
+			}
+
+			// Table Draft_round
+			Key draftRoundKey = KeyFactory.createKey("DraftRound", poolID);
+
+			try {
+				draftRoundEntity = datastore.get(draftRoundKey);
+
+				List<String> player_drafted = (List<String>) draftRoundEntity.getProperty("player_drafted");
+				player_drafted.set((currentPick - 1), nom);
+				draftRoundEntity.setProperty("player_drafted", player_drafted);
+
+				datastore.put(txn, draftRoundEntity);
+
+			} catch (EntityNotFoundException e) {
+
+			}
+
+			// Table DraftProcess
+			Key draftProcessKey = KeyFactory.createKey("DraftProcess", poolID);
+			Entity draftProcessEntity = null;
+
+			try {
+				draftProcessEntity = datastore.get(draftProcessKey);
+
+				currentPick = currentPick + 1;
+				draftProcessEntity.setProperty("currentPick", currentPick);
+
+				datastore.put(txn, draftProcessEntity);
+
+			} catch (EntityNotFoundException e) {
+
+			}
+
+			clefMemCache = KeyFactory.createKey("DraftRound", poolId);
+			DraftRound mBeanDraftRound = (DraftRound) req.getSession().getAttribute("DraftRound");
+			mBeanDraftRound = mapDraftRound(draftRoundEntity, mBeanDraftRound);
+			memcache.put(clefMemCache, mBeanDraftRound);
+
+			String clubEcole = "1";
+			int acquireYearsId = mBeanPool.getPoolYear();
+			String acquireYearsID = String.valueOf((acquireYearsId));
+
+			persistenceDraftInDatabase(poolID, salaire, playersID, teamID, nom, team, position, clubEcole,
+					acquireYearsID, currentPick);
+
+			// commit
+			txn.commit();
+		} finally {
+			if (txn.isActive()) {
+				txn.rollback();
+
+			}
+		}
+
+
+		
+	}
+
+	public void channelMessage(int tagForDraftFinish) {
+		
+		
 		String currentPick = "";
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		String poolID = mBeanPool.getPoolID();
@@ -873,7 +1190,11 @@ public class DraftPlayersModel {
 
 		Map<String, String> messageToClient = new HashMap<String, String>();
 		messageToClient.put("testIfOpen", "0");
+		if(tagForDraftFinish==3){
 		messageToClient.put("draftPickMade", "1");
+		} else {
+		messageToClient.put("draftPickMade", "3");	
+		}
 		messageToClient.put("pickNumber", currentPick);
 		messageToClient.put("playerDrafted", nom);
 		messageToClient.put("teamOfPlayer", team);
@@ -886,7 +1207,7 @@ public class DraftPlayersModel {
 
 		ChannelService channelService = ChannelServiceFactory.getChannelService();
 
-		for (int i = 1; i < numberOfTeam; i++) {
+		for (int i = 1; i < (numberOfTeam + 1); i++) {
 
 			if (teamId == i) {
 
@@ -898,12 +1219,12 @@ public class DraftPlayersModel {
 		}
 
 	}
-
+	
 	public Boolean checkIfDraftFinish() {
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		String poolID = mBeanPool.getPoolID();
 		String teamID = req.getParameter("team_id");
-		String jspName = poolID = "_" + teamID;
+		String jspName = poolID + "_" + teamID;
 		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
 
 		Key clefMemCache = KeyFactory.createKey("Equipe", jspName);
@@ -914,8 +1235,10 @@ public class DraftPlayersModel {
 
 			Entity entity = getEntityEquipe(poolID, teamID);
 
-			int manquant_equipe = (int) entity.getProperty("manquant_equipe");
-			int manquant_recrue = (int) entity.getProperty("manquant_recrue");
+			Long manquant_equipe2 = (Long) entity.getProperty("manquant_equipe");
+			int manquant_equipe = manquant_equipe2.intValue();
+			Long manquant_recrue2 = (Long) entity.getProperty("manquant_recrue");
+			int manquant_recrue = manquant_recrue2.intValue();
 
 			if (manquant_equipe == 0 && manquant_recrue == 0) {
 				return true;
@@ -935,6 +1258,84 @@ public class DraftPlayersModel {
 		}
 
 	}
+
+	public void persistDraftFinishForUser() {
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		String poolID = mBeanPool.getPoolID();
+		String teamID = req.getParameter("team_id");
+
+		String teamName = teamID + "isFinish";
+
+		Key mKey = KeyFactory.createKey("DraftProcess", poolID);
+		try {
+			Entity mEntity = datastore.get(mKey);
+			mEntity.setProperty(teamName, 1);
+			datastore.put(mEntity);
+
+		} catch (EntityNotFoundException e) {
+
+		}
+
+	}
+
+	public Boolean checkifDraftFinishForAll() {
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		String poolID = mBeanPool.getPoolID();
+		int numberOfTeam = mBeanPool.getNumberTeam();
+		Key mKey = KeyFactory.createKey("DraftProcess", poolID);
+		try {
+			Entity mEntity = datastore.get(mKey);
+			int counter = 0;
+			for (int i = 1; i < (numberOfTeam + 1); i++) {
+				String teamName = i + "isFinish";
+				Long testIfFinishSetToOne = (Long) mEntity.getProperty(teamName);
+				if (testIfFinishSetToOne == 1) {
+					counter++;
+				}
+			}
+			
+			if(counter==numberOfTeam){
+				return true;
+			} else {
+				return false;
+			}
+
+		} catch (EntityNotFoundException e) {
+			return false;
+		}
+		
+	}
+	
+	public void changeCycleAnnuelToSignature4() {
+		
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+
+		
+		mBeanPool.setCycleAnnuel(4);
+
+		req.getSession().setAttribute("Pool", mBeanPool);
+
+		String poolID = mBeanPool.getPoolID();
+		int poolId = Integer.parseInt(poolID);
+
+		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+		Key clefMemCache = KeyFactory.createKey("Pool", poolId);
+		memcache.put(clefMemCache, mBeanPool);
+
+		EntityManagerFactory emf = EMF.get();
+		EntityManager em = null;
+
+		try {
+		    em = emf.createEntityManager();
+		    mBeanPool = em.merge(mBeanPool);
+		} finally {
+		    if (em != null)
+			em.close();
+		}
+		
+	}
+
+	
 
 	/*
 	 * ******************************************* Methode privé
@@ -1053,22 +1454,22 @@ public class DraftPlayersModel {
 
 	}
 
-	private void persistenceDraftInDatabase(String poolID, String salaire, String playersID, String teamID, String nom, String team, String position, String clubEcole,String acquireYearsID) {
-		
-		// persister dans les databases draft(x) et player_(x) via un taskqueue process
-		
-		
+	private void persistenceDraftInDatabase(String poolID, String salaire, String playersID, String teamID, String nom,
+			String team, String position, String clubEcole, String acquireYearsID, int currentPick) {
+
+		// persister dans les databases draft(x) et player_(x) via un taskqueue
+		// process
+
 		Queue queue = QueueFactory.getDefaultQueue();
-	    queue.add(TaskOptions.Builder.withUrl("/TaskQueueDraftPlayer")
-	    		.param("poolID", poolID)
-	    		.param("salaire", salaire)
-	    		.param("playersID", playersID)
-	    		.param("teamID", teamID)
-	    		.param("nom", nom)
-	    		.param("team", team)
-	    		.param("acquireYearsID", acquireYearsID)
-	    		.param("club_ecole", clubEcole)
-	    		.param("position", position));
+		queue.add(TaskOptions.Builder.withUrl("/TaskQueueDraftPlayer").param("salaireID", salaire)
+				.param("poolID", poolID).param("playersID", playersID).param("teamID", teamID).param("nom", nom)
+				.param("team", team).param("acquireYearsID", acquireYearsID).param("club_ecole", clubEcole)
+				.param("position", position).param("currentPick", String.valueOf(currentPick)));
 
 	}
+
+	
+
+	
+
 }

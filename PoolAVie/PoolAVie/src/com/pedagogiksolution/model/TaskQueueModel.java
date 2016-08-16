@@ -19,22 +19,22 @@ public class TaskQueueModel {
 	}
 
 	public void persistPlayer() {
-		
-		String playerID = req.getParameter("playerID");
-		int playerId = Integer.parseInt(playerID);
-		String salaireID = req.getParameter("salaireID");
-		int salaireId = Integer.parseInt(salaireID);
 		String poolID = req.getParameter("poolID");
 		int poolId = Integer.parseInt(poolID);
+		String playersID = req.getParameter("playersID");
+		int playersId = Integer.parseInt(playersID);
+		String salaireID = req.getParameter("salaireID");
+		int salaireId = Integer.parseInt(salaireID);		
 		String teamID = req.getParameter("teamID");
 		int teamId = Integer.parseInt(teamID);
-		String clubEcole = req.getParameter("clubEcole");
+		String clubEcole = req.getParameter("club_ecole");
 		int clubEcoleId = Integer.parseInt(clubEcole);
 		String acquireYearsID = req.getParameter("acquireYearsID");
 		int acquireYearsId = Integer.parseInt(acquireYearsID);
 		
 		
-		playersDao.persistPlayerPick(playerId,salaireId,poolId,teamId,clubEcoleId,acquireYearsId);
+		
+		playersDao.persistPlayerPick(playersId,salaireId,poolId,teamId,clubEcoleId,acquireYearsId);
 		
 		
 		
@@ -43,7 +43,17 @@ public class TaskQueueModel {
 
 
 	public void persistDraftRound() {
-		// TODO Auto-generated method stub
+		String poolID = req.getParameter("poolID");
+		int poolId = Integer.parseInt(poolID);
+		String nom = req.getParameter("nom");
+		String currentPick = req.getParameter("currentPick");
+		int currentPickId = Integer.parseInt(currentPick);
+		int currentPickReel = currentPickId-1;
+		
+		
+		
+		draftDao.persistPlayerPick(nom,currentPickReel,poolId);
+		
 		
 	}
 	

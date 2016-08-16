@@ -20,6 +20,7 @@ public class DraftDaoImpl implements DraftDao {
     private static final String CREATE_DRAFT_ARCHIVES = "CREATE TABLE draft_archive_? LIKE draft";
     private static final String INSERT_DRAFT_FIRST_YEAR = "INSERT INTO draft? (draft_pick_no,team_id,ronde,team_count,pool_id,follow_up,year_of_draft,equipe) VALUE(?,?,?,?,?,?,?,?)";
     private static final String GET_DRAFT_ROUND_ORDER = "SELECT * FROM draft? ORDER BY draft_pick_no ASC";
+	private static final String UPDATE_DRAFT_ROUND_AFTER_DRAFT_PICK = "UPDATE draft? SET player_drafted=? WHERE _id=?";
     private DAOFactory daoFactory;
 
     DraftDaoImpl(DAOFactory daoFactory) {
@@ -228,5 +229,23 @@ public class DraftDaoImpl implements DraftDao {
 	
 	
     }
+
+	@Override
+	public void persistPlayerPick(String nom, int currentPickId, int poolId) {
+		Connection connexion = null;
+    	PreparedStatement preparedStatement = null;
+    	
+    	try {
+    	    connexion = daoFactory.getConnection();
+    	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_DRAFT_ROUND_AFTER_DRAFT_PICK, false, poolId,nom,currentPickId);
+    	    preparedStatement.executeUpdate();
+
+    	} catch (SQLException e) {
+    	    throw new DAOException(e);
+    	} finally {
+    	    fermeturesSilencieuses(preparedStatement, connexion);
+    	}
+		
+	}
 
 }

@@ -45,7 +45,7 @@ public class DraftPlayersServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	DraftPlayersModel mModel;	
 	String draftStep = req.getParameter("draftStep");
-	
+	Boolean checkIfDraftFinish;
 	
 	switch(Integer.parseInt(draftStep)){
 	
@@ -57,14 +57,36 @@ public class DraftPlayersServlet extends HttpServlet {
 	case 2: // persistence d'un pick dans club regulier
 	    mModel=new DraftPlayersModel(req,resp);
 	    mModel.persistenceDraftPickRegulier();
-	    mModel.channelMessage();
-	    Boolean checkIfDraftFinish = mModel.checkIfDraftFinish();
+	    mModel.channelMessage(3);
+	    checkIfDraftFinish = mModel.checkIfDraftFinish();
 	    if(checkIfDraftFinish){
+	    	mModel.persistDraftFinishForUser();
+	    	Boolean checkifDraftFinishForAll = mModel.checkifDraftFinishForAll();
+	    	if(checkifDraftFinishForAll){
+	    		mModel.changeCycleAnnuelToSignature4();
+	    		mModel.channelMessage(4);
+	    	} else {
 	    	req.getSession().setAttribute("DraftFinish", 1);
+	    	}
 	    }
 	    resp.sendRedirect("/DraftCenter");
 	    break;
 	case 3: // persitence d'un pick dans club recrue
+		mModel=new DraftPlayersModel(req,resp);
+	    mModel.persistenceDraftPickRookie();
+	    mModel.channelMessage(3);
+	    checkIfDraftFinish = mModel.checkIfDraftFinish();
+	    if(checkIfDraftFinish){
+	    	mModel.persistDraftFinishForUser();
+	    	Boolean checkifDraftFinishForAll = mModel.checkifDraftFinishForAll();
+	    	if(checkifDraftFinishForAll){
+	    		mModel.changeCycleAnnuelToSignature4();
+	    		mModel.channelMessage(4);
+	    	} else {
+	    	req.getSession().setAttribute("DraftFinish", 1);
+	    	}
+	    }
+	    resp.sendRedirect("/DraftCenter");
 	    break;
 	case 4:
 	    break;

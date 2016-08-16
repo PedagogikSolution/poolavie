@@ -141,7 +141,7 @@ public class PlayersDaoImpl implements PlayersDao {
 
 		while (rs.next()) {
 
-		    int m_players_id = rs.getInt("players_id");
+		    int m_players_id = rs.getInt("_id");
 		    players_id.add(m_players_id);
 
 		    int m_team_id = rs.getInt("team_id");
@@ -150,7 +150,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		    String m_nom = rs.getString("nom");
 		    nom.add(m_nom);
 
-		    String m_teamOfPlayer = rs.getString("teamOfPlayer");
+		    String m_teamOfPlayer = rs.getString("team");
 		    teamOfPlayer.add(m_teamOfPlayer);
 
 		    int m_pj = rs.getInt("pj");
@@ -262,9 +262,9 @@ public class PlayersDaoImpl implements PlayersDao {
 		    Attaquant mBeanA = new Attaquant();
 		    nomBean = "Attaquant";
 
+		    mBeanA.set_id(players_id);
 		    mBeanA.setAge(age);
 		    mBeanA.setAide_overtime(aide_overtime);
-		    mBeanA.setBirthday(birthday);
 		    mBeanA.setBlanchissage(blanchissage);
 		    mBeanA.setBut_victoire(but_victoire);
 		    mBeanA.setCan_be_rookie(can_be_rookie);
@@ -272,15 +272,11 @@ public class PlayersDaoImpl implements PlayersDao {
 		    mBeanA.setContrat(contrat);
 		    mBeanA.setContrat_cours(contrat_cours);
 		    mBeanA.setContrat_max_years(contrat_max_years);
-		    mBeanA.setDate_calcul(date_calcul);
 		    mBeanA.setAcquire_years(acquire_years);
-		    mBeanA.setHier(hier);
-		    mBeanA.setMois(mois);
 		    mBeanA.setNom(nom);
 		    mBeanA.setPj(pj);
 		    mBeanA.setPoolTeamId(datastoreId);
 		    mBeanA.setPosition(position);
-		    mBeanA.setProjection(projection);
 		    mBeanA.setPts(pts);
 		    mBeanA.setSalaire_contrat(salaire_contrat);
 		    mBeanA.setSalaire_draft(salaire_draft);
@@ -323,17 +319,15 @@ public class PlayersDaoImpl implements PlayersDao {
 		    Defenseur mBeanD = new Defenseur();
 		    nomBean = "Defenseur";
 
+		    mBeanD.set_id(players_id);
 		    mBeanD.setAge(age);
 		    mBeanD.setAide_overtime(aide_overtime);
-		    mBeanD.setBirthday(birthday);
 		    mBeanD.setBlanchissage(blanchissage);
 		    mBeanD.setBut_victoire(but_victoire);
 		    mBeanD.setCan_be_rookie(can_be_rookie);
 		    mBeanD.setClub_ecole(club_ecole);
 		    mBeanD.setContrat(contrat);
-		    mBeanD.setContrat_cours(contrat_cours);
-		    mBeanD.setContrat_max_years(contrat_max_years);
-		    mBeanD.setDate_calcul(date_calcul);
+		    mBeanD.setContrat_cours(contrat_cours);;
 		    mBeanD.setAcquire_years(acquire_years);
 		    mBeanD.setHier(hier);
 		    mBeanD.setMois(mois);
@@ -383,17 +377,15 @@ public class PlayersDaoImpl implements PlayersDao {
 		    Gardien mBeanG = new Gardien();
 		    nomBean = "Gardien";
 
+		    mBeanG.set_id(players_id);
 		    mBeanG.setAge(age);
 		    mBeanG.setAide_overtime(aide_overtime);
-		    mBeanG.setBirthday(birthday);
 		    mBeanG.setBlanchissage(blanchissage);
 		    mBeanG.setBut_victoire(but_victoire);
 		    mBeanG.setCan_be_rookie(can_be_rookie);
 		    mBeanG.setClub_ecole(club_ecole);
 		    mBeanG.setContrat(contrat);
 		    mBeanG.setContrat_cours(contrat_cours);
-		    mBeanG.setContrat_max_years(contrat_max_years);
-		    mBeanG.setDate_calcul(date_calcul);
 		    mBeanG.setAcquire_years(acquire_years);
 		    mBeanG.setHier(hier);
 		    mBeanG.setMois(mois);
@@ -445,17 +437,16 @@ public class PlayersDaoImpl implements PlayersDao {
 	    case 1:
 		Recrue mBeanR = new Recrue();
 		nomBean = "Recrue";
+		
+		mBeanR.set_id(players_id);
 		mBeanR.setAge(age);
 		mBeanR.setAide_overtime(aide_overtime);
-		mBeanR.setBirthday(birthday);
 		mBeanR.setBlanchissage(blanchissage);
 		mBeanR.setBut_victoire(but_victoire);
 		mBeanR.setCan_be_rookie(can_be_rookie);
 		mBeanR.setClub_ecole(club_ecole);
 		mBeanR.setContrat(contrat);
 		mBeanR.setContrat_cours(contrat_cours);
-		mBeanR.setContrat_max_years(contrat_max_years);
-		mBeanR.setDate_calcul(date_calcul);
 		mBeanR.setAcquire_years(acquire_years);
 		mBeanR.setHier(hier);
 		mBeanR.setMois(mois);
@@ -659,10 +650,16 @@ public class PlayersDaoImpl implements PlayersDao {
 		
     	Connection connexion = null;
     	PreparedStatement preparedStatement = null;
+    	int contrat;
+    	if(clubEcoleId==1){
+    		contrat=0;
+    	} else {
+    		contrat=1;
+    	}
     	
     	try {
     	    connexion = daoFactory.getConnection();
-    	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_AFTER_DRAFT_PICK, false, poolId,teamId,1,acquire_years,salaireId,clubEcoleId,playerId);
+    	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_AFTER_DRAFT_PICK, false, poolId,teamId,contrat,acquire_years,salaireId,clubEcoleId,playerId);
     	    preparedStatement.executeUpdate();
 
     	} catch (SQLException e) {
@@ -674,6 +671,8 @@ public class PlayersDaoImpl implements PlayersDao {
         
 		
 	}
+    
+    /*** ***************    private method of this class   ****************************************     */
     
     private Entity mapEntityFromBeanToDatastore(Players mBean, int poolId, int players_id) {
 	String birthday=null;

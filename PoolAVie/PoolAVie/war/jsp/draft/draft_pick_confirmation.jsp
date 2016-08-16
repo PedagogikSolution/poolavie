@@ -133,7 +133,7 @@
 					<input type="hidden" name="can_be_rookie" value="${confirmationPick.can_be_rookie}">
 					<input type="hidden" name="salaire" value="${confirmationPick.salaire_draft}">
 					<p>
-						<input name="confirmationButtonB" onclick="this.disabled=true;" ondblclick="this.disabled=true;" type="submit" value="Oui, dans mon club école">
+						<input name="confirmationButtonB" type="submit" value="Oui, dans mon club école">
 					</p>
 
 				</form>

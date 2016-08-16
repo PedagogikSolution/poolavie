@@ -12,6 +12,7 @@ public interface DraftDao {
     void createDraftArchiveTable(int poolID) throws DAOException;
     void populateFirstYearsDraft(int poolID, List<Integer> permutation, Pool mBeanPool) throws DAOException;
     DraftRound setDraftRoundOrder(int poolId)throws DAOException;
+	void persistPlayerPick(String nom, int currentPickId, int poolId);
     
     
 

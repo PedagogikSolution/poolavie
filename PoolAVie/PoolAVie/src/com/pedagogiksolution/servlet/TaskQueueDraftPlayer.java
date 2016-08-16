@@ -14,9 +14,13 @@ import com.pedagogiksolution.model.TaskQueueModel;
 
 public class TaskQueueDraftPlayer extends HttpServlet {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4856982923052270731L;
+	/**
      * 
      */
-    private static final long serialVersionUID = 54388717965389157L;
+    
     
     public static final String CONF_DAO_FACTORY = "daofactory";
     private DraftDao draftDao;
@@ -34,6 +38,8 @@ public class TaskQueueDraftPlayer extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+    
+    	
     	TaskQueueModel mModel = new TaskQueueModel(draftDao,playerDao,req);
     	
     	
@@ -41,5 +47,7 @@ public class TaskQueueDraftPlayer extends HttpServlet {
     	mModel.persistDraftRound();
 	
     }
+    
+   
 
 }
