@@ -18,6 +18,8 @@
 		if(testIfOpen==1){
 			document.getElementById('connexionAlert').classList.remove('w3-hide');
 			document.getElementById('connexionAlert').classList.add('w3-show');
+			document.getElementById('mainContainer').classList.add('w3-opacity');
+			mainContainer
 			
 		}
 		// regular player drafted

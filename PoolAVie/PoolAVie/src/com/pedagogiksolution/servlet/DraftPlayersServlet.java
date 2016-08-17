@@ -12,89 +12,87 @@ import com.pedagogiksolution.model.DraftPlayersModel;
 
 public class DraftPlayersServlet extends HttpServlet {
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = -2767768156351834050L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2767768156351834050L;
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-	String segment = req.getParameter("seg");
-	String sort = req.getParameter("sort");
-	DraftPlayersModel mModel = new DraftPlayersModel(req, segment, sort);
+		String segment = req.getParameter("seg");
+		String sort = req.getParameter("sort");
+		DraftPlayersModel mModel = new DraftPlayersModel(req, segment, sort);
 
-	mModel.showPlayersSortByParameter();
+		mModel.showPlayersSortByParameter();
 
-	Pool mBean = (Pool) req.getSession().getAttribute("Pool");
-	int cycleAnnuel = mBean.getCycleAnnuel();
+		Pool mBean = (Pool) req.getSession().getAttribute("Pool");
+		int cycleAnnuel = mBean.getCycleAnnuel();
 
-	if (cycleAnnuel == 3) {
+		if (cycleAnnuel == 3) {
 
-	    DraftPlayersModel mModelDraft = new DraftPlayersModel();
+			DraftPlayersModel mModelDraft = new DraftPlayersModel();
 
-	    mModelDraft.putDatastoreIntoBean(mBean, req);
+			mModelDraft.putDatastoreIntoBean(mBean, req);
+
+		}
+
+		req.getRequestDispatcher("jsp/draft/draft_pick_zone.jsp").forward(req, resp);
 
 	}
 
-	req.getRequestDispatcher("jsp/draft/draft_pick_zone.jsp").forward(req, resp);
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		DraftPlayersModel mModel;
+		String draftStep = req.getParameter("draftStep");
+		Boolean checkIfDraftFinish;
 
-    }
+		switch (Integer.parseInt(draftStep)) {
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	DraftPlayersModel mModel;	
-	String draftStep = req.getParameter("draftStep");
-	Boolean checkIfDraftFinish;
-	
-	switch(Integer.parseInt(draftStep)){
-	
-	case 1: // provient du choix fait a la page draft_pick_zone
-	    mModel=new DraftPlayersModel(req,resp);
-	    mModel.checkIfDraftIsPossible();
-	    req.getRequestDispatcher("jsp/draft/draft_pick_confirmation.jsp").forward(req, resp);
-	    break;
-	case 2: // persistence d'un pick dans club regulier
-	    mModel=new DraftPlayersModel(req,resp);
-	    mModel.persistenceDraftPickRegulier();
-	    mModel.channelMessage(3);
-	    checkIfDraftFinish = mModel.checkIfDraftFinish();
-	    if(checkIfDraftFinish){
-	    	mModel.persistDraftFinishForUser();
-	    	Boolean checkifDraftFinishForAll = mModel.checkifDraftFinishForAll();
-	    	if(checkifDraftFinishForAll){
-	    		mModel.changeCycleAnnuelToSignature4();
-	    		mModel.channelMessage(4);
-	    	} else {
-	    	req.getSession().setAttribute("DraftFinish", 1);
-	    	}
-	    }
-	    resp.sendRedirect("/DraftCenter");
-	    break;
-	case 3: // persitence d'un pick dans club recrue
-		mModel=new DraftPlayersModel(req,resp);
-	    mModel.persistenceDraftPickRookie();
-	    mModel.channelMessage(3);
-	    checkIfDraftFinish = mModel.checkIfDraftFinish();
-	    if(checkIfDraftFinish){
-	    	mModel.persistDraftFinishForUser();
-	    	Boolean checkifDraftFinishForAll = mModel.checkifDraftFinishForAll();
-	    	if(checkifDraftFinishForAll){
-	    		mModel.changeCycleAnnuelToSignature4();
-	    		mModel.channelMessage(4);
-	    	} else {
-	    	req.getSession().setAttribute("DraftFinish", 1);
-	    	}
-	    }
-	    resp.sendRedirect("/DraftCenter");
-	    break;
-	case 4:
-	    break;
-	
+		case 1: // provient du choix fait a la page draft_pick_zone
+			mModel = new DraftPlayersModel(req, resp);
+			mModel.checkIfDraftIsPossible();
+			req.getRequestDispatcher("jsp/draft/draft_pick_confirmation.jsp").forward(req, resp);
+			break;
+		case 2: // persistence d'un pick dans club regulier
+			mModel = new DraftPlayersModel(req, resp);
+			mModel.persistenceDraftPickRegulier();
+			mModel.channelMessage(3);
+			checkIfDraftFinish = mModel.checkIfDraftFinish();
+			if (checkIfDraftFinish) {
+				mModel.persistDraftFinishForUser();
+				Boolean checkifDraftFinishForAll = mModel.checkifDraftFinishForAll();
+				if (checkifDraftFinishForAll) {
+					mModel.changeCycleAnnuelToSignature4();
+					mModel.channelMessage(4);
+				} else {
+					req.setAttribute("DraftFinish", 1);
+				}
+			}
+			resp.sendRedirect("/DraftCenter");
+			break;
+		case 3: // persitence d'un pick dans club recrue
+			mModel = new DraftPlayersModel(req, resp);
+			mModel.persistenceDraftPickRookie();
+			mModel.channelMessage(3);
+			checkIfDraftFinish = mModel.checkIfDraftFinish();
+			if (checkIfDraftFinish) {
+				mModel.persistDraftFinishForUser();
+				Boolean checkifDraftFinishForAll = mModel.checkifDraftFinishForAll();
+				if (checkifDraftFinishForAll) {
+					mModel.changeCycleAnnuelToSignature4();
+					mModel.channelMessage(4);
+				} else {
+					req.setAttribute("DraftFinish", 1);
+				}
+			} 
+			resp.sendRedirect("/DraftCenter");
+			break;
+		case 4:
+			break;
+
+		}
+
 	}
-	
-	
-	
-    }
 
 }
