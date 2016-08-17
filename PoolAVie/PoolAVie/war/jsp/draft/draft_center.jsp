@@ -19,6 +19,7 @@
 </head>
 
 <body>
+	<div id="mainContainer">
 	<!-- Header du menu principal-->
 	<jsp:directive.include file="../main/navbar_main.jsp" />
 	<jsp:directive.include file="../main/menu_secondaire.jsp" />
@@ -326,52 +327,52 @@
 				</p>
 				<p>
 					Total des salaires actuel : <br>
-					${NonSessionEquipe.max_salaire_begin}
+					${NonSessionEquipe.total_salaire_now}
 				</p>
 				<p>
 					Budget restant : <br>${NonSessionEquipe.budget_restant}
 				</p>
 				<p>
-					Argent Reçu : <br>${NonSessionEquipe.max_salaire_begin}
+					Argent Reçu : <br>${NonSessionEquipe.argent_recu}
 				</p>
 				<p>
-					Moyenne restante par joueurs : <br>${NonSessionEquipe.max_salaire_begin}
+					Moyenne restante par joueurs : <br>${NonSessionEquipe.moy_sal_restant_draft}
 				</p>
 				<br>
 
 				<h3>MES STATS D'ÉQUIPE</h3>
 				<p>
-					Nombre d'attanquant : <br>${NonSessionEquipe.max_salaire_begin}
+					Nombre d'attanquant : <br>${NonSessionEquipe.nb_attaquant}
 				</p>
 				<p>
-					Nombre de défenseur : <br>${NonSessionEquipe.max_salaire_begin}
+					Nombre de défenseur : <br>${NonSessionEquipe.nb_defenseur}
 				</p>
 				<p>
-					Nombre de Gardien : <br>${NonSessionEquipe.max_salaire_begin}
+					Nombre de Gardien : <br>${NonSessionEquipe.nb_gardien}
 				</p>
 				<p>
-					Nombre de Recrue : <br>${NonSessionEquipe.max_salaire_begin}
+					Nombre de Recrue : <br>${NonSessionEquipe.nb_rookie}
 				</p>
 				<p>
-					Nombre de contrat : <br>${NonSessionEquipe.max_salaire_begin}
+					Nombre de contrat : <br>${NonSessionEquipe.nb_contrat}
 				</p>
 				<p>
-					Nombre de joueur dans l'équipe : <br>${NonSessionEquipe.max_salaire_begin}
+					Nombre de joueur dans l'équipe : <br>${NonSessionEquipe.nb_equipe}
 				</p>
 				<p>
-					Nombre de joueur manquant : <br>${NonSessionEquipe.max_salaire_begin}
+					Nombre de joueur manquant : <br>${NonSessionEquipe.manquant_equipe}
 				</p>
 				<p>
-					Attanquant manquant : <br>${NonSessionEquipe.max_salaire_begin}
+					Attanquant manquant : <br>${NonSessionEquipe.manquant_att}
 				</p>
 				<p>
-					Defenseur manquant : <br>${NonSessionEquipe.max_salaire_begin}
+					Defenseur manquant : <br>${NonSessionEquipe.manquant_def}
 				</p>
 				<p>
-					Gardien manquant : <br>${NonSessionEquipe.max_salaire_begin}
+					Gardien manquant : <br>${NonSessionEquipe.manquant_gardien}
 				</p>
 				<p>
-					Recrue manquante : <br>${NonSessionEquipe.max_salaire_begin}
+					Recrue manquante : <br>${NonSessionEquipe.manquant_recrue}
 				</p>
 
 
@@ -436,13 +437,15 @@
 		
 	</c:if>
 	
-	
-	<jsp:directive.include file="../utils/draftMessage.jsp" />
-
+		<!-- fin du container sans menu et alerte -->
+	</div>
 
 		<!-- fin du container principal -->
 	</div>
+	<jsp:directive.include file="../utils/draftMessage.jsp" />
 
+
+	
 	<c:if
 		test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token!=null}">
 		<jsp:directive.include file="../utils/draftClientB.jsp" />
