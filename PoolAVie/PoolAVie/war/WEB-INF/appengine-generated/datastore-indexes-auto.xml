@@ -1,23 +1,4 @@
-<!-- Indices written at Tue, 16 Aug 2016 20:59:18 EDT -->
+<!-- Indices written at Mon, 22 Aug 2016 14:40:27 EDT -->
 
-<datastore-indexes>
+<datastore-indexes/>
 
-    <!-- Used 12 times in query history -->
-    <datastore-index kind="Articles" ancestor="true" source="auto">
-        <property name="date" direction="desc"/>
-    </datastore-index>
-
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="Players_1" ancestor="false" source="auto">
-        <property name="contrat" direction="asc"/>
-        <property name="pts" direction="desc"/>
-    </datastore-index>
-
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="Players_1" ancestor="false" source="auto">
-        <property name="can_be_rookie" direction="asc"/>
-        <property name="contrat" direction="asc"/>
-        <property name="pts" direction="desc"/>
-    </datastore-index>
-
-</datastore-indexes>
