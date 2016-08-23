@@ -44,5 +44,6 @@ Thumbs.db
 
 # App engine  #
 ###############
-
+datastore-indexes-auto.xml
+local_db.bin
 appengine-generated/
