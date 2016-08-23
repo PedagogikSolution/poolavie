@@ -16,17 +16,35 @@ public class TradeModel {
 		
 	}
 
-
-	public Boolean getTradeOffer() {
-		return null;
+	public void getTradeOfferReceived() {
 		// TODO Auto-generated method stub
 		
 	}
 
 
+	public void getTradeOfferMade() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+
+
+	public void getMyTrade() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void getAllTrade() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public Boolean checkIfTradeOpen() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
 
 }
