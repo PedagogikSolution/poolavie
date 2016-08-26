@@ -15,5 +15,5 @@ prodIsConfigured=true
 testDatabaseName=poolavie
 testDatabasePassword=
 testDatabaseUser=root
-testInstanceName=zeta-anthem-715\:poolavie
+testInstanceName=zeta-anthem-715\:us-east1\:poolavie2
 testIsConfigured=true

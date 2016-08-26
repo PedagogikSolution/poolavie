@@ -17,6 +17,7 @@ public class MessageErreurBeans implements java.io.Serializable {
     private String erreurCreateNewTeam;
     private String erreurConnectionDraft;
     private String erreurDraft;
+    private String erreurTrade;
     
 
     public String getErreurFormulaireRegistration() {
@@ -90,5 +91,13 @@ public class MessageErreurBeans implements java.io.Serializable {
     public void setErreurDraft(String erreurDraft) {
 	this.erreurDraft = erreurDraft;
     }
+
+	public String getErreurTrade() {
+		return erreurTrade;
+	}
+
+	public void setErreurTrade(String erreurTrade) {
+		this.erreurTrade = erreurTrade;
+	}
 
 }

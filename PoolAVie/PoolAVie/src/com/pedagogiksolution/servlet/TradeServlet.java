@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.datastorebeans.Pool;
+import com.pedagogiksolution.datastorebeans.Utilisateur;
+import com.pedagogiksolution.model.DraftPlayersModel;
+import com.pedagogiksolution.model.LoginModel;
 import com.pedagogiksolution.model.TradeModel;
 
 public class TradeServlet extends HttpServlet {
@@ -178,13 +181,46 @@ public class TradeServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		TradeModel mModelTrade;
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 		
 		String tradeTag = req.getParameter("tradeTag");
 		int tradeTagId = Integer.parseInt(tradeTag);
 		
 		switch(tradeTagId){
+		
 		// Un joueur veut faire une offre à un autre équipe
 		case 1:
+			
+			
+			
+			
+			// on met a jour les objet de session pour etre certain d'Avoir la plus recente representation des données
+			LoginModel mModel = new LoginModel(req);
+		    mModel.createSessionDraftRoundBean();
+		    mModel.createSessionAttaquantBean();
+		    mModel.createSessionDefenseurBean();
+		    mModel.createSessionGardienBean();
+		    mModel.createSessionRecrueBean();
+		    
+		    DraftPlayersModel mModelDraft = new DraftPlayersModel();	    	   
+		    mModelDraft.putDatastoreIntoBean(mBeanPool,req);
+		    
+		    // on place les beans de session dans des beans temporaires pour les deux equipes
+			mModelTrade = new TradeModel(mBeanUser,mBeanPool,req);
+			Boolean testErreur = mModelTrade.getDataOnTeamThatTrade();
+			
+			// on met un token pour indiquer que la section est accessible a ce moment du cycle (empeche quelqu'un de connecter d'aller directemetn a URL .jsp si pas bon cycle)
+			req.setAttribute("tradeOpen", 1);
+			
+			if(testErreur){
+				req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
+			} else {
+				req.getRequestDispatcher("jsp/trade/trade_offer_sheet.jsp").forward(req, resp);
+			}
+			
+				
 			break;
 		// Un joueur veut valider si son offre est possible et recevoir un message de confirmation a cliquer pour envoyer l'offre
 		case 2:

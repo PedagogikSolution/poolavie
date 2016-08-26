@@ -262,7 +262,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		    Attaquant mBeanA = new Attaquant();
 		    nomBean = "Attaquant";
 
-		    mBeanA.set_id(players_id);
+		    mBeanA.setPlayers_id(players_id);
 		    mBeanA.setAge(age);
 		    mBeanA.setAide_overtime(aide_overtime);
 		    mBeanA.setBlanchissage(blanchissage);
@@ -319,7 +319,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		    Defenseur mBeanD = new Defenseur();
 		    nomBean = "Defenseur";
 
-		    mBeanD.set_id(players_id);
+		    mBeanD.setPlayers_id(players_id);
 		    mBeanD.setAge(age);
 		    mBeanD.setAide_overtime(aide_overtime);
 		    mBeanD.setBlanchissage(blanchissage);
@@ -377,7 +377,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		    Gardien mBeanG = new Gardien();
 		    nomBean = "Gardien";
 
-		    mBeanG.set_id(players_id);
+		    mBeanG.setPlayers_id(players_id);
 		    mBeanG.setAge(age);
 		    mBeanG.setAide_overtime(aide_overtime);
 		    mBeanG.setBlanchissage(blanchissage);
@@ -438,7 +438,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		Recrue mBeanR = new Recrue();
 		nomBean = "Recrue";
 		
-		mBeanR.set_id(players_id);
+		mBeanR.setPlayers_id(players_id);
 		mBeanR.setAge(age);
 		mBeanR.setAide_overtime(aide_overtime);
 		mBeanR.setBlanchissage(blanchissage);

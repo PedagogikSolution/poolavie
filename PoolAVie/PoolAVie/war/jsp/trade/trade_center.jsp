@@ -63,6 +63,21 @@
 			</div>
 
 		</c:if>
+		
+		<c:if
+			test="${messageErreur.erreurTrade!=null}">
+
+			<div class="w3-container w3-section w3-red">
+
+				<span onclick="this.parentElement.style.display='none'"
+					class="w3-closebtn">&times;</span>
+				<h3>OUPS!</h3>
+				<p>${messageErreur.erreurTrade}</p>
+				
+
+			</div>
+
+		</c:if>
 
 		<!-- Si l'attribut message est pas vide, affiche message trade not open at this time -->
 		<c:if test="${requestScope.messageTrade!=null}">

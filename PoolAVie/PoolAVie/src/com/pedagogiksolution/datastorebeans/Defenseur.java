@@ -53,12 +53,7 @@ public class Defenseur implements Serializable {
     private List<Integer> semaine;
     private List<Integer> mois;
     
-    public List<Integer> get_id() {
-	return players_id;
-    }
-    public void set_id(List<Integer> players_id) {
-	this.players_id = players_id;
-    }
+    
     public List<Integer> getTeam_id() {
 	return team_id;
     }
@@ -257,6 +252,12 @@ public class Defenseur implements Serializable {
     public void setAcquire_years(List<Integer> acquire_years) {
 	this.acquire_years = acquire_years;
     }
+	public List<Integer> getPlayers_id() {
+		return players_id;
+	}
+	public void setPlayers_id(List<Integer> players_id) {
+		this.players_id = players_id;
+	}
     
     
     
