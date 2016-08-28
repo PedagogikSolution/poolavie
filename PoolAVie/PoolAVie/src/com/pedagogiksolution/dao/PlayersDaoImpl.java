@@ -1,4 +1,4 @@
-package com.pedagogiksolution.dao;
+ package com.pedagogiksolution.dao;
 
 import static com.pedagogiksolution.dao.DAOUtilitaire.fermeturesSilencieuses;
 import static com.pedagogiksolution.dao.DAOUtilitaire.initialisationRequetePreparee;
@@ -32,7 +32,8 @@ import com.pedagogiksolution.utils.EMF;
 
 public class PlayersDaoImpl implements PlayersDao {
 
-    private static final String CREATE_PLAYERS = "CREATE TABLE players_? AS SELECT * FROM players_template;";
+    private static final String CREATE_PLAYERS = "CREATE TABLE players_? LIKE players_template";
+    private static final String INSERT_PLAYERS = "INSERT INTO players_? SELECT * FROM players_template";
     private static final String CREATE_PLAYERS_ARCHIVES = "CREATE TABLE players_archive_? LIKE players_template";
     private static final String GET_PLAYERS_BY_POOL_ID_AND_POSITION = "SELECT * FROM players_? WHERE team_id=? AND position=? AND club_ecole=? ORDER BY pts DESC";
     private static final String GET_PLAYERS_FOR_DRAFT = "SELECT * FROM players_?";
@@ -53,6 +54,8 @@ public class PlayersDaoImpl implements PlayersDao {
 	try {
 	    connexion = daoFactory.getConnection();
 	    preparedStatement = initialisationRequetePreparee(connexion, CREATE_PLAYERS, false, poolID);
+	    preparedStatement.execute();
+	    preparedStatement = initialisationRequetePreparee(connexion, INSERT_PLAYERS, false, poolID);
 	    preparedStatement.execute();
 
 	} catch (SQLException e) {

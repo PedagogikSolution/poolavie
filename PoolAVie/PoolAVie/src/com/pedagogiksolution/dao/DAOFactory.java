@@ -109,7 +109,7 @@ public class DAOFactory {
 
     /* Méthode chargée de fournir une connexion à la base de données */
     /* package */Connection getConnection() throws SQLException {
-	return DriverManager.getConnection(url, username, password);
+	return DriverManager.getConnection(url,username,password);
     }
 
 }

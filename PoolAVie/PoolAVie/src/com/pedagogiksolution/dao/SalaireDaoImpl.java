@@ -10,7 +10,8 @@ import java.sql.SQLException;
 
 public class SalaireDaoImpl implements SalaireDao {
 
-    private static final String CREATE_SALAIRE = "CREATE TABLE salaire? AS SELECT * FROM salaire";
+    private static final String CREATE_SALAIRE = "CREATE TABLE salaire? LIKE salaire";
+    private static final String INSERT_SALAIRE = "INSERT INTO salaire? SELECT * FROM salaire";
     private DAOFactory daoFactory;
 
     SalaireDaoImpl(DAOFactory daoFactory) {
@@ -26,6 +27,8 @@ public class SalaireDaoImpl implements SalaireDao {
 	try {
 	    connexion = daoFactory.getConnection();
 	    preparedStatement = initialisationRequetePreparee(connexion, CREATE_SALAIRE, false, poolID);
+	    preparedStatement.execute();
+	    preparedStatement = initialisationRequetePreparee(connexion, INSERT_SALAIRE, false, poolID);
 	    preparedStatement.execute();
 	    	    
 	} catch (SQLException e) {
