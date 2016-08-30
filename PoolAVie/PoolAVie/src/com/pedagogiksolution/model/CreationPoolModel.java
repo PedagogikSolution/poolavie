@@ -12,6 +12,9 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
+import com.google.appengine.api.taskqueue.TaskOptions;
 import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.dao.DraftDao;
 import com.pedagogiksolution.dao.DraftPickDao;
@@ -62,20 +65,18 @@ public class CreationPoolModel {
 
 	// initialisation des parametres recu du formulaire
 	initParamFromFormulaire(req);
-	
 
 	// on initialise les variables non recu via le formulaire ou pas encore
 	int typePool = 1;
 	int numTeamCreate = 1;
 	int poolYear = 0;
-	
-	//TODO Generate a Code for the Pool
-	String codeValidation = generateValidationCode();
-	
 
-	// on recupere le pool_id 
+	// TODO Generate a Code for the Pool
+	String codeValidation = generateValidationCode();
+
+	// on recupere le pool_id
 	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
-   	String poolID = Integer.toString(mBeanUser.getPoolId());
+	String poolID = Integer.toString(mBeanUser.getPoolId());
 
 	// on recupere la date et place dans un format Date
 
@@ -119,19 +120,17 @@ public class CreationPoolModel {
 	    if (em != null)
 		em.close();
 	}
-	
 
     }
 
     public void createEquipeBean(HttpServletRequest req) {
 
-	
 	// valeur de depart de la table Equipe
 	initEquipeStorage(req);
 
 	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
-   	String poolID = Integer.toString(mBeanUser.getPoolId());
-	
+	String poolID = Integer.toString(mBeanUser.getPoolId());
+
 	// on reparse en int pour le stockage
 	int poolId = Integer.parseInt(poolID);
 
@@ -140,62 +139,53 @@ public class CreationPoolModel {
 	for (int i = 1; i < (Integer.parseInt(nombreEquipe) + 1); i++) {
 
 	    // on crée le beans avec le processus JPA qui va créer le datastore en même temps
-	    EntityManagerFactory emf = EMF.get();
-	    EntityManager em = null;
-	    try {
-		em = emf.createEntityManager();
 
-		// instanciation du bean Utilisateur
-		Equipe mBean = new Equipe();
+	    // instanciation du bean Utilisateur
+	    Equipe mBean = new Equipe();
 
-		String jspSessionName = "Equipe" + i;
-		String datastoreId = poolID + "_" + i;
+	    String jspSessionName = "Equipe" + i;
+	    String datastoreId = poolID + "_" + i;
 
-		mBean.setPoolTeamId(datastoreId);
-		mBean.setPoolId(poolId);
-		mBean.setTeamId(i);
-		mBean.setMax_salaire_begin(max_salaire_begin);
-		mBean.setTotal_salaire_now(total_salaire_now);
-		mBean.setBudget_restant(budget_restant);
-		mBean.setMoy_sal_restant_draft(moy_sal_restant_draft);
-		mBean.setNb_attaquant(nb_attaquant);
-		mBean.setNb_defenseur(nb_defenseur);
-		mBean.setNb_gardien(nb_gardien);
-		mBean.setNb_rookie(nb_rookie);
-		mBean.setNb_contrat(nb_contrat);
-		mBean.setNb_equipe(nb_equipe);
-		mBean.setManquant_att(manquant_att);
-		mBean.setManquant_def(manquant_def);
-		mBean.setManquant_gardien(manquant_gardien);
-		mBean.setManquant_recrue(manquant_recrue);
-		mBean.setManquant_equipe(manquant_equipe);
-		mBean.setArgent_recu(argent_recu);
-		mBean.setBonus_5m(bonus_5m);
-		mBean.setBonus_penalite(bonus_penalite);
-		mBean.setClassement_last_year(0);
-		mBean.setMeilleur_classement(0);
-		mBean.setNum_annee(1);
-		mBean.setNum_champion(0);
+	    mBean.setPoolTeamId(datastoreId);
+	    mBean.setPoolId(poolId);
+	    mBean.setTeamId(i);
+	    mBean.setMax_salaire_begin(max_salaire_begin);
+	    mBean.setTotal_salaire_now(total_salaire_now);
+	    mBean.setBudget_restant(budget_restant);
+	    mBean.setMoy_sal_restant_draft(moy_sal_restant_draft);
+	    mBean.setNb_attaquant(nb_attaquant);
+	    mBean.setNb_defenseur(nb_defenseur);
+	    mBean.setNb_gardien(nb_gardien);
+	    mBean.setNb_rookie(nb_rookie);
+	    mBean.setNb_contrat(nb_contrat);
+	    mBean.setNb_equipe(nb_equipe);
+	    mBean.setManquant_att(manquant_att);
+	    mBean.setManquant_def(manquant_def);
+	    mBean.setManquant_gardien(manquant_gardien);
+	    mBean.setManquant_recrue(manquant_recrue);
+	    mBean.setManquant_equipe(manquant_equipe);
+	    mBean.setArgent_recu(argent_recu);
+	    mBean.setBonus_5m(bonus_5m);
+	    mBean.setBonus_penalite(bonus_penalite);
+	    mBean.setClassement_last_year(0);
+	    mBean.setMeilleur_classement(0);
+	    mBean.setNum_annee(1);
+	    mBean.setNum_champion(0);
 
-		// on place le bean dans un attribut de session
-		req.getSession().setAttribute(jspSessionName, mBean);
-		// on persiste dans le datastore via notre EntityManager
-		em.persist(mBean);
-		// on persist le datastore/bean dans la MemCache
-		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-		Key userPrefsKey = KeyFactory.createKey("Equipe", datastoreId);
-		memcache.put(userPrefsKey, mBean);
+	    // on place le bean dans un attribut de session
+	    req.getSession().setAttribute(jspSessionName, mBean);
+	    // on persiste dans le datastore via notre EntityManager
+	    String counter = String.valueOf(i);
+	    Queue queue = QueueFactory.getDefaultQueue();
+	    queue.add(TaskOptions.Builder.withUrl("/TaskQueueCreationPool").param("counter", counter).param("poolID", poolID));
 
-	    } finally {
-
-		// on ferme le manager pour libérer la mémoire
-		if (em != null) {
-		    em.close();
-
-		}
-	    }
+	    // on persist le datastore/bean dans la MemCache
+	    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+	    Key userPrefsKey = KeyFactory.createKey("Equipe", datastoreId);
+	    memcache.put(userPrefsKey, mBean);
 
 	}
+	
 
     }
 
@@ -212,39 +202,37 @@ public class CreationPoolModel {
 	Utilisateur mBean = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 	int poolID = mBean.getPoolId();
 	int teamID = mBean.getTeamId();
-	//on trouve la date de l'année
-	//TODO rendre dynamique
+	// on trouve la date de l'année
+	// TODO rendre dynamique
 	int years = 2017;
-	
+
 	// on recupere le nombre d'équipe et le nombre de joueurs par équipe
 	nombreEquipe = req.getParameter("nombreEquipe");
 	int numTeam = Integer.parseInt(nombreEquipe);
-	int numPickByTeam=31;
-	
-	
+	int numPickByTeam = 31;
 
 	// on crée les bases de donnée classement et insère la ligne
 	classementDao.createClassementTable(poolID);
 	classementDao.createClassementArchiveTable(poolID);
-	classementDao.insertTeamInClassement(nomDuTeam,teamID,poolID,years);
+	classementDao.insertTeamInClassement(nomDuTeam, teamID, poolID, years);
 
 	// on crée les bases de donnée player
 	playersDao.createPlayersTable(poolID);
 	playersDao.createPlayersArchiveTable(poolID);
-	
+
 	draftDao.createDraftTable(poolID);
 	draftDao.createDraftArchiveTable(poolID);
-	
+
 	tradeMadeDao.createTradeMadeTable(poolID);
 	tradeMadeDao.createTradeMadeArchiveTable(poolID);
-	
+
 	tradeOfferDao.createTradeOfferTable(poolID);
 	tradeOfferDao.createTradeOfferArchiveTable(poolID);
-	
+
 	salaireDao.createSalaireTable(poolID);
-	
+
 	draftPickDao.createDraftPickTable(poolID);
-	draftPickDao.insertPickByTeam(poolID,numTeam,numPickByTeam);
+	draftPickDao.insertPickByTeam(poolID, numTeam, numPickByTeam);
 
     }
 
@@ -254,7 +242,7 @@ public class CreationPoolModel {
 	// check if session exist and parse,modify and persist if yes
 	Utilisateur mBean = new Utilisateur();
 	mBean = (Utilisateur) req.getSession().getAttribute("Utilisateur");
-	
+
 	String nomDuTeam = req.getParameter("nomDuTeam");
 
 	if (mBean != null) {
@@ -287,20 +275,16 @@ public class CreationPoolModel {
 
     }
 
-   
-    
-    /**********************************   méthode privée de la classe   *******************************/
+    /********************************** méthode privée de la classe *******************************/
 
     private void initParamFromFormulaire(HttpServletRequest req) {
-	
+
 	// on recupere les inputs du formulaire de la page creationnouveaupool.jsp
 	nomDuPool = req.getParameter("nomDuPool");
 	nombreEquipe = req.getParameter("nombreEquipe");
 	typeTrade = req.getParameter("typeTrade");
 	typeDraft = req.getParameter("typeDraft");
 	nomDuTeam = req.getParameter("nomDuTeam");
-	
-	
 
     }
 
@@ -351,8 +335,8 @@ public class CreationPoolModel {
 	bonus_penalite = 0;
 
     }
-    
- // TODO methode privée pour générer un code alphanumérique de 8 carateres
+
+    // TODO methode privée pour générer un code alphanumérique de 8 carateres
     private String generateValidationCode() {
 
 	// genere un code si reussi, return le code, sinon retourne null
@@ -365,10 +349,5 @@ public class CreationPoolModel {
 	return fakeCodeForTest;
 
     }
-    
-   
-   	
-
-   	
 
 }

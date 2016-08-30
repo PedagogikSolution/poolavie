@@ -52,7 +52,7 @@ public class NouvellesServlet extends HttpServlet {
 		AdminModel mAdminModel = new AdminModel();
 		mAdminModel.checkIfDraftDay(mBeanPool,req);
 	    }
-	    req.getRequestDispatcher("jsp/main/nouvelles.jsp").forward(req, resp);
+	    req.getRequestDispatcher("jsp/main/test.jsp").forward(req, resp);
 	}
 
     }

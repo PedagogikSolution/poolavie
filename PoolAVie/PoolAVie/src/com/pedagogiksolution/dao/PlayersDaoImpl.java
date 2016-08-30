@@ -1,4 +1,4 @@
- package com.pedagogiksolution.dao;
+package com.pedagogiksolution.dao;
 
 import static com.pedagogiksolution.dao.DAOUtilitaire.fermeturesSilencieuses;
 import static com.pedagogiksolution.dao.DAOUtilitaire.initialisationRequetePreparee;
@@ -15,6 +15,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.servlet.http.HttpServletRequest;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -23,6 +24,9 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
+import com.google.appengine.api.taskqueue.TaskOptions;
 import com.pedagogiksolution.datastorebeans.Attaquant;
 import com.pedagogiksolution.datastorebeans.Defenseur;
 import com.pedagogiksolution.datastorebeans.Gardien;
@@ -38,7 +42,7 @@ public class PlayersDaoImpl implements PlayersDao {
     private static final String GET_PLAYERS_BY_POOL_ID_AND_POSITION = "SELECT * FROM players_? WHERE team_id=? AND position=? AND club_ecole=? ORDER BY pts DESC";
     private static final String GET_PLAYERS_FOR_DRAFT = "SELECT * FROM players_?";
     private static final String GET_PLAYERS_BY_POOL_ID_FOR_ROOKIE = "SELECT * FROM players_? WHERE team_id=? AND club_ecole=? ORDER BY pts DESC";
-    private static final String UPDATE_PLAYERS_AFTER_DRAFT_PICK = "UPDATE players_? SET team_id=?,contrat=?,acquire_years=?,salaire_contrat=?,club_ecole=?,years_1='A',years_2='A',years_3='A',years_4='A',years_5='A' WHERE _id=?"; 
+    private static final String UPDATE_PLAYERS_AFTER_DRAFT_PICK = "UPDATE players_? SET team_id=?,contrat=?,acquire_years=?,salaire_contrat=?,club_ecole=?,years_1='A',years_2='A',years_3='A',years_4='A',years_5='A' WHERE _id=?";
     private DAOFactory daoFactory;
 
     PlayersDaoImpl(DAOFactory daoFactory) {
@@ -132,14 +136,13 @@ public class PlayersDaoImpl implements PlayersDao {
 		connexion = daoFactory.getConnection();
 
 		datastoreId = String.valueOf(poolId) + "_" + i;
-		
-		if(isRookie==0){
-		preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_BY_POOL_ID_AND_POSITION, false, poolId, i, positionString, isRookie);
+
+		if (isRookie == 0) {
+		    preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_BY_POOL_ID_AND_POSITION, false, poolId, i, positionString, isRookie);
 		} else {
-		preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_BY_POOL_ID_FOR_ROOKIE, false, poolId, i, isRookie);
+		    preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_BY_POOL_ID_FOR_ROOKIE, false, poolId, i, isRookie);
 		}
-		
-		
+
 		rs = preparedStatement.executeQuery();
 
 		while (rs.next()) {
@@ -330,7 +333,8 @@ public class PlayersDaoImpl implements PlayersDao {
 		    mBeanD.setCan_be_rookie(can_be_rookie);
 		    mBeanD.setClub_ecole(club_ecole);
 		    mBeanD.setContrat(contrat);
-		    mBeanD.setContrat_cours(contrat_cours);;
+		    mBeanD.setContrat_cours(contrat_cours);
+		    ;
 		    mBeanD.setAcquire_years(acquire_years);
 		    mBeanD.setHier(hier);
 		    mBeanD.setMois(mois);
@@ -440,7 +444,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	    case 1:
 		Recrue mBeanR = new Recrue();
 		nomBean = "Recrue";
-		
+
 		mBeanR.setPlayers_id(players_id);
 		mBeanR.setAge(age);
 		mBeanR.setAide_overtime(aide_overtime);
@@ -508,6 +512,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
 	ResultSet rs = null;
+	
 
 	int _id;
 	int players_id = 0;
@@ -590,7 +595,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		String nomBean = "Players_" + poolId;
 
 		Players mBean = new Players();
-		
+
 		mBean.set_id(_id);
 		mBean.setPlayers_id(players_id);
 		mBean.setAge(age);
@@ -629,11 +634,20 @@ public class PlayersDaoImpl implements PlayersDao {
 		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
 		Key userPrefsKey = KeyFactory.createKey(nomBean, _id);
 		memcache.put(userPrefsKey, mBean);
-
+		
+		HttpServletRequest req = null;
+		String nomBeanTempo = "Players"+"_"+poolId+"_"+_id;
+		String ID = String.valueOf(_id);
+		String poolID = String.valueOf(poolId);
+		req.getSession().setAttribute(nomBean, nomBeanTempo);
+		Queue queue = QueueFactory.getDefaultQueue();
+		queue.add(TaskOptions.Builder.withUrl("/TaskQueueCreationPool").param("counter", ID).param("poolID", poolID));
+		
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		 Entity entity = mapEntityFromBeanToDatastore(mBean, poolId, _id);
+		 datastore.put(entity);
 
-		Entity entity = mapEntityFromBeanToDatastore(mBean, poolId, _id);
-		datastore.put(entity);
 
 	    }
 
@@ -649,37 +663,35 @@ public class PlayersDaoImpl implements PlayersDao {
     }
 
     @Override
-	public void persistPlayerPick(int playerId, int salaireId, int poolId, int teamId, int clubEcoleId,int acquire_years) {
-		
-    	Connection connexion = null;
-    	PreparedStatement preparedStatement = null;
-    	int contrat;
-    	if(clubEcoleId==1){
-    		contrat=0;
-    	} else {
-    		contrat=1;
-    	}
-    	
-    	try {
-    	    connexion = daoFactory.getConnection();
-    	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_AFTER_DRAFT_PICK, false, poolId,teamId,contrat,acquire_years,salaireId,clubEcoleId,playerId);
-    	    preparedStatement.executeUpdate();
+    public void persistPlayerPick(int playerId, int salaireId, int poolId, int teamId, int clubEcoleId, int acquire_years) {
 
-    	} catch (SQLException e) {
-    	    throw new DAOException(e);
-    	} finally {
-    	    fermeturesSilencieuses(preparedStatement, connexion);
-    	}
-
-        
-		
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+	int contrat;
+	if (clubEcoleId == 1) {
+	    contrat = 0;
+	} else {
+	    contrat = 1;
 	}
-    
-    /*** ***************    private method of this class   ****************************************     */
-    
+
+	try {
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_AFTER_DRAFT_PICK, false, poolId, teamId, contrat, acquire_years, salaireId, clubEcoleId, playerId);
+	    preparedStatement.executeUpdate();
+
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(preparedStatement, connexion);
+	}
+
+    }
+
+    /*** *************** private method of this class **************************************** */
+
     private Entity mapEntityFromBeanToDatastore(Players mBean, int poolId, int players_id) {
-	String birthday=null;
-	String date_calcul=null;
+	String birthday = null;
+	String date_calcul = null;
 	String nomEntity = "Players_" + poolId;
 	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 	try {
@@ -728,5 +740,4 @@ public class PlayersDaoImpl implements PlayersDao {
 
     }
 
-	
 }

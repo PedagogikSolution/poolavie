@@ -80,7 +80,7 @@ public class NouvellesModel {
 	String poolID = mBeanPool.getPoolID();
 
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-	// TODO on recupere les nouvelles du pool, on les place dans le bean nouvelle et dans un objet session
+	// on recupere les nouvelles du pool, on les place dans le bean nouvelle et dans un objet session
 	Query q = new Query("Articles").setAncestor(KeyFactory.createKey("Nouvelles", poolID)).addSort("date", SortDirection.DESCENDING);
 	List<Entity> results = datastore.prepare(q).asList(FetchOptions.Builder.withLimit(25));
 

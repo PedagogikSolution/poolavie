@@ -64,8 +64,8 @@ public class LoginServlet extends HttpServlet {
 		Boolean createSessionGardienBean = mModel.createSessionGardienBean();
 		Boolean createSessionRecrueBean = mModel.createSessionRecrueBean();
 		
-		//if(createSessionDefenseurBean&&createSessionGardienBean&&createSessionRecrueBean&&createSessionPoolBean&&createSessionClassementBean&&createSessionEquipeBean&&createSessionDraftPickBean&&createSessionAttaquantBean){
-		 if (1==1){  
+		if(createSessionDefenseurBean&&createSessionGardienBean&&createSessionRecrueBean&&createSessionPoolBean&&createSessionClassementBean&&createSessionEquipeBean&&createSessionDraftPickBean&&createSessionAttaquantBean){
+		
 		    DraftPlayersModel mModelDraft = new DraftPlayersModel();
 		    
 		    Boolean checkIfDatastoreCreate=  mModelDraft.checkIfDatastoreCreate(mBeanPool);

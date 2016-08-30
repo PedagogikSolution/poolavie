@@ -1,9 +1,13 @@
 package com.pedagogiksolution.model;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
 
 import com.pedagogiksolution.dao.DraftDao;
 import com.pedagogiksolution.dao.PlayersDao;
+import com.pedagogiksolution.datastorebeans.Equipe;
+import com.pedagogiksolution.utils.EMF;
 
 public class TaskQueueModel {
 
@@ -16,6 +20,10 @@ public class TaskQueueModel {
 		this.playersDao=playerDao;
 		this.draftDao=draftDao;
 		this.req=req;
+	}
+
+	public TaskQueueModel(HttpServletRequest req2) {
+	    // TODO Auto-generated constructor stub
 	}
 
 	public void persistPlayer() {
@@ -55,6 +63,32 @@ public class TaskQueueModel {
 		draftDao.persistPlayerPick(nom,currentPickReel,poolId);
 		
 		
+	}
+
+	
+	
+	public void createDatastoreEquipe() {
+	    
+	    String counter = req.getParameter("counter");
+	    String poolID = req.getParameter("poolID");
+	    String jspSessionName = poolID+"_"+counter;
+	    EntityManagerFactory emf = EMF.get();
+	    EntityManager em = null;
+	    try {
+	
+		em = emf.createEntityManager();
+		Equipe mBean = new Equipe();
+		mBean = (Equipe) req.getSession().getAttribute(jspSessionName);
+		em.persist(mBean);
+	    } finally {
+
+		// on ferme le manager pour libérer la mémoire
+		if (em != null) {
+		    em.close();
+
+		}
+	    }
+	    
 	}
 	
 	
