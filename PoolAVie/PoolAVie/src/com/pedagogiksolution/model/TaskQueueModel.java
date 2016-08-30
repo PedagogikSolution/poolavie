@@ -23,7 +23,7 @@ public class TaskQueueModel {
 	}
 
 	public TaskQueueModel(HttpServletRequest req2) {
-	    // TODO Auto-generated constructor stub
+	    this.req=req2;
 	}
 
 	public void persistPlayer() {
@@ -78,7 +78,9 @@ public class TaskQueueModel {
 	
 		em = emf.createEntityManager();
 		Equipe mBean = new Equipe();
-		mBean = (Equipe) req.getSession().getAttribute(jspSessionName);
+		//mBean = (Equipe) req.getSession().getAttribute(jspSessionName);
+		mBean.setPoolTeamId(jspSessionName);
+		mBean.setBudget_restant(52000000);
 		em.persist(mBean);
 	    } finally {
 

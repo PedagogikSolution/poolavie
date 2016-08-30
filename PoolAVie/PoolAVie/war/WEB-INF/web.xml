@@ -349,6 +349,15 @@
 	</servlet-mapping>
 	
 	<!-- Mapping des servlet pour les TaskQueue -->
+	<servlet>
+		<servlet-name>TaskQueueCreationPool</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.TaskQueueCreationPool</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TaskQueueCreationPool</servlet-name>
+		<url-pattern>/TaskQueueCreationPool</url-pattern>
+	</servlet-mapping>
+	
 	
 	<servlet>
 		<servlet-name>TaskQueueDraftPlayer</servlet-name>

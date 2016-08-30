@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pedagogiksolution.dao.DraftDao;
-import com.pedagogiksolution.dao.PlayersDao;
 import com.pedagogiksolution.model.TaskQueueModel;
 
 public class TaskQueueCreationPool extends HttpServlet {

@@ -15,7 +15,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.servlet.http.HttpServletRequest;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -24,9 +23,6 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
-import com.google.appengine.api.taskqueue.Queue;
-import com.google.appengine.api.taskqueue.QueueFactory;
-import com.google.appengine.api.taskqueue.TaskOptions;
 import com.pedagogiksolution.datastorebeans.Attaquant;
 import com.pedagogiksolution.datastorebeans.Defenseur;
 import com.pedagogiksolution.datastorebeans.Gardien;
@@ -634,20 +630,23 @@ public class PlayersDaoImpl implements PlayersDao {
 		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
 		Key userPrefsKey = KeyFactory.createKey(nomBean, _id);
 		memcache.put(userPrefsKey, mBean);
-		
-		HttpServletRequest req = null;
-		String nomBeanTempo = "Players"+"_"+poolId+"_"+_id;
-		String ID = String.valueOf(_id);
-		String poolID = String.valueOf(poolId);
-		req.getSession().setAttribute(nomBean, nomBeanTempo);
-		Queue queue = QueueFactory.getDefaultQueue();
-		queue.add(TaskOptions.Builder.withUrl("/TaskQueueCreationPool").param("counter", ID).param("poolID", poolID));
+				
+		//String ID = String.valueOf(_id);
+		//String poolID = String.valueOf(poolId);
+		//JsonObject jPayload = new JsonObject();
+		//jPayload.addProperty("players_id", players_id);
+		//jPayload.addProperty("age", age);
+
+		//Gson gson = new Gson();
+		//String payload = gson.toJson(jPayload);
+		//Queue queue = QueueFactory.getDefaultQueue();
+		//queue.add(TaskOptions.Builder.withUrl("/TaskQueueCreationPool").payload(payload));
 		
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		
 		 Entity entity = mapEntityFromBeanToDatastore(mBean, poolId, _id);
 		 datastore.put(entity);
-
+		 return;
 
 	    }
 
