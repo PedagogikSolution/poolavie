@@ -395,6 +395,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/rookieFin</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>beta</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.beta.BetaServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>beta</servlet-name>
+		<url-pattern>/beta</url-pattern>
+	</servlet-mapping>
 
 
 	<jsp-config>

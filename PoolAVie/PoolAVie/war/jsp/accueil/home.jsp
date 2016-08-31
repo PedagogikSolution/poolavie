@@ -17,7 +17,7 @@
 <div id="logo" onclick="onLogoClick()">POOL À VIE</div>
 <div id="slogan">le meilleur site de pool au monde</div>
 <div id="btn_login"><button onclick="onLoginButtonClick()">Login</button></div>
-<div id="btn_sign_in"><button onclick="onSignInButtonClick()">Sign In</button></div>
+<!--  <div id="btn_sign_in"><button onclick="onSignInButtonClick()">Sign In</button></div> -->
 </div>
 
 <hr class="hr_header">
