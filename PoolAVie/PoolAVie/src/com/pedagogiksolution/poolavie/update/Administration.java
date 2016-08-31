@@ -360,7 +360,7 @@ public class Administration {
 	// ouverture de la connexion a la bdd
 	conn = mDbHelper.open();
 
-	QueryA = "SELECT * FROM players_archives";
+	QueryA = "SELECT * FROM players_archives WHERE yearsOfPool=2016";
 
 	try {
 	    mStatementA = conn.createStatement();
@@ -410,7 +410,7 @@ public class Administration {
 	// ouverture de la connexion a la bdd
 	conn = mDbHelper.open();
 
-	QueryA = "UPDATE draft_round SET equipe=null,team_id=null,from_who=null,team_id_from=null,team_count=null,follow_up=0,player_drafted=null,year_of_draft=2016 WHERE pool_id=?";
+	QueryA = "UPDATE draft_round SET equipe=null,team_id=null,from_who=null,team_id_from=null,team_count=null,follow_up=0,player_drafted=null,year_of_draft=2017 WHERE pool_id=?";
 	try {
 	    mPreparedStatementA = conn.prepareStatement(QueryA);
 	    mPreparedStatementA.setInt(1, 1);
@@ -429,7 +429,7 @@ public class Administration {
 	// ouverture de la connexion a la bdd
 	conn = mDbHelper.open();
 
-	QueryA = "UPDATE classement SET pj=0,but=0,passe=0,points=0,hier=0,semaine=0,mois=0,moyenne=0,difference=0,last_day_pts_total=0,year_of_the_standing=2016 WHERE pool_id=?";
+	QueryA = "UPDATE classement SET pj=0,but=0,passe=0,points=0,hier=0,semaine=0,mois=0,moyenne=0,difference=0,last_day_pts_total=0,year_of_the_standing=2017 WHERE pool_id=?";
 	try {
 	    mPreparedStatementA = conn.prepareStatement(QueryA);
 	    mPreparedStatementA.setInt(1, 1);
@@ -487,15 +487,15 @@ public class Administration {
 	try {
 	    mPreparedStatementD = conn.prepareStatement(QueryD);
 	    mPreparedStatementD.setInt(1, 1);
-	    mPreparedStatementD.setInt(2, 2015);
+	    mPreparedStatementD.setInt(2, 2016);
 	    rsD = mPreparedStatementD.executeQuery();
 	    mPreparedStatementE = conn.prepareStatement(QueryE);
 	    mPreparedStatementE.setInt(1, 1);
-	    mPreparedStatementE.setInt(2, 2015);
+	    mPreparedStatementE.setInt(2, 2016);
 	    rsE = mPreparedStatementE.executeQuery();
 	    mPreparedStatementF = conn.prepareStatement(QueryF);
 	    mPreparedStatementF.setInt(1, 1);
-	    mPreparedStatementF.setInt(2, 2015);
+	    mPreparedStatementF.setInt(2, 2016);
 	    rsF = mPreparedStatementF.executeQuery();
 
 	    if (rsD.next()) {
