@@ -96,9 +96,9 @@
 				</div>
 				<div class="w3-container w3-xlarge">
 					<ul>
-						<li>Vous repêchez vos joueurs chacun sur votre appareil connecté au site de l'application et vos joueurs sont automatique ajouté dans votre équipe et les budgets de votre équipe ajusté</li>
+						<li>Vous repêchez vos joueurs chacun sur votre appareil connecté au site de l'application et vos joueurs sont automatiquement ajoutés dans votre équipe et les budgets ajusté</li>
 						<li>Cela implique que vous soyez présent PHYSIQUEMENT pour y participer pour cette première année de beta test</li>
-						<li>Mais qu'éventuellement, vous pourriez avoir 6 gars au Boston Pizza et 2 en voyage autour du monde et faire le draft en direct sur la plateforme tous en même temps sans problème</li>
+						<li>Mais qu'éventuellement, vous pourriez avoir 6 DG au Boston Pizza et 2 en voyage autour du monde et faire le draft en direct sur la plateforme tous en même temps sans problème</li>
 					</ul>
 				</div>
 			</div>
@@ -128,12 +128,12 @@
 		<div class="w3-third w3-container w3-padding">
 			<div class="w3-card-8">
 				<div class="w3-container w3-orange">
-					<h2>Vous êtes qui vous?</h2>
+					<h2>Qui êtes-vous pour proposer un pool?</h2>
 				</div>
 				<div class="w3-container w3-xlarge">
 					<ul>
-						<li>Des gars qui font un pool de type keeper depuis 12 ans</li>
-						<li>Et qui ont travaillé à balancer les règles pour rendre le pool équilibré, sans faille et plaisant</li>
+						<li>Des gars qui font un pool de type keeper depuis 15 ans</li>
+						<li>Et qui ont travaillé à balancer les règles pour rendre le pool équilibré, complexe, sans faille et super plaisant</li>
 						<li>Et un programmeur qui a monté une plateforme pour faciliter la gestion d'un pool qui était complexe à gérer à la main</li>
 					</ul>
 				</div>
@@ -149,8 +149,8 @@
 				<div class="w3-container w3-xlarge">
 					<ul>
 						<li>C'est une Beta test (Programmeur présent sur place pour corriger les possibles problèmes rencontrés par les participants).</li>
-						<li>On sera la pour aider avec les règles, recueillir vos commentaires constructifs pour amélioration future</li>
-						<li>Cà va être interactif sur écran géant</li>
+						<li>On sera la pour aider avec les règles et recueillir vos commentaires constructifs pour des améliorations futures</li>
+						<li>Ça va être interactif sur écran géant et peut-etre des prix de présence!!!</li>
 						
 					</ul>
 				</div>
@@ -160,13 +160,13 @@
 		<div class="w3-third w3-container w3-padding">
 			<div class="w3-card-8" >
 				<div class="w3-container w3-green">
-					<h2>Qu’est-ce que ça implique d’être un béta testeur ?</h2>
+					<h2>Qu’est-ce que ça implique d’être un bêta testeur ?</h2>
 				</div>
 				<div class="w3-container w3-xlarge">
 					<ul>
-						<li>Que ce pool n’est pas un produit fini</li>
+						<li>Que ce pool n’est pas un produit dans sa version finale côté fonctionnalité</li>
 						<li>Qu’il y aura peut-être des bugs à corriger (on le souhaite pas!!!)</li>
-						<li>Que nous vous demanderons votre avis constructif, que vous nous aiderai à localisé les erreurs en nous les rapportants via un formulaire intégré à la plateforme web</li>
+						<li>Que nous vous demanderons votre avis constructif, que vous nous aiderai à localiser les erreurs en nous les rapportants via un formulaire intégré à la plateforme web</li>
 					</ul>
 				</div>
 			</div>
@@ -179,7 +179,7 @@
 		<div class="w3-third w3-container w3-padding">
 			<div class="w3-card-8" >
 				<div class="w3-container w3-purple">
-					<h2>Qui peut participez (individu vs groupe)?</h2>
+					<h2>Qui peut participer (individu vs groupe)?</h2>
 				</div>
 				<div class="w3-container w3-xlarge">
 					<ul>
@@ -212,11 +212,11 @@
 		<div class="w3-third w3-container w3-padding">
 			<div class="w3-card-8" >
 				<div class="w3-container w3-pink">
-					<h2>Que faire si j’ai des d’autres questions</h2>
+					<h2>Que faire si j’ai d’autres questions?</h2>
 				</div>
 				<div class="w3-container w3-xlarge">
 					<ul>
-						<li>Vous nous écrivez un courriel et il ne fera plaisir d'y répondre</li>
+						<li>Vous nous écrivez un courriel en cliquant sur le bouton "Mes questions" et il nous fera plaisir d'y répondre</li>
 						<li>Il n'y a pas de mauvaises questions ou trop de questions, n'hésitez pas</li>
 						
 					</ul>
@@ -240,7 +240,7 @@
 				</div>
 				<div class="w3-container w3-xlarge">
 					<ul>
-						<li>Super simple, vous n’avez qu’a remplir le formulaire situé au bas de la page</li>
+						<li>Super simple, vous n’avez qu’a remplir le formulaire situé au bas de la page <strong>avant le 30 septembre 2016</strong></li>
 					</ul>
 				</div>
 			</div>
@@ -251,7 +251,7 @@
 		<div class="w3-third w3-container w3-padding">
 			<div class="w3-card-8">
 				<div class="w3-container w3-blue">
-					<h2>Où sera exactment le draft?</h2>
+					<h2>Où sera exactement le draft?</h2>
 				</div>
 				<div class="w3-container w3-xlarge">
 					<ul>
