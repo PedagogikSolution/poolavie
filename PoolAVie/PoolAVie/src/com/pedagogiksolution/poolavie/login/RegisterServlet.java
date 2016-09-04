@@ -177,6 +177,10 @@ public class RegisterServlet extends HttpServlet {
 			mId = 8;
 		} else if (team2.equals("Pittsburgh")) {
 			mId = 9;
+		} else if (team2.equals("Richard")) {
+			mId = 10;
+		} else if (team2.equals("Fred")) {
+			mId = 11;
 		}
 		return mId;
 	}

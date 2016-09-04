@@ -75,20 +75,20 @@ public class SignatureServlet extends HttpServlet {
     }
 /* ******************************* methode prive  *****************************/
     private void initialisationDate() {
-	String date_start1 = "14-09-2015";
-	String date_finish1 = "18-09-2015";
-	String date_start2 = "18-09-2015";
-	String date_finish2 = "19-09-2015";
-	String date_start3 = "19-09-2015";
-	String date_finish3 = "21-09-2015";
-	String date_start4 = "21-09-2015";
-	String date_finish4 = "25-09-2015";
-	String date_start5 = "02-10-2015";
-	String date_finish5 = "04-10-2015";
-	String date_start6 = "04-10-2015";
-	String date_finish6 = "06-10-2015";
-	String date_start7 = "10-10-2015";
-	String date_finish7 = "17-10-2015";
+	String date_start1 = "02-09-2016";
+	String date_finish1 = "05-09-2016";
+	String date_start2 = "05-09-2016";
+	String date_finish2 = "09-09-2016";
+	String date_start3 = "10-09-2016";
+	String date_finish3 = "12-09-2016";
+	String date_start4 = "12-09-2016";
+	String date_finish4 = "16-09-2016";
+	String date_start5 = "24-09-2016";
+	String date_finish5 = "26-09-2016";
+	String date_start6 = "26-09-2016";
+	String date_finish6 = "30-09-2016";
+	String date_start7 = "21-10-2016";
+	String date_finish7 = "24-10-2016";
 	try {
 	    start1 = sdf.parse(date_start1);
 	    finish1 = sdf.parse(date_finish1);

@@ -71,6 +71,14 @@ rs9 = (ResultSet) request.getAttribute("picks");
 		mLogoId = "pittsburgh.png";
 		mFirstTeamName = "Penguins de";
 		break;
+	case 10:
+		mLogoId = "nop.png";
+		mFirstTeamName = "Penguins de";
+		break;
+	case 11:
+		mLogoId = "nop.png";
+		mFirstTeamName = "Penguins de";
+		break;
 
 	}
 %>
@@ -135,7 +143,8 @@ rs9 = (ResultSet) request.getAttribute("picks");
 		<a href="/pittsburgh"><button class="btn_menu_team">PIT</button></a>
 		<a href="/st_louis"><button class="btn_menu_team">STL</button></a>
 		<a href="/toronto"><button class="btn_menu_team">TOR</button></a>
-		
+		<a href="/richard"><button class="btn_menu_team">RICH</button></a>
+		<a href="/fred"><button class="btn_menu_team">FRED</button></a>
 	</div>
 	<hr class="hr_header">
 	<div class="main_container">
@@ -364,6 +373,10 @@ rs9 = (ResultSet) request.getAttribute("picks");
 					case 8: team_name="Boston";
 					break;
 					case 9: team_name="Pittsburgh";
+					break;
+					case 10: team_name="Richard";
+					break;
+					case 11: team_name="Fred";
 					break;
 					}	
 						

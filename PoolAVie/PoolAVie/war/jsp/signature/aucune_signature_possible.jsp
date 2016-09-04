@@ -102,16 +102,17 @@ break;
 		
 		AUCUNE ACTION POSSIBLE SUR VOTRE ÉQUIPE À CETTE DATE
 		<br>
-		Calendrier des actions 2015-2016 :
-		<br>12 au 15 septembre : Période de rachat de contrat avec argent restant de l'année dernière avec moitié prix des année restante en comptant l'année 2014-2015.
-		 De plus, durant cette période, vous pouvez descendre un joueur de votre club ferme dans votre club école pour le coût de 1 Millions.
+		Calendrier des actions 2016-2017 :
+		<br>2 au 4 septembre : Période de rachat de contrat avec argent restant de l'année dernière avec moitié prix des année restante en comptant l'année 2015-2016.
+		<br>5 au 8 septembre : Vous pouvez descendre un joueur de votre club ferme dans votre club école pour le coût de 1 Millions.
 		 Si le joueur descendu est un joueur B, il sera augmenter de 1 Millions dans son salaire conformément au règle des J/A obtenu.
-		<br>19 septembre : fin de la saison 2014-2015. Reset des finances des équipes. Mise à jour des salaires des joueurs avec projections pour les moins de 50 et recrues.
-		<br>19 septembre : Début de la saison 2015-2016.
-		<br>22 au 24 septembre : Période de signature des joueurs en renouvellement de contrat ou recu via échange (A et B pour année).
-		<br>29 au 2 octobre : Période d'échange d'été
-		<br>2 au 3 septembre : rachat après échange 
-		<br>3 octobre au 6 octobre : monter ou dropper les recrues
+		<br>9 septembre : fin de la saison 2014-2015. Reset des finances des équipes. Mise à jour des salaires des joueurs avec projections pour les moins de 50 et recrues.
+		<br>10 septembre : Début de la saison 2015-2016.
+		<br> 10 et 11 septembre : Rachat de contrat avec argent de la nouvelle saison
+		<br>12 au 15 septembre : Période de signature des joueurs en renouvellement de contrat ou recu via échange (A et B pour année).
+		<br>16 au 23 septembre : Période d'échange d'été
+		<br>24 au 25 septembre : rachat après échange 
+		<br>26 au 29 septembre : monter ou dropper les recrues
 		<br>
 		
 	

@@ -17,7 +17,7 @@
 <div id="logo" onclick="onLogoClick()">POOL À VIE</div>
 <div id="slogan">le meilleur site de pool au monde</div>
 <div id="btn_login"><button onclick="onLoginButtonClick()">Login</button></div>
-<!--  <div id="btn_sign_in"><button onclick="onSignInButtonClick()">Sign In</button></div> -->
+  <div id="btn_sign_in"><button onclick="onSignInButtonClick()">Sign Up</button></div> 
 </div>
 
 <hr class="hr_header">
@@ -68,6 +68,8 @@ Sélectionne ton équipe : <br>
 <input type="radio" name="team_reg" value="Boston">Boston <br>
 <input type="radio" name="team_reg" value="Pittsburgh">Pittsburgh <br>
 <input type="radio" name="team_reg" value="Los Angeles">Los Angeles <br>
+<input type="radio" name="team_reg" value="Richard">Richard <br>
+<input type="radio" name="team_reg" value="Fred">Fred <br>
 
 <br>
 <input type="submit" value="S'enregistrer">

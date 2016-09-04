@@ -37,7 +37,7 @@ public class RookieApresSaison {
 	String team_id = (String) req.getSession().getAttribute("mTeamId");
 	int m_team_id = Integer.parseInt(team_id);
 
-	String birthdayMax2 = "1990-09-15";
+	String birthdayMax2 = "1991-09-15";
 
 	QueryA = "SELECT * FROM players WHERE club_ecole=? AND birthday>? AND team_id=?";
 
@@ -470,7 +470,6 @@ public class RookieApresSaison {
 	    req.setAttribute("players_list", mBean);
 
 	} catch (SQLException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	} finally {
 	    dbHelper.close(conn);

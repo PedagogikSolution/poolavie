@@ -29,6 +29,7 @@ String team_name=null;
 
 ResultSet rs9=null;
 rs9 = (ResultSet) request.getAttribute("picks");
+
 	switch (teamId2) {
 	case 0:
 		mLogoId = "los_angeles.png";
@@ -90,6 +91,7 @@ rs9 = (ResultSet) request.getAttribute("picks");
 
 </head>
 <body>
+
 	<div class="main_navbar">
 
 		<div id="logo_main">
@@ -143,11 +145,12 @@ rs9 = (ResultSet) request.getAttribute("picks");
 		<a href="/toronto"><button class="btn_menu_team">TOR</button></a>
 		<a href="/richard"><button class="btn_menu_team">RICH</button></a>
 		<a href="/fred"><button class="btn_menu_team">FRED</button></a>
+		
 	</div>
 	<hr class="hr_header">
 	<div class="main_container">
 		<div class="main_content"></div>
-		<div id="main_content_title_classement">PHILADELPHIE</div>
+		<div id="main_content_title_classement">RICHARD</div>
 		<div id="main_content_table_classement">
 			<br>
 			<table>
@@ -332,7 +335,7 @@ rs9 = (ResultSet) request.getAttribute("picks");
 			</table>
 			<br>
 			<table>
-				<caption>Draft Pick 2014-2015</caption>
+				<caption>Draft Pick 2016-2017</caption>
 				<tr>
 					
 					<th>Round</th>
@@ -350,6 +353,7 @@ rs9 = (ResultSet) request.getAttribute("picks");
 					if(team!=null){
 					team_2 = Integer.parseInt(team);
 					}
+					
 					switch (team_2) {
 					case 0: team_name="Los Angeles";
 						break;
@@ -449,7 +453,7 @@ rs9 = (ResultSet) request.getAttribute("picks");
 				Recrue manquante : <br><%=session.getAttribute("manq_rook")%>
 			</p>
 			</div>
-			  		<p>
+					<p>
 				Bonus de 5 Millions : <br><%=session.getAttribute("bonus_5")%>
 			</p>
 			<p>

@@ -167,10 +167,10 @@ public class TradeModel {
 	    nom_equipe_qui_trade = "Los Angeles";
 	    break;
 	case 1:
-	    nom_equipe_qui_trade = "DÃ©troit";
+	    nom_equipe_qui_trade = "Détroit";
 	    break;
 	case 2:
-	    nom_equipe_qui_trade = "MontrÃ©al";
+	    nom_equipe_qui_trade = "Montréal";
 	    return nom_equipe_qui_trade;
 	case 3:
 	    nom_equipe_qui_trade = "Chicago";
@@ -393,10 +393,10 @@ public class TradeModel {
 		    nom_equipe_qui_trade = "Los Angeles";
 		    break;
 		case 1:
-		    nom_equipe_qui_trade = "Dï¿½troit";
+		    nom_equipe_qui_trade = "Détroit";
 		    break;
 		case 2:
-		    nom_equipe_qui_trade = "Montrï¿½al";
+		    nom_equipe_qui_trade = "Montréal";
 		    break;
 		case 3:
 		    nom_equipe_qui_trade = "Chicago";
@@ -693,10 +693,10 @@ public class TradeModel {
 			    from_temp2 = "Los Angeles";
 			    break;
 			case 1:
-			    from_temp2 = "Dï¿½troit";
+			    from_temp2 = "Détroit";
 			    break;
 			case 2:
-			    from_temp2 = "Montrï¿½al";
+			    from_temp2 = "Montréal";
 			    break;
 			case 3:
 			    from_temp2 = "Chicago";
@@ -750,10 +750,10 @@ public class TradeModel {
 			    from_temp2 = "Los Angeles";
 			    break;
 			case 1:
-			    from_temp2 = "Dï¿½troit";
+			    from_temp2 = "Détroit";
 			    break;
 			case 2:
-			    from_temp2 = "Montrï¿½al";
+			    from_temp2 = "Montréal";
 			    break;
 			case 3:
 			    from_temp2 = "Chicago";
@@ -1159,10 +1159,10 @@ public class TradeModel {
 			    from_temp2 = "Los Angeles";
 			    break;
 			case 1:
-			    from_temp2 = "Dï¿½troit";
+			    from_temp2 = "Détroit";
 			    break;
 			case 2:
-			    from_temp2 = "Montrï¿½al";
+			    from_temp2 = "Montréal";
 			    break;
 			case 3:
 			    from_temp2 = "Chicago";
@@ -1216,10 +1216,10 @@ public class TradeModel {
 			    from_temp2 = "Los Angeles";
 			    break;
 			case 1:
-			    from_temp2 = "Dï¿½troit";
+			    from_temp2 = "Détroit";
 			    break;
 			case 2:
-			    from_temp2 = "Montrï¿½al";
+			    from_temp2 = "Montréal";
 			    break;
 			case 3:
 			    from_temp2 = "Chicago";
@@ -1526,10 +1526,10 @@ public class TradeModel {
 			    from_temp2 = "Los Angeles";
 			    break;
 			case 1:
-			    from_temp2 = "Dï¿½troit";
+			    from_temp2 = "Détroit";
 			    break;
 			case 2:
-			    from_temp2 = "Montrï¿½al";
+			    from_temp2 = "Montréal";
 			    break;
 			case 3:
 			    from_temp2 = "Chicago";
@@ -1583,10 +1583,10 @@ public class TradeModel {
 			    from_temp2 = "Los Angeles";
 			    break;
 			case 1:
-			    from_temp2 = "Dï¿½troit";
+			    from_temp2 = "Détroit";
 			    break;
 			case 2:
-			    from_temp2 = "Montrï¿½al";
+			    from_temp2 = "Montréal";
 			    break;
 			case 3:
 			    from_temp2 = "Chicago";
@@ -2185,10 +2185,10 @@ public class TradeModel {
 			    from_temp2 = "Los Angeles";
 			    break;
 			case 1:
-			    from_temp2 = "Dï¿½troit";
+			    from_temp2 = "Détroit";
 			    break;
 			case 2:
-			    from_temp2 = "Montrï¿½al";
+			    from_temp2 = "Montréal";
 			    break;
 			case 3:
 			    from_temp2 = "Chicago";
@@ -2242,10 +2242,10 @@ public class TradeModel {
 			    from_temp2 = "Los Angeles";
 			    break;
 			case 1:
-			    from_temp2 = "Dï¿½troit";
+			    from_temp2 = "Détroit";
 			    break;
 			case 2:
-			    from_temp2 = "Montrï¿½al";
+			    from_temp2 = "Montréal";
 			    break;
 			case 3:
 			    from_temp2 = "Chicago";

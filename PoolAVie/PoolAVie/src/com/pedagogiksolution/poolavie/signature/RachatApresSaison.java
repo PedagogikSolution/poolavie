@@ -216,7 +216,7 @@ public class RachatApresSaison {
 	    dbHelper.close(conn);
 	}
 
-	if ((budget_restant > coutDuRachat) || (total_argent > coutDuRachat)) {
+	if ((budget_restant >= coutDuRachat) || (total_argent >= coutDuRachat)) {
 	    return true;
 	} else {
 	    return false;
@@ -239,7 +239,7 @@ public class RachatApresSaison {
 	conn = dbHelper.open();
 
 	QueryA = "UPDATE players SET equipe=null,contrat=0,salaire_contrat=null,contrat_cours=null,contrat_max_years=null,type_contrat=null,club_ecole=null,years_1=null,years_2=null,years_3=null,years_4=null,years_5=null,team_id=null,projection=null WHERE _id=?";
-	QueryB = "UPDATE equipes SET budget_restant=budget_restant-? WHERE team_id=?";
+	QueryB = "UPDATE equipes SET budget_restant=budget_restant-?,nb_contrat=nb_contrat-1 WHERE team_id=?";
 	QueryC = "SELECT budget_restant FROM equipes WHERE team_id=?";
 	QueryD = "UPDATE equipes SET argent_recu=argent_recu+?,budget_restant=0 WHERE team_id=?";
 

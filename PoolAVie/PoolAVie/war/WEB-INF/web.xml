@@ -155,6 +155,24 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>toronto</servlet-name>
 		<url-pattern>/toronto</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>richard</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.main.RichardServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>richard</servlet-name>
+		<url-pattern>/richard</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>fred</servlet-name>
+		<servlet-class>com.pedagogiksolution.poolavie.main.FredServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>fred</servlet-name>
+		<url-pattern>/fred</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>draft</servlet-name>
