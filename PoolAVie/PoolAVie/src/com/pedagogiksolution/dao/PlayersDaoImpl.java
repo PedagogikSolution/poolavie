@@ -7,8 +7,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,13 +14,13 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
+import com.google.appengine.api.taskqueue.TaskOptions;
 import com.pedagogiksolution.datastorebeans.Attaquant;
 import com.pedagogiksolution.datastorebeans.Defenseur;
 import com.pedagogiksolution.datastorebeans.Gardien;
@@ -631,23 +629,16 @@ public class PlayersDaoImpl implements PlayersDao {
 		Key userPrefsKey = KeyFactory.createKey(nomBean, _id);
 		memcache.put(userPrefsKey, mBean);
 				
-		//String ID = String.valueOf(_id);
-		//String poolID = String.valueOf(poolId);
-		//JsonObject jPayload = new JsonObject();
-		//jPayload.addProperty("players_id", players_id);
-		//jPayload.addProperty("age", age);
 
-		//Gson gson = new Gson();
-		//String payload = gson.toJson(jPayload);
-		//Queue queue = QueueFactory.getDefaultQueue();
-		//queue.add(TaskOptions.Builder.withUrl("/TaskQueueCreationPool").payload(payload));
-		
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		
-		 Entity entity = mapEntityFromBeanToDatastore(mBean, poolId, _id);
-		 datastore.put(entity);
-		 return;
-
+		Queue queue = QueueFactory.getDefaultQueue();
+		queue.add(TaskOptions.Builder.withUrl("/TaskQueueCreationPool")
+			.param("players_id",String.valueOf(players_id))
+			.param("nom",nom)
+			.param("aide_overtime", String.valueOf(aide_overtime))
+			.param("poolID",String.valueOf(poolId))
+			.param("fromTag", "2")
+			
+			);
 	    }
 
 	} catch (SQLException e) {
@@ -683,59 +674,6 @@ public class PlayersDaoImpl implements PlayersDao {
 	} finally {
 	    fermeturesSilencieuses(preparedStatement, connexion);
 	}
-
-    }
-
-    /*** *************** private method of this class **************************************** */
-
-    private Entity mapEntityFromBeanToDatastore(Players mBean, int poolId, int players_id) {
-	String birthday = null;
-	String date_calcul = null;
-	String nomEntity = "Players_" + poolId;
-	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-	try {
-	    birthday = dateFormat.format(mBean.getBirthday());
-	    date_calcul = dateFormat.format(mBean.getDate_calcul());
-	} catch (Exception ex) {
-	}
-
-	Entity mEntity = new Entity(nomEntity, players_id);
-
-	mEntity.setProperty("age", mBean.getAge());
-	mEntity.setProperty("aide_overtime", mBean.getAide_overtime());
-	mEntity.setProperty("birthday", birthday);
-	mEntity.setProperty("blanchissage", mBean.getBlanchissage());
-	mEntity.setProperty("but_victoire", mBean.getBut_victoire());
-	mEntity.setProperty("can_be_rookie", mBean.getCan_be_rookie());
-	mEntity.setProperty("club_ecole", mBean.getClub_ecole());
-	mEntity.setProperty("contrat", mBean.getContrat());
-	mEntity.setProperty("contrat_cours", mBean.getContrat_cours());
-	mEntity.setProperty("contrat_max_years", mBean.getContrat_max_years());
-	mEntity.setProperty("date_calcul", date_calcul);
-	mEntity.setProperty("acquire_years", mBean.getAcquire_years());
-	mEntity.setProperty("hier", mBean.getHier());
-	mEntity.setProperty("mois", mBean.getMois());
-	mEntity.setProperty("nom", mBean.getNom());
-	mEntity.setProperty("pj", mBean.getPj());
-	mEntity.setProperty("players_id", mBean.getPlayers_id());
-	mEntity.setProperty("position", mBean.getPosition());
-	mEntity.setProperty("projection", mBean.getProjection());
-	mEntity.setProperty("pts", mBean.getPts());
-	mEntity.setProperty("salaire_contrat", mBean.getSalaire_contrat());
-	mEntity.setProperty("salaire_draft", mBean.getSalaire_draft());
-	mEntity.setProperty("semaine", mBean.getSemaine());
-	mEntity.setProperty("take_proj", mBean.getTake_proj());
-	mEntity.setProperty("team_id", mBean.getTeam_id());
-	mEntity.setProperty("team_was_update", mBean.getTeam_was_update());
-	mEntity.setProperty("teamOfPlayer", mBean.getTeamOfPlayer());
-	mEntity.setProperty("type_contrat", mBean.getType_contrat());
-	mEntity.setProperty("years_1", mBean.getYears_1());
-	mEntity.setProperty("years_2", mBean.getYears_2());
-	mEntity.setProperty("years_3", mBean.getYears_3());
-	mEntity.setProperty("years_4", mBean.getYears_4());
-	mEntity.setProperty("years_5", mBean.getYears_5());
-
-	return mEntity;
 
     }
 

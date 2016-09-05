@@ -4,6 +4,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.pedagogiksolution.dao.DraftDao;
 import com.pedagogiksolution.dao.PlayersDao;
 import com.pedagogiksolution.datastorebeans.Equipe;
@@ -23,7 +28,7 @@ public class TaskQueueModel {
 	}
 
 	public TaskQueueModel(HttpServletRequest req2) {
-	    this.req=req2;
+	   this.req = req2;
 	}
 
 	public void persistPlayer() {
@@ -71,6 +76,7 @@ public class TaskQueueModel {
 	    
 	    String counter = req.getParameter("counter");
 	    String poolID = req.getParameter("poolID");
+	    String budget_restant = req.getParameter("budget_restant");
 	    String jspSessionName = poolID+"_"+counter;
 	    EntityManagerFactory emf = EMF.get();
 	    EntityManager em = null;
@@ -78,9 +84,9 @@ public class TaskQueueModel {
 	
 		em = emf.createEntityManager();
 		Equipe mBean = new Equipe();
-		//mBean = (Equipe) req.getSession().getAttribute(jspSessionName);
+		mBean = (Equipe) req.getSession().getAttribute(jspSessionName);
 		mBean.setPoolTeamId(jspSessionName);
-		mBean.setBudget_restant(52000000);
+		mBean.setBudget_restant(Integer.parseInt(budget_restant));
 		em.persist(mBean);
 	    } finally {
 
@@ -90,6 +96,29 @@ public class TaskQueueModel {
 
 		}
 	    }
+	    
+	}
+
+	public void createDatastorePlayers() {
+	    
+	    String players_id = req.getParameter("players_id");
+	    String aide_overtime = req.getParameter("aide_overtime");
+	    String nom = req.getParameter("nom");
+	    String poolID = req.getParameter("poolID");
+	    
+	    String playersTableName = "Players_"+poolID;
+	    Key datastoreKey = KeyFactory.createKey(playersTableName ,players_id);
+	    
+	    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	    
+	    Entity playersEntity = new Entity(datastoreKey);
+	    playersEntity.setProperty("players_id", players_id);
+	    playersEntity.setProperty("nom", nom);
+	    playersEntity.setProperty("aide_overtime", aide_overtime);
+	    
+	    datastore.put(playersEntity);
+	    
+
 	    
 	}
 	

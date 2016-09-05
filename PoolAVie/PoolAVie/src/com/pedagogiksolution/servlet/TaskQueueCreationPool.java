@@ -23,11 +23,24 @@ public class TaskQueueCreationPool extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         
+	
+	String fromTag = req.getParameter("fromTag");
+	int fromTagId = Integer.parseInt(fromTag);
+	
+	
     	
     	TaskQueueModel mModel = new TaskQueueModel(req);
     	
-    	
+    	switch(fromTagId){
+    	case 1:
     	mModel.createDatastoreEquipe();
+    	    break;
+    	case 2:
+    	mModel.createDatastorePlayers();
+    	    break;
+    	    
+    	}
+    	
 	
     }
     

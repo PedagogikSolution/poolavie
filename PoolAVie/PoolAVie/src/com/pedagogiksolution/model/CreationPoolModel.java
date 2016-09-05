@@ -177,7 +177,12 @@ public class CreationPoolModel {
 	    // on persiste dans le datastore via notre EntityManager
 	    String counter = String.valueOf(i);
 	    Queue queue = QueueFactory.getDefaultQueue();
-	    queue.add(TaskOptions.Builder.withUrl("/TaskQueueCreationPool").param("counter", counter).param("poolID", poolID));
+	    queue.add(TaskOptions.Builder.withUrl("/TaskQueueCreationPool")
+		    .param("counter", counter)
+		    .param("poolID", poolID)
+		    .param("budget_restant", String.valueOf(budget_restant))
+		    .param("fromTag","1")
+		    );
 
 	    // on persist le datastore/bean dans la MemCache
 	    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
