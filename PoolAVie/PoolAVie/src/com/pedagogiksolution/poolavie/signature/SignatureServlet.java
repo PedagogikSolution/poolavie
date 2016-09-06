@@ -76,8 +76,8 @@ public class SignatureServlet extends HttpServlet {
 /* ******************************* methode prive  *****************************/
     private void initialisationDate() {
 	String date_start1 = "02-09-2016";
-	String date_finish1 = "05-09-2016";
-	String date_start2 = "05-09-2016";
+	String date_finish1 = "06-09-2016";
+	String date_start2 = "06-09-2016";
 	String date_finish2 = "09-09-2016";
 	String date_start3 = "10-09-2016";
 	String date_finish3 = "12-09-2016";
