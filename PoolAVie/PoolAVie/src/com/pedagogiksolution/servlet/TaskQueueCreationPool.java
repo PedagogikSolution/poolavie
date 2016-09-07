@@ -38,6 +38,18 @@ public class TaskQueueCreationPool extends HttpServlet {
     	case 2:
     	mModel.createDatastorePlayers();
     	    break;
+    	case 3:
+        	mModel.createDatastoreAttaquant();
+        	    break;
+    	case 4:
+        	mModel.createDatastoreDefenseur();
+        	    break;
+    	case 5:
+        	mModel.createDatastoreGardien();
+        	    break;
+    	case 6:
+        	mModel.createDatastoreRecrue();
+        	    break;
     	    
     	}
     	

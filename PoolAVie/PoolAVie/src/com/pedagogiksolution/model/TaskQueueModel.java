@@ -11,6 +11,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.pedagogiksolution.dao.DraftDao;
 import com.pedagogiksolution.dao.PlayersDao;
+import com.pedagogiksolution.datastorebeans.Attaquant;
 import com.pedagogiksolution.datastorebeans.Equipe;
 import com.pedagogiksolution.utils.EMF;
 
@@ -84,7 +85,6 @@ public class TaskQueueModel {
 	
 		em = emf.createEntityManager();
 		Equipe mBean = new Equipe();
-		mBean = (Equipe) req.getSession().getAttribute(jspSessionName);
 		mBean.setPoolTeamId(jspSessionName);
 		mBean.setBudget_restant(Integer.parseInt(budget_restant));
 		em.persist(mBean);
@@ -119,6 +119,46 @@ public class TaskQueueModel {
 	    datastore.put(playersEntity);
 	    
 
+	    
+	}
+
+	public void createDatastoreAttaquant() {
+	    String counter = req.getParameter("counter");
+	    String poolID = req.getParameter("poolID");
+	    String budget_restant = req.getParameter("nom");
+	    String jspSessionName = poolID+"_"+counter;
+	    EntityManagerFactory emf = EMF.get();
+	    EntityManager em = null;
+	    try {
+	
+		em = emf.createEntityManager();
+		Attaquant mBean = new Attaquant();
+		mBean.setPoolTeamId(jspSessionName);
+		mBean.setBudget_restant(Integer.parseInt(budget_restant));
+		em.persist(mBean);
+	    } finally {
+
+		// on ferme le manager pour libérer la mémoire
+		if (em != null) {
+		    em.close();
+
+		}
+	    }
+	    
+	}
+
+	public void createDatastoreDefenseur() {
+	    // TODO Auto-generated method stub
+	    
+	}
+
+	public void createDatastoreGardien() {
+	    // TODO Auto-generated method stub
+	    
+	}
+
+	public void createDatastoreRecrue() {
+	    // TODO Auto-generated method stub
 	    
 	}
 	
