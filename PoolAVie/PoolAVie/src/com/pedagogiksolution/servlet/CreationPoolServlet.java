@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.cron.model.ClassementCronModel;
+import com.pedagogiksolution.cron.model.DraftPickCronModel;
 import com.pedagogiksolution.cron.model.PlayersCronModel;
 import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.dao.DAOFactory;
@@ -101,8 +102,8 @@ public class CreationPoolServlet extends HttpServlet {
 	    mModelPlayers.putDatabaseInDatastore(poolId, numberOfTeam, "recrue", 1,"6");
 	    
 	    // creation du datastore pour les draft pick par equipe
-	    //DraftPickCronModel mDraftModel = new DraftPickCronModel(draftPickDao);	    
-	    //mDraftModel.putDatabaseInDatastore(poolId, numberOfTeam);
+	    DraftPickCronModel mDraftModel = new DraftPickCronModel(draftPickDao);	    
+	    mDraftModel.putDatabaseInDatastore(poolId, numberOfTeam,"7");
 	    
 	    
 	    
@@ -111,7 +112,7 @@ public class CreationPoolServlet extends HttpServlet {
 	    LoginModel mModelLogin = new LoginModel(req);
 
 	    mModelLogin.createSessionClassementBean();
-	   // mModelLogin.createSessionDraftPickBean();
+	    mModelLogin.createSessionDraftPickBean();
 	    
 	    NouvellesModel mModelNouvelles = new NouvellesModel();
 	    // initialisation du message du bienvenue

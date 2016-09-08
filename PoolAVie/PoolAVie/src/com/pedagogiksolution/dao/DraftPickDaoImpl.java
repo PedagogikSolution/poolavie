@@ -21,6 +21,9 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
+import com.google.appengine.api.taskqueue.TaskOptions;
 import com.pedagogiksolution.datastorebeans.DraftPick;
 import com.pedagogiksolution.utils.EMF;
 
@@ -90,10 +93,25 @@ public class DraftPickDaoImpl implements DraftPickDao {
     }
 
     @Override
-    public void cronJobGetDraftPickbyPoolId(int poolId, int numberOfTeam) throws DAOException {
+    public void cronJobGetDraftPickbyPoolId(int poolId, int numberOfTeam, String fromTag) throws DAOException {
 
 	for (int i = 1; i < (numberOfTeam + 1); i++) {
-	    Connection connexion = null;
+	    
+	    Queue queue = QueueFactory.getDefaultQueue();
+		queue.add(TaskOptions.Builder.withUrl("/TaskQueueCreationPool")
+			.param("counter",String.valueOf(i))
+			.param("poolID",String.valueOf(poolId))
+			.param("fromTag", fromTag)
+			
+			);
+	    
+	}
+
+    }
+
+    @Override
+    public void getDraftPickForDatastoreFromPoolIdAndTeamNumber(String poolID, String counter) {
+	Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet rs = null;
 	    DraftPick mBean = new DraftPick();
@@ -103,6 +121,8 @@ public class DraftPickDaoImpl implements DraftPickDao {
 	    List<Integer> orderForTheRound = new ArrayList<Integer>();
 	    List<String> teamNameOriginalPick = new ArrayList<String>();
 	    String datastoreId;
+	    
+	    int poolId = Integer.parseInt(poolID);
 
 	    
 	    
@@ -113,9 +133,9 @@ public class DraftPickDaoImpl implements DraftPickDao {
 
 		// instanciation du bean Utilisateur
 
-		datastoreId = String.valueOf(poolId) + "_" + i;
+		datastoreId = poolID + "_" + counter;
 
-		preparedStatement = initialisationRequetePreparee(connexion, GET_DRAFT_PICK_BY_POOL_ID, false, poolId, i);
+		preparedStatement = initialisationRequetePreparee(connexion, GET_DRAFT_PICK_BY_POOL_ID, false, poolId, counter);
 		rs = preparedStatement.executeQuery();
 
 		while (rs.next()) {
@@ -189,7 +209,7 @@ public class DraftPickDaoImpl implements DraftPickDao {
 	    memcache.put(userPrefsKey, mBean);
 
 	}
-
+	
     }
 
-}
+

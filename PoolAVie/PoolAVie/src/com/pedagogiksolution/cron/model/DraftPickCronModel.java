@@ -30,9 +30,9 @@ public class DraftPickCronModel {
 	this.draftPickDao = draftPickDao;
     }
 
-    public void putDatabaseInDatastore(int poolId, int numberOfTeam) {
+    public void putDatabaseInDatastore(int poolId, int numberOfTeam, String fromTag) {
 
-	draftPickDao.cronJobGetDraftPickbyPoolId(poolId,numberOfTeam);
+	draftPickDao.cronJobGetDraftPickbyPoolId(poolId,numberOfTeam,fromTag);
 		
 	
 
@@ -109,6 +109,11 @@ public class DraftPickCronModel {
 	
 	
 
+	
+    }
+
+    public void putDatabaseInDatastore(int i, int numberOfTeam) {
+	// TODO Auto-generated method stub
 	
     }
 

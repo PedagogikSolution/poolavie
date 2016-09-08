@@ -8,25 +8,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.dao.DAOFactory;
-import com.pedagogiksolution.dao.DraftDao;
+import com.pedagogiksolution.dao.DraftPickDao;
 import com.pedagogiksolution.dao.PlayersDao;
 import com.pedagogiksolution.model.TaskQueueModel;
 
 public class TaskQueueCreationPool extends HttpServlet {
-  
-      
+
     public static final String CONF_DAO_FACTORY = "daofactory";
-    private DraftDao draftDao;
+    private DraftPickDao draftPickDao;
     private PlayersDao playerDao;
 
     @Override
     public void init() throws ServletException {
 	/* Récupération d'une instance de notre DAO Utilisateur */
-	this.draftDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftDao();
+	this.draftPickDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftPickDao();
 	this.playerDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getPlayersDao();
 
     }
-   
+
     /**
      * 
      */
@@ -34,41 +33,43 @@ public class TaskQueueCreationPool extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        
-	
+	TaskQueueModel mModel;
 	String fromTag = req.getParameter("fromTag");
 	int fromTagId = Integer.parseInt(fromTag);
-	
-	
-    	
-    	TaskQueueModel mModel = new TaskQueueModel(req);
-    	
-    	switch(fromTagId){
-    	case 1:
-    	mModel.createDatastoreEquipe();
-    	    break;
-    	case 2:
-    	mModel.createDatastorePlayers(playerDao);
-    	    break;
-    	case 3:
-        	mModel.createDatastoreAttaquant(playerDao);
-        	    break;
-    	case 4:
-        	mModel.createDatastoreDefenseur(playerDao);
-        	    break;
-    	case 5:
-        	mModel.createDatastoreGardien(playerDao);
-        	    break;
-    	case 6:
-        	mModel.createDatastoreRecrue(playerDao);
-        	    break;
-    	    
-    	}
-    	
-	
+
+	switch (fromTagId) {
+	case 1:
+	    mModel = new TaskQueueModel(req);
+	    mModel.createDatastoreEquipe();
+	    break;
+	case 2:
+	    mModel = new TaskQueueModel(req, playerDao);
+	    mModel.createDatastorePlayers();
+	    break;
+	case 3:
+	    mModel = new TaskQueueModel(req, playerDao);
+	    mModel.createDatastoreAttaquant();
+	    break;
+	case 4:
+	    mModel = new TaskQueueModel(req, playerDao);
+	    mModel.createDatastoreDefenseur();
+	    break;
+	case 5:
+	    mModel = new TaskQueueModel(req, playerDao);
+	    mModel.createDatastoreGardien();
+	    break;
+	case 6:
+	    mModel = new TaskQueueModel(req, playerDao);
+	    mModel.createDatastoreRecrue();
+	    break;
+
+	case 7:
+	    mModel = new TaskQueueModel(req, draftPickDao);
+	    mModel.createDatastoreDraftPick();
+	    break;
+
+	}
+
     }
-    
-   
 
 }

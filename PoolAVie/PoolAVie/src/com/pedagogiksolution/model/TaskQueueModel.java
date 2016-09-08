@@ -10,6 +10,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.pedagogiksolution.dao.DraftDao;
+import com.pedagogiksolution.dao.DraftPickDao;
 import com.pedagogiksolution.dao.PlayersDao;
 import com.pedagogiksolution.datastorebeans.Equipe;
 import com.pedagogiksolution.utils.EMF;
@@ -17,8 +18,9 @@ import com.pedagogiksolution.utils.EMF;
 public class TaskQueueModel {
 
     PlayersDao playersDao;
-    DraftDao draftDao;
+    DraftPickDao draftPickDao;
     HttpServletRequest req;
+    DraftDao draftDao;
 
     public TaskQueueModel(DraftDao draftDao, PlayersDao playerDao, HttpServletRequest req) {
 
@@ -27,8 +29,18 @@ public class TaskQueueModel {
 	this.req = req;
     }
 
+    public TaskQueueModel(HttpServletRequest req2, PlayersDao playerDao) {
+	this.req = req2;
+	this.playersDao = playerDao;
+    }
+
     public TaskQueueModel(HttpServletRequest req2) {
 	this.req = req2;
+    }
+
+    public TaskQueueModel(HttpServletRequest req2, DraftPickDao draftPickDao2) {
+	this.req = req2;
+	this.draftPickDao = draftPickDao2;
     }
 
     public void persistPlayer() {
@@ -87,7 +99,7 @@ public class TaskQueueModel {
 
     }
 
-    public void createDatastorePlayers(PlayersDao playerDao) {
+    public void createDatastorePlayers() {
 
 	String players_id = req.getParameter("players_id");
 	String aide_overtime = req.getParameter("aide_overtime");
@@ -108,41 +120,43 @@ public class TaskQueueModel {
 
     }
 
-    public void createDatastoreAttaquant(PlayersDao playerDao) {
+    public void createDatastoreAttaquant() {
 	String counter = req.getParameter("counter");
-	String poolID = req.getParameter("poolID");	
-		
-	
-	playersDao.getPlayersForDatastoreFromPoolIdAndTeamNumber(poolID, counter,"attaquant",0);
-	
+	String poolID = req.getParameter("poolID");
+
+	playersDao.getPlayersForDatastoreFromPoolIdAndTeamNumber(poolID, counter, "attaquant", 0);
 
     }
 
-    public void createDatastoreDefenseur(PlayersDao playerDao) {
+    public void createDatastoreDefenseur() {
 	String counter = req.getParameter("counter");
-	String poolID = req.getParameter("poolID");	
-		
-	
-	playersDao.getPlayersForDatastoreFromPoolIdAndTeamNumber(poolID, counter,"defenseur",0);
+	String poolID = req.getParameter("poolID");
+
+	playersDao.getPlayersForDatastoreFromPoolIdAndTeamNumber(poolID, counter, "defenseur", 0);
 
     }
 
-    public void createDatastoreGardien(PlayersDao playerDao) {
+    public void createDatastoreGardien() {
 	String counter = req.getParameter("counter");
-	String poolID = req.getParameter("poolID");	
-		
-	
-	playersDao.getPlayersForDatastoreFromPoolIdAndTeamNumber(poolID, counter,"gardien",0);
+	String poolID = req.getParameter("poolID");
+
+	playersDao.getPlayersForDatastoreFromPoolIdAndTeamNumber(poolID, counter, "gardien", 0);
 
     }
 
-    public void createDatastoreRecrue(PlayersDao playerDao) {
+    public void createDatastoreRecrue() {
 	String counter = req.getParameter("counter");
-	String poolID = req.getParameter("poolID");	
-		
-	
-	playersDao.getPlayersForDatastoreFromPoolIdAndTeamNumber(poolID, counter,"recrue",1);
+	String poolID = req.getParameter("poolID");
 
+	playersDao.getPlayersForDatastoreFromPoolIdAndTeamNumber(poolID, counter, "recrue", 1);
+
+    }
+
+    public void createDatastoreDraftPick() {
+	String counter = req.getParameter("counter");
+	String poolID = req.getParameter("poolID");
+
+	draftPickDao.getDraftPickForDatastoreFromPoolIdAndTeamNumber(poolID, counter);
     }
 
 }

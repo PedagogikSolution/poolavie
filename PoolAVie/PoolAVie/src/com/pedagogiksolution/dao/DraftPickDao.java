@@ -8,7 +8,9 @@ public interface DraftPickDao {
 
     void insertPickByTeam(int poolID, int nombreEquipe, int numPickByTeam);
     
-    void cronJobGetDraftPickbyPoolId(int poolId, int numberOfTeam) throws DAOException;
+    void cronJobGetDraftPickbyPoolId(int poolId, int numberOfTeam, String fromTag) throws DAOException;
+
+    void getDraftPickForDatastoreFromPoolIdAndTeamNumber(String poolID, String counter);
     
     
 
