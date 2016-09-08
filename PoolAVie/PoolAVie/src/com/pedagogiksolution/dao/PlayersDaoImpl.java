@@ -37,6 +37,8 @@ public class PlayersDaoImpl implements PlayersDao {
     private static final String GET_PLAYERS_FOR_DRAFT = "SELECT * FROM players_?";
     private static final String GET_PLAYERS_BY_POOL_ID_FOR_ROOKIE = "SELECT * FROM players_? WHERE team_id=? AND club_ecole=? ORDER BY pts DESC";
     private static final String UPDATE_PLAYERS_AFTER_DRAFT_PICK = "UPDATE players_? SET team_id=?,contrat=?,acquire_years=?,salaire_contrat=?,club_ecole=?,years_1='A',years_2='A',years_3='A',years_4='A',years_5='A' WHERE _id=?";
+    
+    
     private DAOFactory daoFactory;
 
     PlayersDaoImpl(DAOFactory daoFactory) {
@@ -83,13 +85,211 @@ public class PlayersDaoImpl implements PlayersDao {
     }
 
     @Override
-    public void cronJobGetPlayersbyPoolIdAndPosition(int poolId, int numberOfTeam, String positionString, int isRookie) {
+    public void cronJobGetPlayersbyPoolIdAndPosition(int poolId, int numberOfTeam, String positionString, int isRookie, String fromTag) {
 
 	for (int i = 1; i < (numberOfTeam + 1); i++) {
-	    Connection connexion = null;
-	    PreparedStatement preparedStatement = null;
-	    ResultSet rs = null;
+	    Queue queue = QueueFactory.getDefaultQueue();
+		queue.add(TaskOptions.Builder.withUrl("/TaskQueueCreationPool")
+			.param("isRookie",String.valueOf(isRookie))
+			.param("positionString",positionString)
+			.param("counter",String.valueOf(i))
+			.param("poolID",String.valueOf(poolId))
+			.param("fromTag", fromTag)
+			
+			);
+	    
 
+	}
+
+    }
+
+    @Override
+    public void cronJobPlayersAvailableForDraft(int poolId) throws DAOException {
+
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+	ResultSet rs = null;
+	
+
+	int _id;
+	int players_id = 0;
+	int team_id = 0;
+	String nom = null;
+	String teamOfPlayer = null;
+	int pj = 0;
+	int but_victoire = 0;
+	int aide_overtime = 0;
+	int blanchissage = 0;
+	int pts = 0;
+	int projection = 0;
+	String position = null;
+	Date birthday = null;
+	int can_be_rookie = 0;
+	int take_proj = 0;
+	int salaire_draft = 0;
+	int contrat = 0;
+	int acquire_years = 0;
+	int salaire_contrat = 0;
+	int contrat_cours = 0;
+	int contrat_max_years = 0;
+	int type_contrat = 0;
+	int club_ecole = 0;
+	Date date_calcul = null;
+	String years_1 = null;
+	String years_2 = null;
+	String years_3 = null;
+	String years_4 = null;
+	String years_5 = null;
+	int team_was_update = 0;
+	int age = 0;
+	int hier = 0;
+	int semaine = 0;
+	int mois = 0;
+
+	try {
+
+	    connexion = daoFactory.getConnection();
+
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_FOR_DRAFT, false, poolId);
+	    rs = preparedStatement.executeQuery();
+
+	    while (rs.next()) {
+		_id = rs.getInt("_id");
+		players_id = rs.getInt("_id");
+		team_id = rs.getInt("team_id");
+		nom = rs.getString("nom");
+		teamOfPlayer = rs.getString("team");
+		pj = rs.getInt("pj");
+		but_victoire = rs.getInt("but_victoire");
+		aide_overtime = rs.getInt("aide_overtime");
+		blanchissage = rs.getInt("blanchissage");
+		pts = rs.getInt("pts");
+		projection = rs.getInt("projection");
+		position = rs.getString("position");
+		birthday = rs.getDate("birthday");
+		can_be_rookie = rs.getInt("can_be_rookie");
+		take_proj = rs.getInt("take_proj");
+		salaire_draft = rs.getInt("salaire_draft");
+		contrat = rs.getInt("contrat");
+		acquire_years = rs.getInt("acquire_years");
+		salaire_contrat = rs.getInt("salaire_contrat");
+		contrat_cours = rs.getInt("contrat_cours");
+		contrat_max_years = rs.getInt("contrat_max_years");
+		type_contrat = rs.getInt("type_contrat");
+		club_ecole = rs.getInt("club_ecole");
+		date_calcul = rs.getDate("date_calcul");
+		years_1 = rs.getString("years_1");
+		years_2 = rs.getString("years_2");
+		years_3 = rs.getString("years_3");
+		years_4 = rs.getString("years_4");
+		years_5 = rs.getString("years_5");
+		team_was_update = rs.getInt("team_was_update");
+		age = rs.getInt("age");
+		hier = rs.getInt("hier");
+		semaine = rs.getInt("semaine");
+		mois = rs.getInt("mois");
+
+		String nomBean = "Players_" + poolId;
+
+		Players mBean = new Players();
+
+		mBean.set_id(_id);
+		mBean.setPlayers_id(players_id);
+		mBean.setAge(age);
+		mBean.setAide_overtime(aide_overtime);
+		mBean.setBirthday(birthday);
+		mBean.setBlanchissage(blanchissage);
+		mBean.setBut_victoire(but_victoire);
+		mBean.setCan_be_rookie(can_be_rookie);
+		mBean.setClub_ecole(club_ecole);
+		mBean.setContrat(contrat);
+		mBean.setContrat_cours(contrat_cours);
+		mBean.setContrat_max_years(contrat_max_years);
+		mBean.setDate_calcul(date_calcul);
+		mBean.setAcquire_years(acquire_years);
+		mBean.setHier(hier);
+		mBean.setMois(mois);
+		mBean.setNom(nom);
+		mBean.setPj(pj);
+		mBean.setPosition(position);
+		mBean.setProjection(projection);
+		mBean.setPts(pts);
+		mBean.setSalaire_contrat(salaire_contrat);
+		mBean.setSalaire_draft(salaire_draft);
+		mBean.setSemaine(semaine);
+		mBean.setTake_proj(take_proj);
+		mBean.setTeam_id(team_id);
+		mBean.setTeam_was_update(team_was_update);
+		mBean.setTeamOfPlayer(teamOfPlayer);
+		mBean.setType_contrat(type_contrat);
+		mBean.setYears_1(years_1);
+		mBean.setYears_2(years_2);
+		mBean.setYears_3(years_3);
+		mBean.setYears_4(years_4);
+		mBean.setYears_5(years_5);
+
+		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+		Key userPrefsKey = KeyFactory.createKey(nomBean, _id);
+		memcache.put(userPrefsKey, mBean);
+				
+
+		Queue queue = QueueFactory.getDefaultQueue();
+		queue.add(TaskOptions.Builder.withUrl("/TaskQueueCreationPool")
+			.param("players_id",String.valueOf(players_id))
+			.param("nom",nom)
+			.param("counter", String.valueOf(aide_overtime))
+			.param("poolID",String.valueOf(poolId))
+			.param("fromTag", "2")
+			
+			);
+	    }
+
+	} catch (SQLException e) {
+
+	    throw new DAOException(e);
+
+	} finally {
+	    fermeturesSilencieuses(rs, preparedStatement, connexion);
+
+	}
+
+    }
+
+    @Override
+    public void persistPlayerPick(int playerId, int salaireId, int poolId, int teamId, int clubEcoleId, int acquire_years) {
+
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+	int contrat;
+	if (clubEcoleId == 1) {
+	    contrat = 0;
+	} else {
+	    contrat = 1;
+	}
+
+	try {
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_AFTER_DRAFT_PICK, false, poolId, teamId, contrat, acquire_years, salaireId, clubEcoleId, playerId);
+	    preparedStatement.executeUpdate();
+
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(preparedStatement, connexion);
+	}
+
+    }
+
+   
+    @Override
+    public void getPlayersForDatastoreFromPoolIdAndTeamNumber(String poolID, String counter, String positionString,int isRookie) {
+	String datastoreId = poolID + "_" + counter;
+	int poolId = Integer.parseInt(poolID);
+	
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+	ResultSet rs = null;
+	
 	    List<Integer> players_id = new ArrayList<Integer>();
 	    List<Integer> team_id = new ArrayList<Integer>();
 	    List<String> nom = new ArrayList<String>();
@@ -123,18 +323,18 @@ public class PlayersDaoImpl implements PlayersDao {
 	    List<Integer> hier = new ArrayList<Integer>();
 	    List<Integer> semaine = new ArrayList<Integer>();
 	    List<Integer> mois = new ArrayList<Integer>();
-	    String datastoreId;
+	    
 
 	    try {
 
 		connexion = daoFactory.getConnection();
 
-		datastoreId = String.valueOf(poolId) + "_" + i;
+		
 
 		if (isRookie == 0) {
-		    preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_BY_POOL_ID_AND_POSITION, false, poolId, i, positionString, isRookie);
+		    preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_BY_POOL_ID_AND_POSITION, false, poolId, counter, positionString, isRookie);
 		} else {
-		    preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_BY_POOL_ID_FOR_ROOKIE, false, poolId, i, isRookie);
+		    preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_BY_POOL_ID_FOR_ROOKIE, false, poolId, counter, isRookie);
 		}
 
 		rs = preparedStatement.executeQuery();
@@ -495,186 +695,13 @@ public class PlayersDaoImpl implements PlayersDao {
 
 		break;
 	    }
-
-	}
-
-    }
-
-    @Override
-    public void cronJobPlayersAvailableForDraft(int poolId) throws DAOException {
-
-	Connection connexion = null;
-	PreparedStatement preparedStatement = null;
-	ResultSet rs = null;
 	
-
-	int _id;
-	int players_id = 0;
-	int team_id = 0;
-	String nom = null;
-	String teamOfPlayer = null;
-	int pj = 0;
-	int but_victoire = 0;
-	int aide_overtime = 0;
-	int blanchissage = 0;
-	int pts = 0;
-	int projection = 0;
-	String position = null;
-	Date birthday = null;
-	int can_be_rookie = 0;
-	int take_proj = 0;
-	int salaire_draft = 0;
-	int contrat = 0;
-	int acquire_years = 0;
-	int salaire_contrat = 0;
-	int contrat_cours = 0;
-	int contrat_max_years = 0;
-	int type_contrat = 0;
-	int club_ecole = 0;
-	Date date_calcul = null;
-	String years_1 = null;
-	String years_2 = null;
-	String years_3 = null;
-	String years_4 = null;
-	String years_5 = null;
-	int team_was_update = 0;
-	int age = 0;
-	int hier = 0;
-	int semaine = 0;
-	int mois = 0;
-
-	try {
-
-	    connexion = daoFactory.getConnection();
-
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_FOR_DRAFT, false, poolId);
-	    rs = preparedStatement.executeQuery();
-
-	    while (rs.next()) {
-		_id = rs.getInt("_id");
-		players_id = rs.getInt("_id");
-		team_id = rs.getInt("team_id");
-		nom = rs.getString("nom");
-		teamOfPlayer = rs.getString("team");
-		pj = rs.getInt("pj");
-		but_victoire = rs.getInt("but_victoire");
-		aide_overtime = rs.getInt("aide_overtime");
-		blanchissage = rs.getInt("blanchissage");
-		pts = rs.getInt("pts");
-		projection = rs.getInt("projection");
-		position = rs.getString("position");
-		birthday = rs.getDate("birthday");
-		can_be_rookie = rs.getInt("can_be_rookie");
-		take_proj = rs.getInt("take_proj");
-		salaire_draft = rs.getInt("salaire_draft");
-		contrat = rs.getInt("contrat");
-		acquire_years = rs.getInt("acquire_years");
-		salaire_contrat = rs.getInt("salaire_contrat");
-		contrat_cours = rs.getInt("contrat_cours");
-		contrat_max_years = rs.getInt("contrat_max_years");
-		type_contrat = rs.getInt("type_contrat");
-		club_ecole = rs.getInt("club_ecole");
-		date_calcul = rs.getDate("date_calcul");
-		years_1 = rs.getString("years_1");
-		years_2 = rs.getString("years_2");
-		years_3 = rs.getString("years_3");
-		years_4 = rs.getString("years_4");
-		years_5 = rs.getString("years_5");
-		team_was_update = rs.getInt("team_was_update");
-		age = rs.getInt("age");
-		hier = rs.getInt("hier");
-		semaine = rs.getInt("semaine");
-		mois = rs.getInt("mois");
-
-		String nomBean = "Players_" + poolId;
-
-		Players mBean = new Players();
-
-		mBean.set_id(_id);
-		mBean.setPlayers_id(players_id);
-		mBean.setAge(age);
-		mBean.setAide_overtime(aide_overtime);
-		mBean.setBirthday(birthday);
-		mBean.setBlanchissage(blanchissage);
-		mBean.setBut_victoire(but_victoire);
-		mBean.setCan_be_rookie(can_be_rookie);
-		mBean.setClub_ecole(club_ecole);
-		mBean.setContrat(contrat);
-		mBean.setContrat_cours(contrat_cours);
-		mBean.setContrat_max_years(contrat_max_years);
-		mBean.setDate_calcul(date_calcul);
-		mBean.setAcquire_years(acquire_years);
-		mBean.setHier(hier);
-		mBean.setMois(mois);
-		mBean.setNom(nom);
-		mBean.setPj(pj);
-		mBean.setPosition(position);
-		mBean.setProjection(projection);
-		mBean.setPts(pts);
-		mBean.setSalaire_contrat(salaire_contrat);
-		mBean.setSalaire_draft(salaire_draft);
-		mBean.setSemaine(semaine);
-		mBean.setTake_proj(take_proj);
-		mBean.setTeam_id(team_id);
-		mBean.setTeam_was_update(team_was_update);
-		mBean.setTeamOfPlayer(teamOfPlayer);
-		mBean.setType_contrat(type_contrat);
-		mBean.setYears_1(years_1);
-		mBean.setYears_2(years_2);
-		mBean.setYears_3(years_3);
-		mBean.setYears_4(years_4);
-		mBean.setYears_5(years_5);
-
-		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-		Key userPrefsKey = KeyFactory.createKey(nomBean, _id);
-		memcache.put(userPrefsKey, mBean);
-				
-
-		Queue queue = QueueFactory.getDefaultQueue();
-		queue.add(TaskOptions.Builder.withUrl("/TaskQueueCreationPool")
-			.param("players_id",String.valueOf(players_id))
-			.param("nom",nom)
-			.param("aide_overtime", String.valueOf(aide_overtime))
-			.param("poolID",String.valueOf(poolId))
-			.param("fromTag", "2")
-			
-			);
-	    }
-
-	} catch (SQLException e) {
-
-	    throw new DAOException(e);
-
-	} finally {
-	    fermeturesSilencieuses(rs, preparedStatement, connexion);
-
-	}
-
-    }
-
-    @Override
-    public void persistPlayerPick(int playerId, int salaireId, int poolId, int teamId, int clubEcoleId, int acquire_years) {
-
-	Connection connexion = null;
-	PreparedStatement preparedStatement = null;
-	int contrat;
-	if (clubEcoleId == 1) {
-	    contrat = 0;
-	} else {
-	    contrat = 1;
-	}
-
-	try {
-	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_AFTER_DRAFT_PICK, false, poolId, teamId, contrat, acquire_years, salaireId, clubEcoleId, playerId);
-	    preparedStatement.executeUpdate();
-
-	} catch (SQLException e) {
-	    throw new DAOException(e);
-	} finally {
-	    fermeturesSilencieuses(preparedStatement, connexion);
-	}
-
+	
+	
+	
+	
+	
+	
     }
 
 }

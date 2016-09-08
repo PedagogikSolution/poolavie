@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.cron.model.ClassementCronModel;
-import com.pedagogiksolution.cron.model.DraftPickCronModel;
 import com.pedagogiksolution.cron.model.PlayersCronModel;
 import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.dao.DAOFactory;
@@ -92,18 +91,18 @@ public class CreationPoolServlet extends HttpServlet {
 	    
 	    int numberOfTeam = mModelPlayers.getNumberOfTeamByPool(poolId);
 	    
-	    // creation du datastore draft
-	    mModelPlayers.putDatabaseInDatastore(poolId);
+	    // creation du datastore player_X
+	   // mModelPlayers.putDatabaseInDatastore(poolId);
 	    
-	    // creation du datastore des teams
-	    mModelPlayers.putDatabaseInDatastore(poolId, numberOfTeam, "attaquant", 0);
-	    mModelPlayers.putDatabaseInDatastore(poolId, numberOfTeam, "defenseur", 0);
-	    mModelPlayers.putDatabaseInDatastore(poolId, numberOfTeam, "gardien", 0);
-	    mModelPlayers.putDatabaseInDatastore(poolId, numberOfTeam, "recrue", 1);
+	    // creation du datastore des teams par position
+	    mModelPlayers.putDatabaseInDatastore(poolId, numberOfTeam, "attaquant", 0,"3");
+	    mModelPlayers.putDatabaseInDatastore(poolId, numberOfTeam, "defenseur", 0,"4");
+	    mModelPlayers.putDatabaseInDatastore(poolId, numberOfTeam, "gardien", 0,"5");
+	    mModelPlayers.putDatabaseInDatastore(poolId, numberOfTeam, "recrue", 1,"6");
 	    
 	    // creation du datastore pour les draft pick par equipe
-	    DraftPickCronModel mDraftModel = new DraftPickCronModel(draftPickDao);	    
-	    mDraftModel.putDatabaseInDatastore(poolId, numberOfTeam);
+	    //DraftPickCronModel mDraftModel = new DraftPickCronModel(draftPickDao);	    
+	    //mDraftModel.putDatabaseInDatastore(poolId, numberOfTeam);
 	    
 	    
 	    
@@ -112,13 +111,7 @@ public class CreationPoolServlet extends HttpServlet {
 	    LoginModel mModelLogin = new LoginModel(req);
 
 	    mModelLogin.createSessionClassementBean();
-	    mModelLogin.createSessionAttaquantBean();
-	    mModelLogin.createSessionDefenseurBean();
-	    mModelLogin.createSessionDraftPickBean();
-	    mModelLogin.createSessionGardienBean();
-	    mModelLogin.createSessionRecrueBean();
-	    mModelLogin.createSessionEquipeBean();
-	    mModelLogin.createSessionPoolBean();
+	   // mModelLogin.createSessionDraftPickBean();
 	    
 	    NouvellesModel mModelNouvelles = new NouvellesModel();
 	    // initialisation du message du bienvenue

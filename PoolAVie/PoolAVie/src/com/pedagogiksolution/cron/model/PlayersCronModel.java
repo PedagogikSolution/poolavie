@@ -30,9 +30,9 @@ public class PlayersCronModel {
 	this.playersDao = playersDao;
     }
 
-    public void putDatabaseInDatastore(int poolId, int numberOfTeam, String positon, int recrue) {
+    public void putDatabaseInDatastore(int poolId, int numberOfTeam, String positon, int recrue, String fromTag) {
 	String positionString = positon;
-	playersDao.cronJobGetPlayersbyPoolIdAndPosition(poolId,numberOfTeam,positionString,recrue);
+	playersDao.cronJobGetPlayersbyPoolIdAndPosition(poolId,numberOfTeam,positionString,recrue,fromTag);
 		
 	
 

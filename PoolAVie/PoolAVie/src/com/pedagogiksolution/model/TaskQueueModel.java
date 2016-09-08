@@ -11,157 +11,138 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.pedagogiksolution.dao.DraftDao;
 import com.pedagogiksolution.dao.PlayersDao;
-import com.pedagogiksolution.datastorebeans.Attaquant;
 import com.pedagogiksolution.datastorebeans.Equipe;
 import com.pedagogiksolution.utils.EMF;
 
 public class TaskQueueModel {
 
-	PlayersDao playersDao;
-	DraftDao draftDao;
-	HttpServletRequest req;
-	
-	public TaskQueueModel(DraftDao draftDao, PlayersDao playerDao, HttpServletRequest req) {
-		
-		this.playersDao=playerDao;
-		this.draftDao=draftDao;
-		this.req=req;
-	}
+    PlayersDao playersDao;
+    DraftDao draftDao;
+    HttpServletRequest req;
 
-	public TaskQueueModel(HttpServletRequest req2) {
-	   this.req = req2;
-	}
+    public TaskQueueModel(DraftDao draftDao, PlayersDao playerDao, HttpServletRequest req) {
 
-	public void persistPlayer() {
-		String poolID = req.getParameter("poolID");
-		int poolId = Integer.parseInt(poolID);
-		String playersID = req.getParameter("playersID");
-		int playersId = Integer.parseInt(playersID);
-		String salaireID = req.getParameter("salaireID");
-		int salaireId = Integer.parseInt(salaireID);		
-		String teamID = req.getParameter("teamID");
-		int teamId = Integer.parseInt(teamID);
-		String clubEcole = req.getParameter("club_ecole");
-		int clubEcoleId = Integer.parseInt(clubEcole);
-		String acquireYearsID = req.getParameter("acquireYearsID");
-		int acquireYearsId = Integer.parseInt(acquireYearsID);
-		
-		
-		
-		playersDao.persistPlayerPick(playersId,salaireId,poolId,teamId,clubEcoleId,acquireYearsId);
-		
-		
-		
-	}
-	
+	this.playersDao = playerDao;
+	this.draftDao = draftDao;
+	this.req = req;
+    }
 
+    public TaskQueueModel(HttpServletRequest req2) {
+	this.req = req2;
+    }
 
-	public void persistDraftRound() {
-		String poolID = req.getParameter("poolID");
-		int poolId = Integer.parseInt(poolID);
-		String nom = req.getParameter("nom");
-		String currentPick = req.getParameter("currentPick");
-		int currentPickId = Integer.parseInt(currentPick);
-		int currentPickReel = currentPickId-1;
-		
-		
-		
-		draftDao.persistPlayerPick(nom,currentPickReel,poolId);
-		
-		
-	}
+    public void persistPlayer() {
+	String poolID = req.getParameter("poolID");
+	int poolId = Integer.parseInt(poolID);
+	String playersID = req.getParameter("playersID");
+	int playersId = Integer.parseInt(playersID);
+	String salaireID = req.getParameter("salaireID");
+	int salaireId = Integer.parseInt(salaireID);
+	String teamID = req.getParameter("teamID");
+	int teamId = Integer.parseInt(teamID);
+	String clubEcole = req.getParameter("club_ecole");
+	int clubEcoleId = Integer.parseInt(clubEcole);
+	String acquireYearsID = req.getParameter("acquireYearsID");
+	int acquireYearsId = Integer.parseInt(acquireYearsID);
 
-	
-	
-	public void createDatastoreEquipe() {
-	    
-	    String counter = req.getParameter("counter");
-	    String poolID = req.getParameter("poolID");
-	    String budget_restant = req.getParameter("budget_restant");
-	    String jspSessionName = poolID+"_"+counter;
-	    EntityManagerFactory emf = EMF.get();
-	    EntityManager em = null;
-	    try {
-	
-		em = emf.createEntityManager();
-		Equipe mBean = new Equipe();
-		mBean.setPoolTeamId(jspSessionName);
-		mBean.setBudget_restant(Integer.parseInt(budget_restant));
-		em.persist(mBean);
-	    } finally {
+	playersDao.persistPlayerPick(playersId, salaireId, poolId, teamId, clubEcoleId, acquireYearsId);
 
-		// on ferme le manager pour libérer la mémoire
-		if (em != null) {
-		    em.close();
+    }
 
-		}
+    public void persistDraftRound() {
+	String poolID = req.getParameter("poolID");
+	int poolId = Integer.parseInt(poolID);
+	String nom = req.getParameter("nom");
+	String currentPick = req.getParameter("currentPick");
+	int currentPickId = Integer.parseInt(currentPick);
+	int currentPickReel = currentPickId - 1;
+
+	draftDao.persistPlayerPick(nom, currentPickReel, poolId);
+
+    }
+
+    public void createDatastoreEquipe() {
+
+	String counter = req.getParameter("counter");
+	String poolID = req.getParameter("poolID");
+	String budget_restant = req.getParameter("budget_restant");
+	String jspSessionName = poolID + "_" + counter;
+	EntityManagerFactory emf = EMF.get();
+	EntityManager em = null;
+	try {
+
+	    em = emf.createEntityManager();
+	    Equipe mBean = new Equipe();
+	    mBean.setPoolTeamId(jspSessionName);
+	    mBean.setBudget_restant(Integer.parseInt(budget_restant));
+	    em.persist(mBean);
+	} finally {
+
+	    // on ferme le manager pour libérer la mémoire
+	    if (em != null) {
+		em.close();
+
 	    }
-	    
 	}
 
-	public void createDatastorePlayers() {
-	    
-	    String players_id = req.getParameter("players_id");
-	    String aide_overtime = req.getParameter("aide_overtime");
-	    String nom = req.getParameter("nom");
-	    String poolID = req.getParameter("poolID");
-	    
-	    String playersTableName = "Players_"+poolID;
-	    Key datastoreKey = KeyFactory.createKey(playersTableName ,players_id);
-	    
-	    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-	    
-	    Entity playersEntity = new Entity(datastoreKey);
-	    playersEntity.setProperty("players_id", players_id);
-	    playersEntity.setProperty("nom", nom);
-	    playersEntity.setProperty("aide_overtime", aide_overtime);
-	    
-	    datastore.put(playersEntity);
-	    
+    }
 
-	    
-	}
+    public void createDatastorePlayers(PlayersDao playerDao) {
 
-	public void createDatastoreAttaquant() {
-	    String counter = req.getParameter("counter");
-	    String poolID = req.getParameter("poolID");
-	    String budget_restant = req.getParameter("nom");
-	    String jspSessionName = poolID+"_"+counter;
-	    EntityManagerFactory emf = EMF.get();
-	    EntityManager em = null;
-	    try {
+	String players_id = req.getParameter("players_id");
+	String aide_overtime = req.getParameter("aide_overtime");
+	String nom = req.getParameter("nom");
+	String poolID = req.getParameter("poolID");
+
+	String playersTableName = "Players_" + poolID;
+	Key datastoreKey = KeyFactory.createKey(playersTableName, players_id);
+
+	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+	Entity playersEntity = new Entity(datastoreKey);
+	playersEntity.setProperty("players_id", players_id);
+	playersEntity.setProperty("nom", nom);
+	playersEntity.setProperty("aide_overtime", aide_overtime);
+
+	datastore.put(playersEntity);
+
+    }
+
+    public void createDatastoreAttaquant(PlayersDao playerDao) {
+	String counter = req.getParameter("counter");
+	String poolID = req.getParameter("poolID");	
+		
 	
-		em = emf.createEntityManager();
-		Attaquant mBean = new Attaquant();
-		mBean.setPoolTeamId(jspSessionName);
-		mBean.setBudget_restant(Integer.parseInt(budget_restant));
-		em.persist(mBean);
-	    } finally {
-
-		// on ferme le manager pour libérer la mémoire
-		if (em != null) {
-		    em.close();
-
-		}
-	    }
-	    
-	}
-
-	public void createDatastoreDefenseur() {
-	    // TODO Auto-generated method stub
-	    
-	}
-
-	public void createDatastoreGardien() {
-	    // TODO Auto-generated method stub
-	    
-	}
-
-	public void createDatastoreRecrue() {
-	    // TODO Auto-generated method stub
-	    
-	}
+	playersDao.getPlayersForDatastoreFromPoolIdAndTeamNumber(poolID, counter,"attaquant",0);
 	
+
+    }
+
+    public void createDatastoreDefenseur(PlayersDao playerDao) {
+	String counter = req.getParameter("counter");
+	String poolID = req.getParameter("poolID");	
+		
 	
+	playersDao.getPlayersForDatastoreFromPoolIdAndTeamNumber(poolID, counter,"defenseur",0);
+
+    }
+
+    public void createDatastoreGardien(PlayersDao playerDao) {
+	String counter = req.getParameter("counter");
+	String poolID = req.getParameter("poolID");	
+		
+	
+	playersDao.getPlayersForDatastoreFromPoolIdAndTeamNumber(poolID, counter,"gardien",0);
+
+    }
+
+    public void createDatastoreRecrue(PlayersDao playerDao) {
+	String counter = req.getParameter("counter");
+	String poolID = req.getParameter("poolID");	
+		
+	
+	playersDao.getPlayersForDatastoreFromPoolIdAndTeamNumber(poolID, counter,"recrue",1);
+
+    }
 
 }

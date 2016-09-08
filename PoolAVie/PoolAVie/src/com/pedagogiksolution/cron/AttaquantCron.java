@@ -48,7 +48,7 @@ public class AttaquantCron extends HttpServlet {
 		if(numberOfTeam==0){
 		    //TODO persister un erreur et un lanceur d'Alerte
 		} else {
-		    mModel.putDatabaseInDatastore(i,numberOfTeam,position,recrue);
+		    mModel.putDatabaseInDatastore(i,numberOfTeam,position,recrue,"3");
 		}
 		
 		

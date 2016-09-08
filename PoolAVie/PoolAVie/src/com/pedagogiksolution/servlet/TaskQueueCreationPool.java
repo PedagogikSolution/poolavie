@@ -7,12 +7,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pedagogiksolution.dao.DAOFactory;
+import com.pedagogiksolution.dao.DraftDao;
+import com.pedagogiksolution.dao.PlayersDao;
 import com.pedagogiksolution.model.TaskQueueModel;
 
 public class TaskQueueCreationPool extends HttpServlet {
   
       
+    public static final String CONF_DAO_FACTORY = "daofactory";
+    private DraftDao draftDao;
+    private PlayersDao playerDao;
 
+    @Override
+    public void init() throws ServletException {
+	/* Récupération d'une instance de notre DAO Utilisateur */
+	this.draftDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftDao();
+	this.playerDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getPlayersDao();
+
+    }
    
     /**
      * 
@@ -36,19 +49,19 @@ public class TaskQueueCreationPool extends HttpServlet {
     	mModel.createDatastoreEquipe();
     	    break;
     	case 2:
-    	mModel.createDatastorePlayers();
+    	mModel.createDatastorePlayers(playerDao);
     	    break;
     	case 3:
-        	mModel.createDatastoreAttaquant();
+        	mModel.createDatastoreAttaquant(playerDao);
         	    break;
     	case 4:
-        	mModel.createDatastoreDefenseur();
+        	mModel.createDatastoreDefenseur(playerDao);
         	    break;
     	case 5:
-        	mModel.createDatastoreGardien();
+        	mModel.createDatastoreGardien(playerDao);
         	    break;
     	case 6:
-        	mModel.createDatastoreRecrue();
+        	mModel.createDatastoreRecrue(playerDao);
         	    break;
     	    
     	}
