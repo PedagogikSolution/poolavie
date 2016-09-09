@@ -203,6 +203,8 @@ public class DraftPickDaoImpl implements DraftPickDao {
 
 		}
 	    }
+	    
+	    
 	    // on persist le datastore/bean dans la MemCache
 	    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
 	    Key userPrefsKey = KeyFactory.createKey("DraftPick", datastoreId);

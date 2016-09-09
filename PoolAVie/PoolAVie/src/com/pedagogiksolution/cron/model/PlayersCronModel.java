@@ -114,8 +114,13 @@ public class PlayersCronModel {
 
     
     public void putDatabaseInDatastore(int i) {
+	
+	
 	playersDao.cronJobPlayersAvailableForDraft(i);
 	
     }
 
-}
+    
+    }
+
+

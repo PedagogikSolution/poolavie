@@ -47,7 +47,7 @@ public class DraftPickCron extends HttpServlet {
 		if(numberOfTeam==0){
 		    //TODO persister un erreur et un lanceur d'Alerte
 		} else {
-		    mModel.putDatabaseInDatastore(i,numberOfTeam);
+		    mModel.putDatabaseInDatastore(i,numberOfTeam,"7");
 		}
 		
 		

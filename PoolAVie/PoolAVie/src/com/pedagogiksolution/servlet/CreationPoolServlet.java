@@ -93,7 +93,7 @@ public class CreationPoolServlet extends HttpServlet {
 	    int numberOfTeam = mModelPlayers.getNumberOfTeamByPool(poolId);
 	    
 	    // creation du datastore player_X
-	   // mModelPlayers.putDatabaseInDatastore(poolId);
+	    mModelPlayers.putDatabaseInDatastore(poolId);
 	    
 	    // creation du datastore des teams par position
 	    mModelPlayers.putDatabaseInDatastore(poolId, numberOfTeam, "attaquant", 0,"3");

@@ -44,7 +44,8 @@ public class TaskQueueCreationPool extends HttpServlet {
 	    break;
 	case 2:
 	    mModel = new TaskQueueModel(req, playerDao);
-	    mModel.createDatastorePlayers();
+	    String poolID = req.getParameter("poolID");
+	    mModel.createDatastorePlayers(poolID);
 	    break;
 	case 3:
 	    mModel = new TaskQueueModel(req, playerDao);
@@ -66,6 +67,10 @@ public class TaskQueueCreationPool extends HttpServlet {
 	case 7:
 	    mModel = new TaskQueueModel(req, draftPickDao);
 	    mModel.createDatastoreDraftPick();
+	    break;
+	case 8:
+	    mModel = new TaskQueueModel(req, playerDao);
+	    mModel.createPlayersTable();
 	    break;
 
 	}

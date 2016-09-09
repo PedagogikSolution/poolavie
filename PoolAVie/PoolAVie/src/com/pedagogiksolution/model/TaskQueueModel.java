@@ -99,25 +99,10 @@ public class TaskQueueModel {
 
     }
 
-    public void createDatastorePlayers() {
+    public void createDatastorePlayers(String poolID) {
 
-	String players_id = req.getParameter("players_id");
-	String aide_overtime = req.getParameter("aide_overtime");
-	String nom = req.getParameter("nom");
-	String poolID = req.getParameter("poolID");
-
-	String playersTableName = "Players_" + poolID;
-	Key datastoreKey = KeyFactory.createKey(playersTableName, players_id);
-
-	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
-	Entity playersEntity = new Entity(datastoreKey);
-	playersEntity.setProperty("players_id", players_id);
-	playersEntity.setProperty("nom", nom);
-	playersEntity.setProperty("aide_overtime", aide_overtime);
-
-	datastore.put(playersEntity);
-
+	playersDao.getPlayersForDatastoreFromPoolId(poolID);
+	    
     }
 
     public void createDatastoreAttaquant() {
@@ -157,6 +142,28 @@ public class TaskQueueModel {
 	String poolID = req.getParameter("poolID");
 
 	draftPickDao.getDraftPickForDatastoreFromPoolIdAndTeamNumber(poolID, counter);
+    }
+
+   
+    public void createPlayersTable() {
+	String players_id = req.getParameter("players_id");
+	String aide_overtime = req.getParameter("aide_overtime");
+	String nom = req.getParameter("nom");
+	String poolID = req.getParameter("poolID");
+
+	String playersTableName = "Players_" + poolID;
+	Key datastoreKey = KeyFactory.createKey(playersTableName, players_id);
+
+	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+	Entity playersEntity = new Entity(datastoreKey);
+	playersEntity.setProperty("players_id", players_id);
+	playersEntity.setProperty("nom", nom);
+	playersEntity.setProperty("aide_overtime", aide_overtime);
+
+	datastore.put(playersEntity);
+	
+	
     }
 
 }

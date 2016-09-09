@@ -380,8 +380,7 @@ public class LoginModel {
 				DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 				Key clefDatastore = KeyFactory.createKey("DraftPick", datastoreId);
 				try {
-					// si existe, aucun EntityNotFoundException, donc on
-					// recupère l'info pour tester password
+					
 					Entity mEntity = datastore.get(clefDatastore);
 
 					// on met dans SessionBean

@@ -15,15 +15,15 @@
 
 <body>
 	<div id="all">
-		<!-- Header du menu principal
+		<!-- Header du menu principal-->
 		<jsp:directive.include file="navbar_main.jsp" />
 		<jsp:directive.include file="menu_secondaire.jsp" />
--->
+
 		<!-- Body de la page news -->
 
 		<!-- -------------------- Zone d'alerte pour les Commissaires et les Directeurs généraux     --------------------------------------- -->
 		
-		<!-- Si manque des équipes 
+		<!-- Si manque des équipes -->
 		<c:if test="${Pool.draftType==1&&Utilisateur.typeUtilisateur==1&&Pool.cycleAnnuel==0}">
 			
 				<div class="w3-container w3-section w3-red">
@@ -37,9 +37,9 @@
 				</div>
 			
 		</c:if>
-		-->
+		
 
-		<!-- Si all team register but no date choose 
+		<!-- Si all team register but no date choose -->
 		<c:if test="${Pool.draftType==1&&Utilisateur.typeUtilisateur==1&&Pool.cycleAnnuel==1}">
 			
 				<div class="w3-container w3-section w3-red">
@@ -52,8 +52,8 @@
 				</div>
 			
 		</c:if>
-		-->
-		<!-- Si all team register et pool est commencer 
+		
+		<!-- Si all team register et pool est commencer -->
 		<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token==null}">
 			
 				<div class="w3-container w3-section w3-red">
@@ -76,13 +76,13 @@
 				</div>
 			
 		</c:if>
-		
--->
 
-		<!-- contenu de gauche contient les 10 dernieres articles 
+
+	
+		<!-- contenu de gauche contient les 10 dernieres articles -->
 		<div class="w3-twothird">
 			<c:set var="nombreDeMessage" value="${Articles.titre}" />
-			<c:forEach var="i" begin="0" end="${fn:length(nombreDeMessage)}">
+			<c:forEach var="i" begin="0" end="${fn:length(nombreDeMessage)-1}">
 				<div class="w3-row w3-margin w3-card-8">
 
 					<div class="w3-third">
@@ -98,15 +98,15 @@
 				</div>
 			</c:forEach>
 		</div>
-		-->
-		
-		<!-- contenu de droite contient des minis tableaux de stats (mini-classement,top pointeur hiere, top scoreur)  
+
+
+		<!-- contenu de droite contient des minis tableaux de stats (mini-classement,top pointeur hiere, top scoreur)  -->
 		<div class="w3-third w3-padding-left w3-padding-right">
 
-			
 
 
-			<!-- classement  
+
+			<!-- classement  -->
 			<table class="w3-table w3-striped w3-bordered w3-card-8 w3-margin-top">
 				<caption class="w3-blue w3-xlarge">Classement</caption>
 				<tr class="w3-blue">
@@ -125,8 +125,8 @@
 
 				</c:forEach>
 			</table>
-			-->
-			<!-- pointeur hier soir  
+
+			<!-- pointeur hier soir  -->
 			<table class="w3-table w3-striped w3-bordered w3-card-8 w3-margin-top">
 				<caption class="w3-blue w3-xlarge">Pointeurs hier</caption>
 				<tr class="w3-blue">
@@ -134,10 +134,10 @@
 					<th>Équipe</th>
 					<th>Pts</th>
 				</tr>
-				
+
 			</table>
--->
-			<!-- top scoreur  
+
+			<!-- top scoreur  -->
 			<table class="w3-table w3-striped w3-bordered w3-card-8 w3-margin-top">
 				<caption class="w3-blue w3-xlarge">Meilleurs pointeurs</caption>
 				<tr class="w3-blue">
@@ -145,13 +145,13 @@
 					<th>Équipe</th>
 					<th>Pts</th>
 				</tr>
-				
+
 			</table>
 
 
 
 
-		
+
 
 		</div>
 
@@ -189,16 +189,16 @@
 		</div>
 
 
+
+
+		<jsp:directive.include file="../utils/draftMessage.jsp" />
+
+
+		<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token!=null}">
+			<jsp:directive.include file="../utils/draftClientB.jsp" />
+		</c:if>
+
+
 	</div>
-
-<jsp:directive.include file="../utils/draftMessage.jsp" />
-
-
-<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token!=null}">
-<jsp:directive.include file="../utils/draftClientB.jsp" />
-</c:if>
-
--->
-</div>
 </body>
 </html>
