@@ -223,7 +223,7 @@ public class Administration {
 
 	try {
 
-	    for (i = 0; i < 10; i++) {
+	    for (i = 0; i < 12; i++) {
 
 		mStatementA = conn.prepareStatement(QueryA);
 		mStatementA.setInt(1, i);

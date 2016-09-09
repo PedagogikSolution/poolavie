@@ -163,11 +163,11 @@ rs9 = (ResultSet) request.getAttribute("picks");
 					<th>But</th>
 					<th>Passe</th>
 					<th>Points</th>
-					<th>2015-16</th>
 					<th>2016-17</th>
 					<th>2017-18</th>
 					<th>2018-19</th>
 					<th>2019-20</th>
+					<th>2020-21</th>
 				</tr>
 
 				<%
@@ -208,11 +208,11 @@ rs9 = (ResultSet) request.getAttribute("picks");
 					<th>But</th>
 					<th>Passe</th>
 					<th>Points</th>
-					<th>2015-16</th>
 					<th>2016-17</th>
 					<th>2017-18</th>
 					<th>2018-19</th>
 					<th>2019-20</th>
+					<th>2020-21</th>
 				</tr>
 
 				<%
@@ -254,11 +254,11 @@ rs9 = (ResultSet) request.getAttribute("picks");
 					<th>Ot</th>
 					<th>Bl</th>
 					<th>Points</th>
-					<th>2015-16</th>
 					<th>2016-17</th>
 					<th>2017-18</th>
 					<th>2018-19</th>
 					<th>2019-20</th>
+					<th>2020-21</th>
 				</tr>
 
 				<%
@@ -300,11 +300,11 @@ rs9 = (ResultSet) request.getAttribute("picks");
 					<th>But</th>
 					<th>Passe</th>
 					<th>Points</th>
-					<th>2015-16</th>
 					<th>2016-17</th>
 					<th>2017-18</th>
 					<th>2018-19</th>
 					<th>2019-20</th>
+					<th>2020-21</th>
 				</tr>
 
 				<%
