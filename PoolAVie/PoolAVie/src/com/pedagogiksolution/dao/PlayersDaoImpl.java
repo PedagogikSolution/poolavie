@@ -37,7 +37,6 @@ public class PlayersDaoImpl implements PlayersDao {
     private static final String GET_PLAYERS_FOR_DRAFT = "SELECT * FROM players_?";
     private static final String GET_PLAYERS_BY_POOL_ID_FOR_ROOKIE = "SELECT * FROM players_? WHERE team_id=? AND club_ecole=? ORDER BY pts DESC";
     private static final String UPDATE_PLAYERS_AFTER_DRAFT_PICK = "UPDATE players_? SET team_id=?,contrat=?,acquire_years=?,salaire_contrat=?,club_ecole=?,years_1='A',years_2='A',years_3='A',years_4='A',years_5='A' WHERE _id=?";
-    
 
     private DAOFactory daoFactory;
 
@@ -98,12 +97,10 @@ public class PlayersDaoImpl implements PlayersDao {
     }
 
     @Override
-    public void cronJobPlayersAvailableForDraft(int poolId)  {
+    public void cronJobPlayersAvailableForDraft(int poolId) {
 
-	
-	    Queue queue = QueueFactory.getDefaultQueue();
-	    queue.add(TaskOptions.Builder.withUrl("/TaskQueueCreationPool").param("poolID", String.valueOf(poolId)).param("fromTag", "2"));
-
+	Queue queue = QueueFactory.getDefaultQueue();
+	queue.add(TaskOptions.Builder.withUrl("/TaskQueueCreationPool").param("poolID", String.valueOf(poolId)).param("fromTag", "2"));
 
     }
 
@@ -546,9 +543,6 @@ public class PlayersDaoImpl implements PlayersDao {
 
     }
 
-   
-
-    
     @Override
     public void getPlayersForDatastoreFromPoolId(String poolID) {
 	
@@ -695,6 +689,8 @@ public class PlayersDaoImpl implements PlayersDao {
 			.param("salaire_draft",String.valueOf(salaire_draft))
 			.param("poolID",String.valueOf(poolID))
 			.param("fromTag", "8")
+			.param("contrat", String.valueOf(contrat))
+			.param("club_ecole", String.valueOf(club_ecole))
 			
 			);
 	    }
@@ -709,5 +705,4 @@ public class PlayersDaoImpl implements PlayersDao {
 	}
 	
     }
-
 }

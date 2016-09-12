@@ -54,7 +54,7 @@ public class DraftPlayersModel {
 	String segment, sort;
 	HttpServletRequest req;
 	HttpServletResponse resp;
-	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	
 
 	public DraftPlayersModel(HttpServletRequest req, String segment, String sort) {
 		this.segment = segment;
@@ -82,18 +82,18 @@ public class DraftPlayersModel {
 
 	private NonSessionPlayers getDraftPlayersFromDatastore(String sort2, String segment2, NonSessionPlayers mBean) {
 
-		List<Long> players_id = new ArrayList<Long>();
+		List<Integer> players_id = new ArrayList<Integer>();
 		List<String> nom = new ArrayList<String>();
 		List<String> teamOfPlayer = new ArrayList<String>();
-		List<Long> pj = new ArrayList<Long>();
-		List<Long> but_victoire = new ArrayList<Long>();
-		List<Long> aide_overtime = new ArrayList<Long>();
-		List<Long> blanchissage = new ArrayList<Long>();
-		List<Long> pts = new ArrayList<Long>();
-		List<Long> projection = new ArrayList<Long>();
+		List<Integer> pj = new ArrayList<Integer>();
+		List<Integer> but_victoire = new ArrayList<Integer>();
+		List<Integer> aide_overtime = new ArrayList<Integer>();
+		List<Integer> blanchissage = new ArrayList<Integer>();
+		List<Integer> pts = new ArrayList<Integer>();
+		List<Integer> projection = new ArrayList<Integer>();
 		List<String> position = new ArrayList<String>();
-		List<Long> can_be_rookie = new ArrayList<Long>();
-		List<Long> salaire_draft = new ArrayList<Long>();
+		List<Integer> can_be_rookie = new ArrayList<Integer>();
+		List<Integer> salaire_draft = new ArrayList<Integer>();
 
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		String poolID = mBeanPool.getPoolID();
@@ -182,12 +182,13 @@ public class DraftPlayersModel {
 		}
 
 		// Use PreparedQuery interface to retrieve results
-		List<Entity> pq = datastore.prepare(q).asList(FetchOptions.Builder.withChunkSize(100));
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		List<Entity> pq = datastore.prepare(q).asList(FetchOptions.Builder.withDefaults());
 
 		for (Entity result : pq) {
 
 			Long m_players_id = (Long) result.getProperty("players_id");
-			players_id.add(m_players_id);
+			players_id.add(m_players_id.intValue());
 			
 
 			String m_nom = (String) result.getProperty("nom");
@@ -198,28 +199,28 @@ public class DraftPlayersModel {
 			teamOfPlayer.add(m_teamOfPlayer);
 			
 
-			Long m_pj = (Long) result.getProperty("pj");
-			pj.add(m_pj);
+			String m_pj = (String) result.getProperty("pj");
+			pj.add(Integer.parseInt(m_pj));
 			
 
 			Long m_but_victoire = (Long) result.getProperty("but_victoire");
-			but_victoire.add(m_but_victoire);
+			but_victoire.add(m_but_victoire.intValue());
 			
 
 			Long m_aide_overtime = (Long) result.getProperty("aide_overtime");
-			aide_overtime.add(m_aide_overtime);
+			aide_overtime.add(m_aide_overtime.intValue());
 			
 
 			Long m_blanchissage = (Long) result.getProperty("blanchissage");
-			blanchissage.add(m_blanchissage);
+			blanchissage.add(m_blanchissage.intValue());
 			
 
 			Long m_pts = (Long) result.getProperty("pts");
-			pts.add(m_pts);
+			pts.add(m_pts.intValue());
 			
 
 			Long m_projection = (Long) result.getProperty("projection");
-			projection.add(m_projection);
+			projection.add(m_projection.intValue());
 			
 
 			String m_position = (String) result.getProperty("position");
@@ -227,11 +228,11 @@ public class DraftPlayersModel {
 			
 
 			Long m_can_be_rookie = (Long) result.getProperty("can_be_rookie");
-			can_be_rookie.add(m_can_be_rookie);
+			can_be_rookie.add(m_can_be_rookie.intValue());
 			
 
 			Long m_salaire_draft = (Long) result.getProperty("salaire_draft");
-			salaire_draft.add(m_salaire_draft);
+			salaire_draft.add(m_salaire_draft.intValue());
 			
 			
 		}
@@ -486,7 +487,7 @@ public class DraftPlayersModel {
 		List<Integer> salaire_contrat = new ArrayList<Integer>();
 		Entity draftRoundEntity = null, players = null, entity = null, equipeEntity = null;
 		Key equipeKey;
-
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		try {
 			Entity mEntity = datastore.get(mKey);
 			Long currentPick2 = (Long) mEntity.getProperty("currentPick");
@@ -907,7 +908,7 @@ public class DraftPlayersModel {
 		List<Integer> salaire_contrat = new ArrayList<Integer>();
 		Entity draftRoundEntity = null, players = null, entity = null, equipeEntity = null;
 		Key equipeKey;
-
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		try {
 			Entity mEntity = datastore.get(mKey);
 			Long currentPick2 = (Long) mEntity.getProperty("currentPick");
@@ -1193,6 +1194,7 @@ public class DraftPlayersModel {
 		String nom = req.getParameter("nom");
 		String team = req.getParameter("team");
 		Key mKey = KeyFactory.createKey("DraftProcess", poolID);
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		try {
 			Entity mEntity = datastore.get(mKey);
 			Long currentPick2 = (Long) mEntity.getProperty("currentPick");
@@ -1279,7 +1281,7 @@ public class DraftPlayersModel {
 		String teamID = req.getParameter("team_id");
 
 		String teamName = teamID + "isFinish";
-
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Key mKey = KeyFactory.createKey("DraftProcess", poolID);
 		try {
 			Entity mEntity = datastore.get(mKey);
@@ -1297,6 +1299,7 @@ public class DraftPlayersModel {
 		String poolID = mBeanPool.getPoolID();
 		int numberOfTeam = mBeanPool.getNumberTeam();
 		Key mKey = KeyFactory.createKey("DraftProcess", poolID);
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		try {
 			Entity mEntity = datastore.get(mKey);
 			int counter = 0;

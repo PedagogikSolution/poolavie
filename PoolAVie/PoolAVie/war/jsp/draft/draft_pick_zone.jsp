@@ -12,7 +12,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/css/w3.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<jsp:directive.include file="/jsp/utils/firebase.jsp" />
 <script src="/js/nouvelles.js"></script>
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
 </head>
@@ -23,42 +22,49 @@
 	<jsp:directive.include file="../main/menu_secondaire.jsp" />
 	<jsp:directive.include file="menu_draft.jsp" />
 
-	<!-- PROCESS POUR DRAFT -->
-	<c:set var="currentPick" value="${DraftBean.currentPick}" />
-	<c:set var="currentPicker" value="${DraftBean.currentPicker}" />
 
+	<!-- PROCESS POUR DRAFT -->
+	<c:if test="${Pool.cycleAnnuel==3 }">
+		<c:set var="currentPick" value="${DraftBean.currentPick}" />
+		<c:set var="currentPicker" value="${DraftBean.currentPicker}" />
+	</c:if>
 	<!-- Body de la page draft_center -->
 	<c:set var="segment" value="${SegmentSort}" />
 	<div class="w3-container">
-<!-- Si all team register et pool est commencer -->
+		<!-- Si all team register et pool est commencer -->
 		<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token==null}">
-			
-				<div class="w3-container w3-section w3-red">
-				
-					<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-					<h3>C'est l'heure du Draft </h3>
-					<p>Votre draft est prêt à commencer. Cliquez ici pour vous connecter au serveur de draft</p><p><a href="/DraftCenter"> Cliquez ici pour y aller directement</a> ou aller dans la section Draft du menu</p>
-						
-				</div>
-			
+
+			<div class="w3-container w3-section w3-red">
+
+				<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+				<h3>C'est l'heure du Draft</h3>
+				<p>Votre draft est prêt à commencer. Cliquez ici pour vous connecter au serveur de draft</p>
+				<p>
+					<a href="/DraftCenter"> Cliquez ici pour y aller directement</a> ou aller dans la section Draft du menu
+				</p>
+
+			</div>
+
 		</c:if>
 		<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&messageErreur.erreurConnectionDraft!=null}">
-			
-				<div class="w3-container w3-section w3-red">
-				
-					<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-					<h3>OUPS! </h3>
-					<p>${messageErreur.erreurConnectionDraft}</p><p><a href="/DraftCenter"> Cliquez ici pour y aller directement</a> ou aller dans la section Draft du menu</p>
-						
-				</div>
-			
+
+			<div class="w3-container w3-section w3-red">
+
+				<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+				<h3>OUPS!</h3>
+				<p>${messageErreur.erreurConnectionDraft}</p>
+				<p>
+					<a href="/DraftCenter"> Cliquez ici pour y aller directement</a> ou aller dans la section Draft du menu
+				</p>
+
+			</div>
+
 		</c:if>
 
 		<table id="playersPickBox" class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
 			<caption class="w3-blue w3-xlarge">
 				<h1>
-					Joueurs disponible au Draft (
-					<c:out value="${segment}" />
+					Joueurs disponible au Draft (<c:out value="${segment}"/>
 					)
 				</h1>
 			</caption>
@@ -79,17 +85,13 @@
 
 
 			</tr>
-	<!--  	<c:set var="nombreDePlayers" value="${NonSessionPlayers.pj}" />
+			<c:set var="nombreDePlayers" value="${NonSessionPlayers.pj}" />
+			
+			
 			<c:forEach var="i" begin="0" end="${fn:length(nombreDePlayers)-1}">
 
 				<tr id=i>
-					<td>${NonSessionPlayers.nom[i]}
-					<!--  <script
-							src="http://www.hockeydb.com/em/?text_col=%23000000&linktext_col=%230000ee&linktext_hover_col=%23770000&bg_col=%23f0ecdd&border_col=%23000000&title_bg_col=%23d6cda5&row_bg_col=%23ffffff&row_alt_bg_col=%23f5f2e9&header=1&pid=73288"
-							type="text/javascript">
-					</script>
-					
-					</td>
+					<td>${NonSessionPlayers.nom[i]}</td>
 					<td>${NonSessionPlayers.teamOfPlayer[i]}</td>
 					<td>${NonSessionPlayers.position[i]}</td>
 					<td>${NonSessionPlayers.pj[i]}</td>
@@ -101,16 +103,12 @@
 					<td>${NonSessionPlayers.projection[i]}</td>
 					<c:if test="${Utilisateur.teamId==currentPicker}">
 						<td>
-						<form action="/DraftPlayers" method="POST">
-						<input type="hidden" name="draftStep" value="1">
-							<input type="hidden" name="draft_player_id" value="${NonSessionPlayers.players_id[i]}">
-								  <input type="hidden" name="team_id" value="${Utilisateur.teamId}">
-									 <input type="hidden" name="nom" value="${NonSessionPlayers.nom[i]}">
-									  <input type="hidden" name="position" value="${NonSessionPlayers.position[i]}">
-									 <input type="hidden" name="team" value="${NonSessionPlayers.teamOfPlayer[i]}">
-									  <input type="hidden" name="can_be_rookie" value="${NonSessionPlayers.can_be_rookie[i]}">
-									 <input type="hidden" name="salaire" value="${NonSessionPlayers.salaire_draft[i]}">
-									  <input type="submit" value="PICK THIS PLAYERS">
+							<form action="/DraftPlayers" method="POST">
+								<input type="hidden" name="draftStep" value="1"> <input type="hidden" name="draft_player_id" value="${NonSessionPlayers.players_id[i]}"> <input type="hidden" name="team_id"
+									value="${Utilisateur.teamId}"> <input type="hidden" name="nom" value="${NonSessionPlayers.nom[i]}"> <input type="hidden" name="position"
+									value="${NonSessionPlayers.position[i]}"> <input type="hidden" name="team" value="${NonSessionPlayers.teamOfPlayer[i]}"> <input type="hidden" name="can_be_rookie"
+									value="${NonSessionPlayers.can_be_rookie[i]}"> <input type="hidden" name="salaire" value="${NonSessionPlayers.salaire_draft[i]}"> <input type="submit"
+									value="PICK THIS PLAYERS">
 							</form>
 
 						</td>
@@ -119,19 +117,20 @@
 				</tr>
 
 			</c:forEach>
+			
+			
+			
 		</table>
-	
-	-->		
-		
-		
 
-<jsp:directive.include file="../utils/draftMessage.jsp" />
+
+
+		<jsp:directive.include file="../utils/draftMessage.jsp" />
 
 		<!-- fin du container principal -->
 	</div>
-	
-<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token!=null}">
-<jsp:directive.include file="../utils/draftClientB.jsp" />
-</c:if>
+
+	<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token!=null}">
+		<jsp:directive.include file="../utils/draftClientB.jsp" />
+	</c:if>
 </body>
 </html>

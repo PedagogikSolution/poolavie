@@ -158,6 +158,8 @@ public class TaskQueueModel {
 	String position = req.getParameter("aide_overtime");
 	String can_be_rookie = req.getParameter("but_victoire");
 	String salaire_draft = req.getParameter("aide_overtime");
+	String contrat = req.getParameter("contrat");
+	String club_ecole = req.getParameter("club_ecole");
 	
 	String poolID = req.getParameter("poolID");
 
@@ -179,6 +181,8 @@ public class TaskQueueModel {
 	playersEntity.setProperty("position", position);
 	playersEntity.setProperty("can_be_rookie", can_be_rookie);
 	playersEntity.setProperty("salaire_draft", salaire_draft);
+	playersEntity.setProperty("contrat", contrat);
+	playersEntity.setProperty("club_ecole", club_ecole);
 
 	datastore.put(playersEntity);
 	
