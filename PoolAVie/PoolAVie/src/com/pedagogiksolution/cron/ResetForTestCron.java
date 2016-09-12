@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.memcache.MemcacheService;
@@ -37,7 +39,7 @@ public class ResetForTestCron extends HttpServlet {
         int manquant_gardien = 0, manquant_recrue = 0, bonus_5m = 0, argent_recu = 0, bonus_penalite = 0;
 	DraftProcess mBeanDraftProcess = new DraftProcess();
 
-	Key clefDatastore = KeyFactory.createKey("DraftProcess", "1");
+	/*Key clefDatastore = KeyFactory.createKey("DraftProcess", "1");
 
 	EntityManagerFactory emf = EMF.get();
 	EntityManager em = null;
@@ -141,7 +143,13 @@ public class ResetForTestCron extends HttpServlet {
 		    }
 
 		}
-		
+	*/	
+	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	for(int i=106;i<1704;i++){
+	Key datastoreKeyForPlayersTable = KeyFactory.createKey("Players_6",i);
+	datastore.delete(datastoreKeyForPlayersTable);
+	}
+	
 	req.getSession().invalidate();
 
     }

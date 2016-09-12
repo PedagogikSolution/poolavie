@@ -1,15 +1,45 @@
-<!-- Indices written at Fri, 9 Sep 2016 17:48:51 EDT -->
+<!-- Indices written at Mon, 12 Sep 2016 13:36:16 EDT -->
 
 <datastore-indexes>
 
-    <!-- Used 1 time in query history -->
+    <!-- Used 3 times in query history -->
     <datastore-index kind="Articles" ancestor="true" source="auto">
         <property name="date" direction="desc"/>
     </datastore-index>
 
-    <!-- Used 5 times in query history -->
-    <datastore-index kind="Players_6" ancestor="false" source="auto">
+    <!-- Used 2 times in query history -->
+    <datastore-index kind="Players_1" ancestor="false" source="auto">
+        <property name="__key__" direction="desc"/>
+    </datastore-index>
+
+    <!-- Used 3 times in query history -->
+    <datastore-index kind="Players_1" ancestor="false" source="auto">
         <property name="contrat" direction="asc"/>
+        <property name="pts" direction="desc"/>
+    </datastore-index>
+
+    <!-- Used 2 times in query history -->
+    <datastore-index kind="Players_1" ancestor="false" source="auto">
+        <property name="contrat" direction="asc"/>
+        <property name="nom" direction="asc"/>
+    </datastore-index>
+
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="Players_1" ancestor="false" source="auto">
+        <property name="contrat" direction="asc"/>
+        <property name="nom" direction="desc"/>
+    </datastore-index>
+
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="Players_1" ancestor="false" source="auto">
+        <property name="contrat" direction="asc"/>
+        <property name="pts" direction="asc"/>
+    </datastore-index>
+
+    <!-- Used 2 times in query history -->
+    <datastore-index kind="Players_1" ancestor="false" source="auto">
+        <property name="contrat" direction="asc"/>
+        <property name="position" direction="asc"/>
         <property name="pts" direction="desc"/>
     </datastore-index>
 
