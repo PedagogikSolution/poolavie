@@ -22,63 +22,71 @@
 		<!-- Body de la page news -->
 
 		<!-- -------------------- Zone d'alerte pour les Commissaires et les Directeurs généraux     --------------------------------------- -->
-		
+
 		<!-- Si manque des équipes -->
 		<c:if test="${Pool.draftType==1&&Utilisateur.typeUtilisateur==1&&Pool.cycleAnnuel==0}">
-			
-				<div class="w3-container w3-section w3-red">
-				
-					<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-					<h3>Inscription non terminé</h3>
-					<p>L'ensemble des Directeurs généraux invités dans votre Pool ne sont pas encore inscrit.
-					Aussitôt que le derniere d'entre eux sera officiellement inscris, vous pourrez choisir la date
-					 de votre draft et déterminer l'ordre de sélection</p>
-						
-				</div>
-			
+
+			<div class="w3-container w3-section w3-red">
+
+				<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+				<h3>Inscription non terminé</h3>
+				<p>L'ensemble des Directeurs généraux invités dans votre Pool ne sont pas encore inscrit. Aussitôt que le derniere d'entre eux sera officiellement inscris, vous pourrez choisir la date de
+					votre draft et déterminer l'ordre de sélection</p>
+
+			</div>
+
 		</c:if>
-		
+
 
 		<!-- Si all team register but no date choose -->
 		<c:if test="${Pool.draftType==1&&Utilisateur.typeUtilisateur==1&&Pool.cycleAnnuel==1}">
-			
-				<div class="w3-container w3-section w3-red">
-				
-					<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-					<h3>Date du draft</h3>
-					<p>Vous n'avez pas encore choisis la date de draft. Vous pouvez la choisir dans la section Admin. Lorsque la date sera choisi, les participants recevront un courriel et l'ordre de draft sera
-						aléatoirement déterminé.</p><p><a href="/AdminDraft"> Cliquez ici pour aller directement pour vous y rendre immédiatement</a></p>
-						
-				</div>
-			
+
+			<div class="w3-container w3-section w3-red">
+
+				<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+				<h3>Date du draft</h3>
+				<p>Vous n'avez pas encore choisis la date de draft. Vous pouvez la choisir dans la section Admin. Lorsque la date sera choisi, les participants recevront un courriel et l'ordre de draft sera
+					aléatoirement déterminé.</p>
+				<p>
+					<a href="/AdminDraft"> Cliquez ici pour aller directement pour vous y rendre immédiatement</a>
+				</p>
+
+			</div>
+
 		</c:if>
-		
+
 		<!-- Si all team register et pool est commencer -->
 		<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token==null}">
-			
-				<div class="w3-container w3-section w3-red">
-				
-					<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-					<h3>C'est l'heure du Draft </h3>
-					<p>Votre draft est prêt à commencer. Cliquez ici pour vous connecter au serveur de draft</p><p><a href="/DraftCenter"> Cliquez ici pour y aller directement</a> ou aller dans la section Draft du menu</p>
-						
-				</div>
-			
+
+			<div class="w3-container w3-section w3-red">
+
+				<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+				<h3>C'est l'heure du Draft</h3>
+				<p>Votre draft est prêt à commencer. Cliquez ici pour vous connecter au serveur de draft</p>
+				<p>
+					<a href="/DraftCenter"> Cliquez ici pour y aller directement</a> ou aller dans la section Draft du menu
+				</p>
+
+			</div>
+
 		</c:if>
 		<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&messageErreur.erreurConnectionDraft!=null}">
-			
-				<div class="w3-container w3-section w3-red">
-				
-					<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-					<h3>OUPS! </h3>
-					<p>${messageErreur.erreurConnectionDraft}</p><p><a href="/DraftCenter"> Cliquez ici pour y aller directement</a> ou aller dans la section Draft du menu</p>
-						
-				</div>
-			
+
+			<div class="w3-container w3-section w3-red">
+
+				<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+				<h3>OUPS!</h3>
+				<p>${messageErreur.erreurConnectionDraft}</p>
+				<p>
+					<a href="/DraftCenter"> Cliquez ici pour y aller directement</a> ou aller dans la section Draft du menu
+				</p>
+
+			</div>
+
 		</c:if>
 
 
-	
+
 		<!-- contenu de gauche contient les 10 dernieres articles -->
 		<div class="w3-twothird">
 			<c:set var="nombreDeMessage" value="${Articles.titre}" />

@@ -26,38 +26,51 @@
 	<!-- Body de la page reglements -->
 
 	<div class="w3-container">
-	<!-- Si all team register et pool est commencer -->
+		<!-- Si all team register et pool est commencer -->
 		<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token==null}">
-			
-				<div class="w3-container w3-section w3-red">
-				
-					<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-					<h3>C'est l'heure du Draft </h3>
-					<p>Votre draft est prêt à commencer. Cliquez ici pour vous connecter au serveur de draft</p><p><a href="/DraftCenter"> Cliquez ici pour y aller directement</a> ou aller dans la section Draft du menu</p>
-						
-				</div>
-			
+
+			<div class="w3-container w3-section w3-red">
+
+				<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+				<h3>C'est l'heure du Draft</h3>
+				<p>Votre draft est prêt à commencer. Cliquez ici pour vous connecter au serveur de draft</p>
+				<p>
+					<a href="/DraftCenter"> Cliquez ici pour y aller directement</a> ou aller dans la section Draft du menu
+				</p>
+
+			</div>
+
 		</c:if>
 		<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&messageErreur.erreurConnectionDraft!=null}">
-			
-				<div class="w3-container w3-section w3-red">
-				
-					<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-					<h3>OUPS! </h3>
-					<p>${messageErreur.erreurConnectionDraft}</p><p><a href="/DraftCenter"> Cliquez ici pour y aller directement</a> ou aller dans la section Draft du menu</p>
-						
-				</div>
-			
+
+			<div class="w3-container w3-section w3-red">
+
+				<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+				<h3>OUPS!</h3>
+				<p>${messageErreur.erreurConnectionDraft}</p>
+				<p>
+					<a href="/DraftCenter"> Cliquez ici pour y aller directement</a> ou aller dans la section Draft du menu
+				</p>
+
+			</div>
+
 		</c:if>
-	CONTIENT L'ENSEMBLE DES PROCESSUS DE GESTION DES ÉQUIPES TEL QUE RACHAT, MONTER/DESCENDRE ROOKIE, SIGNATURE ET EVENTUELLEMENT EXPANSION
-	
-	
+		<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel<=3}">
+			<br>
+			<br>
+			<br>
+	CETTE SECTION CONTIENT L'ENSEMBLE DES PROCESSUS DE GESTION DES ÉQUIPES TEL QUE RACHAT, MONTER/DESCENDRE ROOKIE, SIGNATURE ET EVENTUELLEMENT EXPANSION
+	<br>
+			<br>
+	LA PREMIÈRE ÉTAPE AURA LIEU IMMÉDIATEMENT APRÈS LE DRAFT ET VOUS PERMETTRA DE SIGNER UN MAXIMUM DE 12 JOUEURS REPÊCHÉS POUR 2 À 5 ANNÉE. VOIR REGLÈMENT SECTION CONTRAT
+	</c:if>
+
 	</div>
-	
+
 	<jsp:directive.include file="../utils/draftMessage.jsp" />
-	
-<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token!=null}">
-<jsp:directive.include file="../utils/draftClientB.jsp" />
-</c:if>
+
+	<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token!=null}">
+		<jsp:directive.include file="../utils/draftClientB.jsp" />
+	</c:if>
 </body>
 </html>

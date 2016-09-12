@@ -147,8 +147,18 @@ public class TaskQueueModel {
    
     public void createPlayersTable() {
 	String players_id = req.getParameter("players_id");
-	String aide_overtime = req.getParameter("aide_overtime");
 	String nom = req.getParameter("nom");
+	String teamOfPlayer = req.getParameter("teamOfPlayer");
+	String pj = req.getParameter("pj");
+	String but_victoire = req.getParameter("but_victoire");
+	String aide_overtime = req.getParameter("aide_overtime");
+	String blanchissage = req.getParameter("but_victoire");
+	String pts = req.getParameter("aide_overtime");
+	String projection = req.getParameter("but_victoire");
+	String position = req.getParameter("aide_overtime");
+	String can_be_rookie = req.getParameter("but_victoire");
+	String salaire_draft = req.getParameter("aide_overtime");
+	
 	String poolID = req.getParameter("poolID");
 
 	String playersTableName = "Players_" + poolID;
@@ -159,7 +169,16 @@ public class TaskQueueModel {
 	Entity playersEntity = new Entity(datastoreKey);
 	playersEntity.setProperty("players_id", players_id);
 	playersEntity.setProperty("nom", nom);
+	playersEntity.setProperty("teamOfPlayer", teamOfPlayer);
+	playersEntity.setProperty("pj", pj);
+	playersEntity.setProperty("but_victoire", but_victoire);
 	playersEntity.setProperty("aide_overtime", aide_overtime);
+	playersEntity.setProperty("blanchissage", blanchissage);
+	playersEntity.setProperty("pts", pts);
+	playersEntity.setProperty("projection", projection);
+	playersEntity.setProperty("position", position);
+	playersEntity.setProperty("can_be_rookie", can_be_rookie);
+	playersEntity.setProperty("salaire_draft", salaire_draft);
 
 	datastore.put(playersEntity);
 	

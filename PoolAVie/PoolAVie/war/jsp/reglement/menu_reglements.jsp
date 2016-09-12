@@ -3,19 +3,20 @@
 <header class="w3-container w3-red">
 
 		<ul class="w3-navbar w3-center">
-			<li class="w3-xlarge"><a href="/Draft">DRAFT CENTER</a></li>
 		
-			<li class="w3-xlarge"><a href="/DraftResult">RESULT</a></li>
+			<li class="w3-xlarge"><a href="/Reglements">LE CYCLE ANNUEL</a></li>
+			
+			<li class="w3-xlarge"><a href="/Reglements">LE DRAFT</a></li>
+			
+			<li class="w3-xlarge"><a href="/Reglements">LES CONTRATS</a></li>
+			
+			<li class="w3-xlarge"><a href="/Reglements">LE BUDGET</a></li>
 		
-			<li class="w3-xlarge"><a href="/AllAvailableDraft">TOUS</a></li>
+			<li class="w3-xlarge"><a href="/Reglements">LES TRADES</a></li>
+	
+			<li class="w3-xlarge"><a href="/Reglements">LES CLUBS ÉCOLES</a></li>
 		
-			<li class="w3-xlarge"><a href="/FowardAvailableDraft">ATTAQUANT</a></li>
-		
-			<li class="w3-xlarge"><a href="/DefenseAvailableDraft">DEFENSEUR</a></li>
-		
-			<li class="w3-xlarge"><a href="/GoalerAvailableDraft">GARDIEN</a></li>
-		
-			<li class="w3-xlarge"><a href="/RookieAvailableDraft">RECRUE</a></li>
+
 		</ul>
 
 		

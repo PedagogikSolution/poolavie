@@ -33,9 +33,9 @@ public class DraftCenterServlet extends HttpServlet {
 	    mModel.createSessionDefenseurBean();
 	    mModel.createSessionGardienBean();
 	    mModel.createSessionRecrueBean();
-	    
 	    DraftPlayersModel mModelDraft = new DraftPlayersModel();	    	   
 	    mModelDraft.putDatastoreIntoBean(mBean,req);
+	    
 	}
 	
 	if(cycleAnnuel>=2){

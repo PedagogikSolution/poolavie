@@ -21,7 +21,7 @@
 	<!-- Header du menu principal-->
 	<jsp:directive.include file="../main/navbar_main.jsp" />
 	<jsp:directive.include file="../main/menu_secondaire.jsp" />
-
+	<jsp:directive.include file="menu_reglements.jsp" />
 	<!-- Body de la page reglements -->
 
 	<div class="w3-container">

@@ -182,59 +182,73 @@ public class DraftPlayersModel {
 		}
 
 		// Use PreparedQuery interface to retrieve results
-		List<Entity> pq = datastore.prepare(q).asList(FetchOptions.Builder.withChunkSize(200));
+		List<Entity> pq = datastore.prepare(q).asList(FetchOptions.Builder.withChunkSize(100));
 
 		for (Entity result : pq) {
 
 			Long m_players_id = (Long) result.getProperty("players_id");
 			players_id.add(m_players_id);
-			mBean.setPlayers_id(players_id);
+			
 
 			String m_nom = (String) result.getProperty("nom");
 			nom.add(m_nom);
-			mBean.setNom(nom);
+			
 
 			String m_teamOfPlayer = (String) result.getProperty("teamOfPlayer");
 			teamOfPlayer.add(m_teamOfPlayer);
-			mBean.setTeamOfPlayer(teamOfPlayer);
+			
 
 			Long m_pj = (Long) result.getProperty("pj");
 			pj.add(m_pj);
-			mBean.setPj(pj);
+			
 
 			Long m_but_victoire = (Long) result.getProperty("but_victoire");
 			but_victoire.add(m_but_victoire);
-			mBean.setBut_victoire(but_victoire);
+			
 
 			Long m_aide_overtime = (Long) result.getProperty("aide_overtime");
 			aide_overtime.add(m_aide_overtime);
-			mBean.setAide_overtime(aide_overtime);
+			
 
 			Long m_blanchissage = (Long) result.getProperty("blanchissage");
 			blanchissage.add(m_blanchissage);
-			mBean.setBlanchissage(blanchissage);
+			
 
 			Long m_pts = (Long) result.getProperty("pts");
 			pts.add(m_pts);
-			mBean.setPts(pts);
+			
 
 			Long m_projection = (Long) result.getProperty("projection");
 			projection.add(m_projection);
-			mBean.setProjection(projection);
+			
 
 			String m_position = (String) result.getProperty("position");
 			position.add(m_position);
-			mBean.setPosition(position);
+			
 
 			Long m_can_be_rookie = (Long) result.getProperty("can_be_rookie");
 			can_be_rookie.add(m_can_be_rookie);
-			mBean.setCan_be_rookie(can_be_rookie);
+			
 
 			Long m_salaire_draft = (Long) result.getProperty("salaire_draft");
 			salaire_draft.add(m_salaire_draft);
-			mBean.setSalaire_draft(salaire_draft);
+			
+			
 		}
-
+		mBean.setPlayers_id(players_id);
+		mBean.setNom(nom);
+		mBean.setTeamOfPlayer(teamOfPlayer);
+		mBean.setPj(pj);
+		mBean.setBut_victoire(but_victoire);
+		mBean.setAide_overtime(aide_overtime);
+		mBean.setBlanchissage(blanchissage);
+		mBean.setPts(pts);
+		mBean.setProjection(projection);
+		mBean.setPosition(position);
+		mBean.setCan_be_rookie(can_be_rookie);
+		mBean.setSalaire_draft(salaire_draft);
+		
+		
 		return mBean;
 
 	}

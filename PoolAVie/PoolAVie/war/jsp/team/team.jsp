@@ -50,7 +50,6 @@
 			
 		</c:if>
 	<div class="w3-threequarter">
-	CONTIENT LA PAGE DES ÉQUIPES ET LEUR BUDGET
 	<br>
 	<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width:80%">
 		<caption class="w3-blue w3-xlarge"><h1>Attaquant</h1></caption>
@@ -297,71 +296,62 @@
 	</div>
 	
 	<div class=w3-quarter>
-			<div class="section_budget_haut"><h3>MON BUDGET</h3>
+			<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
+				<caption class="w3-blue w3-xlarge">
+					<h1>MON BUDGET</h1>
+				</caption>
+				<tr class="w3-blue">
+					<td>Masse salarial maximum :</td>
+					<td>${NonSessionEquipe.max_salaire_begin}</td>
+					<td>Total des salaires actuel :</td>
+					<td>${NonSessionEquipe.total_salaire_now}</td>
+					<td>Budget restant :</td>
+					<td>${NonSessionEquipe.budget_restant}</td>
+					<td>Argent Reçu :</td>
+					<td>${NonSessionEquipe.argent_recu}</td>
+					<td>Moyenne restante par joueurs :</td>
+					<td>${NonSessionEquipe.moy_sal_restant_draft}</td>
 
-			<p>
-					Masse salarial maximum : <br>
-					${NonSessionEquipe.max_salaire_begin}
-				</p>
-				<p>
-					Total des salaires actuel : <br>
-					${NonSessionEquipe.total_salaire_now}
-				</p>
-				<p>
-					Budget restant : <br>${NonSessionEquipe.budget_restant}
-				</p>
-				<p>
-					Argent Reçu : <br>${NonSessionEquipe.argent_recu}
-				</p>
-				<p>
-					Moyenne restante par joueurs : <br>${NonSessionEquipe.moy_sal_restant_draft}
-				</p>
-				<br>
+				</tr>
 
-				<h3>MES STATS D'ÉQUIPE</h3>
-				<p>
-					Nombre d'attanquant : <br>${NonSessionEquipe.nb_attaquant}
-				</p>
-				<p>
-					Nombre de défenseur : <br>${NonSessionEquipe.nb_defenseur}
-				</p>
-				<p>
-					Nombre de Gardien : <br>${NonSessionEquipe.nb_gardien}
-				</p>
-				<p>
-					Nombre de Recrue : <br>${NonSessionEquipe.nb_rookie}
-				</p>
-				<p>
-					Nombre de contrat : <br>${NonSessionEquipe.nb_contrat}
-				</p>
-				<p>
-					Nombre de joueur dans l'équipe : <br>${NonSessionEquipe.nb_equipe}
-				</p>
-				<p>
-					Nombre de joueur manquant : <br>${NonSessionEquipe.manquant_equipe}
-				</p>
-				<p>
-					Attanquant manquant : <br>${NonSessionEquipe.manquant_att}
-				</p>
-				<p>
-					Defenseur manquant : <br>${NonSessionEquipe.manquant_def}
-				</p>
-				<p>
-					Gardien manquant : <br>${NonSessionEquipe.manquant_gardien}
-				</p>
-				<p>
-					Recrue manquante : <br>${NonSessionEquipe.manquant_recrue}
-				</p>
-			</div>
-			<!--  		<p>
-				Bonus de 5 Millions : <br>${NonSessionEquipe.max_salaire_begin}
-			</p>
-			<p>
-				Argent Reçu : <br>${NonSessionEquipe.max_salaire_begin}
-			</p>
-			<p>
-				Bonus et pénalité : <br>${NonSessionEquipe.max_salaire_begin}
-			</p> -->
+
+			</table>
+			<br>
+			<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
+				<caption class="w3-blue w3-xlarge">
+					<h1>MES STATS D'ÉQUIPE</h1>
+				</caption>
+				<tr class="w3-blue">
+					<td>Nombre d'attanquant :</td>
+					<td>${NonSessionEquipe.nb_attaquant}</td>
+					<td>Nombre de défenseur :</td>
+					<td>${NonSessionEquipe.nb_defenseur}</td>
+					<td>Nombre de Gardien :</td>
+					<td>${NonSessionEquipe.nb_gardien}</td>
+					<td>Nombre de Recrue :</td>
+					<td>${NonSessionEquipe.nb_rookie}</td>
+					<td>Nombre de contrat :</td>
+					<td>${NonSessionEquipe.nb_contrat}</td>
+					<td>Nombre de joueur dans l'équipe :</td>
+					<td>${NonSessionEquipe.nb_equipe}</td>
+					<td>Nombre de joueur manquant :</td>
+					<td>${NonSessionEquipe.manquant_equipe}</td>
+					<td>Attanquant manquant :</td>
+					<td>${NonSessionEquipe.manquant_att}</td>
+					<td>Defenseur manquant :</td>
+					<td>${NonSessionEquipe.manquant_def}</td>
+					<td>Gardien manquant :</td>
+					<td>${NonSessionEquipe.manquant_gardien}</td>
+					<td>Recrue manquante :</td>
+					<td>${NonSessionEquipe.manquant_recrue}</td>
+
+				</tr>
+
+
+			</table>
+
+
+
 		</div>
 
 	<jsp:directive.include file="../utils/draftMessage.jsp" />
