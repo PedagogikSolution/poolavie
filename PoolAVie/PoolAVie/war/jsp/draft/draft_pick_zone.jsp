@@ -86,8 +86,6 @@
 
 			</tr>
 			<c:set var="nombreDePlayers" value="${NonSessionPlayers.pj}" />
-			
-			
 			<c:forEach var="i" begin="0" end="${fn:length(nombreDePlayers)-1}">
 
 				<tr id=i>
@@ -120,8 +118,10 @@
 			
 			
 			
+			
+			
 		</table>
-
+		
 
 
 		<jsp:directive.include file="../utils/draftMessage.jsp" />

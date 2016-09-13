@@ -152,12 +152,12 @@ public class TaskQueueModel {
 	String pj = req.getParameter("pj");
 	String but_victoire = req.getParameter("but_victoire");
 	String aide_overtime = req.getParameter("aide_overtime");
-	String blanchissage = req.getParameter("but_victoire");
-	String pts = req.getParameter("aide_overtime");
-	String projection = req.getParameter("but_victoire");
-	String position = req.getParameter("aide_overtime");
-	String can_be_rookie = req.getParameter("but_victoire");
-	String salaire_draft = req.getParameter("aide_overtime");
+	String blanchissage = req.getParameter("blanchissage");
+	String pts = req.getParameter("pts");
+	String projection = req.getParameter("projection");
+	String position = req.getParameter("position");
+	String can_be_rookie = req.getParameter("can_be_rookie");
+	String salaire_draft = req.getParameter("salaire_draft");
 	String contrat = req.getParameter("contrat");
 	String club_ecole = req.getParameter("club_ecole");
 	
@@ -169,20 +169,20 @@ public class TaskQueueModel {
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
 	Entity playersEntity = new Entity(datastoreKey);
-	playersEntity.setProperty("players_id", players_id);
+	playersEntity.setProperty("players_id", Integer.parseInt(players_id));
 	playersEntity.setProperty("nom", nom);
 	playersEntity.setProperty("teamOfPlayer", teamOfPlayer);
-	playersEntity.setProperty("pj", pj);
-	playersEntity.setProperty("but_victoire", but_victoire);
-	playersEntity.setProperty("aide_overtime", aide_overtime);
-	playersEntity.setProperty("blanchissage", blanchissage);
-	playersEntity.setProperty("pts", pts);
-	playersEntity.setProperty("projection", projection);
+	playersEntity.setProperty("pj",Integer.parseInt(pj));
+	playersEntity.setProperty("but_victoire", Integer.parseInt(but_victoire));
+	playersEntity.setProperty("aide_overtime", Integer.parseInt(aide_overtime));
+	playersEntity.setProperty("blanchissage", Integer.parseInt(blanchissage));
+	playersEntity.setProperty("pts", Integer.parseInt(pts));
+	playersEntity.setProperty("projection", Integer.parseInt(projection));
 	playersEntity.setProperty("position", position);
-	playersEntity.setProperty("can_be_rookie", can_be_rookie);
-	playersEntity.setProperty("salaire_draft", salaire_draft);
-	playersEntity.setProperty("contrat", contrat);
-	playersEntity.setProperty("club_ecole", club_ecole);
+	playersEntity.setProperty("can_be_rookie", Integer.parseInt(can_be_rookie));
+	playersEntity.setProperty("salaire_draft", Integer.parseInt(salaire_draft));
+	playersEntity.setProperty("contrat", Integer.parseInt(contrat));
+	playersEntity.setProperty("club_ecole", Integer.parseInt(club_ecole));
 
 	datastore.put(playersEntity);
 	
