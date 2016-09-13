@@ -185,6 +185,18 @@ public class DraftPlayersModel {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		List<Entity> pq = datastore.prepare(q).asList(FetchOptions.Builder.withDefaults());
 
+		
+		if(pq==null){
+		    
+		    
+		    pj.add(1);
+		    pj.add(2);
+		    pj.add(3);
+		    mBean.setPj(pj);
+		    return mBean;
+		    
+		}
+		
 		for (Entity result : pq) {
 
 			Long m_players_id = (Long) result.getProperty("players_id");
@@ -199,8 +211,8 @@ public class DraftPlayersModel {
 			teamOfPlayer.add(m_teamOfPlayer);
 			
 
-			String m_pj = (String) result.getProperty("pj");
-			pj.add(Integer.parseInt(m_pj));
+			Long m_pj = (Long) result.getProperty("pj");
+			pj.add(m_pj.intValue());
 			
 
 			Long m_but_victoire = (Long) result.getProperty("but_victoire");

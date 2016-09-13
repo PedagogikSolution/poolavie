@@ -1,4 +1,4 @@
-<!-- Indices written at Mon, 12 Sep 2016 15:46:57 EDT -->
+<!-- Indices written at Mon, 12 Sep 2016 16:41:35 EDT -->
 
 <datastore-indexes>
 
@@ -7,22 +7,10 @@
         <property name="date" direction="desc"/>
     </datastore-index>
 
-    <!-- Used 2 times in query history -->
+    <!-- Used 1 time in query history -->
     <datastore-index kind="Players_1" ancestor="false" source="auto">
         <property name="contrat" direction="asc"/>
         <property name="pts" direction="desc"/>
-    </datastore-index>
-
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="Players_1" ancestor="false" source="auto">
-        <property name="contrat" direction="asc"/>
-        <property name="nom" direction="asc"/>
-    </datastore-index>
-
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="Players_1" ancestor="false" source="auto">
-        <property name="contrat" direction="asc"/>
-        <property name="nom" direction="desc"/>
     </datastore-index>
 
 </datastore-indexes>
