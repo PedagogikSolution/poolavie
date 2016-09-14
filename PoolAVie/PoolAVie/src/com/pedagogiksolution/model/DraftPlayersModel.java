@@ -73,11 +73,11 @@ public class DraftPlayersModel {
     public void showPlayersSortByParameter() {
 	NonSessionPlayers mBean = new NonSessionPlayers();
 	mBean = getDraftPlayersFromDatastore(sort, segment, mBean);
-
 	
-	    req.setAttribute("SegmentSort", segment);
-	    req.setAttribute("NonSessionPlayers", mBean);
-	
+	req.getSession().setAttribute("Segment", segment);
+	req.getSession().setAttribute("Sort", sort);
+	req.setAttribute("SegmentSort", segment);
+	req.setAttribute("NonSessionPlayers", mBean);
 
     }
 
@@ -115,6 +115,8 @@ public class DraftPlayersModel {
 	if (menu != null) {
 	    fromMenu = true;
 	}
+	
+	
 
 	switch (segment2) {
 	case "all":
@@ -185,8 +187,6 @@ public class DraftPlayersModel {
 	// Use PreparedQuery interface to retrieve results
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	Iterable<Entity> pq = datastore.prepare(q).asIterable(FetchOptions.Builder.withChunkSize(50));
-
-	
 
 	for (Entity result : pq) {
 
@@ -490,20 +490,13 @@ public class DraftPlayersModel {
 	try {
 
 	    // table players_X
-	    Key playersKey = KeyFactory.createKey(playersEntityName, playersId);
+	    Key playersKey = KeyFactory.createKey(playersEntityName, playersID);
 
 	    try {
 		players = datastore.get(playersKey);
-		players.setProperty("team_id", teamId);
-		players.setProperty("salaire_contrat", salaireId);
+		
 		players.setProperty("contrat", 1);
-		players.setProperty("years_1", "A");
-		players.setProperty("years_2", "A");
-		players.setProperty("years_3", "A");
-		players.setProperty("years_4", "A");
-		players.setProperty("years_5", "A");
-		players.setProperty("acquire_years", poolYear);
-
+		
 		datastore.put(txn, players);
 
 	    } catch (EntityNotFoundException e) {
@@ -533,42 +526,42 @@ public class DraftPlayersModel {
 	    try {
 
 		entity = datastore.get(entityKey);
-		players_id = (List<Integer>) entity.getProperty("players_id");
-		nom2 = (List<String>) entity.getProperty("nom");
-		teamOfPlayer = (List<String>) entity.getProperty("teamOfPlayer");
-		pj = (List<Integer>) entity.getProperty("pj");
-		but_victoire = (List<Integer>) entity.getProperty("but_victoire");
-		aide_overtime = (List<Integer>) entity.getProperty("aide_overtime");
-		if (position.equalsIgnoreCase("Gardien")) {
-		    blanchissage = (List<Integer>) entity.getProperty("blanchissage");
-		}
-		pts = (List<Integer>) entity.getProperty("pts");
-		salaire_contrat = (List<Integer>) entity.getProperty("salaire_contrat");
-		years_1 = (List<String>) entity.getProperty("years_1");
-		years_2 = (List<String>) entity.getProperty("years_2");
-		years_3 = (List<String>) entity.getProperty("years_3");
-		years_4 = (List<String>) entity.getProperty("years_4");
-		years_5 = (List<String>) entity.getProperty("years_5");
-
-		if (players_id == null) {
-		    players_id = new ArrayList<Integer>();
-		    nom2 = new ArrayList<String>();
-		    teamOfPlayer = new ArrayList<String>();
-		    pj = new ArrayList<Integer>();
-		    but_victoire = new ArrayList<Integer>();
-		    aide_overtime = new ArrayList<Integer>();
-		    if (position.equalsIgnoreCase("Gardien")) {
-			blanchissage = new ArrayList<Integer>();
-		    }
-		    pts = new ArrayList<Integer>();
-		    salaire_contrat = new ArrayList<Integer>();
-		    years_1 = new ArrayList<String>();
-		    years_2 = new ArrayList<String>();
-		    years_3 = new ArrayList<String>();
-		    years_4 = new ArrayList<String>();
-		    years_5 = new ArrayList<String>();
-
-		}
+		/*
+		 * players_id = (List<Integer>) entity.getProperty("players_id");
+		 * nom2 = (List<String>) entity.getProperty("nom");
+		 * teamOfPlayer = (List<String>) entity.getProperty("teamOfPlayer");
+		 * pj = (List<Integer>) entity.getProperty("pj");
+		 * but_victoire = (List<Integer>) entity.getProperty("but_victoire");
+		 * aide_overtime = (List<Integer>) entity.getProperty("aide_overtime");
+		 * if (position.equalsIgnoreCase("Gardien")) {
+		 * blanchissage = (List<Integer>) entity.getProperty("blanchissage");
+		 * }
+		 * pts = (List<Integer>) entity.getProperty("pts");
+		 * salaire_contrat = (List<Integer>) entity.getProperty("salaire_contrat");
+		 * years_1 = (List<String>) entity.getProperty("years_1");
+		 * years_2 = (List<String>) entity.getProperty("years_2");
+		 * years_3 = (List<String>) entity.getProperty("years_3");
+		 * years_4 = (List<String>) entity.getProperty("years_4");
+		 * years_5 = (List<String>) entity.getProperty("years_5");
+		 * if (players_id == null) {
+		 * players_id = new ArrayList<Integer>();
+		 * nom2 = new ArrayList<String>();
+		 * teamOfPlayer = new ArrayList<String>();
+		 * pj = new ArrayList<Integer>();
+		 * but_victoire = new ArrayList<Integer>();
+		 * aide_overtime = new ArrayList<Integer>();
+		 * if (position.equalsIgnoreCase("Gardien")) {
+		 * blanchissage = new ArrayList<Integer>();
+		 * }
+		 * pts = new ArrayList<Integer>();
+		 * salaire_contrat = new ArrayList<Integer>();
+		 * years_1 = new ArrayList<String>();
+		 * years_2 = new ArrayList<String>();
+		 * years_3 = new ArrayList<String>();
+		 * years_4 = new ArrayList<String>();
+		 * years_5 = new ArrayList<String>();
+		 * }
+		 */
 		players_id.add(playersId);
 		entity.setProperty("players_id", players_id);
 
@@ -578,31 +571,29 @@ public class DraftPlayersModel {
 		teamOfPlayer.add(team);
 		entity.setProperty("teamOfPlayer", teamOfPlayer);
 
-		Long longPj = (Long) players.getProperty("pj");
-		int pjId = longPj.intValue();
-		pj.add(pjId);
+		pj.add(0);
+
+		but_victoire.add(0);
+
+		aide_overtime.add(0);
+		if (position.equalsIgnoreCase("Gardien")) {
+
+		    blanchissage.add(0);
+		}
+
+		pts.add(0);
+
 		entity.setProperty("pj", pj);
 
-		Long longBut_victoire = (Long) players.getProperty("but_victoire");
-		int but_victoireId = longBut_victoire.intValue();
-		but_victoire.add(but_victoireId);
 		entity.setProperty("but_victoire", but_victoire);
 
-		Long longAide_overtime = (Long) players.getProperty("aide_overtime");
-		int aide_overtimeId = longAide_overtime.intValue();
-		aide_overtime.add(aide_overtimeId);
 		entity.setProperty("aide_overtime", aide_overtime);
 
 		if (position.equalsIgnoreCase("Gardien")) {
-		    Long longBlanchissage = (Long) players.getProperty("blanchissage");
-		    int blanchissageId = longBlanchissage.intValue();
-		    blanchissage.add(blanchissageId);
+
 		    entity.setProperty("blanchissage", blanchissage);
 		}
 
-		Long longPts = (Long) players.getProperty("pts");
-		int ptsId = longPts.intValue();
-		pts.add(ptsId);
 		entity.setProperty("pts", pts);
 
 		salaire_contrat.add(salaireId);
@@ -624,6 +615,7 @@ public class DraftPlayersModel {
 		entity.setProperty("years_5", years_5);
 
 		datastore.put(txn, entity);
+
 		String jspName;
 		switch (position) {
 		case "attaquant":
@@ -705,10 +697,6 @@ public class DraftPlayersModel {
 		Long temp_manquant_gardien = (Long) equipeEntity.getProperty("manquant_gardien");
 		int manquant_gardien = temp_manquant_gardien.intValue();
 
-		// Long temp_manquant_recrue =
-		// (Long)equipeEntity.getProperty("manquant_recrue");
-		// int manquant_recrue = temp_manquant_recrue.intValue();
-
 		Long temp_moy_sal_restant_draft = (Long) equipeEntity.getProperty("moy_sal_restant_draft");
 		int moy_sal_restant_draft = temp_moy_sal_restant_draft.intValue();
 
@@ -723,10 +711,6 @@ public class DraftPlayersModel {
 
 		Long temp_nb_gardien = (Long) equipeEntity.getProperty("nb_gardien");
 		int nb_gardien = temp_nb_gardien.intValue();
-
-		// Long temp_nb_rookie =
-		// (Long)equipeEntity.getProperty("nb_rookie");
-		// int nb_rookie = temp_nb_rookie.intValue();
 
 		Long temp_total_salaire_now = (Long) equipeEntity.getProperty("total_salaire_now");
 		int total_salaire_now = temp_total_salaire_now.intValue();
@@ -1159,6 +1143,7 @@ public class DraftPlayersModel {
 	try {
 	    Entity mEntity = datastore.get(mKey);
 	    Long currentPick2 = (Long) mEntity.getProperty("currentPick");
+	    currentPick2=currentPick2-1;
 	    currentPick = currentPick2.toString();
 
 	} catch (EntityNotFoundException e) {

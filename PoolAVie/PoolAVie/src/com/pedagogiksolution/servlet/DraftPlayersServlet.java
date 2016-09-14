@@ -22,6 +22,13 @@ public class DraftPlayersServlet extends HttpServlet {
 
 		String segment = req.getParameter("seg");
 		String sort = req.getParameter("sort");
+		if(segment==null){
+		    
+		    segment = (String) req.getSession().getAttribute("Segment");
+		    sort = (String) req.getSession().getAttribute("Sort");
+		    
+		}
+		
 		DraftPlayersModel mModel = new DraftPlayersModel(req, segment, sort);
 
 		mModel.showPlayersSortByParameter();

@@ -31,7 +31,7 @@
 		<button class="w3-btn w3-orange w3-xlarge">C'est noté</button>
 	</form>
 	<br>
-	</div>
+</div>
 
 
 
@@ -55,7 +55,7 @@
 		<button class="w3-btn w3-orange w3-xlarge">Malade!!!</button>
 	</form>
 	<br>
-	</div>
+</div>
 
 
 

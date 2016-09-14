@@ -59,7 +59,7 @@ public class AdminDraftServlet extends HttpServlet {
 	    mAdminModel2.determineOrderOfDraft(req);
 	    // on envoie un courriel pour avertir les joueur avec top 10 pick
 
-	    req.getRequestDispatcher("jsp/admin/adminDraft.jsp").forward(req, resp);
+	    req.getRequestDispatcher("jsp/main/nouvelles.jsp").forward(req, resp);
 
 	    break;
 
@@ -77,7 +77,7 @@ public class AdminDraftServlet extends HttpServlet {
 	    
 	 // on envoie un courriel pour avertir les joueur avec top 10 pick
 
-	    req.getRequestDispatcher("jsp/admin/adminDraft.jsp").forward(req, resp);
+	    req.getRequestDispatcher("jsp/main/nouvelles.jsp").forward(req, resp);
 
 	    break;
 	    
@@ -95,7 +95,7 @@ public class AdminDraftServlet extends HttpServlet {
 	
 	 // on envoie un courriel pour avertir les joueur avec top 10 pick
 
-	    req.getRequestDispatcher("jsp/admin/adminDraft.jsp").forward(req, resp);
+	    req.getRequestDispatcher("jsp/main/nouvelles.jsp").forward(req, resp);
 	    break;
 	    
 	case 4:
@@ -113,7 +113,7 @@ public class AdminDraftServlet extends HttpServlet {
 	
 	 // on envoie un courriel pour avertir les joueur avec top 10 pick
 
-	    req.getRequestDispatcher("jsp/admin/adminDraft.jsp").forward(req, resp);
+	    req.getRequestDispatcher("jsp/main/nouvelles.jsp").forward(req, resp);
 	    break;
 	default: //
 	    break;

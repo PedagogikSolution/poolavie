@@ -151,8 +151,6 @@
 							<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 
 								<tr>
-
-
 									<td>${i+1}</td>
 									<td>${NonSessionAttaquant.nom[i]}</td>
 									<td>${NonSessionAttaquant.teamOfPlayer[i]}</td>
@@ -163,10 +161,7 @@
 							</c:forEach>
 						</c:if>
 
-
-
-
-					</table>
+				</table>
 
 
 
@@ -190,10 +185,9 @@
 							<tr>
 						</c:if>
 						<c:if test="${not empty nombreDePick}">
-							<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
+							<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)}">
 
 								<tr>
-
 
 									<td>${i+1}</td>
 									<td>${NonSessionDefenseur.nom[i]}</td>
@@ -232,23 +226,17 @@
 							<tr>
 						</c:if>
 						<c:if test="${not empty nombreDePick}">
-							<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
+							<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)}">
 
 								<tr>
-
-
 									<td>${i+1}</td>
 									<td>${NonSessionGardien.nom[i]}</td>
 									<td>${NonSessionGardien.teamOfPlayer[i]}</td>
 									<td>${NonSessionGardien.pts[i]}</td>
-
 								</tr>
 
 							</c:forEach>
 						</c:if>
-
-
-
 
 					</table>
 
@@ -274,23 +262,18 @@
 							<tr>
 						</c:if>
 						<c:if test="${not empty nombreDePick}">
-							<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
+							<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)}">
 
 								<tr>
-
 
 									<td>${i+1}</td>
 									<td>${NonSessionRecrue.nom[i]}</td>
 									<td>${NonSessionRecrue.teamOfPlayer[i]}</td>
 									<td>${NonSessionRecrue.pts[i]}</td>
-
 								</tr>
 
 							</c:forEach>
 						</c:if>
-
-
-
 
 					</table>
 
@@ -303,20 +286,27 @@
 						<caption class="w3-blue w3-xlarge">
 							<h1>MON BUDGET</h1>
 						</caption>
-						<tr class="w3-blue">
+						<tr>
 							<td>Masse salarial maximum :</td>
 							<td>${NonSessionEquipe.max_salaire_begin}</td>
-							<td>Total des salaires actuel :</td>
-							<td>${NonSessionEquipe.total_salaire_now}</td>
-							<td>Budget restant :</td>
-							<td>${NonSessionEquipe.budget_restant}</td>
-							<td>Argent Reçu :</td>
-							<td>${NonSessionEquipe.argent_recu}</td>
-							<td>Moyenne restante par joueurs :</td>
-							<td>${NonSessionEquipe.moy_sal_restant_draft}</td>
 
 						</tr>
-
+						<tr>
+							<td>Total des salaires actuel :</td>
+							<td>${NonSessionEquipe.total_salaire_now}</td>
+						</tr>
+						<tr>
+							<td>Budget restant :</td>
+							<td>${NonSessionEquipe.budget_restant}</td>
+						</tr>
+						<tr>
+							<td>Argent Reçu :</td>
+							<td>${NonSessionEquipe.argent_recu}</td>
+						</tr>
+						<tr>
+							<td>Moyenne restante par joueurs :</td>
+							<td>${NonSessionEquipe.moy_sal_restant_draft}</td>
+						</tr>
 
 					</table>
 					<br>
@@ -324,32 +314,50 @@
 						<caption class="w3-blue w3-xlarge">
 							<h1>MES STATS D'ÉQUIPE</h1>
 						</caption>
-						<tr class="w3-blue">
+						<tr>
 							<td>Nombre d'attanquant :</td>
 							<td>${NonSessionEquipe.nb_attaquant}</td>
+						</tr>
+						<tr>
 							<td>Nombre de défenseur :</td>
 							<td>${NonSessionEquipe.nb_defenseur}</td>
+						</tr>
+						<tr>
 							<td>Nombre de Gardien :</td>
 							<td>${NonSessionEquipe.nb_gardien}</td>
+						</tr>
+						<tr>
 							<td>Nombre de Recrue :</td>
 							<td>${NonSessionEquipe.nb_rookie}</td>
+						</tr>
+						<tr>
 							<td>Nombre de contrat :</td>
 							<td>${NonSessionEquipe.nb_contrat}</td>
+						</tr>
+						<tr>
 							<td>Nombre de joueur dans l'équipe :</td>
 							<td>${NonSessionEquipe.nb_equipe}</td>
+						</tr>
+						<tr>
 							<td>Nombre de joueur manquant :</td>
 							<td>${NonSessionEquipe.manquant_equipe}</td>
+						</tr>
+						<tr>
 							<td>Attanquant manquant :</td>
 							<td>${NonSessionEquipe.manquant_att}</td>
+						</tr>
+						<tr>
 							<td>Defenseur manquant :</td>
 							<td>${NonSessionEquipe.manquant_def}</td>
+						</tr>
+						<tr>
 							<td>Gardien manquant :</td>
 							<td>${NonSessionEquipe.manquant_gardien}</td>
+						</tr>
+						<tr>
 							<td>Recrue manquante :</td>
 							<td>${NonSessionEquipe.manquant_recrue}</td>
-
 						</tr>
-
 
 					</table>
 				</div>
