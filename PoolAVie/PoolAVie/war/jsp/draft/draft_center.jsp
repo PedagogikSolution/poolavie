@@ -114,7 +114,7 @@
 
 			<!-- **************************DRAFT TIME********************************************************************* -->
 
-			<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.cycleAnnuel==3&&Pool.poolYear==0}">
+			<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.cycleAnnuel==3&&Pool.poolYear==1}">
 
 				<c:if test="${Utilisateur.teamId==currentPicker}">
 					<!-- Si first years and avant draft sans date set-->

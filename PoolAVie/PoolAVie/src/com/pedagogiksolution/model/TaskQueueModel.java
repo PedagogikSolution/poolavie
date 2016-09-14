@@ -74,9 +74,38 @@ public class TaskQueueModel {
     }
 
     public void createDatastoreEquipe() {
-
+	
 	String counter = req.getParameter("counter");
 	String poolID = req.getParameter("poolID");
+	
+	String teamId = req.getParameter("teamId");
+	String max_salaire_begin = req.getParameter("max_salaire_begin");
+	String moy_sal_restant_draft = req.getParameter("moy_sal_restant_draft");
+	String nb_attaquant = req.getParameter("nb_attaquant");
+	String nb_defenseur = req.getParameter("nb_defenseur");
+	String nb_gardien = req.getParameter("nb_gardien");
+	String nb_rookie = req.getParameter("nb_rookie");
+	String nb_contrat = req.getParameter("nb_contrat");
+	String nb_equipe = req.getParameter("nb_equipe");
+	String manquant_att = req.getParameter("manquant_att");
+	String manquant_def = req.getParameter("manquant_def");
+	String manquant_gardien = req.getParameter("manquant_gardien");
+	String manquant_recrue = req.getParameter("manquant_recrue");
+	String manquant_equipe = req.getParameter("manquant_equipe");
+	String argent_recu = req.getParameter("argent_recu");
+	
+	String meilleur_classement = req.getParameter("meilleur_classement");
+	
+	String bonus_5m = req.getParameter("bonus_5m");
+	String bonus_penalite = req.getParameter("bonus_penalite");
+	String classement_last_year = req.getParameter("classement_last_year");
+	String num_annee = req.getParameter("num_annee");
+	String num_champion = req.getParameter("num_champion");
+	String total_salaire_now = req.getParameter("total_salaire_now");
+	
+	
+	
+	
 	String budget_restant = req.getParameter("budget_restant");
 	String jspSessionName = poolID + "_" + counter;
 	EntityManagerFactory emf = EMF.get();
@@ -85,8 +114,35 @@ public class TaskQueueModel {
 
 	    em = emf.createEntityManager();
 	    Equipe mBean = new Equipe();
+	    
 	    mBean.setPoolTeamId(jspSessionName);
-	    mBean.setBudget_restant(Integer.parseInt(budget_restant));
+	    mBean.setBudget_restant(Integer.parseInt(budget_restant));    
+	    mBean.setPoolId(Integer.parseInt(poolID));
+	    mBean.setTeamId(Integer.parseInt(teamId));
+	    mBean.setMax_salaire_begin(Integer.parseInt(max_salaire_begin));
+	    mBean.setMoy_sal_restant_draft(Integer.parseInt(moy_sal_restant_draft));
+	    mBean.setNb_attaquant(Integer.parseInt(nb_attaquant));
+	    mBean.setNb_contrat(Integer.parseInt(nb_contrat));
+	    mBean.setNb_defenseur(Integer.parseInt(nb_defenseur));
+	    mBean.setNb_equipe(Integer.parseInt(nb_equipe));
+	    mBean.setNb_gardien(Integer.parseInt(nb_gardien));
+	    mBean.setNb_rookie(Integer.parseInt(nb_rookie));
+	    mBean.setNum_annee(Integer.parseInt(num_annee));
+	    mBean.setNum_champion(Integer.parseInt(num_champion));
+	    mBean.setManquant_att(Integer.parseInt(manquant_att));
+	    mBean.setManquant_def(Integer.parseInt(manquant_def));
+	    mBean.setManquant_gardien(Integer.parseInt(manquant_gardien));
+	    mBean.setManquant_equipe(Integer.parseInt(manquant_equipe));
+	    mBean.setManquant_recrue(Integer.parseInt(manquant_recrue));
+	    mBean.setMeilleur_classement(Integer.parseInt(meilleur_classement));
+	    mBean.setArgent_recu(Integer.parseInt(argent_recu));
+	    mBean.setClassement_last_year(Integer.parseInt(classement_last_year));
+	    mBean.setBonus_5m(Integer.parseInt(bonus_5m));
+	    mBean.setBonus_penalite(Integer.parseInt(bonus_penalite));
+	    mBean.setTotal_salaire_now(Integer.parseInt(total_salaire_now));
+	    
+	    
+	    
 	    em.persist(mBean);
 	} finally {
 
