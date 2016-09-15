@@ -185,7 +185,7 @@
 							<tr>
 						</c:if>
 						<c:if test="${not empty nombreDePick}">
-							<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)}">
+							<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 
 								<tr>
 
@@ -226,7 +226,7 @@
 							<tr>
 						</c:if>
 						<c:if test="${not empty nombreDePick}">
-							<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)}">
+							<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 
 								<tr>
 									<td>${i+1}</td>
@@ -262,7 +262,7 @@
 							<tr>
 						</c:if>
 						<c:if test="${not empty nombreDePick}">
-							<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)}">
+							<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 
 								<tr>
 

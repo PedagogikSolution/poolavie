@@ -53,6 +53,21 @@
         <url-pattern>/jsp/trade/*</url-pattern>
     </filter-mapping>
     <filter>
+        <filter-name>SessionBeanUpdate</filter-name>
+        <filter-class>com.pedagogiksolution.filtre.SessionBeanUpdate</filter-class>
+    </filter>  
+    <filter-mapping>
+        <filter-name>SessionBeanUpdate</filter-name>
+        <url-pattern>/jsp/admin/*</url-pattern>
+        <url-pattern>/jsp/archives/*</url-pattern>
+        <url-pattern>/jsp/classement/*</url-pattern>
+        <url-pattern>/jsp/draft/*</url-pattern>
+        <url-pattern>/jsp/main/*</url-pattern>
+        <url-pattern>/jsp/signature/*</url-pattern>
+        <url-pattern>/jsp/team/*</url-pattern>
+        <url-pattern>/jsp/trade/*</url-pattern>
+    </filter-mapping>
+    <filter>
         <filter-name>DraftChannel</filter-name>
         <filter-class>com.pedagogiksolution.filtre.DraftChannelFilter</filter-class>
     </filter>  
