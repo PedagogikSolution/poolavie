@@ -10,7 +10,6 @@
 <title>Pool à vie</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/css/w3.css">
-<jsp:directive.include file="/jsp/utils/firebase.jsp" />
 <script src="/js/creationpool.js"></script>
 </head>
 
@@ -70,8 +69,12 @@
 					<label>Nom de l'équipe</label> <input class="w3-input" type="text" name="nomDuTeam" placeholder="Le nom de votre équipe">
 				</p>
 				<p>
-					<label>Logo du team</label> <input class="w3-input" type="button" name="logoTeam" value="Upload a logo" disabled>
+					<label>Logo du team</label> <input class="w3-input" type="button" name="logoTeam" value="Choisir un logo" onclick="openTeamLogoPicker()" >
+					<input id="logoUrl" type="hidden" name="logoUrlTeam" value="default">
 				</p>
+				<br>
+					<img id="logoTeamChosen" class="w3-hide" src="https://storage.googleapis.com/poolavie-bucket/QUE.png">
+				<br>
 
 				<button class="w3-margin-top w3-btn w3-blue">Register</button>
 
@@ -112,7 +115,7 @@
 		</form>
 	</div>
 
-
+<jsp:directive.include file="../utils/teamLogoPicker.jsp" />
 
 </body>
 </html>

@@ -47,7 +47,7 @@ public class CreationPoolModel {
 	this.draftPickDao = draftPickDao;
     }
 
-    String nomDuPool, nombreEquipe, typeTrade, typeDraft, nomDuTeam;
+    String nomDuPool, nombreEquipe, typeTrade, typeDraft, nomDuTeam,urlLogoTeam;
     String email1, email2, email3, email4, email5, email6, email7, email8, email9, email10, email11;
     int team_id, max_salaire_begin, total_salaire_now, budget_restant, moy_sal_restant_draft, nb_attaquant;
     int nb_defenseur, nb_gardien, nb_rookie, nb_contrat, nb_equipe, manquant_equipe, manquant_att, manquant_def;
@@ -77,6 +77,7 @@ public class CreationPoolModel {
 	// on recupere le pool_id
 	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 	String poolID = Integer.toString(mBeanUser.getPoolId());
+	String nom = mBeanUser.getNomUtilisateur();
 
 	// on recupere la date et place dans un format Date
 
@@ -114,6 +115,28 @@ public class CreationPoolModel {
 	    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
 	    Key userPrefsKey = KeyFactory.createKey("Pool", poolID);
 	    memcache.put(userPrefsKey, mBean);
+
+	} finally {
+	    // on ferme le manager pour libérer la mémoire
+	    if (em != null)
+		em.close();
+	}
+	
+	try {
+	    em = emf.createEntityManager();
+
+	    // instanciation du bean Utilisateur
+	    mBeanUser.setUrlTeamLogo(urlLogoTeam);
+	    
+
+	    // on place le bean dans un attribut de session
+	    req.getSession().setAttribute("Utilisateur", mBeanUser);
+	    // on persiste dans le datastore via notre EntityManager
+	    em.merge(mBeanUser);
+	    // on persist le datastore/bean dans la MemCache
+	    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+	    Key userPrefsKey = KeyFactory.createKey("Utilisateur", nom);
+	    memcache.put(userPrefsKey, mBeanUser);
 
 	} finally {
 	    // on ferme le manager pour libérer la mémoire
@@ -312,6 +335,7 @@ public class CreationPoolModel {
 	typeTrade = req.getParameter("typeTrade");
 	typeDraft = req.getParameter("typeDraft");
 	nomDuTeam = req.getParameter("nomDuTeam");
+	urlLogoTeam = req.getParameter("logoUrlTeam");
 
     }
 

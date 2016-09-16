@@ -5,7 +5,7 @@
 		
 		
 		<ul class="w3-navbar w3-third">
-			<li class="w3-left w3-xlarge">${Utilisateur.teamName}</li>
+			<li class="w3-left w3-xlarge"><img src="${Utilisateur.urlTeamLogo}" style="width:50%; height:50%">${Utilisateur.teamName}</li>
 		</ul>
 
 		<h1 class="w3-third w3-center w3-margin-0">${Pool.poolName}</h1>

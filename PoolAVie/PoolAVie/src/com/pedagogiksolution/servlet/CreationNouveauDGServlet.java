@@ -82,6 +82,7 @@ public class CreationNouveauDGServlet extends HttpServlet {
 	int teamId = Integer.parseInt(temp_teamId);
 	String team_poolId = (String) req.getSession().getAttribute("temp_poolId");
 	int poolId = Integer.parseInt(team_poolId);
+	String urlLogoTeam = req.getParameter("logoUrlTeam");
 	
 	// Instantiation de la classe métier pour le processus de registration
 	RegisterModel mModel = new RegisterModel();
@@ -109,7 +110,7 @@ public class CreationNouveauDGServlet extends HttpServlet {
 
 	    // étape 2 on ajoute les info dans les storage Pool et Utilisateur
 	    CreationDGModel mModel2 = new CreationDGModel(classementDao);
-	    mModel2.storePoolAndUserInfo(nomDuTeam, poolId, req);
+	    mModel2.storePoolAndUserInfo(nomDuTeam, poolId,urlLogoTeam, req);
 
 	    // si le code est retourné, c'est que tout à réussi, donc on envoie un courriel avec Code Validation à
 // l'utilisateur

@@ -293,7 +293,7 @@ public class CreationDGModel {
 	}
     }
 
-    public void storePoolAndUserInfo(String nomDuTeam, int poolId2, HttpServletRequest req) {
+    public void storePoolAndUserInfo(String nomDuTeam, int poolId2, String urlLogoTeam, HttpServletRequest req) {
 	// TODO ajouter les info partout
 
 	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
@@ -405,6 +405,7 @@ public class CreationDGModel {
 
 	try {
 	    em = emf.createEntityManager();
+	    mBeanUser.setUrlTeamLogo(urlLogoTeam);
 	    em.merge(mBeanUser);
 	} finally {
 	    if (em != null)
