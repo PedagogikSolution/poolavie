@@ -224,7 +224,7 @@ if(teamId!=99){
 						<th>Rookie</th>
 						<th><a href="/draft?sortby=salaire">Salaire</a></th>
 						<th><a href="/draft?sortby=proj">Proj</a></th>
-						<th>Draft Pick</th>
+					
 					</tr>
 
 					<%
@@ -250,22 +250,7 @@ if(teamId!=99){
 						<td><%=can_rook%></td>
 						<td><%=salaire_draft%></td>
 						<td><%=rs.getInt("projection")%></td>
-						<td>
-							 
-							<form action="/pick_made" method="post">
-							<input type="hidden" name="draft_pick_no" value="<%=draft_pick_no%>">
-							<input type="hidden" name="draft_player_id" value="<%=rs.getInt("_id")%>">
-							<input type="hidden" name="team_id" value="<%=teamId%>">
-							<input type="hidden" name="nom" value="<%=nom%>">
-							<input type="hidden" name="position" value="<%=position%>">
-							<input type="hidden" name="team" value="<%=team%>"> 
-							<input type="hidden" name="can_be_rookie" value="<%=can_rook%>">
-							<input type="hidden" name="salaire"	value="<%=salaire_draft%>">
-							<input type="submit" value="PICK">
-							</form>
-						
-						</td>
-
+					
 					</tr>
 
 					<%
