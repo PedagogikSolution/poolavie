@@ -531,7 +531,7 @@ public class Administration {
 	String QueryA;
 	// ouverture de la connexion a la bdd
 	conn = mDbHelper.open();
-	String birthday = "1990-09-15";
+	String birthday = "1991-09-15";
 
 	QueryA = "UPDATE players SET age = 1 WHERE birthday<?";
 	try {
