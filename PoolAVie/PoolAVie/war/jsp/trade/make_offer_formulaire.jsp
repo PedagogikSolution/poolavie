@@ -121,11 +121,11 @@
 				<th>Nom</th>
 				<th>Équipe</th>
 				<th>Points</th>
-				<th>2015-16</th>
 				<th>2016-17</th>
 				<th>2017-18</th>
 				<th>2018-19</th>
 				<th>2019-20</th>
+				<th>2020-21</th>
 				<th>Inclure dans l'échange</th>
 			</tr>
 			<c:forEach var="i" begin="0" end="${fn:length(longueur)-1}">
@@ -151,11 +151,11 @@
 				<th>Nom</th>
 				<th>Équipe</th>
 				<th>Points</th>
-				<th>2015-16</th>
 				<th>2016-17</th>
 				<th>2017-18</th>
 				<th>2018-19</th>
 				<th>2019-20</th>
+				<th>2020-21</th>
 				<th>Inclure dans l'échange</th>
 			</tr>
 			<c:forEach var="i" begin="0" end="${fn:length(longueur)-1}">
@@ -181,11 +181,11 @@
 				<th>Nom</th>
 				<th>Équipe</th>
 				<th>Points</th>
-				<th>2015-16</th>
 				<th>2016-17</th>
 				<th>2017-18</th>
 				<th>2018-19</th>
 				<th>2019-20</th>
+				<th>2020-21</th>
 				<th>Inclure dans l'échange</th>
 			</tr>
 			<c:forEach var="i" begin="0" end="${fn:length(longueur)-1}">
@@ -211,11 +211,11 @@
 				<th>Nom</th>
 				<th>Équipe</th>
 				<th>Points</th>
-				<th>2015-16</th>
 				<th>2016-17</th>
 				<th>2017-18</th>
 				<th>2018-19</th>
 				<th>2019-20</th>
+				<th>2020-21</th>
 				<th>Inclure dans l'échange</th>
 			</tr>
 			<c:forEach var="i" begin="0" end="${fn:length(longueur)-1}">
@@ -298,11 +298,11 @@
 				<th>Nom</th>
 				<th>Équipe</th>
 				<th>Points</th>
-				<th>2015-16</th>
 				<th>2016-17</th>
 				<th>2017-18</th>
 				<th>2018-19</th>
 				<th>2019-20</th>
+				<th>2020-21</th>
 				<th>Inclure dans l'échange</th>
 			</tr>
 			<c:forEach var="i" begin="0" end="${fn:length(longueur2)-1}">
@@ -328,11 +328,11 @@
 				<th>Nom</th>
 				<th>Équipe</th>
 				<th>Points</th>
-				<th>2015-16</th>
 				<th>2016-17</th>
 				<th>2017-18</th>
 				<th>2018-19</th>
 				<th>2019-20</th>
+				<th>2020-21</th>
 				<th>Inclure dans l'échange</th>
 			</tr>
 			<c:forEach var="i" begin="0" end="${fn:length(longueur2)-1}">
@@ -358,11 +358,11 @@
 				<th>Nom</th>
 				<th>Équipe</th>
 				<th>Points</th>
-				<th>2015-16</th>
 				<th>2016-17</th>
 				<th>2017-18</th>
 				<th>2018-19</th>
 				<th>2019-20</th>
+				<th>2020-21</th>
 				<th>Inclure dans l'échange</th>
 			</tr>
 			<c:forEach var="i" begin="0" end="${fn:length(longueur2)-1}">
@@ -388,11 +388,11 @@
 				<th>Nom</th>
 				<th>Équipe</th>
 				<th>Points</th>
-				<th>2015-16</th>
 				<th>2016-17</th>
 				<th>2017-18</th>
 				<th>2018-19</th>
 				<th>2019-20</th>
+				<th>2020-21</th>
 				<th>Inclure dans l'échange</th>
 			</tr>
 			<c:forEach var="i" begin="0" end="${fn:length(longueur2)-1}">

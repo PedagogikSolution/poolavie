@@ -94,8 +94,7 @@
 			<a href="/trade"><button class="btn_menu_trade">RECEIVED</button></a>
 			<a href="/make_offer"><button class="btn_menu_trade">MAKE ONE</button></a>
 		</c:if>
-		<a href="/my_trade"><button class="btn_menu_trade">MY TRADE</button></a>
-		<a href="/all_trade"><button class="btn_menu_trade">ALL TRADE</button></a>
+		<a href="/my_trade"><button class="btn_menu_trade">MY TRADE</button></a> <a href="/all_trade"><button class="btn_menu_trade">ALL TRADE</button></a>
 	</div>
 	<hr class="hr_header">
 
@@ -202,16 +201,14 @@
 								<td>${beanAffichageOfferMade.tradeOfferNameTeamTradeWith[i]}</td>
 								<td>
 									<form action="/make_offer" method="post">
-										<input type="hidden" value="${beanAffichageOfferMade.tradeOfferId[i]}" name="trade_id" />
-										<input type="hidden" value="showOffer" name="etape" />
-										<input style="font-size: 18px" type="submit" value="Show Detail">
+										<input type="hidden" value="${beanAffichageOfferMade.tradeOfferId[i]}" name="trade_id" /> <input type="hidden" value="showOffer" name="etape" /> <input style="font-size: 18px"
+											type="submit" value="Show Detail">
 									</form>
 								</td>
 								<td>
 									<form action="/make_offer" method="post">
-										<input type="hidden" value="${beanAffichageOfferMade.tradeOfferId[i]}" name="trade_id" />
-										<input type="hidden" value="cancelOffer" name="etape" />
-										<input style="font-size: 18px" type="submit" value="Annuler cette offre">
+										<input type="hidden" value="${beanAffichageOfferMade.tradeOfferId[i]}" name="trade_id" /> <input type="hidden" value="cancelOffer" name="etape" /> <input style="font-size: 18px"
+											type="submit" value="Annuler cette offre">
 									</form>
 								</td>
 
@@ -230,11 +227,19 @@
 			<div id="formulaire_make_offer">
 				<br>
 				<form action="/make_offer" method="post">
-					<input type="radio" name="team_to_trade" value="0">Los Angeles <br> <input type="radio" name="team_to_trade" value="1">Detroit <br> <input type="radio"
-						name="team_to_trade" value="2">Montreal <br> <input type="radio" name="team_to_trade" value="3">Chicago <br> <input type="radio" name="team_to_trade" value="4">New
-					York <br> <input type="radio" name="team_to_trade" value="5">Philadelphie <br> <input type="radio" name="team_to_trade" value="6">Toronto <br> <input type="radio"
-						name="team_to_trade" value="7">St-Louis <br> <input type="radio" name="team_to_trade" value="8">Boston <br> <input type="radio" name="team_to_trade" value="9">Pittsburgh
-					<br> <input type="hidden" value="getTeam" name="etape"> <br> <input style="font-size: 18px" type="submit" value="Faire une offre à cette équipe"> <br>
+					<input type="radio" name="team_to_trade" value="0">Los Angeles <br>
+					 <input type="radio" name="team_to_trade" value="1">Detroit <br>
+					  <input type="radio" name="team_to_trade" value="2">Montreal <br>
+					   <input type="radio" name="team_to_trade" value="3">Chicago <br> 
+					   <input type="radio" name="team_to_trade" value="4">New York <br> <input type="radio" name="team_to_trade" value="5">Philadelphie <br>
+					 <input type="radio" name="team_to_trade" value="6">Toronto <br>
+					  <input type="radio" name="team_to_trade" value="7">St-Louis <br>
+					   <input type="radio" name="team_to_trade" value="8">Boston <br>
+					    <input type="radio" name="team_to_trade" value="9">Pittsburgh<br> 
+					    <input type="radio" name="team_to_trade" value="10">Buffalo <br>
+					    <input type="radio" name="team_to_trade" value="11">Vancouver <br>
+					    <input type="hidden" value="getTeam" name="etape"> <br> 
+					    <input style="font-size: 18px" type="submit" value="Faire une offre à cette équipe"> <br>
 				</form>
 
 				<br>
