@@ -1,7 +1,5 @@
 package com.pedagogiksolution.model;
 
-import static com.pedagogiksolution.constants.MessageErreurConstants.LOGIN_PASSWORD_NOT_GOOD;
-
 import javax.servlet.http.HttpServletRequest;
 
 import com.pedagogiksolution.beans.MessageErreurBeans;

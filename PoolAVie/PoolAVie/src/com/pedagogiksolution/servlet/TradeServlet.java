@@ -252,7 +252,7 @@ public class TradeServlet extends HttpServlet {
 	// Un joueur veut voir les details d'une offre qu'il a faite
 	case 6:
 	    break;
-	// Un jouer veut voir les detai d'une offre qu'il a recu
+	// Un jouer veut voir les details d'une offre qu'il a recu
 	case 7:
 	    break;
 	// Un joueur veut accepter une offre qu'il a recu (verification de la valider de l'offre et message de
