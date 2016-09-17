@@ -2,10 +2,17 @@ package com.pedagogiksolution.model;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.beans.NonSessionAttaquant;
 import com.pedagogiksolution.beans.NonSessionDefenseur;
 import com.pedagogiksolution.beans.NonSessionDraftPick;
+import com.pedagogiksolution.beans.NonSessionEquipe;
 import com.pedagogiksolution.beans.NonSessionGardien;
 import com.pedagogiksolution.beans.NonSessionRecrue;
 import com.pedagogiksolution.datastorebeans.Attaquant;
@@ -276,6 +283,116 @@ public class TradeModel {
 
 	return false;
 
+    }
+
+    public Boolean checkIfTradeIsValidDuringDraft() {
+	// retourne false si trade pas possible // retourne true if trade is good to go at this point
+	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	String[] playersIdTeamThatMakeOffer = req.getParameterValues("players_id_my_team");
+	String[] playersIdTeamThatReceiveOffer = req.getParameterValues("players_id_trade_with_team");
+	String[] picksIdTeamThatMakeOffer = req.getParameterValues("picks_id_my_team");
+	String[] picksIdTeamThatReceiveOffer = req.getParameterValues("picks_id_trade_with_team");
+	String cashIncludeTeamThatMakeOffer = req.getParameter("cashMakingOffer");
+	int cashIncludeTeamThatMakeOfferInt = Integer.parseInt(cashIncludeTeamThatMakeOffer);
+	String cashIncludeThatReceiveOffer = req.getParameter("cashReceivingOffer");
+	int cashIncludeThatReceiveOfferInt = Integer.parseInt(cashIncludeThatReceiveOffer);
+	String tradeWithID = req.getParameter("tradeWith");
+	int teamId = mBeanUser.getTeamId();
+	String nomTeamThatOffer = "Equipe" + teamId;
+	String nomTeamThatReceived = "Equipe" + tradeWithID;
+	NonSessionEquipe mBeanEquipeThatIsMakingOffer = (NonSessionEquipe) req.getSession().getAttribute(nomTeamThatOffer);
+	NonSessionEquipe mBeanEquipeThatIsReceivingOffer = (NonSessionEquipe) req.getSession().getAttribute(nomTeamThatReceived);
+	MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+
+	// 1- checking for cash on the two side
+	if (cashIncludeTeamThatMakeOfferInt > 0 && cashIncludeThatReceiveOfferInt > 0) {
+	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas échangez de l'argent contre de l'argent (Reglement 3.1");
+	    req.setAttribute("messageErreur", mBeanMessageErreur);
+	    return false;
+	}
+
+	// 2- check si nombre contrat trop elevé dans une des deux equipes
+	int nbContratTeamThatOfferTrade = mBeanEquipeThatIsMakingOffer.getNb_contrat();
+	int nbContratTeamThatReceivedOfferTrade = mBeanEquipeThatIsReceivingOffer.getNb_contrat();
+
+	int nbPlayersTeamMakingOffer = playersIdTeamThatMakeOffer.length;
+	int nbPlayersTeamReceivingOffer = playersIdTeamThatReceiveOffer.length;
+
+	int nbPlayersWithContratTeamThatMakeOffer = getNbPlayersWithContratTeamThatMakeOffer(datastore, playersIdTeamThatMakeOffer, mBeanPool);
+	int nbPlayersWithContratTeamThatReceiveOffer = getNbPlayersWithContratTeamThatReceiveOffer(datastore, playersIdTeamThatReceiveOffer, mBeanPool);
+
+	if ((nbContratTeamThatOfferTrade - nbPlayersWithContratTeamThatMakeOffer + nbPlayersWithContratTeamThatReceiveOffer > 12) || (nbContratTeamThatReceivedOfferTrade - nbPlayersWithContratTeamThatReceiveOffer + nbPlayersWithContratTeamThatMakeOffer > 12)) {
+	    return false;
+	}
+	
+	// 3- check si argent dispo pour faire draft apres echange
+	
+	
+	
+	
+
+	return true;
+    }
+
+    public void persistTradeOffer() {
+	// TODO Auto-generated method stub
+
+    }
+
+    public void sendAlertViaChannel() {
+	// TODO Auto-generated method stub
+
+    }
+
+    public void sendEmailForOffer() {
+	// TODO Auto-generated method stub
+
+    }
+
+    /******************************* methode privée à la classe  **********************************/
+
+    private int getNbPlayersWithContratTeamThatMakeOffer(DatastoreService datastore, String[] playersIdTeamThatMakeOffer, Pool mBeanPool) {
+	int nbPlayersWithContratTeamThatMakeOffer = 0;
+	String kindName = "Players_" + mBeanPool.getPoolID();
+
+	for (String s : playersIdTeamThatMakeOffer) {
+
+	    Key mKey = KeyFactory.createKey(kindName, s);
+	    try {
+		Entity entity = datastore.get(mKey);
+		Long isUnderContrat = (Long) entity.getProperty("contrat");
+		if (isUnderContrat == 1) {
+		    nbPlayersWithContratTeamThatMakeOffer++;
+		}
+
+	    } catch (EntityNotFoundException e) {
+
+	    }
+	}
+
+	return nbPlayersWithContratTeamThatMakeOffer;
+    }
+
+    private int getNbPlayersWithContratTeamThatReceiveOffer(DatastoreService datastore, String[] playersIdTeamThatReceiveOffer, Pool mBeanPool) {
+	int nbPlayersWithContratTeamThatReceiveOffer = 0;
+	String kindName = "Players_" + mBeanPool.getPoolID();
+
+	for (String s : playersIdTeamThatReceiveOffer) {
+
+	    Key mKey = KeyFactory.createKey(kindName, s);
+	    try {
+		Entity entity = datastore.get(mKey);
+		Long isUnderContrat = (Long) entity.getProperty("contrat");
+		if (isUnderContrat == 1) {
+		    nbPlayersWithContratTeamThatReceiveOffer++;
+		}
+
+	    } catch (EntityNotFoundException e) {
+
+	    }
+	}
+
+	return nbPlayersWithContratTeamThatReceiveOffer;
     }
 
 }

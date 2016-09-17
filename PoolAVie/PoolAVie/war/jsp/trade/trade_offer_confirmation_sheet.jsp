@@ -69,16 +69,6 @@
 
 
 		</c:if>
-		<c:if test="${messageErreur.erreurTrade!=null}">
-
-			<div class="w3-container w3-section w3-red">
-
-				<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-				<h3>Oups! Échange impossible</h3>
-				<p>${messageErreur.erreurTrade}</p>
-			</div>
-
-		</c:if>
 
 
 		<c:if test="${requestScope.tradeOpen==1}">
@@ -695,8 +685,8 @@
 
 				<!-- Faire une offre -->
 
-			<input type="hidden" name="tradeWith" value="${RequestScope.TradeWith}">
-			<input type="hidden" name="tradeTag" value="2">
+
+			<input type="hidden" name="tradeTag" value="3">
 			<input type="submit" value="Évaluez cette échange" />
 			</form>
 

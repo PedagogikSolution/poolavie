@@ -200,7 +200,7 @@ public class TradeServlet extends HttpServlet {
 	TradeModel mModelTrade;
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
-
+	int cycleAnnuel;
 	String tradeTag = req.getParameter("tradeTag");
 	int tradeTagId = Integer.parseInt(tradeTag);
 
@@ -236,9 +236,25 @@ public class TradeServlet extends HttpServlet {
 	// Un joueur veut valider si son offre est possible et recevoir un message de confirmation a cliquer pour
 // envoyer l'offre
 	case 2:
+	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
+	    Boolean offerGood = mModelTrade.checkIfTradeIsValidDuringDraft();
+	    if (offerGood) {
+		req.getRequestDispatcher("jsp/trade/trade_offer_sheet.jsp").forward(req, resp);
+	    } else {
+		req.getRequestDispatcher("jsp/trade/trade_offer__confirmation_sheet.jsp").forward(req, resp);
+	    }
 	    break;
 	// Un joueur veut confirmer son offre de trade et l'envoyer
 	case 3:
+	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
+	    mModelTrade.persistTradeOffer();
+	    cycleAnnuel = mBeanPool.getCycleAnnuel();
+	    if (cycleAnnuel == 3) {
+		mModelTrade.sendAlertViaChannel();
+	    } else {
+		mModelTrade.sendEmailForOffer();
+	    }
+	    req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 	    break;
 	// Un joueur veut annuler une offre qu'il a faite
 	case 4:
