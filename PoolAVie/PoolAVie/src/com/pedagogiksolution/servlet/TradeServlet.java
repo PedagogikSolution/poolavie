@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
-import com.pedagogiksolution.model.DraftPlayersModel;
 import com.pedagogiksolution.model.LoginModel;
 import com.pedagogiksolution.model.TradeModel;
 
@@ -212,14 +211,12 @@ public class TradeServlet extends HttpServlet {
 
 	    // on met a jour les objet de session pour etre certain d'Avoir la plus recente representation des données
 	    LoginModel mModel = new LoginModel(req);
-	    mModel.createSessionDraftRoundBean();
+	    mModel.createSessionDraftPickBean();
 	    mModel.createSessionAttaquantBean();
 	    mModel.createSessionDefenseurBean();
 	    mModel.createSessionGardienBean();
 	    mModel.createSessionRecrueBean();
-
-	    DraftPlayersModel mModelDraft = new DraftPlayersModel();
-	    mModelDraft.putDatastoreIntoBean(mBeanPool, req);
+	    mModel.createSessionDraftRoundBean();
 
 	    // on place les beans de session dans des beans temporaires pour les deux equipes
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);

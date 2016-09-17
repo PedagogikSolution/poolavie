@@ -75,7 +75,7 @@
 
 			<!-- Section  -->
 
-			<form>
+			<form method="Post" action="/Trade">
 
 
 
@@ -187,7 +187,7 @@
 									<td>${NonSessionDefenseurPickMaking.years_3[i]}</td>
 									<td>${NonSessionDefenseurPickMaking.years_4[i]}</td>
 									<td>${NonSessionDefenseurPickMaking.years_5[i]}</td>
-									<td><input type="checkbox" name="players_id_my_team" value="${NonSessionAttaquantPickMaking._id[i]}">Inclus</td>
+									<td><input type="checkbox" name="players_id_my_team" value="${NonSessionDefenseurPickMaking._id[i]}">Inclus</td>
 
 								</tr>
 
@@ -248,7 +248,7 @@
 									<td>${NonSessionGardienPickMaking.years_3[i]}</td>
 									<td>${NonSessionGardienPickMaking.years_4[i]}</td>
 									<td>${NonSessionGardienPickMaking.years_5[i]}</td>
-									<td><input type="checkbox" name="players_id_my_team" value="${NonSessionAttaquantPickMaking._id[i]}">Inclus</td>
+									<td><input type="checkbox" name="players_id_my_team" value="${NonSessionGardienPickMaking._id[i]}">Inclus</td>
 
 								</tr>
 
@@ -308,7 +308,7 @@
 									<td>${NonSessionRecruePickMaking.years_3[i]}</td>
 									<td>${NonSessionRecruePickMaking.years_4[i]}</td>
 									<td>${NonSessionRecruePickMaking.years_5[i]}</td>
-									<td><input type="checkbox" name="players_id_my_team" value="${NonSessionAttaquantPickMaking._id[i]}">Inclus</td>
+									<td><input type="checkbox" name="players_id_my_team" value="${NonSessionRecruePickMaking._id[i]}">Inclus</td>
 
 								</tr>
 
@@ -328,22 +328,21 @@
 						</caption>
 						<tr class="w3-blue">
 							<th>Montant</th>
-
-
-
-						</tr>
-
-						<tr>
-							<td><input type="radio" name="cashMakingOffer" value="500000" checked> 500 000</td>
 						</tr>
 						<tr>
-							<td><input type="radio" name="cashMakingOffer" value="1000000" checked>1 000 000</td>
+							<td><input type="radio" name="cashMakingOffer" value="0" checked> 0</td>
 						</tr>
 						<tr>
-							<td><input type="radio" name="cashMakingOffer" value="1500000" checked>1 500 000</td>
+							<td><input type="radio" name="cashMakingOffer" value="500000" > 500 000</td>
 						</tr>
 						<tr>
-							<td><input type="radio" name="cashMakingOffer" value="2000000" checked>2 000 000</td>
+							<td><input type="radio" name="cashMakingOffer" value="1000000" >1 000 000</td>
+						</tr>
+						<tr>
+							<td><input type="radio" name="cashMakingOffer" value="1500000" >1 500 000</td>
+						</tr>
+						<tr>
+							<td><input type="radio" name="cashMakingOffer" value="2000000" >2 000 000</td>
 						</tr>
 					</table>
 
@@ -367,7 +366,7 @@
 
 								<td>${NonSessionDraftPickMaking.pick_no[i]}</td>
 								<td>${NonSessionDraftPickMaking.teamNameOriginalPick[i]}</td>
-								<td><input type="checkbox" name="players_id_my_team" value="${NonSessionAttaquantPickMaking._id[i]}">Inclus</td>
+								<td><input type="checkbox" name="players_id_my_team" value="${NonSessionDraftPickMaking.team_id[i]}">Inclus</td>
 
 
 							</tr>
@@ -431,7 +430,7 @@
 									<td>${NonSessionAttaquantPickReciving.years_3[i]}</td>
 									<td>${NonSessionAttaquantPickReciving.years_4[i]}</td>
 									<td>${NonSessionAttaquantPickReciving.years_5[i]}</td>
-									<td><input type="checkbox" name="players_id_my_team" value="${NonSessionAttaquantPickMaking._id[i]}">Inclus</td>
+									<td><input type="checkbox" name="players_id_my_team" value="${NonSessionAttaquantPickReciving._id[i]}">Inclus</td>
 
 								</tr>
 
@@ -492,7 +491,7 @@
 									<td>${NonSessionDefenseurPickReciving.years_3[i]}</td>
 									<td>${NonSessionDefenseurPickReciving.years_4[i]}</td>
 									<td>${NonSessionDefenseurPickReciving.years_5[i]}</td>
-									<td><input type="checkbox" name="players_id_my_team" value="${NonSessionAttaquantPickMaking._id[i]}">Inclus</td>
+									<td><input type="checkbox" name="players_id_my_team" value="${NonSessionDefenseurPickReciving._id[i]}">Inclus</td>
 
 								</tr>
 
@@ -553,7 +552,7 @@
 									<td>${NonSessionGardienPickReciving.years_3[i]}</td>
 									<td>${NonSessionGardienPickReciving.years_4[i]}</td>
 									<td>${NonSessionGardienPickReciving.years_5[i]}</td>
-									<td><input type="checkbox" name="players_id_my_team" value="${NonSessionAttaquantPickMaking._id[i]}">Inclus</td>
+									<td><input type="checkbox" name="players_id_my_team" value="${NonSessionGardienPickReciving._id[i]}">Inclus</td>
 
 								</tr>
 
@@ -613,7 +612,7 @@
 									<td>${NonSessionRecruePickReciving.years_3[i]}</td>
 									<td>${NonSessionRecruePickReciving.years_4[i]}</td>
 									<td>${NonSessionRecruePickReciving.years_5[i]}</td>
-									<td><input type="checkbox" name="players_id_my_team" value="${NonSessionAttaquantPickMaking._id[i]}">Inclus</td>
+									<td><input type="checkbox" name="players_id_my_team" value="${NonSessionRecruePickReciving._id[i]}">Inclus</td>
 
 								</tr>
 
@@ -633,18 +632,20 @@
 						<tr class="w3-blue">
 							<th>Montant</th>
 						</tr>
-
 						<tr>
-							<td><input type="radio" name="cashReceivingOffer" value="500000" checked> 500 000</td>
+							<td><input type="radio" name="cashReceivingOffer" value="0" checked> 0</td>
 						</tr>
 						<tr>
-							<td><input type="radio" name="cashReceivingOffer" value="1000000" checked>1 000 000</td>
+							<td><input type="radio" name="cashReceivingOffer" value="500000" > 500 000</td>
 						</tr>
 						<tr>
-							<td><input type="radio" name="cashReceivingOffer" value="1500000" checked>1 500 000</td>
+							<td><input type="radio" name="cashReceivingOffer" value="1000000" >1 000 000</td>
 						</tr>
 						<tr>
-							<td><input type="radio" name="cashReceivingOffer" value="2000000" checked>2 000 000</td>
+							<td><input type="radio" name="cashReceivingOffer" value="1500000" >1 500 000</td>
+						</tr>
+						<tr>
+							<td><input type="radio" name="cashReceivingOffer" value="2000000" >2 000 000</td>
 						</tr>
 					</table>
 
@@ -667,7 +668,7 @@
 
 								<td>${NonSessionDraftPickReciving.pick_no[i]}</td>
 								<td>${NonSessionDraftPickReciving.teamNameOriginalPick[i]}</td>
-								<td><input type="checkbox" name="players_id_my_team" value="${NonSessionAttaquantPickMaking._id[i]}">Inclus</td>
+								<td><input type="checkbox" name="players_id_my_team" value="${NonSessionDraftPickReciving.team_id[i]}">Inclus</td>
 
 
 							</tr>
