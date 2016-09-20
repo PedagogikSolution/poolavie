@@ -15,7 +15,7 @@ public class NonSessionDraftPick implements Serializable {
     private List<Integer> team_id; 
     private List<Integer> pick_no;
     private List<Integer> original_pick_id;
-    private List<Integer> orderForTheRound;
+    private List<Integer> ronde;
     private List<String> teamNameOriginalPick;
     
     
@@ -39,17 +39,17 @@ public class NonSessionDraftPick implements Serializable {
     public void setOriginal_pick_id(List<Integer> original_pick_id) {
 	this.original_pick_id = original_pick_id;
     }
-    public List<Integer> getOrderForTheRound() {
-	return orderForTheRound;
-    }
-    public void setOrderForTheRound(List<Integer> orderForTheRound) {
-	this.orderForTheRound = orderForTheRound;
-    }
     public List<String> getTeamNameOriginalPick() {
 	return teamNameOriginalPick;
     }
     public void setTeamNameOriginalPick(List<String> teamNameOriginalPick) {
 	this.teamNameOriginalPick = teamNameOriginalPick;
+    }
+    public List<Integer> getRonde() {
+	return ronde;
+    }
+    public void setRonde(List<Integer> ronde) {
+	this.ronde = ronde;
     }
 
 }

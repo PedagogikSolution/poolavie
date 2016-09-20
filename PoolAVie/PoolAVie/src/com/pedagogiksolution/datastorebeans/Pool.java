@@ -39,6 +39,8 @@ public class Pool implements Serializable{
     private String derniereMAJ;
     private String codeValidationPool;
     private String draftDate;
+    private String firstYear;
+    private String thisYear;
 
 
     public String getPoolID() {
@@ -288,6 +290,26 @@ public class Pool implements Serializable{
 
     public void setDraftDate(String dt) {
 	this.draftDate = dt;
+    }
+
+
+    public String getFirstYear() {
+	return firstYear;
+    }
+
+
+    public void setFirstYear(String firstYear) {
+	this.firstYear = firstYear;
+    }
+
+
+    public String getThisYear() {
+	return thisYear;
+    }
+
+
+    public void setThisYear(String thisYear) {
+	this.thisYear = thisYear;
     }
     
     

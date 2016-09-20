@@ -1,5 +1,9 @@
 package com.pedagogiksolution.model;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -18,6 +22,7 @@ import com.pedagogiksolution.beans.NonSessionRecrue;
 import com.pedagogiksolution.datastorebeans.Attaquant;
 import com.pedagogiksolution.datastorebeans.Defenseur;
 import com.pedagogiksolution.datastorebeans.DraftPick;
+import com.pedagogiksolution.datastorebeans.DraftRound;
 import com.pedagogiksolution.datastorebeans.Gardien;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.datastorebeans.Recrue;
@@ -90,6 +95,7 @@ public class TradeModel {
 	String defenseurNameTeamReceivingOffer = null;
 	String gardienNameTeamReceivingOffer = null;
 	String recrueNameTeamReceivingOffer = null;
+	
 
 	draftPickNameTeamMakingOffer = "DraftPick" + teamThatMakeOfferId;
 	attaquantNameTeamMakingOffer = "Attaquant" + teamThatMakeOfferId;
@@ -101,12 +107,17 @@ public class TradeModel {
 	defenseurNameTeamReceivingOffer = "Defenseur" + teamThatReceivedOfferId;
 	gardienNameTeamReceivingOffer = "Gardien" + teamThatReceivedOfferId;
 	recrueNameTeamReceivingOffer = "Recrue" + teamThatReceivedOfferId;
+	
 
 	DraftPick mBeanDraftPickThatMakingOffer = (DraftPick) req.getSession().getAttribute(draftPickNameTeamMakingOffer);
 	NonSessionDraftPick mNonSessionDraftBeanThatMakingOffer = new NonSessionDraftPick();
 
 	DraftPick mBeanDraftPickThatReceivedOffer = (DraftPick) req.getSession().getAttribute(draftPickNameTeamReceivingOffer);
 	NonSessionDraftPick mNonSessionDraftBeanThatReceivedOffer = new NonSessionDraftPick();
+	
+	DraftRound mBeanDraftRound = (DraftRound) req.getSession().getAttribute("DraftRound");
+	NonSessionDraftPick mNonSessionDraftBeanThatMakingOffer2 = new NonSessionDraftPick();
+	NonSessionDraftPick mNonSessionDraftBeanThatReceivedOffer2 = new NonSessionDraftPick();
 
 	Attaquant mBeanAttaquantThatMakingOffer = (Attaquant) req.getSession().getAttribute(attaquantNameTeamMakingOffer);
 	NonSessionAttaquant mNonSessionAttaquantBeanThatMakingOffer = new NonSessionAttaquant();
@@ -132,12 +143,73 @@ public class TradeModel {
 	Recrue mBeanRecrueThatReceivedOffer = (Recrue) req.getSession().getAttribute(recrueNameTeamReceivingOffer);
 	NonSessionRecrue mNonSessionRecrueBeanThatReceivedOffer = new NonSessionRecrue();
 
-	// Draft
+	// DraftPick From DraftPick for next year or for nonDraftTrade
 	mNonSessionDraftBeanThatMakingOffer.setPick_no(mBeanDraftPickThatMakingOffer.getPick_no());
 	mNonSessionDraftBeanThatMakingOffer.setTeamNameOriginalPick(mBeanDraftPickThatMakingOffer.getTeamNameOriginalPick());
 
 	mNonSessionDraftBeanThatReceivedOffer.setPick_no(mBeanDraftPickThatReceivedOffer.getPick_no());
 	mNonSessionDraftBeanThatReceivedOffer.setTeamNameOriginalPick(mBeanDraftPickThatReceivedOffer.getTeamNameOriginalPick());
+	
+	// DraftPick From DraftRound for trade while draft is up
+	List<Integer> pick_no = new ArrayList<Integer>();
+	List<Integer> ronde = new ArrayList<Integer>();
+	List<Integer> team_id = new ArrayList<Integer>();
+	List<String> teamNameOriginePick = new ArrayList<String>();
+	
+	List<Integer> mTeamId = mBeanDraftRound.getTeam_id();
+	List<Integer> mRonde = mBeanDraftRound.getRonde();
+	List<Integer> mPickNo = mBeanDraftRound.getDraft_pick_no();
+	List<String> mTeamName = mBeanDraftRound.getEquipe();
+	ListIterator<Integer> mIterator = mTeamId.listIterator();
+	while(mIterator.hasNext()){
+	    int indexListIterator = mIterator.nextIndex();
+	    int teamIdIterator = mIterator.next();
+	    if(teamIdIterator==teamThatMakeOfferId){
+		int draft_pick_no = mPickNo.get(indexListIterator);
+		int mRondeId = mRonde.get(indexListIterator);
+		ronde.add(mRondeId);
+		String mName = mTeamName.get(indexListIterator);
+		teamNameOriginePick.add(mName);
+		team_id.add(teamIdIterator);
+		pick_no.add(draft_pick_no);
+		
+	    }
+	}
+	mNonSessionDraftBeanThatMakingOffer2.setPick_no(pick_no);
+	mNonSessionDraftBeanThatMakingOffer2.setTeamNameOriginalPick(teamNameOriginePick);
+	mNonSessionDraftBeanThatMakingOffer2.setTeam_id(team_id);
+	mNonSessionDraftBeanThatMakingOffer2.setRonde(ronde);
+	
+	List<Integer> pick_no2 = new ArrayList<Integer>();
+	List<Integer> ronde2 = new ArrayList<Integer>();
+	List<Integer> team_id2 = new ArrayList<Integer>();
+	List<String> teamNameOriginePick2 = new ArrayList<String>();
+	List<Integer> mTeamId2 = mBeanDraftRound.getTeam_id();
+	List<Integer> mRonde2 = mBeanDraftRound.getRonde();
+	List<Integer> mPickNo2 = mBeanDraftRound.getDraft_pick_no();
+	List<String> mTeamName2 = mBeanDraftRound.getEquipe();
+	ListIterator<Integer> mIterator2 = mTeamId2.listIterator();
+	while(mIterator2.hasNext()){
+	    int indexListIterator = mIterator2.nextIndex();
+	    int teamIdIterator = mIterator2.next();
+	    if(teamIdIterator==teamThatReceivedOfferId){
+		int draft_pick_no = mPickNo2.get(indexListIterator);
+		int mRondeId = mRonde2.get(indexListIterator);
+		ronde2.add(mRondeId);
+		String mName = mTeamName2.get(indexListIterator);
+		teamNameOriginePick2.add(mName);
+		team_id2.add(teamIdIterator);
+		pick_no2.add(draft_pick_no);
+		
+	    }
+	}
+	
+		
+
+	mNonSessionDraftBeanThatReceivedOffer2.setPick_no(pick_no2);
+	mNonSessionDraftBeanThatReceivedOffer2.setTeamNameOriginalPick(teamNameOriginePick2);
+	mNonSessionDraftBeanThatReceivedOffer2.setTeam_id(team_id2);
+	mNonSessionDraftBeanThatReceivedOffer2.setRonde(ronde2);
 
 	// Attaquant
 	mNonSessionAttaquantBeanThatMakingOffer.set_id(mBeanAttaquantThatMakingOffer.getPlayers_id());
@@ -266,6 +338,9 @@ public class TradeModel {
 
 	req.setAttribute("NonSessionDraftPickMaking", mNonSessionDraftBeanThatMakingOffer);
 	req.setAttribute("NonSessionDraftPickReciving", mNonSessionDraftBeanThatReceivedOffer);
+	
+	req.setAttribute("NonSessionDraftPickMakingThisYear", mNonSessionDraftBeanThatMakingOffer2);
+	req.setAttribute("NonSessionDraftPickRecivingThisYear", mNonSessionDraftBeanThatReceivedOffer2);
 
 	req.setAttribute("NonSessionAttaquantPickMaking", mNonSessionAttaquantBeanThatMakingOffer);
 	req.setAttribute("NonSessionAttaquantPickReciving", mNonSessionAttaquantBeanThatReceivedOffer);

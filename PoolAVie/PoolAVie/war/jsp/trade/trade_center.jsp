@@ -106,7 +106,7 @@
 				</c:if>
 
 			</div>
-
+			<br>
 			<!-- Faire une offre -->
 
 			<div class="w3-center">

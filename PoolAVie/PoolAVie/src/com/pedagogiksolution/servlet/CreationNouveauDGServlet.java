@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.cron.model.ClassementCronModel;
+import com.pedagogiksolution.cron.model.DraftPickCronModel;
 import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.dao.DAOFactory;
+import com.pedagogiksolution.dao.DraftPickDao;
 import com.pedagogiksolution.model.CreationDGModel;
 import com.pedagogiksolution.model.LoginModel;
 import com.pedagogiksolution.model.RegisterModel;
@@ -26,12 +28,12 @@ public class CreationNouveauDGServlet extends HttpServlet {
 
     public static final String CONF_DAO_FACTORY = "daofactory";
     private ClassementDao classementDao;
-
+    private DraftPickDao draftPickDao;
     @Override
     public void init() throws ServletException {
 	/* Récupération d'une instance de notre DAO Utilisateur */
 	this.classementDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getClassementDao();
-
+	this.draftPickDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftPickDao();
     }
 
     @Override
@@ -80,8 +82,8 @@ public class CreationNouveauDGServlet extends HttpServlet {
 	String nomDuTeam = req.getParameter("nomDuTeam");
 	String temp_teamId = (String) req.getSession().getAttribute("temp_teamId");
 	int teamId = Integer.parseInt(temp_teamId);
-	String team_poolId = (String) req.getSession().getAttribute("temp_poolId");
-	int poolId = Integer.parseInt(team_poolId);
+	String poolID = (String) req.getSession().getAttribute("temp_poolId");
+	int poolId = Integer.parseInt(poolID);
 	String urlLogoTeam = req.getParameter("logoUrlTeam");
 	
 	// Instantiation de la classe métier pour le processus de registration
@@ -111,6 +113,8 @@ public class CreationNouveauDGServlet extends HttpServlet {
 	    // étape 2 on ajoute les info dans les storage Pool et Utilisateur
 	    CreationDGModel mModel2 = new CreationDGModel(classementDao);
 	    mModel2.storePoolAndUserInfo(nomDuTeam, poolId,urlLogoTeam, req);
+	    
+	    
 
 	    // si le code est retourné, c'est que tout à réussi, donc on envoie un courriel avec Code Validation à
 // l'utilisateur
@@ -124,6 +128,17 @@ public class CreationNouveauDGServlet extends HttpServlet {
 		    ClassementCronModel mModelClassement = new ClassementCronModel(classementDao);
 
 		    mModelClassement.putDatabaseInDatastore(poolId);
+		    
+		    DraftPickCronModel mModelDraftPickCron = new DraftPickCronModel(draftPickDao);
+		    int numberOfTeam = mModelDraftPickCron.getNumberOfTeamByPool(poolId);
+			
+			if(numberOfTeam==0){
+			    //TODO persister un erreur et un lanceur d'Alerte
+			} else {
+			    mModelDraftPickCron.putDatabaseInDatastore(poolId,numberOfTeam,"7");
+			}
+		    
+		    
 		    LoginModel mModelLogin = new LoginModel(req);
 
 		    mModelLogin.createSessionClassementBean();

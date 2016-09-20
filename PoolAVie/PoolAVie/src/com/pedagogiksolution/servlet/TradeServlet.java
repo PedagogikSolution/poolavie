@@ -209,7 +209,7 @@ public class TradeServlet extends HttpServlet {
 	// Un joueur veut faire une offre à un autre équipe
 	case 1:
 
-	    // on met a jour les objet de session pour etre certain d'Avoir la plus recente representation des données
+	    // on met a jour les objet de session pour etre certain d'avoir la plus recente representation des données
 	    LoginModel mModel = new LoginModel(req);
 	    mModel.createSessionDraftPickBean();
 	    mModel.createSessionAttaquantBean();

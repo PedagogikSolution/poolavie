@@ -47,6 +47,10 @@ public class CreationPoolModel {
 	this.draftPickDao = draftPickDao;
     }
 
+    public CreationPoolModel() {
+	// TODO Auto-generated constructor stub
+    }
+
     String nomDuPool, nombreEquipe, typeTrade, typeDraft, nomDuTeam,urlLogoTeam;
     String email1, email2, email3, email4, email5, email6, email7, email8, email9, email10, email11;
     int team_id, max_salaire_begin, total_salaire_now, budget_restant, moy_sal_restant_draft, nb_attaquant;
@@ -84,6 +88,9 @@ public class CreationPoolModel {
 	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	Date date = new Date();
 	String dateCreation = dateFormat.format(date);
+	String yearString = dateCreation.substring(0, 4);
+	int yearInt = Integer.parseInt(yearString);
+	String thisYear = yearString+"-"+(yearInt+1);
 
 	// on crée le beans avec le processus JPA qui va créer le datastore en même temps
 	EntityManagerFactory emf = EMF.get();
@@ -106,6 +113,8 @@ public class CreationPoolModel {
 	    mBean.setCodeValidationPool(codeValidation);
 	    mBean.setCycleAnnuel(0);
 	    mBean.setDraftDate(null);
+	    mBean.setThisYear(thisYear);
+	    mBean.setFirstYear(thisYear);
 
 	    // on place le bean dans un attribut de session
 	    req.getSession().setAttribute("Pool", mBean);
@@ -399,6 +408,11 @@ public class CreationPoolModel {
 
 	return fakeCodeForTest;
 
+    }
+
+    public Boolean checkIfDateIsGoodForNewPool() {
+	// TODO si entre 1 janvier et 1 juillet, retourner false pour fermer les inscriptions
+	return true;
     }
 
 }

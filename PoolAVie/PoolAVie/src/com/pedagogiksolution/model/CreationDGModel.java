@@ -419,6 +419,8 @@ public class CreationDGModel {
 	    if (em != null)
 		em.close();
 	}
+	
+	// on ajoute nom du team dans DraftPickDatastore et Bdd et SessionBean
 
     }
 
