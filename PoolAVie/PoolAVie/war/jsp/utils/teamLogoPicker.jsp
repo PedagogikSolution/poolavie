@@ -1,6 +1,6 @@
 <div id="teamLogoPicker" class="w3-hide w3-display-middle w3-card-24 w3-white">
 
-	<div class="w3-orange w3-center">
+	<div class="w3-khaki w3-center">
 		<span class="w3-padding-left w3-padding-right w3-xxlarge">Choisissez vous un Logo TUX</span>
 		<span onclick="closeLogoTeamPicker()" class="w3-closebtn">&times;</span>
 		

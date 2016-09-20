@@ -1,0 +1,11 @@
+@CHARSET "ISO-8859-1";
+
+#marketing1 {
+	
+	background-image: url('https://storage.googleapis.com/poolavie-bucket/image_hockey_accueil.png');
+	background-repeat: no-repeat;
+    background-position: center;
+    background-size:cover auto;
+   
+    
+}

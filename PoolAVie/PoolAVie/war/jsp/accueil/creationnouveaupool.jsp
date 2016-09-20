@@ -10,6 +10,7 @@
 <title>Pool à vie</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/css/w3.css">
+<link rel="stylesheet" href="/css/acceuil.css">
 <script src="/js/creationpool.js"></script>
 </head>
 
@@ -20,106 +21,158 @@
 
 
 	<!-- Header avec titre et images de promo -->
-	<div class="w3-container w3-blue w3-center">
-		<h1>CRÉATION D'UN NOUVEAU POOL</h1>
-	</div>
-	<c:if test="${empty mauvaiseDate}">
-	<h1>${mauvaisDate.erreurFormulaireRegistration}</h1>
-	</c:if>
-	<c:if test="${not empty mauvaiseDate}">
-		<!-- Section centrale -->
-		<div class="w3-container">
-			<form class="w3-container" action="/CreationPool" method="post" name="creation">
-				<div class="w3-third w3-container">
-					<p>
-						<input class="w3-input w3-validate" type="email" name="email1" placeholder="courriel joueur 1">
-					</p>
+	<header class="w3-container w3-indigo w3-large">
+		<ul class="w3-navbar w3-indigo w3-left w3-xlarge">
+			<li><a href="#">Démo</a></li>
+			<li><a href="#">Beta Test</a></li>
+		</ul>
 
-					<p>
-						<input class="w3-input w3-validate" type="email" name="email2" placeholder="courriel joueur 2">
-					</p>
+		<ul class="w3-navbar w3-indigo w3-right w3-xlarge">
+			<li><a href="#">Français</a></li>
+			<li><a href="#">Nous Joindre</a></li>
+		</ul>
 
-					<p>
-						<input class="w3-input w3-validate" type="email" name="email3" placeholder="courriel joueur 3">
-					</p>
-					<p>
-						<input class="w3-input w3-validate" type="email" name="email4" placeholder="courriel joueur 4">
-					</p>
-					<p>
-						<input class="w3-input w3-validate" type="email" name="email5" placeholder="courriel joueur 5">
-					</p>
-					<p>
-						<input class="w3-input w3-validate" type="email" name="email6" placeholder="courriel joueur 6">
-					</p>
-					<p>
-						<input class="w3-input w3-validate" type="email" name="email7" placeholder="courriel joueur 7">
-					</p>
-					<p>
-						<input id="j8" class="w3-input w3-validate w3-hide" type="email" name="email8" placeholder="courriel joueur 8">
-					</p>
-					<p>
-						<input id="j9" class="w3-input w3-validate w3-hide" type="email" name="email9" placeholder="courriel joueur 9">
-					</p>
-					<p>
-						<input id="j10" class="w3-input w3-validate w3-hide" type="email" name="email10" placeholder="courriel joueur 10">
-					</p>
-					<p>
-						<input id="j11" class="w3-input w3-validate w3-hide" type="email" name="email11" placeholder="courriel joueur 11">
-					</p>
 
-					<br>
+	</header>
 
-				</div>
-				<div class="w3-third w3-container w3-center">
-					<p>
-						<label>Nom de l'équipe</label> <input class="w3-input" type="text" name="nomDuTeam" placeholder="Le nom de votre équipe">
-					</p>
-					<p>
-						<label>Logo du team</label> <input class="w3-input" type="button" name="logoTeam" value="Choisir un logo" onclick="openTeamLogoPicker()"> <input id="logoUrl" type="hidden"
-							name="logoUrlTeam" value="default">
-					</p>
-					<br> <img id="logoTeamChosen" class="w3-hide" src="https://storage.googleapis.com/poolavie-bucket/QUE.png"> <br>
+	<!-- Section centrale -->
+	<div id="marketing1" class="w3-container">
+		<br>
+		<br>
+		<br>
+		<div class="w3-row">
+			<form class="w3-container w3-padding-left" action="/CreationPool" method="post" name="creation">
+				<div class="w3-third w3-container ">
 
-					<button class="w3-margin-top w3-btn w3-blue">Register</button>
+					<div class="w3-card-24 w3-white" style="width: 80%; height: 80%; margin-left: auto; margin-right: auto">
+						<div class="w3-indigo w3-center w3-padding">
+							<h3>Créer votre équipe</h3>
+						</div>
 
-					<c:if test="${MessageErreurBeans.erreurFormulaireLogin!=null }">
-						<p>${MessageErreurBeans.erreurFormulaireLogin}</p>
-					</c:if>
+						<br>
+						<label class="w3-label w3-text-indigo w3-large w3-container">Votre nom d'équipe</label>
+						<input class="w3-input w3-container" type="text" name="nomDuTeam"> <br> <input class="w3-btn  w3-margin-left w3-khaki w3-xlarge w3-text-indigo" type="button"
+							name="logoTeam" value="Choisir un logo" onclick="openTeamLogoPicker()"> <input id="logoUrl" type="hidden" name="logoUrlTeam" value="default"> <br> <br> <img
+							id="logoTeamChosen" class="w3-hide w3-container" src="https://storage.googleapis.com/poolavie-bucket/QUE.png"> <br>
+					</div>
+					<br> <br>
 				</div>
 				<div class="w3-third w3-container">
 
-					<p>Type de pool</p>
-					<label>For life</label><input class="w3-input" type="radio" name="typeTrade" value="1" checked disabled> <label>One years</label><input class="w3-input w3-validate" type="radio"
-						name="typeTrade" value="2" disabled> <br>
+					<div class="w3-card-24 w3-white" style="width: 80%; height: 80%; margin-left: auto; margin-right: auto">
+						<div class="w3-indigo w3-center w3-padding">
+							<h3>Invitez des particpants</h3>
+						</div>
+						<p>
+							<input class="w3-input w3-validate" type="email" name="email1" placeholder="courriel joueur 1">
+						</p>
 
-					<p>
-						<label>Nom du pool</label> <input class="w3-input" type="text" name="nomDuPool" placeholder="Exemple : Challenge de Saint-Clinclin">
-					</p>
+						<p>
+							<input class="w3-input w3-validate" type="email" name="email2" placeholder="courriel joueur 2">
+						</p>
 
-					<p>
-						<label>Image du Pool</label> <input class="w3-input" type="button" name="imagePool" value="Choisir un image" disabled>
-					</p>
-
-					<p>Nombre de Joueur</p>
-					<label>8</label><input class="w3-input" type="radio" name="nombreEquipe" value="8" checked onclick="m8players()"> <label>9</label><input class="w3-input" type="radio" name="nombreEquipe"
-						value="9" onclick="m9players()"> <label>10</label><input class="w3-input" type="radio" name="nombreEquipe" value="10" onclick="m10players()"> <label>11</label><input
-						class="w3-input" type="radio" name="nombreEquipe" value="11" onclick="m11players()"> <label>12</label><input class="w3-input" type="radio" name="nombreEquipe" value="12"
-						onclick="m12players()"> <br>
-
-					<p>Option de trade</p>
-					<label>All years</label><input class="w3-input" type="radio" name="typeTrade" value="1" checked> <label>Ponctual Period</label><input class="w3-input" type="radio" name="typeTrade"
-						value="2"> <br>
-
-
-					<p>Option de draft</p>
-					<label>Live</label><input class="w3-input" type="radio" name="typeDraft" value="1" checked> <label>Manuel</label><input class="w3-input" type="radio" name="typeDraft" value="2">
-
-
+						<p>
+							<input class="w3-input w3-validate" type="email" name="email3" placeholder="courriel joueur 3">
+						</p>
+						<p>
+							<input class="w3-input w3-validate" type="email" name="email4" placeholder="courriel joueur 4">
+						</p>
+						<p>
+							<input class="w3-input w3-validate" type="email" name="email5" placeholder="courriel joueur 5">
+						</p>
+						<p>
+							<input class="w3-input w3-validate" type="email" name="email6" placeholder="courriel joueur 6">
+						</p>
+						<p>
+							<input class="w3-input w3-validate" type="email" name="email7" placeholder="courriel joueur 7">
+						</p>
+						<p>
+							<input id="j8" class="w3-input w3-validate w3-hide" type="email" name="email8" placeholder="courriel joueur 8">
+						</p>
+						<p>
+							<input id="j9" class="w3-input w3-validate w3-hide" type="email" name="email9" placeholder="courriel joueur 9">
+						</p>
+						<p>
+							<input id="j10" class="w3-input w3-validate w3-hide" type="email" name="email10" placeholder="courriel joueur 10">
+						</p>
+						<p>
+							<input id="j11" class="w3-input w3-validate w3-hide" type="email" name="email11" placeholder="courriel joueur 11">
+						</p>
+					</div>
+					<br> <br>
 				</div>
+				<div class="w3-third w3-container">
+
+					<div class="w3-card-24 w3-white" style="width: 80%; height: 80%; margin-left: auto; margin-right: auto">
+						<div class="w3-indigo w3-center w3-padding">
+							<h3>Paramétrez votre pool</h3>
+						</div>
+
+
+						<p>Type de pool</p>
+				<label>For life</label><input class="w3-input" type="radio" name="typeTrade" value="1" checked disabled> <label>One years</label><input class="w3-input w3-validate" type="radio"
+					name="typeTrade" value="2" disabled> <br>
+
+				<p>
+					<label>Nom du pool</label> <input class="w3-input" type="text" name="nomDuPool" placeholder="Exemple : Challenge de Saint-Clinclin">
+				</p>
+
+				<p>
+					<label>Image du Pool</label> <input class="w3-input" type="button" name="imagePool" value="Choisir un image" disabled>
+				</p>
+
+				<p>Nombre de Joueur</p>
+				<label>8</label><input class="w3-input" type="radio" name="nombreEquipe" value="8" checked onclick="m8players()"> <label>9</label><input class="w3-input" type="radio" name="nombreEquipe"
+					value="9" onclick="m9players()"> <label>10</label><input class="w3-input" type="radio" name="nombreEquipe" value="10" onclick="m10players()"> <label>11</label><input
+					class="w3-input" type="radio" name="nombreEquipe" value="11" onclick="m11players()"> <label>12</label><input class="w3-input" type="radio" name="nombreEquipe" value="12"
+					onclick="m12players()"> <br>
+
+				<p>Option de trade</p>
+				<label>All years</label><input class="w3-input" type="radio" name="typeTrade" value="1" checked> <label>Ponctual Period</label><input class="w3-input" type="radio" name="typeTrade"
+					value="2"> <br>
+
+
+				<p>Option de draft</p>
+				<label>Live</label><input class="w3-input" type="radio" name="typeDraft" value="1" checked> <label>Manuel</label><input class="w3-input" type="radio" name="typeDraft" value="2">
+
+
+					</div>
+					<br> <br>
+				</div>
+
+
+
+
 			</form>
 		</div>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+	</div>
 
-		<jsp:directive.include file="../utils/teamLogoPicker.jsp" />
-	</c:if>
+
+
+	
+
+	<jsp:directive.include file="../utils/teamLogoPicker.jsp" />
+
+
+
+	<footer class="w3-container w3-indigo w3-large w3-center w3-bottom">
+		<p>Solution Pedagogik inc. © 2016. Tous droits réservés</p>
+	</footer>
 </body>
 </html>

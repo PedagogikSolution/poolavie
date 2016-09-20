@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.cron.model.ClassementCronModel;
 import com.pedagogiksolution.cron.model.DraftPickCronModel;
 import com.pedagogiksolution.cron.model.PlayersCronModel;
@@ -53,16 +52,9 @@ public class CreationPoolServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	CreationPoolModel mModel = new CreationPoolModel();
-	Boolean creationNewPoolOpen = mModel.checkIfDateIsGoodForNewPool();
-	if(creationNewPoolOpen){
+	
 	req.getRequestDispatcher("jsp/accueil/creationnouveaupool.jsp").forward(req, resp);
-	}else {
-	    MessageErreurBeans mBeanErreur = new MessageErreurBeans();
-	    mBeanErreur.setErreurFormulaireRegistration("Vous ne pouvez pas créer de nouveau pool à ce moment d'une saison en cours. Merci de revenir entre le 1 juillet et le 31 décembre pour débuter un nouveau Pool.");
-	    req.setAttribute("mauvaiseDate", mBeanErreur);
-	    req.getRequestDispatcher("jsp/accueil/creationnouveaupool.jsp").forward(req, resp);   
-	}
+	
     }
 
     @Override
