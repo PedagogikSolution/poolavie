@@ -45,9 +45,11 @@
 						<p class="w3-text-red w3-large">${MessageErreurBeans.erreurNotLogIn}</p>
 					</c:if>
 					<br>
-					<label class="w3-label w3-text-indigo w3-xlarge">Nom d'utilisateur</label> <input class="w3-input w3-container w3-text-blue w3-xlarge" type="text">
+					<label class="w3-label w3-text-indigo w3-xlarge">Nom d'utilisateur</label>
+					<input class="w3-input w3-container w3-text-blue w3-xlarge w3-validate" type="text" name="username">
 					<br>
-					<label class="w3-label w3-text-indigo w3-xlarge">Mot de passe</label> <input class="w3-input w3-container w3-text-blue w3-xlarge" type="password">
+					<label class="w3-label w3-text-indigo w3-xlarge">Mot de passe</label>
+					<input class="w3-input w3-container w3-text-blue w3-xlarge w3-validate" type="password" name="password">
 					<br>
 					<button class="w3-btn  w3-khaki w3-xlarge w3-text-indigo">Se connecter</button>
 					<br>
@@ -73,15 +75,15 @@
 				<br>
 				<label class="w3-label w3-text-indigo w3-xlarge">Courriel</label>
 				<br>
-				<input class="w3-input w3-text-indigo w3-xlarge" type="email">
+				<input class="w3-input w3-text-indigo w3-xlarge w3-validate" type="email" name="email">
 				<br>
 				<label class="w3-label w3-text-indigo w3-xlarge">Nom d'utilisateur</label>
 				<br>
-				<input class="w3-input w3-text-indigo w3-xlarge" type="text">
+				<input class="w3-input w3-text-indigo w3-xlarge w3-validate" type="text" name="username">
 				<br>
 				<label class="w3-label w3-text-indigo w3-xlarge">Mot de passe</label>
 				<br>
-				<input class="w3-input w3-text-indigo w3-xlarge" type="password">
+				<input class="w3-input w3-text-indigo w3-xlarge w3-validate" type="password" name="password">
 				<br>
 				<button class="w3-btn w3-khaki w3-xlarge w3-text-indigo">Poursuivre à l'étape suivante</button>
 				<br>
@@ -97,7 +99,8 @@
 
 	</div>
 	<div class="w3-container">
-
+	<div class="w3-row" style="height: 800px">
+		<br> <br> <br> <br>
 		<div class="w3-half">
 			<img src="https://storage.googleapis.com/poolavie-bucket/hockeyman.png" alt="background marketing 1" style="width: 100%, max-width:600px">
 		</div>
@@ -112,22 +115,7 @@
 		</div>
 
 	</div>
-	<div class="w3-container w3-khaki" style="height: 620px">
-		<div class="w3-half">
-			<img src="https://storage.googleapis.com/poolavie-bucket/hockeyman.png" alt="background marketing 1" style="width: 100%, max-width:600px">
-		</div>
-		<div class="w3-half">
-			<ul>
-				<li>Marketing line 1</li>
-				<li>Marketing line 2</li>
-				<li>Marketing line 3</li>
-				<li>Marketing line 4</li>
-
-			</ul>
-		</div>
-
 	</div>
-
 
 </body>
 </html>

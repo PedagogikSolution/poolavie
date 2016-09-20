@@ -16,7 +16,7 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	req.getSession().invalidate();
-	req.getRequestDispatcher("jsp/accueil/register.jsp").forward(req, resp);
+	req.getRequestDispatcher("jsp/accueil/home.jsp").forward(req, resp);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class RegisterServlet extends HttpServlet {
 	boolean mValidation = mModel.validationParametre(nomUtilisateur, motDePasse, courriel, req);
 
 	if (mValidation) {
-	    req.getRequestDispatcher("jsp/accueil/register.jsp").forward(req, resp);
+	    req.getRequestDispatcher("jsp/accueil/home.jsp").forward(req, resp);
 	    return;
 	}
 
@@ -43,7 +43,7 @@ public class RegisterServlet extends HttpServlet {
 
 	if (mModel.checkIfUsernameExist(nomUtilisateur,req)) {
 	    		
-	    req.getRequestDispatcher("jsp/accueil/register.jsp").forward(req, resp);
+	    req.getRequestDispatcher("jsp/accueil/home.jsp").forward(req, resp);
 	  	   
 	} else {
 	    
@@ -61,11 +61,11 @@ public class RegisterServlet extends HttpServlet {
 		if (sendingEmail) {
 		    resp.sendRedirect("/validation");
 		} else {
-		    req.getRequestDispatcher("jsp/accueil/register.jsp").forward(req, resp);
+		    req.getRequestDispatcher("jsp/accueil/home.jsp").forward(req, resp);
 		}
 
 	    } else {
-		req.getRequestDispatcher("jsp/accueil/register.jsp").forward(req, resp);
+		req.getRequestDispatcher("jsp/accueil/home.jsp").forward(req, resp);
 	    }
 
 	}

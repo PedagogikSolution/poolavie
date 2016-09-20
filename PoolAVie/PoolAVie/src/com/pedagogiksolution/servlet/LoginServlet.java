@@ -22,7 +22,7 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	
 	    req.getSession().invalidate();
-	    req.getRequestDispatcher("jsp/accueil/login.jsp").forward(req, resp); 
+	    req.getRequestDispatcher("jsp/accueil/home.jsp").forward(req, resp); 
 	
 	
 	
@@ -85,7 +85,7 @@ public class LoginServlet extends HttpServlet {
 		req.getRequestDispatcher("jsp/accueil/validation.jsp").forward(req, resp);
 	    }
 	} else {
-	    req.getRequestDispatcher("jsp/accueil/login.jsp").forward(req, resp);
+	    req.getRequestDispatcher("jsp/accueil/home.jsp").forward(req, resp);
 	}
 
     }
