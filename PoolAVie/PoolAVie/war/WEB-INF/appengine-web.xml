@@ -41,7 +41,6 @@
 <include path="/**.css" />
 <include path="/favicon.ico"/>
 <include path="/**.js" />
-<include path="jsp/accueil/home.html"/>
 </static-files>
 
 

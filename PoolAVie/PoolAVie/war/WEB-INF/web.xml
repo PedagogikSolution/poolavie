@@ -8,7 +8,7 @@
 
 	<!-- Page d'Acceuil de l'application web -->
 	<welcome-file-list>
-		<welcome-file>jsp/accueil/home.html</welcome-file>
+		<welcome-file>jsp/accueil/home.jsp</welcome-file>
 	</welcome-file-list>
 	
 	<!-- Création du listener pour le DaoFactory -->
