@@ -2687,37 +2687,37 @@ public class TradeModel {
 
 // check si le nombre par position va resister l'echange (min 8 attaquant, 5 def et 2 goal)
 
-	    if ((nb_attaquant_make_offer - nbAttInTeamThatOffer + nbAttInTeamThatReceived) < 8) {
+	    if ((nb_attaquant_make_offer - nbAttInTeamThatOffer + nbAttInTeamThatReceived) <= 8) {
 		mBean.setCodeErreurOffreTrade(3);
 		req.setAttribute("messageErreur", mBean);
 		return false;
 	    }
 
-	    if ((nb_attaquant_rec_offer + nbAttInTeamThatOffer - nbAttInTeamThatReceived) < 8) {
+	    if ((nb_attaquant_rec_offer + nbAttInTeamThatOffer - nbAttInTeamThatReceived) <= 8) {
 		mBean.setCodeErreurOffreTrade(3);
 		req.setAttribute("messageErreur", mBean);
 		return false;
 	    }
 
-	    if ((nb_defenseur_make_offer - nbDefInTeamThatOffer + nbDefInTeamThatReceived) < 5) {
+	    if ((nb_defenseur_make_offer - nbDefInTeamThatOffer + nbDefInTeamThatReceived) <= 5) {
 		mBean.setCodeErreurOffreTrade(4);
 		req.setAttribute("messageErreur", mBean);
 		return false;
 	    }
 
-	    if ((nb_defenseur_rec_offer + nbDefInTeamThatOffer - nbDefInTeamThatReceived) < 5) {
+	    if ((nb_defenseur_rec_offer + nbDefInTeamThatOffer - nbDefInTeamThatReceived) <= 5) {
 		mBean.setCodeErreurOffreTrade(4);
 		req.setAttribute("messageErreur", mBean);
 		return false;
 	    }
 
-	    if ((nb_goaler_make_offer - nbGoalInTeamThatOffer + nbGoalInTeamThatReceived) < 2) {
+	    if ((nb_goaler_make_offer - nbGoalInTeamThatOffer + nbGoalInTeamThatReceived) <= 2) {
 		mBean.setCodeErreurOffreTrade(5);
 		req.setAttribute("messageErreur", mBean);
 		return false;
 	    }
 
-	    if ((nb_goaler_rec_offer + nbGoalInTeamThatOffer - nbGoalInTeamThatReceived) < 2) {
+	    if ((nb_goaler_rec_offer + nbGoalInTeamThatOffer - nbGoalInTeamThatReceived) <= 2) {
 		mBean.setCodeErreurOffreTrade(5);
 		req.setAttribute("messageErreur", mBean);
 		return false;
