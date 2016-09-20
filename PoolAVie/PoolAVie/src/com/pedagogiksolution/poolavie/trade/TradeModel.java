@@ -2304,9 +2304,11 @@ public class TradeModel {
 
     }
 
-    public Boolean checkIfTradeIsStillPossible(HttpServletRequest req) {
+    public Boolean checkIfTradeIsStillPossible(HttpServletRequest req, int periodeTrade) {
 	String trade_id_string = req.getParameter("trade_id");
 	int trade_id = Integer.parseInt(trade_id_string);
+	
+	int periode = periodeTrade;
 
 	DatabaseConnector dbHelper = new DatabaseConnector();
 	Connection conn;
@@ -2512,7 +2514,7 @@ public class TradeModel {
 	playersTeamThatOffer = playersTeamThatOfferTemp.toArray(new String[playersTeamThatOfferTemp.size()]);
 	playersTeamThatReceived = playersTeamThatReceivedTemp.toArray(new String[playersTeamThatReceivedTemp.size()]);
 
-	boolean checkIfTradeIsStillValidateByRule = checkIfTradeIsStillValidateByRule(req, team1, team2, playersTeamThatOffer, playersTeamThatReceived, casht1, casht2);
+	boolean checkIfTradeIsStillValidateByRule = checkIfTradeIsStillValidateByRule(req, team1, team2, playersTeamThatOffer, playersTeamThatReceived, casht1, casht2,periode);
 
 	if (!checkIfTradeIsStillValidateByRule) {
 	    return false;
@@ -2521,7 +2523,7 @@ public class TradeModel {
 	return true;
     }
 
-    private boolean checkIfTradeIsStillValidateByRule(HttpServletRequest req, String team1, String team2, String[] playersTeamThatOffer, String[] playersTeamThatReceived, int casht1, int casht2) {
+    private boolean checkIfTradeIsStillValidateByRule(HttpServletRequest req, String team1, String team2, String[] playersTeamThatOffer, String[] playersTeamThatReceived, int casht1, int casht2, int periode) {
 	String QueryA, QueryB;
 	DatabaseConnector dbHelper = new DatabaseConnector();
 	Connection conn;
@@ -2686,7 +2688,7 @@ public class TradeModel {
 	    mPreparedStatement.close();
 
 // check si le nombre par position va resister l'echange (min 8 attaquant, 5 def et 2 goal)
-
+	    if(periode==2||periode==3){
 	    if ((nb_attaquant_make_offer - nbAttInTeamThatOffer + nbAttInTeamThatReceived) <= 8) {
 		mBean.setCodeErreurOffreTrade(3);
 		req.setAttribute("messageErreur", mBean);
@@ -2721,6 +2723,8 @@ public class TradeModel {
 		mBean.setCodeErreurOffreTrade(5);
 		req.setAttribute("messageErreur", mBean);
 		return false;
+	    }
+	    
 	    }
 
 // check si budget pour abosrber la transaction
