@@ -84,13 +84,14 @@
 			</div>
 			<br><br>
 		</div>
-	<br><br><br><br>
+	<br><br><br><br><br><br><br><br><br><br><br><br>
 	</div>
-	<div class="w3-container w3-blue">
+	<hr class="w3-indigo">
+	<div class="w3-container">
 		<div class="w3-row" style="height: 800px">
 			<br> <br> <br> <br>
 			<div class="w3-half">
-				<img src="https://storage.googleapis.com/poolavie-bucket/hockeyman.png" alt="background marketing 1" style="width: 100%, max-width:600px">
+				<img src="https://storage.googleapis.com/poolavie-bucket/hockeyman.png" alt="background marketing 1" style="width: 80%, max-width:500px">
 			</div>
 			<div class="w3-half w3-xlarge">
 				<div class="w3-leftbar w3-border-indigo w3-container w3-blue" style="height:69px">Plateforme de Repêchage Interactive avec projection sur Écran de télévision intelligente ou via chromecast et Apple Tv</div>
@@ -108,7 +109,8 @@
 
 		</div>
 	</div>
-	<div class="w3-container w3-khaki">
+	<hr class="w3-indigo">
+	<div class="w3-container">
 		<div class="w3-row" style="height: 800px">
 			<br> <br> <br> <br>
 
@@ -126,7 +128,7 @@
 				<div class="w3-leftbar w3-border-indigo w3-container w3-khaki" style="height:69px">Fini les feuilles papiers et les heures à entrer les choix ou à modifier les équipes lors d'échange</div>
 			</div>
 			<div class="w3-half">
-				<img src="https://storage.googleapis.com/poolavie-bucket/hockeyman.png" alt="background marketing 1" style="width: 100%, max-width:600px">
+				<img src="https://storage.googleapis.com/poolavie-bucket/hockeyman.png" alt="background marketing 1" style="width: 80%, max-width:500px">
 			</div>
 
 		</div>

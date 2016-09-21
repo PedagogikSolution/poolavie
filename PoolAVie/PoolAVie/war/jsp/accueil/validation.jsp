@@ -27,10 +27,10 @@
 
 	</header>
 	<!-- SEction centrale -->
-	<c:if test="${empty mauvaiseDate}">
+	<c:if test="${not empty mauvaiseDate}">
 	<h1>${mauvaisDate.erreurFormulaireRegistration}</h1>
 	</c:if>
-	<c:if test="${not empty mauvaiseDate}">
+	<c:if test="${empty mauvaiseDate}">
 	<div id="marketing1" class="w3-container">
 	<br><br><br><br><br><br><br><br><br><br><br><br>
 		<div class="w3-card-24 w3-white" style="width: 30%; height: 20%; margin-left: auto; margin-right: auto">

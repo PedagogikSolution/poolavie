@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.DraftPlayersModel;
 import com.pedagogiksolution.model.LoginModel;
+import com.pedagogiksolution.model.MenuPrincipalModel;
 
 public class LoginServlet extends HttpServlet {
 
@@ -20,23 +21,21 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
-	    req.getSession().invalidate();
-	    req.getRequestDispatcher("jsp/accueil/home.jsp").forward(req, resp); 
-	
-	
-	
+
+	req.getSession().invalidate();
+	req.getRequestDispatcher("jsp/accueil/home.jsp").forward(req, resp);
+
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
+
 	// recuperation des 2 inputs du formulaire de la page login.jsp
 	String nomUtilisateur = req.getParameter("username");
 	String motDePasse = req.getParameter("password");
 
 	// Instantiation de la classe métier pour le processus de registration
-	LoginModel mModel = new LoginModel(nomUtilisateur,motDePasse,req);
+	LoginModel mModel = new LoginModel(nomUtilisateur, motDePasse, req);
 
 	// verifie si le compte est valide, si oui creation du Bean Utilisateur
 	Boolean validateCredential = mModel.validateCredential();
@@ -47,39 +46,41 @@ public class LoginServlet extends HttpServlet {
 	    Boolean checkIfValidateAccount = mModel.checkIfValidateAccount();
 
 	    if (checkIfValidateAccount) {
-	    
-		// creation des bean Pool et Classement et Equipe
-		Boolean createSessionPoolBean= mModel.createSessionPoolBean();
-		Boolean createSessionEquipeBean= mModel.createSessionEquipeBean();
-		Boolean createSessionClassementBean= mModel.createSessionClassementBean();
-		
-		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
-		int cycleAnnuel = mBeanPool.getCycleAnnuel();
-		if(cycleAnnuel>=2){
-		mModel.createSessionDraftRoundBean();
-		}
-		Boolean createSessionDraftPickBean = mModel.createSessionDraftPickBean();
-		Boolean createSessionAttaquantBean = mModel.createSessionAttaquantBean();
-		Boolean createSessionDefenseurBean = mModel.createSessionDefenseurBean();
-		Boolean createSessionGardienBean = mModel.createSessionGardienBean();
-		Boolean createSessionRecrueBean = mModel.createSessionRecrueBean();
-		
-		if(createSessionDefenseurBean&&createSessionGardienBean&&createSessionRecrueBean&&createSessionPoolBean&&createSessionClassementBean&&createSessionEquipeBean&&createSessionDraftPickBean&&createSessionAttaquantBean){
-		
+		MenuPrincipalModel mModel2 = new MenuPrincipalModel();
+
+		// on verifie si processus de creation de cette utilisateur est terminé terminer
+		Boolean checkIfRegistrationFinish = mModel2.checkIfRegistrationFinish(req);
+		if (checkIfRegistrationFinish) {
+		    // creation des bean Pool et Classement et Equipe
+		    mModel.createSessionPoolBean();
+		    mModel.createSessionEquipeBean();
+		    mModel.createSessionClassementBean();
+
+		    Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		    int cycleAnnuel = mBeanPool.getCycleAnnuel();
+		    if (cycleAnnuel >= 2) {
+			mModel.createSessionDraftRoundBean();
+		    }
+		    mModel.createSessionDraftPickBean();
+		    mModel.createSessionAttaquantBean();
+		    mModel.createSessionDefenseurBean();
+		    mModel.createSessionGardienBean();
+		    mModel.createSessionRecrueBean();
+
 		    DraftPlayersModel mModelDraft = new DraftPlayersModel();
-		    
-		    Boolean checkIfDatastoreCreate=  mModelDraft.checkIfDatastoreCreate(mBeanPool);
-		    if(!checkIfDatastoreCreate){
+
+		    Boolean checkIfDatastoreCreate = mModelDraft.checkIfDatastoreCreate(mBeanPool);
+		    if (!checkIfDatastoreCreate) {
 			mModelDraft.createDraftDatastoreForThatPool(mBeanPool);
-		    } 
+		    }
 		    mModel.resetConnexionOpen();
-		    //connectFilter Session Attribute
+		    // connectFilter Session Attribute
 		    req.getSession().setAttribute("connectUser", 1);
-		    
+
 		    resp.sendRedirect("/Nouvelles");
-		    
+
 		} else {
-		    req.getRequestDispatcher("jsp/accueil/creationnouveaupool.jsp").forward(req, resp);    
+		    req.getRequestDispatcher("jsp/accueil/creationnouveaupool.jsp").forward(req, resp);
 		}
 	    } else {
 		req.getRequestDispatcher("jsp/accueil/validation.jsp").forward(req, resp);

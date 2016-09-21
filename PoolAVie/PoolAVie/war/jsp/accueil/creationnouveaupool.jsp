@@ -51,11 +51,16 @@
 
 						<br>
 						<label class="w3-label w3-text-indigo w3-large w3-container">Votre nom d'équipe</label>
-						<input class="w3-input w3-container" type="text" name="nomDuTeam"> <br> <input class="w3-btn  w3-margin-left w3-khaki w3-xlarge w3-text-indigo" type="button"
-							name="logoTeam" value="Choisir un logo" onclick="openTeamLogoPicker()"> <input id="logoUrl" type="hidden" name="logoUrlTeam" value="default"> <br> <br> <img
-							id="logoTeamChosen" class="w3-hide w3-container" src="https://storage.googleapis.com/poolavie-bucket/QUE.png"> <br>
+						<input class="w3-input w3-container" type="text" name="nomDuTeam">
+						<br>
+						<input class="w3-btn  w3-margin-left w3-khaki w3-xlarge w3-text-indigo" type="button" name="logoTeam" value="Choisir un logo" onclick="openTeamLogoPicker()">
+							<input id="logoUrl" type="hidden" name="logoUrlTeam" value="default"> <br> <br>
+							<img id="logoTeamChosen" class="w3-container" src="https://storage.googleapis.com/poolavie-bucket/QUE.png"> <br><br>
 					</div>
 					<br> <br>
+					<div style="width: 80%; height: 80%; margin-left: auto; margin-right: auto">
+					<button class="w3-btn w3-khaki w3-xlarge w3-text-indigo w3-center">Passez à l'Étape suivante</button>
+					</div>
 				</div>
 				<div class="w3-third w3-container">
 
@@ -63,6 +68,31 @@
 						<div class="w3-indigo w3-center w3-padding">
 							<h3>Invitez des particpants</h3>
 						</div>
+						<br>
+						<label class="w3-label w3-text-indigo w3-large w3-container">Nombre de Joueur</label>
+						
+						<div class="w3-container">
+						<input class="w3-radio" type="radio" name="nombreEquipe" value="8" checked onclick="m8players() ">
+						<label class="w3-validate">8</label> 
+						</div>
+						<div class="w3-container">
+						<input class="w3-radio" type="radio" name="nombreEquipe" value="9" onclick="m9players()">
+						<label class="w3-validate">9</label> 
+						</div>
+						<div class="w3-container">
+						<input class="w3-radio" type="radio" name="nombreEquipe" value="10" onclick="m10players()">
+						<label class="w3-validate">10</label> 
+						</div>
+						<div class="w3-container">
+						<input class="w3-radio" type="radio" name="nombreEquipe" value="11" onclick="m11players()">
+						<label class="w3-validate">11</label> 
+						</div>
+						<div class="w3-container">
+						<input class="w3-radio" type="radio" name="nombreEquipe" value="12" onclick="m12players()">
+						<label class="w3-validate">12</label> 
+						</div>
+						
+						<br>
 						<p>
 							<input class="w3-input w3-validate" type="email" name="email1" placeholder="courriel joueur 1">
 						</p>
@@ -107,34 +137,56 @@
 						<div class="w3-indigo w3-center w3-padding">
 							<h3>Paramétrez votre pool</h3>
 						</div>
+						<br>
+						<label class="w3-label w3-text-indigo w3-large w3-container">Nom du pool</label>
+						<input class="w3-input w3-container" type="text" name="nomDuPool" placeholder="Exemple : Challenge de Saint-Clinclin">
+						<br>
+						
+						<label class="w3-label w3-text-indigo w3-large w3-container">Type de pool</label>
+						
+						<div class="w3-container">
+						<input class="w3-radio" type="radio" name="typePool" value="1" checked>
+						<label class="w3-validate">Sur plusieurs années</label>
+						</div>
+						<div class="w3-container">
+						<input class="w3-radio" type="radio" name="typePool" value="2">
+						<label class="w3-validate">Une seule année</label>
+						</div>
+						
+						<br>
 
-
-						<p>Type de pool</p>
-				<label>For life</label><input class="w3-input" type="radio" name="typeTrade" value="1" checked disabled> <label>One years</label><input class="w3-input w3-validate" type="radio"
-					name="typeTrade" value="2" disabled> <br>
-
-				<p>
-					<label>Nom du pool</label> <input class="w3-input" type="text" name="nomDuPool" placeholder="Exemple : Challenge de Saint-Clinclin">
-				</p>
-
-				<p>
-					<label>Image du Pool</label> <input class="w3-input" type="button" name="imagePool" value="Choisir un image" disabled>
-				</p>
-
-				<p>Nombre de Joueur</p>
-				<label>8</label><input class="w3-input" type="radio" name="nombreEquipe" value="8" checked onclick="m8players()"> <label>9</label><input class="w3-input" type="radio" name="nombreEquipe"
-					value="9" onclick="m9players()"> <label>10</label><input class="w3-input" type="radio" name="nombreEquipe" value="10" onclick="m10players()"> <label>11</label><input
-					class="w3-input" type="radio" name="nombreEquipe" value="11" onclick="m11players()"> <label>12</label><input class="w3-input" type="radio" name="nombreEquipe" value="12"
-					onclick="m12players()"> <br>
-
-				<p>Option de trade</p>
-				<label>All years</label><input class="w3-input" type="radio" name="typeTrade" value="1" checked> <label>Ponctual Period</label><input class="w3-input" type="radio" name="typeTrade"
-					value="2"> <br>
-
-
-				<p>Option de draft</p>
-				<label>Live</label><input class="w3-input" type="radio" name="typeDraft" value="1" checked> <label>Manuel</label><input class="w3-input" type="radio" name="typeDraft" value="2">
-
+						
+				
+						<label class="w3-label w3-text-indigo w3-large w3-container">Paramètre des échanges</label>
+						
+						<div class="w3-container">
+						<input class="w3-radio" type="radio" name="typeTrade" value="1" checked>
+						<label class="w3-validate">Ouverte jusqu'à la date limite</label>
+						</div>
+						<div class="w3-container">
+						<input class="w3-radio" type="radio" name="typeTrade" value="2">
+						<label class="w3-validate">Uniquement lors de période d'échange</label>
+						</div>
+						<div class="w3-container">
+						<input class="w3-radio" type="radio" name="typeTrade" value="3">
+						<label class="w3-validate">Jamais</label>
+						</div>
+						
+						<br>
+						
+						<label class="w3-label w3-text-indigo w3-large w3-container">Option de repêchage</label>
+						
+						<div class="w3-container">
+						<input class="w3-radio" type="radio" name="typeDraft" value="1" checked>
+						<label class="w3-validate">Live draft</label>
+						</div>
+						<div class="w3-container">
+						<input class="w3-radio" type="radio" name="typeDraft" value="2">
+						<label class="w3-validate">Manuel</label>
+						</div>
+						
+						<br>
+						<br>
 
 					</div>
 					<br> <br>
@@ -151,16 +203,8 @@
 		<br>
 		<br>
 		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
+
+
 	</div>
 
 
