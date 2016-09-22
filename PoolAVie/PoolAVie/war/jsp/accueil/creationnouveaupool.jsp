@@ -51,7 +51,7 @@
 
 						<br>
 						<label class="w3-label w3-text-indigo w3-large w3-container">Votre nom d'équipe</label>
-						<input class="w3-input w3-container" type="text" name="nomDuTeam">
+						<input class="w3-input w3-margin-left w3-container" type="text" name="nomDuTeam">
 						<br>
 						<input class="w3-btn  w3-margin-left w3-khaki w3-xlarge w3-text-indigo" type="button" name="logoTeam" value="Choisir un logo" onclick="openTeamLogoPicker()">
 							<input id="logoUrl" type="hidden" name="logoUrlTeam" value="default"> <br> <br>
@@ -73,60 +73,60 @@
 						
 						<div class="w3-container">
 						<input class="w3-radio" type="radio" name="nombreEquipe" value="8" checked onclick="m8players() ">
-						<label class="w3-validate">8</label> 
+						<label class="w3-margin-left w3-validate">8</label> 
 						</div>
 						<div class="w3-container">
 						<input class="w3-radio" type="radio" name="nombreEquipe" value="9" onclick="m9players()">
-						<label class="w3-validate">9</label> 
+						<label class="w3-margin-left w3-validate">9</label> 
 						</div>
 						<div class="w3-container">
 						<input class="w3-radio" type="radio" name="nombreEquipe" value="10" onclick="m10players()">
-						<label class="w3-validate">10</label> 
+						<label class="w3-margin-left w3-validate">10</label> 
 						</div>
 						<div class="w3-container">
 						<input class="w3-radio" type="radio" name="nombreEquipe" value="11" onclick="m11players()">
-						<label class="w3-validate">11</label> 
+						<label class="w3-margin-left w3-validate">11</label> 
 						</div>
 						<div class="w3-container">
 						<input class="w3-radio" type="radio" name="nombreEquipe" value="12" onclick="m12players()">
-						<label class="w3-validate">12</label> 
+						<label class="w3-margin-left w3-validate">12</label> 
 						</div>
 						
 						<br>
 						<p>
-							<input class="w3-input w3-validate" type="email" name="email1" placeholder="courriel joueur 1">
+							<input class="w3-margin-left w3-input w3-validate" type="email" name="email1" placeholder="courriel joueur 1">
 						</p>
 
 						<p>
-							<input class="w3-input w3-validate" type="email" name="email2" placeholder="courriel joueur 2">
+							<input class="w3-margin-left w3-input w3-validate" type="email" name="email2" placeholder="courriel joueur 2">
 						</p>
 
 						<p>
-							<input class="w3-input w3-validate" type="email" name="email3" placeholder="courriel joueur 3">
+							<input class="w3-margin-left w3-input w3-validate" type="email" name="email3" placeholder="courriel joueur 3">
 						</p>
 						<p>
-							<input class="w3-input w3-validate" type="email" name="email4" placeholder="courriel joueur 4">
+							<input class="w3-margin-left w3-input w3-validate" type="email" name="email4" placeholder="courriel joueur 4">
 						</p>
 						<p>
-							<input class="w3-input w3-validate" type="email" name="email5" placeholder="courriel joueur 5">
+							<input class="w3-margin-left w3-input w3-validate" type="email" name="email5" placeholder="courriel joueur 5">
 						</p>
 						<p>
-							<input class="w3-input w3-validate" type="email" name="email6" placeholder="courriel joueur 6">
+							<input class="w3-margin-left w3-input w3-validate" type="email" name="email6" placeholder="courriel joueur 6">
 						</p>
 						<p>
-							<input class="w3-input w3-validate" type="email" name="email7" placeholder="courriel joueur 7">
+							<input class="w3-margin-left w3-input w3-validate" type="email" name="email7" placeholder="courriel joueur 7">
 						</p>
 						<p>
-							<input id="j8" class="w3-input w3-validate w3-hide" type="email" name="email8" placeholder="courriel joueur 8">
+							<input id="j8" class="w3-margin-left w3-input w3-validate w3-hide" type="email" name="email8" placeholder="courriel joueur 8">
 						</p>
 						<p>
-							<input id="j9" class="w3-input w3-validate w3-hide" type="email" name="email9" placeholder="courriel joueur 9">
+							<input id="j9" class="w3-margin-left w3-input w3-validate w3-hide" type="email" name="email9" placeholder="courriel joueur 9">
 						</p>
 						<p>
-							<input id="j10" class="w3-input w3-validate w3-hide" type="email" name="email10" placeholder="courriel joueur 10">
+							<input id="j10" class="w3-margin-left w3-input w3-validate w3-hide" type="email" name="email10" placeholder="courriel joueur 10">
 						</p>
 						<p>
-							<input id="j11" class="w3-input w3-validate w3-hide" type="email" name="email11" placeholder="courriel joueur 11">
+							<input id="j11" class="w3-margin-left w3-input w3-validate w3-hide" type="email" name="email11" placeholder="courriel joueur 11">
 						</p>
 					</div>
 					<br> <br>
@@ -139,18 +139,18 @@
 						</div>
 						<br>
 						<label class="w3-label w3-text-indigo w3-large w3-container">Nom du pool</label>
-						<input class="w3-input w3-container" type="text" name="nomDuPool" placeholder="Exemple : Challenge de Saint-Clinclin">
+						<input class="w3-input w3-margin-left w3-container" type="text" name="nomDuPool" placeholder="Exemple : Challenge de Saint-Clinclin">
 						<br>
 						
 						<label class="w3-label w3-text-indigo w3-large w3-container">Type de pool</label>
 						
 						<div class="w3-container">
 						<input class="w3-radio" type="radio" name="typePool" value="1" checked>
-						<label class="w3-validate">Sur plusieurs années</label>
+						<label class="w3-validate w3-margin-left">Sur plusieurs années</label>
 						</div>
 						<div class="w3-container">
 						<input class="w3-radio" type="radio" name="typePool" value="2">
-						<label class="w3-validate">Une seule année</label>
+						<label class="w3-validate w3-margin-left">Une seule année</label>
 						</div>
 						
 						<br>
@@ -161,15 +161,15 @@
 						
 						<div class="w3-container">
 						<input class="w3-radio" type="radio" name="typeTrade" value="1" checked>
-						<label class="w3-validate">Ouverte jusqu'à la date limite</label>
+						<label class="w3-validate w3-margin-left">Ouverte jusqu'à la date limite</label>
 						</div>
 						<div class="w3-container">
 						<input class="w3-radio" type="radio" name="typeTrade" value="2">
-						<label class="w3-validate">Uniquement lors de période d'échange</label>
+						<label class="w3-validate w3-margin-left">Uniquement lors de période d'échange</label>
 						</div>
 						<div class="w3-container">
 						<input class="w3-radio" type="radio" name="typeTrade" value="3">
-						<label class="w3-validate">Jamais</label>
+						<label class="w3-validate w3-margin-left">Jamais</label>
 						</div>
 						
 						<br>
@@ -178,11 +178,11 @@
 						
 						<div class="w3-container">
 						<input class="w3-radio" type="radio" name="typeDraft" value="1" checked>
-						<label class="w3-validate">Live draft</label>
+						<label class="w3-validate w3-margin-left">Live draft</label>
 						</div>
 						<div class="w3-container">
 						<input class="w3-radio" type="radio" name="typeDraft" value="2">
-						<label class="w3-validate">Manuel</label>
+						<label class="w3-validate w3-margin-left">Manuel</label>
 						</div>
 						
 						<br>

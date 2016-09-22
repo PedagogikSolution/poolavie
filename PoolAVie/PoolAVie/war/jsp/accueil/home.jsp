@@ -43,9 +43,9 @@
 							<p class="w3-text-red ">${MessageErreurBeans.erreurNotLogIn}</p>
 						</c:if>
 						<br> <label class="w3-label w3-text-indigo w3-large">Nom d'utilisateur</label>
-						<input class="w3-input w3-container w3-text-blue w3-validate" type="text" name="username"> <br>
+						<input class="w3-input  w3-container w3-text-blue w3-validate" type="text" name="username"> <br>
 						<label class="w3-label w3-text-indigo w3-large">Mot de passe</label> 
-						<input class="w3-input w3-container w3-text-blue  w3-validate" type="password" name="password"> <br>
+						<input class="w3-input  w3-container w3-text-blue  w3-validate" type="password" name="password"> <br>
 						<button class="w3-btn  w3-khaki w3-large w3-text-indigo">Se connecter</button>
 						<br>
 						<p class="w3-white">
@@ -68,9 +68,9 @@
 						<h3>Créer un nouveau pool</h3>
 					</div>
 					<form class="w3-padding-left" action="/register" method="post">
-						<br> <label class="w3-label w3-text-indigo w3-large">Courriel</label> <br> <input class="w3-input w3-text-indigo  w3-validate" type="email" name="email"> <br> <label
-							class="w3-label w3-text-indigo w3-large">Nom d'utilisateur</label> <br> <input class="w3-input w3-text-indigo  w3-validate" type="text" name="username"> <br> <label
-							class="w3-label w3-text-indigo w3-large">Mot de passe</label> <br> <input class="w3-input w3-text-indigo  w3-validate" type="password" name="password"> <br>
+						<br> <label class="w3-label w3-text-indigo w3-large">Courriel</label> <br> <input class="w3-input  w3-text-indigo  w3-validate" type="email" name="email"> <br> <label
+							class="w3-label w3-text-indigo w3-large">Nom d'utilisateur</label> <br> <input class="w3-input  w3-text-indigo  w3-validate" type="text" name="username"> <br> <label
+							class="w3-label w3-text-indigo w3-large">Mot de passe</label> <br> <input class="w3-input  w3-text-indigo  w3-validate" type="password" name="password"> <br>
 						<button class="w3-btn w3-khaki w3-large w3-text-indigo">Poursuivre à l'étape suivante</button>
 						<br>
 						<c:if test="${MessageErreurBeans.erreurFormulaireRegistration!=null }">
@@ -94,17 +94,17 @@
 				<img src="https://storage.googleapis.com/poolavie-bucket/hockeyman.png" alt="background marketing 1" style="width: 80%, max-width:500px">
 			</div>
 			<div class="w3-half w3-xlarge">
-				<div class="w3-leftbar w3-border-indigo w3-container w3-blue" style="height:69px">Plateforme de Repêchage Interactive avec projection sur Écran de télévision intelligente ou via chromecast et Apple Tv</div>
+				<div class="w3-leftbar w3-border-indigo w3-container " style="height:69px">Plateforme de Repêchage Interactive avec projection sur Écran de télévision intelligente ou via chromecast et Apple Tv</div>
 				<br>
-				<div class="w3-leftbar w3-border-indigo w3-container w3-blue" style="height:69px">Gestion des échanges entièrement informatisées et automatisées avec offre via site internet ou courriel, et ce, même live durant le draft</div>
+				<div class="w3-leftbar w3-border-indigo w3-container " style="height:69px">Gestion des échanges entièrement informatisées et automatisées avec offre via site internet ou courriel, et ce, même live durant le draft</div>
 				<br>
-				<div class="w3-leftbar w3-border-indigo w3-container w3-blue" style="height:69px">Une expérience de Directeur général avec des possibilités de contrats, de club école, de masse salarial, de rachats et plus</div>
+				<div class="w3-leftbar w3-border-indigo w3-container " style="height:69px">Une expérience de Directeur général avec des possibilités de contrats, de club école, de masse salarial, de rachats et plus</div>
 				<br>
-				<div class="w3-leftbar w3-border-indigo w3-container w3-blue" style="height:69px">Gérer vos équipes de vos ordinateurs, tablettes ou cellulaires, n'importe où dans le monde, pour toutes les facettes de votre pool</div>
+				<div class="w3-leftbar w3-border-indigo w3-container " style="height:69px">Gérer vos équipes de vos ordinateurs, tablettes ou cellulaires, n'importe où dans le monde, pour toutes les facettes de votre pool</div>
 				<br>
-				<div class="w3-leftbar w3-border-indigo w3-container w3-blue" style="height:69px">Participer à un pool d'une année ou un pool de type keeper sur plusieurs années, avec plusieurs paramètres et des archives de vos saisons antérieures</div>
+				<div class="w3-leftbar w3-border-indigo w3-container " style="height:69px">Participer à un pool d'une année ou un pool de type keeper sur plusieurs années, avec plusieurs paramètres et des archives de vos saisons antérieures</div>
 				<br>
-				<div class="w3-leftbar w3-border-indigo w3-container w3-blue" style="height:69px">Fini les feuilles papiers et les heures à entrer les choix ou à modifier les équipes lors d'échange. Du repêchage à l'entre-saison, soyez branchez!</div>
+				<div class="w3-leftbar w3-border-indigo w3-container " style="height:69px">Fini les feuilles papiers et les heures à entrer les choix ou à modifier les équipes lors d'échange. Du repêchage à l'entre-saison, soyez branchez!</div>
 			</div>
 
 		</div>
@@ -115,17 +115,17 @@
 			<br> <br> <br> <br>
 
 			<div class="w3-half w3-xlarge">
-				<div class="w3-leftbar w3-border-indigo w3-container w3-khaki" style="height:69px">Plateforme de Repêchage Interactive avec projection sur Écran de télévision intelligente</div>
+				<div class="w3-leftbar w3-border-indigo w3-container " style="height:69px">Plateforme de Repêchage Interactive avec projection sur Écran de télévision intelligente</div>
 				<br>
-				<div class="w3-leftbar w3-border-indigo w3-container w3-khaki" style="height:69px">Gestion des échanges entièrement informatisées et automatisées avec offre via site internet ou courriel</div>
+				<div class="w3-leftbar w3-border-indigo w3-container " style="height:69px">Gestion des échanges entièrement informatisées et automatisées avec offre via site internet ou courriel</div>
 				<br>
-				<div class="w3-leftbar w3-border-indigo w3-container w3-khaki" style="height:69px">Une expérience de Directeur général avec des possibilités de contrats, de club école, de masse salarial et plus</div>
+				<div class="w3-leftbar w3-border-indigo w3-container " style="height:69px">Une expérience de Directeur général avec des possibilités de contrats, de club école, de masse salarial et plus</div>
 				<br>
-				<div class="w3-leftbar w3-border-indigo w3-container w3-khaki" style="height:69px">Gérer vos équipes de vos ordinateurs, tablettes ou cellulaires, n'importe où dans le monde</div>
+				<div class="w3-leftbar w3-border-indigo w3-container " style="height:69px">Gérer vos équipes de vos ordinateurs, tablettes ou cellulaires, n'importe où dans le monde</div>
 				<br>
-				<div class="w3-leftbar w3-border-indigo w3-container w3-khaki" style="height:69px">Participer à un pool d'une année ou un pool de type keeper sur plusieurs années</div>
+				<div class="w3-leftbar w3-border-indigo w3-container " style="height:69px">Participer à un pool d'une année ou un pool de type keeper sur plusieurs années</div>
 				<br>
-				<div class="w3-leftbar w3-border-indigo w3-container w3-khaki" style="height:69px">Fini les feuilles papiers et les heures à entrer les choix ou à modifier les équipes lors d'échange</div>
+				<div class="w3-leftbar w3-border-indigo w3-container " style="height:69px">Fini les feuilles papiers et les heures à entrer les choix ou à modifier les équipes lors d'échange</div>
 			</div>
 			<div class="w3-half">
 				<img src="https://storage.googleapis.com/poolavie-bucket/hockeyman.png" alt="background marketing 1" style="width: 80%, max-width:500px">

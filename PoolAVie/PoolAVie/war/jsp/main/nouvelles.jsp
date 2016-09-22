@@ -13,6 +13,7 @@
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
 </head>
 
+
 <body>
 	<div id="all">
 		<!-- Header du menu principal-->
@@ -91,10 +92,10 @@
 		<div class="w3-twothird">
 			<c:set var="nombreDeMessage" value="${Articles.titre}" />
 			<c:forEach var="i" begin="0" end="${fn:length(nombreDeMessage)-1}">
-				<div class="w3-row w3-margin w3-card-8">
+				<div class="w3-row w3-margin w3-card-8 w3-khaki">
 
-					<div class="w3-third">
-						<img src="${Articles.writerLogo[i]}" style="width: 100%; min-height: 200px">
+					<div class="w3-third w3-verticale w3-center w3-margin-top">
+						<img src="${Articles.writerLogo[i]}" style="width: 40%;  height:40%;">
 					</div>
 					<div class="w3-twothird w3-container">
 						<h4>${Articles.dateCreation[i]}</h4>
@@ -156,11 +157,6 @@
 
 			</table>
 
-
-
-
-
-
 		</div>
 
 
@@ -170,7 +166,7 @@
 		<div id="postForm" class="w3-container w3-hide w3-display-middle">
 
 			<span onclick="closePostForm()" class="w3-closebtn w3-hover-text-red">&times;</span>
-			<div class="w3-container w3-orange">
+			<div class="w3-container w3-indigo">
 				<h2>Votre nouvelles/vos commentaires</h2>
 			</div>
 
@@ -185,7 +181,7 @@
 				</p>
 
 
-				<button class="w3-btn w3-orange w3-xlarge">Envoyer mon post</button>
+				<button class="w3-btn w3-khaki w3-xlarge">Envoyer mon post</button>
 
 				<br> <br>
 

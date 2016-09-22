@@ -1,19 +1,13 @@
 <!-- Contient la bar de navigation de l'interface principal -->
 
-<header class="w3-container w3-blue">
-		
-		
-		
-		<ul class="w3-navbar w3-third">
-			<li class="w3-left w3-xlarge"><img src="${Utilisateur.urlTeamLogo}" style="width:50%; height:50%">${Utilisateur.teamName}</li>
-		</ul>
-
-		<h1 class="w3-third w3-center w3-margin-0">${Pool.poolName}</h1>
-
-		<ul class="w3-navbar w3-third">
-
-			<li class="w3-right  w3-xlarge"><a href="/register">Modifier mon compte</a></li>
-			<li class="w3-right  w3-xlarge"><a href="/deconnexion">Déconnexion</a></li>
-		</ul>
+<!-- Header avec titre et images de promo -->
+<header>
+	<ul class="w3-navbar w3-center w3-indigo w3-xlarge">
+		<li style="width: 9.99%"><img src="${Utilisateur.urlTeamLogo}" style="width:25%; height:25%"></li>
+		<li style="width: 9.99%"><a href="#">${Utilisateur.teamName}</a></li>
+		<li style="width: 59.99%"><a href="#">Best pool Ever</a></li>
+		<li style="width: 9.99%"><a href="#">Mon compte</a></li>
+		<li style="width: 9.99%"><a href="#">Déconnexion</a></li>
+	</ul>
 
 </header>
