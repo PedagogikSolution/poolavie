@@ -1,128 +1,134 @@
-<div id="connexionAlert" class="w3-hide w3-display-middle w3-card-24 w3-white">
+<div id="connexionAlert" class="w3-card-24 w3-hide w3-display-middle" style="width: auto">
 
-
-	<div class="w3-orange">
-		<span class="w3-padding-left w3-padding-right w3-xxlarge">Vous êtes connectez au serveur de Draft</span>
+	<div class="w3-container w3-indigo">
+		<h2>Vous êtes connectez au serveur de Draft</h2>
 	</div>
-	<div class="w3-white">
-	<br>
-	<form class="w3-container w3-center w3-white" method="get">
-		<button class="w3-btn w3-orange w3-xlarge">Hell Yeah!</button>
+	<form class="w3-container w3-form w3-white" method="get">
+
+		<p>Vous pouvez maintenant effectuer vos choix de repêchage et recevoir des alertes lorsqu'un autre équipe fait un choix. Bon Draft!!!</p>
+
+
+
+
+		<button class="w3-btn w3-khaki w3-xlarge">Hell Yeah!</button>
+
+		<br> <br>
+
 	</form>
-	<br>
-	</div>
+
 
 </div>
 
+<div id="draftPickAlert" class="w3-card-24 w3-hide w3-display-middle" style="width: auto">
 
-<div id="draftPickAlert" class="w3-hide w3-display-middle w3-card-24 w3-white">
-
-	<div class="w3-orange">
-		<span class="w3-padding-left w3-padding-right w3-xxlarge">We got a Pick!!!</span>
+	<div class="w3-container w3-indigo">
+		<h2>Nous avons un choix!</h2>
 	</div>
-	<div class="w3-white">
-	<br>
-	<span id="teamThatDraft"></span> a repêcher avec le <span
-				id="pickNumber"></span>ième choix overall : <br> <span
-				id="playerDrafted"></span> ,<span id="position"></span>, de <span
-				id="teamOfPlayer"></span> <br> au salaire de <span id="salaire"></span>$
-				<br>
-	<form class="w3-container w3-center w3-white" method="get">
-		<button class="w3-btn w3-orange w3-xlarge">C'est noté</button>
+	<form class="w3-container w3-form w3-white" method="get">
+
+		<p class="w3-xlarge">
+			<span id="teamThatDraft"></span> a repêcher avec le <span id="pickNumber"></span>ième choix overall : <br> <span id="playerDrafted"></span> ,<span id="position"></span>, de <span
+				id="teamOfPlayer"></span> <br> au salaire de <span id="salaire"></span>$ <br>
+		</p>
+
+
+
+
+		<button class="w3-btn w3-khaki w3-xlarge">C'est noté</button>
+
+		<br> <br>
+
 	</form>
-	<br>
-</div>
-
 
 
 </div>
 
-<div id="draftPickAlertRookie" class="w3-hide w3-display-middle w3-card-24 w3-white">
+<div id="draftPickAlertRookie" class="w3-card-24 w3-hide w3-display-middle" style="width: auto">
 
-	<div class="w3-orange">
-		<span class="w3-padding-left w3-padding-right w3-xxlarge">We got a Pick!!!</span>
+	<div class="w3-container w3-indigo">
+		<h2>Nous avons un choix!</h2>
 	</div>
-	<div class="w3-white">
-	<br>
-	<span id="teamThatDraft"></span> a repêcher avec le <span
-				id="pickNumber"></span>ième choix overall : <br> <span
-				id="playerDrafted"></span> ,<span id="position"></span>, de <span
-				id="teamOfPlayer"></span> <br> au salaire de <span id="salaire"></span>$
-				<br>
-				Il place celui-ci dans son club école.
-				<br>
-	<form class="w3-container w3-center w3-white" method="get">
-		<button class="w3-btn w3-orange w3-xlarge">Malade!!!</button>
+	<form class="w3-container w3-form w3-white" method="get">
+
+		<p class="w3-xlarge">
+			<span id="teamThatDraft"></span> a repêcher avec le <span id="pickNumber"></span>ième choix overall : <br> <span id="playerDrafted"></span> ,<span id="position"></span>, de <span
+				id="teamOfPlayer"></span> <br> au salaire de <span id="salaire"></span>$ <br> <br> Il place celui-ci dans son club école.
+		</p>
+
+
+
+
+		<button class="w3-btn w3-khaki w3-xlarge">Malade!!!</button>
+
+		<br> <br>
+
 	</form>
-	<br>
-</div>
-
 
 
 </div>
 
-<div id="draftPickAlertFinish" class="w3-hide w3-display-middle w3-card-24 w3-white">
+<div id="draftPickAlertFinish" class="w3-card-24 w3-hide w3-display-middle" style="width: auto">
 
-	<div class="w3-orange">
-		<span class="w3-padding-left w3-padding-right w3-xxlarge">We got a Pick!!!</span>
+	<div class="w3-container w3-indigo">
+		<h2>Nous avons un choix!</h2>
 	</div>
-	<div class="w3-white">
-	<br>
-	<span id="teamThatDraft"></span> a repêcher avec le <span
-				id="pickNumber"></span>ième choix overall : <br> <span
-				id="playerDrafted"></span> ,<span id="position"></span>, de <span
-				id="teamOfPlayer"></span> <br> au salaire de <span id="salaire"></span>$
-				<br>
-				<p>LE DRAFT EST FINI. VOUS POUVEZ MAINTENANT ALLER DANS LA
-			SECTION SIGNATURE POUR DONNER DES CONTRATS À VOS JOUEURS REPÊCHÉS</p>
-	<form class="w3-container w3-center w3-white" method="get">
-		<button class="w3-btn w3-orange w3-xlarge">C'est noté</button>
+	<form class="w3-container w3-form w3-white" method="get">
+
+		<p class="w3-xlarge">
+			<span id="teamThatDraft"></span> a repêcher avec le <span id="pickNumber"></span>ième choix overall : <br> <span id="playerDrafted"></span> ,<span id="position"></span>, de <span
+				id="teamOfPlayer"></span> <br> au salaire de <span id="salaire"></span>$ <br> <br> Il place celui-ci dans son club école.
+		</p>
+
+		<p>LE DRAFT EST FINI. VOUS POUVEZ MAINTENANT ALLER DANS LA SECTION SIGNATURE POUR DONNER DES CONTRATS À VOS JOUEURS REPÊCHÉS</p>
+
+
+		<button class="w3-btn w3-khaki w3-xlarge">Malade!!!</button>
+
+		<br> <br>
+
 	</form>
-	<br>
-	</div>
-
 
 
 </div>
 
-<div id="draftPickAlertRookieFinish" class="w3-hide w3-display-middle w3-card-24 w3-white">
+<div id="draftPickAlertRookieFinish" class="w3-card-24 w3-hide w3-display-middle" style="width: auto">
 
-	<div class="w3-orange">
-		<span class="w3-padding-left w3-padding-right w3-xxlarge">We got a Pick!!!</span>
+	<div class="w3-container w3-indigo">
+		<h2>Nous avons un choix!</h2>
 	</div>
-	<div class="w3-white">
-	<br>
-	<span id="teamThatDraft"></span> a repêcher avec le <span
-				id="pickNumber"></span>ième choix overall : <br> <span
-				id="playerDrafted"></span> ,<span id="position"></span>, de <span
-				id="teamOfPlayer"></span> <br> au salaire de <span id="salaire"></span>$
-				<br>
-				<p>LE DRAFT EST FINI. VOUS POUVEZ MAINTENANT ALLER DANS LA
-			SECTION SIGNATURE POUR DONNER DES CONTRATS À VOS JOUEURS REPÊCHÉS</p>
-	<form class="w3-container w3-center w3-white" method="get">
-		<button class="w3-btn w3-orange w3-xlarge">C'est noté</button>
+	<form class="w3-container w3-form w3-white" method="get">
+
+		<p class="w3-xlarge">
+			<span id="teamThatDraft"></span> a repêcher avec le <span id="pickNumber"></span>ième choix overall : <br> <span id="playerDrafted"></span> ,<span id="position"></span>, de <span
+				id="teamOfPlayer"></span> <br> au salaire de <span id="salaire"></span>$ <br> <br> Il place celui-ci dans son club école.
+		</p>
+
+		<p>LE DRAFT EST FINI. VOUS POUVEZ MAINTENANT ALLER DANS LA SECTION SIGNATURE POUR DONNER DES CONTRATS À VOS JOUEURS REPÊCHÉS</p>
+
+
+		<button class="w3-btn w3-khaki w3-xlarge">Malade!!!</button>
+
+		<br> <br>
+
 	</form>
-	<br>
-	</div>
-
 
 
 </div>
-
-
 
 
 <c:if test="${sessionScope.DraftFinish==1}">
-<div class="w3-orange">
-		<span class="w3-padding-left w3-padding-right w3-xxlarge">Votre draft est terminé</span>
-	</div>
-	<div class="w3-white">
-	<br>
-	<form class="w3-container w3-center w3-white" method="get">
-		<button class="w3-btn w3-orange w3-xlarge">Enfin!</button>
-	</form>
-	<br>
-	</div>
+
+	<div id="connexionAlert" class="w3-card-24 w3-display-middle" style="width: auto">
+
+		<div class="w3-container w3-section w3-red">
+
+			<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+			<h3>Votre draft est terminé</h3>
+			<p>Vous pouvez maintenant rester connecter pour suivre la fin du draft ou vous déconnecter et revenir signer vos contrats de fin de draft aussitôt que celui-ci est terminé dans la section
+				signature.</p>
+
+		</div>
 
 
+	</div>
 </c:if>

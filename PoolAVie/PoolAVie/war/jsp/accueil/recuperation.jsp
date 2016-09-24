@@ -7,7 +7,6 @@
 <title>Pool à vie</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/css/w3.css">
-<jsp:directive.include file="/jsp/utils/firebase.jsp" />
 </head>
 
 <body class="w3-light-grey">

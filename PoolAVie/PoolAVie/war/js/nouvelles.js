@@ -1,9 +1,8 @@
 function newPost(){
 	
-
-	
 	document.getElementById('all').classList.add('w3-overlay');
 	document.getElementById('all').classList.add('w3-show');
+	document.getElementById('postForm').classList.remove('w3-hide');
 	document.getElementById('postForm').classList.add('w3-show');
 	document.getElementById('btnNewPost').classList.add('w3-hide');
 	
@@ -23,6 +22,3 @@ function closePostForm(){
 	
 }
 
-annulleHoverAction(){
-	document.getElementById('annulleHoverAction').backgroundColor = "red";
-}
