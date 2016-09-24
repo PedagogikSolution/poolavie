@@ -17,8 +17,12 @@ function closePostForm(){
 	document.getElementById('postForm').classList.add('w3-hide');
 	document.getElementById('all').classList.remove('w3-overlay');
 	document.getElementById('btnNewPost').classList.remove('w3-hide');
+	document.getElementById('titreNouvelle').value ="";
+	document.getElementById('corpsMessageNouvelle').value ="";
 	
+	
+}
 
-	
-	
+annulleHoverAction(){
+	document.getElementById('annulleHoverAction').backgroundColor = "red";
 }

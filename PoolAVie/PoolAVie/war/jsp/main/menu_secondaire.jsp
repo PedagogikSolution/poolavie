@@ -1,6 +1,6 @@
 <!-- Contient la bar de navigation de l'interface principal -->
 
-<header class="w3-container w3-blue">
+<header class="w3-container w3-indigo">
 <c:if test="${Utilisateur.typeUtilisateur==1 }">
 	<ul class="w3-navbar w3-center">
 		<li class="w3-xlarge"><a href="/Nouvelles">NEWS</a></li>

@@ -29,7 +29,7 @@ public class NouvellesModel {
 	
 	// en attendant le processus d'upload des images et avatars
 	if(writerLogo==null){
-	    writerLogo = "http://payload41.cargocollective.com/1/6/222178/3122272/wbhp_logo.jpg";
+	    writerLogo = "https://storage.googleapis.com/poolavie-bucket/QUE.png";
 	}
 
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -52,7 +52,7 @@ public class NouvellesModel {
 
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 	String writerName = "L'équipe de Pool à vie";
-	String writerLogo = "http://payload41.cargocollective.com/1/6/222178/3122272/wbhp_logo.jpg";
+	String writerLogo = "https://storage.googleapis.com/poolavie-bucket/QUE.png";
 	String poolID = mBeanPool.getPoolID();
 
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();

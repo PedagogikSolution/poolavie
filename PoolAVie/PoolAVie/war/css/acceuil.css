@@ -13,7 +13,6 @@
 }
 
 
-
 @media only screen and (min-width:1600px) {
 	.logoPicker {
 		width: 80%;
@@ -26,5 +25,7 @@
 		width: 80%;
 		height: 80%;
 	}
+	
+	
 }
 

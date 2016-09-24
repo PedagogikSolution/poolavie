@@ -15,13 +15,12 @@
 
 
 <body>
-	<div id="all">
+	<div id="all" class="w3-display-container">
 		<!-- Header du menu principal-->
 		<jsp:directive.include file="navbar_main.jsp" />
 		<jsp:directive.include file="menu_secondaire.jsp" />
 
 		<!-- Body de la page news -->
-
 		<!-- -------------------- Zone d'alerte pour les Commissaires et les Directeurs généraux     --------------------------------------- -->
 
 		<!-- Si manque des équipes -->
@@ -94,14 +93,14 @@
 			<c:forEach var="i" begin="0" end="${fn:length(nombreDeMessage)-1}">
 				<div class="w3-row w3-margin w3-card-8 w3-khaki">
 
-					<div class="w3-third w3-verticale w3-center w3-margin-top">
-						<img src="${Articles.writerLogo[i]}" style="width: 40%;  height:40%;">
+					<div class="w3-third w3-verticale w3-center w3-margin-top" style="max-width:300px">
+						<img src="${Articles.writerLogo[i]}" style="width: 80%;  height:80%;">
 					</div>
 					<div class="w3-twothird w3-container">
 						<h4>${Articles.dateCreation[i]}</h4>
 						<h2>${Articles.titre[i]}</h2>
 						<p>${Articles.body[i]}</p>
-						<p>${Articles.writerName[i]}</p>
+						<p><h5 class="w3-text-shadow">${Articles.writerName[i]}</h5></p>
 					</div>
 
 				</div>
@@ -118,7 +117,7 @@
 			<!-- classement  -->
 			<table class="w3-table w3-striped w3-bordered w3-card-8 w3-margin-top">
 				<caption class="w3-blue w3-xlarge">Classement</caption>
-				<tr class="w3-blue">
+				<tr class="w3-indigo">
 					<th>Pos</th>
 					<th>Équipe</th>
 					<th>Pts</th>
@@ -138,7 +137,7 @@
 			<!-- pointeur hier soir  -->
 			<table class="w3-table w3-striped w3-bordered w3-card-8 w3-margin-top">
 				<caption class="w3-blue w3-xlarge">Pointeurs hier</caption>
-				<tr class="w3-blue">
+				<tr class="w3-indigo">
 					<th>Nom</th>
 					<th>Équipe</th>
 					<th>Pts</th>
@@ -149,7 +148,7 @@
 			<!-- top scoreur  -->
 			<table class="w3-table w3-striped w3-bordered w3-card-8 w3-margin-top">
 				<caption class="w3-blue w3-xlarge">Meilleurs pointeurs</caption>
-				<tr class="w3-blue">
+				<tr class="w3-indigo">
 					<th>Nom</th>
 					<th>Équipe</th>
 					<th>Pts</th>
@@ -163,21 +162,21 @@
 		<a id="btnNewPost" onclick="newPost()" class="w3-btn-floating-large w3-theme-action w3-right w3-red" style="position: fixed; bottom: 25px; left: 25px;">+</a>
 
 
-		<div id="postForm" class="w3-container w3-hide w3-display-middle">
+		<div id="postForm" class="w3-card-24 w3-hide w3-display-middle" style="width:auto">
 
-			<span onclick="closePostForm()" class="w3-closebtn w3-hover-text-red">&times;</span>
+			<span onclick="closePostForm()" class="w3-padding w3-closebtn w3-text-khaki w3-hover-text-red">&times;</span>
 			<div class="w3-container w3-indigo">
 				<h2>Votre nouvelles/vos commentaires</h2>
 			</div>
 
-			<form class="w3-container w3-card-24 w3-white" action="/Nouvelles" method="post">
+			<form class="w3-container w3-form w3-white" action="/Nouvelles" method="post">
 
 				<p>
-					<label>Titre</label><input class="w3-input w3-validate" type="text" name="titre">
+					<label class="w3-label w3-text-indigo w3-large">Titre</label><input id="titreNouvelle" class="w3-input w3-validate" type="text" name="titre">
 				</p>
 
 				<p>
-					<label>Corps du Message</label><input class="w3-input w3-validate" type="text" name="body">
+					<label class="w3-label w3-text-indigo w3-large">Corps du Message</label><textarea id="corpsMessageNouvelle" rows="4" cols="100" class="w3-input w3-validate" name="body"></textarea>
 				</p>
 
 
@@ -186,9 +185,6 @@
 				<br> <br>
 
 			</form>
-
-
-
 
 		</div>
 
