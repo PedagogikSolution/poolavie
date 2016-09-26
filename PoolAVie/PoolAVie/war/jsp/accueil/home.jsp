@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="/css/acceuil.css">
 </head>
 
-<body>
+<body class="w3-light-grey">
 
 	<!-- Header avec titre et images de promo -->
 	<header class="w3-container w3-indigo w3-large">
@@ -51,7 +51,6 @@
 						<p class="w3-white">
 							<a href="/recuperation">Vous avez oubliez vos identifiants?</a>
 						</p>
-						<br>
 						<c:if test="${MessageErreurBeans.erreurFormulaireLogin!=null }">
 							<p class="w3-text-red ">${MessageErreurBeans.erreurFormulaireLogin}</p>
 						</c:if>

@@ -7,7 +7,7 @@
 		<li class="w3-hide-small w3-hide-medium w3-padding-top" style="width:9.99%"><a href="#">${Utilisateur.teamName}</a></li>
 		<li class="w3-padding-top" onmouseover="annulleHoverAction()" style="width:59.99%"><a href="#">${Pool.poolName }</a></li>
 		<li class="w3-padding-top" style="width:9.99%"><a href="#">Mon compte</a></li>
-		<li class="w3-padding-top" style="width:9.99%"><a href="#">Déconnexion</a></li>
+		<li class="w3-padding-top" style="width:9.99%"><a href="/deconnexion">Déconnexion</a></li>
 	</ul>
 
 </header>

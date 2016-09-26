@@ -36,7 +36,8 @@
 				<h3>C'est l'heure du Draft</h3>
 				<p>Votre draft est prêt à commencer. Cliquez ici pour vous connecter au serveur de draft</p>
 				<p>
-					<a href="/DraftCenter"> Cliquez ici pour y aller directement</a> ou aller dans la section Draft du menu
+					<a href="/DraftCenter"> Cliquez ici pour y aller directement</a>
+					ou aller dans la section Draft du menu
 				</p>
 
 			</div>
@@ -50,7 +51,8 @@
 				<h3>OUPS!</h3>
 				<p>${messageErreur.erreurConnectionDraft}</p>
 				<p>
-					<a href="/DraftCenter"> Cliquez ici pour y aller directement</a> ou aller dans la section Draft du menu
+					<a href="/DraftCenter"> Cliquez ici pour y aller directement</a>
+					ou aller dans la section Draft du menu
 				</p>
 
 			</div>
@@ -58,19 +60,46 @@
 		</c:if>
 
 		<c:if test="${messageErreur.erreurDraft==null&&confirmationPick.can_be_rookie==0}">
+			<div id="draftPickAlert" class="w3-card-24 w3-hide w3-display-middle" style="width: auto">
+				<div class="w3-container w3-indigo">
+					<h2>Confirmation choix de repêchage</h2>
+				</div>
+				<form onsubmit="confirmationButton.disabled = true; return true;" class="w3-container w3-form w3-white" action="/DraftPlayers" method="post">
+
+					<p class="w3-xxlarge">Voulez-vous confirmer le repêchage de ${confirmationPick.nom}, ${confirmationPick.position} de l'équipe de ${confirmationPick.teamOfPlayer} au salaire de
+						${confirmationPick.salaire_draft}</p>
+
+
+					<input type="hidden" name="draftStep" value="2" />
+					<input type="hidden" name="draft_player_id" value="${confirmationPick.players_id}" />
+					<input type="hidden" name="team_id" value="${Utilisateur.teamId}" />
+					<input type="hidden" name="nom" value="${confirmationPick.nom}" />
+					<input type="hidden" name="position" value="${confirmationPick.position}" />
+					<input type="hidden" name="team" value="${confirmationPick.teamOfPlayer}" />
+					<input type="hidden" name="can_be_rookie" value="${confirmationPick.can_be_rookie}" />
+					<input type="hidden" name="salaire" value="${confirmationPick.salaire_draft}" />
+					<button class="w3-btn w3-khaki w3-xlarge">Oui je le veux"</button>
+
+				</form>
+				<form class="w3-container w3-card-24 w3-white" action="/DraftCenter" method="get">
+					<button class="w3-btn w3-khaki w3-xlarge">Annuler</button>
+				</form>
+
+			</div>
+
+
 			<div id="pickConfirmBox" class="w3-container w3-display-middle">
 
 
 				<div class="w3-container w3-orange">
 					<h2>Confirmation choix de repêchage</h2>
 				</div>
-				<div>Voulez-vous confirmer le repêchage de ${confirmationPick.nom}, ${confirmationPick.position} de l'équipe de ${confirmationPick.teamOfPlayer} au salaire de
-					${confirmationPick.salaire_draft}</div>
+				<div></div>
 
 				<form onsubmit="confirmationButton.disabled = true; return true;" class="w3-container w3-card-24 w3-white" action="/DraftPlayers" method="post">
 					<input type="hidden" name="draftStep" value="2">
 					<input type="hidden" name="draft_player_id" value="${confirmationPick.players_id}">
-					<input type="hidden" name="team_id"	value="${Utilisateur.teamId}">
+					<input type="hidden" name="team_id" value="${Utilisateur.teamId}">
 					<input type="hidden" name="nom" value="${confirmationPick.nom}">
 					<input type="hidden" name="position" value="${confirmationPick.position}">
 					<input type="hidden" name="team" value="${confirmationPick.teamOfPlayer}">
@@ -94,8 +123,8 @@
 			</div>
 
 		</c:if>
-		
-		
+
+
 		<c:if test="${messageErreur.erreurDraft==null&&confirmationPick.can_be_rookie==1}">
 			<div id="pickConfirmBox" class="w3-container w3-display-middle">
 
@@ -109,7 +138,7 @@
 				<form onsubmit="confirmationButtonA.disabled = true; return true;" class="w3-container w3-card-24 w3-white" action="/DraftPlayers" method="post">
 					<input type="hidden" name="draftStep" value="2">
 					<input type="hidden" name="draft_player_id" value="${confirmationPick.players_id}">
-					<input type="hidden" name="team_id"	value="${Utilisateur.teamId}">
+					<input type="hidden" name="team_id" value="${Utilisateur.teamId}">
 					<input type="hidden" name="nom" value="${confirmationPick.nom}">
 					<input type="hidden" name="position" value="${confirmationPick.position}">
 					<input type="hidden" name="team" value="${confirmationPick.teamOfPlayer}">
@@ -123,7 +152,7 @@
 				<form onsubmit="confirmationButtonB.disabled = true; return true;" action="/DraftPlayers" method="post">
 					<input type="hidden" name="draftStep" value="3">
 					<input type="hidden" name="draft_player_id" value="${confirmationPick.players_id}">
-					<input type="hidden" name="team_id"	value="${Utilisateur.teamId}">
+					<input type="hidden" name="team_id" value="${Utilisateur.teamId}">
 					<input type="hidden" name="nom" value="${confirmationPick.nom}">
 					<input type="hidden" name="position" value="${confirmationPick.position}">
 					<input type="hidden" name="team" value="${confirmationPick.teamOfPlayer}">
@@ -178,7 +207,7 @@
 
 
 
-<jsp:directive.include file="../utils/draftMessage.jsp" />
+		<jsp:directive.include file="../utils/draftMessage.jsp" />
 
 
 		<!-- fin du container principal -->

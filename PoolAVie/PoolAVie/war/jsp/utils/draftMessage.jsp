@@ -3,7 +3,7 @@
 	<div class="w3-container w3-indigo">
 		<h2>Vous êtes connectez au serveur de Draft</h2>
 	</div>
-	<form class="w3-container w3-form w3-white" method="get">
+	<form class="w3-container w3-form w3-white w3-xlarge" method="get">
 
 		<p>Vous pouvez maintenant effectuer vos choix de repêchage et recevoir des alertes lorsqu'un autre équipe fait un choix. Bon Draft!!!</p>
 
@@ -26,7 +26,7 @@
 	</div>
 	<form class="w3-container w3-form w3-white" method="get">
 
-		<p class="w3-xlarge">
+		<p class="w3-xxlarge">
 			<span id="teamThatDraft"></span> a repêcher avec le <span id="pickNumber"></span>ième choix overall : <br> <span id="playerDrafted"></span> ,<span id="position"></span>, de <span
 				id="teamOfPlayer"></span> <br> au salaire de <span id="salaire"></span>$ <br>
 		</p>
