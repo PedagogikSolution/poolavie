@@ -47,7 +47,7 @@
 	    
 		
 		<h2 class="w3-center">Mise à jour le ${Pool.derniereMAJ}</h2>
-		<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width:80%">
+		<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top w3-xlarge" style="width:80%">
 		<caption class="w3-blue w3-xlarge"><h1>Classement du pool ${Pool.poolName}</h1></caption>
 			<tr class="w3-indigo">
 					<th>Pos</th>

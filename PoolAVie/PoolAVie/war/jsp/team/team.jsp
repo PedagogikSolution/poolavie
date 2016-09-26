@@ -58,7 +58,7 @@
 				<caption class="w3-blue w3-xlarge">
 					<h1>Attaquant</h1>
 				</caption>
-				<tr class="w3-blue">
+				<tr class="w3-indigo">
 					<th>Pos</th>
 					<th>Nom</th>
 					<th>Équipe</th>
@@ -116,7 +116,7 @@
 				<caption class="w3-blue w3-xlarge">
 					<h1>Defenseur</h1>
 				</caption>
-				<tr class="w3-blue">
+				<tr class="w3-indigo">
 					<th>Pos</th>
 					<th>Nom</th>
 					<th>Équipe</th>
@@ -174,7 +174,7 @@
 				<caption class="w3-blue w3-xlarge">
 					<h1>Gardien</h1>
 				</caption>
-				<tr class="w3-blue">
+				<tr class="w3-indigo">
 					<th>Pos</th>
 					<th>Nom</th>
 					<th>Équipe</th>
@@ -232,7 +232,7 @@
 				<caption class="w3-blue w3-xlarge">
 					<h1>Recrue</h1>
 				</caption>
-				<tr class="w3-blue">
+				<tr class="w3-indigo">
 					<th>Pos</th>
 					<th>Nom</th>
 					<th>Équipe</th>
@@ -287,7 +287,7 @@
 				<caption class="w3-blue w3-xlarge">
 					<h1>Pick</h1>
 				</caption>
-				<tr class="w3-blue">
+				<tr class="w3-indigo">
 					<th>Round</th>
 					<th>From</th>
 
