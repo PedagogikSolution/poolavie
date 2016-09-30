@@ -39,7 +39,7 @@ public class ResetForTestCron extends HttpServlet {
         int manquant_gardien = 0, manquant_recrue = 0, bonus_5m = 0, argent_recu = 0, bonus_penalite = 0;
 	DraftProcess mBeanDraftProcess = new DraftProcess();
 
-	/*Key clefDatastore = KeyFactory.createKey("DraftProcess", "1");
+	Key clefDatastore = KeyFactory.createKey("DraftProcess", "1");
 
 	EntityManagerFactory emf = EMF.get();
 	EntityManager em = null;
@@ -143,7 +143,7 @@ public class ResetForTestCron extends HttpServlet {
 		    }
 
 		}
-	*/	
+		
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	for(int i=106;i<1704;i++){
 	Key datastoreKeyForPlayersTable = KeyFactory.createKey("Players_6",i);

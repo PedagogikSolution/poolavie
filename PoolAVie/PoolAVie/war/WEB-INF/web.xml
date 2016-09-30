@@ -73,7 +73,7 @@
     </filter>  
     <filter-mapping>
         <filter-name>DraftChannel</filter-name>        
-        <url-pattern>/DraftCenter</url-pattern>       
+        <url-pattern>/DraftCenter</url-pattern>    
     </filter-mapping>
     
     

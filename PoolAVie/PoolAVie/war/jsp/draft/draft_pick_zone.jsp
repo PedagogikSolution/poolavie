@@ -38,7 +38,8 @@
 				<h3>C'est l'heure du Draft</h3>
 				<p>Votre draft est prêt à commencer. Cliquez ici pour vous connecter au serveur de draft</p>
 				<p>
-					<a href="/DraftCenter"> Cliquez ici pour y aller directement</a> ou aller dans la section Draft du menu
+					<a href="/DraftCenter"> Cliquez ici pour y aller directement</a>
+					ou aller dans la section Draft du menu
 				</p>
 
 			</div>
@@ -52,7 +53,8 @@
 				<h3>OUPS!</h3>
 				<p>${messageErreur.erreurConnectionDraft}</p>
 				<p>
-					<a href="/DraftCenter"> Cliquez ici pour y aller directement</a> ou aller dans la section Draft du menu
+					<a href="/DraftCenter"> Cliquez ici pour y aller directement</a>
+					ou aller dans la section Draft du menu
 				</p>
 
 			</div>
@@ -62,21 +64,42 @@
 		<table id="playersPickBox" class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
 			<caption class="w3-blue w3-xlarge">
 				<h1>
-					Joueurs disponible au Draft (<c:out value="${segment}"/>
+					Joueurs disponible au Draft (
+					<c:out value="${segment}" />
 					)
 				</h1>
 			</caption>
 			<tr class="w3-blue">
-				<th><a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=nom">Nom</a></th>
-				<th><a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=teamOfPlayer">Équipe</a></th>
-				<th><a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=position">Position</a></th>
-				<th><a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=pj">Pj</a></th>
-				<th><a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=but_victoire">But</a></th>
-				<th><a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=aide_overtime">Aide</a></th>
-				<th><a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=pts">Pts</a></th>
-				<th><a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=salaire_draft">Salaire</a></th>
-				<th><a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=can_be_rookie">Rookie</a></th>
-				<th><a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=projection">Proj</a></th>
+				<th>
+					<a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=nom">Nom</a>
+				</th>
+				<th>
+					<a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=teamOfPlayer">Équipe</a>
+				</th>
+				<th>
+					<a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=position">Position</a>
+				</th>
+				<th>
+					<a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=pj">Pj</a>
+				</th>
+				<th>
+					<a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=but_victoire">But</a>
+				</th>
+				<th>
+					<a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=aide_overtime">Aide</a>
+				</th>
+				<th>
+					<a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=pts">Pts</a>
+				</th>
+				<th>
+					<a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=salaire_draft">Salaire</a>
+				</th>
+				<th>
+					<a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=can_be_rookie">Rookie</a>
+				</th>
+				<th>
+					<a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=projection">Proj</a>
+				</th>
 				<c:if test="${Utilisateur.teamId==currentPicker}">
 					<th>Draft Pick</th>
 				</c:if>
@@ -95,16 +118,23 @@
 					<td>${NonSessionPlayers.aide_overtime[i]}</td>
 					<td>${NonSessionPlayers.pts[i]}</td>
 					<td>${NonSessionPlayers.salaire_draft[i]}</td>
-					<td><c:if test="${NonSessionPlayers.can_be_rookie[i]==0}">Non</c:if> <c:if test="${NonSessionPlayers.can_be_rookie[i]==1}">Oui</c:if></td>
+					<td>
+						<c:if test="${NonSessionPlayers.can_be_rookie[i]==0}">Non</c:if>
+						<c:if test="${NonSessionPlayers.can_be_rookie[i]==1}">Oui</c:if>
+					</td>
 					<td>${NonSessionPlayers.projection[i]}</td>
 					<c:if test="${Utilisateur.teamId==currentPicker}">
 						<td>
 							<form action="/DraftPlayers" method="POST">
-								<input type="hidden" name="draftStep" value="1"> <input type="hidden" name="draft_player_id" value="${NonSessionPlayers.players_id[i]}"> <input type="hidden" name="team_id"
-									value="${Utilisateur.teamId}"> <input type="hidden" name="nom" value="${NonSessionPlayers.nom[i]}"> <input type="hidden" name="position"
-									value="${NonSessionPlayers.position[i]}"> <input type="hidden" name="team" value="${NonSessionPlayers.teamOfPlayer[i]}"> <input type="hidden" name="can_be_rookie"
-									value="${NonSessionPlayers.can_be_rookie[i]}"> <input type="hidden" name="salaire" value="${NonSessionPlayers.salaire_draft[i]}"> <input type="submit"
-									value="PICK THIS PLAYERS">
+								<input type="hidden" name="draftStep" value="1">
+								<input type="hidden" name="draft_player_id" value="${NonSessionPlayers.players_id[i]}">
+								<input type="hidden" name="team_id" value="${Utilisateur.teamId}">
+								<input type="hidden" name="nom" value="${NonSessionPlayers.nom[i]}">
+								<input type="hidden" name="position" value="${NonSessionPlayers.position[i]}">
+								<input type="hidden" name="team" value="${NonSessionPlayers.teamOfPlayer[i]}">
+								<input type="hidden" name="can_be_rookie" value="${NonSessionPlayers.can_be_rookie[i]}">
+								<input type="hidden" name="salaire" value="${NonSessionPlayers.salaire_draft[i]}">
+								<input type="submit" value="PICK THIS PLAYERS">
 							</form>
 
 						</td>
@@ -113,13 +143,13 @@
 				</tr>
 
 			</c:forEach>
-			
-			
-			
-			
-			
+
+
+
+
+
 		</table>
-		
+
 
 
 		<jsp:directive.include file="../utils/draftMessage.jsp" />

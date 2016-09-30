@@ -3,7 +3,6 @@ package com.pedagogiksolution.model;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -808,13 +807,11 @@ public class DraftPlayersModel {
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 	String poolID = mBeanPool.getPoolID();
 	int poolId = Integer.parseInt(poolID);
-	int poolYear = mBeanPool.getPoolYear();
 	String salaire = req.getParameter("salaire");
 	int salaireId = Integer.parseInt(salaire);
 	String playersID = req.getParameter("draft_player_id");
 	int playersId = Integer.parseInt(playersID);
 	String teamID = req.getParameter("team_id");
-	int teamId = Integer.parseInt(teamID);
 	String position = req.getParameter("position");
 	String nom = req.getParameter("nom");
 	String team = req.getParameter("team");
