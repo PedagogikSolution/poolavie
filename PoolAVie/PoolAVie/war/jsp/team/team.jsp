@@ -32,7 +32,8 @@
 				<h3>C'est l'heure du Draft</h3>
 				<p>Votre draft est prêt à commencer. Cliquez ici pour vous connecter au serveur de draft</p>
 				<p>
-					<a href="/DraftCenter"> Cliquez ici pour y aller directement</a> ou aller dans la section Draft du menu
+					<a href="/DraftCenter"> Cliquez ici pour y aller directement</a>
+					ou aller dans la section Draft du menu
 				</p>
 
 			</div>
@@ -46,15 +47,16 @@
 				<h3>OUPS!</h3>
 				<p>${messageErreur.erreurConnectionDraft}</p>
 				<p>
-					<a href="/DraftCenter"> Cliquez ici pour y aller directement</a> ou aller dans la section Draft du menu
+					<a href="/DraftCenter"> Cliquez ici pour y aller directement</a>
+					ou aller dans la section Draft du menu
 				</p>
 
 			</div>
 
 		</c:if>
-		<div class="w3-threequarter">
+		<div class="w3-threequarter w3-margin-top">
 
-			<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
+			<table class="w3-table  w3-striped w3-bordered w3-card-8" style="width: 90%; margin-left: auto; margin-right: auto">
 				<caption class="w3-blue w3-xlarge">
 					<h1>Attaquant</h1>
 				</caption>
@@ -112,7 +114,7 @@
 
 
 			<br>
-			<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
+			<table class="w3-table  w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 90%; margin-left: auto; margin-right: auto">
 				<caption class="w3-blue w3-xlarge">
 					<h1>Defenseur</h1>
 				</caption>
@@ -170,7 +172,7 @@
 
 
 			<br>
-			<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
+			<table class="w3-table  w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 90%; margin-left: auto; margin-right: auto">
 				<caption class="w3-blue w3-xlarge">
 					<h1>Gardien</h1>
 				</caption>
@@ -228,7 +230,7 @@
 
 
 			<br>
-			<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
+			<table class="w3-table  w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 90%; margin-left: auto; margin-right: auto">
 				<caption class="w3-blue w3-xlarge">
 					<h1>Recrue</h1>
 				</caption>
@@ -283,41 +285,130 @@
 			</table>
 
 			<br>
-			<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
-				<caption class="w3-blue w3-xlarge">
-					<h1>Pick</h1>
-				</caption>
-				<tr class="w3-indigo">
-					<th>Round</th>
-					<th>From</th>
+			<div class="w3-card-8 w3-center" style="width: 90%; margin-left: auto; margin-right: auto">
+				<div class="w3-blue w3-xxlarge w3-center">Pick</div>
+				<div class="w3-third">
+					<table class="w3-table  w3-striped w3-bordered w3-border-indigo">
 
-				</tr>
-				<c:set var="nombreDePick" value="${NonSessionDraftPick.pick_no}" />
+						<tr class="w3-indigo">
+							<th>Round</th>
+							<th>From</th>
 
-				<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
+						</tr>
 
-					<tr>
+						<c:forEach var="i" begin="0" end="9">
 
-						<td>${NonSessionDraftPick.pick_no[i]}</td>
-						<td>${NonSessionDraftPick.teamNameOriginalPick[i]}</td>
+							<tr>
 
-
-					</tr>
-
-				</c:forEach>
+								<td>${NonSessionDraftPick.pick_no[i]}</td>
+								<td>${NonSessionDraftPick.teamNameOriginalPick[i]}</td>
 
 
+							</tr>
+
+						</c:forEach>
 
 
 
-			</table>
 
 
+					</table>
+				</div>
+				<div class="w3-third">
+					<table class="w3-table  w3-striped w3-bordered w3-border-indigo">
+
+						<tr class="w3-indigo">
+							<th>Round</th>
+							<th>From</th>
+
+						</tr>
+
+						<c:forEach var="i" begin="10" end="19">
+
+							<tr>
+
+								<td>${NonSessionDraftPick.pick_no[i]}</td>
+								<td>${NonSessionDraftPick.teamNameOriginalPick[i]}</td>
+
+
+							</tr>
+
+						</c:forEach>
+
+
+
+
+
+					</table>
+				</div>
+				<div class="w3-third">
+					<table class="w3-table  w3-striped w3-bordered w3-border-indigo">
+
+						<tr class="w3-indigo">
+							<th>Round</th>
+							<th>From</th>
+
+						</tr>
+						<c:set var="nombreDePick" value="${NonSessionDraftPick.pick_no}" />
+
+						<c:forEach var="i" begin="20" end="${fn:length(nombreDePick)-1}">
+
+							<tr>
+
+								<td>${NonSessionDraftPick.pick_no[i]}</td>
+								<td>${NonSessionDraftPick.teamNameOriginalPick[i]}</td>
+
+
+							</tr>
+
+						</c:forEach>
+
+
+
+
+
+					</table>
+				</div>
+			</div>
 
 		</div>
 
-		<div class=w3-quarter>
-			<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
+		<div class="w3-quarter w3-margin-top">
+
+
+			<div class="w3-row w3-bottombar w3-leftbar w3-rightbar w3-topbar w3-border-indigo">
+
+				<div class="w3-half">
+					<br>
+					<br>
+					<br>
+					<img src="${Utilisateur.urlTeamLogo}" style="width: 256px; height: 256px;">
+				</div>
+				<div class="w3-half">
+					<div class="w3-xxlarge  w3-bottombar w3-border-indigo" style="width: 80%">${Utilisateur.teamName}</div>
+					<br>
+					<div class="w3-xlarge ">Mon rang</div>
+					<div class="w3-xxxlarge ">3ième</div>
+					<div class="w3-xlarge ">Mes points totaux</div>
+					<div class=" w3-xxxlarge">324</div>
+					<div class="w3-xlarge ">Mes points hier</div>
+					<div class=" w3-xxxlarge">17</div>
+				</div>
+
+
+
+
+
+
+			</div>
+
+			<br>
+			<br>
+
+
+
+
+			<table class="w3-table  w3-striped w3-bordered w3-card-8 w3-margin-top w3-border-indigo">
 				<caption class="w3-blue w3-xlarge">
 					<h1>MON BUDGET</h1>
 				</caption>
@@ -348,7 +439,7 @@
 
 			</table>
 			<br>
-			<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
+			<table class="w3-table  w3-striped w3-bordered w3-card-8 w3-margin-top w3-border-indigo">
 				<caption class="w3-blue w3-xlarge">
 					<h1>MES STATS D'ÉQUIPE</h1>
 				</caption>
@@ -402,7 +493,7 @@
 			</table>
 
 
-
+		<br>
 		</div>
 
 		<jsp:directive.include file="../utils/draftMessage.jsp" />
@@ -412,5 +503,9 @@
 	<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token!=null}">
 		<jsp:directive.include file="../utils/draftClientB.jsp" />
 	</c:if>
+	<script>
+	document.getElementById('menuSecTeam').classList.add('w3-khaki');
+	</script>
+
 </body>
 </html>

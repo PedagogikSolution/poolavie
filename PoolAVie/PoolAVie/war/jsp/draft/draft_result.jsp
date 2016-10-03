@@ -69,7 +69,7 @@
 		
 		<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width:80%">
 		<caption class="w3-blue w3-xlarge"><h1>Draft Order and Result</h1></caption>
-			<tr class="w3-blue">
+			<tr class="w3-indigo">
 					<th>Overall pick no</th>
 					<th>Equipe</th>
 					<th>Ronde</th>
@@ -144,5 +144,8 @@
 <c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token!=null}">
 <jsp:directive.include file="../utils/draftClientB.jsp" />
 </c:if>
+<script>
+	document.getElementById('menuSecDraft').classList.add('w3-khaki');
+	</script>
 </body>
 </html>

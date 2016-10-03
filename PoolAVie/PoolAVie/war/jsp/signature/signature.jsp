@@ -69,5 +69,8 @@
 	<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token!=null}">
 		<jsp:directive.include file="../utils/draftClientB.jsp" />
 	</c:if>
+	<script>
+	document.getElementById('menuSecSign').classList.add('w3-khaki');
+	</script>
 </body>
 </html>

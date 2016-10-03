@@ -1,6 +1,6 @@
 <!-- Contient la bar de navigation de l'interface principal -->
 
-<header class="w3-container w3-red">
+<header class="w3-container w3-khaki w3-center">
 
 		<ul class="w3-navbar w3-center">
 			<li class="w3-xlarge"><a href="/Equipes?team=1&from=menu">${Pool.nomTeam1}</a></li>

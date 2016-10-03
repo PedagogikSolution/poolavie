@@ -80,29 +80,31 @@
 					<input type="hidden" name="team" value="${confirmationPick.teamOfPlayer}" />
 					<input type="hidden" name="can_be_rookie" value="${confirmationPick.can_be_rookie}" />
 					<input type="hidden" name="salaire" value="${confirmationPick.salaire_draft}" />
-					<button class="w3-btn w3-khaki w3-xlarge">Oui je le veux"</button>
-
+					<button class="w3-btn w3-khaki w3-xlarge">Oui je le veux</button>
+				<br>
 				</form>
+				
 				<form class="w3-container w3-card-24 w3-white" action="/DraftCenter" method="get">
 					<button class="w3-btn w3-khaki w3-xlarge">Annuler</button>
+					<br>
 				</form>
-
+				
 			</div>
 
 		</c:if>
 
 
 		<c:if test="${messageErreur.erreurDraft==null&&confirmationPick.can_be_rookie==1}">
-			<div id="pickConfirmBox" class="w3-container w3-display-middle">
+			<div id="pickConfirmBox" class="w3-card-24 w3-display-middle" style="width: auto">
 
 
-				<div class="w3-container w3-orange">
+				<div class="w3-container w3-indigo">
 					<h2>Confirmation choix de repêchage</h2>
 				</div>
-				<div>Voulez-vous confirmer le repêchage de ${confirmationPick.nom}, ${confirmationPick.position} de l'équipe de ${confirmationPick.teamOfPlayer} au salaire de
-					${confirmationPick.salaire_draft}</div>
+				<p class="w3-xxlarge">Voulez-vous confirmer le repêchage de ${confirmationPick.nom}, ${confirmationPick.position} de l'équipe de ${confirmationPick.teamOfPlayer} au salaire de
+					${confirmationPick.salaire_draft}</p>
 
-				<form onsubmit="confirmationButtonA.disabled = true; return true;" class="w3-container w3-card-24 w3-white" action="/DraftPlayers" method="post">
+				<form onsubmit="confirmationButtonA.disabled = true; return true;" class="w3-container w3-form w3-white" action="/DraftPlayers" method="post">
 					<input type="hidden" name="draftStep" value="2">
 					<input type="hidden" name="draft_player_id" value="${confirmationPick.players_id}">
 					<input type="hidden" name="team_id" value="${Utilisateur.teamId}">
@@ -111,12 +113,10 @@
 					<input type="hidden" name="team" value="${confirmationPick.teamOfPlayer}">
 					<input type="hidden" name="can_be_rookie" value="${confirmationPick.can_be_rookie}">
 					<input type="hidden" name="salaire" value="${confirmationPick.salaire_draft}">
-					<p>
-						<input name="confirmationButtonA" type="submit" value="Oui, dans mon club régulier">
-					</p>
-
+					<button name="confirmationButtonA" class="w3-btn w3-khaki w3-xlarge">Oui, dans mon club régulier</button>
 				</form>
-				<form onsubmit="confirmationButtonB.disabled = true; return true;" action="/DraftPlayers" method="post">
+				<br>
+				<form onsubmit="confirmationButtonB.disabled = true; return true;" class="w3-container w3-form w3-white" action="/DraftPlayers" method="post">
 					<input type="hidden" name="draftStep" value="3">
 					<input type="hidden" name="draft_player_id" value="${confirmationPick.players_id}">
 					<input type="hidden" name="team_id" value="${Utilisateur.teamId}">
@@ -125,19 +125,18 @@
 					<input type="hidden" name="team" value="${confirmationPick.teamOfPlayer}">
 					<input type="hidden" name="can_be_rookie" value="${confirmationPick.can_be_rookie}">
 					<input type="hidden" name="salaire" value="${confirmationPick.salaire_draft}">
-					<p>
-						<input name="confirmationButtonB" type="submit" value="Oui, dans mon club école">
-					</p>
+					<button name="confirmationButtonB" class="w3-btn w3-khaki w3-xlarge">Oui, dans mon club école</button>
 
 				</form>
-				<form class="w3-container w3-card-24 w3-white" action="/DraftCenter" method="get">
+				<br>
+				<form class="w3-container w3-form w3-white" action="/DraftCenter" method="get">
 
 					<p>
 						<input type="submit" value="Annuler">
 					</p>
 
 				</form>
-
+				<br>
 
 
 			</div>
@@ -145,34 +144,22 @@
 		</c:if>
 		<c:if test="${messageErreur.erreurDraft!=null}">
 
-			<div id="pickConfirmBox" class="w3-container w3-display-middle">
+			<div id="pickConfirmBox" class="w3-card-24 w3-display-middle">
 
 
-				<div class="w3-container w3-orange">
+				<div class="w3-container w3-indigo">
 					<h2>OUPS! Vous ne pouvez faire ce choix</h2>
 				</div>
 
-				<form class="w3-container w3-card-24 w3-white" action="/DraftCenter" method="get">
+				<form class="w3-container w3-form w3-white" action="/DraftCenter" method="get">
 
 					<p>Raison : ${messageErreur.erreurDraft}</p>
-					<p>
-						<input type="submit" value="Revenir au draft center">
-					</p>
-
-				</form>
-
-
+					<button class="w3-btn w3-khaki w3-xlarge">Revenir au draft center</button>
+					</form>
 
 			</div>
 
 		</c:if>
-
-
-
-
-
-
-
 
 		<jsp:directive.include file="../utils/draftMessage.jsp" />
 
@@ -183,5 +170,8 @@
 	<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token!=null}">
 		<jsp:directive.include file="../utils/draftClientB.jsp" />
 	</c:if>
+	<script>
+	document.getElementById('menuSecDraft').classList.add('w3-khaki');
+	</script>
 </body>
 </html>

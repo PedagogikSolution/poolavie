@@ -54,6 +54,20 @@ public class DraftPlayersModel {
     String segment, sort;
     HttpServletRequest req;
     HttpServletResponse resp;
+    List<Integer> players_id = new ArrayList<Integer>();
+    List<String> nom2 = new ArrayList<String>();
+    List<String> teamOfPlayer = new ArrayList<String>();
+    List<Integer> pj = new ArrayList<Integer>();
+    List<Integer> but_victoire = new ArrayList<Integer>();
+    List<Integer> aide_overtime = new ArrayList<Integer>();
+    List<Integer> blanchissage = new ArrayList<Integer>();
+    List<Integer> pts = new ArrayList<Integer>();
+    List<String> years_1 = new ArrayList<String>();
+    List<String> years_2 = new ArrayList<String>();
+    List<String> years_3 = new ArrayList<String>();
+    List<String> years_4 = new ArrayList<String>();
+    List<String> years_5 = new ArrayList<String>();
+    List<Integer> salaire_contrat = new ArrayList<Integer>();
 
     public DraftPlayersModel(HttpServletRequest req, String segment, String sort) {
 	this.segment = segment;
@@ -450,20 +464,7 @@ public class DraftPlayersModel {
 	String team = req.getParameter("team");
 	Key mKey = KeyFactory.createKey("DraftProcess", poolID);
 	int currentPick = 0;
-	List<Integer> players_id = new ArrayList<Integer>();
-	List<String> nom2 = new ArrayList<String>();
-	List<String> teamOfPlayer = new ArrayList<String>();
-	List<Integer> pj = new ArrayList<Integer>();
-	List<Integer> but_victoire = new ArrayList<Integer>();
-	List<Integer> aide_overtime = new ArrayList<Integer>();
-	List<Integer> blanchissage = new ArrayList<Integer>();
-	List<Integer> pts = new ArrayList<Integer>();
-	List<String> years_1 = new ArrayList<String>();
-	List<String> years_2 = new ArrayList<String>();
-	List<String> years_3 = new ArrayList<String>();
-	List<String> years_4 = new ArrayList<String>();
-	List<String> years_5 = new ArrayList<String>();
-	List<Integer> salaire_contrat = new ArrayList<Integer>();
+
 	Entity draftRoundEntity = null, players = null, entity = null, equipeEntity = null;
 	Key equipeKey;
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -522,6 +523,8 @@ public class DraftPlayersModel {
 	    try {
 
 		entity = datastore.get(entityKey);
+
+		mapDatastoreInTempArray(entity,position);
 
 		players_id.add(playersId);
 		entity.setProperty("players_id", players_id);
@@ -817,20 +820,7 @@ public class DraftPlayersModel {
 	String team = req.getParameter("team");
 	Key mKey = KeyFactory.createKey("DraftProcess", poolID);
 	int currentPick = 0;
-	List<Integer> players_id = new ArrayList<Integer>();
-	List<String> nom2 = new ArrayList<String>();
-	List<String> teamOfPlayer = new ArrayList<String>();
-	List<Integer> pj = new ArrayList<Integer>();
-	List<Integer> but_victoire = new ArrayList<Integer>();
-	List<Integer> aide_overtime = new ArrayList<Integer>();
-	List<Integer> blanchissage = new ArrayList<Integer>();
-	List<Integer> pts = new ArrayList<Integer>();
-	List<String> years_1 = new ArrayList<String>();
-	List<String> years_2 = new ArrayList<String>();
-	List<String> years_3 = new ArrayList<String>();
-	List<String> years_4 = new ArrayList<String>();
-	List<String> years_5 = new ArrayList<String>();
-	List<Integer> salaire_contrat = new ArrayList<Integer>();
+	
 	Entity draftRoundEntity = null, players = null, entity = null, equipeEntity = null;
 	Key equipeKey;
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -877,6 +867,8 @@ public class DraftPlayersModel {
 
 		entity = datastore.get(entityKey);
 
+		mapDatastoreInTempArray(entity,position);
+		
 		players_id.add(playersId);
 		entity.setProperty("players_id", players_id);
 
@@ -1340,4 +1332,30 @@ public class DraftPlayersModel {
 
     }
 
+    
+    @SuppressWarnings("unchecked")
+    private void mapDatastoreInTempArray(Entity entity,String position) {
+	
+	List<Integer> testIfEmpty = (List<Integer>) entity.getProperty("players_id");
+	
+	if(testIfEmpty!=null){
+	
+	players_id.addAll((List<Integer>) entity.getProperty("players_id"));
+	nom2.addAll((List<String>)entity.getProperty("nom"));
+	teamOfPlayer.addAll((List<String>)entity.getProperty("teamOfPlayer"));
+	pj.addAll((List<Integer>) entity.getProperty("pj"));
+	but_victoire.addAll((List<Integer>) entity.getProperty("but_victoire"));
+	aide_overtime.addAll((List<Integer>) entity.getProperty("aide_overtime"));
+	if (position.equalsIgnoreCase("Gardien")) {
+	blanchissage.addAll((List<Integer>) entity.getProperty("blanchissage"));
+	}
+	pts.addAll((List<Integer>) entity.getProperty("pts"));
+	years_1.addAll((List<String>)entity.getProperty("years_1"));
+	years_2.addAll((List<String>)entity.getProperty("years_2"));
+	years_3.addAll((List<String>)entity.getProperty("years_3"));
+	years_4.addAll((List<String>)entity.getProperty("years_4"));
+	years_5.addAll((List<String>)entity.getProperty("years_5"));
+	salaire_contrat.addAll((List<Integer>) entity.getProperty("salaire_contrat"));
+	}
+    }
 }

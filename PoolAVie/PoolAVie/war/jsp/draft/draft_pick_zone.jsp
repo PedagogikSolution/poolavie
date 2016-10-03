@@ -69,7 +69,7 @@
 					)
 				</h1>
 			</caption>
-			<tr class="w3-blue">
+			<tr class="w3-indigo">
 				<th>
 					<a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=nom">Nom</a>
 				</th>
@@ -160,5 +160,8 @@
 	<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token!=null}">
 		<jsp:directive.include file="../utils/draftClientB.jsp" />
 	</c:if>
+	<script>
+	document.getElementById('menuSecDraft').classList.add('w3-khaki');
+	</script>
 </body>
 </html>

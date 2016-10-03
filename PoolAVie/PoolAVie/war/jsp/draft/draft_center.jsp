@@ -87,7 +87,7 @@
 					<caption class="w3-blue w3-xlarge">
 						<h1>First 2 round Draft Order first year of the pool</h1>
 					</caption>
-					<tr class="w3-blue">
+					<tr class="w3-indigo">
 						<th>Overall pick no</th>
 						<th>Ronde</th>
 						<th>Equipe</th>
@@ -131,7 +131,7 @@
 						<caption class="w3-blue w3-xlarge">
 							<h1>Attaquant</h1>
 						</caption>
-						<tr class="w3-blue">
+						<tr class="w3-indigo">
 							<th>Pos</th>
 							<th>Nom</th>
 							<th>Équipe</th>
@@ -168,7 +168,7 @@
 						<caption class="w3-blue w3-xlarge">
 							<h1>Defenseur</h1>
 						</caption>
-						<tr class="w3-blue">
+						<tr class="w3-indigo">
 							<th>Pos</th>
 							<th>Nom</th>
 							<th>Équipe</th>
@@ -209,7 +209,7 @@
 						<caption class="w3-blue w3-xlarge">
 							<h1>Gardien</h1>
 						</caption>
-						<tr class="w3-blue">
+						<tr class="w3-indigo">
 							<th>Pos</th>
 							<th>Nom</th>
 							<th>Équipe</th>
@@ -245,7 +245,7 @@
 						<caption class="w3-blue w3-xlarge">
 							<h1>Recrue</h1>
 						</caption>
-						<tr class="w3-blue">
+						<tr class="w3-indigo">
 							<th>Pos</th>
 							<th>Nom</th>
 							<th>Équipe</th>
@@ -365,7 +365,7 @@
 						<caption class="w3-blue w3-xlarge">
 							<h1>Next 20 pick</h1>
 						</caption>
-						<tr class="w3-blue">
+						<tr class="w3-indigo">
 							<th>Overall pick no</th>
 							<th>Ronde</th>
 							<th>Equipe</th>
@@ -425,5 +425,8 @@
 	<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token!=null}">
 		<jsp:directive.include file="../utils/draftClientB.jsp" />
 	</c:if>
+	<script>
+	document.getElementById('menuSecDraft').classList.add('w3-khaki');
+	</script>
 </body>
 </html>

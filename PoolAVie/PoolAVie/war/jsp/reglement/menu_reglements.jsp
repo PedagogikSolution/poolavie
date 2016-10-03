@@ -1,6 +1,6 @@
 <!-- Contient la bar de navigation de l'interface principal -->
 
-<header class="w3-container w3-red">
+<header class="w3-container w3-khaki">
 
 		<ul class="w3-navbar w3-center">
 		

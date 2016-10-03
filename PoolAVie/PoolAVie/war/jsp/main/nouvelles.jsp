@@ -199,5 +199,8 @@
 
 
 	</div>
+	<script>
+	document.getElementById('menuSecNews').classList.add('w3-khaki');
+	</script>
 </body>
 </html>
