@@ -18,6 +18,7 @@ public class Utilisateur implements Serializable{
     private String motDePasse;
     private String courriel;
     private String codeValidation;
+    private String codeRecuperation;
     private String dateCreation;
     private int poolId;
     private int teamId;
@@ -107,6 +108,12 @@ public class Utilisateur implements Serializable{
     }
     public void setUrlTeamLogo(String urlTeamLogo) {
 	this.urlTeamLogo = urlTeamLogo;
+    }
+    public String getCodeRecuperation() {
+	return codeRecuperation;
+    }
+    public void setCodeRecuperation(String codeRecuperation) {
+	this.codeRecuperation = codeRecuperation;
     }
     
     

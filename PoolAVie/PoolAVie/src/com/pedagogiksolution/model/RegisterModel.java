@@ -37,19 +37,32 @@ public class RegisterModel {
     // methode qui évalue les parametre recu via le formulaire et qui retourne un message d'erreur approprié si vide,
     // null ou pas valide
     public boolean validationParametre(String nomUtilisateur, String motDePasse, String courriel, HttpServletRequest req) {
-
-	// verification si null, si oui, on retourne message d'erreur a la page register via beans d'erreur
-	if (Strings.isNullOrEmpty(nomUtilisateur) || Strings.isNullOrEmpty(motDePasse) || Strings.isNullOrEmpty(courriel)) {
+	
+	// code temporaire pour empêcher la création de nouveau pool (à retirer lorsque commercialisé et ré-activer le code ci-bas)
+	if (courriel.equalsIgnoreCase("info@poolavie.ca")){
+	    return false;
+	} else {
 	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
 	    mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_ERREUR_PARAM_NULL);
 	    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
 	    return true;
 	}
+	// verification si null, si oui, on retourne message d'erreur a la page register via beans d'erreur
+	
+	
+	/*if (Strings.isNullOrEmpty(nomUtilisateur) || Strings.isNullOrEmpty(motDePasse) || Strings.isNullOrEmpty(courriel)) {
+	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+	    mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_ERREUR_PARAM_NULL);
+	    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+	    return true;
+	}
+	
 
 	// TODO voir TRELLO pour validation REGEX
 
 	// si pas de validation négative, on retourne false et on continu le processus de registration
 	return false;
+	*/
 
     }
     
@@ -239,6 +252,23 @@ public class RegisterModel {
 
 	// pour developpement, la valeur est par defaut a true pour l'instant
 	return true;
+    }
+
+    
+    
+    public boolean validationParametre(String nomUtilisateur, String motDePasse, HttpServletRequest req) {
+	if (Strings.isNullOrEmpty(nomUtilisateur) || Strings.isNullOrEmpty(motDePasse)) {
+	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+	    mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_ERREUR_PARAM_NULL);
+	    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+	    return true;
+	}
+	
+
+	// TODO voir TRELLO pour validation REGEX
+
+	// si pas de validation négative, on retourne false et on continu le processus de registration
+	return false;
     }
 
 }

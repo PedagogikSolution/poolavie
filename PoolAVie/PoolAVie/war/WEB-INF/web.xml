@@ -287,6 +287,15 @@
 		<url-pattern>/AdminSignature</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>beta</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.BetaServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>beta</servlet-name>
+		<url-pattern>/Beta</url-pattern>
+	</servlet-mapping>
+	
 	
 	
 	<!-- Mapping des servlet pour les Cron Job -->

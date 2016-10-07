@@ -11,6 +11,7 @@ import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.DraftPlayersModel;
 import com.pedagogiksolution.model.LoginModel;
 import com.pedagogiksolution.model.MenuPrincipalModel;
+import com.pedagogiksolution.model.RegisterModel;
 
 public class LoginServlet extends HttpServlet {
 
@@ -30,10 +31,22 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+		
 	// recuperation des 2 inputs du formulaire de la page login.jsp
 	String nomUtilisateur = req.getParameter("username");
 	String motDePasse = req.getParameter("password");
 
+	RegisterModel mModelReg = new RegisterModel();
+
+	// validation des parametres du formulaire
+	boolean mValidation = mModelReg.validationParametre(nomUtilisateur, motDePasse, req);
+
+	if (mValidation) {
+	    req.getRequestDispatcher("jsp/accueil/home.jsp").forward(req, resp);
+	    return;
+	}
+	
+	
 	// Instantiation de la classe métier pour le processus de registration
 	LoginModel mModel = new LoginModel(nomUtilisateur, motDePasse, req);
 

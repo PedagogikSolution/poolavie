@@ -6,7 +6,8 @@ public class MessageErreurConstants {
     		" ou connectez-vous en utilisant le formulaire à votre gauche";
     public static String REGISTRATION_USERNAME_MATCH = "Ce nom d'utilisateur existe déjà, veuillez choisir un autre identifiant pour créer un nouveau pool" +
     		" ou connectez-vous en utilisant le formulaire à votre gauche";
-    public static String REGISTRATION_ERREUR_PARAM_NULL = "Une erreur innatendue s'est produite, veuillez ré-essayer ou nous contacter si l'erreur persiste";
+    public static String REGISTRATION_ERREUR_PARAM_NULL = "Visitez la page Beta Test pour des informations sur la manière de vous inscrire." +
+    		" La plateforme étant présentement en construction nous n'acceptons des nouveaux pools que via la Beta Test";
     public static String REGISTRATION_ERREUR_PASSWORD_ENCRYPTION = "Une erreur innatendue s'est produite, veuillez ré-essayer ou nous contacter si l'erreur persiste";
     public static String VALIDATION_CODE_ERREUR_PAS_BON = "Votre code n'est pas bon. Veuillez ré-essayer ou générer un nouveau code en remplissant le formulaire si bas ";
     public static String VALIDATION_CODE_ERREUR_PAS_ENCORE_FAIT = "Ce compte n'est pas encore validé. Vérifiez votre courriel et enter votre code ou remplissez le formulaire pour recevoir un nouveau code";

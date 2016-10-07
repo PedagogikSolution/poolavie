@@ -12,15 +12,13 @@
 <body class="w3-light-grey">
 
 	<!-- Header avec titre et images de promo -->
-	<header class="w3-container w3-indigo w3-large">
-		<ul class="w3-navbar w3-indigo w3-left w3-xlarge">
-			<li><a href="#">Démo</a></li>
-			<li><a href="#">Beta Test</a></li>
-		</ul>
-		
-		<ul class="w3-navbar w3-indigo w3-right w3-xlarge">
-			<li><a href="#">Français</a></li>
-			<li><a href="#">Nous Joindre</a></li>
+	<header class="w3-container w3-indigo w3-large w3-center">
+		<ul class="w3-navbar w3-indigo  w3-xlarge">
+			<li class="w3-left"><a href="#">Démo</a></li>
+			<li class="w3-left"><a href="#">Beta Test</a></li>	
+			<li class="w3-navitem w3-twothird w3-indigo w3-xlarge w3-padding-0 w3-hide-small w3-hide-medium"><a href="/jsp/accueil/home.jsp">Pool à vie</a></li>	
+			<li class="w3-rigth"><a href="#">Français</a></li>
+			<li class="w3-rigth"><a href="#">Nous Joindre</a></li>
 		</ul>
 
 		
@@ -30,7 +28,7 @@
 		<div class="w3-indigo w3-center w3-padding">
 			<h3>Récupérez vos identifiants</h3>
 		</div>
-		<form class="w3-padding-left" action="/login" method="post">
+		<form class="w3-padding-left" action="/recuperation" method="post">
 
 			<c:if test="${MessageErreurBeans.erreurNotLogIn!=null }">
 				<p class="w3-text-red ">${MessageErreurBeans.erreurNotLogIn}</p>
