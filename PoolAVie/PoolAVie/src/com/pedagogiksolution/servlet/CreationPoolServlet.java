@@ -76,7 +76,7 @@ public class CreationPoolServlet extends HttpServlet {
 	    mModel.createEquipeBean(req);
 	    
 	    // on envoie les courriels au futur DG
-	    // mModel.sendEmail(req);
+	    mModel.sendEmail(req);
 	    
 	    // on créer les bases de donnée du POOL
 	    mModel.createDatabase(req);

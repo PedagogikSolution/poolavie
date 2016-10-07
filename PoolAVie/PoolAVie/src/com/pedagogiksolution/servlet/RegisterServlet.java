@@ -37,32 +37,27 @@ public class RegisterServlet extends HttpServlet {
 	    return;
 	}
 
-	
+	// on verifie si username existe dans le Datastore, si existe on verifie si password match, sinon on crée un
+// nouveau compte client admin
 
-	// on verifie si username existe dans le Datastore, si existe on verifie si password match, sinon on crée un nouveau compte client admin
+	if (mModel.checkIfUsernameExist(nomUtilisateur, req)) {
 
-	if (mModel.checkIfUsernameExist(nomUtilisateur,req)) {
-	    		
 	    req.getRequestDispatcher("jsp/accueil/home.jsp").forward(req, resp);
-	  	   
+
 	} else {
-	    
 
 	    // étape 1 : on encrypte mot de passe, créer un code de validation, assigne un poolId et player ID, et crée
 	    // le bean Utilisateur, le dattastore et le Memcache
 
-	    String validationCode = mModel.createDatastoreUserEntity(nomUtilisateur, motDePasse, courriel,1,1, req);
+	    String validationCode = mModel.createDatastoreUserEntity(nomUtilisateur, motDePasse, courriel, 1, 1, req);
 
-	    // si le code est retourné, c'est que tout à réussi, donc on envoie un courriel avec Code Validation à l'utilisateur
+	    // si le code est retourné, c'est que tout à réussi, donc on envoie un courriel avec Code Validation à
+// l'utilisateur
 	    if (validationCode != null) {
 
-		boolean sendingEmail = mModel.sendingValidationCode(nomUtilisateur, courriel, req);
-		// si succes du courriel, on envoie vers la page permettant a l'utilisateur d'entrée son code de Validation et ainsi confirmer son abonnement
-		if (sendingEmail) {
-		    resp.sendRedirect("/validation");
-		} else {
-		    req.getRequestDispatcher("jsp/accueil/home.jsp").forward(req, resp);
-		}
+		mModel.sendingValidationCode(nomUtilisateur, courriel, req);
+
+		resp.sendRedirect("/validation");
 
 	    } else {
 		req.getRequestDispatcher("jsp/accueil/home.jsp").forward(req, resp);

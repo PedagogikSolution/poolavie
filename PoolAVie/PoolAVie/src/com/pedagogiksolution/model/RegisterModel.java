@@ -4,13 +4,21 @@ import static com.pedagogiksolution.constants.MessageErreurConstants.REGISTRATIO
 import static com.pedagogiksolution.constants.MessageErreurConstants.REGISTRATION_ERREUR_PASSWORD_ENCRYPTION;
 import static com.pedagogiksolution.constants.MessageErreurConstants.REGISTRATION_USERNAME_MATCH;
 
+import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
@@ -245,13 +253,28 @@ public class RegisterModel {
 
     }
 
-    public boolean sendingValidationCode(String nomUtilisateur, String courriel, HttpServletRequest req) {
-	// TODO faire la methode et retourné true si reussi, false et message d'erreur sinon
-	// j'ai lu qu'il n'y avait pas de moyen de savoir si l'envoie a reussi, ni le delai, c'est un queue push hors de
-// nos controles
+    public void sendingValidationCode(String nomUtilisateur, String courriel, HttpServletRequest req) {
+	
+	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+	String code = mBeanUser.getCodeValidation();
+	
+	Properties props = new Properties();
+	Session session = Session.getDefaultInstance(props, null);
 
-	// pour developpement, la valeur est par defaut a true pour l'instant
-	return true;
+	try {
+	    MimeMessage msg = new MimeMessage(session);
+	    msg.setFrom(new InternetAddress("pedagogiksolution@gmail.com", "Poolavie.ca"));
+	    msg.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(courriel));
+	    msg.setSubject("Validez votre compte", "utf-8");
+	    msg.setContent("Bonjour, pour valider votre compte veuillez entrer le code suivant : "+code+".\n\n Si vous n'êtes plus sur la page de validation, vous pouvez la retrouver en vous connectant sur la page principale pour terminer votre inscription", "text/html");
+	    Transport.send(msg);
+	} catch (AddressException e) {
+	    // ...
+	} catch (MessagingException e) {
+	    // ...
+	} catch (UnsupportedEncodingException e) {
+	    // ...
+	}
     }
 
     

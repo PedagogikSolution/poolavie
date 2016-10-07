@@ -120,10 +120,10 @@ public class CreationNouveauDGServlet extends HttpServlet {
 // l'utilisateur
 	    if (validationCode != null) {
 
-		boolean sendingEmail = mModel.sendingValidationCode(nomUtilisateur, courriel, req);
+		mModel.sendingValidationCode(nomUtilisateur, courriel, req);
 		// si succes du courriel, on envoie vers la page permettant a l'utilisateur d'entrée son code de
-// Validation et ainsi confirmer son abonnement
-		if (sendingEmail) {
+		// Validation et ainsi confirmer son abonnement
+		
 
 		    ClassementCronModel mModelClassement = new ClassementCronModel(classementDao);
 
@@ -146,9 +146,7 @@ public class CreationNouveauDGServlet extends HttpServlet {
 		    
 		    
 		    resp.sendRedirect("/validation");
-		} else {
-		    req.getRequestDispatcher("jsp/accueil/creationnouveaudg.jsp").forward(req, resp);
-		}
+		
 
 	    } else {
 		req.getRequestDispatcher("jsp/accueil/creationnouveaudg.jsp").forward(req, resp);

@@ -1,9 +1,17 @@
 package com.pedagogiksolution.model;
 
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
@@ -51,7 +59,7 @@ public class CreationPoolModel {
 	// TODO Auto-generated constructor stub
     }
 
-    String nomDuPool, nombreEquipe, typeTrade, typeDraft, nomDuTeam,urlLogoTeam;
+    String nomDuPool, nombreEquipe, typeTrade, typeDraft, nomDuTeam, urlLogoTeam;
     String email1, email2, email3, email4, email5, email6, email7, email8, email9, email10, email11;
     int team_id, max_salaire_begin, total_salaire_now, budget_restant, moy_sal_restant_draft, nb_attaquant;
     int nb_defenseur, nb_gardien, nb_rookie, nb_contrat, nb_equipe, manquant_equipe, manquant_att, manquant_def;
@@ -90,7 +98,7 @@ public class CreationPoolModel {
 	String dateCreation = dateFormat.format(date);
 	String yearString = dateCreation.substring(0, 4);
 	int yearInt = Integer.parseInt(yearString);
-	String thisYear = yearString+"-"+(yearInt+1);
+	String thisYear = yearString + "-" + (yearInt + 1);
 
 	// on crée le beans avec le processus JPA qui va créer le datastore en même temps
 	EntityManagerFactory emf = EMF.get();
@@ -130,13 +138,12 @@ public class CreationPoolModel {
 	    if (em != null)
 		em.close();
 	}
-	
+
 	try {
 	    em = emf.createEntityManager();
 
 	    // instanciation du bean Utilisateur
 	    mBeanUser.setUrlTeamLogo(urlLogoTeam);
-	    
 
 	    // on place le bean dans un attribut de session
 	    req.getSession().setAttribute("Utilisateur", mBeanUser);
@@ -209,34 +216,10 @@ public class CreationPoolModel {
 	    // on persiste dans le datastore via notre EntityManager
 	    String counter = String.valueOf(i);
 	    Queue queue = QueueFactory.getDefaultQueue();
-	    queue.add(TaskOptions.Builder.withUrl("/TaskQueueCreationPool")
-		    .param("counter", counter)
-		    .param("poolID", poolID)
-		    .param("teamId", String.valueOf(i))
-		    .param("max_salaire_begin", String.valueOf(max_salaire_begin))
-		    .param("moy_sal_restant_draft", String.valueOf(moy_sal_restant_draft))
-		    .param("nb_attaquant", String.valueOf(nb_attaquant))
-		    .param("nb_defenseur", String.valueOf(nb_defenseur))
-		    .param("nb_gardien", String.valueOf(nb_gardien))
-		    .param("nb_rookie", String.valueOf(nb_rookie))
-		    .param("nb_contrat", String.valueOf(nb_contrat))
-		    .param("nb_equipe", String.valueOf(nb_equipe))
-		    .param("manquant_att", String.valueOf(manquant_att))
-		    .param("manquant_def", String.valueOf(manquant_def))
-		    .param("manquant_gardien", String.valueOf(manquant_gardien))
-		    .param("manquant_recrue", String.valueOf(manquant_recrue))
-		    .param("manquant_equipe", String.valueOf(manquant_equipe))
-		    .param("argent_recu", String.valueOf(argent_recu))
-		    .param("bonus_5m", String.valueOf(bonus_5m))
-		    .param("bonus_penalite", String.valueOf(bonus_penalite))
-		    .param("classement_last_year", String.valueOf(0))
-		    .param("meilleur_classement", String.valueOf(0))
-		    .param("num_annee", String.valueOf(1))
-		    .param("num_champion", String.valueOf(0))
-		    .param("budget_restant", String.valueOf(budget_restant))
-		    .param("total_salaire_now", String.valueOf(total_salaire_now))
-		    .param("fromTag","1")
-		    );
+	    queue.add(TaskOptions.Builder.withUrl("/TaskQueueCreationPool").param("counter", counter).param("poolID", poolID).param("teamId", String.valueOf(i)).param("max_salaire_begin", String.valueOf(max_salaire_begin)).param("moy_sal_restant_draft", String.valueOf(moy_sal_restant_draft)).param("nb_attaquant", String.valueOf(nb_attaquant)).param("nb_defenseur", String.valueOf(nb_defenseur))
+		    .param("nb_gardien", String.valueOf(nb_gardien)).param("nb_rookie", String.valueOf(nb_rookie)).param("nb_contrat", String.valueOf(nb_contrat)).param("nb_equipe", String.valueOf(nb_equipe)).param("manquant_att", String.valueOf(manquant_att)).param("manquant_def", String.valueOf(manquant_def)).param("manquant_gardien", String.valueOf(manquant_gardien))
+		    .param("manquant_recrue", String.valueOf(manquant_recrue)).param("manquant_equipe", String.valueOf(manquant_equipe)).param("argent_recu", String.valueOf(argent_recu)).param("bonus_5m", String.valueOf(bonus_5m)).param("bonus_penalite", String.valueOf(bonus_penalite)).param("classement_last_year", String.valueOf(0)).param("meilleur_classement", String.valueOf(0))
+		    .param("num_annee", String.valueOf(1)).param("num_champion", String.valueOf(0)).param("budget_restant", String.valueOf(budget_restant)).param("total_salaire_now", String.valueOf(total_salaire_now)).param("fromTag", "1"));
 
 	    // on persist le datastore/bean dans la MemCache
 	    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
@@ -244,12 +227,79 @@ public class CreationPoolModel {
 	    memcache.put(userPrefsKey, mBean);
 
 	}
-	
 
     }
 
     public void sendEmail(HttpServletRequest req) {
 	initEmailFromFormulaire(req);
+	
+	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+	int poolId = mBeanUser.getPoolId();
+	
+	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+	String code = mBeanPool.getCodeValidationPool();
+	
+	int teamCount = Integer.parseInt(nombreEquipe);
+	String courriel = null;
+	for (int i = 1; i <= teamCount; i++) {
+
+	    switch (i) {
+	    case 1:
+		courriel = email1;
+		break;
+	    case 2:
+		courriel = email2;
+		break;
+	    case 3:
+		courriel = email3;
+		break;
+	    case 4:
+		courriel = email4;
+		break;
+	    case 5:
+		courriel = email5;
+		break;
+	    case 6:
+		courriel = email6;
+		break;
+	    case 7:
+		courriel = email7;
+		break;
+	    case 8:
+		courriel = email8;
+		break;
+	    case 9:
+		courriel = email9;
+		break;
+	    case 11:
+		courriel = email11;
+		break;
+	   
+	    }
+	    
+	    int playerId = i+1;
+	    
+	    Properties props = new Properties();
+	    Session session = Session.getDefaultInstance(props, null);
+
+	    try {
+		MimeMessage msg = new MimeMessage(session);
+		msg.setFrom(new InternetAddress("pedagogiksolution@gmail.com", "Poolavie.ca"));
+		msg.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(courriel));
+		msg.setSubject("Invitation pour un Pool à vie", "utf-8");
+		msg.setContent("Bonjour, un de vos amis vous invite à participer à un pool de hockey sur la plateforme de www.poolavie.ca." +
+				"\n\n Vous pouvez dès maintenant aller créer les bases de votre équipe en suivant le lien ci-bas." +
+				"\n\n <a href='http://2-dot-zeta-anthem-715.appspot.com/CreationDirecteurGeneral?po="+poolId+"&pl="+playerId+"&co="+code+"&fo=1'>Créer mon équipe</a>", "text/html");
+		Transport.send(msg);
+	    } catch (AddressException e) {
+		// ...
+	    } catch (MessagingException e) {
+		// ...
+	    } catch (UnsupportedEncodingException e) {
+		// ...
+	    }
+
+	}
 
     }
 
@@ -351,6 +401,7 @@ public class CreationPoolModel {
     private void initEmailFromFormulaire(HttpServletRequest req) {
 
 	nombreEquipe = req.getParameter("nombreEquipe");
+
 	email1 = req.getParameter("email1");
 	email2 = req.getParameter("email2");
 	email3 = req.getParameter("email3");
