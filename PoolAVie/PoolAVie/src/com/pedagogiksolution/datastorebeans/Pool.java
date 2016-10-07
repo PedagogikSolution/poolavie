@@ -36,6 +36,18 @@ public class Pool implements Serializable{
     private String nomTeam10;
     private String nomTeam11;
     private String nomTeam12;
+    private String logoTeam1;
+    private String logoTeam2;
+    private String logoTeam3;
+    private String logoTeam4;
+    private String logoTeam5;
+    private String logoTeam6;
+    private String logoTeam7;
+    private String logoTeam8;
+    private String logoTeam9;
+    private String logoTeam10;
+    private String logoTeam11;
+    private String logoTeam12;
     private String derniereMAJ;
     private String codeValidationPool;
     private String draftDate;
@@ -310,6 +322,126 @@ public class Pool implements Serializable{
 
     public void setThisYear(String thisYear) {
 	this.thisYear = thisYear;
+    }
+
+
+    public String getLogoTeam1() {
+	return logoTeam1;
+    }
+
+
+    public void setLogoTeam1(String logoTeam1) {
+	this.logoTeam1 = logoTeam1;
+    }
+
+
+    public String getLogoTeam2() {
+	return logoTeam2;
+    }
+
+
+    public void setLogoTeam2(String logoTeam2) {
+	this.logoTeam2 = logoTeam2;
+    }
+
+
+    public String getLogoTeam3() {
+	return logoTeam3;
+    }
+
+
+    public void setLogoTeam3(String logoTeam3) {
+	this.logoTeam3 = logoTeam3;
+    }
+
+
+    public String getLogoTeam4() {
+	return logoTeam4;
+    }
+
+
+    public void setLogoTeam4(String logoTeam4) {
+	this.logoTeam4 = logoTeam4;
+    }
+
+
+    public String getLogoTeam5() {
+	return logoTeam5;
+    }
+
+
+    public void setLogoTeam5(String logoTeam5) {
+	this.logoTeam5 = logoTeam5;
+    }
+
+
+    public String getLogoTeam6() {
+	return logoTeam6;
+    }
+
+
+    public void setLogoTeam6(String logoTeam6) {
+	this.logoTeam6 = logoTeam6;
+    }
+
+
+    public String getLogoTeam7() {
+	return logoTeam7;
+    }
+
+
+    public void setLogoTeam7(String logoTeam7) {
+	this.logoTeam7 = logoTeam7;
+    }
+
+
+    public String getLogoTeam8() {
+	return logoTeam8;
+    }
+
+
+    public void setLogoTeam8(String logoTeam8) {
+	this.logoTeam8 = logoTeam8;
+    }
+
+
+    public String getLogoTeam9() {
+	return logoTeam9;
+    }
+
+
+    public void setLogoTeam9(String logoTeam9) {
+	this.logoTeam9 = logoTeam9;
+    }
+
+
+    public String getLogoTeam10() {
+	return logoTeam10;
+    }
+
+
+    public void setLogoTeam10(String logoTeam10) {
+	this.logoTeam10 = logoTeam10;
+    }
+
+
+    public String getLogoTeam11() {
+	return logoTeam11;
+    }
+
+
+    public void setLogoTeam11(String logoTeam11) {
+	this.logoTeam11 = logoTeam11;
+    }
+
+
+    public String getLogoTeam12() {
+	return logoTeam12;
+    }
+
+
+    public void setLogoTeam12(String logoTeam12) {
+	this.logoTeam12 = logoTeam12;
     }
     
     

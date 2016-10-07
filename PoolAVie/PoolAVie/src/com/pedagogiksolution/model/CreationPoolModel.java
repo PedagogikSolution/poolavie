@@ -90,6 +90,7 @@ public class CreationPoolModel {
 	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 	String poolID = Integer.toString(mBeanUser.getPoolId());
 	String nom = mBeanUser.getNomUtilisateur();
+	
 
 	// on recupere la date et place dans un format Date
 
@@ -123,6 +124,7 @@ public class CreationPoolModel {
 	    mBean.setDraftDate(null);
 	    mBean.setThisYear(thisYear);
 	    mBean.setFirstYear(thisYear);
+	    mBean.setLogoTeam1(urlLogoTeam);
 
 	    // on place le bean dans un attribut de session
 	    req.getSession().setAttribute("Pool", mBean);
@@ -232,53 +234,100 @@ public class CreationPoolModel {
 
     public void sendEmail(HttpServletRequest req) {
 	initEmailFromFormulaire(req);
-	
+
 	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 	int poolId = mBeanUser.getPoolId();
-	
+
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 	String code = mBeanPool.getCodeValidationPool();
-	
+
 	int teamCount = Integer.parseInt(nombreEquipe);
-	String courriel = null;
+	String courriel = "info@poolavie.ca";
 	for (int i = 1; i <= teamCount; i++) {
 
 	    switch (i) {
 	    case 1:
-		courriel = email1;
+		if (email1 != null) {
+		    courriel = email1;
+		} else {
+		    courriel = "info@poolavie.ca";
+		}
 		break;
 	    case 2:
-		courriel = email2;
+		if (email2 != null) {
+		    courriel = email2;
+		} else {
+		    courriel = "info@poolavie.ca";
+		}
 		break;
 	    case 3:
-		courriel = email3;
+		if (email3 != null) {
+		    courriel = email3;
+		} else {
+		    courriel = "info@poolavie.ca";
+		}
 		break;
 	    case 4:
-		courriel = email4;
+		if (email4 != null) {
+		    courriel = email4;
+		} else {
+		    courriel = "info@poolavie.ca";
+		}
 		break;
 	    case 5:
-		courriel = email5;
+		if (email5 != null) {
+		    courriel = email5;
+		} else {
+		    courriel = "info@poolavie.ca";
+		}
 		break;
 	    case 6:
-		courriel = email6;
+		if (email6 != null) {
+		    courriel = email6;
+		} else {
+		    courriel = "info@poolavie.ca";
+		}
 		break;
 	    case 7:
-		courriel = email7;
+		if (email7 != null) {
+		    courriel = email7;
+		} else {
+		    courriel = "info@poolavie.ca";
+		}
 		break;
 	    case 8:
-		courriel = email8;
+		if (email8 != null) {
+		    courriel = email8;
+		} else {
+		    courriel = "info@poolavie.ca";
+		}
 		break;
 	    case 9:
-		courriel = email9;
+		if (email9 != null) {
+		    courriel = email9;
+		} else {
+		    courriel = "info@poolavie.ca";
+		}
+		break;
+	    case 10:
+		if (email10 != null) {
+		    courriel = email10;
+		} else {
+		    courriel = "info@poolavie.ca";
+		}
 		break;
 	    case 11:
-		courriel = email11;
+		if (email11 != null) {
+		    courriel = email11;
+		} else {
+		    courriel = "info@poolavie.ca";
+		}
 		break;
-	   
+
 	    }
-	    
-	    int playerId = i+1;
-	    
+
+	    int playerId = i + 1;
+
 	    Properties props = new Properties();
 	    Session session = Session.getDefaultInstance(props, null);
 
@@ -287,9 +336,8 @@ public class CreationPoolModel {
 		msg.setFrom(new InternetAddress("pedagogiksolution@gmail.com", "Poolavie.ca"));
 		msg.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(courriel));
 		msg.setSubject("Invitation pour un Pool à vie", "utf-8");
-		msg.setContent("Bonjour, un de vos amis vous invite à participer à un pool de hockey sur la plateforme de www.poolavie.ca." +
-				"\n\n Vous pouvez dès maintenant aller créer les bases de votre équipe en suivant le lien ci-bas." +
-				"\n\n <a href='http://2-dot-zeta-anthem-715.appspot.com/CreationDirecteurGeneral?po="+poolId+"&pl="+playerId+"&co="+code+"&fo=1'>Créer mon équipe</a>", "text/html");
+		msg.setContent("Bonjour, un de vos amis vous invite à participer à un pool de hockey sur la plateforme de www.poolavie.ca." + "\n\n Vous pouvez dès maintenant aller créer les bases de votre équipe en suivant le lien ci-bas." + "\n\n <a href='http://2-dot-zeta-anthem-715.appspot.com/CreationDirecteurGeneral?po=" + poolId + "&pl=" + playerId + "&co=" + code
+			+ "&fo=1'>Créer mon équipe</a>", "text/html");
 		Transport.send(msg);
 	    } catch (AddressException e) {
 		// ...

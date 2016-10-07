@@ -142,6 +142,12 @@ public class CreationNouveauDGServlet extends HttpServlet {
 		    LoginModel mModelLogin = new LoginModel(req);
 
 		    mModelLogin.createSessionClassementBean();
+		    mModelLogin.createSessionEquipeBean();
+		    mModelLogin.createSessionAttaquantBean();
+		    mModelLogin.createSessionDefenseurBean();
+		    mModelLogin.createSessionGardienBean();
+		    mModelLogin.createSessionRecrueBean();
+		    
 		    
 		    
 		    

@@ -48,7 +48,7 @@
 		<br>
 		<br>
 		<br>
-		<div class="w3-row-padding">
+		<div id="marketing2" class="w3-row-padding">
 			<form class="w3-container" action="/CreationPool" method="post" name="creation">
 				<div class="w3-third w3-container ">
 
@@ -199,7 +199,7 @@
 
 						<br>
 						<div style="width: 80%; height: 80%; margin-left: auto; margin-right: auto">
-							<button class="w3-btn w3-khaki w3-xlarge w3-text-indigo w3-center">Créer mon pool</button>
+							<button onclick="progressbar()" class="w3-btn w3-khaki w3-xlarge w3-text-indigo w3-center">Créer mon pool</button>
 						</div>
 						<br>
 						<br>
@@ -230,15 +230,15 @@
 
 
 
-	<footer class="w3-container w3-indigo w3-large w3-center w3-bottom">
+	<footer id="footerAccueil" class="w3-container w3-indigo w3-large w3-center w3-bottom">
 		<p>Solution Pedagogik inc. © 2016. Tous droits réservés</p>
 	</footer>
 	<div id="progressBar" class="w3-display-middle w3-half w3-center w3-hide">
-	<h1 id="progressMessage1" class="w3-show">Préparation des équipes</h1>
-	<h1 id="progressMessage2" class="w3-hide">Comptabilisation des points au classement</h1>
-	<h1 id="progressMessage3" class="w3-hide">Passage de la zamboni</h1>
-	<h1 id="progressMessage4" class="w3-hide">Aiguissage des patins</h1>
-	<h1 id="progressMessage5" class="w3-hide">Enculage des mouches</h1>
+	<h1 id="progressMessage1" class="w3-show">Création des équipes</h1>
+	<h1 id="progressMessage2" class="w3-hide">Création des bases de données</h1>
+	<h1 id="progressMessage3" class="w3-hide">Création des paramètres</h1>
+	<h1 id="progressMessage4" class="w3-hide">Envoie des courriels</h1>
+	<h1 id="progressMessage5" class="w3-hide">Passage de la zamboni. Votre nouveaux pool devrait être prêt d'ici peu</h1>
 	<br>
 	<div class="w3-progress-container ">
 		<div id="myBar" class="w3-progressbar w3-blue" style="width: 0%">
@@ -246,6 +246,57 @@
 		</div>
 	</div>
 	</div>
-	<jsp:directive.include file="../utils/progressBar.jsp" />
+	<script type="text/javascript">
+		function removeProgressBar() {
+			document.getElementById('progressBar').classList.remove('w3-show');
+			document.getElementById('progressBar').classList.add('w3-hide');
+		}
+		function progressbar() {
+			document.getElementById('marketing1').classList.add('w3-overlay');
+			document.getElementById('marketing1').classList.remove('background-image');
+			document.getElementById('marketing2').classList.add('w3-hide');
+			document.getElementById('footerAccueil').classList.add('w3-hide');
+			document.getElementById('progressBar').classList.remove('w3-hide');
+			document.getElementById('progressBar').classList.add('w3-show');
+			var elem = document.getElementById("myBar");
+			var width = 0;
+			var id = setInterval(frame, 100);
+			function frame() {
+				if (width >= 100) {
+					clearInterval(id);
+				} else {
+					width++;
+					elem.style.width = width + '%';
+					document.getElementById("demo").innerHTML = width * 1 + '%';
+					if(width==20){
+						document.getElementById('progressMessage1').classList.remove('w3-show');
+						document.getElementById('progressMessage1').classList.add('w3-hide');
+						document.getElementById('progressMessage2').classList.remove('w3-hide');
+						document.getElementById('progressMessage2').classList.add('w3-show');
+					}
+					if(width==40){
+						document.getElementById('progressMessage2').classList.remove('w3-show');
+						document.getElementById('progressMessage2').classList.add('w3-hide');
+						document.getElementById('progressMessage3').classList.remove('w3-hide');
+						document.getElementById('progressMessage3').classList.add('w3-show');
+					}
+					if(width==60){
+						document.getElementById('progressMessage3').classList.remove('w3-show');
+						document.getElementById('progressMessage3').classList.add('w3-hide');
+						document.getElementById('progressMessage4').classList.remove('w3-hide');
+						document.getElementById('progressMessage4').classList.add('w3-show');
+					}
+					if(width==80){
+						document.getElementById('progressMessage4').classList.remove('w3-show');
+						document.getElementById('progressMessage4').classList.add('w3-hide');
+						document.getElementById('progressMessage5').classList.remove('w3-hide');
+						document.getElementById('progressMessage5').classList.add('w3-show');
+					}
+				}
+			}
+
+	}
+</script>
+
 </body>
 </html>

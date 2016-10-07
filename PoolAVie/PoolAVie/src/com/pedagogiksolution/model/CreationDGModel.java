@@ -352,39 +352,51 @@ public class CreationDGModel {
 
 	case 1:
 	    mBeanPool.setNomTeam1(nomDuTeam);
+	    mBeanPool.setLogoTeam1(urlLogoTeam);
 	    break;
 	case 2:
 	    mBeanPool.setNomTeam2(nomDuTeam);
+	    mBeanPool.setLogoTeam2(urlLogoTeam);
 	    break;
 	case 3:
 	    mBeanPool.setNomTeam3(nomDuTeam);
+	    mBeanPool.setLogoTeam3(urlLogoTeam);
 	    break;
 	case 4:
 	    mBeanPool.setNomTeam4(nomDuTeam);
+	    mBeanPool.setLogoTeam4(urlLogoTeam);
 	    break;
 	case 5:
 	    mBeanPool.setNomTeam5(nomDuTeam);
+	    mBeanPool.setLogoTeam5(urlLogoTeam);
 	    break;
 	case 6:
 	    mBeanPool.setNomTeam6(nomDuTeam);
+	    mBeanPool.setLogoTeam6(urlLogoTeam);
 	    break;
 	case 7:
 	    mBeanPool.setNomTeam7(nomDuTeam);
+	    mBeanPool.setLogoTeam7(urlLogoTeam);
 	    break;
 	case 8:
 	    mBeanPool.setNomTeam8(nomDuTeam);
+	    mBeanPool.setLogoTeam8(urlLogoTeam);
 	    break;
 	case 9:
 	    mBeanPool.setNomTeam9(nomDuTeam);
+	    mBeanPool.setLogoTeam9(urlLogoTeam);
 	    break;
 	case 10:
 	    mBeanPool.setNomTeam10(nomDuTeam);
+	    mBeanPool.setLogoTeam10(urlLogoTeam);
 	    break;
 	case 11:
 	    mBeanPool.setNomTeam11(nomDuTeam);
+	    mBeanPool.setLogoTeam11(urlLogoTeam);
 	    break;
 	case 12:
 	    mBeanPool.setNomTeam12(nomDuTeam);
+	    mBeanPool.setLogoTeam12(urlLogoTeam);
 	    break;
 
 	}

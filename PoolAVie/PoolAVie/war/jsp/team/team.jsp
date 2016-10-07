@@ -285,6 +285,8 @@
 			</table>
 
 			<br>
+			
+			<c:if test="${Pool.cycleAnnuel>=2}">
 			<div class="w3-card-8 w3-center" style="width: 90%; margin-left: auto; margin-right: auto">
 				<div class="w3-blue w3-xxlarge w3-center">Pick</div>
 				<div class="w3-third">
@@ -370,6 +372,7 @@
 					</table>
 				</div>
 			</div>
+			</c:if>
 
 		</div>
 
@@ -382,10 +385,11 @@
 					<br>
 					<br>
 					<br>
-					<img src="${Utilisateur.urlTeamLogo}" style="width: 256px; height: 256px;">
+					<br>
+					<img src="${NonSessionBean.logoDuTeam}" style="width: 200px; height: 200px;">
 				</div>
 				<div class="w3-half">
-					<div class="w3-xxlarge  w3-bottombar w3-border-indigo" style="width: 80%">${Utilisateur.teamName}</div>
+					<div class="w3-xxlarge  w3-bottombar w3-border-indigo" style="width: 90%">${NonSessionBean.nomDuTeam}</div>
 					<br>
 					<div class="w3-xlarge ">Mon rang</div>
 					<div class="w3-xxxlarge ">3ième</div>
