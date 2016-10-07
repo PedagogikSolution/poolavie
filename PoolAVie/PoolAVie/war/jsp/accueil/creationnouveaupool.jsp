@@ -14,7 +14,7 @@
 <script src="/js/creationpool.js"></script>
 </head>
 
-<body>
+<body onload="removeProgressBar()">
 
 
 
@@ -23,13 +23,21 @@
 	<!-- Header avec titre et images de promo -->
 	<header class="w3-container w3-indigo w3-large">
 		<ul class="w3-navbar w3-indigo w3-left w3-xlarge">
-			<li><a href="#">Démo</a></li>
-			<li><a href="#">Beta Test</a></li>
+			<li>
+				<a href="#">Démo</a>
+			</li>
+			<li>
+				<a href="#">Beta Test</a>
+			</li>
 		</ul>
 
 		<ul class="w3-navbar w3-indigo w3-right w3-xlarge">
-			<li><a href="#">Français</a></li>
-			<li><a href="#">Nous Joindre</a></li>
+			<li>
+				<a href="#">Français</a>
+			</li>
+			<li>
+				<a href="#">Nous Joindre</a>
+			</li>
 		</ul>
 
 
@@ -40,156 +48,163 @@
 		<br>
 		<br>
 		<br>
-		<div class="w3-row">
-			<form class="w3-container w3-padding-left" action="/CreationPool" method="post" name="creation">
+		<div class="w3-row-padding">
+			<form class="w3-container" action="/CreationPool" method="post" name="creation">
 				<div class="w3-third w3-container ">
 
 					<div class="w3-card-24 w3-white" style="width: 80%; height: 80%; margin-left: auto; margin-right: auto">
 						<div class="w3-indigo w3-center w3-padding">
-							<h3>Créer votre équipe</h3>
+							<h3>Étape 1 : Créer votre équipe</h3>
 						</div>
 
 						<br>
 						<label class="w3-label w3-text-indigo w3-large w3-container">Votre nom d'équipe</label>
-						<input class="w3-input w3-margin-left w3-container" type="text" name="nomDuTeam">
+						<input class="w3-input w3-container w3-validate w3-xlarge w3-margin-left" type="text" name="nomDuTeam" maxlength="20" style="width:90%">
 						<br>
 						<input class="w3-btn  w3-margin-left w3-khaki w3-xlarge w3-text-indigo" type="button" name="logoTeam" value="Choisir un logo" onclick="openTeamLogoPicker()">
-							<input id="logoUrl" type="hidden" name="logoUrlTeam" value="default"> <br> <br>
-							<img id="logoTeamChosen" class="w3-container" src="https://storage.googleapis.com/poolavie-bucket/QUE.png"> <br><br>
+						<input id="logoUrl" type="hidden" name="logoUrlTeam" value="default">
+						<br>
+						<br>
+						<img id="logoTeamChosen" class="w3-container" src="https://storage.googleapis.com/poolavie-bucket/QUE.png">
+						<br>
+						<br>
 					</div>
-					<br> <br>
-					<div style="width: 80%; height: 80%; margin-left: auto; margin-right: auto">
-					<button class="w3-btn w3-khaki w3-xlarge w3-text-indigo w3-center">Passez à l'Étape suivante</button>
-					</div>
+					<br>
+					<br>
+
 				</div>
 				<div class="w3-third w3-container">
 
 					<div class="w3-card-24 w3-white" style="width: 80%; height: 80%; margin-left: auto; margin-right: auto">
 						<div class="w3-indigo w3-center w3-padding">
-							<h3>Invitez des particpants</h3>
+							<h3>Étape 2 : Invitez des particpants</h3>
 						</div>
 						<br>
 						<label class="w3-label w3-text-indigo w3-large w3-container">Nombre de Joueur</label>
-						
+
 						<div class="w3-container">
-						<input class="w3-radio" type="radio" name="nombreEquipe" value="8" checked onclick="m8players() ">
-						<label class="w3-margin-left w3-validate">8</label> 
+							<input class="w3-radio" type="radio" name="nombreEquipe" value="8" checked onclick="m8players() ">
+							<label class="w3-validate">8</label>
 						</div>
 						<div class="w3-container">
-						<input class="w3-radio" type="radio" name="nombreEquipe" value="9" onclick="m9players()">
-						<label class="w3-margin-left w3-validate">9</label> 
+							<input class="w3-radio" type="radio" name="nombreEquipe" value="9" onclick="m9players()">
+							<label class="w3-validate">9</label>
 						</div>
 						<div class="w3-container">
-						<input class="w3-radio" type="radio" name="nombreEquipe" value="10" onclick="m10players()">
-						<label class="w3-margin-left w3-validate">10</label> 
+							<input class="w3-radio" type="radio" name="nombreEquipe" value="10" onclick="m10players()">
+							<label class="w3-validate">10</label>
 						</div>
 						<div class="w3-container">
-						<input class="w3-radio" type="radio" name="nombreEquipe" value="11" onclick="m11players()">
-						<label class="w3-margin-left w3-validate">11</label> 
+							<input class="w3-radio" type="radio" name="nombreEquipe" value="11" onclick="m11players()">
+							<label class="w3-validate">11</label>
 						</div>
 						<div class="w3-container">
-						<input class="w3-radio" type="radio" name="nombreEquipe" value="12" onclick="m12players()">
-						<label class="w3-margin-left w3-validate">12</label> 
+							<input class="w3-radio" type="radio" name="nombreEquipe" value="12" onclick="m12players()">
+							<label class="w3-validate">12</label>
 						</div>
-						
+
 						<br>
 						<p>
-							<input class="w3-margin-left w3-input w3-validate" type="email" name="email1" placeholder="courriel joueur 1">
+							<input class="w3-input w3-validate w3-margin-left" type="email" name="email1" placeholder="courriel joueur 1" style="width:90%">
 						</p>
 
 						<p>
-							<input class="w3-margin-left w3-input w3-validate" type="email" name="email2" placeholder="courriel joueur 2">
+							<input class="w3-input w3-validate w3-margin-left" type="email" name="email2" placeholder="courriel joueur 2" style="width:90%">
 						</p>
 
 						<p>
-							<input class="w3-margin-left w3-input w3-validate" type="email" name="email3" placeholder="courriel joueur 3">
+							<input class="w3-input w3-validate w3-margin-left" type="email" name="email3" placeholder="courriel joueur 3" style="width:90%">
 						</p>
 						<p>
-							<input class="w3-margin-left w3-input w3-validate" type="email" name="email4" placeholder="courriel joueur 4">
+							<input class="w3-input w3-validate w3-margin-left" type="email" name="email4" placeholder="courriel joueur 4" style="width:90%">
 						</p>
 						<p>
-							<input class="w3-margin-left w3-input w3-validate" type="email" name="email5" placeholder="courriel joueur 5">
+							<input class="w3-input w3-validate w3-margin-left" type="email" name="email5" placeholder="courriel joueur 5" style="width:90%">
 						</p>
 						<p>
-							<input class="w3-margin-left w3-input w3-validate" type="email" name="email6" placeholder="courriel joueur 6">
+							<input class="w3-input w3-validate w3-margin-left" type="email" name="email6" placeholder="courriel joueur 6" style="width:90%">
 						</p>
 						<p>
-							<input class="w3-margin-left w3-input w3-validate" type="email" name="email7" placeholder="courriel joueur 7">
+							<input class="w3-input w3-validate w3-margin-left" type="email" name="email7" placeholder="courriel joueur 7" style="width:90%">
 						</p>
 						<p>
-							<input id="j8" class="w3-margin-left w3-input w3-validate w3-hide" type="email" name="email8" placeholder="courriel joueur 8">
+							<input id="j8" class="w3-input w3-validate w3-margin-left w3-hide" type="email" name="email8" placeholder="courriel joueur 8" style="width:90%">
 						</p>
 						<p>
-							<input id="j9" class="w3-margin-left w3-input w3-validate w3-hide" type="email" name="email9" placeholder="courriel joueur 9">
+							<input id="j9" class="w3-input w3-validate w3-margin-left w3-hide" type="email" name="email9" placeholder="courriel joueur 9" style="width:90%">
 						</p>
 						<p>
-							<input id="j10" class="w3-margin-left w3-input w3-validate w3-hide" type="email" name="email10" placeholder="courriel joueur 10">
+							<input id="j10" class="w3-input w3-validate w3-margin-left w3-hide" type="email" name="email10" placeholder="courriel joueur 10" style="width:90%">
 						</p>
 						<p>
-							<input id="j11" class="w3-margin-left w3-input w3-validate w3-hide" type="email" name="email11" placeholder="courriel joueur 11">
+							<input id="j11" class="w3-input w3-validate w3-margin-left w3-hide" type="email" name="email11" placeholder="courriel joueur 11" style="width:90%">
 						</p>
 					</div>
-					<br> <br>
+					<br>
+					<br>
 				</div>
 				<div class="w3-third w3-container">
 
 					<div class="w3-card-24 w3-white" style="width: 80%; height: 80%; margin-left: auto; margin-right: auto">
 						<div class="w3-indigo w3-center w3-padding">
-							<h3>Paramétrez votre pool</h3>
+							<h3>Étape 3 : Paramétrez votre pool</h3>
 						</div>
 						<br>
 						<label class="w3-label w3-text-indigo w3-large w3-container">Nom du pool</label>
-						<input class="w3-input w3-margin-left w3-container" type="text" name="nomDuPool" placeholder="Exemple : Challenge de Saint-Clinclin">
+						<input class="w3-input w3-container w3-margin-left" type="text" name="nomDuPool" placeholder="Exemple : Challenge de Saint-Clinclin" maxlength="30" style="width:90%">
 						<br>
-						
+
 						<label class="w3-label w3-text-indigo w3-large w3-container">Type de pool</label>
-						
+
 						<div class="w3-container">
-						<input class="w3-radio" type="radio" name="typePool" value="1" checked>
-						<label class="w3-validate w3-margin-left">Sur plusieurs années</label>
+							<input class="w3-radio" type="radio" name="typePool" value="1" checked>
+							<label class="w3-validate w3-margin-left">Sur plusieurs années</label>
 						</div>
 						<div class="w3-container">
-						<input class="w3-radio" type="radio" name="typePool" value="2">
-						<label class="w3-validate w3-margin-left">Une seule année</label>
+							<input class="w3-radio" type="radio" name="typePool" value="2" disabled>
+							<label class="w3-validate w3-margin-left">Une seule année</label>
 						</div>
-						
+
 						<br>
 
-						
-				
+
+
 						<label class="w3-label w3-text-indigo w3-large w3-container">Paramètre des échanges</label>
-						
+
 						<div class="w3-container">
-						<input class="w3-radio" type="radio" name="typeTrade" value="1" checked>
-						<label class="w3-validate w3-margin-left">Ouverte jusqu'à la date limite</label>
+							<input class="w3-radio" type="radio" name="typeTrade" value="1" checked>
+							<label class="w3-validate w3-margin-left">Ouverte jusqu'à la date limite</label>
 						</div>
 						<div class="w3-container">
-						<input class="w3-radio" type="radio" name="typeTrade" value="2">
-						<label class="w3-validate w3-margin-left">Uniquement lors de période d'échange</label>
+							<input class="w3-radio" type="radio" name="typeTrade" value="2" >
+							<label class="w3-validate w3-margin-left">Uniquement lors de période d'échange</label>
 						</div>
 						<div class="w3-container">
-						<input class="w3-radio" type="radio" name="typeTrade" value="3">
-						<label class="w3-validate w3-margin-left">Jamais</label>
+							<input class="w3-radio" type="radio" name="typeTrade" value="3" disabled>
+							<label class="w3-validate w3-margin-left">Jamais</label>
 						</div>
-						
-						<br>
-						
-						<label class="w3-label w3-text-indigo w3-large w3-container">Option de repêchage</label>
-						
-						<div class="w3-container">
-						<input class="w3-radio" type="radio" name="typeDraft" value="1" checked>
-						<label class="w3-validate w3-margin-left">Live draft</label>
-						</div>
-						<div class="w3-container">
-						<input class="w3-radio" type="radio" name="typeDraft" value="2">
-						<label class="w3-validate w3-margin-left">Manuel</label>
-						</div>
-						
-						<br>
+
 						<br>
 
+						<label class="w3-label w3-text-indigo w3-large w3-container">Option de repêchage</label>
+
+						<div class="w3-container">
+							<input class="w3-radio" type="radio" name="typeDraft" value="1" checked>
+							<label class="w3-validate w3-margin-left">Live draft</label>
+						</div>
+						<div class="w3-container">
+							<input class="w3-radio" type="radio" name="typeDraft" value="2" disabled>
+							<label class="w3-validate w3-margin-left">Manuel</label>
+						</div>
+
+						<br>
+						<div style="width: 80%; height: 80%; margin-left: auto; margin-right: auto">
+							<button class="w3-btn w3-khaki w3-xlarge w3-text-indigo w3-center">Créer mon pool</button>
+						</div>
+						<br>
+						<br>
 					</div>
-					<br> <br>
+
 				</div>
 
 
@@ -209,7 +224,7 @@
 
 
 
-	
+
 
 	<jsp:directive.include file="../utils/teamLogoPicker.jsp" />
 
@@ -218,5 +233,19 @@
 	<footer class="w3-container w3-indigo w3-large w3-center w3-bottom">
 		<p>Solution Pedagogik inc. © 2016. Tous droits réservés</p>
 	</footer>
+	<div id="progressBar" class="w3-display-middle w3-half w3-center w3-hide">
+	<h1 id="progressMessage1" class="w3-show">Préparation des équipes</h1>
+	<h1 id="progressMessage2" class="w3-hide">Comptabilisation des points au classement</h1>
+	<h1 id="progressMessage3" class="w3-hide">Passage de la zamboni</h1>
+	<h1 id="progressMessage4" class="w3-hide">Aiguissage des patins</h1>
+	<h1 id="progressMessage5" class="w3-hide">Enculage des mouches</h1>
+	<br>
+	<div class="w3-progress-container ">
+		<div id="myBar" class="w3-progressbar w3-blue" style="width: 0%">
+			<div id="demo" class="w3-container w3-text-white">0</div>
+		</div>
+	</div>
+	</div>
+	<jsp:directive.include file="../utils/progressBar.jsp" />
 </body>
 </html>

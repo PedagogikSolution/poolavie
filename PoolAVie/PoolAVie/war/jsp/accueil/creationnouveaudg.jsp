@@ -11,7 +11,7 @@
 <script src="/js/creationpool.js"></script>
 </head>
 
-<body>
+<body onload="removeProgressBar()">
 
 	<!-- Header avec titre et images de promo -->
 	<header class="w3-container w3-indigo w3-large">
@@ -100,7 +100,19 @@
 	<footer class="w3-container w3-indigo w3-large w3-center w3-bottom">
 		<p>Solution Pedagogik inc. © 2016. Tous droits réservés</p>
 	</footer>
-
-
+	<div id="progressBar" class="w3-display-middle w3-half w3-center w3-hide">
+	<h1 id="progressMessage1" class="w3-show">Préparation des équipes</h1>
+	<h1 id="progressMessage2" class="w3-hide">Comptabilisation des points au classement</h1>
+	<h1 id="progressMessage3" class="w3-hide">Passage de la zamboni</h1>
+	<h1 id="progressMessage4" class="w3-hide">Aiguissage des patins</h1>
+	<h1 id="progressMessage5" class="w3-hide">Enculage des mouches</h1>
+	<br>
+	<div class="w3-progress-container ">
+		<div id="myBar" class="w3-progressbar w3-blue" style="width: 0%">
+			<div id="demo" class="w3-container w3-text-white">0</div>
+		</div>
+	</div>
+	</div>
+	<jsp:directive.include file="../utils/progressBar.jsp" />
 </body>
 </html>
