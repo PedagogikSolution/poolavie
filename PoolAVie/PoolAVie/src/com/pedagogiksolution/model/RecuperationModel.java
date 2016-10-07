@@ -16,18 +16,25 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.memcache.MemcacheService;
+import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.pedagogiksolution.beans.GestionCompte;
 import com.pedagogiksolution.beans.MessageErreurBeans;
+import com.pedagogiksolution.datastorebeans.Utilisateur;
+import com.pedagogiksolution.utils.EMF;
 import com.pedagogiksolution.utils.PasswordEncryption;
 
 public class RecuperationModel {
@@ -151,15 +158,42 @@ public class RecuperationModel {
 		    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
 		   
 		}
-	// on appel le service
+		// on recupere le datastore Utilisateur et on change le mot de passe
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Key mKey = KeyFactory.createKey("Utilisateur", username);
-		Entity entity = new Entity(mKey);
-		entity.setProperty("motDePasse", motDePasseEncrypter);
-		datastore.put(entity);
 		
-	
-	
+		Entity entity = null;
+		try {
+		    entity = datastore.get(mKey);
+		    entity.setProperty("motDePasse", motDePasseEncrypter);
+		    datastore.put(entity);
+		} catch (EntityNotFoundException e) {
+		   
+		}
+		Utilisateur mBean = new Utilisateur();
+		mBean = mapUtilisateurFromDatastore(entity, mBean);
+		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+		Key clefMemCache = KeyFactory.createKey("Utilisateur", username);
+		memcache.put(clefMemCache, mBean);
+		
+			
 	
     }
+    
+    /* ******************  private methode   ************* */
+    private Utilisateur mapUtilisateurFromDatastore(Entity mEntity, Utilisateur mBean) {
+
+	EntityManagerFactory emf = EMF.get();
+	EntityManager em = null;
+
+	try {
+		em = emf.createEntityManager();
+		mBean = em.find(Utilisateur.class, mEntity.getKey());
+	} finally {
+		if (em != null)
+			em.close();
+	}
+
+	return mBean;
+}
 }

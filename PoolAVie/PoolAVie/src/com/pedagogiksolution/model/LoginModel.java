@@ -589,7 +589,7 @@ public class LoginModel {
 		return true;
 	}
 
-public void resetConnexionOpen() {
+	public void resetConnexionOpen() {
 		Utilisateur mUserBean = new Utilisateur();
 		Pool mBeanPool = new Pool();
 		mUserBean = (Utilisateur) requestObject.getSession().getAttribute("Utilisateur");
