@@ -122,7 +122,7 @@ public class DraftPlayersModel {
 	if (req.getSession().getAttribute("ascDescOrder") == null) {
 	    ascDescOrder = 0;
 	} else {
-	    ascDescOrder = (int) req.getSession().getAttribute("ascDescOrder");
+	    ascDescOrder = 0;
 	}
 	Boolean fromMenu = false;
 	String menu = req.getParameter("from");

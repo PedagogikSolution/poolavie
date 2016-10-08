@@ -13,7 +13,12 @@
 <link rel="stylesheet" href="/css/w3.css">
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
 </head>
-
+<style type="text/css">
+td {
+    white-space: nowrap;
+    overflow: hidden;
+    }
+</style>
 <body>
 	<!-- Header du menu principal-->
 	<jsp:directive.include file="../main/navbar_main.jsp" />
@@ -61,7 +66,11 @@
 
 		</c:if>
 
-		<table id="playersPickBox" class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
+		<br>
+		<input class="w3-input w3-border w3-padding w3-large" type="text" placeholder="Rechercher un nom dans la liste..." id="myInput" onkeyup="filtrerParNom()" style="width: 40%; margin-left:auto;margin-right:auto">
+		<br>
+		<div class="w3-responsive">
+		<table id="playersPickBox" class="w3-table w3-hoverable w3-content w3-striped w3-bordered w3-card-8 w3-margin-top w3-large" style="width: 95%">
 			<caption class="w3-blue w3-xlarge">
 				<h1>
 					Joueurs disponible au Draft (
@@ -71,13 +80,13 @@
 			</caption>
 			<tr class="w3-indigo">
 				<th>
-					<a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=nom">Nom</a>
+					Nom
 				</th>
 				<th>
-					<a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=teamOfPlayer">Équipe</a>
+					Équipe
 				</th>
 				<th>
-					<a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=position">Position</a>
+					Position
 				</th>
 				<th>
 					<a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=pj">Pj</a>
@@ -95,7 +104,7 @@
 					<a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=salaire_draft">Salaire</a>
 				</th>
 				<th>
-					<a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=can_be_rookie">Rookie</a>
+					Recrue
 				</th>
 				<th>
 					<a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=projection">Proj</a>
@@ -150,7 +159,7 @@
 
 		</table>
 
-
+		</div>
 
 		<jsp:directive.include file="../utils/draftMessage.jsp" />
 
@@ -163,5 +172,28 @@
 	<script>
 	document.getElementById('menuSecDraft').classList.add('w3-khaki');
 	</script>
+	<script>
+function filtrerParNom() {
+  var input, filter, table, tr, td, i;
+  document.getElementById('playersPickBox').classList.remove('w3-striped');
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("playersPickBox");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+        if(filter==""){
+        	document.getElementById('playersPickBox').classList.add('w3-striped');
+        }
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
 </body>
 </html>
