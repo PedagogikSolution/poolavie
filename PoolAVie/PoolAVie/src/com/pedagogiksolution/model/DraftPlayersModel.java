@@ -117,6 +117,7 @@ public class DraftPlayersModel {
 	Query q = null;
 	Filter noContrat;
 	Filter byPosition;
+	Filter filterCanBeRookie;
 	CompositeFilter mFiltre;
 
 	if (req.getSession().getAttribute("ascDescOrder") == null) {
@@ -182,9 +183,8 @@ public class DraftPlayersModel {
 	    break;
 	case "rookie":
 	    noContrat = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
-	    byPosition = new FilterPredicate("club_ecole", FilterOperator.EQUAL, 0);
-	    byPosition = new FilterPredicate("can_be_rookie", FilterOperator.EQUAL, 1);
-	    mFiltre = CompositeFilterOperator.and(noContrat, byPosition);
+	    filterCanBeRookie = new FilterPredicate("can_be_rookie", FilterOperator.EQUAL, 1);
+	    mFiltre = CompositeFilterOperator.and(noContrat, filterCanBeRookie);
 	    if (ascDescOrder == 0 || fromMenu) {
 		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.DESCENDING).setFilter(mFiltre);
 		req.getSession().setAttribute("ascDescOrder", 1);
@@ -843,13 +843,14 @@ public class DraftPlayersModel {
 	try {
 
 	    // table players_X
-	    Key playersKey = KeyFactory.createKey(playersEntityName, playersId);
+	 // table players_X
+	    Key playersKey = KeyFactory.createKey(playersEntityName, playersID);
 
 	    try {
 		players = datastore.get(playersKey);
 
 		players.setProperty("contrat", 1);
-		players.setProperty("club_ecole", 1);
+		players.setProperty("club_ecole",1);
 
 		datastore.put(txn, players);
 
@@ -1285,11 +1286,13 @@ public class DraftPlayersModel {
 	Query q = new Query(datastoreName).setFilter(selectPlayerById);
 
 	// Use PreparedQuery interface to retrieve results
-	List<Entity> pq = datastore.prepare(q).asList(FetchOptions.Builder.withDefaults());
+	Entity pq = datastore.prepare(q).asSingleEntity();
 
-	if (pq.isEmpty()) {
+	Long contrat = (Long)pq.getProperty("contrat");
+	
+	if(contrat==1){
 	    return false;
-	} else {
+	}else{
 	    return true;
 	}
 
