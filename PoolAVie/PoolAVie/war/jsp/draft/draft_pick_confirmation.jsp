@@ -116,7 +116,7 @@
 					${confirmationPick.salaire_draft}</p>
 
 				<form onsubmit="confirmationButtonA.disabled = true; return true;" class="w3-container w3-form w3-white" action="/DraftPlayers" method="post">
-					<input type="hidden" name="draftStep" value="2">
+					<input type="hidden" name="draftStep" value="3">
 					<input type="hidden" name="draft_player_id" value="${confirmationPick.players_id}">
 					<input type="hidden" name="team_id" value="${Utilisateur.teamId}">
 					<input type="hidden" name="nom" value="${confirmationPick.nom}">
