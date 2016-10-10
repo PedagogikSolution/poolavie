@@ -55,12 +55,12 @@
 			position = messageReceived.position;
 			document.getElementById('draftPickAlertRookie').classList.remove('w3-hide');
 			document.getElementById('draftPickAlertRookie').classList.add('w3-show');
-			document.getElementById('pickNumber').innerHTML=pickNumber;
-			document.getElementById('teamThatDraft').innerHTML=teamThatDraft;
-			document.getElementById('playerDrafted').innerHTML=playerDrafted;
-			document.getElementById('position').innerHTML=position;
-			document.getElementById('teamOfPlayer').innerHTML=teamOfPlayer;
-			document.getElementById('salaire').innerHTML=salaire;
+			document.getElementById('pickNumber2').innerHTML=pickNumber;
+			document.getElementById('teamThatDraft2').innerHTML=teamThatDraft;
+			document.getElementById('playerDrafted2').innerHTML=playerDrafted;
+			document.getElementById('position2').innerHTML=position;
+			document.getElementById('teamOfPlayer2').innerHTML=teamOfPlayer;
+			document.getElementById('salaire2').innerHTML=salaire;
 		} else if(draftPickMade==3){
 			teamThatDraft = messageReceived.teamThatDraft;
 			round = messageReceived.round;
@@ -72,12 +72,12 @@
 			position = messageReceived.position;
 			document.getElementById('draftPickAlertFinish').classList.remove('w3-hide');
 			document.getElementById('draftPickAlertFinish').classList.add('w3-show');
-			document.getElementById('pickNumber').innerHTML=pickNumber;
-			document.getElementById('teamThatDraft').innerHTML=teamThatDraft;
-			document.getElementById('playerDrafted').innerHTML=playerDrafted;
-			document.getElementById('position').innerHTML=position;
-			document.getElementById('teamOfPlayer').innerHTML=teamOfPlayer;
-			document.getElementById('salaire').innerHTML=salaire;
+			document.getElementById('pickNumber3').innerHTML=pickNumber;
+			document.getElementById('teamThatDraft3').innerHTML=teamThatDraft;
+			document.getElementById('playerDrafted3').innerHTML=playerDrafted;
+			document.getElementById('position3').innerHTML=position;
+			document.getElementById('teamOfPlayer3').innerHTML=teamOfPlayer;
+			document.getElementById('salaire3').innerHTML=salaire;
 			
 		} else if(draftPickMade==4){
 			teamThatDraft = messageReceived.teamThatDraft;
@@ -90,12 +90,12 @@
 			position = messageReceived.position;
 			document.getElementById('draftPickAlertRookieFinish').classList.remove('w3-hide');
 			document.getElementById('draftPickAlertRookieFinish').classList.add('w3-show');
-			document.getElementById('pickNumber').innerHTML=pickNumber;
-			document.getElementById('teamThatDraft').innerHTML=teamThatDraft;
-			document.getElementById('playerDrafted').innerHTML=playerDrafted;
-			document.getElementById('position').innerHTML=position;
-			document.getElementById('teamOfPlayer').innerHTML=teamOfPlayer;
-			document.getElementById('salaire').innerHTML=salaire;
+			document.getElementById('pickNumber4').innerHTML=pickNumber;
+			document.getElementById('teamThatDraft4').innerHTML=teamThatDraft;
+			document.getElementById('playerDrafted4').innerHTML=playerDrafted;
+			document.getElementById('position4').innerHTML=position;
+			document.getElementById('teamOfPlayer4').innerHTML=teamOfPlayer;
+			document.getElementById('salaire4').innerHTML=salaire;
 			
 		} else {
 			
