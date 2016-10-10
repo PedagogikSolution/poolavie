@@ -109,12 +109,8 @@ public class PlayersDaoImpl implements PlayersDao {
 
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
-	int contrat;
-	if (clubEcoleId == 1) {
-	    contrat = 0;
-	} else {
-	    contrat = 1;
-	}
+	int contrat=1;
+	
 
 	try {
 	    connexion = daoFactory.getConnection();
