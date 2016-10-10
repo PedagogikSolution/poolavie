@@ -524,7 +524,7 @@ public class DraftPlayersModel {
 
 		entity = datastore.get(entityKey);
 
-		mapDatastoreInTempArray(entity,position);
+		mapDatastoreInTempArray(entity, position);
 
 		players_id.add(playersId);
 		entity.setProperty("players_id", players_id);
@@ -820,7 +820,7 @@ public class DraftPlayersModel {
 	String team = req.getParameter("team");
 	Key mKey = KeyFactory.createKey("DraftProcess", poolID);
 	int currentPick = 0;
-	
+
 	Entity draftRoundEntity = null, players = null, entity = null, equipeEntity = null;
 	Key equipeKey;
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -867,8 +867,8 @@ public class DraftPlayersModel {
 
 		entity = datastore.get(entityKey);
 
-		mapDatastoreInTempArray(entity,position);
-		
+		mapDatastoreInTempArray(entity, position);
+
 		players_id.add(playersId);
 		entity.setProperty("players_id", players_id);
 
@@ -1046,6 +1046,7 @@ public class DraftPlayersModel {
 	String position = req.getParameter("position");
 	String nom = req.getParameter("nom");
 	String team = req.getParameter("team");
+	String teamThatDraft = "???";
 	Key mKey = KeyFactory.createKey("DraftProcess", poolID);
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	try {
@@ -1057,20 +1058,65 @@ public class DraftPlayersModel {
 	} catch (EntityNotFoundException e) {
 
 	}
+	
+	switch (teamId) {
+	case 1:
+	    teamThatDraft = mBeanPool.getNomTeam1();
+	    break;
+	case 2:
+	    teamThatDraft = mBeanPool.getNomTeam2();
+	    break;
+	case 3:
+	    teamThatDraft = mBeanPool.getNomTeam3();
+	    break;
+	case 4:
+	    teamThatDraft = mBeanPool.getNomTeam4();
+	    break;
+	case 5:
+	    teamThatDraft = mBeanPool.getNomTeam5();
+	    break;
+	case 6:
+	    teamThatDraft = mBeanPool.getNomTeam6();
+	    break;
+	case 7:
+	    teamThatDraft = mBeanPool.getNomTeam7();
+	    break;
+	case 8:
+	    teamThatDraft = mBeanPool.getNomTeam8();
+	    break;
+	case 9:
+	    teamThatDraft = mBeanPool.getNomTeam9();
+	    break;
+	case 10:
+	    teamThatDraft = mBeanPool.getNomTeam10();
+	    break;
+	case 11:
+	    teamThatDraft = mBeanPool.getNomTeam11();
+	    break;
+	case 12:
+	    teamThatDraft = mBeanPool.getNomTeam12();
+	    break;
+
+	}
 
 	Map<String, String> messageToClient = new HashMap<String, String>();
 	messageToClient.put("testIfOpen", "0");
-	if (tagForDraftFinish == 3) {
-	    messageToClient.put("draftPickMade", "1");
-	} else {
-	    messageToClient.put("draftPickMade", "3");
+	switch(tagForDraftFinish) {
+	case 1:   messageToClient.put("draftPickMade", "1");
+	break;
+	case 2:  messageToClient.put("draftPickMade", "2");
+	    break;
+	case 3:   messageToClient.put("draftPickMade", "3");
+	break;
+	case 4:  messageToClient.put("draftPickMade", "4");
+	    break;
 	}
 	messageToClient.put("pickNumber", currentPick);
 	messageToClient.put("playerDrafted", nom);
 	messageToClient.put("teamOfPlayer", team);
 	messageToClient.put("salaire", salaire);
 	messageToClient.put("position", position);
-	messageToClient.put("teamThatDraft", teamID);
+	messageToClient.put("teamThatDraft", teamThatDraft);
 
 	JSONObject JSONmessage = new JSONObject(messageToClient);
 	String message = JSONmessage.toString();
@@ -1332,30 +1378,29 @@ public class DraftPlayersModel {
 
     }
 
-    
     @SuppressWarnings("unchecked")
-    private void mapDatastoreInTempArray(Entity entity,String position) {
-	
+    private void mapDatastoreInTempArray(Entity entity, String position) {
+
 	List<Integer> testIfEmpty = (List<Integer>) entity.getProperty("players_id");
-	
-	if(testIfEmpty!=null){
-	
-	players_id.addAll((List<Integer>) entity.getProperty("players_id"));
-	nom2.addAll((List<String>)entity.getProperty("nom"));
-	teamOfPlayer.addAll((List<String>)entity.getProperty("teamOfPlayer"));
-	pj.addAll((List<Integer>) entity.getProperty("pj"));
-	but_victoire.addAll((List<Integer>) entity.getProperty("but_victoire"));
-	aide_overtime.addAll((List<Integer>) entity.getProperty("aide_overtime"));
-	if (position.equalsIgnoreCase("Gardien")) {
-	blanchissage.addAll((List<Integer>) entity.getProperty("blanchissage"));
-	}
-	pts.addAll((List<Integer>) entity.getProperty("pts"));
-	years_1.addAll((List<String>)entity.getProperty("years_1"));
-	years_2.addAll((List<String>)entity.getProperty("years_2"));
-	years_3.addAll((List<String>)entity.getProperty("years_3"));
-	years_4.addAll((List<String>)entity.getProperty("years_4"));
-	years_5.addAll((List<String>)entity.getProperty("years_5"));
-	salaire_contrat.addAll((List<Integer>) entity.getProperty("salaire_contrat"));
+
+	if (testIfEmpty != null) {
+
+	    players_id.addAll((List<Integer>) entity.getProperty("players_id"));
+	    nom2.addAll((List<String>) entity.getProperty("nom"));
+	    teamOfPlayer.addAll((List<String>) entity.getProperty("teamOfPlayer"));
+	    pj.addAll((List<Integer>) entity.getProperty("pj"));
+	    but_victoire.addAll((List<Integer>) entity.getProperty("but_victoire"));
+	    aide_overtime.addAll((List<Integer>) entity.getProperty("aide_overtime"));
+	    if (position.equalsIgnoreCase("Gardien")) {
+		blanchissage.addAll((List<Integer>) entity.getProperty("blanchissage"));
+	    }
+	    pts.addAll((List<Integer>) entity.getProperty("pts"));
+	    years_1.addAll((List<String>) entity.getProperty("years_1"));
+	    years_2.addAll((List<String>) entity.getProperty("years_2"));
+	    years_3.addAll((List<String>) entity.getProperty("years_3"));
+	    years_4.addAll((List<String>) entity.getProperty("years_4"));
+	    years_5.addAll((List<String>) entity.getProperty("years_5"));
+	    salaire_contrat.addAll((List<Integer>) entity.getProperty("salaire_contrat"));
 	}
     }
 }

@@ -65,6 +65,17 @@ td {
 			</div>
 
 		</c:if>
+		<c:if test="${Utilisateur.teamId==currentPicker&&Pool.cycleAnnuel==3}">
+					<!-- Si first years and avant draft sans date set-->
+					<a href="/DraftPlayers?seg=all&sort=pts"><button class="w3-container w3-section w3-red">
+							<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+							<h2>
+								C'EST VOTRE TOUR DE DRAFT !!!
+								</h3>
+								<p>Faites votre choix dans la section TOUS, ATTAQUANT, DEFENSEUR, GARDIEN OU RECRUE en cliquant sur le bouton pick, choisissez ensuite si celui-ci sera dans votre club école ou pas dans la
+									boite de dialogue. Cliquez ici pour aller directement à la section TOUS de repêchage.</p>
+						</button> </a>
+				</c:if>
 
 		<br>
 		<input class="w3-input w3-border w3-padding w3-large" type="text" placeholder="Rechercher un nom dans la liste..." id="myInput" onkeyup="filtrerParNom()" style="width: 40%; margin-left:auto;margin-right:auto">

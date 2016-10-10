@@ -53,6 +53,17 @@
 			</div>
 
 		</c:if>
+		<c:if test="${Utilisateur.teamId==currentPicker&&Pool.cycleAnnuel==3}">
+					<!-- Si first years and avant draft sans date set-->
+					<a href="/DraftPlayers?seg=all&sort=pts"><button class="w3-container w3-section w3-red">
+							<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+							<h2>
+								C'EST VOTRE TOUR DE DRAFT !!!
+								</h3>
+								<p>Faites votre choix dans la section TOUS, ATTAQUANT, DEFENSEUR, GARDIEN OU RECRUE en cliquant sur le bouton pick, choisissez ensuite si celui-ci sera dans votre club école ou pas dans la
+									boite de dialogue. Cliquez ici pour aller directement à la section TOUS de repêchage.</p>
+						</button> </a>
+				</c:if>
 
 		<!-- Si all team register et pool est commencer -->
 		<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token==null}">
@@ -90,7 +101,7 @@
 		<div class="w3-twothird">
 			<c:set var="nombreDeMessage" value="${Articles.titre}" />
 			<c:forEach var="i" begin="0" end="${fn:length(nombreDeMessage)-1}">
-				<div class="w3-row w3-margin w3-card-8 w3-khaki">
+				<div class="w3-row w3-margin w3-card-8 w3-light-grey">
 
 					<div class="w3-third w3-verticale w3-center w3-margin-top" style="max-width:300px">
 						<img src="${Articles.writerLogo[i]}" style="width: 80%;  height:80%;">
@@ -190,15 +201,16 @@
 
 
 
-		<jsp:directive.include file="../utils/draftMessage.jsp" />
+		
+
+
+	</div>
+	<jsp:directive.include file="../utils/draftMessage.jsp" />
 
 
 		<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token!=null}">
 			<jsp:directive.include file="../utils/draftClientB.jsp" />
 		</c:if>
-
-
-	</div>
 	<script>
 	document.getElementById('menuSecNews').classList.add('w3-khaki');
 	</script>

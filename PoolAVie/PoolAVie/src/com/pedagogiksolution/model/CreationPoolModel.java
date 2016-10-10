@@ -243,7 +243,7 @@ public class CreationPoolModel {
 
 	int teamCount = Integer.parseInt(nombreEquipe);
 	String courriel = "info@poolavie.ca";
-	for (int i = 1; i <= teamCount; i++) {
+	for (int i = 1; i <= (teamCount-1); i++) {
 
 	    switch (i) {
 	    case 1:

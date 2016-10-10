@@ -116,7 +116,7 @@
 </div>
 
 
-<c:if test="${sessionScope.DraftFinish==1}">
+<c:if test="${sessionScope.DraftFinish==1&&Pool.cycleAnnuel==3}">
 
 	<div id="connexionAlert" class="w3-card-24 w3-display-middle" style="width: auto">
 

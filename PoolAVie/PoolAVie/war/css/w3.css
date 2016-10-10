@@ -24,11 +24,27 @@ audio,canvas,video {
 	vertical-align: baseline
 }
 
-audio:not ([controls] ){
-	display: none;
-	height: 0
-}
+audio
+:not
+ 
+(
+[
+controls
+]
+ 
+){
+display
+:
+ 
+none
+;
 
+	
+height
+:
+ 
+0
+}
 [hidden],template {
 	display: none
 }
@@ -77,10 +93,20 @@ img {
 	border: 0
 }
 
-svg:not (:root ){
-	overflow: hidden
-}
+svg
+:not
+ 
+(
+:root
+ 
+){
+overflow
+:
+ 
+hidden
 
+
+}
 figure {
 	margin: 1em 40px
 }
@@ -218,7 +244,6 @@ hr {
 	border: 1;
 	border-top: 5px solid #004051;
 	margin: 20px 0
-	
 }
 
 img {
@@ -249,7 +274,7 @@ table,th,td {
 }
 
 .w3-striped tbody tr:nth-child(odd) {
-	background-color: #87CEEB
+	background-color: #f1f1f1
 }
 
 .w3-table-all tr:nth-child(odd) {
@@ -630,7 +655,7 @@ ul.w3-ul li:last-child {
 	color: #009688
 }
 
-.w3-input:not (:valid )~.w3-validate {
+.w3-input:not  (:valid  )~.w3-validate {
 	color: #f44336
 }
 
@@ -929,15 +954,37 @@ input[type=checkbox].w3-check:disabled+.w3-validate,input[type=radio].w3-radio:d
 	.w3-topnav a {
 		display: block
 	}
-	.w3-navbar li:not (.w3-opennav ){
-		float: none;
-		width: 100% !important
-	}
-	.w3-navbar li.w3-right {
-		float: none !important
-	}
+	.w3-navbar
+	 
+	li
+	:not
+	 
+	(
+	.w3-opennav
+	 
+	){
+	float
+	:
+	 
+	none
+	;
+	
+		
+	width
+	:
+	 
+	100%
+	!
+	important
+	
+	
 }
 
+.w3-navbar li.w3-right {
+	float: none !important
+}
+
+}
 @media screen and (max-width:600px) {
 	.w3-topnav .w3-dropdown-hover .w3-dropdown-content,.w3-navbar .w3-dropdown-click .w3-dropdown-content,.w3-navbar .w3-dropdown-hover .w3-dropdown-content
 		{
@@ -1331,9 +1378,18 @@ input[type=checkbox].w3-check:disabled+.w3-validate,input[type=radio].w3-radio:d
 
 100%{
 -webkit-transform
+
+
 :rotate(359deg)
-;transform
+
+
+;
+transform
+
+
 :rotate(359deg)
+
+
 }
 }
 @
@@ -1344,9 +1400,18 @@ keyframes w3-spin { 0%{
 
 100%{
 -webkit-transform
+
+
 :rotate(359deg)
-;transform
+
+
+;
+transform
+
+
 :rotate(359deg)
+
+
 }
 }
 .w3-container {
@@ -1436,12 +1501,20 @@ keyframes w3-spin { 0%{
 
 50%{
 opacity
+
+
 :
+
+
 1
 }
 100%{
 opacity
+
+
 :
+
+
 0
 }
 }
@@ -1452,12 +1525,20 @@ keyframes fading { 0%{
 
 50%{
 opacity
+
+
 :
+
+
 1
 }
 100%{
 opacity
+
+
 :
+
+
 0
 }
 }
@@ -1642,7 +1723,7 @@ to {
 
 .w3-opacity,.w3-hover-opacity:hover {
 	opacity: 0.60;
-	filter: alpha(opacity = 60)
+	filter: alpha(opacity =   60)
 }
 
 .w3-text-shadow {

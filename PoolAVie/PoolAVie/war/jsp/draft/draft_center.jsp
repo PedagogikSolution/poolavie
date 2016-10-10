@@ -78,7 +78,7 @@
 			</c:if>
 
 
-			<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.poolYear==0&&Pool.cycleAnnuel==2}">
+			<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.cycleAnnuel==2}">
 				<!-- Si first years and avant draft avec date set-->
 
 
@@ -111,9 +111,9 @@
 
 			<!-- **************************DRAFT TIME********************************************************************* -->
 
-			<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.cycleAnnuel==3&&Pool.poolYear==1}">
+			<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.cycleAnnuel==3&&Pool.poolYear>=1}">
 
-				<c:if test="${Utilisateur.teamId==currentPicker}">
+				<c:if test="${Utilisateur.teamId==currentPicker&&Pool.cycleAnnuel==3}">
 					<!-- Si first years and avant draft sans date set-->
 					<a href="/DraftPlayers?seg=all&sort=pts"><button class="w3-container w3-section w3-red">
 							<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>

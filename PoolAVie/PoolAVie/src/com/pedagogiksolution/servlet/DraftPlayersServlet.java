@@ -64,14 +64,14 @@ public class DraftPlayersServlet extends HttpServlet {
 		case 2: // persistence d'un pick dans club regulier
 			mModel = new DraftPlayersModel(req, resp);
 			mModel.persistenceDraftPickRegulier();
-			mModel.channelMessage(3);
+			mModel.channelMessage(1);
 			checkIfDraftFinish = mModel.checkIfDraftFinish();
 			if (checkIfDraftFinish) {
 				mModel.persistDraftFinishForUser();
 				Boolean checkifDraftFinishForAll = mModel.checkifDraftFinishForAll();
 				if (checkifDraftFinishForAll) {
 					mModel.changeCycleAnnuelToSignature4();
-					mModel.channelMessage(4);
+					mModel.channelMessage(3);
 				} else {
 					req.setAttribute("DraftFinish", 1);
 				}
@@ -81,7 +81,7 @@ public class DraftPlayersServlet extends HttpServlet {
 		case 3: // persitence d'un pick dans club recrue
 			mModel = new DraftPlayersModel(req, resp);
 			mModel.persistenceDraftPickRookie();
-			mModel.channelMessage(3);
+			mModel.channelMessage(2);
 			checkIfDraftFinish = mModel.checkIfDraftFinish();
 			if (checkIfDraftFinish) {
 				mModel.persistDraftFinishForUser();

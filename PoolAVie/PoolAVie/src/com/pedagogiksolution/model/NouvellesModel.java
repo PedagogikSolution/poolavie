@@ -82,7 +82,7 @@ public class NouvellesModel {
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	// on recupere les nouvelles du pool, on les place dans le bean nouvelle et dans un objet session
 	Query q = new Query("Articles").setAncestor(KeyFactory.createKey("Nouvelles", poolID)).addSort("date", SortDirection.DESCENDING);
-	List<Entity> results = datastore.prepare(q).asList(FetchOptions.Builder.withLimit(25));
+	List<Entity> results = datastore.prepare(q).asList(FetchOptions.Builder.withLimit(10));
 
 	List<String> titre = new ArrayList<String>();
 	List<String> body = new ArrayList<String>();

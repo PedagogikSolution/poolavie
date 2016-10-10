@@ -153,11 +153,7 @@ public class CreationDGModel {
 
 	int teamId = Integer.parseInt(teamID);
 
-	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-	Key clefMemCache = KeyFactory.createKey("Pool", poolID);
-	Pool mBean = (Pool) memcache.get(clefMemCache);
-
-	if (mBean == null) {
+	
 	    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	    Key clefDatastore = KeyFactory.createKey("Pool", poolID);
 	    try {
@@ -229,68 +225,9 @@ public class CreationDGModel {
 		req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
 		return false;
 	    }
-	} else {
-	    int numberTeam = mBean.getNumberTeam();
-	    String teamName = null;
-	    if (numberTeam >= teamId) {
-		switch (teamId) {
-		case 1:
-		    teamName = mBean.getNomTeam1();
-		    break;
-		case 2:
-		    teamName = mBean.getNomTeam2();
-		    break;
-		case 3:
-		    teamName = mBean.getNomTeam3();
-		    break;
-		case 4:
-		    teamName = mBean.getNomTeam4();
-		    break;
-		case 5:
-		    teamName = mBean.getNomTeam5();
-		    break;
-		case 6:
-		    teamName = mBean.getNomTeam6();
-		    break;
-		case 7:
-		    teamName = mBean.getNomTeam7();
-		    break;
-		case 8:
-		    teamName = mBean.getNomTeam8();
-		    break;
-		case 9:
-		    teamName = mBean.getNomTeam9();
-		    break;
-		case 10:
-		    teamName = mBean.getNomTeam10();
-		    break;
-		case 11:
-		    teamName = mBean.getNomTeam11();
-		    break;
-		case 12:
-		    teamName = mBean.getNomTeam12();
-		    break;
-		}
+	
 
-		if (teamName == null || teamName == "") {
-		    return true;
-
-		} else {
-		    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-		    mBeanMessageErreur.setErreurCreateNewTeam(CREATE_NEW_USER_NO_GOOD);
-		    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-		    return false;
-		}
-
-	    } else {
-
-		MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-		mBeanMessageErreur.setErreurCreateNewTeam(CREATE_NEW_USER_NO_GOOD);
-		req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-		return false;
-	    }
-
-	}
+	
     }
 
     public void storePoolAndUserInfo(String nomDuTeam, int poolId2, String urlLogoTeam, HttpServletRequest req) {

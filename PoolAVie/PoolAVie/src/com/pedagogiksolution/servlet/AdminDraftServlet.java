@@ -36,7 +36,7 @@ public class AdminDraftServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-	AdminModel mAdminModel = new AdminModel();
+	AdminModel mAdminModel = new AdminModel(draftDao);
 
 	int numeroFormulaire = Integer.parseInt(req.getParameter("numeroFormulaire"));
 
@@ -46,8 +46,8 @@ public class AdminDraftServlet extends HttpServlet {
 	switch (numeroFormulaire) {
 
 	case 1:
-	    AdminModel mAdminModel2 = new AdminModel(draftDao);
-	    mAdminModel2.setDraftTime(dateDraft, heureDraft, req);
+	    
+	    mAdminModel.setDraftTime(dateDraft, heureDraft, req);
 
 	    // on écrit une news de la part du system pour annoncer la date
 	    NouvellesModel mNewsModel = new NouvellesModel();
@@ -56,8 +56,9 @@ public class AdminDraftServlet extends HttpServlet {
 	    mNewsModel.createMessageForNewsBySystem(titre, body, req);
 
 	    // on détermine l'ordre de draft au hasard si Pool de premiere année
-	    mAdminModel2.determineOrderOfDraft(req);
+	    mAdminModel.determineOrderOfDraft(req);
 	    // on envoie un courriel pour avertir les joueur avec top 10 pick
+	    mAdminModel.envoieCourrielDateEtOrdreDeDraft(req,dateDraft,heureDraft);
 
 	    req.getRequestDispatcher("jsp/main/nouvelles.jsp").forward(req, resp);
 
@@ -76,14 +77,14 @@ public class AdminDraftServlet extends HttpServlet {
 	    
 	    
 	 // on envoie un courriel pour avertir les joueur avec top 10 pick
-
+	    mAdminModel.envoieCourrielDateEtOrdreDeDraft(req,dateDraft,heureDraft);
 	    req.getRequestDispatcher("jsp/main/nouvelles.jsp").forward(req, resp);
 
 	    break;
 	    
 	case 3:
-	    AdminModel mAdminModel3 = new AdminModel(draftDao);
-	    mAdminModel3.setDraftTime(dateDraft, heureDraft, req);
+	    mAdminModel.setDraftTime(dateDraft, heureDraft, req);
+	    mAdminModel.annulationStartDraft(req);
 
 	    // on écrit une news de la part du system pour annoncer la date
 	    NouvellesModel mNewsModel3 = new NouvellesModel();
@@ -94,13 +95,12 @@ public class AdminDraftServlet extends HttpServlet {
 	 
 	
 	 // on envoie un courriel pour avertir les joueur avec top 10 pick
-
+	    mAdminModel.envoieCourrielDateEtOrdreDeDraft(req,dateDraft,heureDraft);
 	    req.getRequestDispatcher("jsp/main/nouvelles.jsp").forward(req, resp);
 	    break;
 	    
 	case 4:
-	    AdminModel mAdminModel4 = new AdminModel(draftDao);
-	    mAdminModel4.setDraftTime(dateDraft, heureDraft, req);
+	    mAdminModel.setDraftTime(dateDraft, heureDraft, req);
 
 	    // on écrit une news de la part du system pour annoncer la date
 	    NouvellesModel mNewsModel4 = new NouvellesModel();
@@ -109,10 +109,10 @@ public class AdminDraftServlet extends HttpServlet {
 	    mNewsModel4.createMessageForNewsBySystem(titre4, body4, req);
 	    
 	 // on remet le cycle a 2
-	    mAdminModel4.annulationStartDraft(req);
+	    mAdminModel.annulationStartDraft(req);
 	
 	 // on envoie un courriel pour avertir les joueur avec top 10 pick
-
+	    mAdminModel.envoieCourrielDateEtOrdreDeDraft(req,dateDraft,heureDraft);
 	    req.getRequestDispatcher("jsp/main/nouvelles.jsp").forward(req, resp);
 	    break;
 	default: //
