@@ -13,10 +13,11 @@
 <link rel="stylesheet" href="/css/w3.css">
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
 </head>
-<c:set var="currentPick" value="${DraftBean.currentPick}" />
-<c:set var="currentPicker" value="${DraftBean.currentPicker}" />
 <body>
-
+<c:if test="${Pool.cycleAnnuel==3 }">
+		<c:set var="currentPick" value="${DraftBean.currentPick}" />
+		<c:set var="currentPicker" value="${DraftBean.currentPicker}" />
+	</c:if>
 	<!-- Header du menu principal-->
 	<jsp:directive.include file="../main/navbar_main.jsp" />
 	<jsp:directive.include file="../main/menu_secondaire.jsp" />

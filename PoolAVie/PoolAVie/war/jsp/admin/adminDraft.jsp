@@ -16,14 +16,16 @@
 <link href="../../css/material_design.css" rel="stylesheet">
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
 </head>
-<c:set var="currentPick" value="${DraftBean.currentPick}" />
-<c:set var="currentPicker" value="${DraftBean.currentPicker}" />
 <body>
+<c:if test="${Pool.cycleAnnuel==3 }">
+		<c:set var="currentPick" value="${DraftBean.currentPick}" />
+		<c:set var="currentPicker" value="${DraftBean.currentPicker}" />
+	</c:if>
 	<!-- Header du menu principal-->
 	<jsp:directive.include file="../main/navbar_main.jsp" />
 	<jsp:directive.include file="../main/menu_secondaire.jsp" />
 	<jsp:directive.include file="menu_admin.jsp" />
-
+	
 	<!-- Body de la page draft_center -->
 	<!-- Si all team register et pool est commencer -->
 	<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token==null}">
