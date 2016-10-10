@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.AdminModel;
+import com.pedagogiksolution.model.DraftPlayersModel;
 import com.pedagogiksolution.model.MenuPrincipalModel;
 import com.pedagogiksolution.model.NouvellesModel;
 
@@ -52,6 +53,12 @@ public class NouvellesServlet extends HttpServlet {
 		AdminModel mAdminModel = new AdminModel();
 		mAdminModel.checkIfDraftDay(mBeanPool,req);
 	    }
+	   
+		if (cycleAnnuel == 3) {
+		   	    
+		    DraftPlayersModel mModelDraft = new DraftPlayersModel();	    	   
+		    mModelDraft.putDatastoreIntoBean(mBeanPool,req);
+		}
 	    req.getRequestDispatcher("jsp/main/nouvelles.jsp").forward(req, resp);
 	}
 

@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pedagogiksolution.datastorebeans.Pool;
+import com.pedagogiksolution.model.DraftPlayersModel;
+
 public class ArchivesServlet extends HttpServlet {
     /**
      * 
@@ -15,6 +18,15 @@ public class ArchivesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	
+	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+	int cycleAnnuel = mBeanPool.getCycleAnnuel();
+	if (cycleAnnuel == 3) {
+	   	    
+	    DraftPlayersModel mModelDraft = new DraftPlayersModel();	    	   
+	    mModelDraft.putDatastoreIntoBean(mBeanPool,req);
+	}
+	
 	req.getRequestDispatcher("jsp/archives/archives.jsp").forward(req, resp);
     }
 

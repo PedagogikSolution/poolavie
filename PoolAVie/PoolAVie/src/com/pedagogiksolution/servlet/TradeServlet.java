@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
+import com.pedagogiksolution.model.DraftPlayersModel;
 import com.pedagogiksolution.model.LoginModel;
 import com.pedagogiksolution.model.TradeModel;
 
@@ -23,7 +24,14 @@ public class TradeServlet extends HttpServlet {
 	TradeModel mModelTrade;
 	Pool mBean = (Pool) req.getSession().getAttribute("Pool");
 	int cycleAnnuel = mBean.getCycleAnnuel();
-
+	
+	
+	if (cycleAnnuel == 3) {
+	   	    
+	    DraftPlayersModel mModelDraft = new DraftPlayersModel();	    	   
+	    mModelDraft.putDatastoreIntoBean(mBean,req);
+	}
+	
 	int fromId;
 	String fromID = req.getParameter("from");
 	if (fromID != null) {

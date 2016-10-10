@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.datastorebeans.Pool;
+import com.pedagogiksolution.model.DraftPlayersModel;
 import com.pedagogiksolution.model.LoginModel;
 
 public class DraftResultServlet extends HttpServlet {
@@ -31,6 +32,10 @@ public class DraftResultServlet extends HttpServlet {
 	    mModel.createSessionDefenseurBean();
 	    mModel.createSessionGardienBean();
 	    mModel.createSessionRecrueBean();
+
+	    DraftPlayersModel mModelDraft = new DraftPlayersModel();
+	    mModelDraft.putDatastoreIntoBean(mBean, req);
+
 	}
 	req.getRequestDispatcher("jsp/draft/draft_result.jsp").forward(req, resp);
     }

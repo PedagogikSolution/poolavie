@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.dao.DAOFactory;
 import com.pedagogiksolution.dao.DraftDao;
+import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.AdminModel;
+import com.pedagogiksolution.model.DraftPlayersModel;
 import com.pedagogiksolution.model.NouvellesModel;
 
 public class AdminDraftServlet extends HttpServlet {
@@ -30,6 +32,13 @@ public class AdminDraftServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+	int cycleAnnuel = mBeanPool.getCycleAnnuel();
+	if (cycleAnnuel == 3) {
+	   	    
+	    DraftPlayersModel mModelDraft = new DraftPlayersModel();	    	   
+	    mModelDraft.putDatastoreIntoBean(mBeanPool,req);
+	}
 	req.getRequestDispatcher("jsp/admin/adminDraft.jsp").forward(req, resp);
     }
 
