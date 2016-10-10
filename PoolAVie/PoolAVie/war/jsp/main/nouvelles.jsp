@@ -12,7 +12,8 @@
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
 </head>
 
-
+<c:set var="currentPick" value="${DraftBean.currentPick}" />
+		<c:set var="currentPicker" value="${DraftBean.currentPicker}" />
 <body>
 	<div id="all" class="w3-display-container">
 		<!-- Header du menu principal-->

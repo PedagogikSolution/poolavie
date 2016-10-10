@@ -19,6 +19,8 @@ td {
     overflow: hidden;
     }
 </style>
+<c:set var="currentPick" value="${DraftBean.currentPick}" />
+		<c:set var="currentPicker" value="${DraftBean.currentPicker}" />
 <body>
 	<!-- Header du menu principal-->
 	<jsp:directive.include file="../main/navbar_main.jsp" />

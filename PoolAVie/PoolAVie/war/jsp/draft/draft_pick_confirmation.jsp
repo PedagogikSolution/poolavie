@@ -13,7 +13,8 @@
 <link rel="stylesheet" href="/css/w3.css">
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
 </head>
-
+<c:set var="currentPick" value="${DraftBean.currentPick}" />
+<c:set var="currentPicker" value="${DraftBean.currentPicker}" />
 <body>
 	<!-- Header du menu principal-->
 	<jsp:directive.include file="../main/navbar_main.jsp" />
@@ -59,28 +60,29 @@
 
 		</c:if>
 		<c:if test="${Utilisateur.teamId==currentPicker&&Pool.cycleAnnuel==3}">
-					<!-- Si first years and avant draft sans date set-->
-					<a href="/DraftPlayers?seg=all&sort=pts"><button class="w3-container w3-section w3-red">
-							<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-							<h2>
-								C'EST VOTRE TOUR DE DRAFT !!!
-								</h3>
-								<p>Faites votre choix dans la section TOUS, ATTAQUANT, DEFENSEUR, GARDIEN OU RECRUE en cliquant sur le bouton pick, choisissez ensuite si celui-ci sera dans votre club école ou pas dans la
-									boite de dialogue. Cliquez ici pour aller directement à la section TOUS de repêchage.</p>
-						</button> </a>
-				</c:if>
+			<!-- Si first years and avant draft sans date set-->
+			<a href="/DraftPlayers?seg=all&sort=pts">
+				<button class="w3-container w3-section w3-red">
+					<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+					<h2>
+						C'EST VOTRE TOUR DE DRAFT !!!
+						</h3>
+						<p>Faites votre choix dans la section TOUS, ATTAQUANT, DEFENSEUR, GARDIEN OU RECRUE en cliquant sur le bouton pick, choisissez ensuite si celui-ci sera dans votre club école ou pas dans la
+							boite de dialogue. Cliquez ici pour aller directement à la section TOUS de repêchage.</p>
+				</button>
+			</a>
+		</c:if>
 
 		<c:if test="${messageErreur.erreurDraft==null&&confirmationPick.can_be_rookie==0}">
-		
+
 			<div id="pickConfirmBox" class="w3-card-24 w3-display-middle" style="width: auto">
 				<div class="w3-container w3-indigo">
 					<h2>Confirmation choix de repêchage</h2>
 				</div>
 				<form onsubmit="confirmationButton.disabled = true; return true;" class="w3-container w3-form w3-white" action="/DraftPlayers" method="post">
 
-					<p class="w3-xxlarge">Voulez-vous confirmer le repêchage de ${confirmationPick.nom},
-					 ${confirmationPick.position} de l'équipe de ${confirmationPick.teamOfPlayer}
-					  au salaire de ${confirmationPick.salaire_draft}</p>
+					<p class="w3-xxlarge">Voulez-vous confirmer le repêchage de ${confirmationPick.nom}, ${confirmationPick.position} de l'équipe de ${confirmationPick.teamOfPlayer} au salaire de
+						${confirmationPick.salaire_draft}</p>
 
 
 					<input type="hidden" name="draftStep" value="2" />
@@ -92,14 +94,14 @@
 					<input type="hidden" name="can_be_rookie" value="${confirmationPick.can_be_rookie}" />
 					<input type="hidden" name="salaire" value="${confirmationPick.salaire_draft}" />
 					<button class="w3-btn w3-khaki w3-xlarge">Oui je le veux</button>
-				<br>
+					<br>
 				</form>
-				
+
 				<form class="w3-container w3-card-24 w3-white" action="/DraftCenter" method="get">
 					<button class="w3-btn w3-khaki w3-xlarge">Annuler</button>
 					<br>
 				</form>
-				
+
 			</div>
 
 		</c:if>
@@ -166,7 +168,7 @@
 
 					<p>Raison : ${messageErreur.erreurDraft}</p>
 					<button class="w3-btn w3-khaki w3-xlarge">Revenir au draft center</button>
-					</form>
+				</form>
 
 			</div>
 
@@ -182,7 +184,7 @@
 		<jsp:directive.include file="../utils/draftClientB.jsp" />
 	</c:if>
 	<script>
-	document.getElementById('menuSecDraft').classList.add('w3-khaki');
+		document.getElementById('menuSecDraft').classList.add('w3-khaki');
 	</script>
 </body>
 </html>

@@ -13,7 +13,8 @@
 <link rel="stylesheet" href="/css/w3.css">
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
 </head>
-
+<c:set var="currentPick" value="${DraftBean.currentPick}" />
+		<c:set var="currentPicker" value="${DraftBean.currentPicker}" />
 <body>
 	<!-- Header du menu principal-->
 	<jsp:directive.include file="../main/navbar_main.jsp" />

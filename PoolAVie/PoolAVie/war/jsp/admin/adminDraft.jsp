@@ -16,7 +16,8 @@
 <link href="../../css/material_design.css" rel="stylesheet">
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
 </head>
-
+<c:set var="currentPick" value="${DraftBean.currentPick}" />
+<c:set var="currentPicker" value="${DraftBean.currentPicker}" />
 <body>
 	<!-- Header du menu principal-->
 	<jsp:directive.include file="../main/navbar_main.jsp" />
@@ -24,154 +25,172 @@
 	<jsp:directive.include file="menu_admin.jsp" />
 
 	<!-- Body de la page draft_center -->
-<!-- Si all team register et pool est commencer -->
-		<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token==null}">
-			
-				<div class="w3-container w3-section w3-red">
-				
-					<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-					<h3>C'est l'heure du Draft </h3>
-					<p>Votre draft est prêt à commencer. Cliquez ici pour vous connecter au serveur de draft</p><p><a href="/DraftCenter"> Cliquez ici pour y aller directement</a> ou aller dans la section Draft du menu</p>
-						
-				</div>
-			
-		</c:if>
-		<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&messageErreur.erreurConnectionDraft!=null}">
-			
-				<div class="w3-container w3-section w3-red">
-				
-					<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-					<h3>OUPS! </h3>
-					<p>${messageErreur.erreurConnectionDraft}</p><p><a href="/DraftCenter"> Cliquez ici pour y aller directement</a> ou aller dans la section Draft du menu</p>
-						
-				</div>
-			
-		</c:if>
-		<c:if test="${Utilisateur.teamId==currentPicker&&Pool.cycleAnnuel}">
-					<!-- Si first years and avant draft sans date set-->
-					<a href="/DraftPlayers?seg=all&sort=pts"><button class="w3-container w3-section w3-red">
-							<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-							<h2>
-								C'EST VOTRE TOUR DE DRAFT !!!
-								</h3>
-								<p>Faites votre choix dans la section TOUS, ATTAQUANT, DEFENSEUR, GARDIEN OU RECRUE en cliquant sur le bouton pick, choisissez ensuite si celui-ci sera dans votre club école ou pas dans la
-									boite de dialogue. Cliquez ici pour aller directement à la section TOUS de repêchage.</p>
-						</button> </a>
-				</c:if>
+	<!-- Si all team register et pool est commencer -->
+	<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token==null}">
+
+		<div class="w3-container w3-section w3-red">
+
+			<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+			<h3>C'est l'heure du Draft</h3>
+			<p>Votre draft est prêt à commencer. Cliquez ici pour vous connecter au serveur de draft</p>
+			<p>
+				<a href="/DraftCenter"> Cliquez ici pour y aller directement</a>
+				ou aller dans la section Draft du menu
+			</p>
+
+		</div>
+
+	</c:if>
+	<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&messageErreur.erreurConnectionDraft!=null}">
+
+		<div class="w3-container w3-section w3-red">
+
+			<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+			<h3>OUPS!</h3>
+			<p>${messageErreur.erreurConnectionDraft}</p>
+			<p>
+				<a href="/DraftCenter"> Cliquez ici pour y aller directement</a>
+				ou aller dans la section Draft du menu
+			</p>
+
+		</div>
+
+	</c:if>
+	<c:if test="${Utilisateur.teamId==currentPicker&&Pool.cycleAnnuel}">
+		<!-- Si first years and avant draft sans date set-->
+		<a href="/DraftPlayers?seg=all&sort=pts">
+			<button class="w3-container w3-section w3-red">
+				<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+				<h2>
+					C'EST VOTRE TOUR DE DRAFT !!!
+					</h3>
+					<p>Faites votre choix dans la section TOUS, ATTAQUANT, DEFENSEUR, GARDIEN OU RECRUE en cliquant sur le bouton pick, choisissez ensuite si celui-ci sera dans votre club école ou pas dans la
+						boite de dialogue. Cliquez ici pour aller directement à la section TOUS de repêchage.</p>
+			</button>
+		</a>
+	</c:if>
 	<div class="w3-container w3-margin-top">
 
 
 
-<c:if test="${Pool.draftType==1&&Pool.poolYear==0&&Pool.cycleAnnuel==1}">
+		<c:if test="${Pool.draftType==1&&Pool.poolYear==0&&Pool.cycleAnnuel==1}">
 
 			<h2 class="w3-blue">Set the draft date and time</h2>
-		<form class="w3-container w3-card-24 w3-white" action="/AdminDraft" method="post">
-			
-			<input type="hidden" name="numeroFormulaire" value="1">
-			
-			
-			<p>
-				<label>Date</label> <input class="w3-input w3-validate" type="date" name="dateDraft" min="Date.now()">
-			</p>
+			<form class="w3-container w3-card-24 w3-white" action="/AdminDraft" method="post">
 
-			<p>
-				<label>Heure</label> <input class="w3-input w3-validate" type="time" name="heureDraft">
-			</p>
+				<input type="hidden" name="numeroFormulaire" value="1">
 
 
-			<button class="w3-btn w3-blue w3-xlarge">Confirmer</button>
-			
-			<br>
+				<p>
+					<label>Date</label>
+					<input class="w3-input w3-validate" type="date" name="dateDraft" min="Date.now()">
+				</p>
 
-		</form>
-</c:if>
+				<p>
+					<label>Heure</label>
+					<input class="w3-input w3-validate" type="time" name="heureDraft">
+				</p>
 
-<c:if test="${Pool.draftType==1&&Pool.poolYear>=1&&Pool.cycleAnnuel==1}">
+
+				<button class="w3-btn w3-blue w3-xlarge">Confirmer</button>
+
+				<br>
+
+			</form>
+		</c:if>
+
+		<c:if test="${Pool.draftType==1&&Pool.poolYear>=1&&Pool.cycleAnnuel==1}">
 
 			<h2 class="w3-blue">Set the draft date and time</h2>
-		<form class="w3-container w3-card-24 w3-white" action="/AdminDraft" method="post">
-			
-			<input type="hidden" name="numeroFormulaire" value="2">
-			
-			
-			<p>
-				<label>Date</label> <input class="w3-input w3-validate" type="date" name="dateDraft" min="Date.now()">
-			</p>
+			<form class="w3-container w3-card-24 w3-white" action="/AdminDraft" method="post">
 
-			<p>
-				<label>Heure</label> <input class="w3-input w3-validate" type="time" name="heureDraft">
-			</p>
+				<input type="hidden" name="numeroFormulaire" value="2">
 
 
-			<button class="w3-btn w3-blue w3-xlarge">Confirmer</button>
-			
-			<br>
+				<p>
+					<label>Date</label>
+					<input class="w3-input w3-validate" type="date" name="dateDraft" min="Date.now()">
+				</p>
 
-		</form>
-</c:if>
-
-<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==2}">
-
-			<h2 class="w3-blue">Change the draft date and time</h2>
-		<form class="w3-container w3-card-24 w3-white" action="/AdminDraft" method="post">
-			
-			<input type="hidden" name="numeroFormulaire" value="3">
-			
-			
-			<p>
-				<label>Date</label> <input class="w3-input w3-validate" type="date" name="dateDraft" min="Date.now()">
-			</p>
-
-			<p>
-				<label>Heure</label> <input class="w3-input w3-validate" type="time" name="heureDraft">
-			</p>
+				<p>
+					<label>Heure</label>
+					<input class="w3-input w3-validate" type="time" name="heureDraft">
+				</p>
 
 
-			<button class="w3-btn w3-blue w3-xlarge">Confirmer</button>
-			
-			<br>
+				<button class="w3-btn w3-blue w3-xlarge">Confirmer</button>
 
-		</form>
-</c:if>
+				<br>
 
-<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3}">
+			</form>
+		</c:if>
+
+		<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==2}">
 
 			<h2 class="w3-blue">Change the draft date and time</h2>
-		<form class="w3-container w3-card-24 w3-white" action="/AdminDraft" method="post">
-			
-			<input type="hidden" name="numeroFormulaire" value="4">
-			
-			
-			<p>
-				<label>Date</label> <input class="w3-input w3-validate" type="date" name="dateDraft" min="Date.now()">
-			</p>
+			<form class="w3-container w3-card-24 w3-white" action="/AdminDraft" method="post">
 
-			<p>
-				<label>Heure</label> <input class="w3-input w3-validate" type="time" name="heureDraft">
-			</p>
+				<input type="hidden" name="numeroFormulaire" value="3">
 
 
-			<button class="w3-btn w3-blue w3-xlarge">Confirmer</button>
-			
-			<br>
+				<p>
+					<label>Date</label>
+					<input class="w3-input w3-validate" type="date" name="dateDraft" min="Date.now()">
+				</p>
 
-		</form>
-</c:if>
+				<p>
+					<label>Heure</label>
+					<input class="w3-input w3-validate" type="time" name="heureDraft">
+				</p>
+
+
+				<button class="w3-btn w3-blue w3-xlarge">Confirmer</button>
+
+				<br>
+
+			</form>
+		</c:if>
+
+		<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3}">
+
+			<h2 class="w3-blue">Change the draft date and time</h2>
+			<form class="w3-container w3-card-24 w3-white" action="/AdminDraft" method="post">
+
+				<input type="hidden" name="numeroFormulaire" value="4">
+
+
+				<p>
+					<label>Date</label>
+					<input class="w3-input w3-validate" type="date" name="dateDraft" min="Date.now()">
+				</p>
+
+				<p>
+					<label>Heure</label>
+					<input class="w3-input w3-validate" type="time" name="heureDraft">
+				</p>
+
+
+				<button class="w3-btn w3-blue w3-xlarge">Confirmer</button>
+
+				<br>
+
+			</form>
+		</c:if>
 
 
 
 	</div>
 
 
-<jsp:directive.include file="../utils/draftMessage.jsp" />
+	<jsp:directive.include file="../utils/draftMessage.jsp" />
 
 
 
-<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token!=null}">
-<jsp:directive.include file="../utils/draftClientB.jsp" />
-</c:if>
-<script>
-	document.getElementById('menuSecAdmin').classList.add('w3-khaki');
+	<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token!=null}">
+		<jsp:directive.include file="../utils/draftClientB.jsp" />
+	</c:if>
+	<script>
+		document.getElementById('menuSecAdmin').classList.add('w3-khaki');
 	</script>
 </body>
 </html>
