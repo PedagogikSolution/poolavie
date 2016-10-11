@@ -1,6 +1,10 @@
 package com.pedagogiksolution.model;
 
+import static com.pedagogiksolution.constants.MessageErreurConstants.REGISTRATION_ERREUR_PASSWORD_ENCRYPTION;
+
 import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -23,6 +27,7 @@ import org.joda.time.format.DateTimeFormatter;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -30,10 +35,13 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
+import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.dao.DraftDao;
 import com.pedagogiksolution.datastorebeans.DraftRound;
 import com.pedagogiksolution.datastorebeans.Pool;
+import com.pedagogiksolution.datastorebeans.Utilisateur;
 import com.pedagogiksolution.utils.EMF;
+import com.pedagogiksolution.utils.PasswordEncryption;
 
 public class AdminModel {
 
@@ -217,37 +225,195 @@ public class AdminModel {
 
 	for (Entity results : entity) {
 
-	   // Long typeUser = (Long) results.getProperty("typeUtilisateur");
+	    // Long typeUser = (Long) results.getProperty("typeUtilisateur");
 
-	    
-		String courriel = (String) results.getProperty("courriel");
-		String nomTeam = (String) results.getProperty("teamName");
-		Properties props = new Properties();
-		Session session = Session.getDefaultInstance(props, null);
+	    String courriel = (String) results.getProperty("courriel");
+	    String nomTeam = (String) results.getProperty("teamName");
+	    Properties props = new Properties();
+	    Session session = Session.getDefaultInstance(props, null);
 
-		try {
-		    MimeMessage msg = new MimeMessage(session);
-		    msg.setFrom(new InternetAddress("pedagogiksolution@gmail.com", "Poolavie.ca"));
-		    msg.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(courriel));
-		    msg.setSubject("Date et Ordre de Draft", "utf-8");
-		    msg.setContent("Bonjour " + nomTeam + ", votre administrateur de pool à déterminer une date pour votre draft. \n\n" + "Celui-ci aura lieu le " + dateDraft + " à " + heureDraft + ". Vous pourrez alors vous connecter au serveur de draft" + " via l'onglet Draft ou en cliquant sur l'alerte en rouge lorsque vous vous connecterez"
-			    + " sur le site et que vous arriverez à la page des nouvelles. \n\n Vous trouverez imédiatement aussi dans la section Draft Center l'ordre de draft des 20 premiers picks.\n\n Votre administrateur", "text/html");
-		    Transport.send(msg);
-		} catch (AddressException e) {
-		    // ...
-		} catch (MessagingException e) {
-		    // ...
-		} catch (UnsupportedEncodingException e) {
-		    // ...
-		}
+	    try {
+		MimeMessage msg = new MimeMessage(session);
+		msg.setFrom(new InternetAddress("pedagogiksolution@gmail.com", "Poolavie.ca"));
+		msg.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(courriel));
+		msg.setSubject("Date et Ordre de Draft", "utf-8");
+		msg.setContent("Bonjour " + nomTeam + ", votre administrateur de pool à déterminer une date pour votre draft. \n\n" + "Celui-ci aura lieu le " + dateDraft + " à " + heureDraft + ". Vous pourrez alors vous connecter au serveur de draft" + " via l'onglet Draft ou en cliquant sur l'alerte en rouge lorsque vous vous connecterez"
+			+ " sur le site et que vous arriverez à la page des nouvelles. \n\n Vous trouverez imédiatement aussi dans la section Draft Center l'ordre de draft des 20 premiers picks.\n\n Votre administrateur", "text/html");
+		Transport.send(msg);
+	    } catch (AddressException e) {
+		// ...
+	    } catch (MessagingException e) {
+		// ...
+	    } catch (UnsupportedEncodingException e) {
+		// ...
 	    }
-
-	
+	}
 
     }
 
     public void resetCycleAnnuelTo2(HttpServletRequest req) {
+
+    }
+
+    public Boolean changeCredential(String username, String password, String email, String teamName, String logoTeam, HttpServletRequest req) {
+	Entity entityUser;
+	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	Key mUserKey1 = null, mUserKey2;
+	// 1- si username pas vide, on le change
+	if (username != null&&username!="") {
+
+	    RegisterModel mModelRegister = new RegisterModel();
+	    Boolean checkIfUsernameExist = mModelRegister.checkIfUsernameExist(username, req);
+	    
+	    if(checkIfUsernameExist){
+		
+		req.setAttribute("messageErreurChangementUsername", "Ce nom d'utilisateur existe déja, merci de bien vouloir en choisir un différent");
+		return false;
+	    }
+	    
+	    Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+	    String nomUtilisateur = mBeanUser.getNomUtilisateur();
+	    mUserKey1 = KeyFactory.createKey("Utilisateur", nomUtilisateur);
+	    Utilisateur mNewBeanUser = new Utilisateur();
+	    try {
+		entityUser = datastore.get(mUserKey1);
+
+		mUserKey2 = KeyFactory.createKey("Utilisateur", username);
+		Entity newEntityUser = new Entity(mUserKey2);
+		newEntityUser.setPropertiesFrom(entityUser);
+		datastore.delete(mUserKey1);
+		datastore.put(newEntityUser);
+
+		// on map pour mettre dans Bean de session et memcache
+		mNewBeanUser = mapUtilisateurFromDatastore(newEntityUser, mBeanUser);
+
+		// on place le bean dans un attribut de session
+		req.getSession().setAttribute("Utilisateur", mNewBeanUser);
+		// on persist le datastore/bean dans la MemCache pour appel au pool ID, typeUtilisateur, teamId lors du
+		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+		Key userPrefsKey = KeyFactory.createKey("Utilisateur", username);
+		memcache.put(userPrefsKey, mNewBeanUser);
+		memcache.delete(mUserKey1);
+
+	    } catch (EntityNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+
+	    req.setAttribute("messageConfirmationChangementUsername", "Votre nom d'utilisateur a été modifié");
+
+	}
+
+	// 2- Si password pas vide, on le change
+	if (password != null&&password!="") {
+	    // On encrypte le mot de passe
+	    PasswordEncryption mEncryptProcess = new PasswordEncryption();
+	    String motDePasseEncrypter = null;
+	    try {
+		motDePasseEncrypter = mEncryptProcess.passwordEncryption(password);
+	    } catch (NoSuchAlgorithmException e) {
+		MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+		mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_ERREUR_PASSWORD_ENCRYPTION);
+		req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+		return null;
+	    } catch (InvalidKeySpecException e) {
+		MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+		mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_ERREUR_PASSWORD_ENCRYPTION);
+		req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+		return null;
+	    }
+	    
+	    // on recupere le nouveau beanUser ou le vieux, selon si étape 1 fait ou pas
+	    Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+	    String nomUtilisateur = mBeanUser.getNomUtilisateur();
+	    mUserKey1 = KeyFactory.createKey("Utilisateur", nomUtilisateur);
+	    
+	    try {
+		entityUser = datastore.get(mUserKey1);
+
+		// on change le mot de passe
+		entityUser.setProperty("motDePasse", motDePasseEncrypter);
+		
+		datastore.put(entityUser);
+
+		// on map pour mettre dans Bean de session et memcache
+		mBeanUser = mapUtilisateurFromDatastore(entityUser, mBeanUser);
+
+		// on place le bean dans un attribut de session
+		req.getSession().setAttribute("Utilisateur", mBeanUser);
+		// on persist le datastore/bean dans la MemCache pour appel au pool ID, typeUtilisateur, teamId lors du
+		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+		Key userPrefsKey = KeyFactory.createKey("Utilisateur", nomUtilisateur);
+		memcache.put(userPrefsKey, mBeanUser);
+		
+
+	    } catch (EntityNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+
+	    req.setAttribute("messageConfirmationChangementPassword", "Votre mot de passe a été modifié");
+
+	}
+
 	
+	// 3- Si courriel pas vide on le change
+	 if (email != null&&email!="") {
+	
+	    // on recupere le nouveau beanUser ou le vieux, selon si étape 1 fait ou pas
+	    Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+	    String nomUtilisateur = mBeanUser.getNomUtilisateur();
+	    mUserKey1 = KeyFactory.createKey("Utilisateur", nomUtilisateur);
+	    
+	    try {
+		entityUser = datastore.get(mUserKey1);
+
+		// on change le mot de passe
+		entityUser.setProperty("courriel", email);
+		
+		datastore.put(entityUser);
+
+		// on map pour mettre dans Bean de session et memcache
+		mBeanUser = mapUtilisateurFromDatastore(entityUser, mBeanUser);
+
+		// on place le bean dans un attribut de session
+		req.getSession().setAttribute("Utilisateur", mBeanUser);
+		// on persist le datastore/bean dans la MemCache pour appel au pool ID, typeUtilisateur, teamId lors du
+		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+		Key userPrefsKey = KeyFactory.createKey("Utilisateur", nomUtilisateur);
+		memcache.put(userPrefsKey, mBeanUser);
+
+	    } catch (EntityNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	  req.setAttribute("messageConfirmationChangementCourriel", "Votre courriel a été modifié");
+	 }
+	  // 4- Si teamName pas vide on le change
+	  // 5- Si logoTeam pas vide on le change
+	 return true;
 	
     }
+
+    public void sendConfirmationEmailAfterChange(String email, HttpServletRequest req) {
+	// TODO Auto-generated method stub
+
+    }
+
+    private Utilisateur mapUtilisateurFromDatastore(Entity mEntity, Utilisateur mBean) {
+
+	EntityManagerFactory emf = EMF.get();
+	EntityManager em = null;
+
+	try {
+	    em = emf.createEntityManager();
+	    mBean = em.find(Utilisateur.class, mEntity.getKey());
+	} finally {
+	    if (em != null)
+		em.close();
+	}
+
+	return mBean;
+    }
+
 }

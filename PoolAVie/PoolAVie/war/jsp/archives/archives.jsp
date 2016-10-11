@@ -14,7 +14,7 @@
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
 </head>
 <body>
-<c:if test="${Pool.cycleAnnuel==3 }">
+	<c:if test="${Pool.cycleAnnuel==3 }">
 		<c:set var="currentPick" value="${DraftBean.currentPick}" />
 		<c:set var="currentPicker" value="${DraftBean.currentPicker}" />
 	</c:if>
@@ -25,57 +25,17 @@
 
 	<!-- Body de la page reglements -->
 
-	<div class="w3-container">
-		<!-- Si all team register et pool est commencer -->
-		<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token==null}">
-
-			<div class="w3-container w3-section w3-red">
-
-				<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-				<h3>C'est l'heure du Draft</h3>
-				<p>Votre draft est prêt à commencer. Cliquez ici pour vous connecter au serveur de draft</p>
-				<p>
-					<a href="/DraftCenter"> Cliquez ici pour y aller directement</a>
-					ou aller dans la section Draft du menu
-				</p>
-
-			</div>
-
-		</c:if>
-		<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&messageErreur.erreurConnectionDraft!=null}">
-
-			<div class="w3-container w3-section w3-red">
-
-				<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-				<h3>OUPS!</h3>
-				<p>${messageErreur.erreurConnectionDraft}</p>
-				<p>
-					<a href="/DraftCenter"> Cliquez ici pour y aller directement</a>
-					ou aller dans la section Draft du menu
-				</p>
-
-			</div>
-
-		</c:if>
-		<c:if test="${Utilisateur.teamId==currentPicker&&Pool.cycleAnnuel==3}">
-			<!-- Si first years and avant draft sans date set-->
-			<a href="/DraftPlayers?seg=all&sort=pts">
-				<button class="w3-container w3-section w3-red">
-					<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-					<h2>
-						C'EST VOTRE TOUR DE DRAFT !!!
-						</h3>
-						<p>Faites votre choix dans la section TOUS, ATTAQUANT, DEFENSEUR, GARDIEN OU RECRUE en cliquant sur le bouton pick, choisissez ensuite si celui-ci sera dans votre club école ou pas dans la
-							boite de dialogue. Cliquez ici pour aller directement à la section TOUS de repêchage.</p>
-				</button>
-			</a>
-		</c:if>
+	<!-- section Alerte -->
+	<jsp:directive.include file="../utils/messageAlerte.jsp" />
+	
+	
 		<br>
 		CONTIENDRA LES ARCHIVES DES ANNÉES ANTÉRIEURS DE VOTRE POOL ET DES STATISTIQUES SUR CHAQUE ÉQUIPE DANS LE TEMPS (Meilleur classement, nombre de coupe, nombre de trade,etc)
 
 
-	</div>
-
+	
+	
+	
 	<jsp:directive.include file="../utils/draftMessage.jsp" />
 
 	<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token!=null}">

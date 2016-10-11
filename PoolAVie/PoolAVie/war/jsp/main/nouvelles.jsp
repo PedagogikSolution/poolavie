@@ -22,6 +22,9 @@
 		<!-- Header du menu principal-->
 		<jsp:directive.include file="navbar_main.jsp" />
 		<jsp:directive.include file="menu_secondaire.jsp" />
+		
+		<!-- section Alerte -->
+		<jsp:directive.include file="../utils/messageAlerte.jsp" />
 
 		<!-- Body de la page news -->
 		<!-- -------------------- Zone d'alerte pour les Commissaires et les Directeurs généraux     --------------------------------------- -->
@@ -57,47 +60,7 @@
 			</div>
 
 		</c:if>
-		<c:if test="${Utilisateur.teamId==currentPicker&&Pool.cycleAnnuel==3}">
-					<!-- Si first years and avant draft sans date set-->
-					<a href="/DraftPlayers?seg=all&sort=pts"><button class="w3-container w3-section w3-red">
-							<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-							<h2>
-								C'EST VOTRE TOUR DE DRAFT !!!
-								</h3>
-								<p>Faites votre choix dans la section TOUS, ATTAQUANT, DEFENSEUR, GARDIEN OU RECRUE en cliquant sur le bouton pick, choisissez ensuite si celui-ci sera dans votre club école ou pas dans la
-									boite de dialogue. Cliquez ici pour aller directement à la section TOUS de repêchage.</p>
-						</button> </a>
-				</c:if>
-
-		<!-- Si all team register et pool est commencer -->
-		<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token==null}">
-
-			<div class="w3-container w3-section w3-red">
-
-				<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-				<h3>C'est l'heure du Draft</h3>
-				<p>Votre draft est prêt à commencer. Cliquez ici pour vous connecter au serveur de draft</p>
-				<p>
-					<a href="/DraftCenter"> Cliquez ici pour y aller directement</a> ou aller dans la section Draft du menu
-				</p>
-
-			</div>
-
-		</c:if>
-		<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&messageErreur.erreurConnectionDraft!=null}">
-
-			<div class="w3-container w3-section w3-red">
-
-				<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-				<h3>OUPS!</h3>
-				<p>${messageErreur.erreurConnectionDraft}</p>
-				<p>
-					<a href="/DraftCenter"> Cliquez ici pour y aller directement</a> ou aller dans la section Draft du menu
-				</p>
-
-			</div>
-
-		</c:if>
+		
 
 
 

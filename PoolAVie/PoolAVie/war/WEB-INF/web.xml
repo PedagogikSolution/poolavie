@@ -51,6 +51,7 @@
         <url-pattern>/jsp/signature/*</url-pattern>
         <url-pattern>/jsp/team/*</url-pattern>
         <url-pattern>/jsp/trade/*</url-pattern>
+        <url-pattern>/jsp/user/*</url-pattern>
     </filter-mapping>
     <filter>
         <filter-name>SessionBeanUpdate</filter-name>
@@ -66,6 +67,7 @@
         <url-pattern>/jsp/signature/*</url-pattern>
         <url-pattern>/jsp/team/*</url-pattern>
         <url-pattern>/jsp/trade/*</url-pattern>
+        <url-pattern>/jsp/user/*</url-pattern>
     </filter-mapping>
     <filter>
         <filter-name>DraftChannel</filter-name>
@@ -81,7 +83,12 @@
         <url-pattern>/Trade</url-pattern> 
         <url-pattern>/Signature</url-pattern>
         <url-pattern>/Reglements</url-pattern> 
-        <url-pattern>/Archives</url-pattern>   
+        <url-pattern>/Archives</url-pattern>
+        <url-pattern>/MonCompte</url-pattern>  
+        <url-pattern>/AdminPool</url-pattern>
+        <url-pattern>/AdminTrade</url-pattern>
+        <url-pattern>/AdminDraft</url-pattern>
+        <url-pattern>/AdminSignature</url-pattern> 
     </filter-mapping>
     
     
@@ -293,6 +300,15 @@
 	<servlet-mapping>
 		<servlet-name>adminSignature</servlet-name>
 		<url-pattern>/AdminSignature</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>userAccount</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.MonCompteServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>userAccount</servlet-name>
+		<url-pattern>/MonCompte</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>

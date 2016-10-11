@@ -43,6 +43,26 @@ public class DraftPlayersServlet extends HttpServlet {
 			mModelDraft.putDatastoreIntoBean(mBean, req);
 
 		}
+		
+		/** mini bean pour affichage menu secondaire du draft en shadow ****/
+		switch(segment){
+		case "all":
+		    req.setAttribute("trierPar",1);
+		    break;
+		case "foward":
+		    req.setAttribute("trierPar",2);
+		    break;
+		case "defenseur":
+		    req.setAttribute("trierPar",3);
+		    break;
+		case "goaler":
+		    req.setAttribute("trierPar",4);
+		    break;
+		case "rookie":
+		    req.setAttribute("trierPar",5);
+		    break;
+		}
+		
 
 		req.getRequestDispatcher("jsp/draft/draft_pick_zone.jsp").forward(req, resp);
 
