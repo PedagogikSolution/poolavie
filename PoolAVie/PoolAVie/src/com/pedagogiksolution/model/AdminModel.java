@@ -5,9 +5,12 @@ import static com.pedagogiksolution.constants.MessageErreurConstants.REGISTRATIO
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Properties;
 
 import javax.mail.MessagingException;
@@ -33,10 +36,18 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Transaction;
+import com.google.appengine.api.datastore.TransactionOptions;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
+import com.pedagogiksolution.beans.Article;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.dao.DraftDao;
+import com.pedagogiksolution.datastorebeans.Classement;
+import com.pedagogiksolution.datastorebeans.DraftPick;
 import com.pedagogiksolution.datastorebeans.DraftRound;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
@@ -255,149 +266,410 @@ public class AdminModel {
 
     }
 
+    @SuppressWarnings("unchecked")
     public Boolean changeCredential(String username, String password, String email, String teamName, String logoTeam, HttpServletRequest req) {
-	Entity entityUser;
+	Entity entityUser, entityPool, entityClassement, entityArticle, entityDraftPick;
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
 	Key mUserKey1 = null, mUserKey2;
-	// 1- si username pas vide, on le change
-	if (username != null&&username!="") {
 
-	    RegisterModel mModelRegister = new RegisterModel();
-	    Boolean checkIfUsernameExist = mModelRegister.checkIfUsernameExist(username, req);
-	    
-	    if(checkIfUsernameExist){
-		
-		req.setAttribute("messageErreurChangementUsername", "Ce nom d'utilisateur existe déja, merci de bien vouloir en choisir un différent");
-		return false;
+	TransactionOptions options = TransactionOptions.Builder.withXG(true);
+	Transaction txn = datastore.beginTransaction(options);
+
+	try {
+
+	    // 1- si username pas vide, on le change
+	    if (username != null && username != "") {
+
+		RegisterModel mModelRegister = new RegisterModel();
+		Boolean checkIfUsernameExist = mModelRegister.checkIfUsernameExist(username, req);
+
+		if (checkIfUsernameExist) {
+
+		    req.setAttribute("messageErreurChangementUsername", "Ce nom d'utilisateur existe déja, merci de bien vouloir en choisir un différent");
+		    return false;
+		}
+
+		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+		String nomUtilisateur = mBeanUser.getNomUtilisateur();
+		mUserKey1 = KeyFactory.createKey("Utilisateur", nomUtilisateur);
+		Utilisateur mNewBeanUser = new Utilisateur();
+		try {
+		    entityUser = datastore.get(mUserKey1);
+
+		    mUserKey2 = KeyFactory.createKey("Utilisateur", username);
+		    Entity newEntityUser = new Entity(mUserKey2);
+		    newEntityUser.setPropertiesFrom(entityUser);
+		    datastore.delete(mUserKey1);
+		    datastore.put(txn, newEntityUser);
+
+		    // on map pour mettre dans Bean de session et memcache
+		    mNewBeanUser = mapUtilisateurFromDatastore(newEntityUser, mBeanUser);
+
+		    // on place le bean dans un attribut de session
+		    req.getSession().setAttribute("Utilisateur", mNewBeanUser);
+		    // on persist le datastore/bean dans la MemCache pour appel au pool ID, typeUtilisateur, teamId lors
+// du
+		    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+		    Key userPrefsKey = KeyFactory.createKey("Utilisateur", username);
+		    memcache.put(userPrefsKey, mNewBeanUser);
+		    memcache.delete(mUserKey1);
+
+		} catch (EntityNotFoundException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+
+		req.setAttribute("messageConfirmationChangementUsername", "Votre nom d'utilisateur a été modifié");
+
 	    }
-	    
-	    Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
-	    String nomUtilisateur = mBeanUser.getNomUtilisateur();
-	    mUserKey1 = KeyFactory.createKey("Utilisateur", nomUtilisateur);
-	    Utilisateur mNewBeanUser = new Utilisateur();
-	    try {
-		entityUser = datastore.get(mUserKey1);
 
-		mUserKey2 = KeyFactory.createKey("Utilisateur", username);
-		Entity newEntityUser = new Entity(mUserKey2);
-		newEntityUser.setPropertiesFrom(entityUser);
-		datastore.delete(mUserKey1);
-		datastore.put(newEntityUser);
+	    // 2- Si password pas vide, on le change
+	    if (password != null && password != "") {
+		// On encrypte le mot de passe
+		PasswordEncryption mEncryptProcess = new PasswordEncryption();
+		String motDePasseEncrypter = null;
+		try {
+		    motDePasseEncrypter = mEncryptProcess.passwordEncryption(password);
+		} catch (NoSuchAlgorithmException e) {
+		    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+		    mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_ERREUR_PASSWORD_ENCRYPTION);
+		    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+		    return false;
+		} catch (InvalidKeySpecException e) {
+		    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+		    mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_ERREUR_PASSWORD_ENCRYPTION);
+		    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+		    return false;
+		}
 
-		// on map pour mettre dans Bean de session et memcache
-		mNewBeanUser = mapUtilisateurFromDatastore(newEntityUser, mBeanUser);
+		// on recupere le nouveau beanUser ou le vieux, selon si étape 1 fait ou pas
+		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+		String nomUtilisateur = mBeanUser.getNomUtilisateur();
+		mUserKey1 = KeyFactory.createKey("Utilisateur", nomUtilisateur);
+
+		try {
+		    entityUser = datastore.get(mUserKey1);
+
+		    // on change le mot de passe
+		    entityUser.setProperty("motDePasse", motDePasseEncrypter);
+
+		    datastore.put(txn, entityUser);
+
+		    // on map pour mettre dans Bean de session et memcache
+		    mBeanUser = mapUtilisateurFromDatastore(entityUser, mBeanUser);
+
+		    // on place le bean dans un attribut de session
+		    req.getSession().setAttribute("Utilisateur", mBeanUser);
+		    // on persist le datastore/bean dans la MemCache pour appel au pool ID, typeUtilisateur, teamId lors
+// du
+		    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+		    Key userPrefsKey = KeyFactory.createKey("Utilisateur", nomUtilisateur);
+		    memcache.put(userPrefsKey, mBeanUser);
+
+		} catch (EntityNotFoundException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+
+		req.setAttribute("messageConfirmationChangementPassword", "Votre mot de passe a été modifié");
+
+	    }
+
+	    // 3- Si courriel pas vide on le change
+	    if (email != null && email != "") {
+
+		// on recupere le nouveau beanUser ou le vieux, selon si étape 1 fait ou pas
+		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+		String nomUtilisateur = mBeanUser.getNomUtilisateur();
+		mUserKey1 = KeyFactory.createKey("Utilisateur", nomUtilisateur);
+
+		try {
+		    entityUser = datastore.get(mUserKey1);
+
+		    // on change le mot de passe
+		    entityUser.setProperty("courriel", email);
+
+		    datastore.put(txn, entityUser);
+
+		    // on map pour mettre dans Bean de session et memcache
+		    mBeanUser = mapUtilisateurFromDatastore(entityUser, mBeanUser);
+
+		    // on place le bean dans un attribut de session
+		    req.getSession().setAttribute("Utilisateur", mBeanUser);
+		    // on persist le datastore/bean dans la MemCache pour appel au pool ID, typeUtilisateur, teamId lors
+// du
+		    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+		    Key userPrefsKey = KeyFactory.createKey("Utilisateur", nomUtilisateur);
+		    memcache.put(userPrefsKey, mBeanUser);
+
+		} catch (EntityNotFoundException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+		req.setAttribute("messageConfirmationChangementCourriel", "Votre courriel a été modifié");
+	    }
+	    // 4- Si teamName pas vide on le change
+	    if (teamName != null && teamName != "") {
+
+		// A- on change la valeur dans le datastore Utilisateur
+		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+		String nomUtilisateur = mBeanUser.getNomUtilisateur();
+		mUserKey1 = KeyFactory.createKey("Utilisateur", nomUtilisateur);
+
+		try {
+		    entityUser = datastore.get(mUserKey1);
+
+		    // on change le mot de passe
+		    entityUser.setProperty("teamName", teamName);
+
+		    datastore.put(txn, entityUser);
+
+		    // on map pour mettre dans Bean de session et memcache
+		    mBeanUser = mapUtilisateurFromDatastore(entityUser, mBeanUser);
+
+		    // on place le bean dans un attribut de session
+		    req.getSession().setAttribute("Utilisateur", mBeanUser);
+		    // on persist le datastore/bean dans la MemCache pour appel au pool ID, typeUtilisateur, teamId lors
+// du
+		    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+		    Key userPrefsKey = KeyFactory.createKey("Utilisateur", nomUtilisateur);
+		    memcache.put(userPrefsKey, mBeanUser);
+
+		} catch (EntityNotFoundException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+
+		// B- on change la valeur dans le datastore Pool
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		String poolID = mBeanPool.getPoolID();
+		int teamId = mBeanUser.getPoolId();
+		String nomPropertyTeamName = switchToGetPropertyTeamName(teamId);
+
+		mUserKey1 = KeyFactory.createKey("Pool", poolID);
+
+		try {
+		    entityPool = datastore.get(mUserKey1);
+
+		    // on change le mot de passe
+		    entityPool.setProperty(nomPropertyTeamName, teamName);
+
+		    datastore.put(txn, entityPool);
+
+		    // on map pour mettre dans Bean de session et memcache
+		    mBeanPool = mapPoolFromDatastore(entityPool, mBeanPool);
+
+		    // on place le bean dans un attribut de session
+		    req.getSession().setAttribute("Pool", mBeanPool);
+		    // on persist le datastore/bean dans la MemCache pour appel au pool ID, typeUtilisateur, teamId lors
+// du
+		    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+		    Key userPrefsKey = KeyFactory.createKey("Pool", poolID);
+		    memcache.put(userPrefsKey, mBeanPool);
+
+		} catch (EntityNotFoundException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+
+		// C- on change la valeur dans le datastore Classement
+		Classement mBeanClassement = (Classement) req.getSession().getAttribute("Classement");
+		mUserKey1 = KeyFactory.createKey("Classement", poolID);
+		String teamNameToReplace = mBeanUser.getTeamName();
+		try {
+		    entityClassement = datastore.get(mUserKey1);
+
+		    // on change le mot de passe
+		    List<String> equipe = (List<String>) entityClassement.getProperty("equipe");
+		    int indexTeamName = equipe.indexOf(teamNameToReplace);
+		    equipe.set(indexTeamName, teamName);
+		    entityClassement.setProperty("equipe", equipe);
+
+		    datastore.put(txn, entityClassement);
+
+		    // on map pour mettre dans Bean de session et memcache
+		    mBeanClassement = mapClassementFromDatastore(entityClassement, mBeanClassement);
+
+		    // on place le bean dans un attribut de session
+		    req.getSession().setAttribute("Classement", mBeanClassement);
+		    // on persist le datastore/bean dans la MemCache pour appel au pool ID, typeUtilisateur, teamId lors
+// du
+		    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+		    Key userPrefsKey = KeyFactory.createKey("Classement", poolID);
+		    memcache.put(userPrefsKey, mBeanClassement);
+
+		} catch (EntityNotFoundException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+
+		// D- on change la valeur dans le datastore DraftPick
+		DraftPick mBeanDraftPick = (DraftPick) req.getSession().getAttribute("DraftPick");
+
+		int numberOfTeam = mBeanPool.getNumberTeam();
+
+		for (int i = 1; i < numberOfTeam + 1; i++) {
+		    String nomClefDraftPick = poolID + "_" + i;
+		    mUserKey1 = KeyFactory.createKey("DraftPick", nomClefDraftPick);
+
+		    try {
+			entityDraftPick = datastore.get(mUserKey1);
+
+			// on recupere la property a modifier
+			List<String> teamNameOriginalPick = (List<String>) entityDraftPick.getProperty("teamNameOriginalPick");
+
+			ListIterator<String> iterator = teamNameOriginalPick.listIterator();
+			int counter = 1;
+			while (iterator.hasNext()) {
+			    iterator.next();
+			    if (iterator.equals(teamNameToReplace)) {
+
+				teamNameOriginalPick.set(counter, teamName);
+			    }
+			}
+
+
+
+			entityDraftPick.setProperty("teamNameOriginalPick", teamNameOriginalPick);
+
+			datastore.put(txn, entityDraftPick);
+
+			// on map pour mettre dans Bean de session et memcache
+			mBeanDraftPick = mapDraftPickFromDatastore(entityDraftPick, mBeanDraftPick);
+
+			// on place le bean dans un attribut de session
+			req.getSession().setAttribute("DraftPick", mBeanDraftPick);
+			// on persist le datastore/bean dans la MemCache pour appel au pool ID, typeUtilisateur, teamId
+			// lors
+
+			MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+			Key userPrefsKey = KeyFactory.createKey("DraftPick", nomClefDraftPick);
+			memcache.put(userPrefsKey, mBeanDraftPick);
+
+		    } catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		    }
+		}
+
+		// E- on change la valeur dans le datastore Articles
+		Article mBeanArticles = (Article) req.getSession().getAttribute("Articles");
+		List<String> titre = new ArrayList<String>();
+		List<String> body = new ArrayList<String>();
+		List<String> dateCreation = new ArrayList<String>();
+		List<String> writerName = new ArrayList<String>();
+		List<String> writerLogo = new ArrayList<String>();
+		Filter allArticle = new FilterPredicate("writerName", FilterOperator.EQUAL, teamNameToReplace);
+		Query q = new Query("Articles").setFilter(allArticle).setAncestor(KeyFactory.createKey("Nouvelles", poolID));
+		List<Entity> results = datastore.prepare(q).asList(FetchOptions.Builder.withDefaults());
+
+		for (Entity result : results) {
+		    result.setProperty("writerName", teamName);
+		    datastore.put(txn, result);
+		    String titre2= (String) result.getProperty("titre");
+		    titre.add(titre2);
+		    String body2= (String) result.getProperty("body");
+		    body.add(body2);
+		    Date dateCreation2= (Date) result.getProperty("date");
+		    String dateCreation3 = dateCreation2.toString();
+		    dateCreation.add(dateCreation3);
+		    String writerName2= (String) result.getProperty("writerName");
+		    writerName.add(writerName2);
+		    String writerLogo2= (String) result.getProperty("writerLogo");
+		    writerLogo.add(writerLogo2);
+
+		}
 
 		// on place le bean dans un attribut de session
-		req.getSession().setAttribute("Utilisateur", mNewBeanUser);
-		// on persist le datastore/bean dans la MemCache pour appel au pool ID, typeUtilisateur, teamId lors du
-		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-		Key userPrefsKey = KeyFactory.createKey("Utilisateur", username);
-		memcache.put(userPrefsKey, mNewBeanUser);
-		memcache.delete(mUserKey1);
+		mBeanArticles.setTitre(titre);
+		mBeanArticles.setBody(body);
+		mBeanArticles.setDateCreation(dateCreation);
+		mBeanArticles.setWriterName(writerName);
+		mBeanArticles.setWriterLogo(writerLogo);
+		
+		req.getSession().setAttribute("Articles", mBeanArticles);
 
-	    } catch (EntityNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+		req.setAttribute("messageConfirmationChangementNomTeam", "Votre nom d'équipe a été modifié");
+		
+		// F- on change la valeur dans la BDD classement
+		
+		
+		// G- on change la valeur dans la BDD Draft
+		
+		
+		
+		
+		
+		
+		
+		// 5- Si logoTeam pas vide on le change
+
 	    }
 
-	    req.setAttribute("messageConfirmationChangementUsername", "Votre nom d'utilisateur a été modifié");
-
+	    txn.commit();
 	}
 
-	// 2- Si password pas vide, on le change
-	if (password != null&&password!="") {
-	    // On encrypte le mot de passe
-	    PasswordEncryption mEncryptProcess = new PasswordEncryption();
-	    String motDePasseEncrypter = null;
-	    try {
-		motDePasseEncrypter = mEncryptProcess.passwordEncryption(password);
-	    } catch (NoSuchAlgorithmException e) {
-		MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-		mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_ERREUR_PASSWORD_ENCRYPTION);
-		req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-		return null;
-	    } catch (InvalidKeySpecException e) {
-		MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-		mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_ERREUR_PASSWORD_ENCRYPTION);
-		req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-		return null;
+	finally {
+	    if (txn.isActive()) {
+		txn.rollback();
+
 	    }
-	    
-	    // on recupere le nouveau beanUser ou le vieux, selon si étape 1 fait ou pas
-	    Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
-	    String nomUtilisateur = mBeanUser.getNomUtilisateur();
-	    mUserKey1 = KeyFactory.createKey("Utilisateur", nomUtilisateur);
-	    
-	    try {
-		entityUser = datastore.get(mUserKey1);
-
-		// on change le mot de passe
-		entityUser.setProperty("motDePasse", motDePasseEncrypter);
-		
-		datastore.put(entityUser);
-
-		// on map pour mettre dans Bean de session et memcache
-		mBeanUser = mapUtilisateurFromDatastore(entityUser, mBeanUser);
-
-		// on place le bean dans un attribut de session
-		req.getSession().setAttribute("Utilisateur", mBeanUser);
-		// on persist le datastore/bean dans la MemCache pour appel au pool ID, typeUtilisateur, teamId lors du
-		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-		Key userPrefsKey = KeyFactory.createKey("Utilisateur", nomUtilisateur);
-		memcache.put(userPrefsKey, mBeanUser);
-		
-
-	    } catch (EntityNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	    }
-
-	    req.setAttribute("messageConfirmationChangementPassword", "Votre mot de passe a été modifié");
-
 	}
+	return true;
 
-	
-	// 3- Si courriel pas vide on le change
-	 if (email != null&&email!="") {
-	
-	    // on recupere le nouveau beanUser ou le vieux, selon si étape 1 fait ou pas
-	    Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
-	    String nomUtilisateur = mBeanUser.getNomUtilisateur();
-	    mUserKey1 = KeyFactory.createKey("Utilisateur", nomUtilisateur);
-	    
-	    try {
-		entityUser = datastore.get(mUserKey1);
-
-		// on change le mot de passe
-		entityUser.setProperty("courriel", email);
-		
-		datastore.put(entityUser);
-
-		// on map pour mettre dans Bean de session et memcache
-		mBeanUser = mapUtilisateurFromDatastore(entityUser, mBeanUser);
-
-		// on place le bean dans un attribut de session
-		req.getSession().setAttribute("Utilisateur", mBeanUser);
-		// on persist le datastore/bean dans la MemCache pour appel au pool ID, typeUtilisateur, teamId lors du
-		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-		Key userPrefsKey = KeyFactory.createKey("Utilisateur", nomUtilisateur);
-		memcache.put(userPrefsKey, mBeanUser);
-
-	    } catch (EntityNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	    }
-	  req.setAttribute("messageConfirmationChangementCourriel", "Votre courriel a été modifié");
-	 }
-	  // 4- Si teamName pas vide on le change
-	  // 5- Si logoTeam pas vide on le change
-	 return true;
-	
     }
 
     public void sendConfirmationEmailAfterChange(String email, HttpServletRequest req) {
 	// TODO Auto-generated method stub
 
+    }
+
+    /***************************************************** private method ******************************************/
+
+    private String switchToGetPropertyTeamName(int teamId) {
+	String nomPropertyTeamName = null;
+	switch (teamId) {
+	case 1:
+	    nomPropertyTeamName = "teamName1";
+	    break;
+	case 2:
+	    nomPropertyTeamName = "teamName2";
+	    break;
+	case 3:
+	    nomPropertyTeamName = "teamName3";
+	    break;
+	case 4:
+	    nomPropertyTeamName = "teamName4";
+	    break;
+	case 5:
+	    nomPropertyTeamName = "teamName5";
+	    break;
+	case 6:
+	    nomPropertyTeamName = "teamName6";
+	    break;
+	case 7:
+	    nomPropertyTeamName = "teamName7";
+	    break;
+	case 8:
+	    nomPropertyTeamName = "teamName8";
+	    break;
+	case 9:
+	    nomPropertyTeamName = "teamName9";
+	    break;
+	case 10:
+	    nomPropertyTeamName = "teamName10";
+	    break;
+	case 11:
+	    nomPropertyTeamName = "teamName11";
+	    break;
+	case 12:
+	    nomPropertyTeamName = "teamName12";
+	    break;
+
+	}
+
+	return nomPropertyTeamName;
     }
 
     private Utilisateur mapUtilisateurFromDatastore(Entity mEntity, Utilisateur mBean) {
@@ -414,6 +686,51 @@ public class AdminModel {
 	}
 
 	return mBean;
+    }
+
+    private Pool mapPoolFromDatastore(Entity entityPool, Pool mBeanPool) {
+	EntityManagerFactory emf = EMF.get();
+	EntityManager em = null;
+
+	try {
+	    em = emf.createEntityManager();
+	    mBeanPool = em.find(Pool.class, entityPool.getKey());
+	} finally {
+	    if (em != null)
+		em.close();
+	}
+
+	return mBeanPool;
+    }
+
+    private Classement mapClassementFromDatastore(Entity entityClassement, Classement mBeanClassement) {
+	EntityManagerFactory emf = EMF.get();
+	EntityManager em = null;
+
+	try {
+	    em = emf.createEntityManager();
+	    mBeanClassement = em.find(Classement.class, entityClassement.getKey());
+	} finally {
+	    if (em != null)
+		em.close();
+	}
+
+	return mBeanClassement;
+    }
+
+    private DraftPick mapDraftPickFromDatastore(Entity entityDraftPick, DraftPick mBeanDraftPick) {
+	EntityManagerFactory emf = EMF.get();
+	EntityManager em = null;
+
+	try {
+	    em = emf.createEntityManager();
+	    mBeanDraftPick = em.find(DraftPick.class, entityDraftPick.getKey());
+	} finally {
+	    if (em != null)
+		em.close();
+	}
+
+	return mBeanDraftPick;
     }
 
 }

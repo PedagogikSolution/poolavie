@@ -49,10 +49,10 @@
 				<h4>${requestScope.messageConfirmationChangementCourriel}</h4>
 			</div>
 		</c:if>
-		<c:if test="${requestScope.messageConfirmationChangementCourriel!=null}">
+		<c:if test="${requestScope.messageConfirmationChangementNomTeam!=null}">
 			<div class="w3-container w3-section w3-red" style="width: 80%; margin-left: auto; margin-right: auto">
 				<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-				<h4>${requestScope.messageConfirmationChangementCourriel}</h4>
+				<h4>${requestScope.messageConfirmationChangementNomTeam}</h4>
 			</div>
 		</c:if>
 		<c:if test="${requestScope.messageConfirmationChangementCourriel!=null}">
