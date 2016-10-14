@@ -608,6 +608,7 @@ public class AdminModel {
 	    }
 
 	    txn.commit();
+	    return true;
 	}
 
 	finally {
@@ -615,9 +616,10 @@ public class AdminModel {
 		txn.rollback();
 
 	    }
+	    
 	}
-	return true;
-
+	
+	
     }
 
     public void sendConfirmationEmailAfterChange(String email, HttpServletRequest req) {

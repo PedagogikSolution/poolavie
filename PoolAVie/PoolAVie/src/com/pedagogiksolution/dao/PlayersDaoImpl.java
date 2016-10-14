@@ -13,6 +13,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.servlet.http.HttpServletRequest;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -21,6 +22,7 @@ import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
+import com.pedagogiksolution.beans.NonSessionPlayers;
 import com.pedagogiksolution.datastorebeans.Attaquant;
 import com.pedagogiksolution.datastorebeans.Defenseur;
 import com.pedagogiksolution.datastorebeans.Gardien;
@@ -37,7 +39,8 @@ public class PlayersDaoImpl implements PlayersDao {
     private static final String GET_PLAYERS_FOR_DRAFT = "SELECT * FROM players_?";
     private static final String GET_PLAYERS_BY_POOL_ID_FOR_ROOKIE = "SELECT * FROM players_? WHERE team_id=? AND club_ecole=? ORDER BY pts DESC";
     private static final String UPDATE_PLAYERS_AFTER_DRAFT_PICK = "UPDATE players_? SET team_id=?,contrat=?,acquire_years=?,salaire_contrat=?,club_ecole=?,years_1='A',years_2='A',years_3='A',years_4='A',years_5='A' WHERE _id=?";
-
+    private static final String GET_PLAYERS_FOR_SIGNATURE_AFTER_DRAFT = "SELECT * FROM players_? WHERE contrat=1 AND club_ecole=0 AND team_id=? AND years_1='A'";
+    private static final String UPDATE_PLAYERS_SIGNATURE_AFTER_DRAFT = "UPDATE players_? SET years_1=?,years_2=?,years_3=?,years_4=?,years_5=? WHERE _id=?";
     private DAOFactory daoFactory;
 
     PlayersDaoImpl(DAOFactory daoFactory) {
@@ -701,4 +704,234 @@ public class PlayersDaoImpl implements PlayersDao {
 	}
 	
     }
+
+    @Override
+    public void getPlayersThatCanBeSign(int teamId, int poolId,HttpServletRequest req) throws DAOException {
+	
+	
+	NonSessionPlayers mBeanPlayers = new NonSessionPlayers();
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+	ResultSet rs = null;
+
+	List<Integer> players_id = new ArrayList<Integer>();
+	List<Integer> team_id = new ArrayList<Integer>();
+	List<String> nom = new ArrayList<String>();
+	List<String> teamOfPlayer = new ArrayList<String>();
+	List<Integer> pj = new ArrayList<Integer>();
+	List<Integer> but_victoire = new ArrayList<Integer>();
+	List<Integer> aide_overtime = new ArrayList<Integer>();
+	List<Integer> blanchissage = new ArrayList<Integer>();
+	List<Integer> pts = new ArrayList<Integer>();
+	List<Integer> projection = new ArrayList<Integer>();
+	List<String> position = new ArrayList<String>();
+	List<Date> birthday = new ArrayList<Date>();
+	List<Integer> can_be_rookie = new ArrayList<Integer>();
+	List<Integer> take_proj = new ArrayList<Integer>();
+	List<Integer> salaire_draft = new ArrayList<Integer>();
+	List<Integer> contrat = new ArrayList<Integer>();
+	List<Integer> acquire_years = new ArrayList<Integer>();
+	List<Integer> salaire_contrat = new ArrayList<Integer>();
+	List<Integer> contrat_cours = new ArrayList<Integer>();
+	List<Integer> contrat_max_years = new ArrayList<Integer>();
+	List<Integer> type_contrat = new ArrayList<Integer>();
+	List<Integer> club_ecole = new ArrayList<Integer>();
+	List<Date> date_calcul = new ArrayList<Date>();
+	List<String> years_1 = new ArrayList<String>();
+	List<String> years_2 = new ArrayList<String>();
+	List<String> years_3 = new ArrayList<String>();
+	List<String> years_4 = new ArrayList<String>();
+	List<String> years_5 = new ArrayList<String>();
+	List<Integer> team_was_update = new ArrayList<Integer>();
+	List<Integer> age = new ArrayList<Integer>();
+	List<Integer> hier = new ArrayList<Integer>();
+	List<Integer> semaine = new ArrayList<Integer>();
+	List<Integer> mois = new ArrayList<Integer>();
+	
+
+	try {
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_FOR_SIGNATURE_AFTER_DRAFT, false, poolId, teamId);
+	    rs = preparedStatement.executeQuery();
+	    
+	    while(rs.next()){
+		int m_players_id = rs.getInt("_id");
+		players_id.add(m_players_id);
+
+		int m_team_id = rs.getInt("team_id");
+		team_id.add(m_team_id);
+
+		String m_nom = rs.getString("nom");
+		nom.add(m_nom);
+
+		String m_teamOfPlayer = rs.getString("team");
+		teamOfPlayer.add(m_teamOfPlayer);
+
+		int m_pj = rs.getInt("pj");
+		pj.add(m_pj);
+
+		int m_but_victoire = rs.getInt("but_victoire");
+		but_victoire.add(m_but_victoire);
+
+		int m_aide_overtime = rs.getInt("aide_overtime");
+		aide_overtime.add(m_aide_overtime);
+
+		int m_blanchissage = rs.getInt("blanchissage");
+		blanchissage.add(m_blanchissage);
+
+		int m_pts = rs.getInt("pts");
+		pts.add(m_pts);
+
+		int m_projection = rs.getInt("projection");
+		projection.add(m_projection);
+
+		String m_position = rs.getString("position");
+		position.add(m_position);
+
+		Date m_birthday = rs.getDate("birthday");
+		birthday.add(m_birthday);
+
+		int m_can_be_rookie = rs.getInt("can_be_rookie");
+		can_be_rookie.add(m_can_be_rookie);
+
+		int m_take_proj = rs.getInt("take_proj");
+		take_proj.add(m_take_proj);
+
+		int m_salaire_draft = rs.getInt("salaire_draft");
+		salaire_draft.add(m_salaire_draft);
+
+		int m_contrat = rs.getInt("contrat");
+		contrat.add(m_contrat);
+
+		int m_acquire_years = rs.getInt("acquire_years");
+		acquire_years.add(m_acquire_years);
+
+		int m_salaire_contrat = rs.getInt("salaire_contrat");
+		salaire_contrat.add(m_salaire_contrat);
+
+		int m_contrat_cours = rs.getInt("contrat_cours");
+		contrat_cours.add(m_contrat_cours);
+
+		int m_contrat_max_years = rs.getInt("contrat_max_years");
+		contrat_max_years.add(m_contrat_max_years);
+
+		int m_type_contrat = rs.getInt("type_contrat");
+		type_contrat.add(m_type_contrat);
+
+		int m_club_ecole = rs.getInt("club_ecole");
+		club_ecole.add(m_club_ecole);
+
+		Date m_date_calcul = rs.getDate("date_calcul");
+		date_calcul.add(m_date_calcul);
+
+		String m_years_1 = rs.getString("years_1");
+		years_1.add(m_years_1);
+
+		String m_years_2 = rs.getString("years_2");
+		years_2.add(m_years_2);
+
+		String m_years_3 = rs.getString("years_3");
+		years_3.add(m_years_3);
+
+		String m_years_4 = rs.getString("years_4");
+		years_4.add(m_years_4);
+
+		String m_years_5 = rs.getString("years_5");
+		years_5.add(m_years_5);
+
+		int m_team_was_update = rs.getInt("team_was_update");
+		team_was_update.add(m_team_was_update);
+
+		int m_age = rs.getInt("age");
+		age.add(m_age);
+
+		int m_hier = rs.getInt("hier");
+		hier.add(m_hier);
+
+		int m_semaine = rs.getInt("semaine");
+		semaine.add(m_semaine);
+
+		int m_mois = rs.getInt("mois");
+		mois.add(m_mois);
+		
+		
+		
+	    }
+	    	mBeanPlayers.setPlayers_id(players_id);
+		mBeanPlayers.setAge(age);
+		mBeanPlayers.setAide_overtime(aide_overtime);
+		mBeanPlayers.setBlanchissage(blanchissage);
+		mBeanPlayers.setBut_victoire(but_victoire);
+		mBeanPlayers.setCan_be_rookie(can_be_rookie);
+		mBeanPlayers.setClub_ecole(club_ecole);
+		mBeanPlayers.setContrat(contrat);
+		mBeanPlayers.setContrat_cours(contrat_cours);
+		mBeanPlayers.setAcquire_years(acquire_years);
+		mBeanPlayers.setHier(hier);
+		mBeanPlayers.setMois(mois);
+		mBeanPlayers.setNom(nom);
+		mBeanPlayers.setPj(pj);
+		mBeanPlayers.setPosition(position);
+		mBeanPlayers.setProjection(projection);
+		mBeanPlayers.setPts(pts);
+		mBeanPlayers.setAcquire_years(acquire_years);
+		mBeanPlayers.setSalaire_contrat(salaire_contrat);
+		mBeanPlayers.setSalaire_draft(salaire_draft);
+		mBeanPlayers.setSemaine(semaine);
+		mBeanPlayers.setTake_proj(take_proj);
+		mBeanPlayers.setTeam_id(team_id);
+		mBeanPlayers.setTeam_was_update(team_was_update);
+		mBeanPlayers.setTeamOfPlayer(teamOfPlayer);
+		mBeanPlayers.setType_contrat(type_contrat);
+		mBeanPlayers.setYears_1(years_1);
+		mBeanPlayers.setYears_2(years_2);
+		mBeanPlayers.setYears_3(years_3);
+		mBeanPlayers.setYears_4(years_4);
+		mBeanPlayers.setYears_5(years_5);
+		
+		req.getSession().setAttribute("NonSessionPlayers", mBeanPlayers);
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(preparedStatement, connexion);
+	}
+    }
+
+    
+    @Override
+    public void signPlayerAfterDraft(int teamId, int poolId, String draft_player_id, String salaire, int numberOfYear) throws DAOException {
+	
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+	
+	try {
+	    connexion = daoFactory.getConnection();
+	    switch(numberOfYear){
+	    case 1: preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_SIGNATURE_AFTER_DRAFT, false, poolId,salaire,"JA","X","X","X",draft_player_id);
+	    break;
+	    case 2: preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_SIGNATURE_AFTER_DRAFT, false, poolId,salaire,salaire,"X","X","X",draft_player_id);
+	    break;
+	    case 3: preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_SIGNATURE_AFTER_DRAFT, false, poolId,salaire,salaire,salaire,"X","X",draft_player_id);
+	    break;
+	    case 4: preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_SIGNATURE_AFTER_DRAFT, false, poolId,salaire,salaire,salaire,salaire,"X",draft_player_id);
+	    break;
+	    case 5: preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_SIGNATURE_AFTER_DRAFT, false, poolId,salaire,salaire,salaire,salaire,salaire,draft_player_id);
+	    break;
+	    
+	    }
+	    preparedStatement.executeUpdate();
+
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(preparedStatement, connexion);
+	}
+	
+    }
+
+    
+   
+
+    
+    
 }

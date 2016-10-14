@@ -79,7 +79,7 @@
 				<label class="w3-label w3-text-indigo w3-large">Nouveau courriel (si vous ne recevez pas de courriel de confirmation d'ici une heure, essayez de nouveau)</label>
 				<input class="w3-input w3-container w3-text-blue w3-validate" type="email" name="email" style="width: 90%">
 				<br>
-				<button class="w3-btn w3-khaki w3-large w3-text-indigo">Effectuer le ou les changement</button>
+				<button class="w3-btn w3-khaki w3-large w3-text-indigo" disabled>Effectuer le ou les changement</button>
 				<br>
 				<c:if test="${requestScope.messageErreurChangementCourriel!=null}">
 					<p class="w3-text-red ">${requestScope.messageErreurChangementCourriel!=null}</p>
@@ -109,7 +109,7 @@
 				<img id="logoTeamChosen" class="w3-container" src="${Utilisateur.urlTeamLogo}">
 				<br>
 				<br>
-				<button class="w3-btn w3-khaki w3-large w3-text-indigo">Effectuer le ou les changement</button>
+				<button class="w3-btn w3-khaki w3-large w3-text-indigo" disabled>Effectuer le ou les changement</button>
 				<br>
 
 			</form>

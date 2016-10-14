@@ -7,8 +7,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pedagogiksolution.dao.DAOFactory;
+import com.pedagogiksolution.dao.PlayersDao;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.DraftPlayersModel;
+import com.pedagogiksolution.model.SignatureModel;
 
 public class SignatureServlet extends HttpServlet {
     /**
@@ -16,6 +19,15 @@ public class SignatureServlet extends HttpServlet {
      */
     private static final long serialVersionUID = 54388717965389157L;
 
+    public static final String CONF_DAO_FACTORY = "daofactory";
+    private PlayersDao playersDao;
+    
+    @Override
+    public void init() throws ServletException {
+	/* Récupération d'une instance de notre nos DAO */
+	this.playersDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getPlayersDao();
+    }
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
@@ -25,13 +37,56 @@ public class SignatureServlet extends HttpServlet {
 	    DraftPlayersModel mModelDraft = new DraftPlayersModel();	    	   
 	    mModelDraft.putDatastoreIntoBean(mBeanPool,req);
 	}
+	if (cycleAnnuel == 1){
+	    
+	    SignatureModel mModelSignature = new SignatureModel(playersDao);
+	    mModelSignature.putPlayersThatCanBeSignInBean(req);
+	    
+	}
 	
-	req.getRequestDispatcher("jsp/signature/signature.jsp").forward(req, resp);
+	String from = req.getParameter("from");
+	int fromId = Integer.parseInt(from);
+	switch(fromId){
+	case 1: req.getRequestDispatcher("jsp/signature/managerCenter.jsp").forward(req, resp);
+	    break;
+	case 2: req.getRequestDispatcher("jsp/signature/signatureAfterDraft.jsp").forward(req, resp);
+	    break;
+	case 3: req.getRequestDispatcher("jsp/signature/managerCenter.jsp").forward(req, resp);
+	    break;
+	case 4: req.getRequestDispatcher("jsp/signature/managerCenter.jsp").forward(req, resp);
+	    break;
+	case 5: req.getRequestDispatcher("jsp/signature/managerCenter.jsp").forward(req, resp);
+	    break;
+	    
+	}
+	
+
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	req.getRequestDispatcher("jsp/signature/signature.jsp").forward(req, resp);
+	SignatureModel mModel = new SignatureModel(playersDao);
+	String signatureStep = req.getParameter("signatureStep");
+	int signatureStepId = Integer.parseInt(signatureStep);
+	
+	switch(signatureStepId){
+	case 1: 
+	    // on persiste dans bdd et datastore et session les changements
+	    mModel.signatureAfterDraft(req);
+	    req.getRequestDispatcher("jsp/signature/signatureAfterDraft.jsp").forward(req, resp);
+	    break;
+	case 2:
+	    break;
+	case 3:
+	    break;
+	case 4:
+	    break;
+		
+	}
+	
+	
+	
+
     }
     
     

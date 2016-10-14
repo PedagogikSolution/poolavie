@@ -13,9 +13,7 @@ import com.pedagogiksolution.model.EquipeModel;
 import com.pedagogiksolution.model.LoginModel;
 
 public class EquipesServlet extends HttpServlet {
-    /**
-     * 
-     */
+   
     private static final long serialVersionUID = 54388717965389157L;
 
     @Override

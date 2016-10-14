@@ -27,18 +27,10 @@
 
 	<!-- section Alerte -->
 	<jsp:directive.include file="../utils/messageAlerte.jsp" />
-	
-		<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel<=3}">
-			<br>
-			<br>
-			<br>
-	CETTE SECTION CONTIENT L'ENSEMBLE DES PROCESSUS DE GESTION DES ÉQUIPES TEL QUE RACHAT, MONTER/DESCENDRE ROOKIE, SIGNATURE ET EVENTUELLEMENT EXPANSION
-	<br>
-			<br>
-	LA PREMIÈRE ÉTAPE AURA LIEU IMMÉDIATEMENT APRÈS LE DRAFT ET VOUS PERMETTRA DE SIGNER UN MAXIMUM DE 12 JOUEURS REPÊCHÉS POUR 2 À 5 ANNÉE. VOIR REGLÈMENT SECTION CONTRAT
-	</c:if>
 
-	</div>
+	
+	
+
 
 	<jsp:directive.include file="../utils/draftMessage.jsp" />
 
@@ -46,7 +38,7 @@
 		<jsp:directive.include file="../utils/draftClientB.jsp" />
 	</c:if>
 	<script>
-	document.getElementById('menuSecSign').classList.add('w3-khaki');
+		document.getElementById('menuSecSign').classList.add('w3-khaki');
 	</script>
 </body>
 </html>

@@ -1,5 +1,7 @@
 package com.pedagogiksolution.dao;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 public interface PlayersDao {
 
@@ -11,10 +13,16 @@ public interface PlayersDao {
 
     void cronJobPlayersAvailableForDraft(int poolId) throws DAOException;
 
-    void persistPlayerPick(int playerId, int salaireId, int poolId, int teamId, int clubEcoleId, int acquire_years) throws DAOException;;
+    void persistPlayerPick(int playerId, int salaireId, int poolId, int teamId, int clubEcoleId, int acquire_years) throws DAOException;
 
     void getPlayersForDatastoreFromPoolIdAndTeamNumber(String poolID, String counter, String string, int i) throws DAOException;
 
-    void getPlayersForDatastoreFromPoolId(String poolID);;
+    void getPlayersForDatastoreFromPoolId(String poolID) throws DAOException;
+
+    void getPlayersThatCanBeSign(int teamId, int poolId, HttpServletRequest req) throws DAOException;
+
+    void signPlayerAfterDraft(int teamId, int poolId, String draft_player_id, String salaire, int numberOfYear) throws DAOException;
+
+   
 
 }
