@@ -274,7 +274,7 @@
 							<h1>MES STATS D'ÉQUIPE</h1>
 						</caption>
 						<tr>
-							<td>Nombre d'attanquant :</td>
+							<td>Nombre d'attaquant :</td>
 							<td>${NonSessionEquipe.nb_attaquant}</td>
 						</tr>
 						<tr>

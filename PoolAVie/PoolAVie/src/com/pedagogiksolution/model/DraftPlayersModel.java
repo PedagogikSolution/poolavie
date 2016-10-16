@@ -193,6 +193,17 @@ public class DraftPlayersModel {
 		req.getSession().setAttribute("ascDescOrder", 0);
 	    }
 	    break;
+	    
+	default:Filter allPlayers2 = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
+
+	    if (ascDescOrder == 0 || fromMenu) {
+		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.DESCENDING).setFilter(allPlayers2);
+		req.getSession().setAttribute("ascDescOrder", 1);
+	    } else {
+		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.ASCENDING).setFilter(allPlayers2);
+		req.getSession().setAttribute("ascDescOrder", 0);
+	    }
+	    break;
 
 	}
 
@@ -375,7 +386,7 @@ public class DraftPlayersModel {
 
 	} else {
 	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-	    mBeanMessageErreur.setErreurDraft("Ce joueur n'est plaus disponible. Désolé de cette erreur. Merci de bien vouloir remplir le formualire de la BETA test pour nous le signaler");
+	    mBeanMessageErreur.setErreurDraft("Ce joueur n'est plus disponible. Désolé de cette erreur. Merci de bien vouloir remplir le formualire de la BETA test pour nous le signaler");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return;
 	}
@@ -384,7 +395,12 @@ public class DraftPlayersModel {
 
 	String salaire_draft = req.getParameter("salaire");
 	Entity mEntity = getEntityEquipe(poolID, teamID);
-	boolean checkIfCashIsOk = checkIfCashStillAvailable(mEntity, salaire_draft);
+	String can_be_rookie = req.getParameter("can_be_rookie");
+	boolean checkIfCashIsOk=true;
+	if(can_be_rookie.equals("0")){
+	    checkIfCashIsOk = checkIfCashStillAvailable(mEntity, salaire_draft);
+	}
+	
 
 	if (checkIfCashIsOk) {
 
@@ -394,6 +410,8 @@ public class DraftPlayersModel {
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return;
 	}
+	
+	
 
 	// 3- manque position
 	String position = req.getParameter("position");
@@ -403,14 +421,12 @@ public class DraftPlayersModel {
 
 	} else {
 	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-	    mBeanMessageErreur.setErreurDraft("Vous ne pouvez prendre ce joueur car ceci aurait pour influence de vous empêcher de repêcher un " + positionJoueur + ". Ainsi vous ne respecterez pas les règlements concernant les minimum de joueurs par position");
+	    mBeanMessageErreur.setErreurDraft("Vous ne pouvez prendre ce joueur car ceci aurait pour influence de vous empêcher de repêcher le nombre de joueur minimum requis par position");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return;
 	}
 
-	// 4- manque recrue
-
-	String can_be_rookie = req.getParameter("can_be_rookie");
+	// 4- manque recrue	
 
 	if (can_be_rookie.equals("0")) {
 	    Boolean checkIfWillMissRookie = checkIfWillMissRookie(mEntity);
@@ -418,7 +434,7 @@ public class DraftPlayersModel {
 
 	    } else {
 		MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-		mBeanMessageErreur.setErreurDraft("Vous devez choisir un joueur recrue. Il ne vous reste de la place que pour les recrues dans votre équipe");
+		mBeanMessageErreur.setErreurDraft("Vous devez choisir un joueur recrue ou vous avez deja trop de recue dans votre equipe. Il ne vous reste de la place que pour les recrues dans votre équipe");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return;
 	    }
@@ -1309,7 +1325,7 @@ public class DraftPlayersModel {
 	Long manquant_equipe = (Long) mEntity.getProperty("manquant_equipe");
 	manquantEquipe = manquant_equipe.intValue();
 
-	if (budgetRestant < salaireDraft || ((budgetRestant - salaireDraft) / (manquantEquipe - 1) <= 1000000)) {
+	if (budgetRestant < salaireDraft || ((budgetRestant - salaireDraft) / (manquantEquipe - 1) < 1000000)) {
 	    return false;
 	} else {
 	    return true;
@@ -1334,24 +1350,25 @@ public class DraftPlayersModel {
 
 	switch (position) {
 	case "attaquant":
-	    if ((manquantEquipe - 1) < manquantDefenseur || (manquantEquipe - 1) < manquantGardien) {
+	    if ((manquantEquipe - 1) < manquantDefenseur || (manquantEquipe - 1) < manquantGardien||(manquantEquipe - 1)<(manquantGardien+manquantDefenseur)) {
 		return position;
 	    } else {
 		return null;
 	    }
 
 	case "defenseur":
-	    if ((manquantEquipe - 1) < manquantAttaquant || (manquantEquipe - 1) < manquantGardien) {
+	    if ((manquantEquipe - 1) < manquantAttaquant || (manquantEquipe - 1) < manquantGardien||(manquantEquipe - 1)<(manquantGardien+manquantAttaquant)) {
 		return position;
 	    } else {
 		return null;
 	    }
 	case "gardien":
-	    if ((manquantEquipe - 1) < manquantDefenseur || (manquantEquipe - 1) < manquantAttaquant) {
+	    if ((manquantEquipe - 1) < manquantDefenseur || (manquantEquipe - 1) < manquantAttaquant||(manquantEquipe - 1)<(manquantAttaquant+manquantDefenseur)) {
 		return position;
 	    } else {
 		return null;
 	    }
+	    
 	}
 	return null;
 
@@ -1363,7 +1380,7 @@ public class DraftPlayersModel {
 	Long manquant_recrue = (Long) mEntity.getProperty("manquant_recrue");
 	int manquantRecrue = manquant_recrue.intValue();
 
-	if ((manquantEquipe - 1) < manquantRecrue) {
+	if ((manquantEquipe - 1) < manquantRecrue|| manquant_recrue<=0) {
 	    return true;
 	} else {
 	    return false;
