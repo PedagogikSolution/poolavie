@@ -440,6 +440,8 @@ public class DraftPlayersModel {
 	    }
 
 	}
+	
+	
 
 	// C'est bon, on met les info dans le bean et on envoie pour validation
 	String nom = req.getParameter("nom");
@@ -453,6 +455,13 @@ public class DraftPlayersModel {
 	mBeanPlayer.setTeamOfPlayer(team);
 	mBeanPlayer.setSalaire_draft(Integer.parseInt(salaire));
 	mBeanPlayer.setCan_be_rookie(Integer.parseInt(can_be_rookie));
+	
+	// // 5- si deja huit rookie, on offre plus le choix de mettre dans club ecole
+		Long manquant_recrue = (Long) mEntity.getProperty("manquant_recrue");
+		int manquantRecrue = manquant_recrue.intValue();
+		if (manquantRecrue<=0){
+		    mBeanPlayer.setCan_be_rookie(0); 
+		}
 
 	req.setAttribute("confirmationPick", mBeanPlayer);
 
@@ -1380,7 +1389,7 @@ public class DraftPlayersModel {
 	Long manquant_recrue = (Long) mEntity.getProperty("manquant_recrue");
 	int manquantRecrue = manquant_recrue.intValue();
 
-	if ((manquantEquipe - 1) < manquantRecrue|| manquant_recrue<=0) {
+	if ((manquantEquipe - 1) < manquantRecrue) {
 	    return true;
 	} else {
 	    return false;
