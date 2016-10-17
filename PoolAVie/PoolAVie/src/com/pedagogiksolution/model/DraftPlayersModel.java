@@ -606,9 +606,7 @@ public class DraftPlayersModel {
 		if (position.equalsIgnoreCase("Gardien")) {
 
 		    entity.setProperty("blanchissage", blanchissage);
-		} else {
-		    entity.setProperty("blanchissage", 0);
-		}
+		} 
 
 		entity.setProperty("pts", pts);
 
@@ -936,10 +934,11 @@ public class DraftPlayersModel {
 		but_victoire.add(0);
 
 		aide_overtime.add(0);
-		if (position.equalsIgnoreCase("Gardien")) {
+		
+		
 
-		    blanchissage.add(0);
-		}
+		blanchissage.add(0);
+		
 
 		pts.add(0);
 
@@ -949,13 +948,8 @@ public class DraftPlayersModel {
 
 		entity.setProperty("aide_overtime", aide_overtime);
 
-		if (position.equalsIgnoreCase("Gardien")) {
-
-		    entity.setProperty("blanchissage", blanchissage);
-		} else {
-		    entity.setProperty("blanchissage", 0);
-		}
-
+		entity.setProperty("blanchissage", blanchissage);
+		
 		entity.setProperty("pts", pts);
 
 		salaire_contrat.add(salaireId);
