@@ -26,7 +26,7 @@
 	</div>
 	<form class="w3-container w3-form w3-white" method="get">
 
-		<p class="w3-xxlarge">
+		<p class="w3-xlarge">
 			<span id="teamThatDraft"></span> a repêcher avec le <span id="pickNumber"></span>ième choix overall : <br> <span id="playerDrafted"></span> ,<span id="position"></span>, de <span
 				id="teamOfPlayer"></span> <br> au salaire de <span id="salaire"></span>$ <br>
 		</p>

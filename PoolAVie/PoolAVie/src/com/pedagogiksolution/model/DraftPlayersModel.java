@@ -400,6 +400,23 @@ public class DraftPlayersModel {
 	boolean checkIfCashIsOk = true;
 	if (can_be_rookie.equals("0")) {
 	    checkIfCashIsOk = checkIfCashStillAvailable(mEntity, salaire_draft);
+	    if (checkIfCashIsOk) {
+
+		} else {
+		    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+		    mBeanMessageErreur.setErreurDraft("Vous n'avez pas l'argent pour repêcher ce joueur sans éventuellement dépasser votre budget disponible au draft");
+		    req.setAttribute("messageErreur", mBeanMessageErreur);
+		    return;
+		}
+	} else {
+	    
+	    checkIfCashIsOk = checkIfCashStillAvailable(mEntity, salaire_draft);
+	    if (checkIfCashIsOk) {
+
+		} else {
+		    checkIfCashIsOk=false;
+		}
+	    
 	}
 
 	if (checkIfCashIsOk) {
@@ -472,6 +489,11 @@ public class DraftPlayersModel {
 	if(checkIfPositionIsFull){
 	    mBeanPlayer.setCan_be_rookie(2);
 	}
+	
+	if(!checkIfCashIsOk){
+	    mBeanPlayer.setCan_be_rookie(2);
+	}
+	
 
 	req.setAttribute("confirmationPick", mBeanPlayer);
 
@@ -1405,7 +1427,7 @@ public class DraftPlayersModel {
 	Long manquant_recrue = (Long) mEntity.getProperty("manquant_recrue");
 	int manquantRecrue = manquant_recrue.intValue();
 
-	if ((manquantEquipe - 1) < manquantRecrue) {
+	if (((manquantEquipe+8) - 1) < manquantRecrue) {
 	    return true;
 	} else {
 	    return false;
