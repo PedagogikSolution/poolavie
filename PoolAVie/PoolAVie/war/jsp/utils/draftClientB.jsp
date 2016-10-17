@@ -35,6 +35,8 @@
 			
 			document.getElementById('draftPickAlert').classList.remove('w3-hide');
 			document.getElementById('draftPickAlert').classList.add('w3-show');
+			document.getElementById('draftPickAlertRookie').classList.remove('w3-show');
+			document.getElementById('draftPickAlertRookie').classList.add('w3-hide');
 			document.getElementById('pickNumber').innerHTML=pickNumber;
 			document.getElementById('teamThatDraft').innerHTML=teamThatDraft;
 			document.getElementById('playerDrafted').innerHTML=playerDrafted;
@@ -55,6 +57,8 @@
 			position = messageReceived.position;
 			document.getElementById('draftPickAlertRookie').classList.remove('w3-hide');
 			document.getElementById('draftPickAlertRookie').classList.add('w3-show');
+			document.getElementById('draftPickAlert').classList.remove('w3-show');
+			document.getElementById('draftPickAlert').classList.add('w3-hide');
 			document.getElementById('pickNumber2').innerHTML=pickNumber;
 			document.getElementById('teamThatDraft2').innerHTML=teamThatDraft;
 			document.getElementById('playerDrafted2').innerHTML=playerDrafted;
@@ -72,6 +76,8 @@
 			position = messageReceived.position;
 			document.getElementById('draftPickAlertFinish').classList.remove('w3-hide');
 			document.getElementById('draftPickAlertFinish').classList.add('w3-show');
+			document.getElementById('draftPickAlertRookieFinish').classList.remove('w3-show');
+			document.getElementById('draftPickAlertRookieFinish').classList.add('w3-hide');
 			document.getElementById('pickNumber3').innerHTML=pickNumber;
 			document.getElementById('teamThatDraft3').innerHTML=teamThatDraft;
 			document.getElementById('playerDrafted3').innerHTML=playerDrafted;
@@ -90,6 +96,8 @@
 			position = messageReceived.position;
 			document.getElementById('draftPickAlertRookieFinish').classList.remove('w3-hide');
 			document.getElementById('draftPickAlertRookieFinish').classList.add('w3-show');
+			document.getElementById('draftPickAlertFinish').classList.remove('w3-show');
+			document.getElementById('draftPickAlertFinish').classList.add('w3-hide');
 			document.getElementById('pickNumber4').innerHTML=pickNumber;
 			document.getElementById('teamThatDraft4').innerHTML=teamThatDraft;
 			document.getElementById('playerDrafted4').innerHTML=playerDrafted;

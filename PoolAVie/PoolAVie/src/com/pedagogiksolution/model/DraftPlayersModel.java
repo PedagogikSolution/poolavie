@@ -419,14 +419,7 @@ public class DraftPlayersModel {
 	    
 	}
 
-	if (checkIfCashIsOk) {
-
-	} else {
-	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-	    mBeanMessageErreur.setErreurDraft("Vous n'avez pas l'argent pour repêcher ce joueur sans éventuellement dépasser votre budget disponible au draft");
-	    req.setAttribute("messageErreur", mBeanMessageErreur);
-	    return;
-	}
+	
 
 	// 3- manque position
 	String position = req.getParameter("position");
