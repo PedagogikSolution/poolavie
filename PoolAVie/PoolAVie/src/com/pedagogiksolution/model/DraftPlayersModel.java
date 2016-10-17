@@ -606,6 +606,8 @@ public class DraftPlayersModel {
 		if (position.equalsIgnoreCase("Gardien")) {
 
 		    entity.setProperty("blanchissage", blanchissage);
+		} else {
+		    entity.setProperty("blanchissage", 0);
 		}
 
 		entity.setProperty("pts", pts);
@@ -950,6 +952,8 @@ public class DraftPlayersModel {
 		if (position.equalsIgnoreCase("Gardien")) {
 
 		    entity.setProperty("blanchissage", blanchissage);
+		} else {
+		    entity.setProperty("blanchissage", 0);
 		}
 
 		entity.setProperty("pts", pts);
