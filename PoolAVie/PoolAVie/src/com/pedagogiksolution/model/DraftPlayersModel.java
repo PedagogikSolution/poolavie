@@ -193,8 +193,9 @@ public class DraftPlayersModel {
 		req.getSession().setAttribute("ascDescOrder", 0);
 	    }
 	    break;
-	    
-	default:Filter allPlayers2 = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
+
+	default:
+	    Filter allPlayers2 = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
 
 	    if (ascDescOrder == 0 || fromMenu) {
 		q = new Query(datastoreID).addSort(sort2, Query.SortDirection.DESCENDING).setFilter(allPlayers2);
@@ -332,7 +333,7 @@ public class DraftPlayersModel {
     }
 
     public void checkIfDraftIsPossible() {
-
+	Players mBeanPlayer = new Players();
 	String teamID = req.getParameter("team_id");
 	int teamId = Integer.parseInt(teamID);
 	// 0- son tour a drafter2
@@ -396,11 +397,10 @@ public class DraftPlayersModel {
 	String salaire_draft = req.getParameter("salaire");
 	Entity mEntity = getEntityEquipe(poolID, teamID);
 	String can_be_rookie = req.getParameter("can_be_rookie");
-	boolean checkIfCashIsOk=true;
-	if(can_be_rookie.equals("0")){
+	boolean checkIfCashIsOk = true;
+	if (can_be_rookie.equals("0")) {
 	    checkIfCashIsOk = checkIfCashStillAvailable(mEntity, salaire_draft);
 	}
-	
 
 	if (checkIfCashIsOk) {
 
@@ -410,23 +410,33 @@ public class DraftPlayersModel {
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return;
 	}
-	
-	
 
 	// 3- manque position
 	String position = req.getParameter("position");
+	Boolean checkIfPositionIsFull = false;
 	String positionJoueur = checkIfPositionWillBeOk(mEntity, position);
+	if (can_be_rookie.equals("0")) {
 
-	if (positionJoueur == null) {
+	    if (positionJoueur == null) {
+
+	    } else {
+		MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+		mBeanMessageErreur.setErreurDraft("Vous ne pouvez prendre ce joueur car ceci aurait pour influence de vous empêcher de repêcher le nombre de joueur minimum requis par position");
+		req.setAttribute("messageErreur", mBeanMessageErreur);
+		return;
+	    }
 
 	} else {
-	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-	    mBeanMessageErreur.setErreurDraft("Vous ne pouvez prendre ce joueur car ceci aurait pour influence de vous empêcher de repêcher le nombre de joueur minimum requis par position");
-	    req.setAttribute("messageErreur", mBeanMessageErreur);
-	    return;
+
+	    if (positionJoueur == null) {
+
+	    } else {
+		checkIfPositionIsFull = true;
+	    }
+
 	}
 
-	// 4- manque recrue	
+	// 4- manque recrue
 
 	if (can_be_rookie.equals("0")) {
 	    Boolean checkIfWillMissRookie = checkIfWillMissRookie(mEntity);
@@ -440,28 +450,28 @@ public class DraftPlayersModel {
 	    }
 
 	}
-	
-	
 
 	// C'est bon, on met les info dans le bean et on envoie pour validation
 	String nom = req.getParameter("nom");
 	String salaire = req.getParameter("salaire");
 	String team = req.getParameter("team");
 
-	Players mBeanPlayer = new Players();
 	mBeanPlayer.setPlayers_id(Integer.parseInt(playersID));
 	mBeanPlayer.setNom(nom);
 	mBeanPlayer.setPosition(position);
 	mBeanPlayer.setTeamOfPlayer(team);
 	mBeanPlayer.setSalaire_draft(Integer.parseInt(salaire));
 	mBeanPlayer.setCan_be_rookie(Integer.parseInt(can_be_rookie));
-	
+
 	// // 5- si deja huit rookie, on offre plus le choix de mettre dans club ecole
-		Long manquant_recrue = (Long) mEntity.getProperty("manquant_recrue");
-		int manquantRecrue = manquant_recrue.intValue();
-		if (manquantRecrue<=0){
-		    mBeanPlayer.setCan_be_rookie(0); 
-		}
+	Long manquant_recrue = (Long) mEntity.getProperty("manquant_recrue");
+	int manquantRecrue = manquant_recrue.intValue();
+	if (manquantRecrue <= 0) {
+	    mBeanPlayer.setCan_be_rookie(0);
+	}
+	if(checkIfPositionIsFull){
+	    mBeanPlayer.setCan_be_rookie(2);
+	}
 
 	req.setAttribute("confirmationPick", mBeanPlayer);
 
@@ -868,14 +878,14 @@ public class DraftPlayersModel {
 	try {
 
 	    // table players_X
-	 // table players_X
+	    // table players_X
 	    Key playersKey = KeyFactory.createKey(playersEntityName, playersID);
 
 	    try {
 		players = datastore.get(playersKey);
 
 		players.setProperty("contrat", 1);
-		players.setProperty("club_ecole",1);
+		players.setProperty("club_ecole", 1);
 
 		datastore.put(txn, players);
 
@@ -1084,7 +1094,7 @@ public class DraftPlayersModel {
 	} catch (EntityNotFoundException e) {
 
 	}
-	
+
 	switch (teamId) {
 	case 1:
 	    teamThatDraft = mBeanPool.getNomTeam1();
@@ -1127,14 +1137,18 @@ public class DraftPlayersModel {
 
 	Map<String, String> messageToClient = new HashMap<String, String>();
 	messageToClient.put("testIfOpen", "0");
-	switch(tagForDraftFinish) {
-	case 1:   messageToClient.put("draftPickMade", "1");
-	break;
-	case 2:  messageToClient.put("draftPickMade", "2");
+	switch (tagForDraftFinish) {
+	case 1:
+	    messageToClient.put("draftPickMade", "1");
 	    break;
-	case 3:   messageToClient.put("draftPickMade", "3");
-	break;
-	case 4:  messageToClient.put("draftPickMade", "4");
+	case 2:
+	    messageToClient.put("draftPickMade", "2");
+	    break;
+	case 3:
+	    messageToClient.put("draftPickMade", "3");
+	    break;
+	case 4:
+	    messageToClient.put("draftPickMade", "4");
 	    break;
 	}
 	messageToClient.put("pickNumber", currentPick);
@@ -1313,11 +1327,11 @@ public class DraftPlayersModel {
 	// Use PreparedQuery interface to retrieve results
 	Entity pq = datastore.prepare(q).asSingleEntity();
 
-	Long contrat = (Long)pq.getProperty("contrat");
-	
-	if(contrat==1){
+	Long contrat = (Long) pq.getProperty("contrat");
+
+	if (contrat == 1) {
 	    return false;
-	}else{
+	} else {
 	    return true;
 	}
 
@@ -1359,29 +1373,31 @@ public class DraftPlayersModel {
 
 	switch (position) {
 	case "attaquant":
-	    if ((manquantEquipe - 1) < manquantDefenseur || (manquantEquipe - 1) < manquantGardien||(manquantEquipe - 1)<(manquantGardien+manquantDefenseur)) {
+	    if ((manquantEquipe - 1) < manquantDefenseur || (manquantEquipe - 1) < manquantGardien || (manquantEquipe - 1) < (manquantGardien + manquantDefenseur)) {
 		return position;
 	    } else {
 		return null;
 	    }
 
 	case "defenseur":
-	    if ((manquantEquipe - 1) < manquantAttaquant || (manquantEquipe - 1) < manquantGardien||(manquantEquipe - 1)<(manquantGardien+manquantAttaquant)) {
+	    if ((manquantEquipe - 1) < manquantAttaquant || (manquantEquipe - 1) < manquantGardien || (manquantEquipe - 1) < (manquantGardien + manquantAttaquant)) {
 		return position;
 	    } else {
 		return null;
 	    }
 	case "gardien":
-	    if ((manquantEquipe - 1) < manquantDefenseur || (manquantEquipe - 1) < manquantAttaquant||(manquantEquipe - 1)<(manquantAttaquant+manquantDefenseur)) {
+	    if ((manquantEquipe - 1) < manquantDefenseur || (manquantEquipe - 1) < manquantAttaquant || (manquantEquipe - 1) < (manquantAttaquant + manquantDefenseur)) {
 		return position;
 	    } else {
 		return null;
 	    }
-	    
+
 	}
 	return null;
 
     }
+
+   
 
     private Boolean checkIfWillMissRookie(Entity mEntity) {
 	Long manquant_equipe = (Long) mEntity.getProperty("manquant_equipe");
