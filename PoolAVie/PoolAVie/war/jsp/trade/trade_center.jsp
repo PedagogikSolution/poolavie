@@ -26,110 +26,207 @@
 	<!-- section Alerte -->
 	<jsp:directive.include file="../utils/messageAlerte.jsp" />
 
-		<c:if test="${messageErreur.erreurTrade!=null}">
+	<c:if test="${messageErreur.erreurTrade!=null}">
 
-			<div class="w3-container w3-section w3-red">
+		<div class="w3-container w3-section w3-red">
 
+			<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+			<h3>OUPS!</h3>
+			<p>${messageErreur.erreurTrade}</p>
+
+
+		</div>
+
+	</c:if>
+
+
+
+	<!-- Si l'attribut message est pas vide, affiche message trade not open at this time -->
+	<c:if test="${requestScope.messageTrade!=null}">
+		<div class="w3-content w3-margin-top" style="max-width:90%">
+			<div class="w3-container w3-red w3-center">
 				<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-				<h3>OUPS!</h3>
-				<p>${messageErreur.erreurTrade}</p>
-
-
+				<h3>Il n'y a pas d'échange possible à cette période du pool</h3>
 			</div>
+		</div>
 
-		</c:if>
-
-		<!-- Si l'attribut message est pas vide, affiche message trade not open at this time -->
-		<c:if test="${requestScope.messageTrade!=null}">
-
-			<div class="w3-container">
+	</c:if>
 
 
-				<h3>SECTION OFFRE REÇUE</h3>
-				<p>${requestScope.messageTrade}</p>
-
-			</div>
+	<c:if test="${requestScope.tradeOpen==1}">
 
 
-		</c:if>
+		<!-- Liste des offres recu -->
+
+		<div class="w3-half">
+			<table class="w3-table  w3-striped w3-bordered w3-card-8" style="width: 90%; margin-left: auto; margin-right: auto">
+				<caption class="w3-blue w3-xlarge">
+					<h2>Les offres que j'ai reçu</h2>
+				</caption>
+				<tr class="w3-indigo">
+					<th>No</th>
+					<th>Reçu de</th>
+					<th>Date</th>
+					<th>Détails</th>
+
+				</tr>
+
+				<c:set var="nombreDeTrade" value="${tradeOfferReceived.team1}" />
+				<c:if test="${empty nombreDeTrade}">
+					<tr>
+						<td>Vous n'avez pas d'offre d'échange. Cliquez ci-bas pour en faire une</td>
+					<tr>
+				</c:if>
+				<c:if test="${not empty nombreDeTrade}">
+					<c:forEach var="i" begin="0" end="${fn:length(nombreDeTrade)-1}">
+
+						<tr>
 
 
-		<c:if test="${requestScope.tradeOpen==1}">
+							<td>${tradeOfferReceived.tradeOfferId}</td>
+							<td>${tradeOfferReceived.team1}</td>
+							<td>${tradeOfferReceived.date}</td>
+							<td>
+								<button onclick="showDetailOfferNo(${tradeOfferReceived.tradeOfferId})"></button>
+							</td>
 
+						</tr>
 
-			<!-- Liste des offres recu -->
-
-			<div class="w3-half">
-
-				<c:if test="${tradeOfferReceived.team1==null}">
-					<h2>Vous n'avez pas d'offre d'échange. Cliquez ci-bas pour en faire une.</h2>
+					</c:forEach>
 				</c:if>
 
-			</div>
 
-			<!-- Liste des offres fait -->
 
-			<div class="w3-half">
 
-				<c:if test="${tradeOfferMade.team1==null}">
-					<h2>Vous n'avez pas fait aucune offre d'échange encore. Cliquez ci-bas pour en faire une.</h2>
+			</table>
+
+
+		</div>
+
+		<!-- Liste des offres fait -->
+
+		<div class="w3-half">
+
+			<table class="w3-table  w3-striped w3-bordered w3-card-8" style="width: 90%; margin-left: auto; margin-right: auto">
+				<caption class="w3-blue w3-xlarge">
+					<h2>Les offres que j'ai fait</h2>
+				</caption>
+				<tr class="w3-indigo">
+					<th>No</th>
+					<th>Reçu de</th>
+					<th>Date</th>
+					<th>Détails</th>
+
+				</tr>
+
+				<c:set var="nombreDeTrade" value="${tradeOfferMade.team1}" />
+				<c:if test="${empty nombreDeTrade}">
+					<tr>
+						<td>Vous n'avez pas d'offre d'échange. Cliquez ci-bas pour en faire une</td>
+					<tr>
+				</c:if>
+				<c:if test="${not empty nombreDeTrade}">
+					<c:forEach var="i" begin="0" end="${fn:length(nombreDeTrade)-1}">
+
+						<tr>
+
+
+							<td>${tradeOfferMade.tradeOfferId}</td>
+							<td>${tradeOfferMade.team1}</td>
+							<td>${tradeOfferMade.date}</td>
+							<td>
+								<button onclick="showDetailOfferNo(${tradeOfferMade.tradeOfferId})"></button>
+							</td>
+
+						</tr>
+
+					</c:forEach>
 				</c:if>
 
-			</div>
-			<br>
-			<!-- Faire une offre -->
 
+
+
+			</table>
+
+		</div>
+		<br>
+		<!-- Faire une offre -->
+
+		<div class="w3-center">
+			<h2>Cliquez sur une équipe pour faire une offre à celle-ci</h2>
 			<div class="w3-center">
-				<h2>Cliquez sur une équipe pour faire une offre à celle-ci</h2>
-				<div class="w3-center">
+				<form class="w3-left" method="post" action="/Trade">
+					<input type="hidden" name="tradeWith" value="1">
+					<input type="hidden" name="tradeTag" value="1">
+					<input type="submit" value="${Pool.nomTeam1}" />
+				</form>
+				<form class="w3-left" method="post" action="/Trade">
+					<input type="hidden" name="tradeWith" value="2">
+					<input type="hidden" name="tradeTag" value="1">
+					<input type="submit" value="${Pool.nomTeam2}" />
+				</form>
+				<form class="w3-left" method="post" action="/Trade">
+					<input type="hidden" name="tradeWith" value="3">
+					<input type="hidden" name="tradeTag" value="1">
+					<input type="submit" value="${Pool.nomTeam3}" />
+				</form>
+				<form class="w3-left" method="post" action="/Trade">
+					<input type="hidden" name="tradeWith" value="4">
+					<input type="hidden" name="tradeTag" value="1">
+					<input type="submit" value="${Pool.nomTeam4}" />
+				</form>
+				<form class="w3-left" method="post" action="/Trade">
+					<input type="hidden" name="tradeWith" value="5">
+					<input type="hidden" name="tradeTag" value="1">
+					<input type="submit" value="${Pool.nomTeam5}" />
+				</form>
+				<form class="w3-left" method="post" action="/Trade">
+					<input type="hidden" name="tradeWith" value="6">
+					<input type="hidden" name="tradeTag" value="1">
+					<input type="submit" value="${Pool.nomTeam6}" />
+				</form>
+				<form class="w3-left" method="post" action="/Trade">
+					<input type="hidden" name="tradeWith" value="7">
+					<input type="hidden" name="tradeTag" value="1">
+					<input type="submit" value="${Pool.nomTeam7}" />
+				</form>
+				<form class="w3-left" method="post" action="/Trade">
+					<input type="hidden" name="tradeWith" value="8">
+					<input type="hidden" name="tradeTag" value="1">
+					<input type="submit" value="${Pool.nomTeam8}" />
+				</form>
+				<c:if test="${Pool.nomTeam9!=null}">
 					<form class="w3-left" method="post" action="/Trade">
-						<input type="hidden" name="tradeWith" value="1"> <input type="hidden" name="tradeTag" value="1"> <input type="submit" value="${Pool.nomTeam1}" />
+						<input type="hidden" name="tradeWith" value="9">
+						<input type="hidden" name="tradeTag" value="1">
+						<input type="submit" value="${Pool.nomTeam9}" />
 					</form>
+				</c:if>
+				<c:if test="${Pool.nomTeam10!=null}">
 					<form class="w3-left" method="post" action="/Trade">
-						<input type="hidden" name="tradeWith" value="2"> <input type="hidden" name="tradeTag" value="1"> <input type="submit" value="${Pool.nomTeam2}" />
+						<input type="hidden" name="tradeWith" value="10">
+						<input type="hidden" name="tradeTag" value="1">
+						<input type="submit" value="${Pool.nomTeam10}" />
 					</form>
+				</c:if>
+				<c:if test="${Pool.nomTeam11!=null}">
 					<form class="w3-left" method="post" action="/Trade">
-						<input type="hidden" name="tradeWith" value="3"> <input type="hidden" name="tradeTag" value="1"> <input type="submit" value="${Pool.nomTeam3}" />
+						<input type="hidden" name="tradeWith" value="11">
+						<input type="hidden" name="tradeTag" value="1">
+						<input type="submit" value="${Pool.nomTeam11}" />
 					</form>
+				</c:if>
+				<c:if test="${Pool.nomTeam12!=null}">
 					<form class="w3-left" method="post" action="/Trade">
-						<input type="hidden" name="tradeWith" value="4"> <input type="hidden" name="tradeTag" value="1"> <input type="submit" value="${Pool.nomTeam4}" />
+						<input type="hidden" name="tradeWith" value="12">
+						<input type="hidden" name="tradeTag" value="1">
+						<input type="submit" value="${Pool.nomTeam12}" />
 					</form>
-					<form class="w3-left" method="post" action="/Trade">
-						<input type="hidden" name="tradeWith" value="5"> <input type="hidden" name="tradeTag" value="1"> <input type="submit" value="${Pool.nomTeam5}" />
-					</form>
-					<form class="w3-left" method="post" action="/Trade">
-						<input type="hidden" name="tradeWith" value="6"> <input type="hidden" name="tradeTag" value="1"> <input type="submit" value="${Pool.nomTeam6}" />
-					</form>
-					<form class="w3-left" method="post" action="/Trade">
-						<input type="hidden" name="tradeWith" value="7"> <input type="hidden" name="tradeTag" value="1"> <input type="submit" value="${Pool.nomTeam7}" />
-					</form>
-					<form class="w3-left" method="post" action="/Trade">
-						<input type="hidden" name="tradeWith" value="8"> <input type="hidden" name="tradeTag" value="1"> <input type="submit" value="${Pool.nomTeam8}" />
-					</form>
-					<c:if test="${Pool.nomTeam9!=null}">
-						<form class="w3-left" method="post" action="/Trade">
-							<input type="hidden" name="tradeWith" value="9"> <input type="hidden" name="tradeTag" value="1"> <input type="submit" value="${Pool.nomTeam9}" />
-						</form>
-					</c:if>
-					<c:if test="${Pool.nomTeam10!=null}">
-						<form class="w3-left" method="post" action="/Trade">
-							<input type="hidden" name="tradeWith" value="10"> <input type="hidden" name="tradeTag" value="1"> <input type="submit" value="${Pool.nomTeam10}" />
-						</form>
-					</c:if>
-					<c:if test="${Pool.nomTeam11!=null}">
-						<form class="w3-left" method="post" action="/Trade">
-							<input type="hidden" name="tradeWith" value="11"> <input type="hidden" name="tradeTag" value="1"> <input type="submit" value="${Pool.nomTeam11}" />
-						</form>
-					</c:if>
-					<c:if test="${Pool.nomTeam12!=null}">
-						<form class="w3-left" method="post" action="/Trade">
-							<input type="hidden" name="tradeWith" value="12"> <input type="hidden" name="tradeTag" value="1"> <input type="submit" value="${Pool.nomTeam12}" />
-						</form>
-					</c:if>
-				</div>
+				</c:if>
 			</div>
+		</div>
 
-		</c:if>
+	</c:if>
 
 
 
@@ -142,7 +239,7 @@
 		<jsp:directive.include file="../utils/draftClientB.jsp" />
 	</c:if>
 	<script>
-	document.getElementById('menuSecTrade').classList.add('w3-khaki');
+		document.getElementById('menuSecTrade').classList.add('w3-khaki');
 	</script>
 </body>
 </html>

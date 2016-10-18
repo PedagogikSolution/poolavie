@@ -346,7 +346,7 @@
 						</tr>
 
 
-						<c:forEach var="i" begin="${DraftBean.currentPick}" end="${(DraftBean.currentPick)+18}">
+						<c:forEach var="i" begin="${DraftBean.currentPick}" end="${(DraftBean.currentPick)+(DraftBean.numberPickRestant)}">
 
 							<tr>
 								<td>${DraftRound.draft_pick_no[i]}</td>

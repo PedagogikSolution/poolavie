@@ -19,6 +19,7 @@ public class DraftProcess implements Serializable {
     private String poolID;
     private int currentPick;
     private int currentPicker;
+    private int numberPickRestant;
     private int team1IsOpen;
     private int team2IsOpen;
     private int team3IsOpen;
@@ -125,6 +126,12 @@ public class DraftProcess implements Serializable {
     }
     public void setPoolID(String poolID_teamId) {
 	this.poolID = poolID_teamId;
+    }
+    public int getNumberPickRestant() {
+	return numberPickRestant;
+    }
+    public void setNumberPickRestant(int numberPickRestant) {
+	this.numberPickRestant = numberPickRestant;
     }
     
     

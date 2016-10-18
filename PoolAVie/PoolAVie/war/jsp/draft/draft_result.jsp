@@ -90,7 +90,7 @@
 				<caption class="w3-blue w3-xlarge">
 					<h1>Draft Order and Result</h1>
 				</caption>
-				<tr class="w3-blue">
+				<tr class="w3-indigo">
 					<th>Overall pick no</th>
 					<th>Joueur repêché</th>
 					<th>Ronde</th>

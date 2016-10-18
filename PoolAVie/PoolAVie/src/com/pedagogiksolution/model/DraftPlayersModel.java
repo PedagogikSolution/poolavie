@@ -293,9 +293,13 @@ public class DraftPlayersModel {
 	}
     }
 
+    @SuppressWarnings("unchecked")
     public void putDatastoreIntoBean(Pool mBean, HttpServletRequest req2) {
-
+	
+	int numberOfTeam = mBean.getNumberTeam();
+	int numberOfTeam2 = numberOfTeam*2;
 	int currentPick2 = 0;
+	int draftPickNo=0;
 	DraftProcess mBeanDraft = new DraftProcess();
 	String poolID = mBean.getPoolID();
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -316,16 +320,26 @@ public class DraftPlayersModel {
 	Key mKey2 = KeyFactory.createKey("DraftRound", poolID);
 
 	try {
-	    Entity mEntity = datastore2.get(mKey2);
-
-	    @SuppressWarnings("unchecked")
+	    Entity mEntity = datastore2.get(mKey2);	    
 	    List<Long> currentPickerArray = (List<Long>) mEntity.getProperty("team_id");
 	    Long currentPicker = currentPickerArray.get(currentPick2 - 1);
 	    int currentPicker2 = currentPicker.intValue();
 	    mBeanDraft.setCurrentPicker(currentPicker2);
+	    
+	    List<Long> draftPickNoArray = (List<Long>) mEntity.getProperty("draft_pick_no");
+	    draftPickNo = draftPickNoArray.size();
 
 	} catch (EntityNotFoundException e) {
 
+	}
+	
+	
+	
+	if(numberOfTeam2<(draftPickNo-currentPick2)){
+	    
+	    mBeanDraft.setNumberPickRestant(numberOfTeam2);
+	} else {
+	    mBeanDraft.setNumberPickRestant((draftPickNo-currentPick2));
 	}
 
 	req2.setAttribute("DraftBean", mBeanDraft);
@@ -391,12 +405,28 @@ public class DraftPlayersModel {
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return;
 	}
+	
+	// 4- manque recrue
+	String can_be_rookie = req.getParameter("can_be_rookie");
+	String salaire_draft = req.getParameter("salaire");
+	Entity mEntity = getEntityEquipe(poolID, teamID);
+		if (can_be_rookie.equals("0")) {
+		    Boolean checkIfWillMissRookie = checkIfWillMissRookie(mEntity);
+		    if (!checkIfWillMissRookie) {
+
+		    } else {
+			MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+			mBeanMessageErreur.setErreurDraft("Vous devez choisir un joueur recrue ou vous avez deja trop de recue dans votre equipe. Il ne vous reste de la place que pour les recrues dans votre équipe");
+			req.setAttribute("messageErreur", mBeanMessageErreur);
+			return;
+		    }
+
+		}
 
 	// 2- assez d'argent
 
-	String salaire_draft = req.getParameter("salaire");
-	Entity mEntity = getEntityEquipe(poolID, teamID);
-	String can_be_rookie = req.getParameter("can_be_rookie");
+	
+	
 	boolean checkIfCashIsOk = true;
 	if (can_be_rookie.equals("0")) {
 	    checkIfCashIsOk = checkIfCashStillAvailable(mEntity, salaire_draft);
@@ -446,20 +476,7 @@ public class DraftPlayersModel {
 
 	}
 
-	// 4- manque recrue
-
-	if (can_be_rookie.equals("0")) {
-	    Boolean checkIfWillMissRookie = checkIfWillMissRookie(mEntity);
-	    if (!checkIfWillMissRookie) {
-
-	    } else {
-		MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-		mBeanMessageErreur.setErreurDraft("Vous devez choisir un joueur recrue ou vous avez deja trop de recue dans votre equipe. Il ne vous reste de la place que pour les recrues dans votre équipe");
-		req.setAttribute("messageErreur", mBeanMessageErreur);
-		return;
-	    }
-
-	}
+	
 
 	// C'est bon, on met les info dans le bean et on envoie pour validation
 	String nom = req.getParameter("nom");
@@ -753,7 +770,11 @@ public class DraftPlayersModel {
 		    break;
 		}
 		total_salaire_now = total_salaire_now + salaireId;
+		if(manquant_equipe==0){
+		    moy_sal_restant_draft=0;
+		} else {
 		moy_sal_restant_draft = budget_restant / manquant_equipe;
+		}
 
 		equipeEntity.setProperty("budget_restant", budget_restant);
 		equipeEntity.setProperty("manquant_equipe", manquant_equipe);
@@ -1360,6 +1381,14 @@ public class DraftPlayersModel {
 	budgetRestant = budget_restant.intValue();
 	Long manquant_equipe = (Long) mEntity.getProperty("manquant_equipe");
 	manquantEquipe = manquant_equipe.intValue();
+	
+	if((manquantEquipe - 1)==0){
+	    if (budgetRestant < salaireDraft) {
+		    return false;
+		} else {
+		    return true;
+		}
+	}
 
 	if (budgetRestant < salaireDraft || ((budgetRestant - salaireDraft) / (manquantEquipe - 1) < 1000000)) {
 	    return false;
@@ -1415,10 +1444,9 @@ public class DraftPlayersModel {
     private Boolean checkIfWillMissRookie(Entity mEntity) {
 	Long manquant_equipe = (Long) mEntity.getProperty("manquant_equipe");
 	int manquantEquipe = manquant_equipe.intValue();
-	Long manquant_recrue = (Long) mEntity.getProperty("manquant_recrue");
-	int manquantRecrue = manquant_recrue.intValue();
+	
 
-	if (((manquantEquipe+8) - 1) < manquantRecrue) {
+	if (manquantEquipe==0) {
 	    return true;
 	} else {
 	    return false;
