@@ -24,10 +24,10 @@
 		<!-- PROCESS POUR DRAFT -->
 		<c:set var="currentPick" value="${DraftBean.currentPick}" />
 		<c:set var="currentPicker" value="${DraftBean.currentPicker}" />
-		
+
 		<!-- section Alerte -->
 		<jsp:directive.include file="../utils/messageAlerte.jsp" />
-	
+
 		<div class="w3-container">
 			<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.poolYear==0&&Pool.cycleAnnuel==0}">
 				<!-- Si first years and avant draft sans date set-->
@@ -50,6 +50,7 @@
 				</div>
 
 			</c:if>
+			
 
 
 			<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.cycleAnnuel==2}">
@@ -120,7 +121,7 @@
 							</c:forEach>
 						</c:if>
 
-				</table>
+					</table>
 
 
 
@@ -323,6 +324,7 @@
 
 				<!-- ***************SECTION PICK -->
 				<div class="w3-quarter">
+				<c:if test="${Pool.cycleAnnuel==3}">
 					<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
 						<caption class="w3-blue w3-xlarge">
 							<h1>Next 20 pick</h1>
@@ -346,7 +348,7 @@
 						</tr>
 
 
-						<c:forEach var="i" begin="${DraftBean.currentPick}" end="${(DraftBean.currentPick)+(DraftBean.numberPickRestant)}">
+						<c:forEach var="i" begin="${DraftBean.currentPick}" end="${(DraftBean.currentPick)+(DraftBean.numberPickRestant)-1}">
 
 							<tr>
 								<td>${DraftRound.draft_pick_no[i]}</td>
@@ -359,7 +361,7 @@
 
 						</c:forEach>
 					</table>
-
+					</c:if>
 
 
 				</div>
@@ -388,8 +390,9 @@
 		<jsp:directive.include file="../utils/draftClientB.jsp" />
 	</c:if>
 	<script>
-	document.getElementById('menuSecDraft').classList.add('w3-khaki');
-	document.getElementById('menuSecDraftCenter').classList.add('w3-text-shadow');
+		document.getElementById('menuSecDraft').classList.add('w3-khaki');
+		document.getElementById('menuSecDraftCenter').classList
+				.add('w3-text-shadow');
 	</script>
 </body>
 </html>

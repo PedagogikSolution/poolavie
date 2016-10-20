@@ -46,7 +46,7 @@
 					<input type="hidden" name="team" value="${confirmationPick.teamOfPlayer}" />
 					<input type="hidden" name="can_be_rookie" value="${confirmationPick.can_be_rookie}" />
 					<input type="hidden" name="salaire" value="${confirmationPick.salaire_draft}" />
-					<button class="w3-btn w3-khaki w3-xlarge">Oui je le veux</button>
+					<button name="confirmationButton" class="w3-btn w3-khaki w3-xlarge">Oui je le veux</button>
 					<br>
 				</form>
 
@@ -118,7 +118,7 @@
 				<p class="w3-xxlarge">Voulez-vous confirmer le repêchage de ${confirmationPick.nom}, ${confirmationPick.position} de l'équipe de ${confirmationPick.teamOfPlayer} au salaire de
 					${confirmationPick.salaire_draft}</p>
 				<br>
-				<form onsubmit="confirmationButtonB.disabled = true; return true;" class="w3-container w3-form w3-white" action="/DraftPlayers" method="post">
+				<form onsubmit="confirmationButtonC.disabled = true; return true;" class="w3-container w3-form w3-white" action="/DraftPlayers" method="post">
 					<input type="hidden" name="draftStep" value="3">
 					<input type="hidden" name="draft_player_id" value="${confirmationPick.players_id}">
 					<input type="hidden" name="team_id" value="${Utilisateur.teamId}">
@@ -127,7 +127,7 @@
 					<input type="hidden" name="team" value="${confirmationPick.teamOfPlayer}">
 					<input type="hidden" name="can_be_rookie" value="${confirmationPick.can_be_rookie}">
 					<input type="hidden" name="salaire" value="${confirmationPick.salaire_draft}">
-					<button name="confirmationButtonB" class="w3-btn w3-khaki w3-xlarge">Oui, dans mon club école</button>
+					<button name="confirmationButtonC" class="w3-btn w3-khaki w3-xlarge">Oui, dans mon club école</button>
 
 				</form>
 				<br>
@@ -167,7 +167,7 @@
 
 
 		<!-- fin du container principal -->
-	</div>
+	
 
 	<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token!=null}">
 		<jsp:directive.include file="../utils/draftClientB.jsp" />

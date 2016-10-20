@@ -295,11 +295,11 @@ public class DraftPlayersModel {
 
     @SuppressWarnings("unchecked")
     public void putDatastoreIntoBean(Pool mBean, HttpServletRequest req2) {
-	
+
 	int numberOfTeam = mBean.getNumberTeam();
-	int numberOfTeam2 = numberOfTeam*2;
+	int numberOfTeam2 = numberOfTeam * 2;
 	int currentPick2 = 0;
-	int draftPickNo=0;
+	int draftPickNo = 0;
 	DraftProcess mBeanDraft = new DraftProcess();
 	String poolID = mBean.getPoolID();
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -320,26 +320,24 @@ public class DraftPlayersModel {
 	Key mKey2 = KeyFactory.createKey("DraftRound", poolID);
 
 	try {
-	    Entity mEntity = datastore2.get(mKey2);	    
+	    Entity mEntity = datastore2.get(mKey2);
 	    List<Long> currentPickerArray = (List<Long>) mEntity.getProperty("team_id");
 	    Long currentPicker = currentPickerArray.get(currentPick2 - 1);
 	    int currentPicker2 = currentPicker.intValue();
 	    mBeanDraft.setCurrentPicker(currentPicker2);
-	    
+
 	    List<Long> draftPickNoArray = (List<Long>) mEntity.getProperty("draft_pick_no");
 	    draftPickNo = draftPickNoArray.size();
 
 	} catch (EntityNotFoundException e) {
 
 	}
-	
-	
-	
-	if(numberOfTeam2<(draftPickNo-currentPick2)){
-	    
+
+	if (numberOfTeam2 < (draftPickNo - currentPick2)) {
+
 	    mBeanDraft.setNumberPickRestant(numberOfTeam2);
 	} else {
-	    mBeanDraft.setNumberPickRestant((draftPickNo-currentPick2));
+	    mBeanDraft.setNumberPickRestant((draftPickNo - currentPick2));
 	}
 
 	req2.setAttribute("DraftBean", mBeanDraft);
@@ -405,51 +403,47 @@ public class DraftPlayersModel {
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return;
 	}
-	
+
 	// 4- manque recrue
 	String can_be_rookie = req.getParameter("can_be_rookie");
 	String salaire_draft = req.getParameter("salaire");
 	Entity mEntity = getEntityEquipe(poolID, teamID);
-		if (can_be_rookie.equals("0")) {
-		    Boolean checkIfWillMissRookie = checkIfWillMissRookie(mEntity);
-		    if (!checkIfWillMissRookie) {
+	if (can_be_rookie.equals("0")) {
+	    Boolean checkIfWillMissRookie = checkIfWillMissRookie(mEntity);
+	    if (!checkIfWillMissRookie) {
 
-		    } else {
-			MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-			mBeanMessageErreur.setErreurDraft("Vous devez choisir un joueur recrue ou vous avez deja trop de recue dans votre equipe. Il ne vous reste de la place que pour les recrues dans votre équipe");
-			req.setAttribute("messageErreur", mBeanMessageErreur);
-			return;
-		    }
+	    } else {
+		MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+		mBeanMessageErreur.setErreurDraft("Vous devez choisir un joueur recrue ou vous avez deja trop de recue dans votre equipe. Il ne vous reste de la place que pour les recrues dans votre équipe");
+		req.setAttribute("messageErreur", mBeanMessageErreur);
+		return;
+	    }
 
-		}
+	}
 
 	// 2- assez d'argent
 
-	
-	
 	boolean checkIfCashIsOk = true;
 	if (can_be_rookie.equals("0")) {
 	    checkIfCashIsOk = checkIfCashStillAvailable(mEntity, salaire_draft);
 	    if (checkIfCashIsOk) {
 
-		} else {
-		    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-		    mBeanMessageErreur.setErreurDraft("Vous n'avez pas l'argent pour repêcher ce joueur sans éventuellement dépasser votre budget disponible au draft");
-		    req.setAttribute("messageErreur", mBeanMessageErreur);
-		    return;
-		}
+	    } else {
+		MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+		mBeanMessageErreur.setErreurDraft("Vous n'avez pas l'argent pour repêcher ce joueur sans éventuellement dépasser votre budget disponible au draft");
+		req.setAttribute("messageErreur", mBeanMessageErreur);
+		return;
+	    }
 	} else {
-	    
+
 	    checkIfCashIsOk = checkIfCashStillAvailable(mEntity, salaire_draft);
 	    if (checkIfCashIsOk) {
 
-		} else {
-		    checkIfCashIsOk=false;
-		}
-	    
-	}
+	    } else {
+		checkIfCashIsOk = false;
+	    }
 
-	
+	}
 
 	// 3- manque position
 	String position = req.getParameter("position");
@@ -476,8 +470,6 @@ public class DraftPlayersModel {
 
 	}
 
-	
-
 	// C'est bon, on met les info dans le bean et on envoie pour validation
 	String nom = req.getParameter("nom");
 	String salaire = req.getParameter("salaire");
@@ -495,15 +487,22 @@ public class DraftPlayersModel {
 	int manquantRecrue = manquant_recrue.intValue();
 	if (manquantRecrue <= 0) {
 	    mBeanPlayer.setCan_be_rookie(0);
+
 	}
-	if(checkIfPositionIsFull){
+	if (checkIfPositionIsFull) {
 	    mBeanPlayer.setCan_be_rookie(2);
 	}
-	
-	if(!checkIfCashIsOk){
+
+	if (!checkIfCashIsOk) {
 	    mBeanPlayer.setCan_be_rookie(2);
 	}
-	
+
+	if (manquantRecrue <= 0 && !checkIfCashIsOk) {
+	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+	    mBeanMessageErreur.setErreurDraft("Vous ne pouvez drafter ce joueur car vous n'avez pas assez d'argent et vous n'avez pu de place dans votre club ecole");
+	    req.setAttribute("messageErreur", mBeanMessageErreur);
+	    return;
+	}
 
 	req.setAttribute("confirmationPick", mBeanPlayer);
 
@@ -623,17 +622,17 @@ public class DraftPlayersModel {
 		if (position.equalsIgnoreCase("Gardien")) {
 
 		    entity.setProperty("blanchissage", blanchissage);
-		} 
+		}
 
 		entity.setProperty("pts", pts);
 
 		salaire_contrat.add(salaireId);
 		entity.setProperty("salaire_contrat", salaire_contrat);
 
-		years_1.add("A");
+		years_1.add(salaire);
 		entity.setProperty("years_1", years_1);
 
-		years_2.add("A");
+		years_2.add("JA");
 		entity.setProperty("years_2", years_2);
 
 		years_3.add("A");
@@ -770,10 +769,10 @@ public class DraftPlayersModel {
 		    break;
 		}
 		total_salaire_now = total_salaire_now + salaireId;
-		if(manquant_equipe==0){
-		    moy_sal_restant_draft=0;
+		if (manquant_equipe == 0) {
+		    moy_sal_restant_draft = 0;
 		} else {
-		moy_sal_restant_draft = budget_restant / manquant_equipe;
+		    moy_sal_restant_draft = budget_restant / manquant_equipe;
 		}
 
 		equipeEntity.setProperty("budget_restant", budget_restant);
@@ -955,11 +954,8 @@ public class DraftPlayersModel {
 		but_victoire.add(0);
 
 		aide_overtime.add(0);
-		
-		
 
 		blanchissage.add(0);
-		
 
 		pts.add(0);
 
@@ -970,7 +966,7 @@ public class DraftPlayersModel {
 		entity.setProperty("aide_overtime", aide_overtime);
 
 		entity.setProperty("blanchissage", blanchissage);
-		
+
 		entity.setProperty("pts", pts);
 
 		salaire_contrat.add(salaireId);
@@ -1091,7 +1087,7 @@ public class DraftPlayersModel {
 	    int acquireYearsId = mBeanPool.getPoolYear();
 	    String acquireYearsID = String.valueOf((acquireYearsId));
 
-	    persistenceDraftInDatabase(poolID, salaire, playersID, teamID, nom, team, position, clubEcole, acquireYearsID, currentPick);
+	    persistenceDraftInDatabaseRookie(poolID, salaire, playersID, teamID, nom, team, position, clubEcole, acquireYearsID, currentPick);
 
 	    // commit
 	    txn.commit();
@@ -1280,8 +1276,15 @@ public class DraftPlayersModel {
 	    for (int i = 1; i < (numberOfTeam + 1); i++) {
 		String teamName = i + "isFinish";
 		Long testIfFinishSetToOne = (Long) mEntity.getProperty(teamName);
-		if (testIfFinishSetToOne == 1) {
-		    counter++;
+		if (testIfFinishSetToOne == null) {
+
+		    mEntity.setProperty(teamName, 0);
+		    datastore.put(mEntity);
+
+		} else {
+		    if (testIfFinishSetToOne == 1) {
+			counter++;
+		    }
 		}
 	    }
 
@@ -1381,13 +1384,13 @@ public class DraftPlayersModel {
 	budgetRestant = budget_restant.intValue();
 	Long manquant_equipe = (Long) mEntity.getProperty("manquant_equipe");
 	manquantEquipe = manquant_equipe.intValue();
-	
-	if((manquantEquipe - 1)==0){
+
+	if ((manquantEquipe - 1) == 0) {
 	    if (budgetRestant < salaireDraft) {
-		    return false;
-		} else {
-		    return true;
-		}
+		return false;
+	    } else {
+		return true;
+	    }
 	}
 
 	if (budgetRestant < salaireDraft || ((budgetRestant - salaireDraft) / (manquantEquipe - 1) < 1000000)) {
@@ -1439,14 +1442,11 @@ public class DraftPlayersModel {
 
     }
 
-   
-
     private Boolean checkIfWillMissRookie(Entity mEntity) {
 	Long manquant_equipe = (Long) mEntity.getProperty("manquant_equipe");
 	int manquantEquipe = manquant_equipe.intValue();
-	
 
-	if (manquantEquipe==0) {
+	if (manquantEquipe == 0) {
 	    return true;
 	} else {
 	    return false;
@@ -1460,7 +1460,13 @@ public class DraftPlayersModel {
 	// process
 
 	Queue queue = QueueFactory.getDefaultQueue();
-	queue.add(TaskOptions.Builder.withUrl("/TaskQueueDraftPlayer").param("salaireID", salaire).param("poolID", poolID).param("playersID", playersID).param("teamID", teamID).param("nom", nom).param("team", team).param("acquireYearsID", acquireYearsID).param("club_ecole", clubEcole).param("position", position).param("currentPick", String.valueOf(currentPick)));
+	queue.add(TaskOptions.Builder.withUrl("/TaskQueueDraftPlayer").param("isRookie", "0").param("salaireID", salaire).param("poolID", poolID).param("playersID", playersID).param("teamID", teamID).param("nom", nom).param("team", team).param("acquireYearsID", acquireYearsID).param("club_ecole", clubEcole).param("position", position).param("currentPick", String.valueOf(currentPick)));
+
+    }
+
+    private void persistenceDraftInDatabaseRookie(String poolID, String salaire, String playersID, String teamID, String nom, String team, String position, String clubEcole, String acquireYearsID, int currentPick) {
+	Queue queue = QueueFactory.getDefaultQueue();
+	queue.add(TaskOptions.Builder.withUrl("/TaskQueueDraftPlayer").param("isRookie", "1").param("salaireID", salaire).param("poolID", poolID).param("playersID", playersID).param("teamID", teamID).param("nom", nom).param("team", team).param("acquireYearsID", acquireYearsID).param("club_ecole", clubEcole).param("position", position).param("currentPick", String.valueOf(currentPick)));
 
     }
 

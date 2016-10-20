@@ -195,9 +195,7 @@ public class DraftProcessModel {
 		em.close();
 	}
 	
-	MessageErreurBeans mBeanErreur = new MessageErreurBeans();
-	mBeanErreur.setErreurConnectionDraft("Vous avez été déconnecté du serveur de draft. Cliquez sur cete boite pour vous reconnecter");
-	req.setAttribute("messageErreur", mBeanErreur);
+	
     }
 
 }

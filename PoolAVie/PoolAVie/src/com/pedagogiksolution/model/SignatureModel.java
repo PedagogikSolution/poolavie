@@ -38,6 +38,10 @@ public class SignatureModel {
 	
 	// A: on change la valeur des years_x dans la bdd players_x
 	playersDao.signPlayerAfterDraft(teamId,poolId,draft_player_id,salaire,numberOfYear);
+	
+	// B: on modifie les datatstore attaquant/def/goal/
+	
+	// C: on modifie le datastore equipe
 	   	
     }
     

@@ -93,7 +93,7 @@ public class DraftPlayersServlet extends HttpServlet {
 					mModel.changeCycleAnnuelToSignature4();
 					mModel.channelMessage(3);
 				} else {
-					req.setAttribute("DraftFinish", 1);
+					req.getSession().setAttribute("DraftFinish", 1);
 				}
 			}
 			resp.sendRedirect("/DraftCenter");
@@ -110,7 +110,7 @@ public class DraftPlayersServlet extends HttpServlet {
 					mModel.changeCycleAnnuelToSignature4();
 					mModel.channelMessage(4);
 				} else {
-					req.setAttribute("DraftFinish", 1);
+				    req.getSession().setAttribute("DraftFinish", 1);
 				}
 			} 
 			resp.sendRedirect("/DraftCenter");

@@ -23,6 +23,9 @@ public interface PlayersDao {
 
     void signPlayerAfterDraft(int teamId, int poolId, String draft_player_id, String salaire, int numberOfYear) throws DAOException;
 
+    void persistPlayerPickRookie(int playersId, int salaireId, int poolId, int teamId, int clubEcoleId, int acquireYearsId)throws DAOException;
+
+
    
 
 }

@@ -116,19 +116,4 @@
 </div>
 
 
-<c:if test="${sessionScope.DraftFinish==1&&Pool.cycleAnnuel==3}">
 
-	<div id="connexionAlert" class="w3-card-24 w3-display-middle" style="width: auto">
-
-		<div class="w3-container w3-section w3-red">
-
-			<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-			<h3>Votre draft est terminé</h3>
-			<p>Vous pouvez maintenant rester connecter pour suivre la fin du draft ou vous déconnecter et revenir signer vos contrats de fin de draft aussitôt que celui-ci est terminé dans la section
-				signature.</p>
-
-		</div>
-
-
-	</div>
-</c:if>

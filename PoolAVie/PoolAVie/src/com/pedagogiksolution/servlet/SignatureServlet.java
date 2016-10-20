@@ -37,7 +37,7 @@ public class SignatureServlet extends HttpServlet {
 	    DraftPlayersModel mModelDraft = new DraftPlayersModel();	    	   
 	    mModelDraft.putDatastoreIntoBean(mBeanPool,req);
 	}
-	if (cycleAnnuel == 1){
+	if (cycleAnnuel == 4){
 	    
 	    SignatureModel mModelSignature = new SignatureModel(playersDao);
 	    mModelSignature.putPlayersThatCanBeSignInBean(req);
@@ -73,7 +73,7 @@ public class SignatureServlet extends HttpServlet {
 	case 1: 
 	    // on persiste dans bdd et datastore et session les changements
 	    mModel.signatureAfterDraft(req);
-	    req.getRequestDispatcher("jsp/signature/signatureAfterDraft.jsp").forward(req, resp);
+	    resp.sendRedirect("/Signature?from=2");
 	    break;
 	case 2:
 	    break;

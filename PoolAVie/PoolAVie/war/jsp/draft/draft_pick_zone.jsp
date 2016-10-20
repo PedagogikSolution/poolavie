@@ -25,6 +25,7 @@ td {
 	<jsp:directive.include file="../main/menu_secondaire.jsp" />
 	<jsp:directive.include file="menu_draft.jsp" />
 
+	<c:set var="segment" value="${SegmentSort}" />
 
 	<!-- PROCESS POUR DRAFT -->
 	<c:if test="${Pool.cycleAnnuel==3 }">
@@ -125,13 +126,13 @@ td {
 	<jsp:directive.include file="../utils/draftMessage.jsp" />
 
 	<!-- fin du container principal -->
-	
+
 
 	<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token!=null}">
 		<jsp:directive.include file="../utils/draftClientB.jsp" />
 	</c:if>
-	
-	
+
+
 	<script>
 		document.getElementById('menuSecDraft').classList.add('w3-khaki');
 	</script>

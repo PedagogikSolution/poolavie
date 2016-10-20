@@ -19,7 +19,7 @@
 			document.getElementById('connexionAlert').classList.remove('w3-hide');
 			document.getElementById('connexionAlert').classList.add('w3-show');
 			document.getElementById('mainContainer').classList.add('w3-opacity');
-			mainContainer
+			
 			
 		}
 		// regular player drafted
@@ -114,19 +114,17 @@
 	};
 	
 	onError = function() {
-		var xhttp = new XMLHttpRequest();
 		
-		  xhttp.open("POST", "/ConnectDraft", true);
-		  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		  xhttp.send("error=1");
 	};
 		
 	onClose = function() {
-		var xhttp = new XMLHttpRequest();
+		  var xhttp = new XMLHttpRequest();
 		
 		  xhttp.open("POST", "/ConnectDraft", true);
 		  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		  xhttp.send("close=1");
+		  openChannel();
+		  
 	};
 	openChannel = function() {
 
@@ -141,6 +139,7 @@
 
 		socket.onopen = onOpened;
 		socket.onmessage = onMessage;
+		socket.onclose = onClose;
 		$(window).on('beforeunload', function() {
 			clearTimeout(socket.pollingTimer_);
 		});
