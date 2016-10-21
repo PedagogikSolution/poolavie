@@ -44,7 +44,7 @@
 <include path="/**.js" />
 </static-files>
 
-<async-session-persistence enabled="true"/>
+<async-session-persistence enabled="false"/>
 
 </appengine-web-app>
 
