@@ -32,8 +32,6 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.labs.repackaged.com.google.common.base.Strings;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
@@ -93,13 +91,8 @@ public class RegisterModel {
 
     public boolean checkIfUsernameExist(String nomUtilisateur, HttpServletRequest req) {
 	// on verifie si un objet existe dans le memCache
-	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-	Key clefMemCache = KeyFactory.createKey("Utilisateur", nomUtilisateur);
-	Utilisateur mBean = (Utilisateur) memcache.get(clefMemCache);
-
-	// si l'objet existe pas, on verifie si existe dans Datastore
-	if (mBean == null) {
-
+	
+	
 	    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	    Key clefDatastore = KeyFactory.createKey("Utilisateur", nomUtilisateur);
 	    try {
@@ -115,13 +108,7 @@ public class RegisterModel {
 		return false;
 	    }
 	    // si object existe on verifie si le mot de passe est le bon
-	} else {
-	    // Si username existe, on retourne avec message erreur et true
-	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-	    mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_USERNAME_MATCH);
-	    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-	    return true;
-	}
+	
 
     }
 
@@ -196,11 +183,7 @@ public class RegisterModel {
 		req.getSession().setAttribute("Utilisateur", mBean);
 		// on persiste dans le datastore via notre EntityManager
 		em.persist(mBean);
-		// on persist le datastore/bean dans la MemCache pour appel au pool ID, typeUtilisateur, teamId lors du
-// login
-		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-		Key userPrefsKey = KeyFactory.createKey("Utilisateur", nomUtilisateur);
-		memcache.put(userPrefsKey, mBean);
+
 
 	    } finally {
 		// on ferme le manager pour libérer la mémoire

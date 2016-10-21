@@ -17,10 +17,7 @@ import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.pedagogiksolution.dao.DraftPickDao;
-import com.pedagogiksolution.datastorebeans.Pool;
 
 public class DraftPickCronModel {
 
@@ -63,18 +60,13 @@ public class DraftPickCronModel {
 	
 	String poolID = String.valueOf(i);
 
-	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-	Key clefMemCache = KeyFactory.createKey("Pool", i);
-	Pool mBean = (Pool) memcache.get(clefMemCache);
+	
 
 	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	Date date = new Date();
 	String derniereMAJ = dateFormat.format(date);
 
-	if(mBean!=null){
-	mBean.setDerniereMAJ(derniereMAJ);
-	memcache.put(clefMemCache, mBean);
-	}
+	
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	Key clefDatastore = KeyFactory.createKey("Pool", poolID);
 	Entity mEntity;

@@ -37,6 +37,15 @@ public class DraftCenterServlet extends HttpServlet {
 	    mModelDraft.putDatastoreIntoBean(mBean,req);
 	    
 	}
+	if (cycleAnnuel == 4) {
+	    LoginModel mModel = new LoginModel(req);
+	    mModel.createSessionEquipeBean();
+	    mModel.createSessionAttaquantBean();
+	    mModel.createSessionDefenseurBean();
+	    mModel.createSessionGardienBean();
+	    mModel.createSessionRecrueBean();
+	    
+	}
 	
 	if(cycleAnnuel>=2){
 	    	EquipeModel mModel = new EquipeModel();

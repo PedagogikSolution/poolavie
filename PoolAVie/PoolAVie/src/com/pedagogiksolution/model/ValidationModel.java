@@ -6,10 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
 
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
 import com.pedagogiksolution.utils.EMF;
@@ -54,9 +50,7 @@ public class ValidationModel {
     }
 
     private void modificationStorageUtilisateur(Utilisateur mBean) {
-	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-	Key clefMemCache = KeyFactory.createKey("Utilisateur", mBean.getNomUtilisateur());
-	memcache.put(clefMemCache, mBean);
+	
 
 	EntityManagerFactory emf = EMF.get();
 	EntityManager em = null;

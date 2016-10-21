@@ -20,11 +20,8 @@ import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.datastorebeans.Classement;
-import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.utils.EMF;
 
 public class ClassementCronModel {
@@ -52,9 +49,7 @@ public class ClassementCronModel {
 		em.close();
 	}
 
-	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-	Key clefMemCachePool = KeyFactory.createKey("Classement", poolId);
-	memcache.put(clefMemCachePool, mBeanClassement);
+	
 
     }
 
@@ -83,18 +78,13 @@ public class ClassementCronModel {
 	
 	String poolID = String.valueOf(i);
 
-	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-	Key clefMemCache = KeyFactory.createKey("Pool", i);
-	Pool mBean = (Pool) memcache.get(clefMemCache);
+	
 
 	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	Date date = new Date();
 	String derniereMAJ = dateFormat.format(date);
 
-	if(mBean!=null){
-	mBean.setDerniereMAJ(derniereMAJ);
-	memcache.put(clefMemCache, mBean);
-	}
+	
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	Key clefDatastore = KeyFactory.createKey("Pool", poolID);
 	Entity mEntity;

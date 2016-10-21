@@ -41,8 +41,6 @@ import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Transaction;
 import com.google.appengine.api.datastore.TransactionOptions;
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.pedagogiksolution.beans.Article;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.dao.DraftDao;
@@ -80,13 +78,6 @@ public class AdminModel {
 
 	req.getSession().setAttribute("Pool", mBeanPool);
 
-	String poolID = mBeanPool.getPoolID();
-	int poolId = Integer.parseInt(poolID);
-
-	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-	Key clefMemCache = KeyFactory.createKey("Pool", poolId);
-	memcache.put(clefMemCache, mBeanPool);
-
 	EntityManagerFactory emf = EMF.get();
 	EntityManager em = null;
 
@@ -115,13 +106,7 @@ public class AdminModel {
 
 	    req.getSession().setAttribute("Pool", mBeanPool);
 
-	    String poolID = mBeanPool.getPoolID();
-	    int poolId = Integer.parseInt(poolID);
-
-	    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-	    Key clefMemCache = KeyFactory.createKey("Pool", poolId);
-	    memcache.put(clefMemCache, mBeanPool);
-
+	   
 	    EntityManagerFactory emf = EMF.get();
 	    EntityManager em = null;
 
@@ -173,9 +158,6 @@ public class AdminModel {
 
 	req.getSession().setAttribute("DraftRound", mBeanDraft);
 
-	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-	Key clefMemCache = KeyFactory.createKey("DrafRound", Integer.parseInt(poolID));
-	memcache.put(clefMemCache, mBeanDraft);
 
 	EntityManagerFactory emf = EMF.get();
 	EntityManager em = null;
@@ -198,12 +180,7 @@ public class AdminModel {
 
 	req.getSession().setAttribute("Pool", mBeanPool);
 
-	String poolID = mBeanPool.getPoolID();
-	int poolId = Integer.parseInt(poolID);
-
-	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-	Key clefMemCache = KeyFactory.createKey("Pool", poolId);
-	memcache.put(clefMemCache, mBeanPool);
+	
 
 	EntityManagerFactory emf = EMF.get();
 	EntityManager em = null;
@@ -268,7 +245,7 @@ public class AdminModel {
 
     @SuppressWarnings("unchecked")
     public Boolean changeCredential(String username, String password, String email, String teamName, String logoTeam, HttpServletRequest req) {
-	Entity entityUser, entityPool, entityClassement, entityArticle, entityDraftPick;
+	Entity entityUser, entityPool, entityClassement, entityDraftPick;
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
 	Key mUserKey1 = null, mUserKey2;
@@ -310,10 +287,7 @@ public class AdminModel {
 		    req.getSession().setAttribute("Utilisateur", mNewBeanUser);
 		    // on persist le datastore/bean dans la MemCache pour appel au pool ID, typeUtilisateur, teamId lors
 // du
-		    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-		    Key userPrefsKey = KeyFactory.createKey("Utilisateur", username);
-		    memcache.put(userPrefsKey, mNewBeanUser);
-		    memcache.delete(mUserKey1);
+		   
 
 		} catch (EntityNotFoundException e) {
 		    // TODO Auto-generated catch block
@@ -363,9 +337,7 @@ public class AdminModel {
 		    req.getSession().setAttribute("Utilisateur", mBeanUser);
 		    // on persist le datastore/bean dans la MemCache pour appel au pool ID, typeUtilisateur, teamId lors
 // du
-		    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-		    Key userPrefsKey = KeyFactory.createKey("Utilisateur", nomUtilisateur);
-		    memcache.put(userPrefsKey, mBeanUser);
+		   
 
 		} catch (EntityNotFoundException e) {
 		    // TODO Auto-generated catch block
@@ -399,9 +371,6 @@ public class AdminModel {
 		    req.getSession().setAttribute("Utilisateur", mBeanUser);
 		    // on persist le datastore/bean dans la MemCache pour appel au pool ID, typeUtilisateur, teamId lors
 // du
-		    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-		    Key userPrefsKey = KeyFactory.createKey("Utilisateur", nomUtilisateur);
-		    memcache.put(userPrefsKey, mBeanUser);
 
 		} catch (EntityNotFoundException e) {
 		    // TODO Auto-generated catch block
@@ -432,9 +401,7 @@ public class AdminModel {
 		    req.getSession().setAttribute("Utilisateur", mBeanUser);
 		    // on persist le datastore/bean dans la MemCache pour appel au pool ID, typeUtilisateur, teamId lors
 // du
-		    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-		    Key userPrefsKey = KeyFactory.createKey("Utilisateur", nomUtilisateur);
-		    memcache.put(userPrefsKey, mBeanUser);
+		  
 
 		} catch (EntityNotFoundException e) {
 		    // TODO Auto-generated catch block
@@ -464,9 +431,7 @@ public class AdminModel {
 		    req.getSession().setAttribute("Pool", mBeanPool);
 		    // on persist le datastore/bean dans la MemCache pour appel au pool ID, typeUtilisateur, teamId lors
 // du
-		    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-		    Key userPrefsKey = KeyFactory.createKey("Pool", poolID);
-		    memcache.put(userPrefsKey, mBeanPool);
+		
 
 		} catch (EntityNotFoundException e) {
 		    // TODO Auto-generated catch block
@@ -495,9 +460,6 @@ public class AdminModel {
 		    req.getSession().setAttribute("Classement", mBeanClassement);
 		    // on persist le datastore/bean dans la MemCache pour appel au pool ID, typeUtilisateur, teamId lors
 // du
-		    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-		    Key userPrefsKey = KeyFactory.createKey("Classement", poolID);
-		    memcache.put(userPrefsKey, mBeanClassement);
 
 		} catch (EntityNotFoundException e) {
 		    // TODO Auto-generated catch block
@@ -543,9 +505,7 @@ public class AdminModel {
 			// on persist le datastore/bean dans la MemCache pour appel au pool ID, typeUtilisateur, teamId
 			// lors
 
-			MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-			Key userPrefsKey = KeyFactory.createKey("DraftPick", nomClefDraftPick);
-			memcache.put(userPrefsKey, mBeanDraftPick);
+			
 
 		    } catch (EntityNotFoundException e) {
 			// TODO Auto-generated catch block

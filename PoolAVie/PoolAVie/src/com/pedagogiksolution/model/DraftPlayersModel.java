@@ -30,8 +30,6 @@ import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Transaction;
 import com.google.appengine.api.datastore.TransactionOptions;
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
@@ -511,15 +509,12 @@ public class DraftPlayersModel {
     @SuppressWarnings("unchecked")
     public void persistenceDraftPickRegulier() throws ServletException, IOException {
 	// on recupere tous les variables utiles
-	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
 	Key entityKey = null;
-	Key clefMemCache = null;
 	Attaquant mBeanAttaquant = null;
 	Defenseur mBeanDefenseur = null;
 	Gardien mBeanGardien = null;
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 	String poolID = mBeanPool.getPoolID();
-	int poolId = Integer.parseInt(poolID);
 	String salaire = req.getParameter("salaire");
 	int salaireId = Integer.parseInt(salaire);
 	String playersID = req.getParameter("draft_player_id");
@@ -570,17 +565,13 @@ public class DraftPlayersModel {
 
 	    switch (position) {
 	    case "attaquant":
-		clefMemCache = KeyFactory.createKey("Attaquant", datastoreID);
-
 		entityKey = KeyFactory.createKey("Attaquant", datastoreID);
 		break;
 	    case "defenseur":
-		clefMemCache = KeyFactory.createKey("Defenseur", datastoreID);
 		mBeanDefenseur = new Defenseur();
 		entityKey = KeyFactory.createKey("Defenseur", datastoreID);
 		break;
 	    case "gardien":
-		clefMemCache = KeyFactory.createKey("Gardien", datastoreID);
 		mBeanGardien = new Gardien();
 		entityKey = KeyFactory.createKey("Gardien", datastoreID);
 		break;
@@ -664,7 +655,6 @@ public class DraftPlayersModel {
 		    mBeanAttaquant.setYears_4(years_4);
 		    mBeanAttaquant.setYears_5(years_5);
 
-		    memcache.put(clefMemCache, mBeanAttaquant);
 		    break;
 		case "defenseur":
 		    jspName = "Defenseur" + teamID;
@@ -681,7 +671,6 @@ public class DraftPlayersModel {
 		    mBeanDefenseur.setYears_3(years_3);
 		    mBeanDefenseur.setYears_4(years_4);
 		    mBeanDefenseur.setYears_5(years_5);
-		    memcache.put(clefMemCache, mBeanDefenseur);
 		    break;
 		case "gardien":
 		    jspName = "Gardien" + teamID;
@@ -698,7 +687,6 @@ public class DraftPlayersModel {
 		    mBeanGardien.setYears_3(years_3);
 		    mBeanGardien.setYears_4(years_4);
 		    mBeanGardien.setYears_5(years_5);
-		    memcache.put(clefMemCache, mBeanGardien);
 		    break;
 		}
 
@@ -785,7 +773,6 @@ public class DraftPlayersModel {
 
 		String jspName;
 		jspName = "Equipe" + teamID;
-		clefMemCache = KeyFactory.createKey("Equipe", datastoreID);
 		Equipe mBeanEquipe = new Equipe();
 		mBeanEquipe = (Equipe) req.getSession().getAttribute(jspName);
 
@@ -809,7 +796,6 @@ public class DraftPlayersModel {
 		    break;
 		}
 
-		memcache.put(clefMemCache, mBeanEquipe);
 
 	    } catch (EntityNotFoundException e) {
 
@@ -847,10 +833,9 @@ public class DraftPlayersModel {
 
 	    }
 
-	    clefMemCache = KeyFactory.createKey("DraftRound", poolId);
 	    DraftRound mBeanDraftRound = (DraftRound) req.getSession().getAttribute("DraftRound");
 	    mBeanDraftRound = mapDraftRound(draftRoundEntity, mBeanDraftRound);
-	    memcache.put(clefMemCache, mBeanDraftRound);
+	    
 
 	    String clubEcole = "0";
 	    int acquireYearsId = mBeanPool.getPoolYear();
@@ -873,13 +858,10 @@ public class DraftPlayersModel {
     public void persistenceDraftPickRookie() throws ServletException, IOException {
 
 	// on recupere tous les variables utiles
-	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
 	Key entityKey = null;
-	Key clefMemCache = null;
 	Recrue mBeanRecrue = null;
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 	String poolID = mBeanPool.getPoolID();
-	int poolId = Integer.parseInt(poolID);
 	String salaire = req.getParameter("salaire");
 	int salaireId = Integer.parseInt(salaire);
 	String playersID = req.getParameter("draft_player_id");
@@ -930,7 +912,6 @@ public class DraftPlayersModel {
 
 	    // table Attaquant, Defenseur ou Gardien selon le pick
 
-	    clefMemCache = KeyFactory.createKey("Recrue", datastoreID);
 	    mBeanRecrue = new Recrue();
 	    entityKey = KeyFactory.createKey("Recrue", datastoreID);
 
@@ -1006,7 +987,6 @@ public class DraftPlayersModel {
 		mBeanRecrue.setYears_4(years_4);
 		mBeanRecrue.setYears_5(years_5);
 
-		memcache.put(clefMemCache, mBeanRecrue);
 
 	    } catch (EntityNotFoundException e) {
 
@@ -1033,14 +1013,12 @@ public class DraftPlayersModel {
 
 		String jspName;
 		jspName = "Equipe" + teamID;
-		clefMemCache = KeyFactory.createKey("Equipe", datastoreID);
 		Equipe mBeanEquipe = new Equipe();
 		mBeanEquipe = (Equipe) req.getSession().getAttribute(jspName);
 
 		mBeanEquipe.setManquant_recrue(manquant_recrue);
 		mBeanEquipe.setNb_rookie(nb_recrue);
 
-		memcache.put(clefMemCache, mBeanEquipe);
 
 	    } catch (EntityNotFoundException e) {
 
@@ -1078,10 +1056,8 @@ public class DraftPlayersModel {
 
 	    }
 
-	    clefMemCache = KeyFactory.createKey("DraftRound", poolId);
 	    DraftRound mBeanDraftRound = (DraftRound) req.getSession().getAttribute("DraftRound");
 	    mBeanDraftRound = mapDraftRound(draftRoundEntity, mBeanDraftRound);
-	    memcache.put(clefMemCache, mBeanDraftRound);
 
 	    String clubEcole = "1";
 	    int acquireYearsId = mBeanPool.getPoolYear();
@@ -1210,15 +1186,7 @@ public class DraftPlayersModel {
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 	String poolID = mBeanPool.getPoolID();
 	String teamID = req.getParameter("team_id");
-	String jspName = poolID + "_" + teamID;
-	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-
-	Key clefMemCache = KeyFactory.createKey("Equipe", jspName);
-
-	Equipe mBeanEquipe = (Equipe) memcache.get(clefMemCache);
-
-	if (mBeanEquipe == null) {
-
+	
 	    Entity entity = getEntityEquipe(poolID, teamID);
 
 	    Long manquant_equipe2 = (Long) entity.getProperty("manquant_equipe");
@@ -1232,16 +1200,7 @@ public class DraftPlayersModel {
 		return false;
 	    }
 
-	} else {
-	    int manquant_equipe = mBeanEquipe.getManquant_equipe();
-	    int manquant_recrue = mBeanEquipe.getManquant_recrue();
-
-	    if (manquant_equipe == 0 && manquant_recrue == 0) {
-		return true;
-	    } else {
-		return false;
-	    }
-	}
+	
 
     }
 
@@ -1308,12 +1267,6 @@ public class DraftPlayersModel {
 
 	req.getSession().setAttribute("Pool", mBeanPool);
 
-	String poolID = mBeanPool.getPoolID();
-	int poolId = Integer.parseInt(poolID);
-
-	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-	Key clefMemCache = KeyFactory.createKey("Pool", poolId);
-	memcache.put(clefMemCache, mBeanPool);
 
 	EntityManagerFactory emf = EMF.get();
 	EntityManager em = null;

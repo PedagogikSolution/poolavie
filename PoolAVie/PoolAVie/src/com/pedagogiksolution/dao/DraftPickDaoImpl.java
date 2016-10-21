@@ -19,8 +19,6 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
@@ -205,10 +203,7 @@ public class DraftPickDaoImpl implements DraftPickDao {
 	    }
 	    
 	    
-	    // on persist le datastore/bean dans la MemCache
-	    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-	    Key userPrefsKey = KeyFactory.createKey("DraftPick", datastoreId);
-	    memcache.put(userPrefsKey, mBean);
+	   
 
 	}
 	

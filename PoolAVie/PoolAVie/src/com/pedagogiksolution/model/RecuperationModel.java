@@ -29,8 +29,6 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.pedagogiksolution.beans.GestionCompte;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
@@ -172,9 +170,7 @@ public class RecuperationModel {
 		}
 		Utilisateur mBean = new Utilisateur();
 		mBean = mapUtilisateurFromDatastore(entity, mBean);
-		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-		Key clefMemCache = KeyFactory.createKey("Utilisateur", username);
-		memcache.put(clefMemCache, mBean);
+		
 		
 			
 	

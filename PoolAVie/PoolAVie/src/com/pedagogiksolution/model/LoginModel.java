@@ -19,8 +19,6 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.datastorebeans.Attaquant;
 import com.pedagogiksolution.datastorebeans.Classement;
@@ -59,13 +57,9 @@ public class LoginModel {
 	// Création du Session Bean Utilisateur, avec valeur de login à 1
 	public Boolean validateCredential() {
 
-		// on verifie si le bean Utilisateur existe dans le memCache
-		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-		Key clefMemCache = KeyFactory.createKey("Utilisateur", username);
-		Utilisateur mBean = (Utilisateur) memcache.get(clefMemCache);
-
+		
 		// si l'objet n'existe pas, on verifie si il existe dans le Datastore
-		if (mBean == null) {
+		
 
 			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 			Key clefDatastore = KeyFactory.createKey("Utilisateur", username);
@@ -74,7 +68,7 @@ public class LoginModel {
 				// l'info pour tester password
 				Entity mEntity = datastore.get(clefDatastore);
 				String mEncryptPassword = (String) mEntity.getProperty("motDePasse");
-
+				Utilisateur mBean = new Utilisateur();
 				PasswordEncryption mEncrypt = new PasswordEncryption();
 				try {
 					boolean passwordMatch = mEncrypt.validatePassword(password, mEncryptPassword);
@@ -86,7 +80,7 @@ public class LoginModel {
 						// on place dans la session le Bean Utilisateur
 						requestObject.getSession().setAttribute("Utilisateur", mBean);
 						// on place dans la Memcache pour connexion futur
-						memcache.put(clefMemCache, mBean);
+						
 						return true;
 					} else {
 						MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
@@ -115,39 +109,7 @@ public class LoginModel {
 			}
 			// si le bean existe on verifie si le mot de passe est le bon, si
 			// bon on place dans session et retourne true
-		} else {
-			String mPasswordEncrypt = mBean.getMotDePasse();
-			PasswordEncryption mEncrypt = new PasswordEncryption();
-			try {
-				boolean passwordMatch = mEncrypt.validatePassword(password, mPasswordEncrypt);
-				if (passwordMatch) {
-					// on place les informations du beans utilisateurs dans un
-					// objet de session en ayant placer la
-					// valeur loginReussi a 1.
-					mBean.setLoginReussi(1);
-					requestObject.getSession().setAttribute("Utilisateur", mBean);
-					// on place dans MemCache pour connexion futur
-					memcache.put(clefMemCache, mBean);
-					return true;
-				} else {
-					MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-					mBeanMessageErreur.setErreurFormulaireLogin(LOGIN_PASSWORD_NOT_GOOD);
-					requestObject.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-					return false;
-				}
-			} catch (NoSuchAlgorithmException e) {
-				MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-				mBeanMessageErreur.setErreurFormulaireLogin(REGISTRATION_ERREUR_PASSWORD_ENCRYPTION);
-				requestObject.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-				return false;
-			} catch (InvalidKeySpecException e) {
-				MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-				mBeanMessageErreur.setErreurFormulaireLogin(REGISTRATION_ERREUR_PASSWORD_ENCRYPTION);
-				requestObject.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-				return false;
-			}
-
-		}
+		
 
 	}
 
@@ -177,13 +139,9 @@ public class LoginModel {
 		// int teamId = mBean.getTeamId();
 		int poolId = mBean.getPoolId();
 
-		// on verifie si le bean Pool existe dans le memCache
-		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-		Key clefMemCache = KeyFactory.createKey("Pool", poolId);
-		Pool mBeanPool = (Pool) memcache.get(clefMemCache);
-
-		// si l'objet n'existe pas, on verifie si il existe dans le Datastore
-		if (mBeanPool == null) {
+		
+			Pool mBeanPool = new Pool();
+		
 
 			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 			Key clefDatastore = KeyFactory.createKey("Pool", Integer.toString(poolId));
@@ -196,8 +154,6 @@ public class LoginModel {
 				mBeanPool = mapPoolFromDatastore(mEntity, mBeanPool);
 				requestObject.getSession().setAttribute("Pool", mBeanPool);
 
-				// on met dans MemCache
-				memcache.put(clefMemCache, mBeanPool);
 
 				return true;
 
@@ -209,12 +165,7 @@ public class LoginModel {
 			}
 			// si le bean existe on verifie si le mot de passe est le bon, si
 			// bon on place dans session et retourne true
-		} else {
-			requestObject.getSession().setAttribute("Pool", mBeanPool);
-			return true;
-
-		}
-
+		
 	}
 
 	public Boolean createSessionClassementBean() {
@@ -225,14 +176,9 @@ public class LoginModel {
 		int poolId = mBean.getPoolId();
 		String poolID = String.valueOf(poolId);
 
-		// on verifie si le bean Pool existe dans le memCache
-		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-		Key clefMemCache = KeyFactory.createKey("Classement", poolId);
-		Classement mBeanClassement = (Classement) memcache.get(clefMemCache);
-
-		// si l'objet n'existe pas, on verifie si il existe dans le Datastore
-		if (mBeanClassement == null) {
-
+		
+		Classement mBeanClassement = new Classement();
+		
 			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 			Key clefDatastore = KeyFactory.createKey("Classement", poolID);
 			try {
@@ -244,9 +190,7 @@ public class LoginModel {
 				mBeanClassement = mapClassementFromDatastore(mEntity, mBeanClassement);
 				requestObject.getSession().setAttribute("Classement", mBeanClassement);
 
-				// on met dans memcache
-				memcache.put(clefMemCache, mBeanClassement);
-
+				
 				return true;
 
 			} catch (EntityNotFoundException e) {
@@ -257,11 +201,7 @@ public class LoginModel {
 			}
 			// si le bean existe on verifie si le mot de passe est le bon, si
 			// bon on place dans session et retourne true
-		} else {
-			requestObject.getSession().setAttribute("Classement", mBeanClassement);
-			return true;
-
-		}
+		
 	}
 
 	public Boolean createSessionEquipeBean() {
@@ -277,11 +217,9 @@ public class LoginModel {
 			String jspSessionName = "Equipe" + i;
 			String datastoreId = poolId + "_" + i;
 
-			MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-			Key clefMemCache = KeyFactory.createKey("Equipe", datastoreId);
-			Equipe mBeanEquipe = (Equipe) memcache.get(clefMemCache);
-
-			if (mBeanEquipe == null) {
+			
+			Equipe mBeanEquipe = new Equipe();
+			
 				DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 				Key clefDatastore = KeyFactory.createKey("Equipe", datastoreId);
 				try {
@@ -293,9 +231,6 @@ public class LoginModel {
 					mBeanEquipe = mapEquipeFromDatastore(mEntity, mBeanEquipe);
 					requestObject.getSession().setAttribute(jspSessionName, mBeanEquipe);
 
-					// on met dans memcache
-					memcache.put(clefMemCache, mBeanEquipe);
-
 				} catch (EntityNotFoundException e) {
 					MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
 					mBeanMessageErreur.setErreurFormulaireLogin(CREATE_POOL_PAS_FINI);
@@ -303,10 +238,7 @@ public class LoginModel {
 					return false;
 				}
 
-			} else {
-				requestObject.getSession().setAttribute(jspSessionName, mBeanEquipe);
-			}
-
+			
 		}
 		return true;
 
@@ -320,13 +252,9 @@ public class LoginModel {
 		int poolId = mBean.getPoolId();
 		String poolID = String.valueOf(poolId);
 
-		// on verifie si le bean DraftRound existe dans le memCache
-		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-		Key clefMemCache = KeyFactory.createKey("DraftRound", poolId);
-		DraftRound mBeanDraftRound = (DraftRound) memcache.get(clefMemCache);
+		DraftRound mBeanDraftRound = new DraftRound();
 
-		// si l'objet n'existe pas, on verifie si il existe dans le Datastore
-		if (mBeanDraftRound == null) {
+		
 
 			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 			Key clefDatastore = KeyFactory.createKey("DraftRound", poolID);
@@ -339,9 +267,7 @@ public class LoginModel {
 				mBeanDraftRound = mapDraftRoundFromDatastore(mEntity, mBeanDraftRound);
 				requestObject.getSession().setAttribute("DraftRound", mBeanDraftRound);
 
-				// on met dans memcache
-				memcache.put(clefMemCache, mBeanDraftRound);
-
+				
 				return true;
 
 			} catch (EntityNotFoundException e) {
@@ -352,11 +278,7 @@ public class LoginModel {
 			}
 			// si le bean existe on verifie si le mot de passe est le bon, si
 			// bon on place dans session et retourne true
-		} else {
-			requestObject.getSession().setAttribute("DraftRound", mBeanDraftRound);
-			return true;
-
-		}
+		
 	}
 
 	public Boolean createSessionDraftPickBean() {
@@ -372,11 +294,9 @@ public class LoginModel {
 			String jspSessionName = "DraftPick" + i;
 			String datastoreId = poolId + "_" + i;
 
-			MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-			Key clefMemCache = KeyFactory.createKey("DraftPick", datastoreId);
-			DraftPick mBeanDraftPick = (DraftPick) memcache.get(clefMemCache);
-
-			if (mBeanDraftPick == null) {
+			
+				DraftPick mBeanDraftPick = new DraftPick();
+			
 				DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 				Key clefDatastore = KeyFactory.createKey("DraftPick", datastoreId);
 				try {
@@ -388,7 +308,7 @@ public class LoginModel {
 					requestObject.getSession().setAttribute(jspSessionName, mBeanDraftPick);
 
 					// on met dans memcache
-					memcache.put(clefMemCache, mBeanDraftPick);
+					
 
 				} catch (EntityNotFoundException e) {
 					MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
@@ -397,10 +317,7 @@ public class LoginModel {
 					return false;
 				}
 
-			} else {
-				requestObject.getSession().setAttribute(jspSessionName, mBeanDraftPick);
-			}
-
+			
 		}
 		return true;
 	}
@@ -417,11 +334,10 @@ public class LoginModel {
 			String jspSessionName = "Attaquant" + i;
 			String datastoreId = poolId + "_" + i;
 
-			MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-			Key clefMemCache = KeyFactory.createKey("Attaquant", datastoreId);
-			Attaquant mBeanAttaquant = (Attaquant) memcache.get(clefMemCache);
+			
+			Attaquant mBeanAttaquant = new Attaquant();
 
-			if (mBeanAttaquant == null) {
+			
 				DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 				Key clefDatastore = KeyFactory.createKey("Attaquant", datastoreId);
 				try {
@@ -433,9 +349,7 @@ public class LoginModel {
 					mBeanAttaquant = mapAttaquantFromDatastore(mEntity, mBeanAttaquant);
 					requestObject.getSession().setAttribute(jspSessionName, mBeanAttaquant);
 
-					// on met dans memcache
-					memcache.put(clefMemCache, mBeanAttaquant);
-
+					
 				} catch (EntityNotFoundException e) {
 					MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
 					mBeanMessageErreur.setErreurFormulaireLogin(CREATE_POOL_PAS_FINI);
@@ -443,9 +357,7 @@ public class LoginModel {
 					return false;
 				}
 
-			} else {
-				requestObject.getSession().setAttribute(jspSessionName, mBeanAttaquant);
-			}
+			
 
 		}
 		return true;
@@ -463,11 +375,9 @@ public class LoginModel {
 			String jspSessionName = "Defenseur" + i;
 			String datastoreId = poolId + "_" + i;
 
-			MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-			Key clefMemCache = KeyFactory.createKey("Defenseur", datastoreId);
-			Defenseur mBeanDefenseur = (Defenseur) memcache.get(clefMemCache);
-
-			if (mBeanDefenseur == null) {
+			
+			Defenseur mBeanDefenseur = new Defenseur();
+			
 				DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 				Key clefDatastore = KeyFactory.createKey("Defenseur", datastoreId);
 				try {
@@ -479,8 +389,7 @@ public class LoginModel {
 					mBeanDefenseur = mapDefenseurFromDatastore(mEntity, mBeanDefenseur);
 					requestObject.getSession().setAttribute(jspSessionName, mBeanDefenseur);
 
-					// on met dans memcache
-					memcache.put(clefMemCache, mBeanDefenseur);
+					
 
 				} catch (EntityNotFoundException e) {
 					MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
@@ -489,9 +398,7 @@ public class LoginModel {
 					return false;
 				}
 
-			} else {
-				requestObject.getSession().setAttribute(jspSessionName, mBeanDefenseur);
-			}
+			
 
 		}
 		return true;
@@ -509,11 +416,9 @@ public class LoginModel {
 			String jspSessionName = "Gardien" + i;
 			String datastoreId = poolId + "_" + i;
 
-			MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-			Key clefMemCache = KeyFactory.createKey("Gardien", datastoreId);
-			Gardien mBeanGardien = (Gardien) memcache.get(clefMemCache);
-
-			if (mBeanGardien == null) {
+			
+			Gardien mBeanGardien = new Gardien();
+			
 				DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 				Key clefDatastore = KeyFactory.createKey("Gardien", datastoreId);
 				try {
@@ -525,8 +430,7 @@ public class LoginModel {
 					mBeanGardien = mapGardienFromDatastore(mEntity, mBeanGardien);
 					requestObject.getSession().setAttribute(jspSessionName, mBeanGardien);
 
-					// on met dans memcache
-					memcache.put(clefMemCache, mBeanGardien);
+					
 
 				} catch (EntityNotFoundException e) {
 					MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
@@ -535,9 +439,6 @@ public class LoginModel {
 					return false;
 				}
 
-			} else {
-				requestObject.getSession().setAttribute(jspSessionName, mBeanGardien);
-			}
 
 		}
 		return true;
@@ -555,11 +456,9 @@ public class LoginModel {
 			String jspSessionName = "Recrue" + i;
 			String datastoreId = poolId + "_" + i;
 
-			MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-			Key clefMemCache = KeyFactory.createKey("Recrue", datastoreId);
-			Recrue mBeanRecrue = (Recrue) memcache.get(clefMemCache);
-
-			if (mBeanRecrue == null) {
+			
+			Recrue mBeanRecrue = new Recrue();
+			
 				DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 				Key clefDatastore = KeyFactory.createKey("Recrue", datastoreId);
 				try {
@@ -571,8 +470,7 @@ public class LoginModel {
 					mBeanRecrue = mapRecrueFromDatastore(mEntity, mBeanRecrue);
 					requestObject.getSession().setAttribute(jspSessionName, mBeanRecrue);
 
-					// on met dans memcache
-					memcache.put(clefMemCache, mBeanRecrue);
+					
 
 				} catch (EntityNotFoundException e) {
 					MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
@@ -581,10 +479,7 @@ public class LoginModel {
 					return false;
 				}
 
-			} else {
-				requestObject.getSession().setAttribute(jspSessionName, mBeanRecrue);
-			}
-
+			
 		}
 		return true;
 	}

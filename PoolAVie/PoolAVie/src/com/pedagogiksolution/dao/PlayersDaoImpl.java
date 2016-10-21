@@ -15,10 +15,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
 
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
@@ -294,17 +290,17 @@ public class PlayersDaoImpl implements PlayersDao {
 	    fermeturesSilencieuses(rs, preparedStatement, connexion);
 
 	}
-	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+	
 	EntityManagerFactory emf = EMF.get();
 	EntityManager em = null;
-	String nomBean;
+	
 	switch (isRookie) {
 	case 0:
 	    switch (positionString) {
 
 	    case "attaquant":
 		Attaquant mBeanA = new Attaquant();
-		nomBean = "Attaquant";
+		
 
 		mBeanA.setPlayers_id(players_id);
 		mBeanA.setAge(age);
@@ -352,16 +348,13 @@ public class PlayersDaoImpl implements PlayersDao {
 
 		    }
 		}
-		// on persist le datastore/bean dans la MemCache
 
-		Key userPrefsKeyA = KeyFactory.createKey(nomBean, datastoreId);
-		memcache.put(userPrefsKeyA, mBeanA);
 
 		break;
 
 	    case "defenseur":
 		Defenseur mBeanD = new Defenseur();
-		nomBean = "Defenseur";
+		
 
 		mBeanD.setPlayers_id(players_id);
 		mBeanD.setAge(age);
@@ -412,15 +405,12 @@ public class PlayersDaoImpl implements PlayersDao {
 
 		    }
 		}
-		// on persist le datastore/bean dans la MemCache
-
-		Key userPrefsKeyD = KeyFactory.createKey(nomBean, datastoreId);
-		memcache.put(userPrefsKeyD, mBeanD);
+	
 
 		break;
 	    case "gardien":
 		Gardien mBeanG = new Gardien();
-		nomBean = "Gardien";
+		
 
 		mBeanG.setPlayers_id(players_id);
 		mBeanG.setAge(age);
@@ -471,17 +461,14 @@ public class PlayersDaoImpl implements PlayersDao {
 
 		    }
 		}
-		// on persist le datastore/bean dans la MemCache
-
-		Key userPrefsKeyG = KeyFactory.createKey(nomBean, datastoreId);
-		memcache.put(userPrefsKeyG, mBeanG);
+	
 
 		break;
 	    }
 	    break;
 	case 1:
 	    Recrue mBeanR = new Recrue();
-	    nomBean = "Recrue";
+	   
 
 	    mBeanR.setPlayers_id(players_id);
 	    mBeanR.setAge(age);
@@ -532,10 +519,7 @@ public class PlayersDaoImpl implements PlayersDao {
 
 		}
 	    }
-	    // on persist le datastore/bean dans la MemCache
 
-	    Key userPrefsKeyG = KeyFactory.createKey(nomBean, datastoreId);
-	    memcache.put(userPrefsKeyG, mBeanR);
 
 	    break;
 	}
@@ -628,7 +612,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		semaine = rs.getInt("semaine");
 		mois = rs.getInt("mois");
 
-		String nomBean = "Players_" + poolID;
+		
 
 		Players mBean = new Players();
 
@@ -667,9 +651,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		mBean.setYears_4(years_4);
 		mBean.setYears_5(years_5);
 
-		MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-		Key userPrefsKey = KeyFactory.createKey(nomBean, _id);
-		memcache.put(userPrefsKey, mBean);
+		
 				
 
 		Queue queue = QueueFactory.getDefaultQueue();

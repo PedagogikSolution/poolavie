@@ -13,8 +13,6 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.pedagogiksolution.datastorebeans.DraftProcess;
 import com.pedagogiksolution.datastorebeans.Equipe;
 import com.pedagogiksolution.utils.EMF;
@@ -129,9 +127,7 @@ public class ResetForTestCron extends HttpServlet {
 			// on persiste dans le datastore via notre EntityManager
 			em.persist(mBean);
 			// on persist le datastore/bean dans la MemCache
-			MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-			Key userPrefsKey = KeyFactory.createKey("Equipe", datastoreId);
-			memcache.put(userPrefsKey, mBean);
+			
 
 		    } finally {
 

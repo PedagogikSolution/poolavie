@@ -11,14 +11,11 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.pedagogiksolution.dao.PlayersDao;
 import com.pedagogiksolution.datastorebeans.Attaquant;
 import com.pedagogiksolution.datastorebeans.Defenseur;
 import com.pedagogiksolution.datastorebeans.Equipe;
 import com.pedagogiksolution.datastorebeans.Gardien;
-import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
 
 public class SignatureModel {
@@ -52,25 +49,23 @@ public class SignatureModel {
 
     }
 
-    @SuppressWarnings("unchecked")
+    
     public void signatureAfterDraft(HttpServletRequest req) {
 	String nombreAnneeSignature = req.getParameter("nombreAnneeSignature");
 	int numberOfYear = Integer.parseInt(nombreAnneeSignature);
 	String draft_player_id = req.getParameter("draft_player_id");
+	int playerId = Integer.parseInt(draft_player_id);
 	String position = req.getParameter("position");
 	String salaire = req.getParameter("salaire");
 	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 	int teamId = mBeanUser.getTeamId();
 	int poolId = mBeanUser.getPoolId();
-	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
 	Key entityKey = null;
 	Key clefMemCache = null;
 	Attaquant mBeanAttaquant = null;
 	Defenseur mBeanDefenseur = null;
 	Gardien mBeanGardien = null;
-	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
-	String poolID = mBeanPool.getPoolID();
-	String datastoreID = poolID + "_" + teamId;
+	String datastoreID = poolId + "_" + teamId;
 	Entity entity = null, equipeEntity = null; 
 	Key equipeKey;
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -80,7 +75,7 @@ public class SignatureModel {
 
 	// B: on modifie les datatstore attaquant/def/goal/
 
-	switch (position) {
+	/*switch (position) {
 	case "attaquant":
 	    clefMemCache = KeyFactory.createKey("Attaquant", datastoreID);
 
@@ -102,11 +97,11 @@ public class SignatureModel {
 
 	    entity = datastore.get(entityKey);
 
-	    players_id = (List<Integer>) entity.getProperty("players_id");
-
-	    int indexOfPlayersToSign = players_id.indexOf(draft_player_id);
-
 	    mapDatastoreInTempArray(entity, position);
+	    
+	    int indexOfPlayersToSign = 1;//players_id.indexOf(playerId);
+
+	    
 
 	    switch (numberOfYear) {
 	    case 1:
@@ -203,6 +198,7 @@ public class SignatureModel {
 	} catch (EntityNotFoundException e) {
 
 	}
+	*/
 
 	// C: on modifie le datastore equipe
 	
@@ -216,7 +212,7 @@ public class SignatureModel {
 		Long temp_nb_contrat = (Long) equipeEntity.getProperty("nb_contrat");
 		int nb_contrat =  temp_nb_contrat.intValue();
 		nb_contrat = nb_contrat + 1;
-		equipeEntity.setProperty("budget_restant", nb_contrat);
+		equipeEntity.setProperty("nb_contrat", nb_contrat);
 		datastore.put(equipeEntity);
 
 		String jspName;
@@ -226,7 +222,9 @@ public class SignatureModel {
 		mBeanEquipe = (Equipe) req.getSession().getAttribute(jspName);
 
 		mBeanEquipe.setNb_contrat(nb_contrat);
-		memcache.put(clefMemCache, mBeanEquipe);
+		
+		
+		req.getSession().setAttribute(jspName, mBeanEquipe);
 
 	    } catch (EntityNotFoundException e) {
 

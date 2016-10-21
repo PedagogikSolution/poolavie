@@ -16,10 +16,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
 
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
@@ -89,7 +85,7 @@ public class CreationPoolModel {
 	// on recupere le pool_id
 	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 	String poolID = Integer.toString(mBeanUser.getPoolId());
-	String nom = mBeanUser.getNomUtilisateur();
+	
 	
 
 	// on recupere la date et place dans un format Date
@@ -131,9 +127,7 @@ public class CreationPoolModel {
 	    // on persiste dans le datastore via notre EntityManager
 	    em.persist(mBean);
 	    // on persist le datastore/bean dans la MemCache
-	    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-	    Key userPrefsKey = KeyFactory.createKey("Pool", poolID);
-	    memcache.put(userPrefsKey, mBean);
+	   
 
 	} finally {
 	    // on ferme le manager pour libérer la mémoire
@@ -152,9 +146,7 @@ public class CreationPoolModel {
 	    // on persiste dans le datastore via notre EntityManager
 	    em.merge(mBeanUser);
 	    // on persist le datastore/bean dans la MemCache
-	    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-	    Key userPrefsKey = KeyFactory.createKey("Utilisateur", nom);
-	    memcache.put(userPrefsKey, mBeanUser);
+	  
 
 	} finally {
 	    // on ferme le manager pour libérer la mémoire
@@ -223,10 +215,7 @@ public class CreationPoolModel {
 		    .param("manquant_recrue", String.valueOf(manquant_recrue)).param("manquant_equipe", String.valueOf(manquant_equipe)).param("argent_recu", String.valueOf(argent_recu)).param("bonus_5m", String.valueOf(bonus_5m)).param("bonus_penalite", String.valueOf(bonus_penalite)).param("classement_last_year", String.valueOf(0)).param("meilleur_classement", String.valueOf(0))
 		    .param("num_annee", String.valueOf(1)).param("num_champion", String.valueOf(0)).param("budget_restant", String.valueOf(budget_restant)).param("total_salaire_now", String.valueOf(total_salaire_now)).param("fromTag", "1"));
 
-	    // on persist le datastore/bean dans la MemCache
-	    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-	    Key userPrefsKey = KeyFactory.createKey("Equipe", datastoreId);
-	    memcache.put(userPrefsKey, mBean);
+	  
 
 	}
 
@@ -409,11 +398,8 @@ public class CreationPoolModel {
 	    // session
 	    req.getSession().setAttribute("Utilisateur", mBean);
 
-	    // MEmCache
-	    String username = mBean.getNomUtilisateur();
-	    MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-	    Key userPrefsKey = KeyFactory.createKey("Utilisateur", username);
-	    memcache.put(userPrefsKey, mBean);
+	   
+	   
 	    // Datastore
 	    EntityManagerFactory emf = EMF.get();
 	    EntityManager em = null;

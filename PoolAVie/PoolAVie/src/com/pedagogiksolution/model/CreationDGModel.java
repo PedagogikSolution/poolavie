@@ -12,8 +12,6 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.datastorebeans.Pool;
@@ -74,11 +72,9 @@ public class CreationDGModel {
 
     private Boolean checkIfPoolIdExist(String poolID, HttpServletRequest req) {
 
-	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-	Key clefMemCache = KeyFactory.createKey("Pool", poolID);
-	Pool mBean = (Pool) memcache.get(clefMemCache);
+	
 
-	if (mBean == null) {
+	
 	    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	    Key clefDatastore = KeyFactory.createKey("Pool", poolID);
 	    try {
@@ -99,18 +95,14 @@ public class CreationDGModel {
 		req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
 		return false;
 	    }
-	} else {
-	    return true;
-	}
+	
     }
 
     private Boolean checkIfCodeValidate(String poolID, String codeValidationPool, HttpServletRequest req) {
 
-	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-	Key clefMemCache = KeyFactory.createKey("Pool", poolID);
-	Pool mBean = (Pool) memcache.get(clefMemCache);
+	
 
-	if (mBean == null) {
+	
 	    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	    Key clefDatastore = KeyFactory.createKey("Pool", poolID);
 	    try {
@@ -133,19 +125,7 @@ public class CreationDGModel {
 		req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
 		return false;
 	    }
-	} else {
-
-	    if (codeValidationPool.equalsIgnoreCase(mBean.getCodeValidationPool())) {
-		return true;
-	    } else {
-
-		MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-		mBeanMessageErreur.setErreurCreateNewTeam(CREATE_NEW_USER_NO_GOOD);
-		req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-		return false;
-	    }
-
-	}
+	
 
     }
 
@@ -254,13 +234,10 @@ public class CreationDGModel {
 
 	// on recupere le bean POOL du memcache ou du datastore
 
-	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
-	Key clefMemCachePool = KeyFactory.createKey("Pool", mBeanUser.getPoolId());
+	
+	Pool mBeanPool = new Pool();
 
-	Pool mBeanPool = (Pool) memcache.get(clefMemCachePool);
-
-	if (mBeanPool == null) {
-
+	
 	    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	    Key clefDatastorePool = KeyFactory.createKey("Pool",Integer.toString(mBeanUser.getPoolId()));
 	    try {
@@ -272,7 +249,7 @@ public class CreationDGModel {
 		// TODO gérer cette erreur
 	    }
 
-	}
+	
 
 	int tempNumTeam = mBeanPool.getNumTeamCreate();
 	int numTeamCreate = tempNumTeam + 1;
@@ -342,10 +319,7 @@ public class CreationDGModel {
 	req.getSession().setAttribute("Utilisateur", mBeanUser);
 	req.getSession().setAttribute("Pool", mBeanPool);
 
-	// on persiste dans la memcache
-	Key clefMemCacheUser = KeyFactory.createKey("Utilisateur", username);
-	memcache.put(clefMemCacheUser, mBeanUser);
-	memcache.put(clefMemCachePool, mBeanPool);
+	
 
 	// on persiste dans Datastore
 
