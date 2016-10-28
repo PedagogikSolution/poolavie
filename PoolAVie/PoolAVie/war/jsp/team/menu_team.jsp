@@ -19,19 +19,16 @@
 			
 			<li class="w3-xlarge"><a href="/Equipes?team=8&from=menu">${Pool.nomTeam8}</a></li>
 			
-			<c:if test="${Pool.numberTeam==9}">
+			<c:if test="${Pool.nomTeam9!=null}">
 			<li class="w3-xlarge"><a href="/Equipes?team=9&from=menu">${Pool.nomTeam9}</a></li>
-			</c:if>
-			
-			<c:if test="${Pool.numberTeam==10}">
+			</c:if>		
+			<c:if test="${Pool.nomTeam10!=null}">
 			<li class="w3-xlarge"><a href="/Equipes?team=10&from=menu">${Pool.nomTeam10}</a></li>
 			</c:if>
-			
-			<c:if test="${Pool.numberTeam==11}">
+			<c:if test="${Pool.nomTeam11!=null}">
 			<li class="w3-xlarge"><a href="/Equipes?team=11&from=menu">${Pool.nomTeam11}</a></li>
-			</c:if>
-			
-			<c:if test="${Pool.numberTeam==12}">
+			</c:if>			
+			<c:if test="${Pool.nomTeam12!=null}">
 			<li class="w3-xlarge"><a href="/Equipes?team=12&from=menu">${Pool.nomTeam12}</a></li>
 			</c:if>
 			

@@ -266,6 +266,7 @@ public class EquipeModel {
 	mNonSessionEquipeBean.setNb_gardien(mBeanEquipe.getNb_gardien());
 	mNonSessionEquipeBean.setNb_rookie(mBeanEquipe.getNb_rookie());
 	mNonSessionEquipeBean.setNb_equipe(mBeanEquipe.getNb_equipe());
+	mNonSessionEquipeBean.setNb_contrat(mBeanEquipe.getNb_contrat());
 	mNonSessionEquipeBean.setNum_annee(mBeanEquipe.getNum_annee());
 	mNonSessionEquipeBean.setNum_champion(mBeanEquipe.getNum_champion());
 	mNonSessionEquipeBean.setPoolId(mBeanEquipe.getPoolId());
