@@ -15,6 +15,7 @@ import com.pedagogiksolution.cron.model.DraftPickCronModel;
 import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.dao.DAOFactory;
 import com.pedagogiksolution.dao.DraftPickDao;
+import com.pedagogiksolution.dao.PlayersDao;
 import com.pedagogiksolution.model.CreationDGModel;
 import com.pedagogiksolution.model.LoginModel;
 import com.pedagogiksolution.model.RegisterModel;
@@ -28,6 +29,7 @@ public class CreationNouveauDGServlet extends HttpServlet {
 
     public static final String CONF_DAO_FACTORY = "daofactory";
     private ClassementDao classementDao;
+    private PlayersDao playersDao;
     private DraftPickDao draftPickDao;
     @Override
     public void init() throws ServletException {
@@ -125,7 +127,7 @@ public class CreationNouveauDGServlet extends HttpServlet {
 		// Validation et ainsi confirmer son abonnement
 		
 
-		    ClassementCronModel mModelClassement = new ClassementCronModel(classementDao);
+		    ClassementCronModel mModelClassement = new ClassementCronModel(classementDao,playersDao);
 
 		    mModelClassement.putDatabaseInDatastore(poolId);
 		    

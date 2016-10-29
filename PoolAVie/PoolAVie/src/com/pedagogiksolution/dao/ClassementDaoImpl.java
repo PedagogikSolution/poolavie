@@ -204,6 +204,25 @@ public class ClassementDaoImpl implements ClassementDao {
 	
     }
 
+    
+    @Override
+    public void updateStat(int poolId, int pj, int but, int passe, int pts, int teamId) throws DAOException {
+	// TODO Auto-generated method stub
+	
+    }
+
+    @Override
+    public void updateDifference(int poolId) throws DAOException {
+	// TODO Auto-generated method stub
+	
+    }
+
+    
+    
+
+    
+   
+
    
 
 }

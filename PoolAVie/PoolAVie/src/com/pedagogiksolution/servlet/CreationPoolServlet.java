@@ -83,7 +83,7 @@ public class CreationPoolServlet extends HttpServlet {
 	    mModel.createSucceed(req);
 	    
 	    // on met les database dans objet session, memcache et datastore
-	    ClassementCronModel mModelClassement = new ClassementCronModel(classementDao);
+	    ClassementCronModel mModelClassement = new ClassementCronModel(classementDao,playersDao);
 	    // on recupere le poolID de ce pool via le bean de Session Utilisateur
 	    Utilisateur mBeanUser  = (Utilisateur)req.getSession().getAttribute("Utilisateur");
 	    int poolId = mBeanUser.getPoolId();

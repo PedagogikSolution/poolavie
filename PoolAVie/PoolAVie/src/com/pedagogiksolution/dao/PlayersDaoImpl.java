@@ -933,6 +933,34 @@ public class PlayersDaoImpl implements PlayersDao {
     }
 
     
+    @Override
+    public int getPj(int i) throws DAOException {
+	// TODO Auto-generated method stub
+	return 0;
+    }
+
+    
+    @Override
+    public int getBut(int i) throws DAOException {
+	// TODO Auto-generated method stub
+	return 0;
+    }
+
+    
+    @Override
+    public int getPasse(int i) throws DAOException {
+	// TODO Auto-generated method stub
+	return 0;
+    }
+
+    
+    @Override
+    public int getPts(int i) throws DAOException {
+	// TODO Auto-generated method stub
+	return 0;
+    }
+
+    
    
 
     

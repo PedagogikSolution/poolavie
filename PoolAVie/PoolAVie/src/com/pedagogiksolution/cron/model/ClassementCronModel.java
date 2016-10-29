@@ -21,21 +21,26 @@ import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.pedagogiksolution.dao.ClassementDao;
+import com.pedagogiksolution.dao.PlayersDao;
 import com.pedagogiksolution.datastorebeans.Classement;
 import com.pedagogiksolution.utils.EMF;
 
 public class ClassementCronModel {
 
     private ClassementDao classementDao;
+    private PlayersDao playersDao;
+    
+    
 
-    public ClassementCronModel(ClassementDao classementDao) {
+    public ClassementCronModel(ClassementDao classementDao, PlayersDao playersDao) {
 	this.classementDao = classementDao;
+	this.playersDao = playersDao;
     }
 
     public void putDatabaseInDatastore(int poolId) {
 
 	Classement mBeanClassement = classementDao.cronJobGetClassementbyPoolId(poolId);
-	
+
 	EntityManagerFactory emf = EMF.get();
 	EntityManager em = null;
 	try {
@@ -48,8 +53,6 @@ public class ClassementCronModel {
 	    if (em != null)
 		em.close();
 	}
-
-	
 
     }
 
@@ -75,16 +78,13 @@ public class ClassementCronModel {
     }
 
     public void setDerniereMAJ(int i) {
-	
-	String poolID = String.valueOf(i);
 
-	
+	String poolID = String.valueOf(i);
 
 	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	Date date = new Date();
 	String derniereMAJ = dateFormat.format(date);
 
-	
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	Key clefDatastore = KeyFactory.createKey("Pool", poolID);
 	Entity mEntity;
@@ -99,4 +99,20 @@ public class ClassementCronModel {
 
     }
 
+    public void updateClassement(int poolId, Long numberTeam) {
+	
+	for(int i=1;i<(numberTeam+1);i++){
+	    int pj = playersDao.getPj(i);   
+	    int but = playersDao.getBut(i);
+	    int passe = playersDao.getPasse(i);
+	    int pts = playersDao.getPts(i);
+	    classementDao.updateStat(poolId,i,pj,but,passe,pts);
+	    	    
+	}
+	
+	classementDao.updateDifference(poolId);
+	
+	
+	
+    }
 }
