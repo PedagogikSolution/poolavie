@@ -101,12 +101,12 @@ public class ClassementCronModel {
 
     public void updateClassement(int poolId, Long numberTeam) {
 	
-	for(int i=1;i<(numberTeam+1);i++){
-	    int pj = playersDao.getPj(i);   
-	    int but = playersDao.getBut(i);
-	    int passe = playersDao.getPasse(i);
-	    int pts = playersDao.getPts(i);
-	    classementDao.updateStat(poolId,i,pj,but,passe,pts);
+	for(int teamId=1;teamId<(numberTeam+1);teamId++){
+	    int pj = playersDao.getPj(teamId,poolId);   
+	    int but = playersDao.getBut(teamId,poolId);
+	    int passe = playersDao.getPasse(teamId,poolId);
+	    int pts = playersDao.getPts(teamId,poolId);
+	    classementDao.updateStat(poolId,teamId,pj,but,passe,pts);
 	    	    
 	}
 	

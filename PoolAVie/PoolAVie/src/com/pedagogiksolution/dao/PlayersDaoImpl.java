@@ -37,6 +37,11 @@ public class PlayersDaoImpl implements PlayersDao {
     private static final String UPDATE_PLAYERS_AFTER_DRAFT_PICK = "UPDATE players_? SET team_id=?,contrat=?,acquire_years=?,salaire_contrat=?,club_ecole=?,years_1=?,years_2='JA',years_3='A',years_4='A',years_5='A' WHERE _id=?";
     private static final String GET_PLAYERS_FOR_SIGNATURE_AFTER_DRAFT = "SELECT * FROM players_? WHERE contrat=1 AND club_ecole=0 AND team_id=? AND years_2='JA'";
     private static final String UPDATE_PLAYERS_SIGNATURE_AFTER_DRAFT = "UPDATE players_? SET years_1=?,years_2=?,years_3=?,years_4=?,years_5=? WHERE _id=?";
+    private static final String GET_FOWARD_TOP_X = "SELECT SUM(?) FROM (SELECT ? FROM players_? WHERE position='attaquant' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
+    private static final String GET_DEFENSE_TOP_X = "SELECT SUM(?) FROM (SELECT ? FROM players_? WHERE position='defenseur' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
+    private static final String GET_GOALER_TOP_X = "SELECT SUM(?) FROM (SELECT ? FROM players_? WHERE position='gardien' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
+    
+    
     private DAOFactory daoFactory;
 
     PlayersDaoImpl(DAOFactory daoFactory) {
@@ -932,34 +937,269 @@ public class PlayersDaoImpl implements PlayersDao {
 	
     }
 
-    
+   
     @Override
-    public int getPj(int i) throws DAOException {
-	// TODO Auto-generated method stub
-	return 0;
+    public int getPj(int teamId, int poolId) throws DAOException {
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+	String champs="pj";
+	int pts=0;
+	
+	try {
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_FOWARD_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    ResultSet rs = preparedStatement.executeQuery();
+	    while(rs.next()){
+		int pts_temp=0;
+		pts_temp = rs.getInt(1);
+		pts = pts+pts_temp;
+		
+	    }
+	    
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(preparedStatement, connexion);
+	}
+	
+	try {
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    ResultSet rs = preparedStatement.executeQuery();
+	    while(rs.next()){
+		int pts_temp=0;
+		pts_temp = rs.getInt(1);
+		pts = pts+pts_temp;
+		
+	    }
+	    
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(preparedStatement, connexion);
+	}
+	
+	try {
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    ResultSet rs = preparedStatement.executeQuery();
+	    while(rs.next()){
+		int pts_temp=0;
+		pts_temp = rs.getInt(1);
+		pts = pts+pts_temp;
+		
+	    }
+	    
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(preparedStatement, connexion);
+	}
+	
+	
+	
+	
+	return pts;
+    }
+
+
+    @Override
+    public int getBut(int teamId, int poolId) throws DAOException {
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+	String champs="but_victoire";
+	int pts=0;
+	
+	try {
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_FOWARD_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    ResultSet rs = preparedStatement.executeQuery();
+	    while(rs.next()){
+		int pts_temp=0;
+		pts_temp = rs.getInt(1);
+		pts = pts+pts_temp;
+		
+	    }
+	    
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(preparedStatement, connexion);
+	}
+	
+	try {
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    ResultSet rs = preparedStatement.executeQuery();
+	    while(rs.next()){
+		int pts_temp=0;
+		pts_temp = rs.getInt(1);
+		pts = pts+pts_temp;
+		
+	    }
+	    
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(preparedStatement, connexion);
+	}
+	
+	try {
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    ResultSet rs = preparedStatement.executeQuery();
+	    while(rs.next()){
+		int pts_temp=0;
+		pts_temp = rs.getInt(1);
+		pts = pts+pts_temp;
+		
+	    }
+	    
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(preparedStatement, connexion);
+	}
+	
+	
+	
+	
+	return pts;
+    }
+
+    @Override
+    public int getPasse(int teamId, int poolId) throws DAOException {
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+	String champs="aide_overtime";
+	int pts=0;
+	
+	try {
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_FOWARD_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    ResultSet rs = preparedStatement.executeQuery();
+	    while(rs.next()){
+		int pts_temp=0;
+		pts_temp = rs.getInt(1);
+		pts = pts+pts_temp;
+		
+	    }
+	    
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(preparedStatement, connexion);
+	}
+	
+	try {
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    ResultSet rs = preparedStatement.executeQuery();
+	    while(rs.next()){
+		int pts_temp=0;
+		pts_temp = rs.getInt(1);
+		pts = pts+pts_temp;
+		
+	    }
+	    
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(preparedStatement, connexion);
+	}
+	
+	try {
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    ResultSet rs = preparedStatement.executeQuery();
+	    while(rs.next()){
+		int pts_temp=0;
+		pts_temp = rs.getInt(1);
+		pts = pts+pts_temp;
+		
+	    }
+	    
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(preparedStatement, connexion);
+	}
+	
+	
+	
+	
+	return pts;
+    }
+
+    @Override
+    public int getPts(int teamId, int poolId) throws DAOException {
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+	String champs="pts";
+	int pts=0;
+	
+	try {
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_FOWARD_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    ResultSet rs = preparedStatement.executeQuery();
+	    while(rs.next()){
+		int pts_temp=0;
+		pts_temp = rs.getInt(1);
+		pts = pts+pts_temp;
+		
+	    }
+	    
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(preparedStatement, connexion);
+	}
+	
+	try {
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    ResultSet rs = preparedStatement.executeQuery();
+	    while(rs.next()){
+		int pts_temp=0;
+		pts_temp = rs.getInt(1);
+		pts = pts+pts_temp;
+		
+	    }
+	    
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(preparedStatement, connexion);
+	}
+	
+	try {
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    ResultSet rs = preparedStatement.executeQuery();
+	    while(rs.next()){
+		int pts_temp=0;
+		pts_temp = rs.getInt(1);
+		pts = pts+pts_temp;
+		
+	    }
+	    
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(preparedStatement, connexion);
+	}
+	
+	
+	
+	
+	return pts;
+	
     }
 
     
-    @Override
-    public int getBut(int i) throws DAOException {
-	// TODO Auto-generated method stub
-	return 0;
-    }
-
+   
     
-    @Override
-    public int getPasse(int i) throws DAOException {
-	// TODO Auto-generated method stub
-	return 0;
-    }
-
-    
-    @Override
-    public int getPts(int i) throws DAOException {
-	// TODO Auto-generated method stub
-	return 0;
-    }
-
+   
     
    
 

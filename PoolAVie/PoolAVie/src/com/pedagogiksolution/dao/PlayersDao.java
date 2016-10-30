@@ -25,13 +25,13 @@ public interface PlayersDao {
 
     void persistPlayerPickRookie(int playersId, int salaireId, int poolId, int teamId, int clubEcoleId, int acquireYearsId)throws DAOException;
 
-    int getPj(int i)throws DAOException;
+    int getPj(int i, int poolId)throws DAOException;
     
-    int getBut(int i)throws DAOException;
+    int getBut(int i, int poolId)throws DAOException;
     
-    int getPasse(int i)throws DAOException;
+    int getPasse(int i, int poolId)throws DAOException;
     
-    int getPts(int i)throws DAOException;
+    int getPts(int i, int poolId)throws DAOException;
 
 
    
