@@ -55,9 +55,9 @@ public class ClassementCron extends HttpServlet {
 		    entity = datastore.get(key);
 		    Long cycleAnnuel = (Long) entity.getProperty("cycleAnnuel");
 		    Long numberTeam = (Long) entity.getProperty("numberTeam");
-		    //if(cycleAnnuel>3){
+		    if(cycleAnnuel>3){
 			mModel.updateClassement(i,numberTeam);
-			//}
+			}
 		} catch (EntityNotFoundException e) {
 		    // TODO Auto-generated catch block
 		    e.printStackTrace();
