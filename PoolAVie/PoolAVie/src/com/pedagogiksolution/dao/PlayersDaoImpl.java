@@ -950,9 +950,10 @@ public class PlayersDaoImpl implements PlayersDao {
 	    preparedStatement = initialisationRequetePreparee(connexion, GET_FOWARD_TOP_X, false, champs, champs, poolId, teamId, 8);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
-		int pts_temp=0;
-		pts_temp = rs.getInt("sommePts");
-		pts = pts+pts_temp;
+		
+		String pts_temp = rs.getString("sommePts");
+		int ptsTemp = Integer.parseInt(pts_temp);
+		pts = pts+ptsTemp;
 		
 	    }
 	    
@@ -967,9 +968,9 @@ public class PlayersDaoImpl implements PlayersDao {
 	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_TOP_X, false, champs, champs, poolId, teamId, 5);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
-		int pts_temp=0;
-		pts_temp = rs.getInt("sommePts");
-		pts = pts+pts_temp;
+		String pts_temp = rs.getString("sommePts");
+		int ptsTemp = Integer.parseInt(pts_temp);
+		pts = pts+ptsTemp;
 		
 	    }
 	    
@@ -984,9 +985,9 @@ public class PlayersDaoImpl implements PlayersDao {
 	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_TOP_X, false, champs, champs, poolId, teamId, 2);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
-		int pts_temp=0;
-		pts_temp = rs.getInt("sommePts");
-		pts = pts+pts_temp;
+		String pts_temp = rs.getString("sommePts");
+		int ptsTemp = Integer.parseInt(pts_temp);
+		pts = pts+ptsTemp;
 		
 	    }
 	    
@@ -1015,9 +1016,9 @@ public class PlayersDaoImpl implements PlayersDao {
 	    preparedStatement = initialisationRequetePreparee(connexion, GET_FOWARD_TOP_X, false, champs, champs, poolId, teamId, 8);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
-		int pts_temp=0;
-		pts_temp = rs.getInt("sommePts");
-		pts = pts+pts_temp;
+		String pts_temp = rs.getString("sommePts");
+		int ptsTemp = Integer.parseInt(pts_temp);
+		pts = pts+ptsTemp;
 		
 	    }
 	    
@@ -1032,9 +1033,9 @@ public class PlayersDaoImpl implements PlayersDao {
 	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_TOP_X, false, champs, champs, poolId, teamId, 5);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
-		int pts_temp=0;
-		pts_temp = rs.getInt("sommePts");
-		pts = pts+pts_temp;
+		String pts_temp = rs.getString("sommePts");
+		int ptsTemp = Integer.parseInt(pts_temp);
+		pts = pts+ptsTemp;
 		
 	    }
 	    
@@ -1049,9 +1050,9 @@ public class PlayersDaoImpl implements PlayersDao {
 	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_TOP_X, false, champs, champs, poolId, teamId, 2);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
-		int pts_temp=0;
-		pts_temp = rs.getInt("sommePts");
-		pts = pts+pts_temp;
+		String pts_temp = rs.getString("sommePts");
+		int ptsTemp = Integer.parseInt(pts_temp);
+		pts = pts+ptsTemp;
 		
 	    }
 	    
@@ -1079,9 +1080,9 @@ public class PlayersDaoImpl implements PlayersDao {
 	    preparedStatement = initialisationRequetePreparee(connexion, GET_FOWARD_TOP_X, false, champs, champs, poolId, teamId, 8);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
-		int pts_temp=0;
-		pts_temp = rs.getInt("sommePts");
-		pts = pts+pts_temp;
+		String pts_temp = rs.getString("sommePts");
+		int ptsTemp = Integer.parseInt(pts_temp);
+		pts = pts+ptsTemp;
 		
 	    }
 	    
@@ -1096,9 +1097,9 @@ public class PlayersDaoImpl implements PlayersDao {
 	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_TOP_X, false, champs, champs, poolId, teamId, 5);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
-		int pts_temp=0;
-		pts_temp = rs.getInt("sommePts");
-		pts = pts+pts_temp;
+		String pts_temp = rs.getString("sommePts");
+		int ptsTemp = Integer.parseInt(pts_temp);
+		pts = pts+ptsTemp;
 		
 	    }
 	    
@@ -1113,9 +1114,9 @@ public class PlayersDaoImpl implements PlayersDao {
 	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_TOP_X, false, champs, champs, poolId, teamId, 2);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
-		int pts_temp=0;
-		pts_temp = rs.getInt("sommePts");
-		pts = pts+pts_temp;
+		String pts_temp = rs.getString("sommePts");
+		int ptsTemp = Integer.parseInt(pts_temp);
+		pts = pts+ptsTemp;
 		
 	    }
 	    
@@ -1143,9 +1144,9 @@ public class PlayersDaoImpl implements PlayersDao {
 	    preparedStatement = initialisationRequetePreparee(connexion, GET_FOWARD_TOP_X, false, champs, champs, poolId, teamId, 8);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
-		int pts_temp=0;
-		pts_temp = rs.getInt("sommePts");
-		pts = pts+pts_temp;
+		String pts_temp = rs.getString("sommePts");
+		int ptsTemp = Integer.parseInt(pts_temp);
+		pts = pts+ptsTemp;
 		
 	    }
 	    
@@ -1160,9 +1161,9 @@ public class PlayersDaoImpl implements PlayersDao {
 	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_TOP_X, false, champs, champs, poolId, teamId, 5);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
-		int pts_temp=0;
-		pts_temp = rs.getInt("sommePts");
-		pts = pts+pts_temp;
+		String pts_temp = rs.getString("sommePts");
+		int ptsTemp = Integer.parseInt(pts_temp);
+		pts = pts+ptsTemp;
 		
 	    }
 	    
@@ -1177,9 +1178,9 @@ public class PlayersDaoImpl implements PlayersDao {
 	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_TOP_X, false, champs, champs, poolId, teamId, 2);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
-		int pts_temp=0;
-		pts_temp = rs.getInt("sommePts");
-		pts = pts+pts_temp;
+		String pts_temp = rs.getString("sommePts");
+		int ptsTemp = Integer.parseInt(pts_temp);
+		pts = pts+ptsTemp;
 		
 	    }
 	    
