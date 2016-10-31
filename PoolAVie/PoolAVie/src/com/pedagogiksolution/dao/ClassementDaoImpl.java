@@ -21,7 +21,7 @@ public class ClassementDaoImpl implements ClassementDao {
     private static final String CHECK_IF_TEAM_EXIST = "SELECT * FROM classement_? WHERE team_id=?";
     private static final String UPDATE_TEAM_CLASSEMENT = "UPDATE classement_? SET equipe=? WHERE team_id=?";
     private static final String GET_CLASSEMENT_BY_POOL_ID = "SELECT * FROM classement_? ORDER BY points DESC";
-    private static final String UPDATE_DAILY_STATS = "UPDATE classement_? SET pj=?,but_victoire=?,aide_overtime=?,pts=? WHERE team_id=?";
+    private static final String UPDATE_DAILY_STATS = "UPDATE classement_? SET pj=?,but=?,passe=?,points=? WHERE team_id=?";
     private DAOFactory daoFactory;
 
     ClassementDaoImpl(DAOFactory daoFactory) {

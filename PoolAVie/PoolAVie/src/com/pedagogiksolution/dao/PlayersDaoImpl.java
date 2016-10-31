@@ -37,9 +37,9 @@ public class PlayersDaoImpl implements PlayersDao {
     private static final String UPDATE_PLAYERS_AFTER_DRAFT_PICK = "UPDATE players_? SET team_id=?,contrat=?,acquire_years=?,salaire_contrat=?,club_ecole=?,years_1=?,years_2='JA',years_3='A',years_4='A',years_5='A' WHERE _id=?";
     private static final String GET_PLAYERS_FOR_SIGNATURE_AFTER_DRAFT = "SELECT * FROM players_? WHERE contrat=1 AND club_ecole=0 AND team_id=? AND years_2='JA'";
     private static final String UPDATE_PLAYERS_SIGNATURE_AFTER_DRAFT = "UPDATE players_? SET years_1=?,years_2=?,years_3=?,years_4=?,years_5=? WHERE _id=?";
-    private static final String GET_FOWARD_TOP_X = "SELECT SUM(?) FROM (SELECT ? FROM players_? WHERE position='attaquant' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
-    private static final String GET_DEFENSE_TOP_X = "SELECT SUM(?) FROM (SELECT ? FROM players_? WHERE position='defenseur' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
-    private static final String GET_GOALER_TOP_X = "SELECT SUM(?) FROM (SELECT ? FROM players_? WHERE position='gardien' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
+    private static final String GET_FOWARD_TOP_X = "SELECT SUM(?) AS sommePts FROM (SELECT ? FROM players_? WHERE position='attaquant' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
+    private static final String GET_DEFENSE_TOP_X = "SELECT SUM(?)AS sommePts FROM (SELECT ? FROM players_? WHERE position='defenseur' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
+    private static final String GET_GOALER_TOP_X = "SELECT SUM(?) AS sommePts FROM (SELECT ? FROM players_? WHERE position='gardien' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
     
     
     private DAOFactory daoFactory;
@@ -951,7 +951,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		int pts_temp=0;
-		pts_temp = rs.getInt(1);
+		pts_temp = rs.getInt("sommePts");
 		pts = pts+pts_temp;
 		
 	    }
@@ -964,11 +964,11 @@ public class PlayersDaoImpl implements PlayersDao {
 	
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_TOP_X, false, champs, champs, poolId, teamId, 5);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		int pts_temp=0;
-		pts_temp = rs.getInt(1);
+		pts_temp = rs.getInt("sommePts");
 		pts = pts+pts_temp;
 		
 	    }
@@ -981,11 +981,11 @@ public class PlayersDaoImpl implements PlayersDao {
 	
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_TOP_X, false, champs, champs, poolId, teamId, 2);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		int pts_temp=0;
-		pts_temp = rs.getInt(1);
+		pts_temp = rs.getInt("sommePts");
 		pts = pts+pts_temp;
 		
 	    }
@@ -1016,7 +1016,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		int pts_temp=0;
-		pts_temp = rs.getInt(1);
+		pts_temp = rs.getInt("sommePts");
 		pts = pts+pts_temp;
 		
 	    }
@@ -1029,11 +1029,11 @@ public class PlayersDaoImpl implements PlayersDao {
 	
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_TOP_X, false, champs, champs, poolId, teamId, 5);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		int pts_temp=0;
-		pts_temp = rs.getInt(1);
+		pts_temp = rs.getInt("sommePts");
 		pts = pts+pts_temp;
 		
 	    }
@@ -1046,11 +1046,11 @@ public class PlayersDaoImpl implements PlayersDao {
 	
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_TOP_X, false, champs, champs, poolId, teamId, 2);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		int pts_temp=0;
-		pts_temp = rs.getInt(1);
+		pts_temp = rs.getInt("sommePts");
 		pts = pts+pts_temp;
 		
 	    }
@@ -1080,7 +1080,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		int pts_temp=0;
-		pts_temp = rs.getInt(1);
+		pts_temp = rs.getInt("sommePts");
 		pts = pts+pts_temp;
 		
 	    }
@@ -1093,11 +1093,11 @@ public class PlayersDaoImpl implements PlayersDao {
 	
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_TOP_X, false, champs, champs, poolId, teamId, 5);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		int pts_temp=0;
-		pts_temp = rs.getInt(1);
+		pts_temp = rs.getInt("sommePts");
 		pts = pts+pts_temp;
 		
 	    }
@@ -1110,11 +1110,11 @@ public class PlayersDaoImpl implements PlayersDao {
 	
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_TOP_X, false, champs, champs, poolId, teamId, 2);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		int pts_temp=0;
-		pts_temp = rs.getInt(1);
+		pts_temp = rs.getInt("sommePts");
 		pts = pts+pts_temp;
 		
 	    }
@@ -1144,7 +1144,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		int pts_temp=0;
-		pts_temp = rs.getInt(1);
+		pts_temp = rs.getInt("sommePts");
 		pts = pts+pts_temp;
 		
 	    }
@@ -1157,11 +1157,11 @@ public class PlayersDaoImpl implements PlayersDao {
 	
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_TOP_X, false, champs, champs, poolId, teamId, 5);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		int pts_temp=0;
-		pts_temp = rs.getInt(1);
+		pts_temp = rs.getInt("sommePts");
 		pts = pts+pts_temp;
 		
 	    }
@@ -1174,11 +1174,11 @@ public class PlayersDaoImpl implements PlayersDao {
 	
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_TOP_X, false, champs, champs, poolId, teamId, 2);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		int pts_temp=0;
-		pts_temp = rs.getInt(1);
+		pts_temp = rs.getInt("sommePts");
 		pts = pts+pts_temp;
 		
 	    }
