@@ -110,7 +110,7 @@ public class ClassementCronModel {
 	    	    
 	}
 	
-	classementDao.updateDifference(poolId);
+	//classementDao.updateDifference(poolId);
 	
 	
 	

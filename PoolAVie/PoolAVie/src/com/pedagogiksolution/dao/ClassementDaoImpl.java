@@ -21,6 +21,7 @@ public class ClassementDaoImpl implements ClassementDao {
     private static final String CHECK_IF_TEAM_EXIST = "SELECT * FROM classement_? WHERE team_id=?";
     private static final String UPDATE_TEAM_CLASSEMENT = "UPDATE classement_? SET equipe=? WHERE team_id=?";
     private static final String GET_CLASSEMENT_BY_POOL_ID = "SELECT * FROM classement_? ORDER BY points DESC";
+    private static final String UPDATE_DAILY_STATS = "UPDATE classement_? SET pj=?,but_victoire=?,aide_overtime=?,pts=? WHERE team_id=?";
     private DAOFactory daoFactory;
 
     ClassementDaoImpl(DAOFactory daoFactory) {
@@ -207,7 +208,21 @@ public class ClassementDaoImpl implements ClassementDao {
     
     @Override
     public void updateStat(int poolId, int pj, int but, int passe, int pts, int teamId) throws DAOException {
-	// TODO Auto-generated method stub
+	
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+
+	try {
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_DAILY_STATS, false, poolId,pj,but,passe,pts,teamId);
+	    preparedStatement.execute();
+	    
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(preparedStatement, connexion);
+	}
+	
 	
     }
 
