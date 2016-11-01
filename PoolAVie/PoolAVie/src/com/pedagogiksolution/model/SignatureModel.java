@@ -247,7 +247,6 @@ public class SignatureModel {
 	    String datastoreId3 = poolId + "_" + teamId;
 
 	    Gardien mBeanGardien = new Gardien();
-
 	    datastore = DatastoreServiceFactory.getDatastoreService();
 	    Key clefDatastore3 = KeyFactory.createKey("Gardien", datastoreId3);
 	    try {
