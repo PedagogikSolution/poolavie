@@ -42,7 +42,15 @@
 			<br>
 		<p>
 	</c:if>
-	<c:if test="${Pool.poolType==1&&Pool.cycleAnnuel==4}">
+	<c:if test="${Pool.poolType==1&&Pool.cycleAnnuel==4&&requestScope.messageErreurs!=null}">
+	<div class="w3-content w3-margin-top" style="max-width:90%">
+			<div class="w3-container w3-red w3-center">
+				<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+				<h3>${requestScope.messageErreurs}</h3>
+			</div>
+		</div>
+	</c:if>
+	<c:if test="${Pool.poolType==1&&Pool.cycleAnnuel==4&&requestScope.messageErreurs!=null}">
 		
 		<div class="w3-responsive" style="width:90%">
 			<table id="playersPickBox" class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top w3-large" style="width: 95%">

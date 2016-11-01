@@ -37,10 +37,18 @@ public class PlayersDaoImpl implements PlayersDao {
     private static final String UPDATE_PLAYERS_AFTER_DRAFT_PICK = "UPDATE players_? SET team_id=?,contrat=?,acquire_years=?,salaire_contrat=?,club_ecole=?,years_1=?,years_2='JA',years_3='A',years_4='A',years_5='A' WHERE _id=?";
     private static final String GET_PLAYERS_FOR_SIGNATURE_AFTER_DRAFT = "SELECT * FROM players_? WHERE contrat=1 AND club_ecole=0 AND team_id=? AND years_2='JA'";
     private static final String UPDATE_PLAYERS_SIGNATURE_AFTER_DRAFT = "UPDATE players_? SET years_1=?,years_2=?,years_3=?,years_4=?,years_5=? WHERE _id=?";
-    private static final String GET_FOWARD_TOP_X = "SELECT SUM(?) AS sommePts FROM (SELECT ? FROM players_? WHERE position='attaquant' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
-    private static final String GET_DEFENSE_TOP_X = "SELECT SUM(?)AS sommePts FROM (SELECT ? FROM players_? WHERE position='defenseur' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
-    private static final String GET_GOALER_TOP_X = "SELECT SUM(?) AS sommePts FROM (SELECT ? FROM players_? WHERE position='gardien' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
-    
+    private static final String GET_FOWARD_PJ_TOP_X = "SELECT SUM(pj) AS sommePts FROM (SELECT pj FROM players_? WHERE position='attaquant' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
+    private static final String GET_DEFENSE_PJ_TOP_X = "SELECT SUM(pj)AS sommePts FROM (SELECT pj FROM players_? WHERE position='defenseur' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
+    private static final String GET_GOALER_PJ_TOP_X = "SELECT SUM(pj) AS sommePts FROM (SELECT pj FROM players_? WHERE position='gardien' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
+    private static final String GET_FOWARD_BUT_TOP_X = "SELECT SUM(but_victoire) AS sommePts FROM (SELECT but_victoire FROM players_? WHERE position='attaquant' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
+    private static final String GET_DEFENSE_BUT_TOP_X = "SELECT SUM(but_victoire)AS sommePts FROM (SELECT but_victoire FROM players_? WHERE position='defenseur' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
+    private static final String GET_GOALER_BUT_TOP_X = "SELECT SUM(but_victoire) AS sommePts FROM (SELECT but_victoire FROM players_? WHERE position='gardien' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
+    private static final String GET_FOWARD_PASSE_TOP_X = "SELECT SUM(aide_overtime) AS sommePts FROM (SELECT aide_overtime FROM players_? WHERE position='attaquant' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
+    private static final String GET_DEFENSE_PASSE_TOP_X = "SELECT SUM(aide_overtime)AS sommePts FROM (SELECT aide_overtime FROM players_? WHERE position='defenseur' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
+    private static final String GET_GOALER_PASSE_TOP_X = "SELECT SUM(aide_overtime) AS sommePts FROM (SELECT aide_overtime FROM players_? WHERE position='gardien' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
+    private static final String GET_FOWARD_PTS_TOP_X = "SELECT SUM(pts) AS sommePts FROM (SELECT pts FROM players_? WHERE position='attaquant' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
+    private static final String GET_DEFENSE_PTS_TOP_X = "SELECT SUM(pts)AS sommePts FROM (SELECT pts FROM players_? WHERE position='defenseur' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
+    private static final String GET_GOALER_PTS_TOP_X = "SELECT SUM(pts) AS sommePts FROM (SELECT pts FROM players_? WHERE position='gardien' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
     
     private DAOFactory daoFactory;
 
@@ -942,12 +950,12 @@ public class PlayersDaoImpl implements PlayersDao {
     public int getPj(int teamId, int poolId) throws DAOException {
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
-	String champs="pj";
+	
 	int pts=0;
 	
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_FOWARD_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_FOWARD_PJ_TOP_X, false, poolId, teamId, 8);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		
@@ -965,7 +973,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_TOP_X, false, champs, champs, poolId, teamId, 5);
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_PJ_TOP_X, false, poolId, teamId, 5);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		String pts_temp = rs.getString("sommePts");
@@ -982,7 +990,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_TOP_X, false, champs, champs, poolId, teamId, 2);
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_PJ_TOP_X, false, poolId, teamId, 2);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		String pts_temp = rs.getString("sommePts");
@@ -1008,12 +1016,12 @@ public class PlayersDaoImpl implements PlayersDao {
     public int getBut(int teamId, int poolId) throws DAOException {
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
-	String champs="but_victoire";
+	
 	int pts=0;
 	
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_FOWARD_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_FOWARD_BUT_TOP_X, false, poolId, teamId, 8);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		String pts_temp = rs.getString("sommePts");
@@ -1030,7 +1038,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_TOP_X, false, champs, champs, poolId, teamId, 5);
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_BUT_TOP_X, false, poolId, teamId, 5);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		String pts_temp = rs.getString("sommePts");
@@ -1047,7 +1055,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_TOP_X, false, champs, champs, poolId, teamId, 2);
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_BUT_TOP_X, false, poolId, teamId, 2);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		String pts_temp = rs.getString("sommePts");
@@ -1072,12 +1080,12 @@ public class PlayersDaoImpl implements PlayersDao {
     public int getPasse(int teamId, int poolId) throws DAOException {
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
-	String champs="aide_overtime";
+	
 	int pts=0;
 	
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_FOWARD_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_FOWARD_PASSE_TOP_X, false, poolId, teamId, 8);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		String pts_temp = rs.getString("sommePts");
@@ -1094,7 +1102,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_TOP_X, false, champs, champs, poolId, teamId, 5);
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_PASSE_TOP_X, false, poolId, teamId, 5);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		String pts_temp = rs.getString("sommePts");
@@ -1111,7 +1119,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_TOP_X, false, champs, champs, poolId, teamId, 2);
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_PASSE_TOP_X, false, poolId, teamId, 2);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		String pts_temp = rs.getString("sommePts");
@@ -1136,12 +1144,12 @@ public class PlayersDaoImpl implements PlayersDao {
     public int getPts(int teamId, int poolId) throws DAOException {
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
-	String champs="pts";
+	
 	int pts=0;
 	
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_FOWARD_TOP_X, false, champs, champs, poolId, teamId, 8);
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_FOWARD_PTS_TOP_X, false, poolId, teamId, 8);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		String pts_temp = rs.getString("sommePts");
@@ -1158,7 +1166,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_TOP_X, false, champs, champs, poolId, teamId, 5);
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_DEFENSE_PTS_TOP_X, false, poolId, teamId, 5);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		String pts_temp = rs.getString("sommePts");
@@ -1175,7 +1183,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_TOP_X, false, champs, champs, poolId, teamId, 2);
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_PTS_TOP_X, false, poolId, teamId, 2);
 	    ResultSet rs = preparedStatement.executeQuery();
 	    while(rs.next()){
 		String pts_temp = rs.getString("sommePts");

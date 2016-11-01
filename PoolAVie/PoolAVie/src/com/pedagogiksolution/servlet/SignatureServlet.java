@@ -41,11 +41,18 @@ public class SignatureServlet extends HttpServlet {
 	String from = req.getParameter("from");
 	int fromId = Integer.parseInt(from);
 	if (cycleAnnuel == 4) {
-
 	    SignatureModel mModelSignature = new SignatureModel(playersDao);
-	    mModelSignature.putPlayersThatCanBeSignInBean(req);
+
+	    Boolean checkIfSignatureIsPossible = mModelSignature.checkIfSignatureIsPossible(req);
 	    
-	    fromId=2;
+	    if (checkIfSignatureIsPossible) {
+
+		mModelSignature.putPlayersThatCanBeSignInBean(req);
+
+		fromId = 2;
+	    } else {
+		fromId = 992;
+	    }
 
 	}
 	switch (fromId) {
@@ -64,6 +71,10 @@ public class SignatureServlet extends HttpServlet {
 	case 5:
 	    req.getRequestDispatcher("jsp/signature/managerCenter.jsp").forward(req, resp);
 	    break;
+	case 992: // message deja 8 contrat
+	    req.setAttribute("messageErreurs", "Vous avez le nombre maximal de joueur sous contrat dans votre équipe");
+	    req.getRequestDispatcher("jsp/signature/signatureAfterDraft.jsp.jsp").forward(req, resp);
+	    break;
 
 	}
 
@@ -78,8 +89,10 @@ public class SignatureServlet extends HttpServlet {
 	switch (signatureStepId) {
 	case 1:
 	    // on persiste dans bdd et datastore et session les changements
+
 	    mModel.signatureAfterDraft(req);
 	    resp.sendRedirect("/Signature?from=2");
+
 	    break;
 	case 2:
 	    break;

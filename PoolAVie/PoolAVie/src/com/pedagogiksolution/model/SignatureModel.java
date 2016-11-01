@@ -49,213 +49,327 @@ public class SignatureModel {
 
     }
 
-    
+    @SuppressWarnings("unchecked")
     public void signatureAfterDraft(HttpServletRequest req) {
 	String nombreAnneeSignature = req.getParameter("nombreAnneeSignature");
 	int numberOfYear = Integer.parseInt(nombreAnneeSignature);
 	String draft_player_id = req.getParameter("draft_player_id");
-	int playerId = Integer.parseInt(draft_player_id);
-	String position = req.getParameter("position");
+	// int player_id = Integer.parseInt(draft_player_id);
 	String salaire = req.getParameter("salaire");
 	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 	int teamId = mBeanUser.getTeamId();
 	int poolId = mBeanUser.getPoolId();
-	Key entityKey = null;
-	Key clefMemCache = null;
-	Attaquant mBeanAttaquant = null;
-	Defenseur mBeanDefenseur = null;
-	Gardien mBeanGardien = null;
 	String datastoreID = poolId + "_" + teamId;
-	Entity entity = null, equipeEntity = null; 
-	Key equipeKey;
+
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
 	// A: on change la valeur des years_x dans la bdd players_x
 	playersDao.signPlayerAfterDraft(teamId, poolId, draft_player_id, salaire, numberOfYear);
 
 	// B: on modifie les datatstore attaquant/def/goal/
+	String position = req.getParameter("position");
 
-	/*switch (position) {
+	switch (position) {
+
 	case "attaquant":
-	    clefMemCache = KeyFactory.createKey("Attaquant", datastoreID);
+	    String jspSessionName = "Attaquant" + teamId;
+	    String datastoreId = poolId + "_" + teamId;
 
-	    entityKey = KeyFactory.createKey("Attaquant", datastoreID);
-	    break;
-	case "defenseur":
-	    clefMemCache = KeyFactory.createKey("Defenseur", datastoreID);
-	    mBeanDefenseur = new Defenseur();
-	    entityKey = KeyFactory.createKey("Defenseur", datastoreID);
-	    break;
-	case "gardien":
-	    clefMemCache = KeyFactory.createKey("Gardien", datastoreID);
-	    mBeanGardien = new Gardien();
-	    entityKey = KeyFactory.createKey("Gardien", datastoreID);
-	    break;
-	}
+	    Attaquant mBeanAttaquant = new Attaquant();
 
-	try {
+	    datastore = DatastoreServiceFactory.getDatastoreService();
+	    Key clefDatastore = KeyFactory.createKey("Attaquant", datastoreId);
+	    try {
+		// si existe, aucun EntityNotFoundException, donc on
+		// recupère l'info pour tester password
+		Entity mEntity = datastore.get(clefDatastore);
+		players_id = (ArrayList<Integer>) mEntity.getProperty("players_id");
+		int playersIdPosition = players_id.indexOf(draft_player_id);
 
-	    entity = datastore.get(entityKey);
+		years_1 = (ArrayList<String>) mEntity.getProperty("years_1");
+		years_2 = (ArrayList<String>) mEntity.getProperty("years_2");
+		years_3 = (ArrayList<String>) mEntity.getProperty("years_3");
+		years_4 = (ArrayList<String>) mEntity.getProperty("years_4");
+		years_5 = (ArrayList<String>) mEntity.getProperty("years_5");
 
-	    mapDatastoreInTempArray(entity, position);
-	    
-	    int indexOfPlayersToSign = 1;//players_id.indexOf(playerId);
+		switch (numberOfYear) {
+		case 1: 
+		    years_1.set(playersIdPosition, salaire);
+		    years_2.set(playersIdPosition, "JA");
+		    years_3.set(playersIdPosition, "X");
+		    years_4.set(playersIdPosition, "X");
+		    years_5.set(playersIdPosition, "X");
+		    
+		    break;
+		case 2:
+		    years_1.set(playersIdPosition, salaire);
+		    years_2.set(playersIdPosition, salaire);
+		    years_3.set(playersIdPosition, "X");
+		    years_4.set(playersIdPosition, "X");
+		    years_5.set(playersIdPosition, "X");
+		    
+		    break;
+		case 3:
+		    years_1.set(playersIdPosition, salaire);
+		    years_2.set(playersIdPosition, salaire);
+		    years_3.set(playersIdPosition, salaire);
+		    years_4.set(playersIdPosition, "X");
+		    years_5.set(playersIdPosition, "X");
+		    break;
+		case 4:
+		    years_1.set(playersIdPosition, salaire);
+		    years_2.set(playersIdPosition, salaire);
+		    years_3.set(playersIdPosition, salaire);
+		    years_4.set(playersIdPosition, salaire);
+		    years_5.set(playersIdPosition, "X");
+		    
+		    break;
+		case 5:
+		    years_1.set(playersIdPosition, salaire);
+		    years_2.set(playersIdPosition, salaire);
+		    years_3.set(playersIdPosition, salaire);
+		    years_4.set(playersIdPosition, salaire);
+		    years_5.set(playersIdPosition, salaire);
 
-	    
+		    break;
+		}
+		
+		mEntity.setProperty("years_1", years_1);
+		mEntity.setProperty("years_2", years_2);
+		mEntity.setProperty("years_3", years_3);
+		mEntity.setProperty("years_4", years_4);
+		mEntity.setProperty("years_5", years_5);
+		
+		datastore.put(mEntity);
 
-	    switch (numberOfYear) {
-	    case 1:
-		years_3.set(indexOfPlayersToSign, "X");
-		years_4.set(indexOfPlayersToSign, "X");
-		years_5.set(indexOfPlayersToSign, "X");
-
-		break;
-	    case 2:
-		years_2.set(indexOfPlayersToSign, salaire);
-		years_3.set(indexOfPlayersToSign, "X");
-		years_4.set(indexOfPlayersToSign, "X");
-		years_5.set(indexOfPlayersToSign, "X");
-		break;
-	    case 3:
-		years_2.set(indexOfPlayersToSign, salaire);
-		years_3.set(indexOfPlayersToSign, salaire);
-		years_4.set(indexOfPlayersToSign, "X");
-		years_5.set(indexOfPlayersToSign, "X");
-		break;
-	    case 4:
-		years_2.set(indexOfPlayersToSign, salaire);
-		years_3.set(indexOfPlayersToSign, salaire);
-		years_4.set(indexOfPlayersToSign, salaire);
-		years_5.set(indexOfPlayersToSign, "X");
-		break;
-
-	    case 5:
-		years_2.set(indexOfPlayersToSign, salaire);
-		years_3.set(indexOfPlayersToSign, salaire);
-		years_4.set(indexOfPlayersToSign, salaire);
-		years_5.set(indexOfPlayersToSign, salaire);
-		break;
-
-	    }
-	    datastore.put(entity);
-
-	    String jspName;
-	    switch (position) {
-	    case "attaquant":
-		jspName = "Attaquant" + teamId;
-		mBeanAttaquant = (Attaquant) req.getSession().getAttribute(jspName);
-		mBeanAttaquant.setAide_overtime(aide_overtime);
-		mBeanAttaquant.setBlanchissage(blanchissage);
-		mBeanAttaquant.setBut_victoire(but_victoire);
-		mBeanAttaquant.setNom(nom2);
-		mBeanAttaquant.setPj(pj);
-		mBeanAttaquant.setPts(pts);
-		mBeanAttaquant.setTeamOfPlayer(teamOfPlayer);
+		mBeanAttaquant = (Attaquant) req.getSession().getAttribute(jspSessionName);
+		
 		mBeanAttaquant.setYears_1(years_1);
 		mBeanAttaquant.setYears_2(years_2);
 		mBeanAttaquant.setYears_3(years_3);
 		mBeanAttaquant.setYears_4(years_4);
 		mBeanAttaquant.setYears_5(years_5);
+		
+		req.getSession().setAttribute(jspSessionName, mBeanAttaquant);
 
-		memcache.put(clefMemCache, mBeanAttaquant);
-		break;
-	    case "defenseur":
-		jspName = "Defenseur" + teamId;
-		mBeanDefenseur = (Defenseur) req.getSession().getAttribute(jspName);
-		mBeanDefenseur.setAide_overtime(aide_overtime);
-		mBeanDefenseur.setBlanchissage(blanchissage);
-		mBeanDefenseur.setBut_victoire(but_victoire);
-		mBeanDefenseur.setNom(nom2);
-		mBeanDefenseur.setPj(pj);
-		mBeanDefenseur.setPts(pts);
-		mBeanDefenseur.setTeamOfPlayer(teamOfPlayer);
+	    } catch (EntityNotFoundException e) {
+		
+	    }
+	    break;
+
+	case "defenseur":
+	    String jspSessionName2 = "Defenseur" + teamId;
+	    String datastoreId2 = poolId + "_" + teamId;
+
+	    Defenseur mBeanDefenseur = new Defenseur();
+
+	    
+	    Key clefDatastore2 = KeyFactory.createKey("Defenseur", datastoreId2);
+	    try {
+		// si existe, aucun EntityNotFoundException, donc on
+		// recupère l'info pour tester password
+		Entity mEntity = datastore.get(clefDatastore2);
+		players_id = (ArrayList<Integer>) mEntity.getProperty("players_id");
+		int playersIdPosition = players_id.indexOf(draft_player_id);
+
+		years_1 = (ArrayList<String>) mEntity.getProperty("years_1");
+		years_2 = (ArrayList<String>) mEntity.getProperty("years_2");
+		years_3 = (ArrayList<String>) mEntity.getProperty("years_3");
+		years_4 = (ArrayList<String>) mEntity.getProperty("years_4");
+		years_5 = (ArrayList<String>) mEntity.getProperty("years_5");
+
+		switch (numberOfYear) {
+		case 1: 
+		    years_1.set(playersIdPosition, salaire);
+		    years_2.set(playersIdPosition, "JA");
+		    years_3.set(playersIdPosition, "X");
+		    years_4.set(playersIdPosition, "X");
+		    years_5.set(playersIdPosition, "X");
+		    
+		    break;
+		case 2:
+		    years_1.set(playersIdPosition, salaire);
+		    years_2.set(playersIdPosition, salaire);
+		    years_3.set(playersIdPosition, "X");
+		    years_4.set(playersIdPosition, "X");
+		    years_5.set(playersIdPosition, "X");
+		    
+		    break;
+		case 3:
+		    years_1.set(playersIdPosition, salaire);
+		    years_2.set(playersIdPosition, salaire);
+		    years_3.set(playersIdPosition, salaire);
+		    years_4.set(playersIdPosition, "X");
+		    years_5.set(playersIdPosition, "X");
+		    break;
+		case 4:
+		    years_1.set(playersIdPosition, salaire);
+		    years_2.set(playersIdPosition, salaire);
+		    years_3.set(playersIdPosition, salaire);
+		    years_4.set(playersIdPosition, salaire);
+		    years_5.set(playersIdPosition, "X");
+		    
+		    break;
+		case 5:
+		    years_1.set(playersIdPosition, salaire);
+		    years_2.set(playersIdPosition, salaire);
+		    years_3.set(playersIdPosition, salaire);
+		    years_4.set(playersIdPosition, salaire);
+		    years_5.set(playersIdPosition, salaire);
+
+		    break;
+		}
+		
+		mEntity.setProperty("years_1", years_1);
+		mEntity.setProperty("years_2", years_2);
+		mEntity.setProperty("years_3", years_3);
+		mEntity.setProperty("years_4", years_4);
+		mEntity.setProperty("years_5", years_5);
+		
+		datastore.put(mEntity);
+
+		mBeanDefenseur = (Defenseur) req.getSession().getAttribute(jspSessionName2);
+		
 		mBeanDefenseur.setYears_1(years_1);
 		mBeanDefenseur.setYears_2(years_2);
 		mBeanDefenseur.setYears_3(years_3);
 		mBeanDefenseur.setYears_4(years_4);
 		mBeanDefenseur.setYears_5(years_5);
-		memcache.put(clefMemCache, mBeanDefenseur);
-		break;
-	    case "gardien":
-		jspName = "Gardien" + teamId;
-		mBeanGardien = (Gardien) req.getSession().getAttribute(jspName);
-		mBeanGardien.setAide_overtime(aide_overtime);
-		mBeanGardien.setBlanchissage(blanchissage);
-		mBeanGardien.setBut_victoire(but_victoire);
-		mBeanGardien.setNom(nom2);
-		mBeanGardien.setPj(pj);
-		mBeanGardien.setPts(pts);
-		mBeanGardien.setTeamOfPlayer(teamOfPlayer);
+		
+		req.getSession().setAttribute(jspSessionName2, mBeanDefenseur);
+
+	    } catch (EntityNotFoundException e) {
+		
+	    }
+	    break;
+	case "gardien":
+	    String jspSessionName3 = "Gardien" + teamId;
+	    String datastoreId3 = poolId + "_" + teamId;
+
+	    Gardien mBeanGardien = new Gardien();
+
+	    datastore = DatastoreServiceFactory.getDatastoreService();
+	    Key clefDatastore3 = KeyFactory.createKey("Gardien", datastoreId3);
+	    try {
+		// si existe, aucun EntityNotFoundException, donc on
+		// recupère l'info pour tester password
+		Entity mEntity = datastore.get(clefDatastore3);
+		players_id = (ArrayList<Integer>) mEntity.getProperty("players_id");
+		int playersIdPosition = players_id.indexOf(draft_player_id);
+
+		years_1 = (ArrayList<String>) mEntity.getProperty("years_1");
+		years_2 = (ArrayList<String>) mEntity.getProperty("years_2");
+		years_3 = (ArrayList<String>) mEntity.getProperty("years_3");
+		years_4 = (ArrayList<String>) mEntity.getProperty("years_4");
+		years_5 = (ArrayList<String>) mEntity.getProperty("years_5");
+
+		switch (numberOfYear) {
+		case 1: 
+		    years_1.set(playersIdPosition, salaire);
+		    years_2.set(playersIdPosition, "JA");
+		    years_3.set(playersIdPosition, "X");
+		    years_4.set(playersIdPosition, "X");
+		    years_5.set(playersIdPosition, "X");
+		    
+		    break;
+		case 2:
+		    years_1.set(playersIdPosition, salaire);
+		    years_2.set(playersIdPosition, salaire);
+		    years_3.set(playersIdPosition, "X");
+		    years_4.set(playersIdPosition, "X");
+		    years_5.set(playersIdPosition, "X");
+		    
+		    break;
+		case 3:
+		    years_1.set(playersIdPosition, salaire);
+		    years_2.set(playersIdPosition, salaire);
+		    years_3.set(playersIdPosition, salaire);
+		    years_4.set(playersIdPosition, "X");
+		    years_5.set(playersIdPosition, "X");
+		    break;
+		case 4:
+		    years_1.set(playersIdPosition, salaire);
+		    years_2.set(playersIdPosition, salaire);
+		    years_3.set(playersIdPosition, salaire);
+		    years_4.set(playersIdPosition, salaire);
+		    years_5.set(playersIdPosition, "X");
+		    
+		    break;
+		case 5:
+		    years_1.set(playersIdPosition, salaire);
+		    years_2.set(playersIdPosition, salaire);
+		    years_3.set(playersIdPosition, salaire);
+		    years_4.set(playersIdPosition, salaire);
+		    years_5.set(playersIdPosition, salaire);
+
+		    break;
+		}
+		
+		mEntity.setProperty("years_1", years_1);
+		mEntity.setProperty("years_2", years_2);
+		mEntity.setProperty("years_3", years_3);
+		mEntity.setProperty("years_4", years_4);
+		mEntity.setProperty("years_5", years_5);
+		
+		datastore.put(mEntity);
+
+		mBeanGardien = (Gardien) req.getSession().getAttribute(jspSessionName3);
+		
 		mBeanGardien.setYears_1(years_1);
 		mBeanGardien.setYears_2(years_2);
 		mBeanGardien.setYears_3(years_3);
 		mBeanGardien.setYears_4(years_4);
 		mBeanGardien.setYears_5(years_5);
-		memcache.put(clefMemCache, mBeanGardien);
-		break;
+		
+		req.getSession().setAttribute(jspSessionName3, mBeanGardien);
+
+	    } catch (EntityNotFoundException e) {
+		
 	    }
+	    break;
+
+	}
+
+	// C: on modifie le datastore equipe
+
+	Key equipeKey = KeyFactory.createKey("Equipe", datastoreID);
+
+	try {
+	    Entity equipeEntity = datastore.get(equipeKey);
+	    Long temp_nb_contrat = (Long) equipeEntity.getProperty("nb_contrat");
+	    int nb_contrat = temp_nb_contrat.intValue();
+	    nb_contrat = nb_contrat + 1;
+	    equipeEntity.setProperty("nb_contrat", nb_contrat);
+	    datastore.put(equipeEntity);
+
+	    String jspName;
+	    jspName = "Equipe" + teamId;
+
+	    Equipe mBeanEquipe = (Equipe) req.getSession().getAttribute(jspName);
+	    mBeanEquipe.setNb_contrat(nb_contrat);
+	    req.getSession().setAttribute(jspName, mBeanEquipe);
 
 	} catch (EntityNotFoundException e) {
 
 	}
-	*/
-
-	// C: on modifie le datastore equipe
-	
-	equipeKey = KeyFactory.createKey("Equipe", datastoreID);
-
-	    try {
-		equipeEntity = datastore.get(equipeKey);
-
-		
-
-		Long temp_nb_contrat = (Long) equipeEntity.getProperty("nb_contrat");
-		int nb_contrat =  temp_nb_contrat.intValue();
-		nb_contrat = nb_contrat + 1;
-		equipeEntity.setProperty("nb_contrat", nb_contrat);
-		datastore.put(equipeEntity);
-
-		String jspName;
-		jspName = "Equipe" + teamId;
-		clefMemCache = KeyFactory.createKey("Equipe", datastoreID);
-		Equipe mBeanEquipe = new Equipe();
-		mBeanEquipe = (Equipe) req.getSession().getAttribute(jspName);
-
-		mBeanEquipe.setNb_contrat(nb_contrat);
-		
-		
-		req.getSession().setAttribute(jspName, mBeanEquipe);
-
-	    } catch (EntityNotFoundException e) {
-
-	    }
 
     }
 
-    @SuppressWarnings("unchecked")
-    private void mapDatastoreInTempArray(Entity entity, String position) {
+    public Boolean checkIfSignatureIsPossible(HttpServletRequest req) {
 
-	List<Integer> testIfEmpty = (List<Integer>) entity.getProperty("players_id");
+	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+	int teamId = mBeanUser.getTeamId();
+	String jspNameEquipe = "Equipe" + teamId;
 
-	if (testIfEmpty != null) {
+	Equipe mBeanEquipe = (Equipe) req.getSession().getAttribute(jspNameEquipe);
+	int nb_contrat = mBeanEquipe.getNb_contrat();
 
-	    players_id.addAll((List<Integer>) entity.getProperty("players_id"));
-	    nom2.addAll((List<String>) entity.getProperty("nom"));
-	    teamOfPlayer.addAll((List<String>) entity.getProperty("teamOfPlayer"));
-	    pj.addAll((List<Integer>) entity.getProperty("pj"));
-	    but_victoire.addAll((List<Integer>) entity.getProperty("but_victoire"));
-	    aide_overtime.addAll((List<Integer>) entity.getProperty("aide_overtime"));
-	    if (position.equalsIgnoreCase("Gardien")) {
-		blanchissage.addAll((List<Integer>) entity.getProperty("blanchissage"));
-	    }
-	    pts.addAll((List<Integer>) entity.getProperty("pts"));
-	    years_1.addAll((List<String>) entity.getProperty("years_1"));
-	    years_2.addAll((List<String>) entity.getProperty("years_2"));
-	    years_3.addAll((List<String>) entity.getProperty("years_3"));
-	    years_4.addAll((List<String>) entity.getProperty("years_4"));
-	    years_5.addAll((List<String>) entity.getProperty("years_5"));
-	    salaire_contrat.addAll((List<Integer>) entity.getProperty("salaire_contrat"));
+	if (nb_contrat >= 12) {
+	    return false;
+	} else {
+	    return true;
 	}
+
     }
 
 }

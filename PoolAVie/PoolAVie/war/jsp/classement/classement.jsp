@@ -54,10 +54,10 @@
 				<td>${Classement.but[i]}</td>
 				<td>${Classement.passe[i]}</td>
 				<td>${Classement.points[i]}</td>
+				<td>${Classement.moyenne[i]}</td>
 				<td>${Classement.hier[i]}</td>
 				<td>${Classement.semaine[i]}</td>
-				<td>${Classement.mois[i]}</td>
-				<td>${Classement.moyenne[i]}</td>
+				<td>${Classement.mois[i]}</td>				
 				<td>${Classement.difference[i]}</td>
 
 			</tr>

@@ -106,7 +106,7 @@ public class ClassementCronModel {
 	    int but = playersDao.getBut(teamId,poolId);
 	    int passe = playersDao.getPasse(teamId,poolId);
 	    int pts = playersDao.getPts(teamId,poolId);
-	    classementDao.updateStat(poolId,teamId,pj,but,passe,pts);
+	    classementDao.updateStat(poolId,pj,but,passe,pts,teamId);
 	    	    
 	}
 	
