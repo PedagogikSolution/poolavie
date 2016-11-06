@@ -154,9 +154,10 @@
 					<th>Nom</th>
 					<th>Équipe</th>
 					<th>Pj</th>
-					<th>But</th>
-					<th>Passe</th>
-					<th>Points</th>
+					<th>Victoire</th>
+					<th>DP</th>
+					<th>Blanc</th>
+					<th>Pts</th>
 					<th>2015-16</th>
 					<th>2016-17</th>
 					<th>2017-18</th>
@@ -182,6 +183,7 @@
 							<td>${NonSessionGardien.pj[i]}</td>
 							<td>${NonSessionGardien.but_victoire[i]}</td>
 							<td>${NonSessionGardien.aide_overtime[i]}</td>
+							<td>${NonSessionGardien.blanchissage[i]}</td>
 							<td>${NonSessionGardien.pts[i]}</td>
 							<td>${NonSessionGardien.years_1[i]}</td>
 							<td>${NonSessionGardien.years_2[i]}</td>
@@ -365,11 +367,11 @@
 					<div class="w3-xxlarge  w3-bottombar w3-border-indigo" style="width: 90%">${NonSessionBean.nomDuTeam}</div>
 					<br>
 					<div class="w3-xlarge ">Mon rang</div>
-					<div class="w3-xxlarge ">3ième</div>
+					<div class="w3-xxlarge ">1er</div>
 					<div class="w3-xlarge ">Mes points totaux</div>
-					<div class=" w3-xxlarge">324</div>
+					<div class=" w3-xxlarge">0</div>
 					<div class="w3-xlarge ">Mes points hier</div>
-					<div class=" w3-xxlarge">17</div>
+					<div class=" w3-xxlarge">0</div>
 				</div>
 
 

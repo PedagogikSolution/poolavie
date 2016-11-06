@@ -236,15 +236,27 @@ public class EquipeModel {
 	NonSessionDraftPick mNonSessionDraftBean = new NonSessionDraftPick();
 
 	Attaquant mBeanAttaquant = (Attaquant) req.getSession().getAttribute(attaquantName);
+	if(mBeanAttaquant==null){
+	    mBeanAttaquant= new Attaquant();
+	}
 	NonSessionAttaquant mNonSessionAttaquantBean = new NonSessionAttaquant();
 
 	Defenseur mBeanDefenseur = (Defenseur) req.getSession().getAttribute(defenseurName);
+	if(mBeanDefenseur==null){
+	    mBeanDefenseur= new Defenseur();
+	}
 	NonSessionDefenseur mNonSessionDefenseurBean = new NonSessionDefenseur();
 
 	Gardien mBeanGardien = (Gardien) req.getSession().getAttribute(gardienName);
+	if(mBeanGardien==null){
+	    mBeanGardien= new Gardien();
+	}
 	NonSessionGardien mNonSessionGardienBean = new NonSessionGardien();
 
 	Recrue mBeanRecrue = (Recrue) req.getSession().getAttribute(recrueName);
+	if(mBeanRecrue==null){
+	    mBeanRecrue= new Recrue();
+	}
 	NonSessionRecrue mNonSessionRecrueBean = new NonSessionRecrue();
 
 	// Equipe
@@ -282,33 +294,22 @@ public class EquipeModel {
 	mNonSessionDraftBean.setTeamNameOriginalPick(mBeanDraftPick.getTeamNameOriginalPick());
 	}
 	// Attaquant
-	mNonSessionAttaquantBean.setAge(mBeanAttaquant.getAge());
 	mNonSessionAttaquantBean.setAide_overtime(mBeanAttaquant.getAide_overtime());
 	mNonSessionAttaquantBean.setBirthday(mBeanAttaquant.getBirthday());
-	mNonSessionAttaquantBean.setBlanchissage(mBeanAttaquant.getBlanchissage());
 	mNonSessionAttaquantBean.setBut_victoire(mBeanAttaquant.getBut_victoire());
 	mNonSessionAttaquantBean.setCan_be_rookie(mBeanAttaquant.getCan_be_rookie());
 	mNonSessionAttaquantBean.setClub_ecole(mBeanAttaquant.getClub_ecole());
 	mNonSessionAttaquantBean.setContrat(mBeanAttaquant.getContrat());
-	mNonSessionAttaquantBean.setContrat_cours(mBeanAttaquant.getContrat_cours());
-	mNonSessionAttaquantBean.setContrat_max_years(mBeanAttaquant.getContrat_max_years());
-	mNonSessionAttaquantBean.setDate_calcul(mBeanAttaquant.getDate_calcul());
 	mNonSessionAttaquantBean.setAcquire_years(mBeanAttaquant.getAcquire_years());
-	mNonSessionAttaquantBean.setHier(mBeanAttaquant.getHier());
-	mNonSessionAttaquantBean.setMois(mBeanAttaquant.getMois());
 	mNonSessionAttaquantBean.setNom(mBeanAttaquant.getNom());
 	mNonSessionAttaquantBean.setPj(mBeanAttaquant.getPj());
 	mNonSessionAttaquantBean.setPosition(mBeanAttaquant.getPosition());
 	mNonSessionAttaquantBean.setProjection(mBeanAttaquant.getProjection());
 	mNonSessionAttaquantBean.setPts(mBeanAttaquant.getPts());
-	mNonSessionAttaquantBean.setSalaire_contrat(mBeanAttaquant.getSalaire_contrat());
 	mNonSessionAttaquantBean.setSalaire_draft(mBeanAttaquant.getSalaire_draft());
-	mNonSessionAttaquantBean.setSemaine(mBeanAttaquant.getSemaine());
 	mNonSessionAttaquantBean.setTake_proj(mBeanAttaquant.getTake_proj());
 	mNonSessionAttaquantBean.setTeam_id(mBeanAttaquant.getTeam_id());
-	mNonSessionAttaquantBean.setTeam_was_update(mBeanAttaquant.getTeam_was_update());
 	mNonSessionAttaquantBean.setTeamOfPlayer(mBeanAttaquant.getTeamOfPlayer());
-	mNonSessionAttaquantBean.setType_contrat(mBeanAttaquant.getType_contrat());
 	mNonSessionAttaquantBean.setYears_1(mBeanAttaquant.getYears_1());
 	mNonSessionAttaquantBean.setYears_2(mBeanAttaquant.getYears_2());
 	mNonSessionAttaquantBean.setYears_3(mBeanAttaquant.getYears_3());
@@ -316,7 +317,6 @@ public class EquipeModel {
 	mNonSessionAttaquantBean.setYears_5(mBeanAttaquant.getYears_5());
 
 	// Defenseur
-	mNonSessionDefenseurBean.setAge(mBeanDefenseur.getAge());
 	mNonSessionDefenseurBean.setAide_overtime(mBeanDefenseur.getAide_overtime());
 	mNonSessionDefenseurBean.setBirthday(mBeanDefenseur.getBirthday());
 	mNonSessionDefenseurBean.setBlanchissage(mBeanDefenseur.getBlanchissage());
@@ -324,25 +324,16 @@ public class EquipeModel {
 	mNonSessionDefenseurBean.setCan_be_rookie(mBeanDefenseur.getCan_be_rookie());
 	mNonSessionDefenseurBean.setClub_ecole(mBeanDefenseur.getClub_ecole());
 	mNonSessionDefenseurBean.setContrat(mBeanDefenseur.getContrat());
-	mNonSessionDefenseurBean.setContrat_cours(mBeanDefenseur.getContrat_cours());
-	mNonSessionDefenseurBean.setContrat_max_years(mBeanDefenseur.getContrat_max_years());
-	mNonSessionDefenseurBean.setDate_calcul(mBeanDefenseur.getDate_calcul());
-	mNonSessionDefenseurBean.setAcquire_years(mBeanAttaquant.getAcquire_years());
-	mNonSessionDefenseurBean.setHier(mBeanDefenseur.getHier());
-	mNonSessionDefenseurBean.setMois(mBeanDefenseur.getMois());
+	mNonSessionDefenseurBean.setAcquire_years(mBeanDefenseur.getAcquire_years());
 	mNonSessionDefenseurBean.setNom(mBeanDefenseur.getNom());
 	mNonSessionDefenseurBean.setPj(mBeanDefenseur.getPj());
 	mNonSessionDefenseurBean.setPosition(mBeanDefenseur.getPosition());
 	mNonSessionDefenseurBean.setProjection(mBeanDefenseur.getProjection());
 	mNonSessionDefenseurBean.setPts(mBeanDefenseur.getPts());
-	mNonSessionDefenseurBean.setSalaire_contrat(mBeanDefenseur.getSalaire_contrat());
 	mNonSessionDefenseurBean.setSalaire_draft(mBeanDefenseur.getSalaire_draft());
-	mNonSessionDefenseurBean.setSemaine(mBeanDefenseur.getSemaine());
 	mNonSessionDefenseurBean.setTake_proj(mBeanDefenseur.getTake_proj());
 	mNonSessionDefenseurBean.setTeam_id(mBeanDefenseur.getTeam_id());
-	mNonSessionDefenseurBean.setTeam_was_update(mBeanDefenseur.getTeam_was_update());
 	mNonSessionDefenseurBean.setTeamOfPlayer(mBeanDefenseur.getTeamOfPlayer());
-	mNonSessionDefenseurBean.setType_contrat(mBeanDefenseur.getType_contrat());
 	mNonSessionDefenseurBean.setYears_1(mBeanDefenseur.getYears_1());
 	mNonSessionDefenseurBean.setYears_2(mBeanDefenseur.getYears_2());
 	mNonSessionDefenseurBean.setYears_3(mBeanDefenseur.getYears_3());
@@ -358,25 +349,16 @@ public class EquipeModel {
 	mNonSessionGardienBean.setCan_be_rookie(mBeanGardien.getCan_be_rookie());
 	mNonSessionGardienBean.setClub_ecole(mBeanGardien.getClub_ecole());
 	mNonSessionGardienBean.setContrat(mBeanGardien.getContrat());
-	mNonSessionGardienBean.setContrat_cours(mBeanGardien.getContrat_cours());
-	mNonSessionGardienBean.setContrat_max_years(mBeanGardien.getContrat_max_years());
-	mNonSessionGardienBean.setDate_calcul(mBeanGardien.getDate_calcul());
-	mNonSessionGardienBean.setAcquire_years(mBeanAttaquant.getAcquire_years());
-	mNonSessionGardienBean.setHier(mBeanGardien.getHier());
-	mNonSessionGardienBean.setMois(mBeanGardien.getMois());
+	mNonSessionGardienBean.setAcquire_years(mBeanGardien.getAcquire_years());
 	mNonSessionGardienBean.setNom(mBeanGardien.getNom());
 	mNonSessionGardienBean.setPj(mBeanGardien.getPj());
 	mNonSessionGardienBean.setPosition(mBeanGardien.getPosition());
 	mNonSessionGardienBean.setProjection(mBeanGardien.getProjection());
 	mNonSessionGardienBean.setPts(mBeanGardien.getPts());
-	mNonSessionGardienBean.setSalaire_contrat(mBeanGardien.getSalaire_contrat());
 	mNonSessionGardienBean.setSalaire_draft(mBeanGardien.getSalaire_draft());
-	mNonSessionGardienBean.setSemaine(mBeanGardien.getSemaine());
 	mNonSessionGardienBean.setTake_proj(mBeanGardien.getTake_proj());
 	mNonSessionGardienBean.setTeam_id(mBeanGardien.getTeam_id());
-	mNonSessionGardienBean.setTeam_was_update(mBeanGardien.getTeam_was_update());
 	mNonSessionGardienBean.setTeamOfPlayer(mBeanGardien.getTeamOfPlayer());
-	mNonSessionGardienBean.setType_contrat(mBeanGardien.getType_contrat());
 	mNonSessionGardienBean.setYears_1(mBeanGardien.getYears_1());
 	mNonSessionGardienBean.setYears_2(mBeanGardien.getYears_2());
 	mNonSessionGardienBean.setYears_3(mBeanGardien.getYears_3());
@@ -392,25 +374,16 @@ public class EquipeModel {
 	mNonSessionRecrueBean.setCan_be_rookie(mBeanRecrue.getCan_be_rookie());
 	mNonSessionRecrueBean.setClub_ecole(mBeanRecrue.getClub_ecole());
 	mNonSessionRecrueBean.setContrat(mBeanRecrue.getContrat());
-	mNonSessionRecrueBean.setContrat_cours(mBeanRecrue.getContrat_cours());
-	mNonSessionRecrueBean.setContrat_max_years(mBeanRecrue.getContrat_max_years());
-	mNonSessionRecrueBean.setDate_calcul(mBeanRecrue.getDate_calcul());
-	mNonSessionRecrueBean.setAcquire_years(mBeanAttaquant.getAcquire_years());
-	mNonSessionRecrueBean.setHier(mBeanRecrue.getHier());
-	mNonSessionRecrueBean.setMois(mBeanRecrue.getMois());
+	mNonSessionRecrueBean.setAcquire_years(mBeanRecrue.getAcquire_years());
 	mNonSessionRecrueBean.setNom(mBeanRecrue.getNom());
 	mNonSessionRecrueBean.setPj(mBeanRecrue.getPj());
 	mNonSessionRecrueBean.setPosition(mBeanRecrue.getPosition());
 	mNonSessionRecrueBean.setProjection(mBeanRecrue.getProjection());
 	mNonSessionRecrueBean.setPts(mBeanRecrue.getPts());
-	mNonSessionRecrueBean.setSalaire_contrat(mBeanRecrue.getSalaire_contrat());
 	mNonSessionRecrueBean.setSalaire_draft(mBeanRecrue.getSalaire_draft());
-	mNonSessionRecrueBean.setSemaine(mBeanRecrue.getSemaine());
 	mNonSessionRecrueBean.setTake_proj(mBeanRecrue.getTake_proj());
 	mNonSessionRecrueBean.setTeam_id(mBeanRecrue.getTeam_id());
-	mNonSessionRecrueBean.setTeam_was_update(mBeanRecrue.getTeam_was_update());
 	mNonSessionRecrueBean.setTeamOfPlayer(mBeanRecrue.getTeamOfPlayer());
-	mNonSessionRecrueBean.setType_contrat(mBeanRecrue.getType_contrat());
 	mNonSessionRecrueBean.setYears_1(mBeanRecrue.getYears_1());
 	mNonSessionRecrueBean.setYears_2(mBeanRecrue.getYears_2());
 	mNonSessionRecrueBean.setYears_3(mBeanRecrue.getYears_3());

@@ -70,15 +70,19 @@ public class RecuperationServlet extends HttpServlet {
 
 	
 	
-	String codeValidation = mModel.checkIfEmailExist(courriel,req);
+	Boolean checkIfEmailExist = mModel.checkIfEmailExist(courriel,req);
 	
-	if(codeValidation!=null){
+	if(checkIfEmailExist){
+	    String codeValidation = "A1B2C3D4";
 	    mModel.sendInfoForRecuperation(req,courriel,codeValidation);
 	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
 	    mBeanMessageErreur.setErreurFormulaireLogin("Un courriel vous a été envoyé afin de récupérer vos identifiants");
 	    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
 	    req.getRequestDispatcher("jsp/accueil/home.jsp").forward(req, resp);
 	} else {
+	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+	    mBeanMessageErreur.setErreurFormulaireLogin("Cette adresse courriel n'existe pas");
+	    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
 	    req.getRequestDispatcher("jsp/accueil/recuperation.jsp").forward(req, resp);
 	}
 	

@@ -21,13 +21,13 @@ public class EquipesServlet extends HttpServlet {
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 	int cycleAnnuel = mBeanPool.getCycleAnnuel();
 	if (cycleAnnuel == 3) {
-	    LoginModel mModel = new LoginModel(req);
-	    mModel.createSessionDraftRoundBean();
-	    mModel.createSessionEquipeBean();
-	    mModel.createSessionAttaquantBean();
-	    mModel.createSessionDefenseurBean();
-	    mModel.createSessionGardienBean();
-	    mModel.createSessionRecrueBean();
+	   // LoginModel mModel = new LoginModel(req);
+	   // mModel.createSessionDraftRoundBean();
+	   // mModel.createSessionEquipeBean();
+	   // mModel.createSessionAttaquantBean();
+	   // mModel.createSessionDefenseurBean();
+	   // mModel.createSessionGardienBean();
+	   // mModel.createSessionRecrueBean();
 	    
 	    DraftPlayersModel mModelDraft = new DraftPlayersModel();	    	   
 	    mModelDraft.putDatastoreIntoBean(mBeanPool,req);

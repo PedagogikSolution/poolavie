@@ -98,7 +98,7 @@
 								<input class="w3-padding-left w3-padding-right w3-input w3-container w3-margin-left" type="text" name="nomDuTeam" style="width: 90%">
 								<br>
 								<input class="w3-btn w3-margin-left w3-khaki w3-xlarge w3-text-indigo" type="button" name="logoTeam" value="Choisir un logo" onclick="openTeamLogoPicker()">
-								<input id="logoUrl" type="hidden" name="logoUrlTeam" value="default">
+								<input id="logoUrl" type="hidden" name="logoUrlTeam" value="https://storage.googleapis.com/poolavie-bucket/QUE.png">
 								<br>
 								<br>
 								<img id="logoTeamChosen" class="w3-container" src="https://storage.googleapis.com/poolavie-bucket/QUE.png">

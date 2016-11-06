@@ -34,7 +34,7 @@ public class PlayersDaoImpl implements PlayersDao {
     private static final String GET_PLAYERS_BY_POOL_ID_AND_POSITION = "SELECT * FROM players_? WHERE team_id=? AND position=? AND club_ecole=? ORDER BY pts DESC";
     private static final String GET_PLAYERS_FOR_DRAFT = "SELECT * FROM players_?";
     private static final String GET_PLAYERS_BY_POOL_ID_FOR_ROOKIE = "SELECT * FROM players_? WHERE team_id=? AND club_ecole=? ORDER BY pts DESC";
-    private static final String UPDATE_PLAYERS_AFTER_DRAFT_PICK = "UPDATE players_? SET team_id=?,contrat=?,acquire_years=?,salaire_contrat=?,club_ecole=?,years_1=?,years_2='JA',years_3='A',years_4='A',years_5='A' WHERE _id=?";
+    private static final String UPDATE_PLAYERS_AFTER_DRAFT_PICK = "UPDATE players_? SET team_id=?,contrat=?,acquire_years=?,club_ecole=?,years_1=?,years_2='JA',years_3='A',years_4='A',years_5='A' WHERE _id=?";
     private static final String GET_PLAYERS_FOR_SIGNATURE_AFTER_DRAFT = "SELECT * FROM players_? WHERE contrat=1 AND club_ecole=0 AND team_id=? AND years_2='JA'";
     private static final String UPDATE_PLAYERS_SIGNATURE_AFTER_DRAFT = "UPDATE players_? SET years_1=?,years_2=?,years_3=?,years_4=?,years_5=? WHERE _id=?";
     private static final String GET_FOWARD_PJ_TOP_X = "SELECT SUM(pj) AS sommePts FROM (SELECT pj FROM players_? WHERE position='attaquant' AND team_id=? ORDER BY pts DESC LIMIT ?) AS subquery";
@@ -126,7 +126,7 @@ public class PlayersDaoImpl implements PlayersDao {
 
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_AFTER_DRAFT_PICK, false, poolId, teamId, contrat, acquire_years, salaireId, clubEcoleId,salaireId, playerId);
+	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_AFTER_DRAFT_PICK, false, poolId, teamId, contrat, acquire_years, clubEcoleId,salaireId, playerId);
 	    preparedStatement.executeUpdate();
 
 	} catch (SQLException e) {
@@ -564,23 +564,15 @@ public class PlayersDaoImpl implements PlayersDao {
 	int take_proj = 0;
 	int salaire_draft = 0;
 	int contrat = 0;
-	int acquire_years = 0;
-	int salaire_contrat = 0;
-	int contrat_cours = 0;
-	int contrat_max_years = 0;
-	int type_contrat = 0;
-	int club_ecole = 0;
-	Date date_calcul = null;
+	int acquire_years = 0;	
+	int club_ecole = 0;	
 	String years_1 = null;
 	String years_2 = null;
 	String years_3 = null;
 	String years_4 = null;
-	String years_5 = null;
-	int team_was_update = 0;
+	String years_5 = null;	
 	int age = 0;
-	int hier = 0;
-	int semaine = 0;
-	int mois = 0;
+	
 
 	try {
 
@@ -608,22 +600,13 @@ public class PlayersDaoImpl implements PlayersDao {
 		salaire_draft = rs.getInt("salaire_draft");
 		contrat = rs.getInt("contrat");
 		acquire_years = rs.getInt("acquire_years");
-		salaire_contrat = rs.getInt("salaire_contrat");
-		contrat_cours = rs.getInt("contrat_cours");
-		contrat_max_years = rs.getInt("contrat_max_years");
-		type_contrat = rs.getInt("type_contrat");
 		club_ecole = rs.getInt("club_ecole");
-		date_calcul = rs.getDate("date_calcul");
 		years_1 = rs.getString("years_1");
 		years_2 = rs.getString("years_2");
 		years_3 = rs.getString("years_3");
 		years_4 = rs.getString("years_4");
 		years_5 = rs.getString("years_5");
-		team_was_update = rs.getInt("team_was_update");
-		age = rs.getInt("age");
-		hier = rs.getInt("hier");
-		semaine = rs.getInt("semaine");
-		mois = rs.getInt("mois");
+		
 
 		
 
@@ -639,25 +622,16 @@ public class PlayersDaoImpl implements PlayersDao {
 		mBean.setCan_be_rookie(can_be_rookie);
 		mBean.setClub_ecole(club_ecole);
 		mBean.setContrat(contrat);
-		mBean.setContrat_cours(contrat_cours);
-		mBean.setContrat_max_years(contrat_max_years);
-		mBean.setDate_calcul(date_calcul);
 		mBean.setAcquire_years(acquire_years);
-		mBean.setHier(hier);
-		mBean.setMois(mois);
 		mBean.setNom(nom);
 		mBean.setPj(pj);
 		mBean.setPosition(position);
 		mBean.setProjection(projection);
 		mBean.setPts(pts);
-		mBean.setSalaire_contrat(salaire_contrat);
 		mBean.setSalaire_draft(salaire_draft);
-		mBean.setSemaine(semaine);
 		mBean.setTake_proj(take_proj);
 		mBean.setTeam_id(team_id);
-		mBean.setTeam_was_update(team_was_update);
 		mBean.setTeamOfPlayer(teamOfPlayer);
-		mBean.setType_contrat(type_contrat);
 		mBean.setYears_1(years_1);
 		mBean.setYears_2(years_2);
 		mBean.setYears_3(years_3);

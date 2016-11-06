@@ -41,7 +41,7 @@
 			<h4>(Et noter votre nom d'utilisateur en même temps)</h4>
 		</div>
 
-		<form class="w3-padding-left" action="/recuperation" method="post">
+		
 			<table class="w3-table w3-content w3-bordered w3-margin-top w3-large" style="width: 90%">
 
 				<tr class="w3-indigo">
@@ -52,27 +52,29 @@
 				</tr>
 				<c:set var="nombreDeCompte" value="${Recuperation.username}" />
 				<c:forEach var="i" begin="0" end="${fn:length(nombreDeCompte)-1}">
-
+				
 					<tr>
+					
 						<td>${Recuperation.username[i]}</td>
 						<td>
-							<input class="w3-input w3-container w3-text-blue  w3-validate" type="password" name="password">
+							<input class="w3-input w3-container w3-text-blue  w3-validate" form="ChangePasswordForm${i}" type="password" name="password">
 						</td>
 						<td>
-
+							<form id="ChangePasswordForm${i}" class="w3-padding-left" action="/recuperation" method="post">
 							<input type="hidden" name="username" value="${Recuperation.username[i]}">
+							
 							<button class="w3-btn w3-khaki w3-large w3-text-indigo">Changer</button>
-
+							</form>
 						</td>
-
+					
 					</tr>
-
+				
 				</c:forEach>
 				
 			</table>
 			<br>
 			<br>
-		</form>
+		
 	</div>
 
 

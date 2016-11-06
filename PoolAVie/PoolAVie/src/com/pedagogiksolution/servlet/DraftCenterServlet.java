@@ -26,13 +26,13 @@ public class DraftCenterServlet extends HttpServlet {
 	int cycleAnnuel = mBean.getCycleAnnuel();
 	
 	if (cycleAnnuel == 3) {
-	    LoginModel mModel = new LoginModel(req);
-	    mModel.createSessionDraftRoundBean();
-	    mModel.createSessionEquipeBean();
-	    mModel.createSessionAttaquantBean();
-	    mModel.createSessionDefenseurBean();
-	    mModel.createSessionGardienBean();
-	    mModel.createSessionRecrueBean();
+	 //   LoginModel mModel = new LoginModel(req);
+	  //  mModel.createSessionDraftRoundBean();
+	  //  mModel.createSessionEquipeBean();
+	  //  mModel.createSessionAttaquantBean();
+	  //  mModel.createSessionDefenseurBean();
+	  //  mModel.createSessionGardienBean();
+	 //   mModel.createSessionRecrueBean();
 	    DraftPlayersModel mModelDraft = new DraftPlayersModel();	    	   
 	    mModelDraft.putDatastoreIntoBean(mBean,req);
 	    

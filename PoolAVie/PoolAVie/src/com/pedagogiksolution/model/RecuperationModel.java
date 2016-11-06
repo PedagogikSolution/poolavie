@@ -37,7 +37,7 @@ import com.pedagogiksolution.utils.PasswordEncryption;
 
 public class RecuperationModel {
 
-    public String checkIfEmailExist(String courriel, HttpServletRequest req) {
+    public Boolean checkIfEmailExist(String courriel, HttpServletRequest req) {
 
 	// on appel le service
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -47,12 +47,9 @@ public class RecuperationModel {
 	q.setFilter(new Query.FilterPredicate("courriel", Query.FilterOperator.EQUAL, courriel));
 
 	PreparedQuery pq = datastore.prepare(q);
-	Entity entity = pq.asSingleEntity();
-	if (entity != null) {
-
-	    String codeValidation = (String) entity.getProperty("codeValidation");
-
-	    return codeValidation;
+	int countEntity = pq.countEntities(FetchOptions.Builder.withDefaults());
+	if (countEntity >= 1) {
+	    return true;
 
 	} else {
 

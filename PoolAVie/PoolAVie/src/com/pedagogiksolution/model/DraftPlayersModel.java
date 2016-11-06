@@ -582,7 +582,7 @@ public class DraftPlayersModel {
 		entity = datastore.get(entityKey);
 
 		mapDatastoreInTempArray(entity, position);
-
+		
 		players_id.add(playersId);
 		entity.setProperty("players_id", players_id);
 
@@ -654,6 +654,8 @@ public class DraftPlayersModel {
 		    mBeanAttaquant.setYears_3(years_3);
 		    mBeanAttaquant.setYears_4(years_4);
 		    mBeanAttaquant.setYears_5(years_5);
+		    
+		    req.getSession().setAttribute(jspName, mBeanAttaquant);
 
 		    break;
 		case "defenseur":
@@ -671,6 +673,7 @@ public class DraftPlayersModel {
 		    mBeanDefenseur.setYears_3(years_3);
 		    mBeanDefenseur.setYears_4(years_4);
 		    mBeanDefenseur.setYears_5(years_5);
+		    req.getSession().setAttribute(jspName, mBeanDefenseur);
 		    break;
 		case "gardien":
 		    jspName = "Gardien" + teamID;
@@ -687,6 +690,7 @@ public class DraftPlayersModel {
 		    mBeanGardien.setYears_3(years_3);
 		    mBeanGardien.setYears_4(years_4);
 		    mBeanGardien.setYears_5(years_5);
+		    req.getSession().setAttribute(jspName, mBeanGardien);
 		    break;
 		}
 
@@ -795,7 +799,7 @@ public class DraftPlayersModel {
 		    mBeanEquipe.setNb_gardien(nb_gardien);
 		    break;
 		}
-
+		req.getSession().setAttribute(jspName, mBeanEquipe);
 
 	    } catch (EntityNotFoundException e) {
 
@@ -835,6 +839,8 @@ public class DraftPlayersModel {
 
 	    DraftRound mBeanDraftRound = (DraftRound) req.getSession().getAttribute("DraftRound");
 	    mBeanDraftRound = mapDraftRound(draftRoundEntity, mBeanDraftRound);
+	    
+	    req.getSession().setAttribute("DraftRound", mBeanDraftRound);
 	    
 
 	    String clubEcole = "0";

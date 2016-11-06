@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.DraftPlayersModel;
+import com.pedagogiksolution.model.LoginModel;
 
 public class ClassementServlet extends HttpServlet {
 
@@ -25,6 +26,11 @@ public class ClassementServlet extends HttpServlet {
 	   	    
 	    DraftPlayersModel mModelDraft = new DraftPlayersModel();	    	   
 	    mModelDraft.putDatastoreIntoBean(mBeanPool,req);
+	}
+	if (cycleAnnuel < 3) {
+   	    
+	   LoginModel mModel = new LoginModel(req);
+	   mModel.createSessionClassementBean();
 	}
 	
 	    req.getRequestDispatcher("jsp/classement/classement.jsp").forward(req, resp);

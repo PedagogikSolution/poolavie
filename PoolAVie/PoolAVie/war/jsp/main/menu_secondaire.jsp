@@ -11,7 +11,7 @@
 
 		<li id="menuSecTrade" class="w3-xlarge"><a href="/Trade">TRADE</a></li>
 
-		<li id="menuSecSign" class="w3-xlarge"><a href="/#">SIGNATURE</a></li>
+		<li id="menuSecSign" class="w3-xlarge"><a href="/Signature?from=2">SIGNATURE</a></li>
 
 		<li id="menuSecTeam" class="w3-xlarge"><a href="/Equipes">TEAM</a></li>
 
@@ -33,7 +33,7 @@
 
 		<li id="menuSecTrade" class="w3-xlarge"><a href="/Trade">TRADE</a></li>
 
-		<li id="menuSecSign" class="w3-xlarge"><a href="/#">SIGNATURE</a></li>
+		<li id="menuSecSign" class="w3-xlarge"><a href="/Signature?from=2">SIGNATURE</a></li>
 
 		<li id="menuSecTeam" class="w3-xlarge"><a href="/Equipes">TEAM</a></li>
 
