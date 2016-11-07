@@ -69,7 +69,7 @@ public class SignatureModel {
 	// B: on modifie les datatstore attaquant/def/goal/
 	String position = req.getParameter("position");
 
-	switch (position) {
+	/*switch (position) {
 
 	case "attaquant":
 	    String jspSessionName = "Attaquant" + teamId;
@@ -328,7 +328,7 @@ public class SignatureModel {
 	    break;
 
 	}
-
+*/
 	// C: on modifie le datastore equipe
 
 	Key equipeKey = KeyFactory.createKey("Equipe", datastoreID);

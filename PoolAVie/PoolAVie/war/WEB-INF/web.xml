@@ -56,7 +56,8 @@
         <url-pattern>/AdminPool</url-pattern>
         <url-pattern>/AdminTrade</url-pattern>
         <url-pattern>/AdminDraft</url-pattern>
-        <url-pattern>/AdminSignature</url-pattern> 
+        <url-pattern>/AdminSignature</url-pattern>
+        <url-pattern>/deconnexion</url-pattern>
         <url-pattern>/jsp/admin/*</url-pattern>
         <url-pattern>/jsp/archives/*</url-pattern>
         <url-pattern>/jsp/classement/*</url-pattern>

@@ -27,9 +27,9 @@ public class NoCacheFilter implements Filter {
 	
 	   
 	   
-		response.setHeader("Cache-Control", "private, no-store, no-cache, must-revalidate");
-		response.setDateHeader("Expires", 0);
-		response.setHeader("Pragma", "No-cache");
+		//response.setHeader("Cache-Control", "private, no-store, no-cache, must-revalidate");
+		//response.setDateHeader("Expires", 0);
+		//response.setHeader("Pragma", "No-cache");
 
 		chain.doFilter(request, response);
 	   

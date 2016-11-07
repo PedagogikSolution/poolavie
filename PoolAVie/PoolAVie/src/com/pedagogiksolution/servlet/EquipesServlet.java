@@ -33,12 +33,12 @@ public class EquipesServlet extends HttpServlet {
 	    mModelDraft.putDatastoreIntoBean(mBeanPool,req);
 	}
 	if (cycleAnnuel == 4) {
-	    LoginModel mModel = new LoginModel(req);
-	    mModel.createSessionEquipeBean();
-	    mModel.createSessionAttaquantBean();
-	    mModel.createSessionDefenseurBean();
-	    mModel.createSessionGardienBean();
-	    mModel.createSessionRecrueBean();
+	   // LoginModel mModel = new LoginModel(req);
+	   // mModel.createSessionEquipeBean();
+	   // mModel.createSessionAttaquantBean();
+	   // mModel.createSessionDefenseurBean();
+	   // mModel.createSessionGardienBean();
+	   // mModel.createSessionRecrueBean();
 	    
 	}
 	EquipeModel mModel = new EquipeModel();

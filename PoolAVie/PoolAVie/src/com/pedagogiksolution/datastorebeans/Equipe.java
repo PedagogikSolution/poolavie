@@ -190,5 +190,85 @@ public class Equipe implements Serializable{
     public void setClassement_last_year(int classement_last_year) {
 	this.classement_last_year = classement_last_year;
     }
+    
    
+    public Equipe mapEquipeFromDatastore(com.google.appengine.api.datastore.Entity mEntity, Equipe mBeanEquipe) {
+	Long argent_recu_long =(Long)mEntity.getProperty("argent_recu");
+	int argent_recu = argent_recu_long.intValue();	
+	mBeanEquipe.setArgent_recu(argent_recu);
+	
+	Long bonus_5m_long =(Long)mEntity.getProperty("bonus_5m");
+	int bonus_5m = bonus_5m_long.intValue();	
+	mBeanEquipe.setBonus_5m(bonus_5m);
+	
+	Long bonus_penalite_long =(Long)mEntity.getProperty("bonus_penalite");
+	int bonus_penalite = bonus_penalite_long.intValue();	
+	mBeanEquipe.setBonus_penalite(bonus_penalite);
+	
+	Long budget_restant_long =(Long)mEntity.getProperty("budget_restant");
+	int budget_restant = budget_restant_long.intValue();	
+	mBeanEquipe.setBudget_restant(budget_restant);
+	
+	Long classement_last_year_long =(Long)mEntity.getProperty("classement_last_year");
+	int classement_last_year = classement_last_year_long.intValue();	
+	mBeanEquipe.setClassement_last_year(classement_last_year);
+	
+	Long manquant_att_long =(Long)mEntity.getProperty("manquant_att");
+	int manquant_att = manquant_att_long.intValue();	
+	mBeanEquipe.setManquant_att(manquant_att);
+	
+	Long manquant_def_long =(Long)mEntity.getProperty("manquant_def");
+	int manquant_def = manquant_def_long.intValue();	
+	mBeanEquipe.setManquant_def(manquant_def);
+	
+	Long manquant_gardien_long =(Long)mEntity.getProperty("manquant_gardien");
+	int manquant_gardien = manquant_gardien_long.intValue();	
+	mBeanEquipe.setManquant_gardien(manquant_gardien);
+	
+	Long manquant_recrue_long =(Long)mEntity.getProperty("manquant_recrue");
+	int manquant_recrue = manquant_recrue_long.intValue();	
+	mBeanEquipe.setManquant_recrue(manquant_recrue);
+	
+	Long manquant_equipe_long =(Long)mEntity.getProperty("manquant_equipe");
+	int manquant_equipe = manquant_equipe_long.intValue();	
+	mBeanEquipe.setManquant_equipe(manquant_equipe);
+	
+	Long max_salaire_begin_long =(Long)mEntity.getProperty("max_salaire_begin");
+	int max_salaire_begin = max_salaire_begin_long.intValue();	
+	mBeanEquipe.setMax_salaire_begin(max_salaire_begin);
+	
+	Long moy_sal_restant_draft_long =(Long)mEntity.getProperty("moy_sal_restant_draft");
+	int moy_sal_restant_draft = moy_sal_restant_draft_long.intValue();	
+	mBeanEquipe.setMoy_sal_restant_draft(moy_sal_restant_draft);
+	
+	Long nb_attaquant_long =(Long)mEntity.getProperty("nb_attaquant");
+	int nb_attaquant = nb_attaquant_long.intValue();	
+	mBeanEquipe.setNb_attaquant(nb_attaquant);
+	
+	Long nb_defenseur_long =(Long)mEntity.getProperty("nb_defenseur");
+	int nb_defenseur = nb_defenseur_long.intValue();	
+	mBeanEquipe.setNb_defenseur(nb_defenseur);
+	
+	Long nb_gardien_long =(Long)mEntity.getProperty("nb_gardien");
+	int nb_gardien = nb_gardien_long.intValue();	
+	mBeanEquipe.setNb_gardien(nb_gardien);
+	
+	Long nb_rookie_long =(Long)mEntity.getProperty("nb_rookie");
+	int nb_rookie = nb_rookie_long.intValue();	
+	mBeanEquipe.setNb_rookie(nb_rookie);
+	
+	Long nb_equipe_long =(Long)mEntity.getProperty("nb_equipe");
+	int nb_equipe = nb_equipe_long.intValue();	
+	mBeanEquipe.setNb_equipe(nb_equipe);
+	
+	Long nb_contrat_long =(Long)mEntity.getProperty("nb_contrat");
+	int nb_contrat = nb_contrat_long.intValue();	
+	mBeanEquipe.setNb_contrat(nb_contrat);
+	
+	Long total_salaire_now_long =(Long)mEntity.getProperty("total_salaire_now");
+	int total_salaire_now = total_salaire_now_long.intValue();	
+	mBeanEquipe.setTotal_salaire_now(total_salaire_now);
+		
+	return mBeanEquipe;
+    }
 }

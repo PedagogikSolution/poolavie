@@ -228,7 +228,7 @@ public class LoginModel {
 					Entity mEntity = datastore.get(clefDatastore);
 
 					// on met dans SessionBean
-					mBeanEquipe = mapEquipeFromDatastore(mEntity, mBeanEquipe);
+					mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(mEntity, mBeanEquipe);
 					requestObject.getSession().setAttribute(jspSessionName, mBeanEquipe);
 
 				} catch (EntityNotFoundException e) {
@@ -617,20 +617,7 @@ public class LoginModel {
 		return mBeanDraftRound;
 	}
 
-	private Equipe mapEquipeFromDatastore(Entity mEntity, Equipe mBeanEquipe) {
-		EntityManagerFactory emf = EMF.get();
-		EntityManager em = null;
-
-		try {
-			em = emf.createEntityManager();
-			mBeanEquipe = em.find(Equipe.class, mEntity.getKey());
-		} finally {
-			if (em != null)
-				em.close();
-		}
-
-		return mBeanEquipe;
-	}
+	
 
 	private DraftPick mapDraftPickFromDatastore(Entity mEntity, DraftPick mBeanDraftPick) {
 		EntityManagerFactory emf = EMF.get();

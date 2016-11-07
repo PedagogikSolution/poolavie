@@ -50,7 +50,7 @@
 			</div>
 		</div>
 	</c:if>
-	<c:if test="${Pool.poolType==1&&Pool.cycleAnnuel==4&&requestScope.messageErreurs!=null}">
+	<c:if test="${Pool.poolType==1&&Pool.cycleAnnuel==4&&requestScope.messageErreurs==null}">
 		
 		<div class="w3-responsive" style="width:90%">
 			<table id="playersPickBox" class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top w3-large" style="width: 95%">

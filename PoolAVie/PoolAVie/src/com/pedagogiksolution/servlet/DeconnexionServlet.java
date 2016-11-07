@@ -29,6 +29,7 @@ public class DeconnexionServlet extends HttpServlet {
 	String nomProperty = null;
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+	
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 	String poolID = mBeanPool.getPoolID();
 	int teamId = mBeanUser.getTeamId();
