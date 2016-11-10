@@ -9,260 +9,294 @@ import javax.persistence.Id;
 
 @Entity(name = "Attaquant")
 public class Attaquant implements Serializable {
-    
 
-   
-    
     /**
      * 
      */
     private static final long serialVersionUID = -4460611310628286985L;
-    
- 
+
     @Id
     private String poolTeamId;
-    private List<Integer> players_id;
-    private List<Integer> team_id;
+    private List<Long> players_id;
+    private List<Long> team_id;
     private List<String> nom;
     private List<String> teamOfPlayer;
-    private List<Integer> pj;
-    private List<Integer> but_victoire;
-    private List<Integer> aide_overtime;
-    private List<Integer> blanchissage;
-    private List<Integer> pts;
-    private List<Integer> projection;
+    private List<Long> pj;
+    private List<Long> but_victoire;
+    private List<Long> aide_overtime;
+    private List<Long> blanchissage;
+    private List<Long> pts;
+    private List<Long> projection;
     private List<String> position;
     private List<Date> birthday;
-    private List<Integer> can_be_rookie;
-    private List<Integer> take_proj;
-    private List<Integer> salaire_draft;
-    private List<Integer> contrat;
-    private List<Integer> acquire_years;
-    private List<Integer> salaire_contrat;
-    private List<Integer> contrat_cours;
-    private List<Integer> contrat_max_years;
-    private List<Integer> type_contrat;
-    private List<Integer> club_ecole;
-    private List<Date> date_calcul;
+    private List<Long> can_be_rookie;
+    private List<Long> salaire_draft;
+    private List<Long> contrat;
+    private List<Long> acquire_years;
+    private List<Long> club_ecole;
     private List<String> years_1;
     private List<String> years_2;
     private List<String> years_3;
     private List<String> years_4;
     private List<String> years_5;
-    private List<Integer> team_was_update;
-    private List<Integer> age;
-    private List<Integer> hier;
-    private List<Integer> semaine;
-    private List<Integer> mois;
-    
-   
-    public List<Integer> getTeam_id() {
-	return team_id;
-    }
-    public void setTeam_id(List<Integer> team_id) {
-	this.team_id = team_id;
-    }
-    public List<String> getNom() {
-	return nom;
-    }
-    public void setNom(List<String> nom) {
-	this.nom = nom;
-    }
-    public List<Integer> getPj() {
-	return pj;
-    }
-    public void setPj(List<Integer> pj) {
-	this.pj = pj;
-    }
-    public List<Integer> getBut_victoire() {
-	return but_victoire;
-    }
-    public void setBut_victoire(List<Integer> but_victoire) {
-	this.but_victoire = but_victoire;
-    }
-    public List<Integer> getAide_overtime() {
-	return aide_overtime;
-    }
-    public void setAide_overtime(List<Integer> aide_overtime) {
-	this.aide_overtime = aide_overtime;
-    }
-    public List<Integer> getBlanchissage() {
-	return blanchissage;
-    }
-    public void setBlanchissage(List<Integer> blanchissage) {
-	this.blanchissage = blanchissage;
-    }
-    public List<Integer> getPts() {
-	return pts;
-    }
-    public void setPts(List<Integer> pts) {
-	this.pts = pts;
-    }
-    public List<Integer> getProjection() {
-	return projection;
-    }
-    public void setProjection(List<Integer> projection) {
-	this.projection = projection;
-    }
-    public List<String> getPosition() {
-	return position;
-    }
-    public void setPosition(List<String> position) {
-	this.position = position;
-    }
-    public List<Date> getBirthday() {
-	return birthday;
-    }
-    public void setBirthday(List<Date> birthday2) {
-	this.birthday = birthday2;
-    }
-    public List<Integer> getCan_be_rookie() {
-	return can_be_rookie;
-    }
-    public void setCan_be_rookie(List<Integer> can_be_rookie) {
-	this.can_be_rookie = can_be_rookie;
-    }
-    public List<Integer> getTake_proj() {
-	return take_proj;
-    }
-    public void setTake_proj(List<Integer> take_proj) {
-	this.take_proj = take_proj;
-    }
-    public List<Integer> getSalaire_draft() {
-	return salaire_draft;
-    }
-    public void setSalaire_draft(List<Integer> salaire_draft) {
-	this.salaire_draft = salaire_draft;
-    }
-    public List<Integer> getContrat() {
-	return contrat;
-    }
-    public void setContrat(List<Integer> contrat) {
-	this.contrat = contrat;
-    }
-    public List<Integer> getSalaire_contrat() {
-	return salaire_contrat;
-    }
-    public void setSalaire_contrat(List<Integer> salaire_contrat) {
-	this.salaire_contrat = salaire_contrat;
-    }
-    public List<Integer> getContrat_cours() {
-	return contrat_cours;
-    }
-    public void setContrat_cours(List<Integer> contrat_cours) {
-	this.contrat_cours = contrat_cours;
-    }
-    public List<Integer> getContrat_max_years() {
-	return contrat_max_years;
-    }
-    public void setContrat_max_years(List<Integer> contrat_max_years) {
-	this.contrat_max_years = contrat_max_years;
-    }
-    public List<Integer> getType_contrat() {
-	return type_contrat;
-    }
-    public void setType_contrat(List<Integer> type_contrat) {
-	this.type_contrat = type_contrat;
-    }
-    public List<Integer> getClub_ecole() {
-	return club_ecole;
-    }
-    public void setClub_ecole(List<Integer> club_ecole) {
-	this.club_ecole = club_ecole;
-    }
-    public List<Date> getDate_calcul() {
-	return date_calcul;
-    }
-    public void setDate_calcul(List<Date> date_calcul) {
-	this.date_calcul = date_calcul;
-    }
-    public List<String> getYears_1() {
-	return years_1;
-    }
-    public void setYears_1(List<String> years_1) {
-	this.years_1 = years_1;
-    }
-    public List<String> getYears_2() {
-	return years_2;
-    }
-    public void setYears_2(List<String> years_2) {
-	this.years_2 = years_2;
-    }
-    public List<String> getYears_3() {
-	return years_3;
-    }
-    public void setYears_3(List<String> years_3) {
-	this.years_3 = years_3;
-    }
-    public List<String> getYears_4() {
-	return years_4;
-    }
-    public void setYears_4(List<String> years_4) {
-	this.years_4 = years_4;
-    }
-    public List<String> getYears_5() {
-	return years_5;
-    }
-    public void setYears_5(List<String> years_5) {
-	this.years_5 = years_5;
-    }
-    public List<Integer> getTeam_was_update() {
-	return team_was_update;
-    }
-    public void setTeam_was_update(List<Integer> team_was_update) {
-	this.team_was_update = team_was_update;
-    }
-    public List<Integer> getAge() {
-	return age;
-    }
-    public void setAge(List<Integer> age) {
-	this.age = age;
-    }
-    public List<Integer> getHier() {
-	return hier;
-    }
-    public void setHier(List<Integer> hier) {
-	this.hier = hier;
-    }
-    public List<Integer> getSemaine() {
-	return semaine;
-    }
-    public void setSemaine(List<Integer> semaine) {
-	this.semaine = semaine;
-    }
-    public List<Integer> getMois() {
-	return mois;
-    }
-    public void setMois(List<Integer> mois) {
-	this.mois = mois;
-    }
-    public List<String> getTeamOfPlayer() {
-	return teamOfPlayer;
-    }
-    public void setTeamOfPlayer(List<String> teamOfPlayer) {
-	this.teamOfPlayer = teamOfPlayer;
-    }
+
     public String getPoolTeamId() {
 	return poolTeamId;
     }
+
     public void setPoolTeamId(String poolTeamId) {
 	this.poolTeamId = poolTeamId;
     }
-    public List<Integer> getAcquire_years() {
+
+    public List<Long> getPlayers_id() {
+	return players_id;
+    }
+
+    public void setPlayers_id(List<Long> players_id) {
+	this.players_id = players_id;
+    }
+
+    public List<Long> getTeam_id() {
+	return team_id;
+    }
+
+    public void setTeam_id(List<Long> team_id) {
+	this.team_id = team_id;
+    }
+
+    public List<String> getNom() {
+	return nom;
+    }
+
+    public void setNom(List<String> nom) {
+	this.nom = nom;
+    }
+
+    public List<String> getTeamOfPlayer() {
+	return teamOfPlayer;
+    }
+
+    public void setTeamOfPlayer(List<String> teamOfPlayer) {
+	this.teamOfPlayer = teamOfPlayer;
+    }
+
+    public List<Long> getPj() {
+	return pj;
+    }
+
+    public void setPj(List<Long> pj) {
+	this.pj = pj;
+    }
+
+    public List<Long> getBut_victoire() {
+	return but_victoire;
+    }
+
+    public void setBut_victoire(List<Long> but_victoire) {
+	this.but_victoire = but_victoire;
+    }
+
+    public List<Long> getAide_overtime() {
+	return aide_overtime;
+    }
+
+    public void setAide_overtime(List<Long> aide_overtime) {
+	this.aide_overtime = aide_overtime;
+    }
+
+    public List<Long> getBlanchissage() {
+	return blanchissage;
+    }
+
+    public void setBlanchissage(List<Long> blanchissage) {
+	this.blanchissage = blanchissage;
+    }
+
+    public List<Long> getPts() {
+	return pts;
+    }
+
+    public void setPts(List<Long> pts) {
+	this.pts = pts;
+    }
+
+    public List<Long> getProjection() {
+	return projection;
+    }
+
+    public void setProjection(List<Long> projection) {
+	this.projection = projection;
+    }
+
+    public List<String> getPosition() {
+	return position;
+    }
+
+    public void setPosition(List<String> position) {
+	this.position = position;
+    }
+
+    public List<Date> getBirthday() {
+	return birthday;
+    }
+
+    public void setBirthday(List<Date> birthday) {
+	this.birthday = birthday;
+    }
+
+    public List<Long> getCan_be_rookie() {
+	return can_be_rookie;
+    }
+
+    public void setCan_be_rookie(List<Long> can_be_rookie) {
+	this.can_be_rookie = can_be_rookie;
+    }
+
+    public List<Long> getSalaire_draft() {
+	return salaire_draft;
+    }
+
+    public void setSalaire_draft(List<Long> salaire_draft) {
+	this.salaire_draft = salaire_draft;
+    }
+
+    public List<Long> getContrat() {
+	return contrat;
+    }
+
+    public void setContrat(List<Long> contrat) {
+	this.contrat = contrat;
+    }
+
+    public List<Long> getAcquire_years() {
 	return acquire_years;
     }
-    public void setAcquire_years(List<Integer> acquire_years) {
+
+    public void setAcquire_years(List<Long> acquire_years) {
 	this.acquire_years = acquire_years;
     }
-	public List<Integer> getPlayers_id() {
-		return players_id;
-	}
-	public void setPlayers_id(List<Integer> players_id) {
-		this.players_id = players_id;
-	}
-    
-    
-    
-   
+
+    public List<Long> getClub_ecole() {
+	return club_ecole;
+    }
+
+    public void setClub_ecole(List<Long> club_ecole) {
+	this.club_ecole = club_ecole;
+    }
+
+    public List<String> getYears_1() {
+	return years_1;
+    }
+
+    public void setYears_1(List<String> years_1) {
+	this.years_1 = years_1;
+    }
+
+    public List<String> getYears_2() {
+	return years_2;
+    }
+
+    public void setYears_2(List<String> years_2) {
+	this.years_2 = years_2;
+    }
+
+    public List<String> getYears_3() {
+	return years_3;
+    }
+
+    public void setYears_3(List<String> years_3) {
+	this.years_3 = years_3;
+    }
+
+    public List<String> getYears_4() {
+	return years_4;
+    }
+
+    public void setYears_4(List<String> years_4) {
+	this.years_4 = years_4;
+    }
+
+    public List<String> getYears_5() {
+	return years_5;
+    }
+
+    public void setYears_5(List<String> years_5) {
+	this.years_5 = years_5;
+    }
+
+    public static long getSerialversionuid() {
+	return serialVersionUID;
+    }
+
+    @SuppressWarnings("unchecked")
+    public Attaquant mapAttaquantFromDatastore(com.google.appengine.api.datastore.Entity mEntity, Attaquant mBeanAttaquant) {
+	List<Long> acquire_years = (List<Long>) mEntity.getProperty("acquire_years");
+	mBeanAttaquant.setAcquire_years(acquire_years);
+
+	List<Long> aide_overtime = (List<Long>) mEntity.getProperty("aide_overtime");
+	mBeanAttaquant.setAide_overtime(aide_overtime);
+
+	List<Date> birthday = (List<Date>) mEntity.getProperty("birthday");
+	mBeanAttaquant.setBirthday(birthday);
+
+	List<Long> blanchissage = (List<Long>) mEntity.getProperty("blanchissage");
+	mBeanAttaquant.setBlanchissage(blanchissage);
+
+	List<Long> but_victoire = (List<Long>) mEntity.getProperty("but_victoire");
+	mBeanAttaquant.setBut_victoire(but_victoire);
+
+	List<Long> can_be_rookie = (List<Long>) mEntity.getProperty("can_be_rookie");
+	mBeanAttaquant.setCan_be_rookie(can_be_rookie);
+
+	List<Long> club_ecole = (List<Long>) mEntity.getProperty("club_ecole");
+	mBeanAttaquant.setClub_ecole(club_ecole);
+
+	List<Long> contrat = (List<Long>) mEntity.getProperty("contrat");
+	mBeanAttaquant.setContrat(contrat);
+
+	List<String> nom = (List<String>) mEntity.getProperty("nom");
+	mBeanAttaquant.setNom(nom);
+
+	List<Long> pj = (List<Long>) mEntity.getProperty("pj");
+	mBeanAttaquant.setPj(pj);
+
+	List<Long> players_id = (List<Long>) mEntity.getProperty("players_id");
+	mBeanAttaquant.setPlayers_id(players_id);
+
+	List<String> position = (List<String>) mEntity.getProperty("position");
+	mBeanAttaquant.setPosition(position);
+
+	List<Long> projection = (List<Long>) mEntity.getProperty("projection");
+	mBeanAttaquant.setProjection(projection);
+
+	List<Long> pts = (List<Long>) mEntity.getProperty("pts");
+	mBeanAttaquant.setPts(pts);
+
+	List<Long> salaire_draft = (List<Long>) mEntity.getProperty("salaire_draft");
+	mBeanAttaquant.setSalaire_draft(salaire_draft);
+
+	List<Long> team_id = (List<Long>) mEntity.getProperty("team_id");
+	mBeanAttaquant.setTeam_id(team_id);
+
+	List<String> teamOfPlayer = (List<String>) mEntity.getProperty("teamOfPlayer");
+	mBeanAttaquant.setTeamOfPlayer(teamOfPlayer);
+
+	List<String> years_1 = (List<String>) mEntity.getProperty("years_1");
+	mBeanAttaquant.setYears_1(years_1);
+
+	List<String> years_2 = (List<String>) mEntity.getProperty("years_2");
+	mBeanAttaquant.setYears_2(years_2);
+
+	List<String> years_3 = (List<String>) mEntity.getProperty("years_3");
+	mBeanAttaquant.setYears_3(years_3);
+
+	List<String> years_4 = (List<String>) mEntity.getProperty("years_4");
+	mBeanAttaquant.setYears_4(years_4);
+
+	List<String> years_5 = (List<String>) mEntity.getProperty("years_5");
+	mBeanAttaquant.setYears_5(years_5);
+
+	return mBeanAttaquant;
+    }
 
 }

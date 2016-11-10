@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.DraftPlayersModel;
 import com.pedagogiksolution.model.EquipeModel;
-import com.pedagogiksolution.model.LoginModel;
 
 public class EquipesServlet extends HttpServlet {
    

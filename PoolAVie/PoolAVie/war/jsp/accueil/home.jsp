@@ -84,15 +84,15 @@
 						<br>
 						<label class="w3-label w3-text-indigo w3-large">Courriel</label>
 						<br>
-						<input class="w3-input  w3-text-indigo  w3-validate" type="email" name="email">
+						<input  class="w3-input  w3-text-indigo  w3-validate" type="email" name="email" autocomplete="off">
 						<br>
 						<label class="w3-label w3-text-indigo w3-large">Nom d'utilisateur</label>
 						<br>
-						<input class="w3-input  w3-text-indigo  w3-validate" type="text" name="username">
+						<input id="usernameNewPool" class="w3-input  w3-text-indigo  w3-validate" type="text" name="username" autocomplete="off">
 						<br>
 						<label class="w3-label w3-text-indigo w3-large">Mot de passe</label>
 						<br>
-						<input class="w3-input  w3-text-indigo  w3-validate" type="password" name="password">
+						<input id="passwordNewPool" class="w3-input  w3-text-indigo  w3-validate" type="password" name="password" autocomplete="off">
 						<br>
 						<button onclick="progressbar()" class="w3-btn w3-khaki w3-large w3-text-indigo w3">Poursuivre à l'étape suivante</button>
 						<br>

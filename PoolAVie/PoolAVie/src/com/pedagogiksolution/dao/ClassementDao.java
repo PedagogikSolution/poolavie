@@ -12,7 +12,7 @@ public interface ClassementDao {
     void updateTeamInClassement(String nomDuTeam, int teamID, int poolID) throws DAOException;
     Classement cronJobGetClassementbyPoolId(int poolId) throws DAOException;
     void updateStat(int poolId, int pj, int but, int passe, int pts, int teamId)throws DAOException;
-    void updateDifference(int poolId)throws DAOException;
+    void updateDifference(int poolId, int teamId)throws DAOException;
    
     
     

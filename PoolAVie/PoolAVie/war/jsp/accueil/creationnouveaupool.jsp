@@ -59,7 +59,7 @@
 
 						<br>
 						<label class="w3-label w3-text-indigo w3-large w3-container">Votre nom d'équipe</label>
-						<input class="w3-input w3-container w3-validate w3-xlarge w3-margin-left" type="text" name="nomDuTeam" maxlength="20" style="width:90%">
+						<input class="w3-input w3-container w3-validate w3-xlarge w3-margin-left" type="text" name="nomDuTeam" maxlength="20" style="width:90%" autocomplete="off">
 						<br>
 						<input class="w3-btn  w3-margin-left w3-khaki w3-xlarge w3-text-indigo" type="button" name="logoTeam" value="Choisir un logo" onclick="openTeamLogoPicker()">
 						<input id="logoUrl" type="hidden" name="logoUrlTeam" value="https://storage.googleapis.com/poolavie-bucket/QUE.png">
@@ -105,39 +105,39 @@
 
 						<br>
 						<p>
-							<input class="w3-input w3-validate w3-margin-left" type="email" name="email1" placeholder="courriel joueur 1" style="width:90%">
+							<input class="w3-input w3-validate w3-margin-left" type="email" name="email1" placeholder="courriel joueur 1" style="width:90%" autocomplete="off">
 						</p>
 
 						<p>
-							<input class="w3-input w3-validate w3-margin-left" type="email" name="email2" placeholder="courriel joueur 2" style="width:90%">
+							<input class="w3-input w3-validate w3-margin-left" type="email" name="email2" placeholder="courriel joueur 2" style="width:90%" autocomplete="off">
 						</p>
 
 						<p>
-							<input class="w3-input w3-validate w3-margin-left" type="email" name="email3" placeholder="courriel joueur 3" style="width:90%">
+							<input class="w3-input w3-validate w3-margin-left" type="email" name="email3" placeholder="courriel joueur 3" style="width:90%" autocomplete="off">
 						</p>
 						<p>
-							<input class="w3-input w3-validate w3-margin-left" type="email" name="email4" placeholder="courriel joueur 4" style="width:90%">
+							<input class="w3-input w3-validate w3-margin-left" type="email" name="email4" placeholder="courriel joueur 4" style="width:90%" autocomplete="off">
 						</p>
 						<p>
-							<input class="w3-input w3-validate w3-margin-left" type="email" name="email5" placeholder="courriel joueur 5" style="width:90%">
+							<input class="w3-input w3-validate w3-margin-left" type="email" name="email5" placeholder="courriel joueur 5" style="width:90%" autocomplete="off">
 						</p>
 						<p>
-							<input class="w3-input w3-validate w3-margin-left" type="email" name="email6" placeholder="courriel joueur 6" style="width:90%">
+							<input class="w3-input w3-validate w3-margin-left" type="email" name="email6" placeholder="courriel joueur 6" style="width:90%" autocomplete="off">
 						</p>
 						<p>
-							<input class="w3-input w3-validate w3-margin-left" type="email" name="email7" placeholder="courriel joueur 7" style="width:90%">
+							<input class="w3-input w3-validate w3-margin-left" type="email" name="email7" placeholder="courriel joueur 7" style="width:90%" autocomplete="off">
 						</p>
 						<p>
-							<input id="j8" class="w3-input w3-validate w3-margin-left w3-hide" type="email" name="email8" placeholder="courriel joueur 8" style="width:90%">
+							<input id="j8" class="w3-input w3-validate w3-margin-left w3-hide" type="email" name="email8" placeholder="courriel joueur 8" style="width:90%" autocomplete="off">
 						</p>
 						<p>
-							<input id="j9" class="w3-input w3-validate w3-margin-left w3-hide" type="email" name="email9" placeholder="courriel joueur 9" style="width:90%">
+							<input id="j9" class="w3-input w3-validate w3-margin-left w3-hide" type="email" name="email9" placeholder="courriel joueur 9" style="width:90%" autocomplete="off">
 						</p>
 						<p>
-							<input id="j10" class="w3-input w3-validate w3-margin-left w3-hide" type="email" name="email10" placeholder="courriel joueur 10" style="width:90%">
+							<input id="j10" class="w3-input w3-validate w3-margin-left w3-hide" type="email" name="email10" placeholder="courriel joueur 10" style="width:90%" autocomplete="off">
 						</p>
 						<p>
-							<input id="j11" class="w3-input w3-validate w3-margin-left w3-hide" type="email" name="email11" placeholder="courriel joueur 11" style="width:90%">
+							<input id="j11" class="w3-input w3-validate w3-margin-left w3-hide" type="email" name="email11" placeholder="courriel joueur 11" style="width:90%" autocomplete="off">
 						</p>
 					</div>
 					<br>

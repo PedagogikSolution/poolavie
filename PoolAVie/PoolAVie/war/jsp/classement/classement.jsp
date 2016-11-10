@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:if test="${Utilisateur.loginReussi != 1 }">
 	<c:redirect url="/login?notLoggin=1"></c:redirect>
@@ -54,7 +54,9 @@
 				<td>${Classement.but[i]}</td>
 				<td>${Classement.passe[i]}</td>
 				<td>${Classement.points[i]}</td>
-				<td>${Classement.moyenne[i]}</td>
+				<td><fmt:formatNumber var="roundUp" type="number" minFractionDigits="2" maxFractionDigits="2" value="${Classement.moyenne[i]}" />
+				<c:out value="${roundUp}" />
+				</td>
 				<td>${Classement.hier[i]}</td>
 				<td>${Classement.semaine[i]}</td>
 				<td>${Classement.mois[i]}</td>				

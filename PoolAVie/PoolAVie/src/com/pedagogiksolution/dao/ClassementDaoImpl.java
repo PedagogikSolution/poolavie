@@ -3,6 +3,7 @@ package com.pedagogiksolution.dao;
 import static com.pedagogiksolution.dao.DAOUtilitaire.fermeturesSilencieuses;
 import static com.pedagogiksolution.dao.DAOUtilitaire.initialisationRequetePreparee;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +13,6 @@ import java.util.List;
 
 import com.pedagogiksolution.datastorebeans.Classement;
 
-
 public class ClassementDaoImpl implements ClassementDao {
 
     private static final String CREATE_CLASSEMENT = "CREATE TABLE classement_? LIKE classement";
@@ -21,7 +21,10 @@ public class ClassementDaoImpl implements ClassementDao {
     private static final String CHECK_IF_TEAM_EXIST = "SELECT * FROM classement_? WHERE team_id=?";
     private static final String UPDATE_TEAM_CLASSEMENT = "UPDATE classement_? SET equipe=? WHERE team_id=?";
     private static final String GET_CLASSEMENT_BY_POOL_ID = "SELECT * FROM classement_? ORDER BY points DESC";
-    private static final String UPDATE_DAILY_STATS = "UPDATE classement_? SET pj=?,but=?,passe=?,points=? WHERE team_id=?";
+    private static final String UPDATE_DAILY_STATS = "UPDATE classement_? SET pj=?,but=?,passe=?,points=?,moyenne=points/pj WHERE team_id=?";
+    private static final String UPDATE_DIFFERENCE = "UPDATE classement_? SET difference=? WHERE team_id=?";
+    private static final String GET_FIRST_TEAM_PTS = "SELECT * FROM classement_? ORDER BY points DESC LIMIT 1";
+    private static final String GET_NEXT_TEAM_PTS = "SELECT * FROM classement_? ORDER BY points DESC LIMIT ?";
     private DAOFactory daoFactory;
 
     ClassementDaoImpl(DAOFactory daoFactory) {
@@ -30,21 +33,21 @@ public class ClassementDaoImpl implements ClassementDao {
 
     @Override
     public void createClassementTable(int poolID) throws DAOException {
-	
+
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
-	
+
 	try {
 	    connexion = daoFactory.getConnection();
 	    preparedStatement = initialisationRequetePreparee(connexion, CREATE_CLASSEMENT, false, poolID);
 	    preparedStatement.execute();
-	    	    
+
 	} catch (SQLException e) {
 	    throw new DAOException(e);
 	} finally {
 	    fermeturesSilencieuses(preparedStatement, connexion);
 	}
-	
+
     }
 
     @Override
@@ -56,31 +59,31 @@ public class ClassementDaoImpl implements ClassementDao {
 	    connexion = daoFactory.getConnection();
 	    preparedStatement = initialisationRequetePreparee(connexion, CREATE_CLASSEMENT_ARCHIVES, false, poolID);
 	    preparedStatement.execute();
-	    
+
 	} catch (SQLException e) {
 	    throw new DAOException(e);
 	} finally {
 	    fermeturesSilencieuses(preparedStatement, connexion);
 	}
-	
+
     }
 
     @Override
-    public void insertTeamInClassement(String nomDuTeam, int teamID, int poolID,int years) {
+    public void insertTeamInClassement(String nomDuTeam, int teamID, int poolID, int years) {
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
 
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, INSERT_TEAM_CLASSEMENT, false, poolID,nomDuTeam,teamID,poolID,years);
+	    preparedStatement = initialisationRequetePreparee(connexion, INSERT_TEAM_CLASSEMENT, false, poolID, nomDuTeam, teamID, poolID, years);
 	    preparedStatement.execute();
-	    
+
 	} catch (SQLException e) {
 	    throw new DAOException(e);
 	} finally {
 	    fermeturesSilencieuses(preparedStatement, connexion);
 	}
-	
+
     }
 
     @Override
@@ -89,15 +92,15 @@ public class ClassementDaoImpl implements ClassementDao {
 	PreparedStatement preparedStatement = null;
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, CHECK_IF_TEAM_EXIST, false, poolID,teamID);
+	    preparedStatement = initialisationRequetePreparee(connexion, CHECK_IF_TEAM_EXIST, false, poolID, teamID);
 	    ResultSet rs = preparedStatement.executeQuery();
-	    
-	    if(rs.first()){
+
+	    if (rs.first()) {
 		return true;
 	    } else {
 		return false;
 	    }
-	    
+
 	} catch (SQLException e) {
 	    throw new DAOException(e);
 	} finally {
@@ -112,15 +115,15 @@ public class ClassementDaoImpl implements ClassementDao {
 
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_TEAM_CLASSEMENT, false, poolID,nomDuTeam,teamID);
+	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_TEAM_CLASSEMENT, false, poolID, nomDuTeam, teamID);
 	    preparedStatement.execute();
-	    
+
 	} catch (SQLException e) {
 	    throw new DAOException(e);
 	} finally {
 	    fermeturesSilencieuses(preparedStatement, connexion);
 	}
-	
+
     }
 
     @Override
@@ -128,57 +131,59 @@ public class ClassementDaoImpl implements ClassementDao {
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
 	ResultSet rs = null;
-	List<Integer> team_id = new ArrayList<Integer>();
+	List<Long> team_id = new ArrayList<Long>();
 	List<String> equipe = new ArrayList<String>();
-	List<Integer> pj = new ArrayList<Integer>();
-	List<Integer> but = new ArrayList<Integer>();
-	List<Integer> passe = new ArrayList<Integer>();
-	List<Integer> points = new ArrayList<Integer>();
-	List<Integer> hier = new ArrayList<Integer>();
-	List<Integer> semaine = new ArrayList<Integer>();
-	List<Integer> mois = new ArrayList<Integer>();
-	List<Integer> moyenne = new ArrayList<Integer>();
-	List<Integer> difference = new ArrayList<Integer>();
-	Classement mBeanClassement= new Classement();
+	List<Long> pj = new ArrayList<Long>();
+	List<Long> but = new ArrayList<Long>();
+	List<Long> passe = new ArrayList<Long>();
+	List<Long> points = new ArrayList<Long>();
+	List<Long> hier = new ArrayList<Long>();
+	List<Long> semaine = new ArrayList<Long>();
+	List<Long> mois = new ArrayList<Long>();
+	List<Float> moyenne = new ArrayList<Float>();
+	List<Long> difference = new ArrayList<Long>();
+	Classement mBeanClassement = new Classement();
 	try {
 	    connexion = daoFactory.getConnection();
 	    preparedStatement = initialisationRequetePreparee(connexion, GET_CLASSEMENT_BY_POOL_ID, false, poolId);
 	    rs = preparedStatement.executeQuery();
-	    
+
 	    while (rs.next()) {
 
 		int m_team_id = (rs.getInt("team_id"));
-		team_id.add(m_team_id);
+		team_id.add(Long.valueOf(m_team_id));
 
 		String m_equipe = (rs.getString("equipe"));
 		equipe.add(m_equipe);
 
 		int m_pj = (rs.getInt("pj"));
-		pj.add(m_pj);
+		pj.add(Long.valueOf(m_pj));
 
 		int m_but = (rs.getInt("but"));
-		but.add(m_but);
+		but.add(Long.valueOf(m_but));
 
 		int m_passe = (rs.getInt("passe"));
-		passe.add(m_passe);
+		passe.add(Long.valueOf(m_passe));
 
 		int m_points = (rs.getInt("points"));
-		points.add(m_points);
+		points.add(Long.valueOf(m_points));
 
 		int m_hier = (rs.getInt("hier"));
-		hier.add(m_hier);
+		hier.add(Long.valueOf(m_hier));
 
 		int m_semaine = (rs.getInt("semaine"));
-		semaine.add(m_semaine);
+		semaine.add(Long.valueOf(m_semaine));
 
 		int m_mois = (rs.getInt("mois"));
-		mois.add(m_mois);
+		mois.add(Long.valueOf(m_mois));
 
-		int m_moyenne = (rs.getInt("moyenne"));
-		moyenne.add(m_moyenne);
+		float m_moyenne = (rs.getFloat("moyenne"));
+		BigDecimal a = new BigDecimal(m_moyenne);
+		BigDecimal roundOff = a.setScale(2, BigDecimal.ROUND_HALF_UP);
+		moyenne.add(roundOff.floatValue());
 
 		int m_difference = (rs.getInt("difference"));
-		difference.add(m_difference);
+		difference.add(Long.valueOf(m_difference));
 
 	    }
 
@@ -194,50 +199,87 @@ public class ClassementDaoImpl implements ClassementDao {
 	    mBeanClassement.setMois(mois);
 	    mBeanClassement.setMoyenne(moyenne);
 	    mBeanClassement.setDifference(difference);
-	    
+
 	    return mBeanClassement;
-	    
+
 	} catch (SQLException e) {
 	    throw new DAOException(e);
 	} finally {
-	    fermeturesSilencieuses(rs,preparedStatement, connexion);
+	    fermeturesSilencieuses(rs, preparedStatement, connexion);
 	}
-	
+
     }
 
-    
     @Override
     public void updateStat(int poolId, int pj, int but, int passe, int pts, int teamId) throws DAOException {
-	
+
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
 
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_DAILY_STATS, false, poolId,pj,but,passe,pts,teamId);
+	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_DAILY_STATS, false, poolId, pj, but, passe, pts, teamId);
 	    preparedStatement.execute();
-	    
+
 	} catch (SQLException e) {
 	    throw new DAOException(e);
 	} finally {
 	    fermeturesSilencieuses(preparedStatement, connexion);
 	}
-	
-	
+
     }
 
     @Override
-    public void updateDifference(int poolId) throws DAOException {
-	// TODO Auto-generated method stub
-	
+    public void updateDifference(int poolId, int position) throws DAOException {
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+	ResultSet rs=null;
+	int total_pts_first = 0,total_pts_next = 0;
+	int difference,teamId = 0;
+	if (position == 1) {
+	    difference = 0;
+	    try {
+		connexion = daoFactory.getConnection();
+		preparedStatement = initialisationRequetePreparee(connexion, GET_FIRST_TEAM_PTS, false, poolId);
+		rs = preparedStatement.executeQuery();
+		if (rs.next()) {
+		    teamId  = rs.getInt("team_id");
+		}
+		preparedStatement = initialisationRequetePreparee(connexion, UPDATE_DIFFERENCE, false, poolId, difference, teamId);
+		    preparedStatement.execute();
+	    } catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    } finally {
+		fermeturesSilencieuses(rs,preparedStatement, connexion);
+	    }
+	    
+	} else {
+	    try {
+		connexion = daoFactory.getConnection();
+		preparedStatement = initialisationRequetePreparee(connexion, GET_FIRST_TEAM_PTS, false, poolId);
+		rs = preparedStatement.executeQuery();
+		if (rs.next()) {
+		    total_pts_first = rs.getInt("points");
+		}
+		preparedStatement = initialisationRequetePreparee(connexion, GET_NEXT_TEAM_PTS, false, poolId,position);
+		rs = preparedStatement.executeQuery();
+		if (rs.last()) {
+		    total_pts_next = rs.getInt("points");
+		    teamId  = rs.getInt("team_id");
+		}
+		difference = total_pts_first - total_pts_next;
+		preparedStatement = initialisationRequetePreparee(connexion, UPDATE_DIFFERENCE, false, poolId, difference, teamId);
+		    preparedStatement.execute();
+
+	    } catch (SQLException e) {
+		throw new DAOException(e);
+	    } finally {
+		fermeturesSilencieuses(rs,preparedStatement, connexion);
+	    }
+
+	}
+
     }
-
-    
-    
-
-    
-   
-
-   
 
 }

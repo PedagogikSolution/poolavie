@@ -50,14 +50,14 @@ public class LoginServlet extends HttpServlet {
 	// Instantiation de la classe métier pour le processus de registration
 	LoginModel mModel = new LoginModel(nomUtilisateur, motDePasse, req);
 
-	// verifie si le compte est valide, si oui creation du Bean Utilisateur
+	// verifie si le compte existe et le mot de passe est bon, si oui creation du Bean Utilisateur
 	Boolean validateCredential = mModel.validateCredential();
 
-	// si valide on verifie si le compte est Valider
+	// si valide on continu, sinon on retourne message erreur
 	if (validateCredential) {
-
+	    // on verifie si le compte a été validé une premiere fois via le processus de code
 	    Boolean checkIfValidateAccount = mModel.checkIfValidateAccount();
-
+	    // si valide, on
 	    if (checkIfValidateAccount) {
 		MenuPrincipalModel mModel2 = new MenuPrincipalModel();
 

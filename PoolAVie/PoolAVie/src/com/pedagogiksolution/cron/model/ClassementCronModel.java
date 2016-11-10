@@ -107,11 +107,13 @@ public class ClassementCronModel {
 	    int passe = playersDao.getPasse(teamId,poolId);
 	    int pts = playersDao.getPts(teamId,poolId);
 	    classementDao.updateStat(poolId,pj,but,passe,pts,teamId);
-	    	    
+	    
+	}  
+	   	    
+	
+	for(int teamId=1;teamId<(numberTeam+1);teamId++){
+	classementDao.updateDifference(poolId,teamId);
 	}
-	
-	//classementDao.updateDifference(poolId);
-	
 	
 	
     }

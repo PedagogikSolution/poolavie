@@ -307,7 +307,6 @@ public class EquipeModel {
 	mNonSessionAttaquantBean.setProjection(mBeanAttaquant.getProjection());
 	mNonSessionAttaquantBean.setPts(mBeanAttaquant.getPts());
 	mNonSessionAttaquantBean.setSalaire_draft(mBeanAttaquant.getSalaire_draft());
-	mNonSessionAttaquantBean.setTake_proj(mBeanAttaquant.getTake_proj());
 	mNonSessionAttaquantBean.setTeam_id(mBeanAttaquant.getTeam_id());
 	mNonSessionAttaquantBean.setTeamOfPlayer(mBeanAttaquant.getTeamOfPlayer());
 	mNonSessionAttaquantBean.setYears_1(mBeanAttaquant.getYears_1());
@@ -331,7 +330,6 @@ public class EquipeModel {
 	mNonSessionDefenseurBean.setProjection(mBeanDefenseur.getProjection());
 	mNonSessionDefenseurBean.setPts(mBeanDefenseur.getPts());
 	mNonSessionDefenseurBean.setSalaire_draft(mBeanDefenseur.getSalaire_draft());
-	mNonSessionDefenseurBean.setTake_proj(mBeanDefenseur.getTake_proj());
 	mNonSessionDefenseurBean.setTeam_id(mBeanDefenseur.getTeam_id());
 	mNonSessionDefenseurBean.setTeamOfPlayer(mBeanDefenseur.getTeamOfPlayer());
 	mNonSessionDefenseurBean.setYears_1(mBeanDefenseur.getYears_1());
@@ -341,7 +339,6 @@ public class EquipeModel {
 	mNonSessionDefenseurBean.setYears_5(mBeanDefenseur.getYears_5());
 
 	// Gardien
-	mNonSessionGardienBean.setAge(mBeanGardien.getAge());
 	mNonSessionGardienBean.setAide_overtime(mBeanGardien.getAide_overtime());
 	mNonSessionGardienBean.setBirthday(mBeanGardien.getBirthday());
 	mNonSessionGardienBean.setBlanchissage(mBeanGardien.getBlanchissage());
@@ -356,7 +353,6 @@ public class EquipeModel {
 	mNonSessionGardienBean.setProjection(mBeanGardien.getProjection());
 	mNonSessionGardienBean.setPts(mBeanGardien.getPts());
 	mNonSessionGardienBean.setSalaire_draft(mBeanGardien.getSalaire_draft());
-	mNonSessionGardienBean.setTake_proj(mBeanGardien.getTake_proj());
 	mNonSessionGardienBean.setTeam_id(mBeanGardien.getTeam_id());
 	mNonSessionGardienBean.setTeamOfPlayer(mBeanGardien.getTeamOfPlayer());
 	mNonSessionGardienBean.setYears_1(mBeanGardien.getYears_1());
@@ -366,7 +362,6 @@ public class EquipeModel {
 	mNonSessionGardienBean.setYears_5(mBeanGardien.getYears_5());
 
 	// Recrue
-	mNonSessionRecrueBean.setAge(mBeanRecrue.getAge());
 	mNonSessionRecrueBean.setAide_overtime(mBeanRecrue.getAide_overtime());
 	mNonSessionRecrueBean.setBirthday(mBeanRecrue.getBirthday());
 	mNonSessionRecrueBean.setBlanchissage(mBeanRecrue.getBlanchissage());
@@ -381,7 +376,6 @@ public class EquipeModel {
 	mNonSessionRecrueBean.setProjection(mBeanRecrue.getProjection());
 	mNonSessionRecrueBean.setPts(mBeanRecrue.getPts());
 	mNonSessionRecrueBean.setSalaire_draft(mBeanRecrue.getSalaire_draft());
-	mNonSessionRecrueBean.setTake_proj(mBeanRecrue.getTake_proj());
 	mNonSessionRecrueBean.setTeam_id(mBeanRecrue.getTeam_id());
 	mNonSessionRecrueBean.setTeamOfPlayer(mBeanRecrue.getTeamOfPlayer());
 	mNonSessionRecrueBean.setYears_1(mBeanRecrue.getYears_1());

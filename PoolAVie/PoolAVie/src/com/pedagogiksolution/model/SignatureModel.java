@@ -12,10 +12,7 @@ import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.pedagogiksolution.dao.PlayersDao;
-import com.pedagogiksolution.datastorebeans.Attaquant;
-import com.pedagogiksolution.datastorebeans.Defenseur;
 import com.pedagogiksolution.datastorebeans.Equipe;
-import com.pedagogiksolution.datastorebeans.Gardien;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
 
 public class SignatureModel {
@@ -49,7 +46,7 @@ public class SignatureModel {
 
     }
 
-    @SuppressWarnings("unchecked")
+    
     public void signatureAfterDraft(HttpServletRequest req) {
 	String nombreAnneeSignature = req.getParameter("nombreAnneeSignature");
 	int numberOfYear = Integer.parseInt(nombreAnneeSignature);

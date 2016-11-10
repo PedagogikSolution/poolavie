@@ -27,6 +27,7 @@ public class ClassementServlet extends HttpServlet {
 	    DraftPlayersModel mModelDraft = new DraftPlayersModel();	    	   
 	    mModelDraft.putDatastoreIntoBean(mBeanPool,req);
 	}
+	// permet un update instantanné si un joueur est connecté et qu'il refresh ou renavigue sur cette page avant la création de tout les équipes
 	if (cycleAnnuel < 3) {
    	    
 	   LoginModel mModel = new LoginModel(req);

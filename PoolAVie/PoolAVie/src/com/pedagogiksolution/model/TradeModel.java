@@ -219,7 +219,6 @@ public class TradeModel {
 	mNonSessionAttaquantBeanThatMakingOffer.setPj(mBeanAttaquantThatMakingOffer.getPj());
 	mNonSessionAttaquantBeanThatMakingOffer.setPosition(mBeanAttaquantThatMakingOffer.getPosition());
 	mNonSessionAttaquantBeanThatMakingOffer.setPts(mBeanAttaquantThatMakingOffer.getPts());
-	mNonSessionAttaquantBeanThatMakingOffer.setSalaire_contrat(mBeanAttaquantThatMakingOffer.getSalaire_contrat());
 	mNonSessionAttaquantBeanThatMakingOffer.setTeamOfPlayer(mBeanAttaquantThatMakingOffer.getTeamOfPlayer());
 	mNonSessionAttaquantBeanThatMakingOffer.setYears_1(mBeanAttaquantThatMakingOffer.getYears_1());
 	mNonSessionAttaquantBeanThatMakingOffer.setYears_2(mBeanAttaquantThatMakingOffer.getYears_2());
@@ -234,7 +233,6 @@ public class TradeModel {
 	mNonSessionAttaquantBeanThatReceivedOffer.setPj(mBeanAttaquantThatReceivedOffer.getPj());
 	mNonSessionAttaquantBeanThatReceivedOffer.setPosition(mBeanAttaquantThatReceivedOffer.getPosition());
 	mNonSessionAttaquantBeanThatReceivedOffer.setPts(mBeanAttaquantThatReceivedOffer.getPts());
-	mNonSessionAttaquantBeanThatReceivedOffer.setSalaire_contrat(mBeanAttaquantThatReceivedOffer.getSalaire_contrat());
 	mNonSessionAttaquantBeanThatReceivedOffer.setTeamOfPlayer(mBeanAttaquantThatReceivedOffer.getTeamOfPlayer());
 	mNonSessionAttaquantBeanThatReceivedOffer.setYears_1(mBeanAttaquantThatReceivedOffer.getYears_1());
 	mNonSessionAttaquantBeanThatReceivedOffer.setYears_2(mBeanAttaquantThatReceivedOffer.getYears_2());
@@ -250,7 +248,6 @@ public class TradeModel {
 	mNonSessionDefenseurBeanThatMakingOffer.setPj(mBeanDefenseurThatMakingOffer.getPj());
 	mNonSessionDefenseurBeanThatMakingOffer.setPosition(mBeanDefenseurThatMakingOffer.getPosition());
 	mNonSessionDefenseurBeanThatMakingOffer.setPts(mBeanDefenseurThatMakingOffer.getPts());
-	mNonSessionDefenseurBeanThatMakingOffer.setSalaire_contrat(mBeanDefenseurThatMakingOffer.getSalaire_contrat());
 	mNonSessionDefenseurBeanThatMakingOffer.setTeamOfPlayer(mBeanDefenseurThatMakingOffer.getTeamOfPlayer());
 	mNonSessionDefenseurBeanThatMakingOffer.setYears_1(mBeanDefenseurThatMakingOffer.getYears_1());
 	mNonSessionDefenseurBeanThatMakingOffer.setYears_2(mBeanDefenseurThatMakingOffer.getYears_2());
@@ -265,7 +262,6 @@ public class TradeModel {
 	mNonSessionDefenseurBeanThatReceivedOffer.setPj(mBeanDefenseurThatReceivedOffer.getPj());
 	mNonSessionDefenseurBeanThatReceivedOffer.setPosition(mBeanDefenseurThatReceivedOffer.getPosition());
 	mNonSessionDefenseurBeanThatReceivedOffer.setPts(mBeanDefenseurThatReceivedOffer.getPts());
-	mNonSessionDefenseurBeanThatReceivedOffer.setSalaire_contrat(mBeanDefenseurThatReceivedOffer.getSalaire_contrat());
 	mNonSessionDefenseurBeanThatReceivedOffer.setTeamOfPlayer(mBeanDefenseurThatReceivedOffer.getTeamOfPlayer());
 	mNonSessionDefenseurBeanThatReceivedOffer.setYears_1(mBeanDefenseurThatReceivedOffer.getYears_1());
 	mNonSessionDefenseurBeanThatReceivedOffer.setYears_2(mBeanDefenseurThatReceivedOffer.getYears_2());
@@ -282,7 +278,6 @@ public class TradeModel {
 	mNonSessionGardienBeanThatMakingOffer.setPj(mBeanGardienThatMakingOffer.getPj());
 	mNonSessionGardienBeanThatMakingOffer.setPosition(mBeanGardienThatMakingOffer.getPosition());
 	mNonSessionGardienBeanThatMakingOffer.setPts(mBeanGardienThatMakingOffer.getPts());
-	mNonSessionGardienBeanThatMakingOffer.setSalaire_contrat(mBeanGardienThatMakingOffer.getSalaire_contrat());
 	mNonSessionGardienBeanThatMakingOffer.setTeamOfPlayer(mBeanGardienThatMakingOffer.getTeamOfPlayer());
 	mNonSessionGardienBeanThatMakingOffer.setYears_1(mBeanGardienThatMakingOffer.getYears_1());
 	mNonSessionGardienBeanThatMakingOffer.setYears_2(mBeanGardienThatMakingOffer.getYears_2());
@@ -297,7 +292,6 @@ public class TradeModel {
 	mNonSessionGardienBeanThatReceivedOffer.setPj(mBeanGardienThatReceivedOffer.getPj());
 	mNonSessionGardienBeanThatReceivedOffer.setPosition(mBeanGardienThatReceivedOffer.getPosition());
 	mNonSessionGardienBeanThatReceivedOffer.setPts(mBeanGardienThatReceivedOffer.getPts());
-	mNonSessionGardienBeanThatReceivedOffer.setSalaire_contrat(mBeanGardienThatReceivedOffer.getSalaire_contrat());
 	mNonSessionGardienBeanThatReceivedOffer.setTeamOfPlayer(mBeanGardienThatReceivedOffer.getTeamOfPlayer());
 	mNonSessionGardienBeanThatReceivedOffer.setYears_1(mBeanGardienThatReceivedOffer.getYears_1());
 	mNonSessionGardienBeanThatReceivedOffer.setYears_2(mBeanGardienThatReceivedOffer.getYears_2());
@@ -313,7 +307,6 @@ public class TradeModel {
 	mNonSessionRecrueBeanThatMakingOffer.setPj(mBeanRecrueThatMakingOffer.getPj());
 	mNonSessionRecrueBeanThatMakingOffer.setPosition(mBeanRecrueThatMakingOffer.getPosition());
 	mNonSessionRecrueBeanThatMakingOffer.setPts(mBeanRecrueThatMakingOffer.getPts());
-	mNonSessionRecrueBeanThatMakingOffer.setSalaire_contrat(mBeanRecrueThatMakingOffer.getSalaire_contrat());
 	mNonSessionRecrueBeanThatMakingOffer.setTeamOfPlayer(mBeanRecrueThatMakingOffer.getTeamOfPlayer());
 	mNonSessionRecrueBeanThatMakingOffer.setYears_1(mBeanRecrueThatMakingOffer.getYears_1());
 	mNonSessionRecrueBeanThatMakingOffer.setYears_2(mBeanRecrueThatMakingOffer.getYears_2());
@@ -328,7 +321,6 @@ public class TradeModel {
 	mNonSessionRecrueBeanThatReceivedOffer.setPj(mBeanRecrueThatReceivedOffer.getPj());
 	mNonSessionRecrueBeanThatReceivedOffer.setPosition(mBeanRecrueThatReceivedOffer.getPosition());
 	mNonSessionRecrueBeanThatReceivedOffer.setPts(mBeanRecrueThatReceivedOffer.getPts());
-	mNonSessionRecrueBeanThatReceivedOffer.setSalaire_contrat(mBeanRecrueThatReceivedOffer.getSalaire_contrat());
 	mNonSessionRecrueBeanThatReceivedOffer.setTeamOfPlayer(mBeanRecrueThatReceivedOffer.getTeamOfPlayer());
 	mNonSessionRecrueBeanThatReceivedOffer.setYears_1(mBeanRecrueThatReceivedOffer.getYears_1());
 	mNonSessionRecrueBeanThatReceivedOffer.setYears_2(mBeanRecrueThatReceivedOffer.getYears_2());

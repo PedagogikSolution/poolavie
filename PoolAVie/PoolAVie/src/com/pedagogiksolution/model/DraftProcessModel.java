@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.datastorebeans.DraftProcess;
 import com.pedagogiksolution.utils.EMF;
 

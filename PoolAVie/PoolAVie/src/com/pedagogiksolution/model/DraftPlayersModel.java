@@ -52,20 +52,20 @@ public class DraftPlayersModel {
     String segment, sort;
     HttpServletRequest req;
     HttpServletResponse resp;
-    List<Integer> players_id = new ArrayList<Integer>();
+    List<Long> players_id = new ArrayList<Long>();
     List<String> nom2 = new ArrayList<String>();
     List<String> teamOfPlayer = new ArrayList<String>();
-    List<Integer> pj = new ArrayList<Integer>();
-    List<Integer> but_victoire = new ArrayList<Integer>();
-    List<Integer> aide_overtime = new ArrayList<Integer>();
-    List<Integer> blanchissage = new ArrayList<Integer>();
-    List<Integer> pts = new ArrayList<Integer>();
+    List<Long> pj = new ArrayList<Long>();
+    List<Long> but_victoire = new ArrayList<Long>();
+    List<Long> aide_overtime = new ArrayList<Long>();
+    List<Long> blanchissage = new ArrayList<Long>();
+    List<Long> pts = new ArrayList<Long>();
     List<String> years_1 = new ArrayList<String>();
     List<String> years_2 = new ArrayList<String>();
     List<String> years_3 = new ArrayList<String>();
     List<String> years_4 = new ArrayList<String>();
     List<String> years_5 = new ArrayList<String>();
-    List<Integer> salaire_contrat = new ArrayList<Integer>();
+    List<Long> salaire_contrat = new ArrayList<Long>();
 
     public DraftPlayersModel(HttpServletRequest req, String segment, String sort) {
 	this.segment = segment;
@@ -583,7 +583,7 @@ public class DraftPlayersModel {
 
 		mapDatastoreInTempArray(entity, position);
 		
-		players_id.add(playersId);
+		players_id.add(Long.valueOf(playersId));
 		entity.setProperty("players_id", players_id);
 
 		nom2.add(nom);
@@ -592,17 +592,17 @@ public class DraftPlayersModel {
 		teamOfPlayer.add(team);
 		entity.setProperty("teamOfPlayer", teamOfPlayer);
 
-		pj.add(0);
+		pj.add(Long.valueOf(0));
 
-		but_victoire.add(0);
+		but_victoire.add(Long.valueOf(0));
 
-		aide_overtime.add(0);
+		aide_overtime.add(Long.valueOf(0));
 		if (position.equalsIgnoreCase("Gardien")) {
 
-		    blanchissage.add(0);
+		    blanchissage.add(Long.valueOf(0));
 		}
 
-		pts.add(0);
+		pts.add(Long.valueOf(0));
 
 		entity.setProperty("pj", pj);
 
@@ -617,9 +617,7 @@ public class DraftPlayersModel {
 
 		entity.setProperty("pts", pts);
 
-		salaire_contrat.add(salaireId);
-		entity.setProperty("salaire_contrat", salaire_contrat);
-
+		
 		years_1.add(salaire);
 		entity.setProperty("years_1", years_1);
 
@@ -927,7 +925,7 @@ public class DraftPlayersModel {
 
 		mapDatastoreInTempArray(entity, position);
 
-		players_id.add(playersId);
+		players_id.add(Long.valueOf(playersId));
 		entity.setProperty("players_id", players_id);
 
 		nom2.add(nom);
@@ -936,15 +934,15 @@ public class DraftPlayersModel {
 		teamOfPlayer.add(team);
 		entity.setProperty("teamOfPlayer", teamOfPlayer);
 
-		pj.add(0);
+		pj.add(Long.valueOf(0));
 
-		but_victoire.add(0);
+		but_victoire.add(Long.valueOf(0));
 
-		aide_overtime.add(0);
+		aide_overtime.add(Long.valueOf(0));
 
-		blanchissage.add(0);
+		blanchissage.add(Long.valueOf(0));
 
-		pts.add(0);
+		pts.add(Long.valueOf(0));
 
 		entity.setProperty("pj", pj);
 
@@ -956,7 +954,7 @@ public class DraftPlayersModel {
 
 		entity.setProperty("pts", pts);
 
-		salaire_contrat.add(salaireId);
+		salaire_contrat.add(Long.valueOf(salaireId));
 		entity.setProperty("salaire_contrat", salaire_contrat);
 
 		years_1.add(salaire);
@@ -1436,22 +1434,22 @@ public class DraftPlayersModel {
 
 	if (testIfEmpty != null) {
 
-	    players_id.addAll((List<Integer>) entity.getProperty("players_id"));
+	    players_id.addAll((List<Long>) entity.getProperty("players_id"));
 	    nom2.addAll((List<String>) entity.getProperty("nom"));
 	    teamOfPlayer.addAll((List<String>) entity.getProperty("teamOfPlayer"));
-	    pj.addAll((List<Integer>) entity.getProperty("pj"));
-	    but_victoire.addAll((List<Integer>) entity.getProperty("but_victoire"));
-	    aide_overtime.addAll((List<Integer>) entity.getProperty("aide_overtime"));
+	    pj.addAll((List<Long>) entity.getProperty("pj"));
+	    but_victoire.addAll((List<Long>) entity.getProperty("but_victoire"));
+	    aide_overtime.addAll((List<Long>) entity.getProperty("aide_overtime"));
 	    if (position.equalsIgnoreCase("Gardien")) {
-		blanchissage.addAll((List<Integer>) entity.getProperty("blanchissage"));
+		blanchissage.addAll((List<Long>) entity.getProperty("blanchissage"));
 	    }
-	    pts.addAll((List<Integer>) entity.getProperty("pts"));
+	    pts.addAll((List<Long>) entity.getProperty("pts"));
 	    years_1.addAll((List<String>) entity.getProperty("years_1"));
 	    years_2.addAll((List<String>) entity.getProperty("years_2"));
 	    years_3.addAll((List<String>) entity.getProperty("years_3"));
 	    years_4.addAll((List<String>) entity.getProperty("years_4"));
 	    years_5.addAll((List<String>) entity.getProperty("years_5"));
-	    salaire_contrat.addAll((List<Integer>) entity.getProperty("salaire_contrat"));
+	    salaire_contrat.addAll((List<Long>) entity.getProperty("salaire_contrat"));
 	}
     }
 }

@@ -43,7 +43,7 @@ public class ClassementCron extends HttpServlet {
 	ClassementCronModel mModel = new ClassementCronModel(classementDao,playersDao);
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	int numberOfPool = mModel.getNumberOfPool();
-
+	
 	if (numberOfPool == 0) {
 	    //TODO  log de l'erreur
 	} else {

@@ -218,7 +218,6 @@ public class CreationDGModel {
 
 	int poolID = mBeanUser.getPoolId();
 	int teamID = mBeanUser.getTeamId();
-	String username = mBeanUser.getNomUtilisateur();
 	// on trouve la date de l'année
 	// TODO rendre dynamique
 	int years = 2017;
