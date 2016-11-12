@@ -27,6 +27,8 @@
 			<el-ignored>false</el-ignored>
 		</jsp-property-group>
 	</jsp-config>
+
+	
 	
 	<!-- Initialisation des filtres -->
 	<filter>
@@ -349,7 +351,23 @@
 		<url-pattern>/Beta</url-pattern>
 	</servlet-mapping>
 	
-	
+	<!-- Blocage des crons jobs -->
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>cron</web-resource-name>
+			<url-pattern>/ClassementCron</url-pattern>
+			<url-pattern>/DraftPickCron</url-pattern>
+			<url-pattern>/AttaquantCron</url-pattern>
+			<url-pattern>/DefenseurCron</url-pattern>
+			<url-pattern>/GardienCron</url-pattern>
+			<url-pattern>/RecrueCron</url-pattern>
+			<url-pattern>/DraftPlayersCron</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>admin</role-name>
+		</auth-constraint>
+	</security-constraint>
 	
 	<!-- Mapping des servlet pour les Cron Job -->
 	

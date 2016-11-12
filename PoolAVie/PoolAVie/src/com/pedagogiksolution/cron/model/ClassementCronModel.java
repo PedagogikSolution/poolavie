@@ -3,6 +3,7 @@ package com.pedagogiksolution.cron.model;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -29,8 +30,6 @@ public class ClassementCronModel {
 
     private ClassementDao classementDao;
     private PlayersDao playersDao;
-    
-    
 
     public ClassementCronModel(ClassementDao classementDao, PlayersDao playersDao) {
 	this.classementDao = classementDao;
@@ -100,21 +99,95 @@ public class ClassementCronModel {
     }
 
     public void updateClassement(int poolId, Long numberTeam) {
-	
-	for(int teamId=1;teamId<(numberTeam+1);teamId++){
-	    int pj = playersDao.getPj(teamId,poolId);   
-	    int but = playersDao.getBut(teamId,poolId);
-	    int passe = playersDao.getPasse(teamId,poolId);
-	    int pts = playersDao.getPts(teamId,poolId);
-	    classementDao.updateStat(poolId,pj,but,passe,pts,teamId);
+
+	for (int teamId = 1; teamId < (numberTeam + 1); teamId++) {
+	    int pj = playersDao.getPj(teamId, poolId);
+	    int but = playersDao.getBut(teamId, poolId);
+	    int passe = playersDao.getPasse(teamId, poolId);
+	    int pts = playersDao.getPts(teamId, poolId);
+	    HashMap<String, Integer> progressionHashMap = putTodayInDatastoreAndGetProgression(teamId, poolId, pts);
 	    
-	}  
-	   	    
-	
-	for(int teamId=1;teamId<(numberTeam+1);teamId++){
-	classementDao.updateDifference(poolId,teamId);
+	    int hier = progressionHashMap.get("hier");
+	    int semaine = progressionHashMap.get("semaine");
+	    int mois = progressionHashMap.get("mois");
+
+	    classementDao.updateStat(poolId, pj, but, passe, pts, teamId,hier,semaine,mois);
+
+	}
+
+	for (int teamId = 1; teamId < (numberTeam + 1); teamId++) {
+	    classementDao.updateDifference(poolId, teamId);
+	}
+
+    }
+
+    private HashMap<String, Integer> putTodayInDatastoreAndGetProgression(int teamId, int poolId, int pts) {
+
+	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	String datastoreID = poolId + "_" + teamId;
+	Key mKey = KeyFactory.createKey("Classement_Progression", datastoreID);
+	HashMap<String, Integer> hmap = new HashMap<String, Integer>();
+	try {
+	    Entity entity = datastore.get(mKey);
+	    Long compteur = (Long) entity.getProperty("compteur");
+	    Long compteurAjuster = compteur + 1;
+	    String nomNextCompteur = String.valueOf(compteurAjuster);
+	    entity.setProperty(nomNextCompteur, pts);
+	    
+	    
+	    
+
+	    String compteurHier = compteur.toString();
+	    Long ptsHier = (Long) entity.getProperty(compteurHier);
+	    int ptsHierId = ptsHier.intValue();
+	    int hier = pts - ptsHierId;
+	    
+	    hmap.put("hier", hier);
+
+	    String compteurSemaine = String.valueOf(compteur - 6);
+	    Long ptsSemaine = (Long) entity.getProperty(compteurSemaine);
+
+	    if (ptsSemaine == null) {
+		hmap.put("semaine", 0);
+	    } else {
+		int ptsSemaineId = ptsSemaine.intValue();
+		int semaine = pts - ptsSemaineId;
+		hmap.put("semaine", semaine);
+	    }
+
+	    String compteurMois = String.valueOf(compteur - 6);
+	    Long ptsmois = (Long) entity.getProperty(compteurMois);
+
+	    if (ptsmois == null) {
+		hmap.put("mois", 0);
+	    } else {
+		int ptsmoisId = ptsmois.intValue();
+		int mois = pts - ptsmoisId;
+		hmap.put("mois", mois);
+	    }
+	    
+	    entity.setProperty("compteur", compteurAjuster);
+	    
+	    datastore.put(entity);
+
+	    return hmap;
+
+	} catch (EntityNotFoundException e) {
+
+	    Entity entity = new Entity("Classement_Progression", datastoreID);
+	    entity.setProperty("1", pts);
+	    
+	    entity.setProperty("position", teamId);
+	    datastore.put(entity);
+	    
+	    hmap.put("hier", 0);
+	    hmap.put("semaine", 0);
+	    hmap.put("mois", 0);
+	    
+	    return hmap;
+
 	}
 	
-	
+
     }
 }

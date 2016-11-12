@@ -11,6 +11,7 @@
 <title>Classement ${Pool.poolName}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/css/w3.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
 </head>
 <body>
@@ -43,6 +44,7 @@
 			<th>7</th>
 			<th>30</th>
 			<th>Diff</th>
+			<th>Move</th>
 		</tr>
 		<c:set var="nombreDeTeam" value="${Classement.team_id}" />
 		<c:forEach var="i" begin="0" end="${fn:length(nombreDeTeam)-1}">
@@ -54,19 +56,25 @@
 				<td>${Classement.but[i]}</td>
 				<td>${Classement.passe[i]}</td>
 				<td>${Classement.points[i]}</td>
-				<td><fmt:formatNumber var="roundUp" type="number" minFractionDigits="2" maxFractionDigits="2" value="${Classement.moyenne[i]}" />
-				<c:out value="${roundUp}" />
+				<td>
+					<fmt:formatNumber var="roundUp" type="number" minFractionDigits="2" maxFractionDigits="2" value="${Classement.moyenne[i]}" />
+					<c:out value="${roundUp}" />
 				</td>
 				<td>${Classement.hier[i]}</td>
 				<td>${Classement.semaine[i]}</td>
-				<td>${Classement.mois[i]}</td>				
+				<td>${Classement.mois[i]}</td>
 				<td>${Classement.difference[i]}</td>
+				<td><c:if test="${Classement.mouvement[i]==2}"><i class="material-icons w3-xxlarge" style="color:green">arrow_upward</i></c:if>
+				<c:if test="${Classement.mouvement[i]==1}"><i class="material-icons w3-xxlarge" style="color:red">arrow_downward</i></c:if>
+				<c:if test="${Classement.mouvement[i]==0}"><i class="material-icons w3-xxlarge" style="color:orange">arrow_forward</i></c:if>
+				</td>
 
 			</tr>
 
 		</c:forEach>
 	</table>
-
+	<br>
+	<br>
 
 	<jsp:directive.include file="../utils/draftMessage.jsp" />
 

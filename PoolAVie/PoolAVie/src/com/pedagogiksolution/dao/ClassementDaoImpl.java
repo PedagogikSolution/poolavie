@@ -11,6 +11,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.pedagogiksolution.datastorebeans.Classement;
 
 public class ClassementDaoImpl implements ClassementDao {
@@ -21,10 +27,12 @@ public class ClassementDaoImpl implements ClassementDao {
     private static final String CHECK_IF_TEAM_EXIST = "SELECT * FROM classement_? WHERE team_id=?";
     private static final String UPDATE_TEAM_CLASSEMENT = "UPDATE classement_? SET equipe=? WHERE team_id=?";
     private static final String GET_CLASSEMENT_BY_POOL_ID = "SELECT * FROM classement_? ORDER BY points DESC";
-    private static final String UPDATE_DAILY_STATS = "UPDATE classement_? SET pj=?,but=?,passe=?,points=?,moyenne=points/pj WHERE team_id=?";
+    private static final String UPDATE_DAILY_STATS = "UPDATE classement_? SET pj=?,but=?,passe=?,points=?,moyenne=points/pj, hier=?,semaine=?,mois=? WHERE team_id=?";
     private static final String UPDATE_DIFFERENCE = "UPDATE classement_? SET difference=? WHERE team_id=?";
     private static final String GET_FIRST_TEAM_PTS = "SELECT * FROM classement_? ORDER BY points DESC LIMIT 1";
     private static final String GET_NEXT_TEAM_PTS = "SELECT * FROM classement_? ORDER BY points DESC LIMIT ?";
+    private static final String UPDATE_DAILY_MOUVEMENT = "UPDATE classement_? SET mouvement=? WHERE team_id=?";
+
     private DAOFactory daoFactory;
 
     ClassementDaoImpl(DAOFactory daoFactory) {
@@ -142,6 +150,7 @@ public class ClassementDaoImpl implements ClassementDao {
 	List<Long> mois = new ArrayList<Long>();
 	List<Float> moyenne = new ArrayList<Float>();
 	List<Long> difference = new ArrayList<Long>();
+	List<Long> mouvement = new ArrayList<Long>();
 	Classement mBeanClassement = new Classement();
 	try {
 	    connexion = daoFactory.getConnection();
@@ -177,6 +186,9 @@ public class ClassementDaoImpl implements ClassementDao {
 		int m_mois = (rs.getInt("mois"));
 		mois.add(Long.valueOf(m_mois));
 
+		int m_mouvement = (rs.getInt("mouvement"));
+		mouvement.add(Long.valueOf(m_mouvement));
+
 		float m_moyenne = (rs.getFloat("moyenne"));
 		BigDecimal a = new BigDecimal(m_moyenne);
 		BigDecimal roundOff = a.setScale(2, BigDecimal.ROUND_HALF_UP);
@@ -199,6 +211,7 @@ public class ClassementDaoImpl implements ClassementDao {
 	    mBeanClassement.setMois(mois);
 	    mBeanClassement.setMoyenne(moyenne);
 	    mBeanClassement.setDifference(difference);
+	    mBeanClassement.setMouvement(mouvement);
 
 	    return mBeanClassement;
 
@@ -211,14 +224,14 @@ public class ClassementDaoImpl implements ClassementDao {
     }
 
     @Override
-    public void updateStat(int poolId, int pj, int but, int passe, int pts, int teamId) throws DAOException {
+    public void updateStat(int poolId, int pj, int but, int passe, int pts, int teamId, int hier, int semaine, int mois) throws DAOException {
 
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
 
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_DAILY_STATS, false, poolId, pj, but, passe, pts, teamId);
+	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_DAILY_STATS, false, poolId, pj, but, passe, pts, hier, semaine, mois, teamId);
 	    preparedStatement.execute();
 
 	} catch (SQLException e) {
@@ -229,13 +242,14 @@ public class ClassementDaoImpl implements ClassementDao {
 
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void updateDifference(int poolId, int position) throws DAOException {
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
-	ResultSet rs=null;
-	int total_pts_first = 0,total_pts_next = 0;
-	int difference,teamId = 0;
+	ResultSet rs = null;
+	int total_pts_first = 0, total_pts_next = 0;
+	int difference, teamId = 0;
 	if (position == 1) {
 	    difference = 0;
 	    try {
@@ -243,17 +257,66 @@ public class ClassementDaoImpl implements ClassementDao {
 		preparedStatement = initialisationRequetePreparee(connexion, GET_FIRST_TEAM_PTS, false, poolId);
 		rs = preparedStatement.executeQuery();
 		if (rs.next()) {
-		    teamId  = rs.getInt("team_id");
+		    teamId = rs.getInt("team_id");
 		}
 		preparedStatement = initialisationRequetePreparee(connexion, UPDATE_DIFFERENCE, false, poolId, difference, teamId);
-		    preparedStatement.execute();
+		preparedStatement.execute();
+
 	    } catch (SQLException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	    } finally {
-		fermeturesSilencieuses(rs,preparedStatement, connexion);
+		fermeturesSilencieuses(rs, preparedStatement, connexion);
 	    }
-	    
+
+	    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	    String datastoreID = poolId + "_" + teamId;
+	    Key mKey = KeyFactory.createKey("Classement_Progression", datastoreID);
+	    Key mKeyClassement = KeyFactory.createKey("Classement", String.valueOf(poolId));
+	    int mouvement;
+	    try {
+		Entity entity = datastore.get(mKey);
+		Entity entityClassement = datastore.get(mKeyClassement);
+		List<Long> mouvementArray = new ArrayList<Long>();
+		mouvementArray = (List<Long>) entityClassement.getProperty("mouvement");
+		if (mouvementArray == null) {
+		    mouvementArray = new ArrayList<Long>();
+		}
+
+		Long positionHier = (Long) entity.getProperty("position");
+		int positionHierId = positionHier.intValue();
+		if (1 < positionHierId) {
+		    mouvementArray.set(0, (long) 2);
+		    mouvement = 2;
+		    entityClassement.setProperty("mouvement", mouvementArray);
+		} else if (1 > positionHierId) {
+		    mouvementArray.set(0, (long) 1);
+		    entityClassement.setProperty("mouvement", mouvementArray);
+		    mouvement = 1;
+		} else {
+		    mouvementArray.set(0, (long) 0);
+		    entityClassement.setProperty("mouvement", mouvementArray);
+		    mouvement = 0;
+		}
+		entity.setProperty("position", 1);
+
+		datastore.put(entity);
+
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_DAILY_MOUVEMENT, false, poolId,mouvement,teamId);
+		    preparedStatement.execute();
+		} catch (SQLException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		 } finally {
+			fermeturesSilencieuses(rs, preparedStatement, connexion);
+		    }
+
+	    } catch (EntityNotFoundException e) {
+
+	    }
+
 	} else {
 	    try {
 		connexion = daoFactory.getConnection();
@@ -262,20 +325,72 @@ public class ClassementDaoImpl implements ClassementDao {
 		if (rs.next()) {
 		    total_pts_first = rs.getInt("points");
 		}
-		preparedStatement = initialisationRequetePreparee(connexion, GET_NEXT_TEAM_PTS, false, poolId,position);
+		preparedStatement = initialisationRequetePreparee(connexion, GET_NEXT_TEAM_PTS, false, poolId, position);
 		rs = preparedStatement.executeQuery();
 		if (rs.last()) {
 		    total_pts_next = rs.getInt("points");
-		    teamId  = rs.getInt("team_id");
+		    teamId = rs.getInt("team_id");
 		}
 		difference = total_pts_first - total_pts_next;
 		preparedStatement = initialisationRequetePreparee(connexion, UPDATE_DIFFERENCE, false, poolId, difference, teamId);
-		    preparedStatement.execute();
+		preparedStatement.execute();
 
 	    } catch (SQLException e) {
 		throw new DAOException(e);
 	    } finally {
-		fermeturesSilencieuses(rs,preparedStatement, connexion);
+		fermeturesSilencieuses(preparedStatement, connexion);
+	    }
+
+	    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	    Key mKeyClassement = KeyFactory.createKey("Classement", String.valueOf(poolId));
+	    String datastoreID = poolId + "_" + teamId;
+	    Key mKey = KeyFactory.createKey("Classement_Progression", datastoreID);
+	    int mouvement;
+	    try {
+
+		Entity entity = datastore.get(mKey);
+		Entity entityClassement = datastore.get(mKeyClassement);
+
+		List<Long> mouvementArray = new ArrayList<Long>();
+		mouvementArray = (List<Long>) entityClassement.getProperty("mouvement");
+		if (mouvementArray == null) {
+		    mouvementArray = new ArrayList<Long>();
+		}
+		List<Long> teamIdArray = (List<Long>) entityClassement.getProperty("team_id");
+		Long positionHier = (Long) entity.getProperty("position");
+		int positionHierId = positionHier.intValue();
+		int indexTeamId = teamIdArray.indexOf(Long.valueOf(teamId));
+		if (position < positionHierId) {
+		    mouvementArray.set(indexTeamId, (long) 2);
+		    entityClassement.setProperty("mouvement", mouvementArray);
+		    mouvement = 2;
+		} else if (position > positionHierId) {
+		    mouvementArray.set(indexTeamId, (long) 1);
+		    entityClassement.setProperty("mouvement", mouvementArray);
+		    mouvement = 1;
+		} else {
+		    mouvementArray.set(indexTeamId, (long) 0);
+		    entityClassement.setProperty("mouvement", mouvementArray);
+		    mouvement = 0;
+		}
+		entity.setProperty("position", position);
+
+		datastore.put(entity);
+		datastore.put(entityClassement);
+		
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_DAILY_MOUVEMENT, false, poolId,mouvement,teamId);
+		    preparedStatement.execute();
+		} catch (SQLException e) {
+		    
+		    e.printStackTrace();
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		    }
+
+	    } catch (EntityNotFoundException e1) {
+
 	    }
 
 	}

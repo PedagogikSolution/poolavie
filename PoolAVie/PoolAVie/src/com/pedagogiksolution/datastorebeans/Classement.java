@@ -27,6 +27,7 @@ public class Classement implements Serializable {
     private List<Long> mois;
     private List<Float> moyenne;
     private List<Long> difference;
+    private List<Long> mouvement;
 
     public String getPoolId() {
 	return poolId;
@@ -124,6 +125,14 @@ public class Classement implements Serializable {
 	this.difference = difference;
     }
 
+    public List<Long> getMouvement() {
+	return mouvement;
+    }
+
+    public void setMouvement(List<Long> mouvement) {
+	this.mouvement = mouvement;
+    }
+
     @SuppressWarnings("unchecked")
     public Classement mapClassementFromDatastore(com.google.appengine.api.datastore.Entity mEntity, Classement mBeanClassement) {
 	List<Long> m_but = (List<Long>) mEntity.getProperty("but");
@@ -131,6 +140,9 @@ public class Classement implements Serializable {
 
 	List<Long> m_difference = (List<Long>) mEntity.getProperty("difference");
 	mBeanClassement.setDifference(m_difference);
+	
+	List<Long> m_mouvement = (List<Long>) mEntity.getProperty("mouvement");
+	mBeanClassement.setMouvement(m_mouvement);
 
 	List<String> m_equipe = (List<String>) mEntity.getProperty("equipe");
 	mBeanClassement.setEquipe(m_equipe);
