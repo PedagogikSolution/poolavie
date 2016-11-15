@@ -1,7 +1,15 @@
 package com.pedagogiksolution.model;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.pedagogiksolution.beans.NonSessionAttaquant;
 import com.pedagogiksolution.beans.NonSessionBean;
 import com.pedagogiksolution.beans.NonSessionDefenseur;
@@ -20,6 +28,7 @@ import com.pedagogiksolution.datastorebeans.Utilisateur;
 
 public class EquipeModel {
 
+    @SuppressWarnings("unchecked")
     public void getBeanByTeam(HttpServletRequest req) {
 	String draftPickName = null;
 	String equipeName = null;
@@ -32,6 +41,11 @@ public class EquipeModel {
 	String nomDuTeam = null;
 	NonSessionBean mBean = new NonSessionBean();
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+	String poolID = mBeanPool.getPoolID();
+	
+	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	    
+	    
 
 	if (s_teamNumberToShow == null) {
 	    Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
@@ -42,6 +56,38 @@ public class EquipeModel {
 	    defenseurName = "Defenseur" + teamNumberToShow;
 	    gardienName = "Gardien" + teamNumberToShow;
 	    recrueName = "Recrue" + teamNumberToShow;
+	    String datastoreID = poolID + "_" + teamNumberToShow;
+	    Key mKeyClassement = KeyFactory.createKey("Classement", poolID);
+	    Key mKey = KeyFactory.createKey("Classement_Progression", datastoreID);
+	    try {
+		Entity entity = datastore.get(mKey);
+		Entity entityClassement = datastore.get(mKeyClassement);
+		
+		Long position = (Long)entity.getProperty("position");
+		
+		mBean.setPositionDuTeam(position.intValue());
+		
+		List<Long> hierArray = (List<Long>) entityClassement.getProperty("hier");
+		List<Long> pointsArray = (List<Long>) entityClassement.getProperty("points");
+		
+		Long hierLong = hierArray.get(position.intValue()-1);
+		int hier = hierLong.intValue();
+		
+		Long pointsLong = pointsArray.get(position.intValue()-1);
+		int points = pointsLong.intValue();
+		
+		mBean.setPointHierDuTeam(hier);
+		mBean.setPointTotalDuTeam(points);
+		
+		
+	    } catch (EntityNotFoundException e) {
+
+	    }
+	    
+	    
+	    
+	    
+	    
 	    switch (teamNumberToShow) {
 	   
 	    case 1: 
@@ -139,6 +185,34 @@ public class EquipeModel {
 	    recrueName = "Recrue" + s_teamNumberToShow;
 	    
 	    int teamNumberId = Integer.parseInt(s_teamNumberToShow);
+	    
+	    String datastoreID = poolID + "_" + teamNumberId;
+	    Key mKeyClassement = KeyFactory.createKey("Classement", poolID);
+	    Key mKey = KeyFactory.createKey("Classement_Progression", datastoreID);
+	    try {
+		Entity entity = datastore.get(mKey);
+		Entity entityClassement = datastore.get(mKeyClassement);
+		
+		Long position = (Long)entity.getProperty("position");
+		
+		mBean.setPositionDuTeam(position.intValue());
+		
+		List<Long> hierArray = (List<Long>) entityClassement.getProperty("hier");
+		List<Long> pointsArray = (List<Long>) entityClassement.getProperty("points");
+		
+		Long hierLong = hierArray.get(position.intValue()-1);
+		int hier = hierLong.intValue();
+		
+		Long pointsLong = pointsArray.get(position.intValue()-1);
+		int points = pointsLong.intValue();
+		
+		mBean.setPointHierDuTeam(hier);
+		mBean.setPointTotalDuTeam(points);
+		
+		
+	    } catch (EntityNotFoundException e) {
+
+	    }
 	    
 	    switch (teamNumberId) {
 		   
@@ -393,5 +467,6 @@ public class EquipeModel {
 	req.setAttribute("NonSessionBean", mBean);
 
     }
+
 
 }

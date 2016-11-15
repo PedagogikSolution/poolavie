@@ -2,6 +2,7 @@ package com.pedagogiksolution.cron.model;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -114,11 +115,31 @@ public class ClassementCronModel {
 	    classementDao.updateStat(poolId, pj, but, passe, pts, teamId,hier,semaine,mois);
 
 	}
+	
+	List<Long> mouvementArray = getMouvementArray(poolId);
 
 	for (int teamId = 1; teamId < (numberTeam + 1); teamId++) {
-	    classementDao.updateDifference(poolId, teamId);
+	    classementDao.updateDifference(poolId, teamId,mouvementArray);
 	}
 
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<Long> getMouvementArray(int poolId) {
+	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	    
+	    Key mKeyClassement = KeyFactory.createKey("Classement", String.valueOf(poolId));
+	    
+	    try {
+		Entity entityClassement = datastore.get(mKeyClassement);
+		List<Long> mouvementArray = new ArrayList<Long>();
+		mouvementArray = (List<Long>) entityClassement.getProperty("mouvement");
+		
+		return mouvementArray;
+	    } catch (EntityNotFoundException e) {
+		return null;
+	    }
+		
     }
 
     private HashMap<String, Integer> putTodayInDatastoreAndGetProgression(int teamId, int poolId, int pts) {

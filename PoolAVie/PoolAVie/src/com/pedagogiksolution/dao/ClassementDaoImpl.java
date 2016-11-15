@@ -26,7 +26,7 @@ public class ClassementDaoImpl implements ClassementDao {
     private static final String INSERT_TEAM_CLASSEMENT = "INSERT INTO classement_? (equipe,team_id,pool_id,year_of_the_standing) VALUE (?,?,?,?)";
     private static final String CHECK_IF_TEAM_EXIST = "SELECT * FROM classement_? WHERE team_id=?";
     private static final String UPDATE_TEAM_CLASSEMENT = "UPDATE classement_? SET equipe=? WHERE team_id=?";
-    private static final String GET_CLASSEMENT_BY_POOL_ID = "SELECT * FROM classement_? ORDER BY points DESC";
+    private static final String GET_CLASSEMENT_BY_POOL_ID = "SELECT * FROM classement_? ORDER BY points DESC, but DESC";
     private static final String UPDATE_DAILY_STATS = "UPDATE classement_? SET pj=?,but=?,passe=?,points=?,moyenne=points/pj, hier=?,semaine=?,mois=? WHERE team_id=?";
     private static final String UPDATE_DIFFERENCE = "UPDATE classement_? SET difference=? WHERE team_id=?";
     private static final String GET_FIRST_TEAM_PTS = "SELECT * FROM classement_? ORDER BY points DESC LIMIT 1";
@@ -244,7 +244,7 @@ public class ClassementDaoImpl implements ClassementDao {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void updateDifference(int poolId, int position) throws DAOException {
+    public void updateDifference(int poolId, int position,List<Long> mouvementArray) throws DAOException {
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
 	ResultSet rs = null;
@@ -277,11 +277,7 @@ public class ClassementDaoImpl implements ClassementDao {
 	    try {
 		Entity entity = datastore.get(mKey);
 		Entity entityClassement = datastore.get(mKeyClassement);
-		List<Long> mouvementArray = new ArrayList<Long>();
-		mouvementArray = (List<Long>) entityClassement.getProperty("mouvement");
-		if (mouvementArray == null) {
-		    mouvementArray = new ArrayList<Long>();
-		}
+		
 
 		Long positionHier = (Long) entity.getProperty("position");
 		int positionHierId = positionHier.intValue();
@@ -338,7 +334,7 @@ public class ClassementDaoImpl implements ClassementDao {
 	    } catch (SQLException e) {
 		throw new DAOException(e);
 	    } finally {
-		fermeturesSilencieuses(preparedStatement, connexion);
+		fermeturesSilencieuses(rs,preparedStatement, connexion);
 	    }
 
 	    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -351,8 +347,7 @@ public class ClassementDaoImpl implements ClassementDao {
 		Entity entity = datastore.get(mKey);
 		Entity entityClassement = datastore.get(mKeyClassement);
 
-		List<Long> mouvementArray = new ArrayList<Long>();
-		mouvementArray = (List<Long>) entityClassement.getProperty("mouvement");
+		
 		if (mouvementArray == null) {
 		    mouvementArray = new ArrayList<Long>();
 		}

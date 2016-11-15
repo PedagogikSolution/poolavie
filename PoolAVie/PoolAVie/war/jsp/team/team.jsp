@@ -367,11 +367,11 @@
 					<div class="w3-xxlarge  w3-bottombar w3-border-indigo" style="width: 90%">${NonSessionBean.nomDuTeam}</div>
 					<br>
 					<div class="w3-xlarge ">Mon rang</div>
-					<div class="w3-xxlarge ">1er</div>
+					<div class="w3-xxlarge ">${NonSessionBean.positionDuTeam}er</div>
 					<div class="w3-xlarge ">Mes points totaux</div>
-					<div class=" w3-xxlarge">0</div>
+					<div class=" w3-xxlarge">${NonSessionBean.pointTotalDuTeam}</div>
 					<div class="w3-xlarge ">Mes points hier</div>
-					<div class=" w3-xxlarge">0</div>
+					<div class=" w3-xxlarge">${NonSessionBean.pointHierDuTeam}</div>
 				</div>
 
 
