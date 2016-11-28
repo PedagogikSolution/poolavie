@@ -56,7 +56,7 @@ public class RecuperationModel {
 	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
 	    mBeanMessageErreur.setErreurFormulaireRecuperation(RECUPERATION_COURRIEL_INEXISTANT);
 	    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-	    return null;
+	    return false;
 	}
 
     }

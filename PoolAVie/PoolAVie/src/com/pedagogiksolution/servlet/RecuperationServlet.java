@@ -67,8 +67,6 @@ public class RecuperationServlet extends HttpServlet {
 	} else {
 	
 	String courriel= req.getParameter("email");
-
-	
 	
 	Boolean checkIfEmailExist = mModel.checkIfEmailExist(courriel,req);
 	
