@@ -170,39 +170,39 @@ public class DraftDaoImpl implements DraftDao {
 	    connexion = daoFactory.getConnection();
 	    preparedStatement = initialisationRequetePreparee(connexion, GET_DRAFT_ROUND_ORDER, false, poolId);
 	    rs = preparedStatement.executeQuery();
-	    List<Integer> draft_pick_no = new ArrayList<Integer>();
+	    List<Long> draft_pick_no = new ArrayList<Long>();
 		List<String> equipe = new ArrayList<String>();
-		List<Integer> ronde = new ArrayList<Integer>();
-		List<Integer> team_id = new ArrayList<Integer>();
+		List<Long> ronde = new ArrayList<Long>();
+		List<Long> team_id = new ArrayList<Long>();
 		List<String> from_who = new ArrayList<String>();
-		List<Integer> team_id_from = new ArrayList<Integer>();
-		List<Integer> team_count = new ArrayList<Integer>();
-		List<Integer> follow_up = new ArrayList<Integer>();
+		List<Long> team_id_from = new ArrayList<Long>();
+		List<Long> team_count = new ArrayList<Long>();
+		List<Long> follow_up = new ArrayList<Long>();
 		List<String> player_drafted = new ArrayList<String>();
-		List<Integer> year_of_draft = new ArrayList<Integer>();
+		List<Long> year_of_draft = new ArrayList<Long>();
 
 		
 		    while (rs.next()) {
 			int draft_pick_no2 = rs.getInt("draft_pick_no");
-			draft_pick_no.add(draft_pick_no2);
+			draft_pick_no.add(Long.valueOf(draft_pick_no2));
 			String equipe2 = rs.getString("equipe");
 			equipe.add(equipe2);
 			int ronde2 = rs.getInt("ronde");
-			ronde.add(ronde2);
+			ronde.add(Long.valueOf(ronde2));
 			int team_id2 = rs.getInt("team_id");
-			team_id.add(team_id2);
+			team_id.add(Long.valueOf(team_id2));
 			String from_who2 = rs.getString("from_who");
 			from_who.add(from_who2);
 			int team_id_from2 = rs.getInt("team_id_from");
-			team_id_from.add(team_id_from2);
+			team_id_from.add(Long.valueOf(team_id_from2));
 			int team_count2 = rs.getInt("team_count");
-			team_count.add(team_count2);
+			team_count.add(Long.valueOf(team_count2));
 			int follow_up2 = rs.getInt("follow_up");
-			follow_up.add(follow_up2);
+			follow_up.add(Long.valueOf(follow_up2));
 			String player_drafted2 = rs.getString("player_drafted");
 			player_drafted.add(player_drafted2);
 			int year_of_draft2 = rs.getInt("year_of_draft");
-			year_of_draft.add(year_of_draft2);
+			year_of_draft.add(Long.valueOf(year_of_draft2));
 		    }
 
 		    DraftRound mBeanDraft = new DraftRound();

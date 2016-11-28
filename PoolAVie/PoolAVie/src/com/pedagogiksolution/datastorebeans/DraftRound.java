@@ -19,16 +19,16 @@ public class DraftRound implements Serializable {
     
     @Id
     private String poolId;
-    private List<Integer> draft_pick_no;   
+    private List<Long> draft_pick_no;   
     private List<String> equipe;
-    private List<Integer> ronde;
-    private List<Integer> team_id;
+    private List<Long> ronde;
+    private List<Long> team_id;
     private List<String> from_who;
-    private List<Integer> team_id_from;
-    private List<Integer> team_count;
-    private List<Integer> follow_up;
+    private List<Long> team_id_from;
+    private List<Long> team_count;
+    private List<Long> follow_up;
     private List<String> player_drafted;
-    private List<Integer> year_of_draft;
+    private List<Long> year_of_draft;
     
     public String getPoolId() {
 	return poolId;
@@ -36,10 +36,10 @@ public class DraftRound implements Serializable {
     public void setPoolId(String poolId) {
 	this.poolId = poolId;
     }
-    public List<Integer> getDraft_pick_no() {
+    public List<Long> getDraft_pick_no() {
 	return draft_pick_no;
     }
-    public void setDraft_pick_no(List<Integer> draft_pick_no) {
+    public void setDraft_pick_no(List<Long> draft_pick_no) {
 	this.draft_pick_no = draft_pick_no;
     }
     public List<String> getEquipe() {
@@ -48,16 +48,16 @@ public class DraftRound implements Serializable {
     public void setEquipe(List<String> equipe) {
 	this.equipe = equipe;
     }
-    public List<Integer> getRonde() {
+    public List<Long> getRonde() {
 	return ronde;
     }
-    public void setRonde(List<Integer> ronde) {
+    public void setRonde(List<Long> ronde) {
 	this.ronde = ronde;
     }
-    public List<Integer> getTeam_id() {
+    public List<Long> getTeam_id() {
 	return team_id;
     }
-    public void setTeam_id(List<Integer> team_id) {
+    public void setTeam_id(List<Long> team_id) {
 	this.team_id = team_id;
     }
     public List<String> getFrom_who() {
@@ -66,22 +66,22 @@ public class DraftRound implements Serializable {
     public void setFrom_who(List<String> from_who) {
 	this.from_who = from_who;
     }
-    public List<Integer> getTeam_id_from() {
+    public List<Long> getTeam_id_from() {
 	return team_id_from;
     }
-    public void setTeam_id_from(List<Integer> team_id_from) {
+    public void setTeam_id_from(List<Long> team_id_from) {
 	this.team_id_from = team_id_from;
     }
-    public List<Integer> getTeam_count() {
+    public List<Long> getTeam_count() {
 	return team_count;
     }
-    public void setTeam_count(List<Integer> team_count) {
+    public void setTeam_count(List<Long> team_count) {
 	this.team_count = team_count;
     }
-    public List<Integer> getFollow_up() {
+    public List<Long> getFollow_up() {
 	return follow_up;
     }
-    public void setFollow_up(List<Integer> follow_up) {
+    public void setFollow_up(List<Long> follow_up) {
 	this.follow_up = follow_up;
     }
     public List<String> getPlayer_drafted() {
@@ -90,11 +90,48 @@ public class DraftRound implements Serializable {
     public void setPlayer_drafted(List<String> player_drafted) {
 	this.player_drafted = player_drafted;
     }
-    public List<Integer> getYear_of_draft() {
+    public List<Long> getYear_of_draft() {
 	return year_of_draft;
     }
-    public void setYear_of_draft(List<Integer> year_of_draft) {
+    public void setYear_of_draft(List<Long> year_of_draft) {
 	this.year_of_draft = year_of_draft;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public DraftRound mapDraftRoundFromDatastore(com.google.appengine.api.datastore.Entity mEntity, DraftRound mBeanDraftRound) {
+	
+	     List<Long> draft_pick_no=(List<Long>) mEntity.getProperty("draft_pick_no");
+	     mBeanDraftRound.setDraft_pick_no(draft_pick_no);
+	     
+	     List<String> equipe=(List<String>) mEntity.getProperty("equipe");
+	     mBeanDraftRound.setEquipe(equipe);
+	     
+	     List<Long> ronde=(List<Long>) mEntity.getProperty("ronde");
+	     mBeanDraftRound.setRonde(ronde);
+	     
+	     List<Long> team_id=(List<Long>) mEntity.getProperty("team_id"); 
+	     mBeanDraftRound.setTeam_id(team_id);
+	     	     
+	     List<String> from_who=(List<String>) mEntity.getProperty("from_who"); 
+	     mBeanDraftRound.setFrom_who(from_who);
+	     
+	     List<Long> team_id_from=(List<Long>) mEntity.getProperty("team_id_from");
+	     mBeanDraftRound.setTeam_id_from(team_id_from);
+	     
+	     List<Long> team_count=(List<Long>) mEntity.getProperty("team_count");
+	     mBeanDraftRound.setTeam_count(team_count);
+	     
+	     List<Long> follow_up=(List<Long>) mEntity.getProperty("follow_up"); 
+	     mBeanDraftRound.setFollow_up(follow_up);
+	     
+	     List<String> player_drafted=(List<String>) mEntity.getProperty("player_drafted"); 
+	     mBeanDraftRound.setPlayer_drafted(player_drafted);
+	     
+	     List<Long> year_of_draft=(List<Long>) mEntity.getProperty("year_of_draft");
+	     mBeanDraftRound.setYear_of_draft(year_of_draft);
+	     
+	     
+	return mBeanDraftRound;
     }
     
     

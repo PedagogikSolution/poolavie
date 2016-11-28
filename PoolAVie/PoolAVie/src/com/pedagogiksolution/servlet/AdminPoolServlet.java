@@ -26,7 +26,24 @@ public class AdminPoolServlet extends HttpServlet {
 	    DraftPlayersModel mModelDraft = new DraftPlayersModel();	    	   
 	    mModelDraft.putDatastoreIntoBean(mBeanPool,req);
 	}
-	req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
+	
+	switch(cycleAnnuel){
+	case 1: req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
+	    break;
+	case 2: req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
+	    break;
+	case 3: req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
+	    break;
+	case 4: req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
+	    break;
+	case 5: req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
+	    break;
+	case 6: req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
+	    break;
+	case 7: req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
+	    break;
+	}
+	
     }
 
     @Override

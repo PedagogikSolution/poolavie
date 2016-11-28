@@ -116,6 +116,42 @@ public class Utilisateur implements Serializable{
 	this.codeRecuperation = codeRecuperation;
     }
     
+    public Utilisateur mapUtilisateurFromDatastore(com.google.appengine.api.datastore.Entity mEntity, Utilisateur mBean) {
+	
+	     String nomUtilisateur = (String) mEntity.getKey().getName();
+	     mBean.setNomUtilisateur(nomUtilisateur);
+	     String motDePasse = (String) mEntity.getProperty("motDePasse");
+	     mBean.setMotDePasse(motDePasse);
+	     String courriel = (String) mEntity.getProperty("courriel");
+	     mBean.setCourriel(courriel);
+	     String codeValidation = (String) mEntity.getProperty("codeValidation");
+	     mBean.setCodeValidation(codeValidation);
+	     String codeRecuperation = (String) mEntity.getProperty("codeRecuperation");
+	     mBean.setCodeRecuperation(codeRecuperation);
+	     String dateCreation = (String) mEntity.getProperty("dateCreation");
+	     mBean.setDateCreation(dateCreation);
+	     Long poolId = (Long) mEntity.getProperty("poolId");
+	     mBean.setPoolId(poolId.intValue());
+	     Long teamId = (Long) mEntity.getProperty("teamId");
+	     mBean.setTeamId(teamId.intValue());
+	     Long typeUtilisateur = (Long) mEntity.getProperty("typeUtilisateur");
+	     mBean.setTypeUtilisateur(typeUtilisateur.intValue());
+	     Long validationReussi = (Long) mEntity.getProperty("validationReussi");
+	     mBean.setValidationReussi(validationReussi.intValue());
+	     Long loginReussi = (Long) mEntity.getProperty("loginReussi");
+	     mBean.setLoginReussi(loginReussi.intValue());
+	     Long firstConnexionFinish = (Long) mEntity.getProperty("firstConnexionFinish");
+	     mBean.setFirstConnexionFinish(firstConnexionFinish.intValue());
+	     String teamName = (String) mEntity.getProperty("teamName");
+	     mBean.setTeamName(teamName);
+	     String urlTeamLogo = (String) mEntity.getProperty("urlTeamLogo");
+	     mBean.setUrlTeamLogo(urlTeamLogo);
+	
+	
+	
+	return mBean;
+    }
+    
     
     
     

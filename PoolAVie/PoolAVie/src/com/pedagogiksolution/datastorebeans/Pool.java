@@ -11,7 +11,7 @@ public class Pool implements Serializable{
     /**
      * 
      */
-    private static final long serialVersionUID = -1746403313888742471L;
+    private static final long serialVersionUID = -5746403353888742475L;
 
     @Id
     private String poolID;
@@ -53,6 +53,10 @@ public class Pool implements Serializable{
     private String draftDate;
     private String firstYear;
     private String thisYear;
+    private String secondYear;
+    private String thirdYear;
+    private String fourthYear;
+    private String fifthYear;
 
 
     public String getPoolID() {
@@ -442,6 +446,188 @@ public class Pool implements Serializable{
 
     public void setLogoTeam12(String logoTeam12) {
 	this.logoTeam12 = logoTeam12;
+    }
+
+
+    public String getSecondYear() {
+	return secondYear;
+    }
+
+
+    public void setSecondYear(String secondYear) {
+	this.secondYear = secondYear;
+    }
+
+
+    public String getThirdYear() {
+	return thirdYear;
+    }
+
+
+    public void setThirdYear(String thirdYear) {
+	this.thirdYear = thirdYear;
+    }
+
+
+    public String getFourthYear() {
+	return fourthYear;
+    }
+
+
+    public void setFourthYear(String fourthYear) {
+	this.fourthYear = fourthYear;
+    }
+
+
+    public String getFifthYear() {
+	return fifthYear;
+    }
+
+
+    public void setFifthYear(String fifthYear) {
+	this.fifthYear = fifthYear;
+    }
+
+
+    public Pool mapPoolFromDatastore(com.google.appengine.api.datastore.Entity mEntity, Pool mBeanPool) {
+	
+	String codeValidationPool =(String)mEntity.getProperty("codeValidationPool");	
+	mBeanPool.setCodeValidationPool(codeValidationPool);
+	
+	String creationDate =(String)mEntity.getProperty("creationDate");
+	mBeanPool.setCreationDate(creationDate);
+	
+	Long cycleAnnuel_long =(Long)mEntity.getProperty("cycleAnnuel");
+	int cycleAnnuel = cycleAnnuel_long.intValue();	
+	mBeanPool.setCycleAnnuel(cycleAnnuel);
+	
+	String derniereMAJ =(String)mEntity.getProperty("derniereMAJ");	
+	mBeanPool.setDerniereMAJ(derniereMAJ);
+	
+	String draftDate =(String)mEntity.getProperty("draftDate");	
+	mBeanPool.setDraftDate(draftDate);
+	
+	Long draftType_long =(Long)mEntity.getProperty("draftType");
+	int draftType = draftType_long.intValue();	
+	mBeanPool.setDraftType(draftType);
+	
+	String fifthYear =(String)mEntity.getProperty("fifthYear");	
+	mBeanPool.setFifthYear(fifthYear);
+	
+	String firstYear =(String)mEntity.getProperty("firstYear");
+	mBeanPool.setFirstYear(firstYear);
+	
+	String fourthYear =(String)mEntity.getProperty("fourthYear");
+	mBeanPool.setFourthYear(fourthYear);
+	
+	String logoTeam1 =(String)mEntity.getProperty("logoTeam1");
+	mBeanPool.setLogoTeam1(logoTeam1);
+	
+	String logoTeam2 =(String)mEntity.getProperty("logoTeam2");
+	mBeanPool.setLogoTeam2(logoTeam2);
+	
+	String logoTeam3 =(String)mEntity.getProperty("logoTeam3");
+	mBeanPool.setLogoTeam3(logoTeam3);
+	
+	String logoTeam4 =(String)mEntity.getProperty("logoTeam4");
+	mBeanPool.setLogoTeam4(logoTeam4);
+	
+	String logoTeam5 =(String)mEntity.getProperty("logoTeam5");
+	mBeanPool.setLogoTeam5(logoTeam5);
+	
+	String logoTeam6 =(String)mEntity.getProperty("logoTeam6");
+	mBeanPool.setLogoTeam6(logoTeam6);
+	
+	String logoTeam7 =(String)mEntity.getProperty("logoTeam7");
+	mBeanPool.setLogoTeam7(logoTeam7);
+	
+	String logoTeam8 =(String)mEntity.getProperty("logoTeam8");
+	mBeanPool.setLogoTeam8(logoTeam8);
+	
+	String logoTeam9 =(String)mEntity.getProperty("logoTeam9");
+	mBeanPool.setLogoTeam9(logoTeam9);
+	
+	String logoTeam10 =(String)mEntity.getProperty("logoTeam10");
+	mBeanPool.setLogoTeam10(logoTeam10);
+	
+	String logoTeam11 =(String)mEntity.getProperty("logoTeam11");
+	mBeanPool.setLogoTeam11(logoTeam11);
+	
+	String logoTeam12 =(String)mEntity.getProperty("logoTeam12");
+	mBeanPool.setLogoTeam12(logoTeam12);	
+	
+	String nomTeam1 =(String)mEntity.getProperty("nomTeam1");
+	mBeanPool.setNomTeam1(nomTeam1);
+	
+	String nomTeam2 =(String)mEntity.getProperty("nomTeam2");
+	mBeanPool.setNomTeam2(nomTeam2);
+	
+	String nomTeam3 =(String)mEntity.getProperty("nomTeam3");
+	mBeanPool.setNomTeam3(nomTeam3);
+	
+	String nomTeam4 =(String)mEntity.getProperty("nomTeam4");
+	mBeanPool.setNomTeam4(nomTeam4);
+	
+	String nomTeam5 =(String)mEntity.getProperty("nomTeam5");
+	mBeanPool.setNomTeam5(nomTeam5);
+	
+	String nomTeam6 =(String)mEntity.getProperty("nomTeam6");
+	mBeanPool.setNomTeam6(nomTeam6);
+	
+	String nomTeam7 =(String)mEntity.getProperty("nomTeam7");
+	mBeanPool.setNomTeam7(nomTeam7);
+	
+	String nomTeam8 =(String)mEntity.getProperty("nomTeam8");
+	mBeanPool.setNomTeam8(nomTeam8);
+	
+	String nomTeam9 =(String)mEntity.getProperty("nomTeam9");
+	mBeanPool.setNomTeam9(nomTeam9);
+	
+	String nomTeam10 =(String)mEntity.getProperty("nomTeam10");
+	mBeanPool.setNomTeam10(nomTeam10);
+	
+	String nomTeam11 =(String)mEntity.getProperty("nomTeam11");
+	mBeanPool.setNomTeam11(nomTeam11);
+	
+	String nomTeam12 =(String)mEntity.getProperty("nomTeam12");
+	mBeanPool.setNomTeam12(nomTeam12);
+	
+	Long numberTeam_long =(Long)mEntity.getProperty("numberTeam");
+	int numberTeam = numberTeam_long.intValue();	
+	mBeanPool.setNumberTeam(numberTeam);
+	
+	Long numTeamCreate_long =(Long)mEntity.getProperty("numTeamCreate");
+	int numTeamCreate = numTeamCreate_long.intValue();	
+	mBeanPool.setNumTeamCreate(numTeamCreate);
+	
+	String poolID =(String)mEntity.getKey().getName();	
+	mBeanPool.setPoolID(poolID);
+	
+	String poolName =(String)mEntity.getProperty("poolName");
+	mBeanPool.setPoolName(poolName);
+	
+	Long poolType_long =(Long)mEntity.getProperty("poolType");
+	int poolType = poolType_long.intValue();	
+	mBeanPool.setPoolType(poolType);
+	
+	Long poolYear_long =(Long)mEntity.getProperty("poolYear");
+	int poolYear = poolYear_long.intValue();	
+	mBeanPool.setPoolYear(poolYear);
+	
+	String secondYear =(String)mEntity.getProperty("secondYear");
+	mBeanPool.setSecondYear(secondYear);
+	
+	String thirdYear =(String)mEntity.getProperty("thirdYear");
+	mBeanPool.setThirdYear(thirdYear);
+	
+	String thisYear =(String)mEntity.getProperty("thisYear");
+	mBeanPool.setThisYear(thisYear);
+	
+	Long tradeType_long =(Long)mEntity.getProperty("tradeType");
+	int tradeType = tradeType_long.intValue();	
+	mBeanPool.setTradeType(tradeType);
+	
+	return mBeanPool;
     }
     
     

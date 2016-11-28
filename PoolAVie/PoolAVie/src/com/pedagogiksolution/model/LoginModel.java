@@ -72,7 +72,7 @@ public class LoginModel {
 		boolean passwordMatch = mEncrypt.validatePassword(password, mEncryptPassword);
 		if (passwordMatch) {
 		    // si match on place dans bean Utilisateur
-		    mBean = mapUtilisateurFromDatastore(mEntity, mBean);
+		    mBean = mBean.mapUtilisateurFromDatastore(mEntity, mBean);
 		    // on met la valeur de LoginReussi a 1
 		    mBean.setLoginReussi(1);
 		    // on place dans la session le Bean Utilisateur
@@ -146,7 +146,7 @@ public class LoginModel {
 	    Entity mEntity = datastore.get(clefDatastore);
 
 	    // on met dans SessionBean
-	    mBeanPool = mapPoolFromDatastore(mEntity, mBeanPool);
+	    mBeanPool = mBeanPool.mapPoolFromDatastore(mEntity, mBeanPool);
 	    requestObject.getSession().setAttribute("Pool", mBeanPool);
 
 	    return true;
@@ -252,7 +252,7 @@ public class LoginModel {
 	    Entity mEntity = datastore.get(clefDatastore);
 
 	    // on met dans SessionBean
-	    mBeanDraftRound = mapDraftRoundFromDatastore(mEntity, mBeanDraftRound);
+	    mBeanDraftRound = mBeanDraftRound.mapDraftRoundFromDatastore(mEntity, mBeanDraftRound);
 	    requestObject.getSession().setAttribute("DraftRound", mBeanDraftRound);
 
 	    return true;
@@ -290,7 +290,7 @@ public class LoginModel {
 		Entity mEntity = datastore.get(clefDatastore);
 
 		// on met dans SessionBean
-		mBeanDraftPick = mapDraftPickFromDatastore(mEntity, mBeanDraftPick);
+		mBeanDraftPick = mBeanDraftPick.mapDraftPickFromDatastore(mEntity, mBeanDraftPick);
 		requestObject.getSession().setAttribute(jspSessionName, mBeanDraftPick);
 
 		// on met dans memcache
@@ -515,74 +515,6 @@ public class LoginModel {
 	}
 
     }
-
-    /********** methode privée à la classe métier *************/
-
-    private Utilisateur mapUtilisateurFromDatastore(Entity mEntity, Utilisateur mBean) {
-
-	EntityManagerFactory emf = EMF.get();
-	EntityManager em = null;
-
-	try {
-	    em = emf.createEntityManager();
-	    mBean = em.find(Utilisateur.class, mEntity.getKey());
-	} finally {
-	    if (em != null)
-		em.close();
-	}
-
-	return mBean;
-    }
-
-    private Pool mapPoolFromDatastore(Entity mEntity, Pool mBeanPool) {
-
-	EntityManagerFactory emf = EMF.get();
-	EntityManager em = null;
-
-	try {
-	    em = emf.createEntityManager();
-	    mBeanPool = em.find(Pool.class, mEntity.getKey());
-	} finally {
-	    if (em != null)
-		em.close();
-	}
-
-	return mBeanPool;
-    }
-
-   
-
-    private DraftRound mapDraftRoundFromDatastore(Entity mEntity, DraftRound mBeanDraftRound) {
-	EntityManagerFactory emf = EMF.get();
-	EntityManager em = null;
-
-	try {
-	    em = emf.createEntityManager();
-	    mBeanDraftRound = em.find(DraftRound.class, mEntity.getKey());
-	} finally {
-	    if (em != null)
-		em.close();
-	}
-
-	return mBeanDraftRound;
-    }
-
-    private DraftPick mapDraftPickFromDatastore(Entity mEntity, DraftPick mBeanDraftPick) {
-	EntityManagerFactory emf = EMF.get();
-	EntityManager em = null;
-
-	try {
-	    em = emf.createEntityManager();
-	    mBeanDraftPick = em.find(DraftPick.class, mEntity.getKey());
-	} finally {
-	    if (em != null)
-		em.close();
-	}
-
-	return mBeanDraftPick;
-    }
-
-   
 
     
 }

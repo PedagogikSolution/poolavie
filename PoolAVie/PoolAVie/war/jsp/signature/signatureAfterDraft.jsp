@@ -63,10 +63,10 @@
 					<th>Position</th>
 					<th>Salaire</th>
 					<th>${Pool.thisYear}</th>
-					<th>Année 2</th>
-					<th>Année 3</th>
-					<th>Année 4</th>
-					<th>Année 5</th>
+					<th>${Pool.secondYear}</th>
+					<th>${Pool.thirdYear}</th>
+					<th>${Pool.fourthYear}</th>
+					<th>${Pool.fifthYear}</th>
 					<th>Signature</th>
 
 				</tr>

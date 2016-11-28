@@ -151,22 +151,22 @@ public class TradeModel {
 	mNonSessionDraftBeanThatReceivedOffer.setTeamNameOriginalPick(mBeanDraftPickThatReceivedOffer.getTeamNameOriginalPick());
 	
 	// DraftPick From DraftRound for trade while draft is up
-	List<Integer> pick_no = new ArrayList<Integer>();
-	List<Integer> ronde = new ArrayList<Integer>();
-	List<Integer> team_id = new ArrayList<Integer>();
+	List<Long> pick_no = new ArrayList<Long>();
+	List<Long> ronde = new ArrayList<Long>();
+	List<Long> team_id = new ArrayList<Long>();
 	List<String> teamNameOriginePick = new ArrayList<String>();
 	
-	List<Integer> mTeamId = mBeanDraftRound.getTeam_id();
-	List<Integer> mRonde = mBeanDraftRound.getRonde();
-	List<Integer> mPickNo = mBeanDraftRound.getDraft_pick_no();
+	List<Long> mTeamId = mBeanDraftRound.getTeam_id();
+	List<Long> mRonde = mBeanDraftRound.getRonde();
+	List<Long> mPickNo = mBeanDraftRound.getDraft_pick_no();
 	List<String> mTeamName = mBeanDraftRound.getEquipe();
-	ListIterator<Integer> mIterator = mTeamId.listIterator();
+	ListIterator<Long> mIterator = mTeamId.listIterator();
 	while(mIterator.hasNext()){
 	    int indexListIterator = mIterator.nextIndex();
-	    int teamIdIterator = mIterator.next();
+	    Long teamIdIterator = mIterator.next();
 	    if(teamIdIterator==teamThatMakeOfferId){
-		int draft_pick_no = mPickNo.get(indexListIterator);
-		int mRondeId = mRonde.get(indexListIterator);
+		Long draft_pick_no = mPickNo.get(indexListIterator);
+		Long mRondeId = mRonde.get(indexListIterator);
 		ronde.add(mRondeId);
 		String mName = mTeamName.get(indexListIterator);
 		teamNameOriginePick.add(mName);
@@ -180,18 +180,18 @@ public class TradeModel {
 	mNonSessionDraftBeanThatMakingOffer2.setTeam_id(team_id);
 	mNonSessionDraftBeanThatMakingOffer2.setRonde(ronde);
 	
-	List<Integer> pick_no2 = new ArrayList<Integer>();
-	List<Integer> ronde2 = new ArrayList<Integer>();
-	List<Integer> team_id2 = new ArrayList<Integer>();
+	List<Long> pick_no2 = new ArrayList<Long>();
+	List<Long> ronde2 = new ArrayList<Long>();
+	List<Long> team_id2 = new ArrayList<Long>();
 	List<String> teamNameOriginePick2 = new ArrayList<String>();
-	List<Integer> mTeamId2 = mBeanDraftRound.getTeam_id();
-	List<Integer> mRonde2 = mBeanDraftRound.getRonde();
-	List<Integer> mPickNo2 = mBeanDraftRound.getDraft_pick_no();
+	List<Long> mTeamId2 = mBeanDraftRound.getTeam_id();
+	List<Long> mRonde2 = mBeanDraftRound.getRonde();
+	List<Long> mPickNo2 = mBeanDraftRound.getDraft_pick_no();
 	List<String> mTeamName2 = mBeanDraftRound.getEquipe();
-	ListIterator<Integer> mIterator2 = mTeamId2.listIterator();
-	while(mIterator2.hasNext()){
-	    int indexListIterator = mIterator2.nextIndex();
-	    int teamIdIterator = mIterator2.next();
+	ListIterator<Long> mIterator2 = mTeamId2.listIterator();
+	/*while(mIterator2.hasNext()){
+	    Long indexListIterator = (long) mIterator2.nextIndex();
+	    Long teamIdIterator = mIterator2.next();
 	    if(teamIdIterator==teamThatReceivedOfferId){
 		int draft_pick_no = mPickNo2.get(indexListIterator);
 		int mRondeId = mRonde2.get(indexListIterator);
@@ -204,7 +204,7 @@ public class TradeModel {
 	    }
 	}
 	
-		
+	*/	
 
 	mNonSessionDraftBeanThatReceivedOffer2.setPick_no(pick_no2);
 	mNonSessionDraftBeanThatReceivedOffer2.setTeamNameOriginalPick(teamNameOriginePick2);

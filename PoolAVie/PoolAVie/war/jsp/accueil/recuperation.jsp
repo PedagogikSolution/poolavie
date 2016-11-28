@@ -28,7 +28,7 @@
 		<div class="w3-indigo w3-center w3-padding">
 			<h3>Récupérez vos identifiants</h3>
 		</div>
-		<form class="w3-padding-left" action="/recuperation" method="post">
+		<form class="w3-padding-left" action="/recuperation" method="post" autocomplete="off">
 
 			<c:if test="${MessageErreurBeans.erreurNotLogIn!=null }">
 				<p class="w3-text-red ">${MessageErreurBeans.erreurNotLogIn}</p>

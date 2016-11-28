@@ -56,7 +56,7 @@
 				<div class="w3-indigo w3-center w3-padding">
 					<h3>Validez votre compte</h3>
 				</div>
-				<form class="w3-padding-left" action="/validation" method="post">
+				<form class="w3-padding-left" action="/validation" method="post" autocomplete="off">
 					<input type="hidden" name="formulaire" value="1">
 					<br>
 					<label class="w3-label w3-text-indigo w3-xlarge">Code de Validation</label>

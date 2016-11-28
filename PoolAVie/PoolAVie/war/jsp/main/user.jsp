@@ -67,7 +67,7 @@
 			<div class="w3-indigo w3-center w3-padding">
 				<h3>Changer votre nom d'utilisateur, votre mot de passe ou votre courriel (vous pouvez changer un ou plusieurs à la fois)</h3>
 			</div>
-			<form class="w3-padding-left" action="/MonCompte" method="post">
+			<form class="w3-padding-left" action="/MonCompte" method="post" autocomplete="off">
 
 				<br>
 				<label class="w3-label w3-text-indigo w3-large">Nouveau nom d'utilisateur</label>
@@ -96,7 +96,7 @@
 			<div class="w3-indigo w3-center w3-padding">
 				<h3>Changer votre nom d'équipe ou votre logo</h3>
 			</div>
-			<form class="w3-padding-left" action="/MonCompte" method="post">
+			<form class="w3-padding-left" action="/MonCompte" method="post" autocomplete="off">
 
 				<br>
 				<label class="w3-label w3-text-indigo w3-large">Nouveau nom d'équipe</label>

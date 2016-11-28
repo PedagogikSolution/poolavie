@@ -60,7 +60,7 @@
 							<input class="w3-input w3-container w3-text-blue  w3-validate" form="ChangePasswordForm${i}" type="password" name="password">
 						</td>
 						<td>
-							<form id="ChangePasswordForm${i}" class="w3-padding-left" action="/recuperation" method="post">
+							<form id="ChangePasswordForm${i}" class="w3-padding-left" action="/recuperation" method="post" autocomplete="off">
 							<input type="hidden" name="username" value="${Recuperation.username[i]}">
 							
 							<button class="w3-btn w3-khaki w3-large w3-text-indigo">Changer</button>

@@ -77,7 +77,7 @@
 						<h4>${Articles.dateCreation[i]}</h4>
 						<h2>${Articles.titre[i]}</h2>
 						<p>${Articles.body[i]}</p>
-						<p><h5 class="w3-text-shadow">${Articles.writerName[i]}</h5></p>
+						<br><h5 class="w3-text-shadow">${Articles.writerName[i]}</h5>
 					</div>
 
 				</div>
@@ -146,7 +146,7 @@
 				<h2>Votre nouvelles/vos commentaires</h2>
 			</div>
 
-			<form class="w3-container w3-form w3-white" action="/Nouvelles" method="post">
+			<form class="w3-container w3-form w3-white" action="/Nouvelles" method="post" autocomplete="off">
 
 				<p>
 					<label class="w3-label w3-text-indigo w3-large">Titre</label><input id="titreNouvelle" class="w3-input w3-validate" type="text" name="titre">

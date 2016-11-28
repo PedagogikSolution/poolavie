@@ -41,11 +41,11 @@
 					<th>But</th>
 					<th>Passe</th>
 					<th>Points</th>
-					<th>2015-16</th>
-					<th>2016-17</th>
-					<th>2017-18</th>
-					<th>2018-19</th>
-					<th>2019-20</th>
+					<th>${Pool.thisYear}</th>
+					<th>${Pool.secondYear}</th>
+					<th>${Pool.thirdYear}</th>
+					<th>${Pool.fourthYear}</th>
+					<th>${Pool.fifthYear}</th>
 
 				</tr>
 				<c:set var="nombreDePick" value="${NonSessionAttaquant.nom}" />
@@ -99,11 +99,11 @@
 					<th>But</th>
 					<th>Passe</th>
 					<th>Points</th>
-					<th>2015-16</th>
-					<th>2016-17</th>
-					<th>2017-18</th>
-					<th>2018-19</th>
-					<th>2019-20</th>
+					<th>${Pool.thisYear}</th>
+					<th>${Pool.secondYear}</th>
+					<th>${Pool.thirdYear}</th>
+					<th>${Pool.fourthYear}</th>
+					<th>${Pool.fifthYear}</th>
 
 				</tr>
 				<c:set var="nombreDePick" value="${NonSessionDefenseur.nom}" />
@@ -158,11 +158,11 @@
 					<th>DP</th>
 					<th>Blanc</th>
 					<th>Pts</th>
-					<th>2015-16</th>
-					<th>2016-17</th>
-					<th>2017-18</th>
-					<th>2018-19</th>
-					<th>2019-20</th>
+					<th>${Pool.thisYear}</th>
+					<th>${Pool.secondYear}</th>
+					<th>${Pool.thirdYear}</th>
+					<th>${Pool.fourthYear}</th>
+					<th>${Pool.fifthYear}</th>
 
 				</tr>
 				<c:set var="nombreDePick" value="${NonSessionGardien.nom}" />
@@ -217,11 +217,11 @@
 					<th>But</th>
 					<th>Passe</th>
 					<th>Points</th>
-					<th>2015-16</th>
-					<th>2016-17</th>
-					<th>2017-18</th>
-					<th>2018-19</th>
-					<th>2019-20</th>
+					<th>${Pool.thisYear}</th>
+					<th>${Pool.secondYear}</th>
+					<th>${Pool.thirdYear}</th>
+					<th>${Pool.fourthYear}</th>
+					<th>${Pool.fifthYear}</th>
 
 				</tr>
 				<c:set var="nombreDePick" value="${NonSessionRecrue.nom}" />
@@ -273,7 +273,7 @@
 
 						</tr>
 
-						<c:forEach var="i" begin="0" end="9">
+						<c:forEach var="i" begin="0" end="10">
 
 							<tr>
 
@@ -300,7 +300,7 @@
 
 						</tr>
 
-						<c:forEach var="i" begin="10" end="19">
+						<c:forEach var="i" begin="11" end="21">
 
 							<tr>
 
@@ -328,7 +328,7 @@
 						</tr>
 						<c:set var="nombreDePick" value="${NonSessionDraftPick.pick_no}" />
 
-						<c:forEach var="i" begin="20" end="${fn:length(nombreDePick)-1}">
+						<c:forEach var="i" begin="21" end="${fn:length(nombreDePick)-1}">
 
 							<tr>
 

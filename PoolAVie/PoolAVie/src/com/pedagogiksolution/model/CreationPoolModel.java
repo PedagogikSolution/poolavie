@@ -96,6 +96,10 @@ public class CreationPoolModel {
 	String yearString = dateCreation.substring(0, 4);
 	int yearInt = Integer.parseInt(yearString);
 	String thisYear = yearString + "-" + (yearInt + 1);
+	String secondYear = (yearInt + 1) + "-" + (yearInt + 2);
+	String thirdYear = (yearInt + 2) + "-" + (yearInt + 3);
+	String fourthYear = (yearInt + 3) + "-" + (yearInt + 4);
+	String fifthYear = (yearInt + 4) + "-" + (yearInt + 5);
 
 	// on crée le beans avec le processus JPA qui va créer le datastore en même temps
 	EntityManagerFactory emf = EMF.get();
@@ -120,6 +124,10 @@ public class CreationPoolModel {
 	    mBean.setDraftDate(null);
 	    mBean.setThisYear(thisYear);
 	    mBean.setFirstYear(thisYear);
+	    mBean.setSecondYear(secondYear);
+	    mBean.setThirdYear(thirdYear);
+	    mBean.setFourthYear(fourthYear);
+	    mBean.setFifthYear(fifthYear);
 	    mBean.setLogoTeam1(urlLogoTeam);
 
 	    // on place le bean dans un attribut de session

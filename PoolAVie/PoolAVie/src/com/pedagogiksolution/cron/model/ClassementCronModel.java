@@ -165,7 +165,7 @@ public class ClassementCronModel {
 	    
 	    hmap.put("hier", hier);
 
-	    String compteurSemaine = String.valueOf(compteur - 6);
+	    String compteurSemaine = String.valueOf(compteur - 7);
 	    Long ptsSemaine = (Long) entity.getProperty(compteurSemaine);
 
 	    if (ptsSemaine == null) {
@@ -176,7 +176,7 @@ public class ClassementCronModel {
 		hmap.put("semaine", semaine);
 	    }
 
-	    String compteurMois = String.valueOf(compteur - 6);
+	    String compteurMois = String.valueOf(compteur - 30);
 	    Long ptsmois = (Long) entity.getProperty(compteurMois);
 
 	    if (ptsmois == null) {

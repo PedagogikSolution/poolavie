@@ -49,7 +49,7 @@
 		<br>
 		<br>
 		<div id="marketing2" class="w3-row-padding">
-			<form class="w3-container" action="/CreationPool" method="post" name="creation">
+			<form class="w3-container" action="/CreationPool" method="post" name="creation" autocomplete="off">
 				<div class="w3-third w3-container ">
 
 					<div class="w3-card-24 w3-white" style="width: 80%; height: 80%; margin-left: auto; margin-right: auto">

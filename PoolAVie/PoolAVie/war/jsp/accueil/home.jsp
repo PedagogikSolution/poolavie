@@ -80,7 +80,7 @@
 					<div class="w3-indigo w3-center w3-padding">
 						<h3>Créer un nouveau pool</h3>
 					</div>
-					<form class="w3-padding-left" action="/register" method="post">
+					<form class="w3-padding-left" action="/register" method="post" autocomplete="off">
 						<br>
 						<label class="w3-label w3-text-indigo w3-large">Courriel</label>
 						<br>

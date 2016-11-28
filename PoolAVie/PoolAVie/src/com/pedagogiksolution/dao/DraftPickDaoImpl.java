@@ -113,10 +113,10 @@ public class DraftPickDaoImpl implements DraftPickDao {
 	    PreparedStatement preparedStatement = null;
 	    ResultSet rs = null;
 	    DraftPick mBean = new DraftPick();
-	    List<Integer> team_id = new ArrayList<Integer>();
-	    List<Integer> pick_no = new ArrayList<Integer>();
-	    List<Integer> original_team_id = new ArrayList<Integer>();
-	    List<Integer> orderForTheRound = new ArrayList<Integer>();
+	    List<Long> team_id = new ArrayList<Long>();
+	    List<Long> pick_no = new ArrayList<Long>();
+	    List<Long> original_team_id = new ArrayList<Long>();
+	    List<Long> orderForTheRound = new ArrayList<Long>();
 	    List<String> teamNameOriginalPick = new ArrayList<String>();
 	    String datastoreId;
 	    
@@ -139,16 +139,16 @@ public class DraftPickDaoImpl implements DraftPickDao {
 		while (rs.next()) {
 
 		    int m_team_id = (rs.getInt("team_id"));
-		    team_id.add(m_team_id);
+		    team_id.add(Long.valueOf(m_team_id));
 
 		    int m_pick_no = (rs.getInt("pick_no"));
-		    pick_no.add(m_pick_no);
+		    pick_no.add(Long.valueOf(m_pick_no));
 
 		    int m_original_team_id = (rs.getInt("original_team_id"));
-		    original_team_id.add(m_original_team_id);
+		    original_team_id.add(Long.valueOf(m_original_team_id));
 
 		    int m_orderForTheRound = (rs.getInt("orderForTheRound"));
-		    orderForTheRound.add(m_orderForTheRound);
+		    orderForTheRound.add(Long.valueOf(m_orderForTheRound));
 		    
 		    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		    Key clefDatastore = KeyFactory.createKey("Pool", String.valueOf(poolId));
