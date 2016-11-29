@@ -79,7 +79,7 @@ public class RecuperationServlet extends HttpServlet {
 	    req.getRequestDispatcher("jsp/accueil/home.jsp").forward(req, resp);
 	} else {
 	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-	    mBeanMessageErreur.setErreurFormulaireLogin("Cette adresse courriel n'existe pas");
+	    mBeanMessageErreur.setErreurFormulaireRecuperation("Cette adresse courriel n'existe pas");
 	    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
 	    req.getRequestDispatcher("jsp/accueil/recuperation.jsp").forward(req, resp);
 	}

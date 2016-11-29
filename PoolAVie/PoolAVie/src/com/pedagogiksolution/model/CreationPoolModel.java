@@ -333,7 +333,7 @@ public class CreationPoolModel {
 		msg.setFrom(new InternetAddress("pedagogiksolution@gmail.com", "Poolavie.ca"));
 		msg.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(courriel));
 		msg.setSubject("Invitation pour un Pool à vie", "utf-8");
-		msg.setContent("Bonjour, un de vos amis vous invite à participer à un pool de hockey sur la plateforme de www.poolavie.ca." + "\n\n Vous pouvez dès maintenant aller créer les bases de votre équipe en suivant le lien ci-bas." + "\n\n <a href='http://2-dot-zeta-anthem-715.appspot.com/CreationDirecteurGeneral?po=" + poolId + "&pl=" + playerId + "&co=" + code
+		msg.setContent("Bonjour, un de vos amis vous invite à participer à un pool de hockey sur la plateforme de www.poolavie.ca." + "\n\n Vous pouvez dès maintenant aller créer les bases de votre équipe en suivant le lien ci-bas." + "\n\n <a href='http://www.poolavie.com/CreationDirecteurGeneral?po=" + poolId + "&pl=" + playerId + "&co=" + code
 			+ "&fo=1'>Créer mon équipe</a>", "text/html");
 		Transport.send(msg);
 	    } catch (AddressException e) {

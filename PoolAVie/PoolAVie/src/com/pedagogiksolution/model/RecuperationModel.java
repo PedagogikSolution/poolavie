@@ -16,8 +16,6 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -32,7 +30,6 @@ import com.google.appengine.api.datastore.Query;
 import com.pedagogiksolution.beans.GestionCompte;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
-import com.pedagogiksolution.utils.EMF;
 import com.pedagogiksolution.utils.PasswordEncryption;
 
 public class RecuperationModel {
@@ -71,7 +68,9 @@ public class RecuperationModel {
 	    msg.setFrom(new InternetAddress("pedagogiksolution@gmail.com", "Poolavie.ca"));
 	    msg.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(courriel));
 	    msg.setSubject("Récupération de vos identifiants", "utf-8");
-	    msg.setContent("Bonjour, pour récupérer votre compte veuillez cliquez sur le lien qui suit.\n\n <a href='http://2-dot-zeta-anthem-715.appspot.com/recuperation?courriel=" + courriel + "&codeValidation=" + codeValidation + "'>Récupérer mon compte</a>", "text/html");
+	    msg.setContent("Bonjour, si vous vouliez changer votre mot de passe cliquez sur le lien suivant :" +
+	    		" <a href='http://www.poolavie.ca/recuperation?courriel=" + courriel + "&codeValidation=" + codeValidation + "'>Récupérer mon compte</a>.\n\n" +
+	    		"Si vous aviez besoin de votre code de validation, entrez le code suivant : " + codeValidation +" dans le formulaire de connexion de la page d'accueil", "text/html");
 	    Transport.send(msg);
 	} catch (AddressException e) {
 	    // ...
@@ -166,27 +165,12 @@ public class RecuperationModel {
 		   
 		}
 		Utilisateur mBean = new Utilisateur();
-		mBean = mapUtilisateurFromDatastore(entity, mBean);
+		mBean = mBean.mapUtilisateurFromDatastore(entity, mBean);
 		
 		
 			
 	
     }
     
-    /* ******************  private methode   ************* */
-    private Utilisateur mapUtilisateurFromDatastore(Entity mEntity, Utilisateur mBean) {
-
-	EntityManagerFactory emf = EMF.get();
-	EntityManager em = null;
-
-	try {
-		em = emf.createEntityManager();
-		mBean = em.find(Utilisateur.class, mEntity.getKey());
-	} finally {
-		if (em != null)
-			em.close();
-	}
-
-	return mBean;
-}
+   
 }
