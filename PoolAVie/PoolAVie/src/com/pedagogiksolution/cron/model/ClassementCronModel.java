@@ -197,7 +197,7 @@ public class ClassementCronModel {
 
 	    Entity entity = new Entity("Classement_Progression", datastoreID);
 	    entity.setProperty("1", pts);
-	    
+	    entity.setProperty("compteur", 1);
 	    entity.setProperty("position", teamId);
 	    datastore.put(entity);
 	    

@@ -1449,7 +1449,6 @@ public class DraftPlayersModel {
 	    years_3.addAll((List<String>) entity.getProperty("years_3"));
 	    years_4.addAll((List<String>) entity.getProperty("years_4"));
 	    years_5.addAll((List<String>) entity.getProperty("years_5"));
-	    salaire_contrat.addAll((List<Long>) entity.getProperty("salaire_contrat"));
 	}
     }
 }

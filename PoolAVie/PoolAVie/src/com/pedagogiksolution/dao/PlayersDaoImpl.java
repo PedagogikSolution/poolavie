@@ -798,7 +798,7 @@ public class PlayersDaoImpl implements PlayersDao {
 
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_AFTER_DRAFT_PICK, false, poolId, teamId, contrat, acquireYearsId, salaireId, clubEcoleId, salaireId, playersId);
+	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_AFTER_DRAFT_PICK, false, poolId, teamId, contrat, acquireYearsId,clubEcoleId, salaireId, playersId);
 	    preparedStatement.executeUpdate();
 
 	} catch (SQLException e) {
