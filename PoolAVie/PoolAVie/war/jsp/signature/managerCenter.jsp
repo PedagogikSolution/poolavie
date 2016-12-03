@@ -28,8 +28,22 @@
 	<!-- section Alerte -->
 	<jsp:directive.include file="../utils/messageAlerte.jsp" />
 
-	
-	
+	<div class="w3-container">
+
+		<br>
+		<c:if test="${Pool.cycleAnnuel==1||Pool.cycleAnnuel==2||Pool.cycleAnnuel==3||Pool.cycleAnnuel==5 }">
+			<div class="w3-content w3-margin-top" style="max-width: 90%">
+				<div class="w3-container w3-red w3-center">
+					<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+					<h3>Il n'y a pas de signature possible à ce stade du cycle annuel du pool</h3>
+				</div>
+			</div>
+		</c:if>
+
+
+
+	</div>
+
 
 
 	<jsp:directive.include file="../utils/draftMessage.jsp" />

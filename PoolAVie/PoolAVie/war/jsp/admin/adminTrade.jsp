@@ -14,6 +14,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="../../css/material_design.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
 </head>
 <body>
@@ -28,20 +29,75 @@
 
 	<!-- section Alerte -->
 	<jsp:directive.include file="../utils/messageAlerte.jsp" />
-	
-		<div class="w3-row w3-container">
-			
-		</div>
+
+	<!-- section Content -->
+	<div class="w3-container">
+
+		<c:if test="${Pool.poolType==1 }">
+			<!-- sous-section changement de date fin de trade -->
+			<div class="w3-row"></div>
+		</c:if>
+
+		<c:if test="${Pool.poolType==2 }">
+			<!-- sous-section set numberOfTradePeriod -->
+			<div class="w3-row"></div>
+
+			<!-- sous-section set date for each period -->
+			<div class="w3-row"></div>
+		</c:if>
+
+		<c:if test="${Pool.poolType==1 && Pool.cycleAnnuel>=3 }">
+			<!-- sous-section open/close trade -->
+
+			<br>
+			<div class="w3-row">
+
+				<h2 class="w3-container">Ouvrez ou fermez la possibilité de faire des échanges</h2>
+				<label class="switch w3-container">
+					<input id="toggleOpenTrade" type="checkbox" name="openTrade">
+					<span class="slider round"></span>
+				</label>
 
 
 
+
+			</div>
+		</c:if>
+
+	</div>
+
+	<!-- section DraftMessage -->
 	<jsp:directive.include file="../utils/draftMessage.jsp" />
 
 	<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token!=null}">
 		<jsp:directive.include file="../utils/draftClientB.jsp" />
 	</c:if>
+
+	<!-- section SCRIPT POUR MENU CSS -->
 	<script>
 		document.getElementById('menuSecAdmin').classList.add('w3-khaki');
 	</script>
+	<!-- section SCRIPT POUR AJAX OPEN TRADE -->
+	<script>
+		$(document).ready(function() {
+
+			$("#toggleOpenTrade").change(function() {
+				var state = $("#toggleOpenTrade").is(':checked') ? 1 : 0;
+
+				if (state == 1) {
+					$.post("/AdminTrade", {
+						openTrade : "1"
+
+					});
+				} else {
+					$.post("/AdminTrade", {
+						openTrade : "0"
+
+					});
+				}
+			});
+		});
+	</script>
+
 </body>
 </html>

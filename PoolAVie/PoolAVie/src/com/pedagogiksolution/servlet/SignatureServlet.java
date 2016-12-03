@@ -71,7 +71,7 @@ public class SignatureServlet extends HttpServlet {
 	case 5:
 	    req.getRequestDispatcher("jsp/signature/managerCenter.jsp").forward(req, resp);
 	    break;
-	case 992: // message deja 8 contrat
+	case 992: // message deja 12 contrat
 	    req.setAttribute("messageErreurs", "Vous avez le nombre maximal de joueur sous contrat dans votre équipe");
 	    req.getRequestDispatcher("jsp/signature/signatureAfterDraft.jsp").forward(req, resp);
 	    break;

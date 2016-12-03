@@ -1,4 +1,4 @@
- package com.pedagogiksolution.servlet;
+package com.pedagogiksolution.servlet;
 
 import java.io.IOException;
 
@@ -24,14 +24,13 @@ public class TradeServlet extends HttpServlet {
 	TradeModel mModelTrade;
 	Pool mBean = (Pool) req.getSession().getAttribute("Pool");
 	int cycleAnnuel = mBean.getCycleAnnuel();
-	
-	
+
 	if (cycleAnnuel == 3) {
-	   	    
-	    DraftPlayersModel mModelDraft = new DraftPlayersModel();	    	   
-	    mModelDraft.putDatastoreIntoBean(mBean,req);
+
+	    DraftPlayersModel mModelDraft = new DraftPlayersModel();
+	    mModelDraft.putDatastoreIntoBean(mBean, req);
 	}
-	
+
 	int fromId;
 	String fromID = req.getParameter("from");
 	if (fromID != null) {
@@ -91,113 +90,37 @@ public class TradeServlet extends HttpServlet {
 		    mModelTrade.getTradeOfferMade();
 		    req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 		} else {
-		    // check si date de trade en vigueur
-		    Boolean checkIfTradeOpen = mModelTrade.checkIfTradeOpen();
-		    if (checkIfTradeOpen) {
-			req.setAttribute("tradeOpen", 1);
-			mModelTrade.getTradeOfferReceived();
-			mModelTrade.getTradeOfferMade();
+		    req.setAttribute("tradeOpen", 0); 
+		    req.setAttribute("messageTrade", "Il n'y a pas de trade possible à cet période du pool");
 			req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
-		    } else {
-			// on envoie un bean requestScope avec les dates setup
-			// du trade
-			// TODO recuper les date de trade et les placer dans un
-			// bean
-			req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
-		    }
+		   
 
 		}
+		break;
 
+	    case 6:
+		mModelTrade = new TradeModel(req, mBean);
+		req.setAttribute("tradeOpen", 1);
+		mModelTrade.getTradeOfferReceived();
+		mModelTrade.getTradeOfferMade();
+		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
+
+		break;
 	    }
 
 	    break;
 
 	case 2:
-	    switch (cycleAnnuel) {
-	    case 0:
-		// pas de trade possible, on envoie sur trade center sans
-		// récupérer les offres
-		req.setAttribute("messageTrade", "Il n'y a pas de trade possible à cet période du pool");
-		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
-		break;
-	    case 1:
-		// pas de trade possible, on envoie sur trade center sans
-		// récupérer les offres
-		req.setAttribute("messageTrade", "Il n'y a pas de trade possible à cet période du pool");
-		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
-		break;
-	    case 2:
-		// pas de trade possible, on envoie sur trade center sans
-		// récupérer les offres
-		req.setAttribute("messageTrade", "Il n'y a pas de trade possible à cet période du pool");
-		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
-		break;
-	    case 3:
-
-		// on recupere les trade recu du datastore et place dans bean
-		// pour affichage
-		mModelTrade = new TradeModel(req, mBean);
-		mModelTrade.getMyTrade();
-		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
-		break;
-	    case 4:
-		// pas de trade possible, on envoie sur trade center sans
-		// récupérer les offres
-		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
-		break;
-	    case 5:
-		// on recupere les trade recu du datastore et place dans bean
-		// pour affichage
-		mModelTrade = new TradeModel(req, mBean);
-		mModelTrade.getMyTrade();
-		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
-		break;
-	    }
+	    mModelTrade = new TradeModel(req, mBean);
+	    mModelTrade.getMyTrade();
+	    req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 
 	    break;
 
 	case 3:
-	    switch (cycleAnnuel) {
-	    case 0:
-		// pas de trade possible, on envoie sur trade center sans
-		// récupérer les offres
-		req.setAttribute("messageTrade", "Il n'y a pas de trade possible à cet période du pool");
-		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
-		break;
-	    case 1:
-		// pas de trade possible, on envoie sur trade center sans
-		// récupérer les offres
-		req.setAttribute("messageTrade", "Il n'y a pas de trade possible à cet période du pool");
-		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
-		break;
-	    case 2:
-		// pas de trade possible, on envoie sur trade center sans
-		// récupérer les offres
-		req.setAttribute("messageTrade", "Il n'y a pas de trade possible à cet période du pool");
-		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
-		break;
-	    case 3:
-
-		// on recupere les trade recu du datastore et place dans bean
-		// pour affichage
-		mModelTrade = new TradeModel(req, mBean);
-		mModelTrade.getAllTrade();
-		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
-		break;
-	    case 4:
-		// pas de trade possible, on envoie sur trade center sans
-		// récupérer les offres
-		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
-		break;
-	    case 5:
-		// Si tradeType==1, on recupere les trade recu du datastore et
-		// place dans bean pour affichage
-		mModelTrade = new TradeModel(req, mBean);
-		mModelTrade.getAllTrade();
-		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
-
-	    }
-	    break;
+	    mModelTrade = new TradeModel(req, mBean);
+	    mModelTrade.getAllTrade();
+	    req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 
 	}
 

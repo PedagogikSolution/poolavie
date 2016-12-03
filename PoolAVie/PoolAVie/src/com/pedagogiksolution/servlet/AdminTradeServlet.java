@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.datastorebeans.Pool;
+import com.pedagogiksolution.model.AdminModel;
 import com.pedagogiksolution.model.DraftPlayersModel;
 
 public class AdminTradeServlet extends HttpServlet {
@@ -32,6 +33,25 @@ public class AdminTradeServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	
+	String openTradeState = req.getParameter("openTrade");
+	
+	
+	if(openTradeState!=null){
+	    AdminModel mModelAdmin = new AdminModel();
+	    switch(openTradeState){
+	    
+	    case "0":
+		mModelAdmin.closeTrade(req);
+		break;
+	    case "1":
+		mModelAdmin.openTrade(req);
+		break;
+	    }
+	    
+	    
+	}
+	
 	
     }
     

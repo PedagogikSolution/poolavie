@@ -587,6 +587,58 @@ public class AdminModel {
 
     }
 
+    public void openTrade(HttpServletRequest req) {
+	
+	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+	String poolID = mBeanPool.getPoolID();
+	
+	
+	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	Key mKey = KeyFactory.createKey("Pool", poolID);
+	
+	try {
+	    Entity mEntity = datastore.get(mKey);
+	    Long cycleAnnuel = Long.valueOf(6);
+	    mEntity.setProperty("cycleAnnuel",cycleAnnuel);
+	    mBeanPool = mBeanPool.mapPoolFromDatastore(mEntity, mBeanPool);
+	    
+	    datastore.put(mEntity);
+	    
+	    req.getSession().setAttribute("Pool", mBeanPool);
+	    
+	    
+	} catch (EntityNotFoundException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+	
+    }
+
+    public void closeTrade(HttpServletRequest req) {
+	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+	String poolID = mBeanPool.getPoolID();
+	
+	
+	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	Key mKey = KeyFactory.createKey("Pool", poolID);
+	
+	try {
+	    Entity mEntity = datastore.get(mKey);
+	    Long cycleAnnuel = Long.valueOf(5);
+	    mEntity.setProperty("cycleAnnuel", cycleAnnuel);
+	    mBeanPool = mBeanPool.mapPoolFromDatastore(mEntity, mBeanPool);
+	    
+	    datastore.put(mEntity);
+	    
+	    req.getSession().setAttribute("Pool", mBeanPool);
+	    
+	    
+	} catch (EntityNotFoundException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+	
+    }
     /***************************************************** private method ******************************************/
 
     private String switchToGetPropertyTeamName(int teamId) {
@@ -694,5 +746,8 @@ public class AdminModel {
 
 	return mBeanDraftPick;
     }
+
+    
+    
 
 }
