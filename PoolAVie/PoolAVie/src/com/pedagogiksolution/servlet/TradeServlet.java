@@ -22,7 +22,8 @@ public class TradeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	TradeModel mModelTrade;
-	Pool mBean = (Pool) req.getSession().getAttribute("Pool");
+	Pool mBean = new Pool();
+	mBean = (Pool) req.getSession().getAttribute("Pool");
 	int cycleAnnuel = mBean.getCycleAnnuel();
 
 	if (cycleAnnuel == 3) {
@@ -129,6 +130,8 @@ public class TradeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	TradeModel mModelTrade;
+	LoginModel mModel;
+	Boolean testErreur;
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 	int cycleAnnuel;
@@ -141,7 +144,7 @@ public class TradeServlet extends HttpServlet {
 	case 1:
 
 	    // on met a jour les objet de session pour etre certain d'avoir la plus recente representation des données
-	    LoginModel mModel = new LoginModel(req);
+	    mModel = new LoginModel(req);
 	    mModel.createSessionDraftPickBean();
 	    mModel.createSessionAttaquantBean();
 	    mModel.createSessionDefenseurBean();
@@ -151,7 +154,7 @@ public class TradeServlet extends HttpServlet {
 
 	    // on place les beans de session dans des beans temporaires pour les deux equipes
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
-	    Boolean testErreur = mModelTrade.getDataOnTeamThatTrade();
+	    testErreur = mModelTrade.getDataOnTeamThatTrade();
 
 	    // on met un token pour indiquer que la section est accessible a ce moment du cycle (empeche quelqu'un de
 // connecter d'aller directemetn a URL .jsp si pas bon cycle)
@@ -169,8 +172,11 @@ public class TradeServlet extends HttpServlet {
 	case 2:
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
 	    Boolean offerGood = mModelTrade.checkIfTradeIsValidDuringDraft();
-	    if (offerGood) {
-		req.getRequestDispatcher("jsp/trade/trade_offer_sheet.jsp").forward(req, resp);
+	    if (!offerGood) {
+		 
+		    
+		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
+		   
 	    } else {
 		req.getRequestDispatcher("jsp/trade/trade_offer__confirmation_sheet.jsp").forward(req, resp);
 	    }

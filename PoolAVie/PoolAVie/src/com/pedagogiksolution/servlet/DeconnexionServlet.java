@@ -82,6 +82,7 @@ public class DeconnexionServlet extends HttpServlet {
 	}
 	
 	req.getSession().invalidate();
+	req.getSession().removeAttribute("Pool");
 	resp.sendRedirect("/");
 	
     }

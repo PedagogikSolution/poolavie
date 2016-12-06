@@ -126,7 +126,7 @@ public class ResetForTestCron extends HttpServlet {
 			req.getSession().setAttribute(jspSessionName, mBean);
 			// on persiste dans le datastore via notre EntityManager
 			em.persist(mBean);
-			// on persist le datastore/bean dans la MemCache
+			
 			
 
 		    } finally {

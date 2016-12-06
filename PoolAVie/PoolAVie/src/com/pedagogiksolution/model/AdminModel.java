@@ -281,7 +281,7 @@ public class AdminModel {
 		    datastore.put(txn, newEntityUser);
 
 		    // on map pour mettre dans Bean de session et memcache
-		    mNewBeanUser = mapUtilisateurFromDatastore(newEntityUser, mBeanUser);
+		    mNewBeanUser = mNewBeanUser.mapUtilisateurFromDatastore(newEntityUser, mBeanUser);
 
 		    // on place le bean dans un attribut de session
 		    req.getSession().setAttribute("Utilisateur", mNewBeanUser);
@@ -331,7 +331,7 @@ public class AdminModel {
 		    datastore.put(txn, entityUser);
 
 		    // on map pour mettre dans Bean de session et memcache
-		    mBeanUser = mapUtilisateurFromDatastore(entityUser, mBeanUser);
+		    mBeanUser = mBeanUser.mapUtilisateurFromDatastore(entityUser, mBeanUser);
 
 		    // on place le bean dans un attribut de session
 		    req.getSession().setAttribute("Utilisateur", mBeanUser);
@@ -365,7 +365,7 @@ public class AdminModel {
 		    datastore.put(txn, entityUser);
 
 		    // on map pour mettre dans Bean de session et memcache
-		    mBeanUser = mapUtilisateurFromDatastore(entityUser, mBeanUser);
+		    mBeanUser = mBeanUser.mapUtilisateurFromDatastore(entityUser, mBeanUser);
 
 		    // on place le bean dans un attribut de session
 		    req.getSession().setAttribute("Utilisateur", mBeanUser);
@@ -395,7 +395,7 @@ public class AdminModel {
 		    datastore.put(txn, entityUser);
 
 		    // on map pour mettre dans Bean de session et memcache
-		    mBeanUser = mapUtilisateurFromDatastore(entityUser, mBeanUser);
+		    mBeanUser = mBeanUser.mapUtilisateurFromDatastore(entityUser, mBeanUser);
 
 		    // on place le bean dans un attribut de session
 		    req.getSession().setAttribute("Utilisateur", mBeanUser);
@@ -425,7 +425,7 @@ public class AdminModel {
 		    datastore.put(txn, entityPool);
 
 		    // on map pour mettre dans Bean de session et memcache
-		    mBeanPool = mapPoolFromDatastore(entityPool, mBeanPool);
+		    mBeanPool = mBeanPool.mapPoolFromDatastore(entityPool, mBeanPool);
 
 		    // on place le bean dans un attribut de session
 		    req.getSession().setAttribute("Pool", mBeanPool);
@@ -454,7 +454,7 @@ public class AdminModel {
 		    datastore.put(txn, entityClassement);
 
 		    // on map pour mettre dans Bean de session et memcache
-		    mBeanClassement = mapClassementFromDatastore(entityClassement, mBeanClassement);
+		    mBeanClassement = mBeanClassement.mapClassementFromDatastore(entityClassement, mBeanClassement);
 
 		    // on place le bean dans un attribut de session
 		    req.getSession().setAttribute("Classement", mBeanClassement);
@@ -498,7 +498,7 @@ public class AdminModel {
 			datastore.put(txn, entityDraftPick);
 
 			// on map pour mettre dans Bean de session et memcache
-			mBeanDraftPick = mapDraftPickFromDatastore(entityDraftPick, mBeanDraftPick);
+			mBeanDraftPick = mBeanDraftPick.mapDraftPickFromDatastore(entityDraftPick, mBeanDraftPick);
 
 			// on place le bean dans un attribut de session
 			req.getSession().setAttribute("DraftPick", mBeanDraftPick);
@@ -589,21 +589,23 @@ public class AdminModel {
 
     public void openTrade(HttpServletRequest req) {
 	
-	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
-	String poolID = mBeanPool.getPoolID();
-	
+	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+	int poolId = mBeanUser.getPoolId();
+	String poolID = String.valueOf(poolId);
+	Pool mBeanPool = new Pool();
 	
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	Key mKey = KeyFactory.createKey("Pool", poolID);
 	
 	try {
 	    Entity mEntity = datastore.get(mKey);
-	    Long cycleAnnuel = Long.valueOf(6);
+	    Long cycleAnnuel = Long.valueOf(6);	    
 	    mEntity.setProperty("cycleAnnuel",cycleAnnuel);
-	    mBeanPool = mBeanPool.mapPoolFromDatastore(mEntity, mBeanPool);
-	    
 	    datastore.put(mEntity);
 	    
+	    mBeanPool = mBeanPool.mapPoolFromDatastore(mEntity, mBeanPool);
+	    mBeanPool.setCycleAnnuel(6);
+	    req.getSession().removeAttribute("Pool");
 	    req.getSession().setAttribute("Pool", mBeanPool);
 	    
 	    
@@ -615,8 +617,10 @@ public class AdminModel {
     }
 
     public void closeTrade(HttpServletRequest req) {
-	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
-	String poolID = mBeanPool.getPoolID();
+	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+	int poolId = mBeanUser.getPoolId();
+	String poolID = String.valueOf(poolId);
+	Pool mBeanPool = new Pool();
 	
 	
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -624,12 +628,14 @@ public class AdminModel {
 	
 	try {
 	    Entity mEntity = datastore.get(mKey);
-	    Long cycleAnnuel = Long.valueOf(5);
+	    Long cycleAnnuel = Long.valueOf(7);
 	    mEntity.setProperty("cycleAnnuel", cycleAnnuel);
 	    mBeanPool = mBeanPool.mapPoolFromDatastore(mEntity, mBeanPool);
 	    
 	    datastore.put(mEntity);
+	    mBeanPool.setCycleAnnuel(7);
 	    
+	    req.getSession().removeAttribute("Pool");
 	    req.getSession().setAttribute("Pool", mBeanPool);
 	    
 	    
@@ -686,68 +692,5 @@ public class AdminModel {
 	return nomPropertyTeamName;
     }
 
-    private Utilisateur mapUtilisateurFromDatastore(Entity mEntity, Utilisateur mBean) {
-
-	EntityManagerFactory emf = EMF.get();
-	EntityManager em = null;
-
-	try {
-	    em = emf.createEntityManager();
-	    mBean = em.find(Utilisateur.class, mEntity.getKey());
-	} finally {
-	    if (em != null)
-		em.close();
-	}
-
-	return mBean;
-    }
-
-    private Pool mapPoolFromDatastore(Entity entityPool, Pool mBeanPool) {
-	EntityManagerFactory emf = EMF.get();
-	EntityManager em = null;
-
-	try {
-	    em = emf.createEntityManager();
-	    mBeanPool = em.find(Pool.class, entityPool.getKey());
-	} finally {
-	    if (em != null)
-		em.close();
-	}
-
-	return mBeanPool;
-    }
-
-    private Classement mapClassementFromDatastore(Entity entityClassement, Classement mBeanClassement) {
-	EntityManagerFactory emf = EMF.get();
-	EntityManager em = null;
-
-	try {
-	    em = emf.createEntityManager();
-	    mBeanClassement = em.find(Classement.class, entityClassement.getKey());
-	} finally {
-	    if (em != null)
-		em.close();
-	}
-
-	return mBeanClassement;
-    }
-
-    private DraftPick mapDraftPickFromDatastore(Entity entityDraftPick, DraftPick mBeanDraftPick) {
-	EntityManagerFactory emf = EMF.get();
-	EntityManager em = null;
-
-	try {
-	    em = emf.createEntityManager();
-	    mBeanDraftPick = em.find(DraftPick.class, entityDraftPick.getKey());
-	} finally {
-	    if (em != null)
-		em.close();
-	}
-
-	return mBeanDraftPick;
-    }
-
-    
-    
-
+   
 }

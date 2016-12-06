@@ -37,7 +37,29 @@
     </filter>  
     <filter-mapping>
         <filter-name>NoCacheFilter</filter-name>        
-        <url-pattern>/*</url-pattern>       
+        <url-pattern>/DraftCenter</url-pattern>
+        <url-pattern>/Classement</url-pattern> 
+        <url-pattern>/Equipes</url-pattern> 
+        <url-pattern>/DraftResult</url-pattern> 
+        <url-pattern>/DraftPlayers</url-pattern> 
+        <url-pattern>/Trade</url-pattern> 
+        <url-pattern>/Signature</url-pattern>
+        <url-pattern>/Reglements</url-pattern> 
+        <url-pattern>/Archives</url-pattern>
+        <url-pattern>/MonCompte</url-pattern>  
+        <url-pattern>/AdminPool</url-pattern>
+        <url-pattern>/AdminTrade</url-pattern>
+        <url-pattern>/AdminDraft</url-pattern>
+        <url-pattern>/AdminSignature</url-pattern> 
+        <url-pattern>/jsp/admin/*</url-pattern>
+        <url-pattern>/jsp/archives/*</url-pattern>
+        <url-pattern>/jsp/classement/*</url-pattern>
+        <url-pattern>/jsp/draft/*</url-pattern>
+        <url-pattern>/jsp/main/*</url-pattern>
+        <url-pattern>/jsp/signature/*</url-pattern>
+        <url-pattern>/jsp/team/*</url-pattern>
+        <url-pattern>/jsp/trade/*</url-pattern>
+        <url-pattern>/jsp/user/*</url-pattern>       
     </filter-mapping>
 	<filter>
         <filter-name>ConnectUser</filter-name>

@@ -23,6 +23,7 @@ import com.pedagogiksolution.datastorebeans.Attaquant;
 import com.pedagogiksolution.datastorebeans.Defenseur;
 import com.pedagogiksolution.datastorebeans.DraftPick;
 import com.pedagogiksolution.datastorebeans.DraftRound;
+import com.pedagogiksolution.datastorebeans.Equipe;
 import com.pedagogiksolution.datastorebeans.Gardien;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.datastorebeans.Recrue;
@@ -95,7 +96,6 @@ public class TradeModel {
 	String defenseurNameTeamReceivingOffer = null;
 	String gardienNameTeamReceivingOffer = null;
 	String recrueNameTeamReceivingOffer = null;
-	
 
 	draftPickNameTeamMakingOffer = "DraftPick" + teamThatMakeOfferId;
 	attaquantNameTeamMakingOffer = "Attaquant" + teamThatMakeOfferId;
@@ -107,14 +107,13 @@ public class TradeModel {
 	defenseurNameTeamReceivingOffer = "Defenseur" + teamThatReceivedOfferId;
 	gardienNameTeamReceivingOffer = "Gardien" + teamThatReceivedOfferId;
 	recrueNameTeamReceivingOffer = "Recrue" + teamThatReceivedOfferId;
-	
 
 	DraftPick mBeanDraftPickThatMakingOffer = (DraftPick) req.getSession().getAttribute(draftPickNameTeamMakingOffer);
 	NonSessionDraftPick mNonSessionDraftBeanThatMakingOffer = new NonSessionDraftPick();
 
 	DraftPick mBeanDraftPickThatReceivedOffer = (DraftPick) req.getSession().getAttribute(draftPickNameTeamReceivingOffer);
 	NonSessionDraftPick mNonSessionDraftBeanThatReceivedOffer = new NonSessionDraftPick();
-	
+
 	DraftRound mBeanDraftRound = (DraftRound) req.getSession().getAttribute("DraftRound");
 	NonSessionDraftPick mNonSessionDraftBeanThatMakingOffer2 = new NonSessionDraftPick();
 	NonSessionDraftPick mNonSessionDraftBeanThatReceivedOffer2 = new NonSessionDraftPick();
@@ -149,22 +148,22 @@ public class TradeModel {
 
 	mNonSessionDraftBeanThatReceivedOffer.setPick_no(mBeanDraftPickThatReceivedOffer.getPick_no());
 	mNonSessionDraftBeanThatReceivedOffer.setTeamNameOriginalPick(mBeanDraftPickThatReceivedOffer.getTeamNameOriginalPick());
-	
+
 	// DraftPick From DraftRound for trade while draft is up
 	List<Long> pick_no = new ArrayList<Long>();
 	List<Long> ronde = new ArrayList<Long>();
 	List<Long> team_id = new ArrayList<Long>();
 	List<String> teamNameOriginePick = new ArrayList<String>();
-	
+
 	List<Long> mTeamId = mBeanDraftRound.getTeam_id();
 	List<Long> mRonde = mBeanDraftRound.getRonde();
 	List<Long> mPickNo = mBeanDraftRound.getDraft_pick_no();
 	List<String> mTeamName = mBeanDraftRound.getEquipe();
 	ListIterator<Long> mIterator = mTeamId.listIterator();
-	while(mIterator.hasNext()){
+	while (mIterator.hasNext()) {
 	    int indexListIterator = mIterator.nextIndex();
 	    Long teamIdIterator = mIterator.next();
-	    if(teamIdIterator==teamThatMakeOfferId){
+	    if (teamIdIterator == teamThatMakeOfferId) {
 		Long draft_pick_no = mPickNo.get(indexListIterator);
 		Long mRondeId = mRonde.get(indexListIterator);
 		ronde.add(mRondeId);
@@ -172,14 +171,14 @@ public class TradeModel {
 		teamNameOriginePick.add(mName);
 		team_id.add(teamIdIterator);
 		pick_no.add(draft_pick_no);
-		
+
 	    }
 	}
 	mNonSessionDraftBeanThatMakingOffer2.setPick_no(pick_no);
 	mNonSessionDraftBeanThatMakingOffer2.setTeamNameOriginalPick(teamNameOriginePick);
 	mNonSessionDraftBeanThatMakingOffer2.setTeam_id(team_id);
 	mNonSessionDraftBeanThatMakingOffer2.setRonde(ronde);
-	
+
 	List<Long> pick_no2 = new ArrayList<Long>();
 	List<Long> ronde2 = new ArrayList<Long>();
 	List<Long> team_id2 = new ArrayList<Long>();
@@ -189,22 +188,21 @@ public class TradeModel {
 	List<Long> mPickNo2 = mBeanDraftRound.getDraft_pick_no();
 	List<String> mTeamName2 = mBeanDraftRound.getEquipe();
 	ListIterator<Long> mIterator2 = mTeamId2.listIterator();
-	/*while(mIterator2.hasNext()){
-	    Long indexListIterator = (long) mIterator2.nextIndex();
-	    Long teamIdIterator = mIterator2.next();
-	    if(teamIdIterator==teamThatReceivedOfferId){
-		int draft_pick_no = mPickNo2.get(indexListIterator);
-		int mRondeId = mRonde2.get(indexListIterator);
-		ronde2.add(mRondeId);
-		String mName = mTeamName2.get(indexListIterator);
-		teamNameOriginePick2.add(mName);
-		team_id2.add(teamIdIterator);
-		pick_no2.add(draft_pick_no);
-		
-	    }
-	}
-	
-	*/	
+	/*
+	 * while(mIterator2.hasNext()){
+	 * Long indexListIterator = (long) mIterator2.nextIndex();
+	 * Long teamIdIterator = mIterator2.next();
+	 * if(teamIdIterator==teamThatReceivedOfferId){
+	 * int draft_pick_no = mPickNo2.get(indexListIterator);
+	 * int mRondeId = mRonde2.get(indexListIterator);
+	 * ronde2.add(mRondeId);
+	 * String mName = mTeamName2.get(indexListIterator);
+	 * teamNameOriginePick2.add(mName);
+	 * team_id2.add(teamIdIterator);
+	 * pick_no2.add(draft_pick_no);
+	 * }
+	 * }
+	 */
 
 	mNonSessionDraftBeanThatReceivedOffer2.setPick_no(pick_no2);
 	mNonSessionDraftBeanThatReceivedOffer2.setTeamNameOriginalPick(teamNameOriginePick2);
@@ -330,14 +328,14 @@ public class TradeModel {
 
 	req.setAttribute("NonSessionDraftPickMaking", mNonSessionDraftBeanThatMakingOffer);
 	req.setAttribute("NonSessionDraftPickReciving", mNonSessionDraftBeanThatReceivedOffer);
-	
+
 	req.setAttribute("NonSessionDraftPickMakingThisYear", mNonSessionDraftBeanThatMakingOffer2);
 	req.setAttribute("NonSessionDraftPickRecivingThisYear", mNonSessionDraftBeanThatReceivedOffer2);
 
 	req.setAttribute("NonSessionAttaquantPickMaking", mNonSessionAttaquantBeanThatMakingOffer);
 	req.setAttribute("NonSessionAttaquantPickReciving", mNonSessionAttaquantBeanThatReceivedOffer);
 
-	req.setAttribute("NonSessionDefenseuPickMakingr", mNonSessionDefenseurBeanThatMakingOffer);
+	req.setAttribute("NonSessionDefenseurPickMaking", mNonSessionDefenseurBeanThatMakingOffer);
 	req.setAttribute("NonSessionDefenseurPickReciving", mNonSessionDefenseurBeanThatReceivedOffer);
 
 	req.setAttribute("NonSessionGardienPickMaking", mNonSessionGardienBeanThatMakingOffer);
@@ -353,12 +351,35 @@ public class TradeModel {
     }
 
     public Boolean checkIfTradeIsValidDuringDraft() {
+	int nbPlayersTeamMakingOffer, nbPlayersTeamReceivingOffer, nbPicksTeamMakingOffer, nbPicksTeamReceivingOffer;
 	// retourne false si trade pas possible // retourne true if trade is good to go at this point
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	String[] playersIdTeamThatMakeOffer = req.getParameterValues("players_id_my_team");
 	String[] playersIdTeamThatReceiveOffer = req.getParameterValues("players_id_trade_with_team");
+	if (playersIdTeamThatMakeOffer != null) {
+	    nbPlayersTeamMakingOffer = playersIdTeamThatMakeOffer.length;
+	} else {
+	    nbPlayersTeamMakingOffer = 0;
+	}
+	if (playersIdTeamThatReceiveOffer != null) {
+	    nbPlayersTeamReceivingOffer = playersIdTeamThatReceiveOffer.length;
+	} else {
+	    nbPlayersTeamReceivingOffer = 0;
+	}
+
 	String[] picksIdTeamThatMakeOffer = req.getParameterValues("picks_id_my_team");
 	String[] picksIdTeamThatReceiveOffer = req.getParameterValues("picks_id_trade_with_team");
+
+	if (picksIdTeamThatMakeOffer != null) {
+	    nbPicksTeamMakingOffer = picksIdTeamThatMakeOffer.length;
+	} else {
+	    nbPicksTeamMakingOffer = 0;
+	}
+	if (picksIdTeamThatReceiveOffer != null) {
+	    nbPicksTeamReceivingOffer = picksIdTeamThatReceiveOffer.length;
+	} else {
+	    nbPicksTeamReceivingOffer = 0;
+	}
 	String cashIncludeTeamThatMakeOffer = req.getParameter("cashMakingOffer");
 	int cashIncludeTeamThatMakeOfferInt = Integer.parseInt(cashIncludeTeamThatMakeOffer);
 	String cashIncludeThatReceiveOffer = req.getParameter("cashReceivingOffer");
@@ -367,9 +388,11 @@ public class TradeModel {
 	int teamId = mBeanUser.getTeamId();
 	String nomTeamThatOffer = "Equipe" + teamId;
 	String nomTeamThatReceived = "Equipe" + tradeWithID;
-	NonSessionEquipe mBeanEquipeThatIsMakingOffer = (NonSessionEquipe) req.getSession().getAttribute(nomTeamThatOffer);
-	NonSessionEquipe mBeanEquipeThatIsReceivingOffer = (NonSessionEquipe) req.getSession().getAttribute(nomTeamThatReceived);
+	Equipe mBeanEquipeThatIsMakingOffer = (Equipe) req.getSession().getAttribute(nomTeamThatOffer);
+	Equipe mBeanEquipeThatIsReceivingOffer = (Equipe) req.getSession().getAttribute(nomTeamThatReceived);
 	MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+
+	// 0- check si au moins un joueur
 
 	// 1- checking for cash on the two side
 	if (cashIncludeTeamThatMakeOfferInt > 0 && cashIncludeThatReceiveOfferInt > 0) {
@@ -378,25 +401,39 @@ public class TradeModel {
 	    return false;
 	}
 
-	// 2- check si nombre contrat trop elevé dans une des deux equipes
-	int nbContratTeamThatOfferTrade = mBeanEquipeThatIsMakingOffer.getNb_contrat();
-	int nbContratTeamThatReceivedOfferTrade = mBeanEquipeThatIsReceivingOffer.getNb_contrat();
+	// 2- check si nombre contrat trop elevé dans une des deux equipes seulement si durant draft ou été
 
-	int nbPlayersTeamMakingOffer = playersIdTeamThatMakeOffer.length;
-	int nbPlayersTeamReceivingOffer = playersIdTeamThatReceiveOffer.length;
+	if (mBeanPool.getCycleAnnuel() == 3) {
+	    int nbContratTeamThatOfferTrade = mBeanEquipeThatIsMakingOffer.getNb_contrat();
+	    int nbContratTeamThatReceivedOfferTrade = mBeanEquipeThatIsReceivingOffer.getNb_contrat();
 
-	int nbPlayersWithContratTeamThatMakeOffer = getNbPlayersWithContratTeamThatMakeOffer(datastore, playersIdTeamThatMakeOffer, mBeanPool);
-	int nbPlayersWithContratTeamThatReceiveOffer = getNbPlayersWithContratTeamThatReceiveOffer(datastore, playersIdTeamThatReceiveOffer, mBeanPool);
+	    int nbPlayersWithContratTeamThatMakeOffer = getNbPlayersWithContratTeamThatMakeOffer(datastore, playersIdTeamThatMakeOffer, mBeanPool);
+	    int nbPlayersWithContratTeamThatReceiveOffer = getNbPlayersWithContratTeamThatReceiveOffer(datastore, playersIdTeamThatReceiveOffer, mBeanPool);
 
-	if ((nbContratTeamThatOfferTrade - nbPlayersWithContratTeamThatMakeOffer + nbPlayersWithContratTeamThatReceiveOffer > 12) || (nbContratTeamThatReceivedOfferTrade - nbPlayersWithContratTeamThatReceiveOffer + nbPlayersWithContratTeamThatMakeOffer > 12)) {
+	    if ((nbContratTeamThatOfferTrade - nbPlayersWithContratTeamThatMakeOffer + nbPlayersWithContratTeamThatReceiveOffer > 12) || (nbContratTeamThatReceivedOfferTrade - nbPlayersWithContratTeamThatReceiveOffer + nbPlayersWithContratTeamThatMakeOffer > 12)) {
+		return false;
+	    }
+
+	}
+
+	// 3- check si argent dispo pour faire draft apres echange
+
+	// 4- check if number of players is 7 or less
+
+	if (nbPlayersTeamMakingOffer > 7 || nbPlayersTeamReceivingOffer > 7) {
+
+	    mBeanMessageErreur.setErreurTrade("Un maximum de 7 joueurs par équipe peut être inclus dans un échange unique (Reglement 4.1");
+	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
-	
-	// 3- check si argent dispo pour faire draft apres echange
-	
-	
-	
-	
+
+	// 5- check if number of pick is 3 or less
+
+	if (nbPicksTeamMakingOffer > 3 || nbPicksTeamReceivingOffer > 3) {
+	    mBeanMessageErreur.setErreurTrade("Un maximum de 3 choix au repêchage par équipe peut être inclus dans un échange unique (Reglement 4.1");
+	    req.setAttribute("messageErreur", mBeanMessageErreur);
+	    return false;
+	}
 
 	return true;
     }
@@ -416,7 +453,7 @@ public class TradeModel {
 
     }
 
-    /******************************* methode privée à la classe  **********************************/
+    /******************************* methode privée à la classe **********************************/
 
     private int getNbPlayersWithContratTeamThatMakeOffer(DatastoreService datastore, String[] playersIdTeamThatMakeOffer, Pool mBeanPool) {
 	int nbPlayersWithContratTeamThatMakeOffer = 0;

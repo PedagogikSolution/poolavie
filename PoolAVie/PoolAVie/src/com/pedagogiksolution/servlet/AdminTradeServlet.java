@@ -43,9 +43,11 @@ public class AdminTradeServlet extends HttpServlet {
 	    
 	    case "0":
 		mModelAdmin.closeTrade(req);
+		req.getRequestDispatcher("jsp/admin/adminTrade.jsp").forward(req, resp);
 		break;
 	    case "1":
 		mModelAdmin.openTrade(req);
+		req.getRequestDispatcher("jsp/admin/adminTrade.jsp").forward(req, resp);
 		break;
 	    }
 	    

@@ -47,6 +47,10 @@
 			<h3>Oups! Échange impossible</h3>
 			<p>${messageErreur.erreurTrade}</p>
 		</div>
+		
+		
+		
+		
 
 	</c:if>
 
@@ -58,9 +62,10 @@
 		<form method="Post" action="/Trade">
 
 
-
-			<div class="w3-half">
-
+			<div class="w3-row">
+			<div class="w3-half w3-center">
+			<br>
+				<h2>Mon équipe</h2>
 				<br>
 				<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
 					<caption class="w3-blue w3-xlarge">
@@ -405,9 +410,10 @@
 			</div>
 
 			<!-- Liste des offres fait -->
-
-			<div class="w3-half">
-
+			
+			<div class="w3-half w3-center">
+			<br>
+				<h2>Équipe avec qui j'échange</h2>
 				<br>
 				<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
 					<caption class="w3-blue w3-xlarge">
@@ -746,20 +752,24 @@
 
 				</c:if>
 			</div>
+			</div>
 
 			<!-- Faire une offre -->
 			<br>
 			<br>
-			<div class="w3-container w3-center">
+			<div class="w3-row w3-container w3-center">
+				<br>
 				<input type="hidden" name="tradeWith" value="${RequestScope.TradeWith}">
 				<input type="hidden" name="tradeTag" value="2">
-				<button class="w3-btn w3-blue">Évaluez cette échange</button>
+				<button class="w3-btn w3-blue w3-xxxlarge w3-round">Évaluez cette échange</button>
+				<br>
 			</div>
+			<br>
 		</form>
-
+<br>
 
 	</c:if>
-
+<br>
 
 
 
