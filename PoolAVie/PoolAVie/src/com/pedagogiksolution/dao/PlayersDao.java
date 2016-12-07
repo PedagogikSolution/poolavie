@@ -1,6 +1,10 @@
 package com.pedagogiksolution.dao;
 
+import java.sql.ResultSet;
+
 import javax.servlet.http.HttpServletRequest;
+
+
 
 
 public interface PlayersDao {
@@ -32,6 +36,8 @@ public interface PlayersDao {
     int getPasse(int i, int poolId)throws DAOException;
     
     int getPts(int i, int poolId)throws DAOException;
+
+    ResultSet getPlayersById(String poolID, int toInt, int i) throws DAOException;
 
 
    

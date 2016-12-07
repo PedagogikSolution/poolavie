@@ -26,43 +26,9 @@
 	<!-- section Alerte -->
 	<jsp:directive.include file="../utils/messageAlerte.jsp" />
 
-		<!-- Si l'attribut message est pas vide, affiche message trade not open at this time -->
-		<c:if test="${requestScope.messageTrade!=null}">
-
-			<div class="w3-container">
-
-
-				<h3>SECTION OFFRE REÇUE</h3>
-				<p>${requestScope.messageTrade}</p>
-
-			</div>
-
-
-		</c:if>
-
-
-		<c:if test="${requestScope.tradeOpen==1}">
-
-			<!-- Confirmation de l'offre  -->
-
-			<form method="Post" action="/Trade">
-
-
-
-			
-
-
-
-			<input type="hidden" name="tradeTag" value="3">
-			<input type="submit" value="Évaluez cette échange" />
-			</form>
-
-
-		</c:if>
-
-
-
-	</div>
+		
+		
+		YEAHHHHH
 
 
 	<jsp:directive.include file="../utils/draftMessage.jsp" />

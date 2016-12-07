@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pedagogiksolution.dao.DAOFactory;
+import com.pedagogiksolution.dao.DraftPickDao;
+import com.pedagogiksolution.dao.PlayersDao;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
 import com.pedagogiksolution.model.DraftPlayersModel;
@@ -18,7 +21,16 @@ public class TradeServlet extends HttpServlet {
 	 * 
 	 */
     private static final long serialVersionUID = 54388717965389157L;
-
+    public static final String CONF_DAO_FACTORY = "daofactory";
+    private PlayersDao playersDao;
+    private DraftPickDao draftPickDao;
+    @Override
+    public void init() throws ServletException {
+	/* Récupération d'une instance de notre DAO Utilisateur */
+	this.playersDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getPlayersDao();
+	this.draftPickDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftPickDao();
+    }
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	TradeModel mModelTrade;
@@ -171,7 +183,7 @@ public class TradeServlet extends HttpServlet {
 // envoyer l'offre
 	case 2:
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
-	    Boolean offerGood = mModelTrade.checkIfTradeIsValidDuringDraft();
+	    Boolean offerGood = mModelTrade.checkIfTradeIsValidDuringDraft(playersDao,draftPickDao);
 	    if (!offerGood) {
 		 
 		    

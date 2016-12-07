@@ -49,7 +49,10 @@ public class PlayersDaoImpl implements PlayersDao {
     private static final String GET_FOWARD_PTS_TOP_X = "SELECT SUM(pts) AS sommePts FROM (SELECT pts FROM players_? WHERE position='attaquant' AND team_id=? AND club_ecole=0 ORDER BY pts DESC LIMIT ?) AS subquery";
     private static final String GET_DEFENSE_PTS_TOP_X = "SELECT SUM(pts)AS sommePts FROM (SELECT pts FROM players_? WHERE position='defenseur' AND team_id=? AND club_ecole=0 ORDER BY pts DESC LIMIT ?) AS subquery";
     private static final String GET_GOALER_PTS_TOP_X = "SELECT SUM(pts) AS sommePts FROM (SELECT pts FROM players_? WHERE position='gardien' AND team_id=? AND club_ecole=0 ORDER BY pts DESC LIMIT ?) AS subquery";
-
+    private static final String GET_PLAYERS_BY_ID = "SELECT * FROM players_? WHERE _id=? AND club_ecole=?";
+    
+    
+    
     private DAOFactory daoFactory;
 
     PlayersDaoImpl(DAOFactory daoFactory) {
@@ -1053,6 +1056,27 @@ public class PlayersDaoImpl implements PlayersDao {
 
 	return pts;
 
+    }
+
+   
+    @Override
+    public ResultSet getPlayersById(String poolID,int toInt,int club_ecole) throws DAOException {
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+	try {
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_BY_ID, false, poolID, toInt,club_ecole);
+	    ResultSet rs = preparedStatement.executeQuery();
+	    
+	    return rs;
+
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(preparedStatement, connexion);
+	}
+	
+	
     }
 
 }
