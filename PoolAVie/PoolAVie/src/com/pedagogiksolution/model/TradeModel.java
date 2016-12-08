@@ -16,6 +16,7 @@ import com.pedagogiksolution.beans.TradeBeanTemp;
 import com.pedagogiksolution.beans.TradeBeans;
 import com.pedagogiksolution.dao.DraftPickDao;
 import com.pedagogiksolution.dao.PlayersDao;
+import com.pedagogiksolution.dao.TradeOfferDao;
 import com.pedagogiksolution.datastorebeans.Attaquant;
 import com.pedagogiksolution.datastorebeans.Defenseur;
 import com.pedagogiksolution.datastorebeans.DraftPick;
@@ -384,8 +385,10 @@ public class TradeModel {
 	TradeBeans mBean = new TradeBeans();
 
 	// recuperation parametre
-	String[] rookie_id_trade_with_team = req.getParameterValues("rookie_id_trade_with_team");
 	String[] rookie_id_my_team = req.getParameterValues("rookie_id_my_team");
+
+	String[] rookie_id_trade_with_team = req.getParameterValues("rookie_id_trade_with_team");
+	
 	if (rookie_id_my_team != null) {
 	    nbRookieTeamMakingOffer = rookie_id_my_team.length;
 	} else {
@@ -597,6 +600,7 @@ public class TradeModel {
 	}
 	
 	// on ajoute les recrues dans un array sans compter leur salaire
+	int ii=0;
 	if (rookie_id_my_team != null) {
 
 	    for (String s : rookie_id_my_team) {
@@ -605,9 +609,9 @@ public class TradeModel {
 		TradeBeanTemp mBeanTemp = playersDao.getPlayersById(poolID, toInt, 1);
 
 		if (mBeanTemp.getNomMakingOfferString() != null) {
-		    nomRookieMakingOffer[i] = mBeanTemp.getNomMakingOfferString();
+		    nomRookieMakingOffer[ii] = mBeanTemp.getNomMakingOfferString();
 		}
-		i++;
+		ii++;
 
 	    }
 	}
@@ -649,6 +653,7 @@ public class TradeModel {
 	}
 	
 	// on ajoute les recrues dans un array sans compter leur salaire
+	int jj = 0;
 	if (rookie_id_trade_with_team != null) {
 
 	    for (String s : rookie_id_trade_with_team) {
@@ -657,9 +662,9 @@ public class TradeModel {
 		TradeBeanTemp mBeanTemp = playersDao.getPlayersById(poolID, toInt, 1);
 
 		if (mBeanTemp.getNomMakingOfferString() != null) {
-		    nomRookieReceivingOffer[j] = mBeanTemp.getNomMakingOfferString();
+		    nomRookieReceivingOffer[jj] = mBeanTemp.getNomMakingOfferString();
 		}
-		j++;
+		jj++;
 
 	    }
 	}
@@ -780,9 +785,250 @@ public class TradeModel {
 	return true;
     }
 
-    public void persistTradeOffer() {
-	// TODO Auto-generated method stub
+    public void persistTradeOffer(HttpServletRequest req, TradeOfferDao tradeOfferDao) {
+	
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		int annee = mBeanPool.getPoolYear();
+	
+	 	TradeBeans mBean = new TradeBeans();
+		mBean = (TradeBeans) req.getSession().getAttribute("tradeOfferBean");
+		String[] playersIdMakingOffer = mBean.getPlayerIdMakingOffer();
+		String[] playersIdReceivingOffer = mBean.getPlayerIdReceivingOffer();
+		String[] pickMakingOffer = mBean.getPickNumMakingOffer();
+		String[] pickReceivingOffer = mBean.getPickNumReceivingOffer();
+		int cashMakingOffer = mBean.getCashMakingOffer();
+		int cashReceivingOffer = mBean.getCashReceivingOffer();
+		int teamMakingOfferId = mBean.getTeamThatTrade();
+		int teamReceivingOfferId = mBean.getTeamTradeTo();
+		String messageOffre = mBean.getMessageOffre();
 
+		String t1j1 = null, t1j2 = null, t1j3 = null, t1j4 = null, t1j5 = null, t1j6 = null, t1j7 = null, t2j1 = null, t2j2 = null, t2j3 = null, t2j4 = null, t2j5 = null, t2j6 = null, t2j7 = null, t1p1 = null, t1p2 = null, t1p3 = null, t2p1 = null, t2p2 = null, t2p3 = null;
+		int number_of_player_trade_by = 0;
+		int number_of_pick_trade_by = 0;
+		int number_of_player_trade_to = 0;
+		int number_of_pick_trade_to = 0;
+
+		if (playersIdMakingOffer != null) {
+		    number_of_player_trade_by = playersIdMakingOffer.length;
+		}
+		if (pickMakingOffer != null) {
+		    number_of_pick_trade_by = pickMakingOffer.length;
+		}
+		if (playersIdReceivingOffer != null) {
+		    number_of_player_trade_to = playersIdReceivingOffer.length;
+		}
+		if (pickReceivingOffer != null) {
+		    number_of_pick_trade_to = pickReceivingOffer.length;
+		}
+
+		if (playersIdMakingOffer != null) {
+		    switch (number_of_player_trade_by) {
+
+		    case 1:
+			t1j1 = playersIdMakingOffer[0];
+			t1j2 = null;
+			t1j3 = null;
+			t1j4 = null;
+			t1j5 = null;
+			t1j6 = null;
+			t1j7 = null;
+
+			break;
+		    case 2:
+			t1j1 = playersIdMakingOffer[0];
+			t1j2 = playersIdMakingOffer[1];
+			t1j3 = null;
+			t1j4 = null;
+			t1j5 = null;
+			t1j6 = null;
+			t1j7 = null;
+
+			break;
+		    case 3:
+			t1j1 = playersIdMakingOffer[0];
+			t1j2 = playersIdMakingOffer[1];
+			t1j3 = playersIdMakingOffer[2];
+			t1j4 = null;
+			t1j5 = null;
+			t1j6 = null;
+			t1j7 = null;
+
+			break;
+		    case 4:
+			t1j1 = playersIdMakingOffer[0];
+			t1j2 = playersIdMakingOffer[1];
+			t1j3 = playersIdMakingOffer[2];
+			t1j4 = playersIdMakingOffer[3];
+			t1j5 = null;
+			t1j6 = null;
+			t1j7 = null;
+
+			break;
+		    case 5:
+			t1j1 = playersIdMakingOffer[0];
+			t1j2 = playersIdMakingOffer[1];
+			t1j3 = playersIdMakingOffer[2];
+			t1j4 = playersIdMakingOffer[3];
+			t1j5 = playersIdMakingOffer[4];
+			t1j6 = null;
+			t1j7 = null;
+
+			break;
+		    case 6:
+			t1j1 = playersIdMakingOffer[0];
+			t1j2 = playersIdMakingOffer[1];
+			t1j3 = playersIdMakingOffer[2];
+			t1j4 = playersIdMakingOffer[3];
+			t1j5 = playersIdMakingOffer[4];
+			t1j6 = playersIdMakingOffer[5];
+			t1j7 = null;
+
+			break;
+		    case 7:
+			t1j1 = playersIdMakingOffer[0];
+			t1j2 = playersIdMakingOffer[1];
+			t1j3 = playersIdMakingOffer[2];
+			t1j4 = playersIdMakingOffer[3];
+			t1j5 = playersIdMakingOffer[4];
+			t1j6 = playersIdMakingOffer[5];
+			t1j7 = playersIdMakingOffer[6];
+			break;
+
+		    }
+
+		}
+
+		if (pickMakingOffer != null) {
+		    switch (number_of_pick_trade_by) {
+		    case 1:
+			t1p1 = pickMakingOffer[0];
+			t1p2 = null;
+			t1p3 = null;
+
+			break;
+		    case 2:
+			t1p1 = pickMakingOffer[0];
+			t1p2 = pickMakingOffer[1];
+			t1p3 = null;
+
+			break;
+		    case 3:
+			t1p1 = pickMakingOffer[0];
+			t1p2 = pickMakingOffer[1];
+			t1p3 = pickMakingOffer[2];
+
+			break;
+
+		    }
+
+		}
+
+		if (playersIdReceivingOffer != null) {
+		    switch (number_of_player_trade_to) {
+
+		    case 1:
+			t2j1 = playersIdReceivingOffer[0];
+			t2j2 = null;
+			t2j3 = null;
+			t2j4 = null;
+			t2j5 = null;
+			t2j6 = null;
+			t2j7 = null;
+
+			break;
+		    case 2:
+			t2j1 = playersIdReceivingOffer[0];
+			t2j2 = playersIdReceivingOffer[1];
+			t2j3 = null;
+			t2j4 = null;
+			t2j5 = null;
+			t2j6 = null;
+			t2j7 = null;
+
+			break;
+		    case 3:
+			t2j1 = playersIdReceivingOffer[0];
+			t2j2 = playersIdReceivingOffer[1];
+			t2j3 = playersIdReceivingOffer[2];
+			t2j4 = null;
+			t2j5 = null;
+			t2j6 = null;
+			t2j7 = null;
+
+			break;
+		    case 4:
+			t2j1 = playersIdReceivingOffer[0];
+			t2j2 = playersIdReceivingOffer[1];
+			t2j3 = playersIdReceivingOffer[2];
+			t2j4 = playersIdReceivingOffer[3];
+			t2j5 = null;
+			t2j6 = null;
+			t2j7 = null;
+
+			break;
+		    case 5:
+			t2j1 = playersIdReceivingOffer[0];
+			t2j2 = playersIdReceivingOffer[1];
+			t2j3 = playersIdReceivingOffer[2];
+			t2j4 = playersIdReceivingOffer[3];
+			t2j5 = playersIdReceivingOffer[4];
+			t2j6 = null;
+			t2j7 = null;
+
+			break;
+		    case 6:
+			t2j1 = playersIdReceivingOffer[0];
+			t2j2 = playersIdReceivingOffer[1];
+			t2j3 = playersIdReceivingOffer[2];
+			t2j4 = playersIdReceivingOffer[3];
+			t2j5 = playersIdReceivingOffer[4];
+			t2j6 = playersIdReceivingOffer[5];
+			t2j7 = null;
+
+			break;
+		    case 7:
+			t2j1 = playersIdReceivingOffer[0];
+			t2j2 = playersIdReceivingOffer[1];
+			t2j3 = playersIdReceivingOffer[2];
+			t2j4 = playersIdReceivingOffer[3];
+			t2j5 = playersIdReceivingOffer[4];
+			t2j6 = playersIdReceivingOffer[5];
+			t2j7 = playersIdReceivingOffer[6];
+			break;
+
+		    }
+
+		}
+
+		if (pickReceivingOffer != null) {
+		    switch (number_of_pick_trade_to) {
+		    case 1:
+			t2p1 = pickReceivingOffer[0];
+			t2p2 = null;
+			t2p3 = null;
+
+			break;
+		    case 2:
+			t2p1 = pickReceivingOffer[0];
+			t2p2 = pickReceivingOffer[1];
+			t2p3 = null;
+
+			break;
+		    case 3:
+			t2p1 = pickReceivingOffer[0];
+			t2p2 = pickReceivingOffer[1];
+			t2p3 = pickReceivingOffer[2];
+
+			break;
+
+		    }
+
+		}
+		
+		
+		tradeOfferDao.insertTradeOffer(mBeanPool.getPoolID(),teamMakingOfferId,teamReceivingOfferId,t1j1,t1j2,t1j3,t1j4,t1j5,t1j6, t1j7, t2j1, t2j2, t2j3, t2j4, t2j5, t2j6, t2j7, t1p1, t1p2, t1p3, t2p1, t2p2, t2p3,cashMakingOffer, cashReceivingOffer,0,annee,messageOffre);
+
+		
     }
 
     public void sendAlertViaChannel() {

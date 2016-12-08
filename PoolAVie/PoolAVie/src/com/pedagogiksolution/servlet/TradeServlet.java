@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.pedagogiksolution.dao.DAOFactory;
 import com.pedagogiksolution.dao.DraftPickDao;
 import com.pedagogiksolution.dao.PlayersDao;
+import com.pedagogiksolution.dao.TradeOfferDao;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
 import com.pedagogiksolution.model.DraftPlayersModel;
@@ -24,11 +25,13 @@ public class TradeServlet extends HttpServlet {
     public static final String CONF_DAO_FACTORY = "daofactory";
     private PlayersDao playersDao;
     private DraftPickDao draftPickDao;
+    private TradeOfferDao tradeOfferDao;
     @Override
     public void init() throws ServletException {
 	/* Récupération d'une instance de notre DAO Utilisateur */
 	this.playersDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getPlayersDao();
 	this.draftPickDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftPickDao();
+	this.tradeOfferDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getTradeOfferDao();
     }
     
     @Override
@@ -203,7 +206,7 @@ public class TradeServlet extends HttpServlet {
 		resp.sendRedirect("/Trade");
 	    } else {
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
-	    mModelTrade.persistTradeOffer();
+	    mModelTrade.persistTradeOffer(req,tradeOfferDao);
 	    cycleAnnuel = mBeanPool.getCycleAnnuel();
 	    if (cycleAnnuel == 3) {
 		mModelTrade.sendAlertViaChannel();
