@@ -19,6 +19,7 @@ import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
 import com.pedagogiksolution.beans.NonSessionPlayers;
+import com.pedagogiksolution.beans.TradeBeanTemp;
 import com.pedagogiksolution.datastorebeans.Attaquant;
 import com.pedagogiksolution.datastorebeans.Defenseur;
 import com.pedagogiksolution.datastorebeans.Gardien;
@@ -1060,15 +1061,22 @@ public class PlayersDaoImpl implements PlayersDao {
 
    
     @Override
-    public ResultSet getPlayersById(String poolID,int toInt,int club_ecole) throws DAOException {
+    public TradeBeanTemp getPlayersById(String poolID,int toInt,int club_ecole) throws DAOException {
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
+	TradeBeanTemp mBean = new TradeBeanTemp();
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_BY_ID, false, poolID, toInt,club_ecole);
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_BY_ID, false,Integer.parseInt(poolID), toInt,club_ecole);
 	    ResultSet rs = preparedStatement.executeQuery();
+	    while (rs.next()) {
+		int salaire_joueur_temp = rs.getInt("years_1");
+		mBean.setTotal_salaire_team_making_offer(salaire_joueur_temp);
+		mBean.setNomMakingOfferString(rs.getString("nom"));
+		mBean.setPositionDuJoueurTrade(rs.getString("position"));
+	    }
 	    
-	    return rs;
+	    return mBean;
 
 	} catch (SQLException e) {
 	    throw new DAOException(e);

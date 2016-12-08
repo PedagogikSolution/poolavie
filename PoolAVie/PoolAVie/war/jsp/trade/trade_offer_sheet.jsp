@@ -262,7 +262,7 @@
 								<td>${NonSessionRecruePickMaking.years_4[i]}</td>
 								<td>${NonSessionRecruePickMaking.years_5[i]}</td>
 								<td>
-									<input type="checkbox" name="players_id_my_team" value="${NonSessionRecruePickMaking._id[i]}">
+									<input type="checkbox" name="rookie_id_my_team" value="${NonSessionRecruePickMaking._id[i]}">
 									Inclure
 								</td>
 							</tr>
@@ -606,7 +606,7 @@
 								<td>${NonSessionRecruePickReciving.years_4[i]}</td>
 								<td>${NonSessionRecruePickReciving.years_5[i]}</td>
 								<td>
-									<input type="checkbox" name="players_id_trade_with_team" value="${NonSessionRecruePickReciving._id[i]}">
+									<input type="checkbox" name="rookie_id_trade_with_team" value="${NonSessionRecruePickReciving._id[i]}">
 									Inclure
 								</td>
 
@@ -759,7 +759,7 @@
 			<br>
 			<div class="w3-row w3-container w3-center">
 				<br>
-				<input type="hidden" name="tradeWith" value="${RequestScope.TradeWith}">
+				<input type="hidden" name="tradeWith" value="${TradeWith}">
 				<input type="hidden" name="tradeTag" value="2">
 				<button class="w3-btn w3-blue w3-xxxlarge w3-round">Évaluez cette échange</button>
 				<br>

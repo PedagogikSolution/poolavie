@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.pedagogiksolution.beans.TradeBeanTemp;
+
 
 
 
@@ -37,7 +39,7 @@ public interface PlayersDao {
     
     int getPts(int i, int poolId)throws DAOException;
 
-    ResultSet getPlayersById(String poolID, int toInt, int i) throws DAOException;
+    TradeBeanTemp getPlayersById(String poolID, int toInt, int i) throws DAOException;
 
 
    

@@ -190,7 +190,7 @@ public class TradeServlet extends HttpServlet {
 		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 		   
 	    } else {
-		req.getRequestDispatcher("jsp/trade/trade_offer__confirmation_sheet.jsp").forward(req, resp);
+		req.getRequestDispatcher("jsp/trade/trade_offer_confirmation_sheet.jsp").forward(req, resp);
 	    }
 	    break;
 	// Un joueur veut confirmer son offre de trade et l'envoyer
