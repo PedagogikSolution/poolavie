@@ -28,7 +28,9 @@
 
 
 	<div class="w3-container w3-row">
-
+		<br>
+		<br>
+		
 		<div class="w3-third w3-container">
 
 			<table class="w3-table  w3-striped w3-bordered w3-card-8" style="width: 90%; margin-left: auto; margin-right: auto">
@@ -99,7 +101,7 @@
 				<c:if test="${not empty tradeOfferBean.cashMakingOffer}">
 
 					<tr>
-						<td>${tradeOfferBean.cashMakingOffer}</td>
+						<td>${tradeOfferBean.cashMakingOffer}$</td>
 					</tr>
 
 				</c:if>
@@ -145,14 +147,14 @@
 			<br>
 			<br>
 			<br>
-			<span class="xxxlarge">EN ÉCHANGE DE</span>
+			<span class="w3-xxxlarge">EN ÉCHANGE DE</span>
 
 		</div>
 
 		<div class="w3-third w3-container">
 			<table class="w3-table  w3-striped w3-bordered w3-card-8" style="width: 90%; margin-left: auto; margin-right: auto">
 				<caption class="w3-blue w3-xlarge">
-					<h1>J'offre</h1>
+					<h1>Je reçois</h1>
 				</caption>
 
 				<!-- regulier offer -->
@@ -162,7 +164,7 @@
 
 
 				</tr>
-				<c:set var="nombreDeJoueur" value="${tradeOfferBean.nomMakingOffer}" />
+				<c:set var="nombreDeJoueur" value="${tradeOfferBean.nomReceivingOffer}" />
 				<c:if test="${empty nombreDeJoueur}">
 					<tr>
 						<td>Aucun</td>
@@ -172,7 +174,7 @@
 					<c:forEach var="i" begin="0" end="${fn:length(nombreDeJoueur)-1}">
 
 						<tr>
-							<td>${tradeOfferBean.nomMakingOffer[i]}</td>
+							<td>${tradeOfferBean.nomReceivingOffer[i]}</td>
 						</tr>
 
 					</c:forEach>
@@ -185,7 +187,7 @@
 
 
 				</tr>
-				<c:set var="nombreDeJoueur" value="${tradeOfferBean.rookieIdMakingOffer}" />
+				<c:set var="nombreDeJoueur" value="${tradeOfferBean.rookieIdReceivingOffer}" />
 				<c:if test="${empty nombreDeJoueur}">
 					<tr>
 						<td>Aucun</td>
@@ -195,7 +197,7 @@
 					<c:forEach var="i" begin="0" end="${fn:length(nombreDeJoueur)-1}">
 
 						<tr>
-							<td>${tradeOfferBean.rookieIdMakingOffer[i]}</td>
+							<td>${tradeOfferBean.rookieIdReceivingOffer[i]}</td>
 						</tr>
 
 					</c:forEach>
@@ -210,15 +212,15 @@
 
 				</tr>
 
-				<c:if test="${empty tradeOfferBean.cashMakingOffer}">
+				<c:if test="${empty tradeOfferBean.cashReceivingOffer}">
 					<tr>
 						<td>Aucun</td>
 					<tr>
 				</c:if>
-				<c:if test="${not empty tradeOfferBean.cashMakingOffer}">
+				<c:if test="${not empty tradeOfferBean.cashReceivingOffer}">
 
 					<tr>
-						<td>${tradeOfferBean.cashMakingOffer}</td>
+						<td>${tradeOfferBean.cashReceivingOffer}$</td>
 					</tr>
 
 				</c:if>
@@ -231,7 +233,7 @@
 
 
 				</tr>
-				<c:set var="nombreDePick" value="${tradeOfferBean.roundPickMakingOffer}" />
+				<c:set var="nombreDePick" value="${tradeOfferBean.roundPickReceivingOffer}" />
 				<c:if test="${empty nombreDePick}">
 					<tr>
 						<td>Aucun</td>
@@ -241,8 +243,8 @@
 					<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 
 						<tr>
-							<td>${tradeOfferBean.roundPickMakingOffer[i]}</td>
-							<td>${tradeOfferBean.fromPickMakingOffer[i]}</td>
+							<td>${tradeOfferBean.roundPickReceivingOffer[i]}</td>
+							<td>${tradeOfferBean.fromPickReceivingOffer[i]}</td>
 						</tr>
 
 					</c:forEach>
@@ -266,15 +268,20 @@
 	</div>
 	<hr>
 	<div class="w3-container w3-row w3-center">
-	<form action="/confirm_offer" method="post">
+	<br>
+	<form action="/Trade" method="post">
 		<input type="hidden" value="oui" name="confirmation" />
+		<input type="hidden" name="tradeTag" value="3">
 		<input style="font-size: 18px" type="submit" value="Oui je le veux">
 	</form>
 
-	<form action="/confirm_offer" method="post">
+	<form action="/Trade" method="post">
 		<input type="hidden" value="non" name="confirmation" />
+		<input type="hidden" name="tradeTag" value="3">
 		<input style="font-size: 18px" type="submit" value="Qu'elle crève cette salope">
 	</form>
+	<br>
+	<br>
 	</div>
 
 	<jsp:directive.include file="../utils/draftMessage.jsp" />

@@ -195,6 +195,13 @@ public class TradeServlet extends HttpServlet {
 	    break;
 	// Un joueur veut confirmer son offre de trade et l'envoyer
 	case 3:
+	    
+	    String confirmation = req.getParameter("confirmation");
+	    
+	    if(confirmation.equalsIgnoreCase("non")){
+		req.getSession().removeAttribute("tradeOfferBean");
+		resp.sendRedirect("/Trade");
+	    } else {
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
 	    mModelTrade.persistTradeOffer();
 	    cycleAnnuel = mBeanPool.getCycleAnnuel();
@@ -204,6 +211,7 @@ public class TradeServlet extends HttpServlet {
 		mModelTrade.sendEmailForOffer();
 	    }
 	    req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
+	    }
 	    break;
 	// Un joueur veut annuler une offre qu'il a faite
 	case 4:

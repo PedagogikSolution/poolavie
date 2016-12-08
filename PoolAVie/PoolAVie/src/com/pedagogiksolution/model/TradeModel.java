@@ -597,9 +597,9 @@ public class TradeModel {
 	}
 	
 	// on ajoute les recrues dans un array sans compter leur salaire
-	if (playersIdTeamThatMakeOffer != null) {
+	if (rookie_id_my_team != null) {
 
-	    for (String s : playersIdTeamThatMakeOffer) {
+	    for (String s : rookie_id_my_team) {
 		int toInt = Integer.parseInt(s);
 
 		TradeBeanTemp mBeanTemp = playersDao.getPlayersById(poolID, toInt, 1);
@@ -649,9 +649,9 @@ public class TradeModel {
 	}
 	
 	// on ajoute les recrues dans un array sans compter leur salaire
-	if (playersIdTeamThatReceiveOffer != null) {
+	if (rookie_id_trade_with_team != null) {
 
-	    for (String s : playersIdTeamThatReceiveOffer) {
+	    for (String s : rookie_id_trade_with_team) {
 		int toInt = Integer.parseInt(s);
 
 		TradeBeanTemp mBeanTemp = playersDao.getPlayersById(poolID, toInt, 1);
