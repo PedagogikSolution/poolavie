@@ -756,6 +756,9 @@
 
 			<!-- Faire une offre -->
 			<br>
+			<div class="w3-row w3-container w3-center">
+			<textarea name="message_vente" rows="8" cols="150"></textarea>
+			</div>
 			<br>
 			<div class="w3-row w3-container w3-center">
 				<br>

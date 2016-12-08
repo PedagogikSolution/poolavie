@@ -14,6 +14,8 @@ public class TradeBeanTemp implements Serializable {
     private int total_salaire_team_making_offer;
     private String nomMakingOfferString;
     private String[] nomMakingOffer;
+    private String roundPick;
+    private String fromPick;
 
     private int total_salaire_team_receiving_offer;
     private String nomReceivingOfferString;
@@ -60,4 +62,17 @@ public class TradeBeanTemp implements Serializable {
     public void setPositionDuJoueurTrade(String positionDuJoueurTrade) {
 	this.positionDuJoueurTrade = positionDuJoueurTrade;
     }
+    public String getRoundPick() {
+	return roundPick;
+    }
+    public void setRoundPick(String roundPick) {
+	this.roundPick = roundPick;
+    }
+    public String getFromPick() {
+	return fromPick;
+    }
+    public void setFromPick(String fromPick) {
+	this.fromPick = fromPick;
+    }
+   
 }

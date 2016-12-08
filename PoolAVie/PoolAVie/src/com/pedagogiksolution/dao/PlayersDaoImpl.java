@@ -1063,12 +1063,13 @@ public class PlayersDaoImpl implements PlayersDao {
     @Override
     public TradeBeanTemp getPlayersById(String poolID,int toInt,int club_ecole) throws DAOException {
 	Connection connexion = null;
+	ResultSet rs =null;
 	PreparedStatement preparedStatement = null;
 	TradeBeanTemp mBean = new TradeBeanTemp();
 	try {
 	    connexion = daoFactory.getConnection();
 	    preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_BY_ID, false,Integer.parseInt(poolID), toInt,club_ecole);
-	    ResultSet rs = preparedStatement.executeQuery();
+	    rs = preparedStatement.executeQuery();
 	    while (rs.next()) {
 		int salaire_joueur_temp = rs.getInt("years_1");
 		mBean.setTotal_salaire_team_making_offer(salaire_joueur_temp);
@@ -1081,7 +1082,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	} catch (SQLException e) {
 	    throw new DAOException(e);
 	} finally {
-	    fermeturesSilencieuses(preparedStatement, connexion);
+	    fermeturesSilencieuses(rs,preparedStatement, connexion);
 	}
 	
 	

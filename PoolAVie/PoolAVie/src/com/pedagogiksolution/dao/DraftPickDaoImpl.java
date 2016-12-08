@@ -22,7 +22,9 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
+import com.pedagogiksolution.beans.TradeBeanTemp;
 import com.pedagogiksolution.datastorebeans.DraftPick;
+import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.utils.EMF;
 
 public class DraftPickDaoImpl implements DraftPickDao {
@@ -30,6 +32,7 @@ public class DraftPickDaoImpl implements DraftPickDao {
     private static final String CREATE_DRAFT_PICK = "CREATE TABLE draft_pick? LIKE draft_pick";
     private static final String INSERT_DRAFT_PICK = "INSERT INTO draft_pick? (team_id,pick_no,original_team_id) VALUE (?,?,?)";
     private static final String GET_DRAFT_PICK_BY_POOL_ID = "SELECT * FROM draft_pick? WHERE team_id=? ORDER BY _id ASC";
+    private static final String GET_ROUND_BY_ID = "SELECT * FROM draft_pick? WHERE _id=?";
 
     private DAOFactory daoFactory;
 
@@ -206,7 +209,80 @@ public class DraftPickDaoImpl implements DraftPickDao {
 	   
 
 	}
+
+    
+    @Override
+    public TradeBeanTemp getNameOfTeam(String poolID, int toInt,Pool mBeanPool) throws DAOException {
+	Connection connexion = null;
+	ResultSet rs =null;
+	PreparedStatement preparedStatement = null;
+	TradeBeanTemp mBean = new TradeBeanTemp();
+	
+	
+	try {
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_ROUND_BY_ID, false,Integer.parseInt(poolID), toInt);
+	    rs = preparedStatement.executeQuery();
+	    while (rs.next()) {
+		int round_temp = rs.getInt("pick_no");
+		int from_temp = rs.getInt("original_team_id");
+		String from_temp2 = null;
+		switch (from_temp) {
+		
+		case 1:
+		    from_temp2 = mBeanPool.getNomTeam1();
+		    break;
+		case 2:
+		    from_temp2 = mBeanPool.getNomTeam2();
+		    break;
+		case 3:
+		    from_temp2 = mBeanPool.getNomTeam3();
+		    break;
+		case 4:
+		    from_temp2 = mBeanPool.getNomTeam4();
+		    break;
+		case 5:
+		    from_temp2 = mBeanPool.getNomTeam5();
+		    break;
+		case 6:
+		    from_temp2 = mBeanPool.getNomTeam6();
+		    break;
+		case 7:
+		    from_temp2 = mBeanPool.getNomTeam7();
+		    break;
+		case 8:
+		    from_temp2 = mBeanPool.getNomTeam8();
+		    break;
+		case 9:
+		    from_temp2 = mBeanPool.getNomTeam9();
+		    break;
+		case 10:
+		    from_temp2 = mBeanPool.getNomTeam10();
+		    break;
+		case 11:
+		    from_temp2 = mBeanPool.getNomTeam11();
+		    break;
+		case 12:
+		    from_temp2 = mBeanPool.getNomTeam12();
+		    break;
+		}
+		String round_temp2 = Integer.toString(round_temp);
+
+		mBean.setRoundPick(round_temp2);
+		mBean.setFromPick(from_temp2);
+	    }
+	    
+	    return mBean;
+
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(rs,preparedStatement, connexion);
+	}
+    }
 	
     }
+
+
 
 

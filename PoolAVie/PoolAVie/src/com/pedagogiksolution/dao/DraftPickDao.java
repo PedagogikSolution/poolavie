@@ -1,5 +1,8 @@
 package com.pedagogiksolution.dao;
 
+import com.pedagogiksolution.beans.TradeBeanTemp;
+import com.pedagogiksolution.datastorebeans.Pool;
+
 
 
 public interface DraftPickDao {
@@ -10,7 +13,9 @@ public interface DraftPickDao {
     
     void cronJobGetDraftPickbyPoolId(int poolId, int numberOfTeam, String fromTag) throws DAOException;
 
-    void getDraftPickForDatastoreFromPoolIdAndTeamNumber(String poolID, String counter);
+    void getDraftPickForDatastoreFromPoolIdAndTeamNumber(String poolID, String counter)throws DAOException;
+
+    TradeBeanTemp getNameOfTeam(String poolID, int toInt, Pool mBeanPool)throws DAOException;
     
     
 

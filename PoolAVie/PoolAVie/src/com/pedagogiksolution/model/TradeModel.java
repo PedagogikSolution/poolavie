@@ -721,9 +721,42 @@ public class TradeModel {
 	}
 
 	
-	// TO DO  roundpick et frompick a faire pour la persistence
-	// String messageVente = req.getParameter("message_vente");
-	// mBean.setMessageOffre(messageVente);
+	
+	// roundpick et frompick a faire pour la persistence
+	 if (picksIdTeamThatMakeOffer != null) {
+		int k = 0;
+		for (String s : picksIdTeamThatMakeOffer) {
+		    int toInt = Integer.parseInt(s);
+		    
+		    TradeBeanTemp mBeanTemp = draftPickDao.getNameOfTeam(poolID,toInt,mBeanPool);
+		   
+		    RoundPickMakingOffer[k] = mBeanTemp.getRoundPick();
+		    FromPickMakingOffer[k] = mBeanTemp.getFromPick();
+			
+		    k++;
+
+		  
+		}
+	    }
+
+	 if (picksIdTeamThatReceiveOffer != null) {
+		int l = 0;
+		for (String s : picksIdTeamThatReceiveOffer) {
+		    int toInt = Integer.parseInt(s);
+		    
+		    TradeBeanTemp mBeanTemp = draftPickDao.getNameOfTeam(poolID,toInt,mBeanPool);
+		   
+		    RoundPickReceivingOffer[l] = mBeanTemp.getRoundPick();
+		    FromPickReceivingOffer[l] = mBeanTemp.getFromPick();
+			
+		    l++;
+
+		  
+		}
+	    }
+	
+	 String messageVente = req.getParameter("message_vente");
+	 mBean.setMessageOffre(messageVente);
 
 	mBean.setPlayerIdMakingOffer(playersIdTeamThatMakeOffer);
 	mBean.setPlayerIdReceivingOffer(playersIdTeamThatReceiveOffer);
