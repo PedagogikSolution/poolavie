@@ -52,6 +52,8 @@ public class PlayersDaoImpl implements PlayersDao {
     private static final String GET_GOALER_PTS_TOP_X = "SELECT SUM(pts) AS sommePts FROM (SELECT pts FROM players_? WHERE position='gardien' AND team_id=? AND club_ecole=0 ORDER BY pts DESC LIMIT ?) AS subquery";
     private static final String GET_PLAYERS_BY_ID = "SELECT * FROM players_? WHERE _id=? AND club_ecole=?";
     private static final String GET_PLAYERS_BY_ID_ALL = "SELECT * FROM players_? WHERE _id=?";
+    private static final String GET_PLAYERS_BY_ID_AND_TEAM = "SELECT * FROM players_? WHERE team_id=? AND _id=?";
+    
     
     
     
@@ -1090,6 +1092,32 @@ public class PlayersDaoImpl implements PlayersDao {
 	    fermeturesSilencieuses(rs,preparedStatement, connexion);
 	}
 	
+	
+    }
+
+    
+    @Override
+    public Boolean checkIfPlayersStillInTeam(int poolId, int teamId, int playerId) throws DAOException {
+	Connection connexion = null;
+	ResultSet rs =null;
+	PreparedStatement preparedStatement = null;
+	try {
+	    connexion = daoFactory.getConnection();
+	    
+		preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_BY_ID_AND_TEAM, false,poolId, playerId,teamId);
+	   
+	    rs = preparedStatement.executeQuery();
+	    if (rs.next()) {
+		return true;
+	    }
+	    
+	    return false;
+
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(rs,preparedStatement, connexion);
+	}
 	
     }
 

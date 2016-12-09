@@ -505,4 +505,57 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 	
     }
 
+    
+    @Override
+    public TradeBeanTemp getTradeNumberX(int poolId, int trade_id) throws DAOException {
+	
+	
+	TradeBeanTemp mBeanTemp = new TradeBeanTemp();
+	
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+
+	try {
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, SHOW_TRADE_X, false, poolId, trade_id);
+	    ResultSet rs = preparedStatement.executeQuery();
+	    
+	    if (rs.next()) {
+
+		mBeanTemp.setT1j1(rs.getString("t1j1")); 
+		mBeanTemp.setT1j2(rs.getString("t1j2"));
+		mBeanTemp.setT1j3(rs.getString("t1j3"));
+		mBeanTemp.setT1j4(rs.getString("t1j4"));
+		mBeanTemp.setT1j5(rs.getString("t1j5"));
+		mBeanTemp.setT1j6(rs.getString("t1j6"));
+		mBeanTemp.setT1j7(rs.getString("t1j7"));
+		mBeanTemp.setT2j1(rs.getString("t1j1"));
+		mBeanTemp.setT2j2(rs.getString("t1j2"));
+		mBeanTemp.setT2j3(rs.getString("t1j3"));
+		mBeanTemp.setT2j4(rs.getString("t1j4"));
+		mBeanTemp.setT2j5(rs.getString("t1j5"));
+		mBeanTemp.setT2j6(rs.getString("t1j6"));
+		mBeanTemp.setT2j7(rs.getString("t1j7"));
+		mBeanTemp.setT1p1(rs.getString("t1p1"));
+		mBeanTemp.setT1p2(rs.getString("t1p2"));
+		mBeanTemp.setT1p3(rs.getString("t1p3"));
+		mBeanTemp.setT2p1(rs.getString("t1p1"));
+		mBeanTemp.setT2p2(rs.getString("t1p2"));
+		mBeanTemp.setT2p3(rs.getString("t1p3"));
+		mBeanTemp.setTeam_1(rs.getString("team_1"));
+		mBeanTemp.setTeam_2(rs.getString("team_2"));
+		mBeanTemp.setT1_cash(rs.getInt("t1_cash"));
+		mBeanTemp.setT2_cash(rs.getInt("t2_cash"));
+		
+	    }
+
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(preparedStatement, connexion);
+	}
+	
+	return mBeanTemp;
+    }
+
 }

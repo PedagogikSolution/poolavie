@@ -41,6 +41,8 @@ public interface PlayersDao {
 
     TradeBeanTemp getPlayersById(String poolID, int toInt, int i) throws DAOException;
 
+    Boolean checkIfPlayersStillInTeam(int poolId, int teamId, int playerId) throws DAOException;
+
 
    
 

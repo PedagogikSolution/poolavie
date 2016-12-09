@@ -1,5 +1,9 @@
 package com.pedagogiksolution.model;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -1095,7 +1099,259 @@ public class TradeModel {
 	
 	
     }
+    
+    public Boolean checkIfTradeIsStillPossible(PlayersDao playersDao, DraftPickDao draftPickDao, TradeOfferDao tradeOfferDao,HttpServletRequest req2) {
+	String trade_id_string = req.getParameter("trade_id");
+	int trade_id = Integer.parseInt(trade_id_string);
+	
+	
+	
+	ArrayList<String> playersTeamThatOfferTemp = new ArrayList<String>();
+	ArrayList<String> playersTeamThatReceivedTemp = new ArrayList<String>();
+	String[] playersTeamThatOffer = null;
+	String[] playersTeamThatReceived = null;
+	
+	String poolID = mBeanPool.getPoolID();
+	int poolId = Integer.parseInt(poolID);
+	
+	TradeBeanTemp mBeanTemp = new TradeBeanTemp();
+	
+	
+	mBeanTemp = tradeOfferDao.getTradeNumberX(poolId,trade_id);
+	
+	
+	MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+	
+
+	    
+
+	    if (mBeanTemp.getT1j1() != null) {
+		Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT1j1(), playersDao);
+		if (!isStillInTeam) {
+		    
+		    mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		    req.setAttribute("messageErreur", mBeanMessageErreur);
+		    return false;
+		}
+		playersTeamThatOfferTemp.add(mBeanTemp.getT1j1());
+	    }
+	    if (mBeanTemp.getT1j2() != null) {
+		Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT1j2(), playersDao);
+		if (!isStillInTeam) {
+		    mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		    req.setAttribute("messageErreur", mBeanMessageErreur);
+		    return false;
+		    
+		}
+		playersTeamThatOfferTemp.add(mBeanTemp.getT1j2());
+	    }
+	    if (mBeanTemp.getT1j3() != null) {
+		Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT1j3(), playersDao);
+		if (!isStillInTeam) {
+		    mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		    req.setAttribute("messageErreur", mBeanMessageErreur);
+		    return false;
+		   
+		}
+		playersTeamThatOfferTemp.add(mBeanTemp.getT1j3());
+	    }
+	    if (mBeanTemp.getT1j4() != null) {
+		Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT1j4(), playersDao);
+		if (!isStillInTeam) {
+		    mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		    req.setAttribute("messageErreur", mBeanMessageErreur);
+		    return false;
+		    
+		}
+		playersTeamThatOfferTemp.add(mBeanTemp.getT1j4());
+	    }
+	    if (mBeanTemp.getT1j5() != null) {
+		Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT1j5(), playersDao);
+		if (!isStillInTeam) {
+		    mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		    req.setAttribute("messageErreur", mBeanMessageErreur);
+		    return false;
+		}
+		playersTeamThatOfferTemp.add(mBeanTemp.getT1j5());
+	    }
+	    if (mBeanTemp.getT1j6() != null) {
+		Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT1j6(), playersDao);
+		if (!isStillInTeam) {
+		    mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		    req.setAttribute("messageErreur", mBeanMessageErreur);
+		    return false;
+		}
+		playersTeamThatOfferTemp.add(mBeanTemp.getT1j6());
+	    }
+	    if (mBeanTemp.getT1j7() != null) {
+		Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT1j7(), playersDao);
+		if (!isStillInTeam) {
+		    mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		    req.setAttribute("messageErreur", mBeanMessageErreur);
+		    return false;
+		}
+		playersTeamThatOfferTemp.add(mBeanTemp.getT1j7());
+	    }
+	    if (mBeanTemp.getT2j1() != null) {
+		Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT2j1(), playersDao);
+		if (!isStillInTeam) {
+		    mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		    req.setAttribute("messageErreur", mBeanMessageErreur);
+		    return false;
+		}
+		playersTeamThatReceivedTemp.add(mBeanTemp.getT2j1());
+	    }
+	    if (mBeanTemp.getT2j2() != null) {
+		Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT2j2(), playersDao);
+		if (!isStillInTeam) {
+		    mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		    req.setAttribute("messageErreur", mBeanMessageErreur);
+		    return false;
+		}
+		playersTeamThatReceivedTemp.add(mBeanTemp.getT2j2());
+	    }
+	    if (mBeanTemp.getT2j3() != null) {
+		Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT2j3(), playersDao);
+		if (!isStillInTeam) {
+		    mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		    req.setAttribute("messageErreur", mBeanMessageErreur);
+		    return false;
+		}
+		playersTeamThatReceivedTemp.add(mBeanTemp.getT2j3());
+	    }
+	    if (mBeanTemp.getT2j4() != null) {
+		Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT2j4(), playersDao);
+		if (!isStillInTeam) {
+		    mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		    req.setAttribute("messageErreur", mBeanMessageErreur);
+		    return false;
+		}
+		playersTeamThatReceivedTemp.add(mBeanTemp.getT2j4());
+	    }
+	    if (mBeanTemp.getT2j5() != null) {
+		Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT2j5(), playersDao);
+		if (!isStillInTeam) {
+		    mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		    req.setAttribute("messageErreur", mBeanMessageErreur);
+		    return false;
+		}
+		playersTeamThatReceivedTemp.add(mBeanTemp.getT2j5());
+	    }
+	    if (mBeanTemp.getT2j6() != null) {
+		Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT2j6(), playersDao);
+		if (!isStillInTeam) {
+		    mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		    req.setAttribute("messageErreur", mBeanMessageErreur);
+		    return false;
+		}
+		playersTeamThatReceivedTemp.add(mBeanTemp.getT2j6());
+	    }
+	    if (mBeanTemp.getT2j7() != null) {
+		Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT2j7(), playersDao);
+		if (!isStillInTeam) {
+		    mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		    req.setAttribute("messageErreur", mBeanMessageErreur);
+		    return false;
+		}
+		playersTeamThatReceivedTemp.add(mBeanTemp.getT2j7());
+	    }
+	    if (mBeanTemp.getT1p1() != null) {
+		Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT1p1(), playersDao);
+		if (!isStillInTeam) {
+		    mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des picks impliqués dans l'échange");
+		    req.setAttribute("messageErreur", mBeanMessageErreur);
+		    return false;
+		}
+	    }
+
+	    if (mBeanTemp.getT1p2() != null) {
+		Boolean isStillInPick = checkIfPickStillInTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT1p2(), draftPickDao);
+		if (!isStillInPick) {
+		    mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des picks impliqués dans l'échange");
+		    req.setAttribute("messageErreur", mBeanMessageErreur);
+		    return false;
+		}
+
+	    }
+
+	    if (mBeanTemp.getT1p3() != null) {
+		Boolean isStillInPick = checkIfPickStillInTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT1p3(), draftPickDao);
+		if (!isStillInPick) {
+		    mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des picks impliqués dans l'échange");
+		    req.setAttribute("messageErreur", mBeanMessageErreur);
+		    return false;
+		}
+
+	    }
+	    if (mBeanTemp.getT2p1() != null) {
+		Boolean isStillInPick = checkIfPickStillInTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT2p1(), draftPickDao);
+		if (!isStillInPick) {
+		    mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des picks impliqués dans l'échange");
+		    req.setAttribute("messageErreur", mBeanMessageErreur);
+		    return false;
+		}
+
+	    }
+	    if (mBeanTemp.getT2p2() != null) {
+		Boolean isStillInPick = checkIfPickStillInTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT2p2(), draftPickDao);
+		if (!isStillInPick) {
+		    mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des picks impliqués dans l'échange");
+		    req.setAttribute("messageErreur", mBeanMessageErreur);
+		    return false;
+		}
+
+	    }
+	    if (mBeanTemp.getT2p3() != null) {
+		Boolean isStillInPick = checkIfPickStillInTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT2p3(), draftPickDao);
+		if (!isStillInPick) {
+		    mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des picks impliqués dans l'échange");
+		    req.setAttribute("messageErreur", mBeanMessageErreur);
+		    return false;
+		}
+
+	    }
+	   
+
+	
+
+	playersTeamThatOffer = playersTeamThatOfferTemp.toArray(new String[playersTeamThatOfferTemp.size()]);
+	playersTeamThatReceived = playersTeamThatReceivedTemp.toArray(new String[playersTeamThatReceivedTemp.size()]);
+
+	boolean checkIfTradeIsStillValidateByRule = checkIfTradeIsStillValidateByRule(req, mBeanTemp.getTeam_1(), mBeanTemp.getTeam_2(), playersTeamThatOffer, playersTeamThatReceived, mBeanTemp.getT1_cash(), mBeanTemp.getT2_cash());
+
+	if (!checkIfTradeIsStillValidateByRule) {
+	    return false;
+	}
+
+	return true;
+    }
+
+    private boolean checkIfTradeIsStillValidateByRule(HttpServletRequest req2, String team_1, String team_2, String[] playersTeamThatOffer, String[] playersTeamThatReceived, int t1_cash, int t2_cash) {
+	// TODO Auto-generated method stub
+	return false;
+    }
 
     /******************************* methode privée à la classe **********************************/
 
+    private Boolean checkIfplayerStillInTeam(String team, String identifiant, PlayersDao playersDao) {
+   	int teamId = Integer.parseInt(team);
+   	int playerId = Integer.parseInt(identifiant);
+   	String poolID = mBeanPool.getPoolID();
+   	int poolId = Integer.parseInt(poolID);
+   	Boolean checkIfPlayersStillInTeam = playersDao.checkIfPlayersStillInTeam(poolId,teamId,playerId);
+    	return checkIfPlayersStillInTeam;
+       }
+    
+    private Boolean checkIfPickStillInTeam(String team, String identifiant, DraftPickDao draftPickDao) {
+	int teamId = Integer.parseInt(team);
+	int pickId = Integer.parseInt(identifiant);
+   	String poolID = mBeanPool.getPoolID();
+   	int poolId = Integer.parseInt(poolID);
+   	Boolean checkIfPicksStillInTeam = draftPickDao.checkIfPicksStillInTeam(poolId,teamId,pickId);
+    	return checkIfPicksStillInTeam;
+       }
+
+    
+    
+    
 }

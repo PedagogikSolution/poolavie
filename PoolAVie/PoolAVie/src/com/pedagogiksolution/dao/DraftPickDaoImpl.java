@@ -33,6 +33,7 @@ public class DraftPickDaoImpl implements DraftPickDao {
     private static final String INSERT_DRAFT_PICK = "INSERT INTO draft_pick? (team_id,pick_no,original_team_id) VALUE (?,?,?)";
     private static final String GET_DRAFT_PICK_BY_POOL_ID = "SELECT * FROM draft_pick? WHERE team_id=? ORDER BY _id ASC";
     private static final String GET_ROUND_BY_ID = "SELECT * FROM draft_pick? WHERE _id=?";
+    private static final String GET_ROUND_BY_ID_AND_TEAM = "SELECT * FROM draft_pick? WHERE team_id=? AND _id=?";
 
     private DAOFactory daoFactory;
 
@@ -273,6 +274,31 @@ public class DraftPickDaoImpl implements DraftPickDao {
 	    }
 	    
 	    return mBean;
+
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(rs,preparedStatement, connexion);
+	}
+    }
+
+    
+    @Override
+    public Boolean checkIfPicksStillInTeam(int poolId, int teamId, int pickId) throws DAOException {
+	Connection connexion = null;
+	ResultSet rs =null;
+	PreparedStatement preparedStatement = null;
+	try {
+	    connexion = daoFactory.getConnection();
+	    
+		preparedStatement = initialisationRequetePreparee(connexion, GET_ROUND_BY_ID_AND_TEAM, false,poolId, teamId,pickId);
+	   
+	    rs = preparedStatement.executeQuery();
+	    if (rs.next()) {
+		return true;
+	    }
+	    
+	    return false;
 
 	} catch (SQLException e) {
 	    throw new DAOException(e);

@@ -216,8 +216,36 @@ public class TradeServlet extends HttpServlet {
 		resp.sendRedirect("/Trade");
 	    }
 	    break;
-	// Un joueur veut annuler une offre qu'il a faite
+	// Un joueur veut accepter une offre qu'il a faite
 	case 4:
+	    
+	    // on verifie si l'offre tiens toujours avec un boolean
+	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
+	    Boolean tradeStillPosible = mModelTrade.checkIfTradeIsStillPossible(playersDao,draftPickDao,tradeOfferDao,req);
+	   
+	    if (!tradeStillPosible) {
+		// si pas bon on annule l'offre
+		mModelTrade.annulerOffre(req,tradeOfferDao);
+		
+		
+		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
+
+	    } else {
+		// on effectue l'Echange et on persiste celle-ci dans trade_made
+		
+		
+		//mModelTrade.makeTrade();
+		//mModelTrade.persistOfferIntoTradeMade();
+		
+		
+		
+		resp.sendRedirect("/Equipes");
+	    }
+	    
+	    
+	   
+	    
+	    
 	    break;
 	// Un joueur veut annuler une offre qu'il a faite
 	case 5:

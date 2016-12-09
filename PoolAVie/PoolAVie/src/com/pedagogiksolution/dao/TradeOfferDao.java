@@ -1,5 +1,6 @@
 package com.pedagogiksolution.dao;
 
+import com.pedagogiksolution.beans.TradeBeanTemp;
 import com.pedagogiksolution.beans.TradeBeans;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
@@ -17,6 +18,7 @@ public interface TradeOfferDao {
     TradeBeans getTradeOfferMade(Pool mBeanPool, String poolID, int teamId, int i)throws DAOException;
     TradeBeans showOfferX(Pool mBeanPool, Utilisateur mBeanUser, int trade_id, PlayersDao playersDao, DraftPickDao draftPickDao)throws DAOException;
     void cancelOffreX(int trade_id_int, Pool mBeanPool)throws DAOException;
+    TradeBeanTemp getTradeNumberX(int poolId, int trade_id)throws DAOException;
     
     
 }

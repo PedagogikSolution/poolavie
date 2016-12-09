@@ -16,6 +16,8 @@ public interface DraftPickDao {
     void getDraftPickForDatastoreFromPoolIdAndTeamNumber(String poolID, String counter)throws DAOException;
 
     TradeBeanTemp getNameOfTeam(String poolID, int toInt, Pool mBeanPool)throws DAOException;
+
+    Boolean checkIfPicksStillInTeam(int poolId, int teamId, int pickId)throws DAOException;
     
     
 
