@@ -26,6 +26,7 @@ public class TradeServlet extends HttpServlet {
     private PlayersDao playersDao;
     private DraftPickDao draftPickDao;
     private TradeOfferDao tradeOfferDao;
+
     @Override
     public void init() throws ServletException {
 	/* Récupération d'une instance de notre DAO Utilisateur */
@@ -33,7 +34,7 @@ public class TradeServlet extends HttpServlet {
 	this.draftPickDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftPickDao();
 	this.tradeOfferDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getTradeOfferDao();
     }
-    
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	TradeModel mModelTrade;
@@ -85,8 +86,8 @@ public class TradeServlet extends HttpServlet {
 		// on recupere les trade recu du datastore et place dans bean
 		// pour affichage
 		mModelTrade = new TradeModel(req, mBean);
-		mModelTrade.getTradeOfferReceived();
-		mModelTrade.getTradeOfferMade();
+		mModelTrade.getTradeOfferReceived(req, tradeOfferDao);
+		mModelTrade.getTradeOfferMade(req, tradeOfferDao);
 		req.setAttribute("tradeOpen", 1);
 		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 		break;
@@ -102,14 +103,13 @@ public class TradeServlet extends HttpServlet {
 		int tradeType = mBean.getTradeType();
 		if (tradeType == 1) {
 		    req.setAttribute("tradeOpen", 1);
-		    mModelTrade.getTradeOfferReceived();
-		    mModelTrade.getTradeOfferMade();
+		    mModelTrade.getTradeOfferReceived(req, tradeOfferDao);
+		    mModelTrade.getTradeOfferMade(req, tradeOfferDao);
 		    req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 		} else {
-		    req.setAttribute("tradeOpen", 0); 
+		    req.setAttribute("tradeOpen", 0);
 		    req.setAttribute("messageTrade", "Il n'y a pas de trade possible à cet période du pool");
-			req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
-		   
+		    req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 
 		}
 		break;
@@ -117,8 +117,8 @@ public class TradeServlet extends HttpServlet {
 	    case 6:
 		mModelTrade = new TradeModel(req, mBean);
 		req.setAttribute("tradeOpen", 1);
-		mModelTrade.getTradeOfferReceived();
-		mModelTrade.getTradeOfferMade();
+		mModelTrade.getTradeOfferReceived(req, tradeOfferDao);
+		mModelTrade.getTradeOfferMade(req, tradeOfferDao);
 		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 
 		break;
@@ -186,47 +186,62 @@ public class TradeServlet extends HttpServlet {
 // envoyer l'offre
 	case 2:
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
-	    Boolean offerGood = mModelTrade.checkIfTradeIsValidDuringDraft(playersDao,draftPickDao);
+	    Boolean offerGood = mModelTrade.checkIfTradeIsValidDuringDraft(playersDao, draftPickDao);
 	    if (!offerGood) {
-		 
-		    
+
 		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
-		   
+
 	    } else {
 		req.getRequestDispatcher("jsp/trade/trade_offer_confirmation_sheet.jsp").forward(req, resp);
 	    }
 	    break;
 	// Un joueur veut confirmer son offre de trade et l'envoyer
 	case 3:
-	    
+
 	    String confirmation = req.getParameter("confirmation");
-	    
-	    if(confirmation.equalsIgnoreCase("non")){
+
+	    if (confirmation.equalsIgnoreCase("non")) {
 		req.getSession().removeAttribute("tradeOfferBean");
 		resp.sendRedirect("/Trade");
 	    } else {
-	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
-	    mModelTrade.persistTradeOffer(req,tradeOfferDao);
-	    cycleAnnuel = mBeanPool.getCycleAnnuel();
-	    if (cycleAnnuel == 3) {
-		mModelTrade.sendAlertViaChannel();
-	    } else {
-		mModelTrade.sendEmailForOffer();
-	    }
-	    req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
+		mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
+		mModelTrade.persistTradeOffer(req, tradeOfferDao);
+		cycleAnnuel = mBeanPool.getCycleAnnuel();
+		if (cycleAnnuel == 3) {
+		    mModelTrade.sendAlertViaChannel();
+		} else {
+		    mModelTrade.sendEmailForOffer();
+		}
+		req.getSession().removeAttribute("tradeOfferBean");
+		resp.sendRedirect("/Trade");
 	    }
 	    break;
 	// Un joueur veut annuler une offre qu'il a faite
 	case 4:
 	    break;
-	// Un joueur veut modifier une offre qu'il a faite
+	// Un joueur veut annuler une offre qu'il a faite
 	case 5:
+	    
+	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
+	    mModelTrade.annulerOffre(req,tradeOfferDao);
+	    resp.sendRedirect("/Trade");
+	    
 	    break;
 	// Un joueur veut voir les details d'une offre qu'il a faite
 	case 6:
+	    
+	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
+	    mModelTrade.showOfferNumberX(req,1,tradeOfferDao, playersDao, draftPickDao);
+	    req.getRequestDispatcher("jsp/trade/showOfferDetail.jsp").forward(req, resp);
+
 	    break;
 	// Un jouer veut voir les details d'une offre qu'il a recu
 	case 7:
+
+	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
+	    mModelTrade.showOfferNumberX(req,2,tradeOfferDao, playersDao, draftPickDao);
+	    req.getRequestDispatcher("jsp/trade/showOfferDetail.jsp").forward(req, resp);
+	    
 	    break;
 	// Un joueur veut accepter une offre qu'il a recu (verification de la valider de l'offre et message de
 // confirmation de l'offre

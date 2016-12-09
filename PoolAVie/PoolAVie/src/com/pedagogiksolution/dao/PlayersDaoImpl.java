@@ -51,6 +51,7 @@ public class PlayersDaoImpl implements PlayersDao {
     private static final String GET_DEFENSE_PTS_TOP_X = "SELECT SUM(pts)AS sommePts FROM (SELECT pts FROM players_? WHERE position='defenseur' AND team_id=? AND club_ecole=0 ORDER BY pts DESC LIMIT ?) AS subquery";
     private static final String GET_GOALER_PTS_TOP_X = "SELECT SUM(pts) AS sommePts FROM (SELECT pts FROM players_? WHERE position='gardien' AND team_id=? AND club_ecole=0 ORDER BY pts DESC LIMIT ?) AS subquery";
     private static final String GET_PLAYERS_BY_ID = "SELECT * FROM players_? WHERE _id=? AND club_ecole=?";
+    private static final String GET_PLAYERS_BY_ID_ALL = "SELECT * FROM players_? WHERE _id=?";
     
     
     
@@ -1068,7 +1069,11 @@ public class PlayersDaoImpl implements PlayersDao {
 	TradeBeanTemp mBean = new TradeBeanTemp();
 	try {
 	    connexion = daoFactory.getConnection();
+	    if(club_ecole==2){
+		preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_BY_ID_ALL, false,Integer.parseInt(poolID), toInt);
+	    } else {
 	    preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_BY_ID, false,Integer.parseInt(poolID), toInt,club_ecole);
+	    }
 	    rs = preparedStatement.executeQuery();
 	    while (rs.next()) {
 		int salaire_joueur_temp = rs.getInt("years_1");

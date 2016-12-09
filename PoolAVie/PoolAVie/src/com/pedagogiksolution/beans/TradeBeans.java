@@ -1,6 +1,7 @@
 package com.pedagogiksolution.beans;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.List;
 
 public class TradeBeans implements Serializable{
@@ -34,6 +35,9 @@ public class TradeBeans implements Serializable{
     private int teamThatTrade;
     private int teamTradeTo;
     private String messageOffre;
+    private String nomTeam;
+    private Date dateTradeOffer;
+    private List<String> dateTradeOfferArray;
     
     
     /* 
@@ -243,6 +247,30 @@ public class TradeBeans implements Serializable{
 
     public void setRookieIdReceivingOffer(String[] rookieIdReceivingOffer) {
 	this.rookieIdReceivingOffer = rookieIdReceivingOffer;
+    }
+
+    public String getNomTeam() {
+	return nomTeam;
+    }
+
+    public void setNomTeam(String nomTeam) {
+	this.nomTeam = nomTeam;
+    }
+
+    public Date getDateTradeOffer() {
+	return dateTradeOffer;
+    }
+
+    public void setDateTradeOffer(Date date) {
+	this.dateTradeOffer = date;
+    }
+
+    public List<String> getDateTradeOfferArray() {
+	return dateTradeOfferArray;
+    }
+
+    public void setDateTradeOfferArray(List<String> dateTradeOfferArray) {
+	this.dateTradeOfferArray = dateTradeOfferArray;
     }
 
     

@@ -45,13 +45,39 @@ public class TradeModel {
 	this.mBeanUser = mBeanUser;
     }
 
-    public void getTradeOfferReceived() {
-	// TODO Auto-generated method stub
+    public void getTradeOfferReceived(HttpServletRequest req, TradeOfferDao tradeOfferDao) {
+	TradeBeans mBean = new TradeBeans();
+	
+	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+	Utilisateur mBeanUser = (Utilisateur)req.getSession().getAttribute("Utilisateur");
+	
+	// on compte le nombre de trade
+	
+	int nbTradeReceived = tradeOfferDao.getNumberTradeReceived(mBeanPool.getPoolID(),mBeanUser.getTeamId());
+	
+	for(int i=0;i<nbTradeReceived;i++){
+	mBean = tradeOfferDao.getTradeOfferReceived(mBeanPool,mBeanPool.getPoolID(),mBeanUser.getTeamId(),i);
+	}
+
+
+	req.setAttribute("tradeOfferReceived", mBean);
 
     }
 
-    public void getTradeOfferMade() {
-	// TODO Auto-generated method stub
+    public void getTradeOfferMade(HttpServletRequest req, TradeOfferDao tradeOfferDao) {
+	TradeBeans mBean = new TradeBeans();
+	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+	Utilisateur mBeanUser = (Utilisateur)req.getSession().getAttribute("Utilisateur");
+	
+	// on compte le nombre de trade
+	
+	int nbTradeReceived = tradeOfferDao.getNumberTradeMade(mBeanPool.getPoolID(),mBeanUser.getTeamId());
+	
+	for(int i=0;i<nbTradeReceived;i++){
+	mBean = tradeOfferDao.getTradeOfferMade(mBeanPool,mBeanPool.getPoolID(),mBeanUser.getTeamId(),i);
+	}
+
+	req.setAttribute("tradeOfferMade", mBean);
 
     }
 
@@ -1025,8 +1051,9 @@ public class TradeModel {
 
 		}
 		
+		String poolID = mBeanPool.getPoolID();
 		
-		tradeOfferDao.insertTradeOffer(mBeanPool.getPoolID(),teamMakingOfferId,teamReceivingOfferId,t1j1,t1j2,t1j3,t1j4,t1j5,t1j6, t1j7, t2j1, t2j2, t2j3, t2j4, t2j5, t2j6, t2j7, t1p1, t1p2, t1p3, t2p1, t2p2, t2p3,cashMakingOffer, cashReceivingOffer,0,annee,messageOffre);
+		tradeOfferDao.insertTradeOffer(poolID,teamMakingOfferId,teamReceivingOfferId,t1j1,t1j2,t1j3,t1j4,t1j5,t1j6, t1j7, t2j1, t2j2, t2j3, t2j4, t2j5, t2j6, t2j7, t1p1, t1p2, t1p3, t2p1, t2p2, t2p3,cashMakingOffer, cashReceivingOffer,0,annee,messageOffre);
 
 		
     }
@@ -1039,6 +1066,34 @@ public class TradeModel {
     public void sendEmailForOffer() {
 	// TODO Auto-generated method stub
 
+    }
+
+    
+    public void showOfferNumberX(HttpServletRequest req, int makeOrOffer, TradeOfferDao tradeOfferDao,PlayersDao playersDao, DraftPickDao draftPickDao) {
+	
+	
+	String trade_id_string = req.getParameter("trade_id");
+	int trade_id = Integer.parseInt(trade_id_string);
+
+// initialisation des objets pour le metier
+	TradeBeans mBean = new TradeBeans();
+	mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+	mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+	
+	mBean = tradeOfferDao.showOfferX(mBeanPool,mBeanUser,trade_id,playersDao,draftPickDao);
+
+	req.getSession().setAttribute("tradeOfferBean", mBean);
+	
+    }
+
+    public void annulerOffre(HttpServletRequest req, TradeOfferDao tradeOfferDao) {
+	
+	String trade_id = req.getParameter("trade_id");
+	int trade_id_int = Integer.parseInt(trade_id);
+	mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+	tradeOfferDao.cancelOffreX(trade_id_int,mBeanPool);
+	
+	
     }
 
     /******************************* methode privée à la classe **********************************/

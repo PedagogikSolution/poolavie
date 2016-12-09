@@ -81,7 +81,7 @@
 
 					</tr>
 
-					<c:set var="nombreDeTrade" value="${tradeOfferReceived.team1}" />
+					<c:set var="nombreDeTrade" value="${tradeOfferReceived.tradeOfferNameTeamTradeWith}" />
 					<c:if test="${empty nombreDeTrade}">
 						<tr>
 							<td>Vous n'avez pas d'offre d'échange. Cliquez ci-bas pour en faire une</td>
@@ -93,11 +93,15 @@
 							<tr>
 
 
-								<td>${tradeOfferReceived.tradeOfferId}</td>
-								<td>${tradeOfferReceived.team1}</td>
-								<td>${tradeOfferReceived.date}</td>
+								<td>${tradeOfferReceived.tradeOfferId[i]}</td>
+								<td>${tradeOfferReceived.tradeOfferNameTeamTradeWith[i]}</td>
+								<td>${tradeOfferReceived.dateTradeOfferArray[i]}</td>
 								<td>
-									<button onclick="showDetailOfferNo(${tradeOfferReceived.tradeOfferId})"></button>
+									<form method="post" action="/Trade">
+									<input type="hidden" name="tradeTag" value="7">
+									<input type="hidden" name="trade_id" value="${tradeOfferReceived.tradeOfferId[i]}">
+									<input type="submit" value="Voir">
+									</form>
 								</td>
 
 							</tr>
@@ -125,13 +129,13 @@
 					</caption>
 					<tr class="w3-indigo">
 						<th>No</th>
-						<th>Reçu de</th>
+						<th>Fait à</th>
 						<th>Date</th>
 						<th>Détails</th>
 
 					</tr>
 
-					<c:set var="nombreDeTrade" value="${tradeOfferMade.team1}" />
+					<c:set var="nombreDeTrade" value="${tradeOfferMade.tradeOfferId}" />
 					<c:if test="${empty nombreDeTrade}">
 						<tr>
 							<td>Vous n'avez pas d'offre d'échange. Cliquez ci-bas pour en faire une</td>
@@ -143,11 +147,15 @@
 							<tr>
 
 
-								<td>${tradeOfferMade.tradeOfferId}</td>
-								<td>${tradeOfferMade.team1}</td>
-								<td>${tradeOfferMade.date}</td>
+								<td>${tradeOfferMade.tradeOfferId[i]}</td>
+								<td>${tradeOfferMade.tradeOfferNameTeamTradeWith[i]}</td>
+								<td>${tradeOfferMade.dateTradeOfferArray[i]}</td>
 								<td>
-									<button onclick="showDetailOfferNo(${tradeOfferMade.tradeOfferId})"></button>
+									<form method="post" action="/Trade">
+									<input type="hidden" name="tradeTag" value="6">
+									<input type="hidden" name="trade_id" value="${tradeOfferMade.tradeOfferId[i]}">
+									<input type="submit" value="Voir">
+									</form>
 								</td>
 
 							</tr>
