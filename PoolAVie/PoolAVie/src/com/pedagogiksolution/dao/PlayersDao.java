@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import javax.servlet.http.HttpServletRequest;
 
 import com.pedagogiksolution.beans.TradeBeanTemp;
+import com.pedagogiksolution.datastorebeans.Pool;
 
 
 
@@ -42,6 +43,8 @@ public interface PlayersDao {
     TradeBeanTemp getPlayersById(String poolID, int toInt, int i) throws DAOException;
 
     Boolean checkIfPlayersStillInTeam(int poolId, int teamId, int playerId) throws DAOException;
+
+    void makeTrade(Pool mBeanPool, int teamId1, int teamId2, int playerId2)throws DAOException;
 
 
    

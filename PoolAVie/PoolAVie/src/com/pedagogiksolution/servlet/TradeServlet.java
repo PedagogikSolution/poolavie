@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.pedagogiksolution.dao.DAOFactory;
 import com.pedagogiksolution.dao.DraftPickDao;
 import com.pedagogiksolution.dao.PlayersDao;
+import com.pedagogiksolution.dao.TradeMadeDao;
 import com.pedagogiksolution.dao.TradeOfferDao;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
@@ -26,6 +27,7 @@ public class TradeServlet extends HttpServlet {
     private PlayersDao playersDao;
     private DraftPickDao draftPickDao;
     private TradeOfferDao tradeOfferDao;
+    private TradeMadeDao tradeMadeDao;
 
     @Override
     public void init() throws ServletException {
@@ -33,6 +35,7 @@ public class TradeServlet extends HttpServlet {
 	this.playersDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getPlayersDao();
 	this.draftPickDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftPickDao();
 	this.tradeOfferDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getTradeOfferDao();
+	this.tradeMadeDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getTradeMadeDao();
     }
 
     @Override
@@ -218,10 +221,12 @@ public class TradeServlet extends HttpServlet {
 	    break;
 	// Un joueur veut accepter une offre qu'il a faite
 	case 4:
-	    
+	    /*
 	    // on verifie si l'offre tiens toujours avec un boolean
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
-	    Boolean tradeStillPosible = mModelTrade.checkIfTradeIsStillPossible(playersDao,draftPickDao,tradeOfferDao,req);
+	    mModel = new LoginModel(req);
+	    mModel.createSessionEquipeBean();
+	    Boolean tradeStillPosible = mModelTrade.checkIfTradeIsStillPossible(playersDao,draftPickDao,tradeOfferDao);
 	   
 	    if (!tradeStillPosible) {
 		// si pas bon on annule l'offre
@@ -234,15 +239,15 @@ public class TradeServlet extends HttpServlet {
 		// on effectue l'Echange et on persiste celle-ci dans trade_made
 		
 		
-		//mModelTrade.makeTrade();
-		//mModelTrade.persistOfferIntoTradeMade();
+		mModelTrade.makeTrade(playersDao,draftPickDao,tradeOfferDao);
+		mModelTrade.persistTrade(tradeMadeDao);
 		
 		
 		
 		resp.sendRedirect("/Equipes");
 	    }
-	    
-	    
+	    */
+	    resp.sendRedirect("/Trade");
 	   
 	    
 	    
@@ -260,6 +265,7 @@ public class TradeServlet extends HttpServlet {
 	    
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
 	    mModelTrade.showOfferNumberX(req,1,tradeOfferDao, playersDao, draftPickDao);
+	    req.setAttribute("whichShow", 6);
 	    req.getRequestDispatcher("jsp/trade/showOfferDetail.jsp").forward(req, resp);
 
 	    break;
@@ -268,6 +274,7 @@ public class TradeServlet extends HttpServlet {
 
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
 	    mModelTrade.showOfferNumberX(req,2,tradeOfferDao, playersDao, draftPickDao);
+	    req.setAttribute("whichShow", 7);
 	    req.getRequestDispatcher("jsp/trade/showOfferDetail.jsp").forward(req, resp);
 	    
 	    break;

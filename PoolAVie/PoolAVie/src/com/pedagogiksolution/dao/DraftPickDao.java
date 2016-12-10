@@ -18,6 +18,8 @@ public interface DraftPickDao {
     TradeBeanTemp getNameOfTeam(String poolID, int toInt, Pool mBeanPool)throws DAOException;
 
     Boolean checkIfPicksStillInTeam(int poolId, int teamId, int pickId)throws DAOException;
+
+    void makeTrade(int poolId, int teamId1, int roundId2)throws DAOException;
     
     
 

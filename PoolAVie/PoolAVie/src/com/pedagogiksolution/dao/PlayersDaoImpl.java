@@ -15,6 +15,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
@@ -24,6 +30,7 @@ import com.pedagogiksolution.datastorebeans.Attaquant;
 import com.pedagogiksolution.datastorebeans.Defenseur;
 import com.pedagogiksolution.datastorebeans.Gardien;
 import com.pedagogiksolution.datastorebeans.Players;
+import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.datastorebeans.Recrue;
 import com.pedagogiksolution.utils.EMF;
 
@@ -53,10 +60,10 @@ public class PlayersDaoImpl implements PlayersDao {
     private static final String GET_PLAYERS_BY_ID = "SELECT * FROM players_? WHERE _id=? AND club_ecole=?";
     private static final String GET_PLAYERS_BY_ID_ALL = "SELECT * FROM players_? WHERE _id=?";
     private static final String GET_PLAYERS_BY_ID_AND_TEAM = "SELECT * FROM players_? WHERE team_id=? AND _id=?";
-    
-    
-    
-    
+    private static final String UPDATE_PLAYERS = "UPDATE players_? SET team_id=? WHERE _id=?";
+    private static final String SELECT_FOR_TRADE_A = "SELECT years_1,club_ecole,position FROM players_? WHERE _id=?";
+    private static final String SELECT_FOR_TRADE_B = "SELECT years_1,years_2,years_3,years_4,years_5 FROM players_? WHERE _id=?";
+
     private DAOFactory daoFactory;
 
     PlayersDaoImpl(DAOFactory daoFactory) {
@@ -805,7 +812,7 @@ public class PlayersDaoImpl implements PlayersDao {
 
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_AFTER_DRAFT_PICK, false, poolId, teamId, contrat, acquireYearsId,clubEcoleId, salaireId, playersId);
+	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_AFTER_DRAFT_PICK, false, poolId, teamId, contrat, acquireYearsId, clubEcoleId, salaireId, playersId);
 	    preparedStatement.executeUpdate();
 
 	} catch (SQLException e) {
@@ -1062,19 +1069,18 @@ public class PlayersDaoImpl implements PlayersDao {
 
     }
 
-   
     @Override
-    public TradeBeanTemp getPlayersById(String poolID,int toInt,int club_ecole) throws DAOException {
+    public TradeBeanTemp getPlayersById(String poolID, int toInt, int club_ecole) throws DAOException {
 	Connection connexion = null;
-	ResultSet rs =null;
+	ResultSet rs = null;
 	PreparedStatement preparedStatement = null;
 	TradeBeanTemp mBean = new TradeBeanTemp();
 	try {
 	    connexion = daoFactory.getConnection();
-	    if(club_ecole==2){
-		preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_BY_ID_ALL, false,Integer.parseInt(poolID), toInt);
+	    if (club_ecole == 2) {
+		preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_BY_ID_ALL, false, Integer.parseInt(poolID), toInt);
 	    } else {
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_BY_ID, false,Integer.parseInt(poolID), toInt,club_ecole);
+		preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_BY_ID, false, Integer.parseInt(poolID), toInt, club_ecole);
 	    }
 	    rs = preparedStatement.executeQuery();
 	    while (rs.next()) {
@@ -1083,35 +1089,84 @@ public class PlayersDaoImpl implements PlayersDao {
 		mBean.setNomMakingOfferString(rs.getString("nom"));
 		mBean.setPositionDuJoueurTrade(rs.getString("position"));
 	    }
-	    
+
 	    return mBean;
 
 	} catch (SQLException e) {
 	    throw new DAOException(e);
 	} finally {
-	    fermeturesSilencieuses(rs,preparedStatement, connexion);
+	    fermeturesSilencieuses(rs, preparedStatement, connexion);
 	}
-	
-	
+
     }
 
-    
     @Override
     public Boolean checkIfPlayersStillInTeam(int poolId, int teamId, int playerId) throws DAOException {
+	Connection connexion = null;
+	ResultSet rs = null;
+	PreparedStatement preparedStatement = null;
+	try {
+	    connexion = daoFactory.getConnection();
+
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_BY_ID_AND_TEAM, false, poolId, teamId, playerId);
+
+	    rs = preparedStatement.executeQuery();
+	    if (rs.first()) {
+		return true;
+	    }
+
+	    return true;
+
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(rs, preparedStatement, connexion);
+	}
+
+    }
+
+    @Override
+    public void makeTrade(Pool mBeanPool, int teamId1, int teamId2, int playerId2) throws DAOException {
+
+	/*
+	
+	int salaire = 0;
+	int club_ecole = 0;
+	String position = null;
+	String years2 = null, years3 = null, years4 = null, years5 = null;
+	String poolID = mBeanPool.getPoolID();
+	int poolId = Integer.parseInt(poolID);
+    
 	Connection connexion = null;
 	ResultSet rs =null;
 	PreparedStatement preparedStatement = null;
 	try {
 	    connexion = daoFactory.getConnection();
 	    
-		preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_BY_ID_AND_TEAM, false,poolId, playerId,teamId);
+	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS, false,poolId,teamId2, playerId2);
+	   
+	    preparedStatement.executeUpdate();
+	       
+
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(preparedStatement, connexion);
+	}
+	
+	try {
+	    connexion = daoFactory.getConnection();
+	    
+	    preparedStatement = initialisationRequetePreparee(connexion, SELECT_FOR_TRADE_A, false,poolId,playerId2);
 	   
 	    rs = preparedStatement.executeQuery();
-	    if (rs.next()) {
-		return true;
-	    }
 	    
-	    return false;
+	    if (rs.next()) {
+		club_ecole = rs.getInt("club_ecole");
+		salaire = rs.getInt("years_1");
+		position = rs.getString("position");
+	    }
+	       
 
 	} catch (SQLException e) {
 	    throw new DAOException(e);
@@ -1119,6 +1174,181 @@ public class PlayersDaoImpl implements PlayersDao {
 	    fermeturesSilencieuses(rs,preparedStatement, connexion);
 	}
 	
-    }
+	
+	String nomEquipeA = poolID+"_"+teamId1;
+	String nomEquipeB = poolID+"_"+teamId2; 
+	
+	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	Key mKeyEquipeA = KeyFactory.createKey("Equipe",nomEquipeA);
+	Key mKeyEquipeB = KeyFactory.createKey("Equipe",nomEquipeB);
 
+	    
+
+	    if (club_ecole == 0 && position.equalsIgnoreCase("attaquant")) {
+		
+		
+		
+		
+		
+		try {
+		    Entity mEntityEquipe = datastore.get(mKeyEquipeA);
+		    
+		    mEntityEquipe.setProperty("total_salaire_now", (((Long)mEntityEquipe.getProperty("total_salaire_now"))-salaire) );
+		    mEntityEquipe.setProperty("budget_restant", (((Long)mEntityEquipe.getProperty("budget_restant"))+salaire) );
+		    mEntityEquipe.setProperty("nb_equipe", (((Long)mEntityEquipe.getProperty("nb_equipe"))-1) );
+		    mEntityEquipe.setProperty("moy_sal_restant_draft", (((Long)mEntityEquipe.getProperty("budget_restant"))/((Long)mEntityEquipe.getProperty("manquant_equipe"))) );
+		    
+		    mEntityEquipe.setProperty("nb_contrat", (((Long)mEntityEquipe.getProperty("nb_contrat"))-1) );
+		    mEntityEquipe.setProperty("nb_attaquant", (((Long)mEntityEquipe.getProperty("nb_attaquant"))-1) );
+		    mEntityEquipe.setProperty("manquant_att", (((Long)mEntityEquipe.getProperty("manquant_att"))-1) );
+		    
+		    
+		} catch (EntityNotFoundException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+		
+		try {
+		    Entity mEntityEquipe = datastore.get(mKeyEquipeB);
+		    
+		    mEntityEquipe.setProperty("total_salaire_now", (((Long)mEntityEquipe.getProperty("total_salaire_now"))+salaire) );
+		    mEntityEquipe.setProperty("budget_restant", (((Long)mEntityEquipe.getProperty("budget_restant"))-salaire) );
+		    
+		    mEntityEquipe.setProperty("nb_equipe", (((Long)mEntityEquipe.getProperty("nb_equipe"))+1) );
+		    mEntityEquipe.setProperty("moy_sal_restant_draft", (((Long)mEntityEquipe.getProperty("budget_restant"))/((Long)mEntityEquipe.getProperty("manquant_equipe"))) );
+		    
+		    mEntityEquipe.setProperty("nb_contrat", (((Long)mEntityEquipe.getProperty("nb_contrat"))+1) );
+		    mEntityEquipe.setProperty("nb_attaquant", (((Long)mEntityEquipe.getProperty("nb_attaquant"))+1) );
+		    mEntityEquipe.setProperty("manquant_att", (((Long)mEntityEquipe.getProperty("manquant_att"))-1) );
+		    
+		    
+		} catch (EntityNotFoundException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}		
+		
+
+	    } else if (club_ecole == 0 && position.equalsIgnoreCase("defenseur")) {
+		mPreparedStatement.close();
+		QueryD = "UPDATE equipes SET total_salaire_now=total_salaire_now-?,budget_restant=budget_restant+?,nb_equipe=nb_equipe-1," + "moy_sal_restant_draft=budget_restant/manquant_equipe,nb_contrat=nb_contrat-1,nb_defenseur=nb_defenseur-1,manquant_def=manquant_def+1 WHERE team_id=?";
+		
+		mPreparedStatement.setInt(1, salaire);
+		mPreparedStatement.setInt(2, salaire);
+		mPreparedStatement.setInt(3, teamId1);
+		mPreparedStatement.executeUpdate();
+		mPreparedStatement.close();
+		QueryD2 = "UPDATE equipes SET total_salaire_now=total_salaire_now+?,budget_restant=budget_restant-?,nb_equipe=nb_equipe+1," + "moy_sal_restant_draft=budget_restant/manquant_equipe,nb_contrat=nb_contrat+1,nb_defenseur=nb_defenseur+1,manquant_def=manquant_def-1 WHERE team_id=?";
+		mPreparedStatement.setInt(1, salaire);
+		mPreparedStatement.setInt(2, salaire);
+		mPreparedStatement.setInt(3, teamId2);
+		mPreparedStatement.executeUpdate();
+		mPreparedStatement.close();
+
+	    } else if (club_ecole == 0 && position.equalsIgnoreCase("gardien")) {
+		mPreparedStatement.close();
+		QueryE = "UPDATE equipes SET total_salaire_now=total_salaire_now-?,budget_restant=budget_restant+?,nb_equipe=nb_equipe-1," + "moy_sal_restant_draft=budget_restant/manquant_equipe,nb_contrat=nb_contrat-1,nb_gardien=nb_gardien-1,manquant_gardien=manquant_gardien+1 WHERE team_id=?";
+		
+		mPreparedStatement.setInt(1, salaire);
+		mPreparedStatement.setInt(2, salaire);
+		mPreparedStatement.setInt(3, teamId1);
+		mPreparedStatement.executeUpdate();
+		mPreparedStatement.close();
+		QueryE2 = "UPDATE equipes SET total_salaire_now=total_salaire_now+?,budget_restant=budget_restant-?,nb_equipe=nb_equipe+1," + "moy_sal_restant_draft=budget_restant/manquant_equipe,nb_contrat=nb_contrat+1,nb_gardien=nb_gardien+1,manquant_gardien=manquant_gardien-1 WHERE team_id=?";
+		mPreparedStatement.setInt(1, salaire);
+		mPreparedStatement.setInt(2, salaire);
+		mPreparedStatement.setInt(3, teamId2);
+		mPreparedStatement.executeUpdate();
+		mPreparedStatement.close();
+
+	    } else {
+		mPreparedStatement.close();
+		QueryF = "UPDATE equipes SET nb_rookie=nb_rookie-1,manquant_recrue=manquant_recrue+1 WHERE team_id=?";
+		mPreparedStatement.setInt(1, teamId1);
+		mPreparedStatement.executeUpdate();
+		mPreparedStatement.close();
+		QueryF2 = "UPDATE equipes SET nb_rookie=nb_rookie+1,manquant_recrue=manquant_recrue-1 WHERE team_id=?";
+		
+		mPreparedStatement.setInt(1, teamId2);
+		mPreparedStatement.executeUpdate();
+		mPreparedStatement.close();
+
+	    }
+
+	    SELECT_FOR_TRADE_B
+	    mPreparedStatement.setInt(1, playerId2);
+	    rs = mPreparedStatement.executeQuery();
+
+	    if (rs.next()) {
+		years2 = rs.getString("years_2");
+		years3 = rs.getString("years_3");
+		years4 = rs.getString("years_4");
+		years5 = rs.getString("years_5");
+	    }
+	    rs.close();
+	    mPreparedStatement.close();
+
+	    if (years2.equalsIgnoreCase("JA")) {
+		String QueryYears2 = "UPDATE players SET years_2='B',years_3='B',years_4='B',years_5='B' WHERE _id=?";
+		mPreparedStatement = conn.prepareStatement(QueryYears2);
+		mPreparedStatement.setInt(1, playerId2);
+		mPreparedStatement.executeUpdate();
+		mPreparedStatement.close();
+
+	    }
+
+	    if (years2.equalsIgnoreCase("A")) {
+		String QueryYears2 = "UPDATE players SET years_2='A',years_3='A',years_4='A',years_5='A' WHERE _id=?";
+		mPreparedStatement = conn.prepareStatement(QueryYears2);
+		mPreparedStatement.setInt(1, playerId2);
+		mPreparedStatement.executeUpdate();
+		mPreparedStatement.close();
+
+	    }
+
+	    if (years2.equalsIgnoreCase("B")) {
+		String QueryYears2 = "UPDATE players SET years_2='B',years_3='B',years_4='B',years_5='B' WHERE _id=?";
+		mPreparedStatement = conn.prepareStatement(QueryYears2);
+		mPreparedStatement.setInt(1, playerId2);
+		mPreparedStatement.executeUpdate();
+		mPreparedStatement.close();
+
+	    }
+
+	    if (years2.equalsIgnoreCase("X")) {
+		String QueryYears2 = "UPDATE players SET years_2='A',years_3='A',years_4='A',years_5='A' WHERE _id=?";
+		mPreparedStatement = conn.prepareStatement(QueryYears2);
+		mPreparedStatement.setInt(1, playerId2);
+		mPreparedStatement.executeUpdate();
+		mPreparedStatement.close();
+
+	    }
+
+	    if (years3.equalsIgnoreCase("X")) {
+		String QueryYears2 = "UPDATE players SET years_3='A',years_4='A',years_5='A' WHERE _id=?";
+		mPreparedStatement = conn.prepareStatement(QueryYears2);
+		mPreparedStatement.setInt(1, playerId2);
+		mPreparedStatement.executeUpdate();
+		mPreparedStatement.close();
+
+	    }
+
+	    if (years4.equalsIgnoreCase("X")) {
+		String QueryYears2 = "UPDATE players SET years_4='A',years_5='A' WHERE _id=?";
+		mPreparedStatement = conn.prepareStatement(QueryYears2);
+		mPreparedStatement.setInt(1, playerId2);
+		mPreparedStatement.executeUpdate();
+		mPreparedStatement.close();
+
+	    }
+
+	    if (years5.equalsIgnoreCase("X")) {
+		String QueryYears2 = "UPDATE players SET years_5='A' WHERE _id=?";
+		mPreparedStatement = conn.prepareStatement(QueryYears2);
+		mPreparedStatement.setInt(1, playerId2);
+		mPreparedStatement.executeUpdate();
+		mPreparedStatement.close();
+
+	    }
+*/
+    }
 }

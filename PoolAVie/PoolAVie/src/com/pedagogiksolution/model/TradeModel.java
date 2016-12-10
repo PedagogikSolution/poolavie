@@ -1,15 +1,17 @@
 package com.pedagogiksolution.model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.beans.NonSessionAttaquant;
 import com.pedagogiksolution.beans.NonSessionDefenseur;
@@ -20,6 +22,7 @@ import com.pedagogiksolution.beans.TradeBeanTemp;
 import com.pedagogiksolution.beans.TradeBeans;
 import com.pedagogiksolution.dao.DraftPickDao;
 import com.pedagogiksolution.dao.PlayersDao;
+import com.pedagogiksolution.dao.TradeMadeDao;
 import com.pedagogiksolution.dao.TradeOfferDao;
 import com.pedagogiksolution.datastorebeans.Attaquant;
 import com.pedagogiksolution.datastorebeans.Defenseur;
@@ -1100,7 +1103,7 @@ public class TradeModel {
 	
     }
     
-    public Boolean checkIfTradeIsStillPossible(PlayersDao playersDao, DraftPickDao draftPickDao, TradeOfferDao tradeOfferDao,HttpServletRequest req2) {
+    public Boolean checkIfTradeIsStillPossible(PlayersDao playersDao, DraftPickDao draftPickDao, TradeOfferDao tradeOfferDao) {
 	String trade_id_string = req.getParameter("trade_id");
 	int trade_id = Integer.parseInt(trade_id_string);
 	
@@ -1317,7 +1320,7 @@ public class TradeModel {
 	playersTeamThatOffer = playersTeamThatOfferTemp.toArray(new String[playersTeamThatOfferTemp.size()]);
 	playersTeamThatReceived = playersTeamThatReceivedTemp.toArray(new String[playersTeamThatReceivedTemp.size()]);
 
-	boolean checkIfTradeIsStillValidateByRule = checkIfTradeIsStillValidateByRule(req, mBeanTemp.getTeam_1(), mBeanTemp.getTeam_2(), playersTeamThatOffer, playersTeamThatReceived, mBeanTemp.getT1_cash(), mBeanTemp.getT2_cash());
+	boolean checkIfTradeIsStillValidateByRule = checkIfTradeIsStillValidateByRule(playersDao,req, mBeanTemp.getTeam_1(), mBeanTemp.getTeam_2(), playersTeamThatOffer, playersTeamThatReceived, mBeanTemp.getT1_cash(), mBeanTemp.getT2_cash());
 
 	if (!checkIfTradeIsStillValidateByRule) {
 	    return false;
@@ -1326,9 +1329,377 @@ public class TradeModel {
 	return true;
     }
 
-    private boolean checkIfTradeIsStillValidateByRule(HttpServletRequest req2, String team_1, String team_2, String[] playersTeamThatOffer, String[] playersTeamThatReceived, int t1_cash, int t2_cash) {
-	// TODO Auto-generated method stub
-	return false;
+    private boolean checkIfTradeIsStillValidateByRule(PlayersDao playersDao, HttpServletRequest req, String team_1, String team_2, String[] playersTeamThatOffer, String[] playersTeamThatReceived, int t1_cash, int t2_cash) {
+	
+	int nbPlayersTeamMakingOffer, nbPlayersTeamReceivingOffer;
+	int nbAttInTeamThatOffer = 0;
+	int nbDefInTeamThatOffer = 0;
+	int nbGoalInTeamThatOffer = 0;
+
+	int nbAttInTeamThatReceived = 0;
+	int nbDefInTeamThatReceived = 0;
+	int nbGoalInTeamThatReceived = 0;
+
+	int nb_attaquant_make_offer = 0;
+	int nb_defenseur_make_offer = 0;
+	int nb_goaler_make_offer = 0;
+	int argent_recu_make_offer = 0;
+
+	int nb_attaquant_rec_offer = 0;
+	int nb_defenseur_rec_offer = 0;
+	int nb_goaler_rec_offer = 0;
+	int argent_recu_rec_offer = 0;
+
+	int budget_restant_make_offer = 0;
+	int budget_restant_received_offer = 0;
+
+	int total_salaire_team_making_offer = 0;
+	int total_salaire_team_receiving_offer = 0;
+
+	// init objet
+	MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+		
+	String[] playersIdTeamThatMakeOffer = playersTeamThatOffer;
+	String[] playersIdTeamThatReceiveOffer = playersTeamThatReceived;
+	
+	if (playersIdTeamThatMakeOffer != null) {
+	    nbPlayersTeamMakingOffer = playersIdTeamThatMakeOffer.length;
+	} else {
+	    nbPlayersTeamMakingOffer = 0;
+	}
+	if (playersIdTeamThatReceiveOffer != null) {
+	    nbPlayersTeamReceivingOffer = playersIdTeamThatReceiveOffer.length;
+	} else {
+	    nbPlayersTeamReceivingOffer = 0;
+	}
+
+	
+	int cashIncludeTeamThatMakeOfferInt = t1_cash;
+	int cashIncludeThatReceiveOfferInt = t2_cash;
+	
+	String tradeWithID = team_1;
+	
+	String teamId = team_2;
+	
+	
+
+	String nomTeamThatOffer = "Equipe" + teamId;
+	String nomTeamThatReceived = "Equipe" + tradeWithID;
+
+	Equipe mBeanEquipeThatIsMakingOffer = (Equipe) req.getSession().getAttribute(nomTeamThatOffer);
+	Equipe mBeanEquipeThatIsReceivingOffer = (Equipe) req.getSession().getAttribute(nomTeamThatReceived);
+
+	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+	String poolID = mBeanPool.getPoolID();
+	
+	budget_restant_make_offer = mBeanEquipeThatIsMakingOffer.getBudget_restant();
+	nb_attaquant_make_offer = mBeanEquipeThatIsMakingOffer.getNb_attaquant();
+	nb_defenseur_make_offer = mBeanEquipeThatIsMakingOffer.getNb_defenseur();
+	nb_goaler_make_offer = mBeanEquipeThatIsMakingOffer.getNb_gardien();
+	argent_recu_make_offer = mBeanEquipeThatIsMakingOffer.getArgent_recu();
+
+	budget_restant_received_offer = mBeanEquipeThatIsReceivingOffer.getBudget_restant();
+	nb_attaquant_rec_offer = mBeanEquipeThatIsReceivingOffer.getNb_attaquant();
+	nb_defenseur_rec_offer = mBeanEquipeThatIsReceivingOffer.getNb_defenseur();
+	nb_goaler_rec_offer = mBeanEquipeThatIsReceivingOffer.getNb_gardien();
+	argent_recu_rec_offer = mBeanEquipeThatIsReceivingOffer.getArgent_recu();
+
+	String[] nomMakingOffer = new String[nbPlayersTeamMakingOffer];
+	String[] nomReceivingOffer = new String[nbPlayersTeamReceivingOffer];
+
+	// on calcul le total d'Argent des salaire des joueurs de l'Equipe qui trade, le nombre par position inclus dans
+// trade
+	// et on ajoute leur nom dans un array
+
+	int i = 0;
+	if (playersIdTeamThatMakeOffer != null) {
+
+	    for (String s : playersIdTeamThatMakeOffer) {
+		int toInt = Integer.parseInt(s);
+
+		TradeBeanTemp mBeanTemp = playersDao.getPlayersById(poolID, toInt, 0);
+
+		total_salaire_team_making_offer = total_salaire_team_making_offer + mBeanTemp.getTotal_salaire_team_making_offer();
+		if (mBeanTemp.getNomMakingOfferString() != null) {
+		    nomMakingOffer[i] = mBeanTemp.getNomMakingOfferString();
+
+		    String positionDuJoueurTrade = mBeanTemp.getPositionDuJoueurTrade();
+
+		    switch (positionDuJoueurTrade) {
+		    case "attaquant":
+			nbAttInTeamThatOffer = nbAttInTeamThatOffer + 1;
+			break;
+		    case "defenseur":
+			nbDefInTeamThatOffer = nbDefInTeamThatOffer + 1;
+			break;
+		    case "gardien":
+			nbGoalInTeamThatOffer = nbGoalInTeamThatOffer + 1;
+			break;
+
+		    }
+		}
+		i++;
+
+	    }
+	}
+	
+	
+
+	// on calcul le total d'Argent des salaire des joueurs de l'Equipe qui recoit et on ajoute leur nom dans un
+// array
+	int j = 0;
+	if (playersIdTeamThatReceiveOffer != null) {
+
+	    for (String s : playersIdTeamThatReceiveOffer) {
+		int toInt = Integer.parseInt(s);
+
+		TradeBeanTemp mBeanTemp = playersDao.getPlayersById(poolID, toInt, 0);
+
+		total_salaire_team_receiving_offer = total_salaire_team_receiving_offer + mBeanTemp.getTotal_salaire_team_making_offer();
+
+		if (mBeanTemp.getNomMakingOfferString() != null) {
+		    nomReceivingOffer[j] = mBeanTemp.getNomMakingOfferString();
+
+		    String positionDuJoueurTrade = mBeanTemp.getPositionDuJoueurTrade();
+
+		    switch (positionDuJoueurTrade) {
+		    case "attaquant":
+			nbAttInTeamThatReceived = nbAttInTeamThatReceived + 1;
+			break;
+		    case "defenseur":
+			nbDefInTeamThatReceived = nbDefInTeamThatReceived + 1;
+			break;
+		    case "gardien":
+			nbGoalInTeamThatReceived = nbGoalInTeamThatReceived + 1;
+			break;
+
+		    }
+		}
+
+		j++;
+
+	    }
+	}
+	
+	
+
+	// check si le nombre par position va resister l'echange (min 8 attaquant, 5 def et 2 goal)
+
+	if ((nb_attaquant_make_offer - nbAttInTeamThatOffer + nbAttInTeamThatReceived) < 8) {
+	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 8 attaquants (Reglement 3.1");
+	    req.setAttribute("messageErreur", mBeanMessageErreur);
+	    return false;
+	}
+
+	if ((nb_attaquant_rec_offer + nbAttInTeamThatOffer - nbAttInTeamThatReceived) < 8) {
+	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 8 attaquants (Reglement 3.1");
+	    req.setAttribute("messageErreur", mBeanMessageErreur);
+	    return false;
+	}
+
+	if ((nb_defenseur_make_offer - nbDefInTeamThatOffer + nbDefInTeamThatReceived) < 5) {
+	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 5 defenseurs (Reglement 3.1");
+	    req.setAttribute("messageErreur", mBeanMessageErreur);
+	    return false;
+	}
+
+	if ((nb_defenseur_rec_offer + nbDefInTeamThatOffer - nbDefInTeamThatReceived) < 5) {
+	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 5 defenseurs (Reglement 3.1");
+	    req.setAttribute("messageErreur", mBeanMessageErreur);
+	    return false;
+	}
+
+	if ((nb_goaler_make_offer - nbGoalInTeamThatOffer + nbGoalInTeamThatReceived) < 2) {
+	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 2 gardiens (Reglement 3.1");
+	    req.setAttribute("messageErreur", mBeanMessageErreur);
+	    return false;
+	}
+
+	if ((nb_goaler_rec_offer + nbGoalInTeamThatOffer - nbGoalInTeamThatReceived) < 2) {
+	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 2 gardiens (Reglement 3.1");
+	    req.setAttribute("messageErreur", mBeanMessageErreur);
+	    return false;
+	}
+
+	// check si budget pour abosrber la transaction
+
+	if ((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer - argent_recu_make_offer + argent_recu_rec_offer + cashIncludeTeamThatMakeOfferInt - cashIncludeThatReceiveOfferInt) < 0) {
+
+	    mBeanMessageErreur.setErreurTrade("Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 3.1");
+	    req.setAttribute("messageErreur", mBeanMessageErreur);
+	    return false;
+
+	}
+
+	if ((budget_restant_received_offer - total_salaire_team_making_offer + total_salaire_team_receiving_offer + argent_recu_make_offer - argent_recu_rec_offer + cashIncludeThatReceiveOfferInt - cashIncludeTeamThatMakeOfferInt) < 0) {
+
+	    mBeanMessageErreur.setErreurTrade("La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 3.1");
+	    req.setAttribute("messageErreur", mBeanMessageErreur);
+	    return false;
+
+	}
+	
+	return true;
+
+    }
+    
+    public void makeTrade(PlayersDao playersDao, DraftPickDao draftPickDao, TradeOfferDao tradeOfferDao) {
+	
+		TradeBeanTemp mBeanTemp = new TradeBeanTemp();
+	
+		String poolID = mBeanPool.getPoolID();
+		int poolId = Integer.parseInt(poolID);
+		
+		String tradeId = req.getParameter("trade_id");
+		int trade_id = Integer.parseInt(tradeId);
+
+		mBeanTemp = tradeOfferDao.getTradeNumberX(poolId,trade_id);
+
+		
+
+		    if (mBeanTemp.getT1j1() != null) {
+			movePlayersFromFirstToSecondTeam(mBeanTemp.getTeam_1(), mBeanTemp.getTeam_2(), mBeanTemp.getT1j1(),playersDao);
+		    }
+		    if (mBeanTemp.getT1j2() != null) {
+			movePlayersFromFirstToSecondTeam(mBeanTemp.getTeam_1(), mBeanTemp.getTeam_2(), mBeanTemp.getT1j2(),playersDao);
+		    }
+		    if (mBeanTemp.getT1j3() != null) {
+			movePlayersFromFirstToSecondTeam(mBeanTemp.getTeam_1(), mBeanTemp.getTeam_2(), mBeanTemp.getT1j3(),playersDao);
+		    }
+		    if (mBeanTemp.getT1j4() != null) {
+			movePlayersFromFirstToSecondTeam(mBeanTemp.getTeam_1(), mBeanTemp.getTeam_2(), mBeanTemp.getT1j4(),playersDao);
+		    }
+		    if (mBeanTemp.getT1j5() != null) {
+			movePlayersFromFirstToSecondTeam(mBeanTemp.getTeam_1(), mBeanTemp.getTeam_2(), mBeanTemp.getT1j5(),playersDao);
+		    }
+		    if (mBeanTemp.getT1j6() != null) {
+			movePlayersFromFirstToSecondTeam(mBeanTemp.getTeam_1(), mBeanTemp.getTeam_2(), mBeanTemp.getT1j6(),playersDao);
+		    }
+		    if (mBeanTemp.getT1j7() != null) {
+			movePlayersFromFirstToSecondTeam(mBeanTemp.getTeam_1(), mBeanTemp.getTeam_2(), mBeanTemp.getT1j7(),playersDao);
+		    }
+		    if (mBeanTemp.getT2j1() != null) {
+			movePlayersFromFirstToSecondTeam(mBeanTemp.getTeam_2(), mBeanTemp.getTeam_1(), mBeanTemp.getT2j1(),playersDao);
+		    }
+		    if (mBeanTemp.getT2j2() != null) {
+			movePlayersFromFirstToSecondTeam(mBeanTemp.getTeam_2(), mBeanTemp.getTeam_1(), mBeanTemp.getT2j2(),playersDao);
+		    }
+		    if (mBeanTemp.getT2j3() != null) {
+			movePlayersFromFirstToSecondTeam(mBeanTemp.getTeam_2(), mBeanTemp.getTeam_1(), mBeanTemp.getT2j3(),playersDao);
+		    }
+		    if (mBeanTemp.getT2j4() != null) {
+			movePlayersFromFirstToSecondTeam(mBeanTemp.getTeam_2(), mBeanTemp.getTeam_1(), mBeanTemp.getT2j4(),playersDao);
+		    }
+		    if (mBeanTemp.getT2j5() != null) {
+			movePlayersFromFirstToSecondTeam(mBeanTemp.getTeam_2(), mBeanTemp.getTeam_1(), mBeanTemp.getT2j5(),playersDao);
+		    }
+		    if (mBeanTemp.getT2j6() != null) {
+			movePlayersFromFirstToSecondTeam(mBeanTemp.getTeam_2(), mBeanTemp.getTeam_1(), mBeanTemp.getT2j6(),playersDao);
+		    }
+		    if (mBeanTemp.getT2j7() != null) {
+			movePlayersFromFirstToSecondTeam(mBeanTemp.getTeam_2(), mBeanTemp.getTeam_1(), mBeanTemp.getT2j7(),playersDao);
+		    }
+		    if (mBeanTemp.getT1p1() != null) {
+			movePickFromFirstToSecondTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT1p1(),draftPickDao);
+		    }
+		    if (mBeanTemp.getT1p2() != null) {
+			movePickFromFirstToSecondTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT1p2(),draftPickDao);
+		    }
+		    if (mBeanTemp.getT1p3() != null) {
+			movePickFromFirstToSecondTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT1p3(),draftPickDao);
+		    }
+		    if (mBeanTemp.getT2p1() != null) {
+			movePickFromFirstToSecondTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT2p1(),draftPickDao);
+		    }
+		    if (mBeanTemp.getT2p2() != null) {
+			movePickFromFirstToSecondTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT2p2(),draftPickDao);
+		    }
+		    if (mBeanTemp.getT2p3() != null) {
+			movePickFromFirstToSecondTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT2p3(),draftPickDao);
+		    }
+		    if (mBeanTemp.getT1_cash() > 0) {
+			movCashFromTeamtoArgentRecu(mBeanTemp.getTeam_1(), mBeanTemp.getTeam_2(), mBeanTemp.getT1_cash());
+		    }
+		    if (mBeanTemp.getT2_cash() > 0) {
+			movCashFromTeamtoArgentRecu(mBeanTemp.getTeam_2(), mBeanTemp.getTeam_1(), mBeanTemp.getT2_cash());
+		    }
+		
+
+	    }
+    
+
+	    private void movCashFromTeamtoArgentRecu(String team1, String team2, int cash) {
+		
+		String poolID = mBeanPool.getPoolID();
+		
+		
+		String nomEquipeA = poolID+"_"+team1;
+		String nomEquipeB = poolID+"_"+team2; 
+		
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Key mKeyEquipeA = KeyFactory.createKey("Equipe",nomEquipeA);
+		Key mKeyEquipeB = KeyFactory.createKey("Equipe",nomEquipeB);
+		
+		try {
+		    Entity mEntityEquipe = datastore.get(mKeyEquipeA);
+		    
+		    mEntityEquipe.setProperty("max_salaire_begin", (((Long)mEntityEquipe.getProperty("max_salaire_begin"))-cash) );
+		    mEntityEquipe.setProperty("budget_restant", (((Long)mEntityEquipe.getProperty("budget_restant"))-cash) );
+		    
+		    
+		} catch (EntityNotFoundException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+		
+		try {
+		    Entity mEntityEquipe = datastore.get(mKeyEquipeB);
+		    
+		    mEntityEquipe.setProperty("max_salaire_begin", (((Long)mEntityEquipe.getProperty("max_salaire_begin"))+cash) );
+		    mEntityEquipe.setProperty("argent_recu", (((Long)mEntityEquipe.getProperty("argent_recu"))+cash) );
+		    
+		    
+		} catch (EntityNotFoundException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+		
+		
+
+	    }
+
+	    private void movePickFromFirstToSecondTeam(String team, String round, DraftPickDao draftPickDao) {
+		
+		int teamId1 = Integer.parseInt(team);
+		int roundId2 = Integer.parseInt(round);
+		
+		String poolID = mBeanPool.getPoolID();
+		int poolId = Integer.parseInt(poolID);
+
+		draftPickDao.makeTrade(poolId,teamId1,roundId2);
+
+	    }
+
+	    private void movePlayersFromFirstToSecondTeam(String team1, String team2, String playerId, PlayersDao playersDao) {
+				
+		int teamId1 = Integer.parseInt(team1);
+		int teamId2 = Integer.parseInt(team2);
+		int playerId2 = Integer.parseInt(playerId);
+		
+		playersDao.makeTrade(mBeanPool,teamId1,teamId2,playerId2);
+		
+	    }
+	
+ 
+    
+    public void persistTrade(TradeMadeDao tradeMadeDao) {
+	String trade_id_string = req.getParameter("trade_id");
+	int trade_id = Integer.parseInt(trade_id_string);
+	String poolID = mBeanPool.getPoolID();
+	int poolId = Integer.parseInt(poolID);
+	
+	tradeMadeDao.insertTradeMade(poolId,trade_id);
+	
     }
 
     /******************************* methode privée à la classe **********************************/
@@ -1350,6 +1721,10 @@ public class TradeModel {
    	Boolean checkIfPicksStillInTeam = draftPickDao.checkIfPicksStillInTeam(poolId,teamId,pickId);
     	return checkIfPicksStillInTeam;
        }
+
+    
+
+    
 
     
     
