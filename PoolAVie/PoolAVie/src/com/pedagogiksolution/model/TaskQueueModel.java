@@ -1,4 +1,4 @@
-package com.pedagogiksolution.model;
+ package com.pedagogiksolution.model;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

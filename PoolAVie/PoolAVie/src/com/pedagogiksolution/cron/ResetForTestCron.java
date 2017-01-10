@@ -2,8 +2,6 @@ package com.pedagogiksolution.cron;
 
 import java.io.IOException;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,11 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.pedagogiksolution.datastorebeans.DraftProcess;
-import com.pedagogiksolution.datastorebeans.Equipe;
-import com.pedagogiksolution.utils.EMF;
 
 public class ResetForTestCron extends HttpServlet {
 	
@@ -32,7 +29,7 @@ public class ResetForTestCron extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	
-        int  max_salaire_begin = 0, total_salaire_now = 0, budget_restant = 0, moy_sal_restant_draft = 0, nb_attaquant = 0;
+      /*  int  max_salaire_begin = 0, total_salaire_now = 0, budget_restant = 0, moy_sal_restant_draft = 0, nb_attaquant = 0;
         int nb_defenseur = 0, nb_gardien = 0, nb_rookie = 0, nb_contrat = 0, nb_equipe = 0, manquant_equipe = 0, manquant_att = 0, manquant_def = 0;
         int manquant_gardien = 0, manquant_recrue = 0, bonus_5m = 0, argent_recu = 0, bonus_penalite = 0;
 	DraftProcess mBeanDraftProcess = new DraftProcess();
@@ -147,7 +144,19 @@ public class ResetForTestCron extends HttpServlet {
 	}
 	
 	req.getSession().invalidate();
-
+*/
+	
+	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	Key mKey = KeyFactory.createKey("Pool", "1");
+	
+	try {
+	    Entity mEntity = datastore.get(mKey);
+	    mEntity.setProperty("cycleAnnuel", 3);
+	    datastore.put(mEntity);
+	   	    
+	} catch (EntityNotFoundException e) {
+	    
+	}
     }
    
 }
