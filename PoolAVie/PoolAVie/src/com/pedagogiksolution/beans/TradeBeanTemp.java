@@ -244,5 +244,6 @@ public class TradeBeanTemp implements Serializable {
     public void setFromPick(String fromPick) {
 	this.fromPick = fromPick;
     }
+    
    
 }

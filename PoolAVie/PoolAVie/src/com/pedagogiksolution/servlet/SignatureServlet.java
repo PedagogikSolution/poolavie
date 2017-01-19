@@ -30,6 +30,8 @@ public class SignatureServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	
+	int fromId;
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 	int cycleAnnuel = mBeanPool.getCycleAnnuel();
 	if (cycleAnnuel == 3) {
@@ -39,7 +41,11 @@ public class SignatureServlet extends HttpServlet {
 	}
 
 	String from = req.getParameter("from");
-	int fromId = Integer.parseInt(from);
+	if(from!=null){
+	 fromId = Integer.parseInt(from);
+	} else {
+	    fromId = 1;
+	}
 	if (cycleAnnuel == 4) {
 	    SignatureModel mModelSignature = new SignatureModel(playersDao);
 

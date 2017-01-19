@@ -11,6 +11,7 @@
 <title>Feuille d'échange</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/css/w3.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
 </head>
 <body>
@@ -31,7 +32,7 @@
 		<br>
 		<br>
 		
-		<div class="w3-third w3-container">
+		<div class="w3-half w3-container">
 
 			<table class="w3-table  w3-striped w3-bordered w3-card-8" style="width: 90%; margin-left: auto; margin-right: auto">
 				<caption class="w3-blue w3-xlarge">
@@ -56,6 +57,7 @@
 
 						<tr>
 							<td>${tradeOfferBean.nomMakingOffer[i]}</td>
+							<td>${tradeOfferBean.salaireMakingOffer[i]}</td>
 						</tr>
 
 					</c:forEach>
@@ -79,6 +81,7 @@
 
 						<tr>
 							<td>${tradeOfferBean.rookieIdMakingOffer[i]}</td>
+							<td>${tradeOfferBean.salaireRookieMakingOffer[i]}</td>
 						</tr>
 
 					</c:forEach>
@@ -140,18 +143,9 @@
 
 		</div>
 
-		<div class="w3-third w3-container">
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<span class="w3-xxxlarge">EN ÉCHANGE DE</span>
+		
 
-		</div>
-
-		<div class="w3-third w3-container">
+		<div class="w3-half w3-container">
 			<table class="w3-table  w3-striped w3-bordered w3-card-8" style="width: 90%; margin-left: auto; margin-right: auto">
 				<caption class="w3-blue w3-xlarge">
 					<h1>Je reçois</h1>
@@ -175,6 +169,7 @@
 
 						<tr>
 							<td>${tradeOfferBean.nomReceivingOffer[i]}</td>
+							<td>${tradeOfferBean.salaireReceivingOffer[i]}</td>
 						</tr>
 
 					</c:forEach>
@@ -198,6 +193,7 @@
 
 						<tr>
 							<td>${tradeOfferBean.rookieIdReceivingOffer[i]}</td>
+							<td>${tradeOfferBean.salaireRookieReceivingOffer[i]}</td>
 						</tr>
 
 					</c:forEach>
@@ -257,28 +253,35 @@
 		</div>
 
 	</div>
-
-	<div class="w3-container w3-row w3-center">
-		<br>
-		<br>
-
-		Ainsi que le message suivant :
-		<br>
-		<textarea rows="8" cols="150">${tradeOfferBean.messageOffre}</textarea>
-	</div>
+	<hr>
+	<br>
+			<div class="w3-container w3-row w3-center">
+			<h2>Message à inclure dans l'offre d'échange</h2>
+			<br>
+			<br>
+			<span class="w3-padding-xlarge w3-topbar w3-leftbar w3-bottombar w3-rightbar w3-border-red w3-pale-red w3-round-xlarge w3-large">
+			${tradeOfferBean.messageOffre}
+			</span>
+			</div>
+			<br>
 	<hr>
 	<div class="w3-container w3-row w3-center">
 	<br>
+	<br>
+				
+				
+			
 	<form action="/Trade" method="post">
 		<input type="hidden" value="oui" name="confirmation" />
 		<input type="hidden" name="tradeTag" value="3">
-		<input style="font-size: 18px" type="submit" value="Oui je le veux">
+		<button class="w3-btn w3-blue w3-xxlarge w3-round">Confirmez cette offre</button>
 	</form>
-
+	<br>
+	<br>
 	<form action="/Trade" method="post">
 		<input type="hidden" value="non" name="confirmation" />
 		<input type="hidden" name="tradeTag" value="3">
-		<input style="font-size: 18px" type="submit" value="Qu'elle crève cette salope">
+		<button class="w3-btn w3-blue w3-xxlarge w3-round">Fuck je me suis trompé </button>
 	</form>
 	<br>
 	<br>

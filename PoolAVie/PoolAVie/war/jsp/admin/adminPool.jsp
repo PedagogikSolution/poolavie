@@ -10,8 +10,7 @@
 <head>
 <title>Nouvelles ${Pool.poolName}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/css/w3.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<link rel="stylesheet" href="/css/w3.css"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="../../css/material_design.css" rel="stylesheet">
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
@@ -28,6 +27,26 @@
 
 	<!-- section Alerte -->
 	<jsp:directive.include file="../utils/messageAlerte.jsp" />
+	
+	<c:if test="${Pool.cycleAnnuel==0}">
+		<div class="w3-content w3-margin-top" style="max-width: 90%">
+			<div class="w3-container w3-red w3-center">
+				<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+				<h3>En attente de l'inscription des autres participants</h3>
+			</div>
+		</div>
+
+	</c:if>
+	
+	<c:if test="${Pool.cycleAnnuel==1}">
+		<div class="w3-content w3-margin-top" style="max-width: 90%">
+			<div class="w3-container w3-red w3-center">
+				<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+				<h3>En attente du choix d'une date pour le draft. Vous recevrez un courriel lorsque votre administrateur aura fixé celle-ci.</h3>
+			</div>
+		</div>
+
+	</c:if>
 	
 	<div class="w3-container w3-margin-top">
 

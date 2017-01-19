@@ -132,14 +132,14 @@ public class TradeServlet extends HttpServlet {
 	case 2:
 	    mModelTrade = new TradeModel(req, mBean);
 	    mModelTrade.getMyTrade();
-	    req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
+	    req.getRequestDispatcher("jsp/trade/my_trade.jsp").forward(req, resp);
 
 	    break;
 
 	case 3:
 	    mModelTrade = new TradeModel(req, mBean);
 	    mModelTrade.getAllTrade();
-	    req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
+	    req.getRequestDispatcher("jsp/trade/all_trade.jsp").forward(req, resp);
 
 	}
 
@@ -178,6 +178,8 @@ public class TradeServlet extends HttpServlet {
 // connecter d'aller directemetn a URL .jsp si pas bon cycle)
 	    req.setAttribute("tradeOpen", 1);
 
+	    // on test si recuperation des données des deux equipes a jour fait , si oui on retourne message erreur a trade_center,
+	    // si pas d'erreur on va a page d'Affichage pour faire offre
 	    if (testErreur) {
 		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 	    } else {
@@ -189,7 +191,7 @@ public class TradeServlet extends HttpServlet {
 // envoyer l'offre
 	case 2:
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
-	    Boolean offerGood = mModelTrade.checkIfTradeIsValidDuringDraft(playersDao, draftPickDao);
+	    Boolean offerGood = mModelTrade.checkIfTradeIsValid(playersDao, draftPickDao);
 	    if (!offerGood) {
 
 		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);

@@ -12,24 +12,27 @@ import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.pedagogiksolution.dao.PlayersDao;
+import com.pedagogiksolution.datastorebeans.Attaquant;
+import com.pedagogiksolution.datastorebeans.Defenseur;
 import com.pedagogiksolution.datastorebeans.Equipe;
+import com.pedagogiksolution.datastorebeans.Gardien;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
 
 public class SignatureModel {
-    List<Integer> players_id = new ArrayList<Integer>();
+    List<Long> players_id = new ArrayList<Long>();
     List<String> nom2 = new ArrayList<String>();
     List<String> teamOfPlayer = new ArrayList<String>();
-    List<Integer> pj = new ArrayList<Integer>();
-    List<Integer> but_victoire = new ArrayList<Integer>();
-    List<Integer> aide_overtime = new ArrayList<Integer>();
-    List<Integer> blanchissage = new ArrayList<Integer>();
-    List<Integer> pts = new ArrayList<Integer>();
+    List<Long> pj = new ArrayList<Long>();
+    List<Long> but_victoire = new ArrayList<Long>();
+    List<Long> aide_overtime = new ArrayList<Long>();
+    List<Long> blanchissage = new ArrayList<Long>();
+    List<Long> pts = new ArrayList<Long>();
     List<String> years_1 = new ArrayList<String>();
     List<String> years_2 = new ArrayList<String>();
     List<String> years_3 = new ArrayList<String>();
     List<String> years_4 = new ArrayList<String>();
     List<String> years_5 = new ArrayList<String>();
-    List<Integer> salaire_contrat = new ArrayList<Integer>();
+    List<Long> salaire_contrat = new ArrayList<Long>();
     private PlayersDao playersDao;
 
     public SignatureModel(PlayersDao playersDao) {
@@ -46,7 +49,7 @@ public class SignatureModel {
 
     }
 
-    
+    @SuppressWarnings("unchecked")
     public void signatureAfterDraft(HttpServletRequest req) {
 	String nombreAnneeSignature = req.getParameter("nombreAnneeSignature");
 	int numberOfYear = Integer.parseInt(nombreAnneeSignature);
@@ -66,7 +69,9 @@ public class SignatureModel {
 	// B: on modifie les datatstore attaquant/def/goal/
 	String position = req.getParameter("position");
 
-	/*switch (position) {
+	switch (position) {
+	
+	
 
 	case "attaquant":
 	    String jspSessionName = "Attaquant" + teamId;
@@ -77,11 +82,10 @@ public class SignatureModel {
 	    datastore = DatastoreServiceFactory.getDatastoreService();
 	    Key clefDatastore = KeyFactory.createKey("Attaquant", datastoreId);
 	    try {
-		// si existe, aucun EntityNotFoundException, donc on
-		// recupère l'info pour tester password
+		
 		Entity mEntity = datastore.get(clefDatastore);
-		players_id = (ArrayList<Integer>) mEntity.getProperty("players_id");
-		int playersIdPosition = players_id.indexOf(draft_player_id);
+		players_id = (List<Long>) mEntity.getProperty("players_id");
+		int playersIdPosition = players_id.indexOf(Long.valueOf(draft_player_id));
 
 		years_1 = (ArrayList<String>) mEntity.getProperty("years_1");
 		years_2 = (ArrayList<String>) mEntity.getProperty("years_2");
@@ -107,26 +111,26 @@ public class SignatureModel {
 		    
 		    break;
 		case 3:
-		    years_1.set(playersIdPosition, salaire);
-		    years_2.set(playersIdPosition, salaire);
-		    years_3.set(playersIdPosition, salaire);
+		    years_1.set(playersIdPosition,  salaire);
+		    years_2.set(playersIdPosition,  salaire);
+		    years_3.set(playersIdPosition,  salaire);
 		    years_4.set(playersIdPosition, "X");
 		    years_5.set(playersIdPosition, "X");
 		    break;
 		case 4:
-		    years_1.set(playersIdPosition, salaire);
-		    years_2.set(playersIdPosition, salaire);
-		    years_3.set(playersIdPosition, salaire);
-		    years_4.set(playersIdPosition, salaire);
+		    years_1.set(playersIdPosition,  salaire);
+		    years_2.set(playersIdPosition,  salaire);
+		    years_3.set(playersIdPosition,  salaire);
+		    years_4.set(playersIdPosition,  salaire);
 		    years_5.set(playersIdPosition, "X");
 		    
 		    break;
 		case 5:
-		    years_1.set(playersIdPosition, salaire);
-		    years_2.set(playersIdPosition, salaire);
-		    years_3.set(playersIdPosition, salaire);
-		    years_4.set(playersIdPosition, salaire);
-		    years_5.set(playersIdPosition, salaire);
+		    years_1.set(playersIdPosition,  salaire);
+		    years_2.set(playersIdPosition,  salaire);
+		    years_3.set(playersIdPosition,  salaire);
+		    years_4.set(playersIdPosition,  salaire);
+		    years_5.set(playersIdPosition,  salaire);
 
 		    break;
 		}
@@ -166,8 +170,8 @@ public class SignatureModel {
 		// si existe, aucun EntityNotFoundException, donc on
 		// recupère l'info pour tester password
 		Entity mEntity = datastore.get(clefDatastore2);
-		players_id = (ArrayList<Integer>) mEntity.getProperty("players_id");
-		int playersIdPosition = players_id.indexOf(draft_player_id);
+		players_id = (List<Long>) mEntity.getProperty("players_id");
+		int playersIdPosition = players_id.indexOf(Long.valueOf(draft_player_id));
 
 		years_1 = (ArrayList<String>) mEntity.getProperty("years_1");
 		years_2 = (ArrayList<String>) mEntity.getProperty("years_2");
@@ -177,7 +181,7 @@ public class SignatureModel {
 
 		switch (numberOfYear) {
 		case 1: 
-		    years_1.set(playersIdPosition, salaire);
+		    years_1.set(playersIdPosition,  salaire);
 		    years_2.set(playersIdPosition, "JA");
 		    years_3.set(playersIdPosition, "X");
 		    years_4.set(playersIdPosition, "X");
@@ -185,34 +189,34 @@ public class SignatureModel {
 		    
 		    break;
 		case 2:
-		    years_1.set(playersIdPosition, salaire);
-		    years_2.set(playersIdPosition, salaire);
+		    years_1.set(playersIdPosition,  salaire);
+		    years_2.set(playersIdPosition,  salaire);
 		    years_3.set(playersIdPosition, "X");
 		    years_4.set(playersIdPosition, "X");
 		    years_5.set(playersIdPosition, "X");
 		    
 		    break;
 		case 3:
-		    years_1.set(playersIdPosition, salaire);
-		    years_2.set(playersIdPosition, salaire);
-		    years_3.set(playersIdPosition, salaire);
+		    years_1.set(playersIdPosition,  salaire);
+		    years_2.set(playersIdPosition,  salaire);
+		    years_3.set(playersIdPosition,  salaire);
 		    years_4.set(playersIdPosition, "X");
 		    years_5.set(playersIdPosition, "X");
 		    break;
 		case 4:
-		    years_1.set(playersIdPosition, salaire);
-		    years_2.set(playersIdPosition, salaire);
-		    years_3.set(playersIdPosition, salaire);
-		    years_4.set(playersIdPosition, salaire);
+		    years_1.set(playersIdPosition,  salaire);
+		    years_2.set(playersIdPosition,  salaire);
+		    years_3.set(playersIdPosition,  salaire);
+		    years_4.set(playersIdPosition,  salaire);
 		    years_5.set(playersIdPosition, "X");
 		    
 		    break;
 		case 5:
-		    years_1.set(playersIdPosition, salaire);
-		    years_2.set(playersIdPosition, salaire);
-		    years_3.set(playersIdPosition, salaire);
-		    years_4.set(playersIdPosition, salaire);
-		    years_5.set(playersIdPosition, salaire);
+		    years_1.set(playersIdPosition,  salaire);
+		    years_2.set(playersIdPosition,  salaire);
+		    years_3.set(playersIdPosition,  salaire);
+		    years_4.set(playersIdPosition,  salaire);
+		    years_5.set(playersIdPosition,  salaire);
 
 		    break;
 		}
@@ -250,8 +254,8 @@ public class SignatureModel {
 		// si existe, aucun EntityNotFoundException, donc on
 		// recupère l'info pour tester password
 		Entity mEntity = datastore.get(clefDatastore3);
-		players_id = (ArrayList<Integer>) mEntity.getProperty("players_id");
-		int playersIdPosition = players_id.indexOf(draft_player_id);
+		players_id = (List<Long>) mEntity.getProperty("players_id");
+		int playersIdPosition = players_id.indexOf(Long.valueOf(draft_player_id));
 
 		years_1 = (ArrayList<String>) mEntity.getProperty("years_1");
 		years_2 = (ArrayList<String>) mEntity.getProperty("years_2");
@@ -325,7 +329,7 @@ public class SignatureModel {
 	    break;
 
 	}
-*/
+
 	// C: on modifie le datastore equipe
 
 	Key equipeKey = KeyFactory.createKey("Equipe", datastoreID);

@@ -9,6 +9,19 @@
 		</p>
 	</div>
 </c:if>
+
+<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==4}">
+	<div class="w3-container w3-section w3-red">
+		<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+		<h4>C'est l'heure des signatures de contrat</h4>
+		<p>
+			Aller dans le ManagerCenter et signez vos joueurs repêcher
+			<a href="/Signature"> Cliquez ici pour vous y rendre</a>
+			ou rendez-vous dans la section Signature via le menu
+		</p>
+	</div>
+</c:if>
+
 <c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&messageErreur.erreurConnectionDraft!=null}">
 	<div class="w3-container w3-section w3-red">
 

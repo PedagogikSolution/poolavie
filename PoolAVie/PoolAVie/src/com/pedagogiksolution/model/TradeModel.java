@@ -1,17 +1,28 @@
 package com.pedagogiksolution.model;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Properties;
 
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.beans.NonSessionAttaquant;
 import com.pedagogiksolution.beans.NonSessionDefenseur;
@@ -214,27 +225,7 @@ public class TradeModel {
 	List<Long> ronde2 = new ArrayList<Long>();
 	List<Long> team_id2 = new ArrayList<Long>();
 	List<String> teamNameOriginePick2 = new ArrayList<String>();
-	List<Long> mTeamId2 = mBeanDraftRound.getTeam_id();
-	List<Long> mRonde2 = mBeanDraftRound.getRonde();
-	List<Long> mPickNo2 = mBeanDraftRound.getDraft_pick_no();
-	List<String> mTeamName2 = mBeanDraftRound.getEquipe();
-	ListIterator<Long> mIterator2 = mTeamId2.listIterator();
-	/*
-	 * while(mIterator2.hasNext()){
-	 * Long indexListIterator = (long) mIterator2.nextIndex();
-	 * Long teamIdIterator = mIterator2.next();
-	 * if(teamIdIterator==teamThatReceivedOfferId){
-	 * int draft_pick_no = mPickNo2.get(indexListIterator);
-	 * int mRondeId = mRonde2.get(indexListIterator);
-	 * ronde2.add(mRondeId);
-	 * String mName = mTeamName2.get(indexListIterator);
-	 * teamNameOriginePick2.add(mName);
-	 * team_id2.add(teamIdIterator);
-	 * pick_no2.add(draft_pick_no);
-	 * }
-	 * }
-	 */
-
+	
 	mNonSessionDraftBeanThatReceivedOffer2.setPick_no(pick_no2);
 	mNonSessionDraftBeanThatReceivedOffer2.setTeamNameOriginalPick(teamNameOriginePick2);
 	mNonSessionDraftBeanThatReceivedOffer2.setTeam_id(team_id2);
@@ -381,7 +372,7 @@ public class TradeModel {
 
     }
 
-    public Boolean checkIfTradeIsValidDuringDraft(PlayersDao playersDao, DraftPickDao draftPickDao) {
+    public Boolean checkIfTradeIsValid(PlayersDao playersDao, DraftPickDao draftPickDao) {
 
 	// retourne false si trade pas possible // retourne true if trade is good to go at this point
 
@@ -417,6 +408,8 @@ public class TradeModel {
 	MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
 	TradeBeans mBean = new TradeBeans();
 
+	
+	
 	// recuperation parametre
 	String[] rookie_id_my_team = req.getParameterValues("rookie_id_my_team");
 
@@ -595,6 +588,10 @@ public class TradeModel {
 	String[] FromPickReceivingOffer = new String[nbPicksTeamReceivingOffer];
 	String[] nomRookieMakingOffer = new String[nbRookieTeamMakingOffer];
 	String[] nomRookieReceivingOffer = new String[nbRookieTeamReceivingOffer];
+	int[] salaireMakingOffer= new int[nbPlayersTeamMakingOffer];
+	int[] salaireReceivingOffer= new int[nbPlayersTeamMakingOffer];
+	int[] salaireRookieMakingOffer= new int[nbRookieTeamMakingOffer];
+	int[] salaireRookieReceivingOffer= new int[nbRookieTeamReceivingOffer];
 
 	// on calcul le total d'Argent des salaire des joueurs de l'Equipe qui trade, le nombre par position inclus dans
 // trade
@@ -611,6 +608,7 @@ public class TradeModel {
 		total_salaire_team_making_offer = total_salaire_team_making_offer + mBeanTemp.getTotal_salaire_team_making_offer();
 		if (mBeanTemp.getNomMakingOfferString() != null) {
 		    nomMakingOffer[i] = mBeanTemp.getNomMakingOfferString();
+		    salaireMakingOffer[i] = mBeanTemp.getTotal_salaire_team_making_offer();
 
 		    String positionDuJoueurTrade = mBeanTemp.getPositionDuJoueurTrade();
 
@@ -643,6 +641,7 @@ public class TradeModel {
 
 		if (mBeanTemp.getNomMakingOfferString() != null) {
 		    nomRookieMakingOffer[ii] = mBeanTemp.getNomMakingOfferString();
+		    salaireRookieMakingOffer[ii] = mBeanTemp.getTotal_salaire_team_making_offer();
 		}
 		ii++;
 
@@ -663,7 +662,7 @@ public class TradeModel {
 
 		if (mBeanTemp.getNomMakingOfferString() != null) {
 		    nomReceivingOffer[j] = mBeanTemp.getNomMakingOfferString();
-
+		    salaireReceivingOffer[j] = mBeanTemp.getTotal_salaire_team_making_offer();
 		    String positionDuJoueurTrade = mBeanTemp.getPositionDuJoueurTrade();
 
 		    switch (positionDuJoueurTrade) {
@@ -696,6 +695,7 @@ public class TradeModel {
 
 		if (mBeanTemp.getNomMakingOfferString() != null) {
 		    nomRookieReceivingOffer[jj] = mBeanTemp.getNomMakingOfferString();
+		    salaireRookieReceivingOffer[jj] = mBeanTemp.getTotal_salaire_team_making_offer();
 		}
 		jj++;
 
@@ -811,7 +811,11 @@ public class TradeModel {
 	mBean.setFromPickMakingOffer(FromPickMakingOffer);
 	mBean.setFromPickReceivingOffer(FromPickReceivingOffer);
 	mBean.setTeamThatTrade(teamId);
-	mBean.setTeamTradeTo(Integer.parseInt(tradeWithID));
+	mBean.setTeamTradeTo(Integer.parseInt(tradeWithID));	
+	mBean.setSalaireMakingOffer(salaireMakingOffer);
+	mBean.setSalaireReceivingOffer(salaireReceivingOffer);
+	mBean.setSalaireRookieMakingOffer(salaireRookieMakingOffer);
+	mBean.setSalaireRookieReceivingOffer(salaireRookieReceivingOffer);
 
 	req.getSession().setAttribute("tradeOfferBean", mBean);
 
@@ -1071,7 +1075,45 @@ public class TradeModel {
     }
 
     public void sendEmailForOffer() {
-	// TODO Auto-generated method stub
+	
+	
+	String poolID = mBeanPool.getPoolID();
+	int poolId = Integer.parseInt(poolID);
+
+	// on appel le service
+	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+	// Use class Query to assemble a query
+	Query q = new Query("Utilisateur");
+	q.setFilter(new Query.FilterPredicate("poolId", Query.FilterOperator.EQUAL, poolId));
+
+	PreparedQuery pq = datastore.prepare(q);
+	List<Entity> entity = pq.asList(FetchOptions.Builder.withDefaults());
+
+	for (Entity results : entity) {
+
+	    // Long typeUser = (Long) results.getProperty("typeUtilisateur");
+
+	    String courriel = (String) results.getProperty("courriel");
+	    String nomTeam = (String) results.getProperty("teamName");
+	    Properties props = new Properties();
+	    Session session = Session.getDefaultInstance(props, null);
+
+	    try {
+		MimeMessage msg = new MimeMessage(session);
+		msg.setFrom(new InternetAddress("pedagogiksolution@gmail.com", "Poolavie.ca"));
+		msg.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(courriel));
+		msg.setSubject("Vous avez une offre de trade", "utf-8");
+		msg.setContent("Bonjour " + nomTeam + ", \n\n Vous avez reçu une nouvelle offre d'échange. Pour voir celle-ci, l'accepter, la refuser ou faire une contre offre. Connectez-vous et aller dans la section Trade Center.", "text/html");
+		Transport.send(msg);
+	    } catch (AddressException e) {
+		// ...
+	    } catch (MessagingException e) {
+		// ...
+	    } catch (UnsupportedEncodingException e) {
+		// ...
+	    }
+	}
 
     }
 

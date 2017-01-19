@@ -28,16 +28,17 @@ public class ResetForTestCron extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	
-      /*  int  max_salaire_begin = 0, total_salaire_now = 0, budget_restant = 0, moy_sal_restant_draft = 0, nb_attaquant = 0;
+	
+	/* int  max_salaire_begin = 0, total_salaire_now = 0, budget_restant = 0, moy_sal_restant_draft = 0, nb_attaquant = 0;
         int nb_defenseur = 0, nb_gardien = 0, nb_rookie = 0, nb_contrat = 0, nb_equipe = 0, manquant_equipe = 0, manquant_att = 0, manquant_def = 0;
         int manquant_gardien = 0, manquant_recrue = 0, bonus_5m = 0, argent_recu = 0, bonus_penalite = 0;
-	DraftProcess mBeanDraftProcess = new DraftProcess();
+        EntityManagerFactory emf = EMF.get();
+	EntityManager em = null;
+         DraftProcess mBeanDraftProcess = new DraftProcess();
 
 	Key clefDatastore = KeyFactory.createKey("DraftProcess", "1");
 
-	EntityManagerFactory emf = EMF.get();
-	EntityManager em = null;
+	
 	try {
 
 	    em = emf.createEntityManager();
@@ -60,6 +61,7 @@ public class ResetForTestCron extends HttpServlet {
 	    if (em != null)
 		em.close();
 	}
+	
 	
 	// valeur de depart de la table Equipe
 	max_salaire_begin = 52000000;
@@ -147,15 +149,20 @@ public class ResetForTestCron extends HttpServlet {
 */
 	
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-	Key mKey = KeyFactory.createKey("Pool", "1");
+	
+	for(int i=1;i<9;i++){
+	Key mKey = KeyFactory.createKey("Equipe", "1_"+i);
 	
 	try {
 	    Entity mEntity = datastore.get(mKey);
-	    mEntity.setProperty("cycleAnnuel", 3);
+	    mEntity.setProperty("budget_restant", 5000000);
+	    mEntity.setProperty("max_salaire_begin", 57000000);
 	    datastore.put(mEntity);
 	   	    
 	} catch (EntityNotFoundException e) {
 	    
+	}
+	
 	}
     }
    

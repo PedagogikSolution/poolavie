@@ -11,6 +11,7 @@
 <title>Nouvelles ${Pool.poolName}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/css/w3.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
 </head>
 <body>
@@ -31,7 +32,7 @@
 	<div class="w3-container">
 
 		<br>
-		<c:if test="${Pool.cycleAnnuel==1||Pool.cycleAnnuel==2||Pool.cycleAnnuel==3||Pool.cycleAnnuel==5 }">
+		<c:if test="${Pool.cycleAnnuel==1||Pool.cycleAnnuel==2||Pool.cycleAnnuel==3||Pool.cycleAnnuel==5||Pool.cycleAnnuel==6 }">
 			<div class="w3-content w3-margin-top" style="max-width: 90%">
 				<div class="w3-container w3-red w3-center">
 					<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>

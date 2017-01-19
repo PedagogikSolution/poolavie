@@ -28,6 +28,8 @@ public class AdminPoolServlet extends HttpServlet {
 	}
 	
 	switch(cycleAnnuel){
+	case 0: req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
+	    break;
 	case 1: req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 	    break;
 	case 2: req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);

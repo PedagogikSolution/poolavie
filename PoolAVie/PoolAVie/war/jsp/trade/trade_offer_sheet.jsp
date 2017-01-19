@@ -11,6 +11,7 @@
 <title>Feuille d'échange</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/css/w3.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
 </head>
 <body>
@@ -47,10 +48,6 @@
 			<h3>Oups! Échange impossible</h3>
 			<p>${messageErreur.erreurTrade}</p>
 		</div>
-		
-		
-		
-		
 
 	</c:if>
 
@@ -59,14 +56,14 @@
 
 		<!-- Section  -->
 
-		<form method="Post" action="/Trade">
+		<form method="Post" action="/Trade" name="evaluateTrade">
 
 
 			<div class="w3-row">
 			<div class="w3-half w3-center">
 			<br>
-				<h2>Mon équipe</h2>
-				<br>
+				<h1>Mon équipe</h1>
+				
 				<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
 					<caption class="w3-blue w3-xlarge">
 						<h2>Attaquant</h2>
@@ -89,7 +86,7 @@
 							<th>2017-18</th>
 							<th>2018-19</th>
 							<th>2019-20</th>
-							<th>Choisir</th>
+							<th>Inclure</th>
 
 						</tr>
 						<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
@@ -105,8 +102,7 @@
 								<td>${NonSessionAttaquantPickMaking.years_4[i]}</td>
 								<td>${NonSessionAttaquantPickMaking.years_5[i]}</td>
 								<td>
-									<input type="checkbox" name="players_id_my_team" value="${NonSessionAttaquantPickMaking._id[i]}">
-									Inclure
+									<input type="checkbox" class="w3-check" name="players_id_my_team" value="${NonSessionAttaquantPickMaking._id[i]}">
 								</td>
 
 							</tr>
@@ -145,7 +141,7 @@
 							<th>2017-18</th>
 							<th>2018-19</th>
 							<th>2019-20</th>
-							<th>Choisir</th>
+							<th>Inclure</th>
 						</tr>
 						<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 							<tr>
@@ -159,8 +155,8 @@
 								<td>${NonSessionDefenseurPickMaking.years_4[i]}</td>
 								<td>${NonSessionDefenseurPickMaking.years_5[i]}</td>
 								<td>
-									<input type="checkbox" name="players_id_my_team" value="${NonSessionDefenseurPickMaking._id[i]}">
-									Inclure
+									<input type="checkbox" class="w3-check" name="players_id_my_team" value="${NonSessionDefenseurPickMaking._id[i]}">
+									
 								</td>
 
 							</tr>
@@ -193,7 +189,7 @@
 							<th>2017-18</th>
 							<th>2018-19</th>
 							<th>2019-20</th>
-							<th>Choisir</th>
+							<th>Inclure</th>
 
 
 						</tr>
@@ -210,8 +206,8 @@
 								<td>${NonSessionGardienPickMaking.years_4[i]}</td>
 								<td>${NonSessionGardienPickMaking.years_5[i]}</td>
 								<td>
-									<input type="checkbox" name="players_id_my_team" value="${NonSessionGardienPickMaking._id[i]}">
-									Inclure
+									<input type="checkbox" class="w3-check" name="players_id_my_team" value="${NonSessionGardienPickMaking._id[i]}">
+									
 								</td>
 							</tr>
 
@@ -248,7 +244,7 @@
 							<th>2017-18</th>
 							<th>2018-19</th>
 							<th>2019-20</th>
-							<th>Choisir</th>
+							<th>Inclure</th>
 						</tr>
 						<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 							<tr>
@@ -262,8 +258,8 @@
 								<td>${NonSessionRecruePickMaking.years_4[i]}</td>
 								<td>${NonSessionRecruePickMaking.years_5[i]}</td>
 								<td>
-									<input type="checkbox" name="rookie_id_my_team" value="${NonSessionRecruePickMaking._id[i]}">
-									Inclure
+									<input type="checkbox" class="w3-check" name="rookie_id_my_team" value="${NonSessionRecruePickMaking._id[i]}">
+									
 								</td>
 							</tr>
 						</c:forEach>
@@ -281,31 +277,31 @@
 					</tr>
 					<tr>
 						<td>
-							<input type="radio" name="cashMakingOffer" value="0" checked>
+							<input class="w3-radio" type="radio" name="cashMakingOffer" value="0" checked>
 							0
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<input type="radio" name="cashMakingOffer" value="500000">
+							<input class="w3-radio" type="radio" name="cashMakingOffer" value="500000">
 							500 000
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<input type="radio" name="cashMakingOffer" value="1000000">
+							<input class="w3-radio" type="radio" name="cashMakingOffer" value="1000000">
 							1 000 000
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<input type="radio" name="cashMakingOffer" value="1500000">
+							<input class="w3-radio" type="radio" name="cashMakingOffer" value="1500000">
 							1 500 000
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<input type="radio" name="cashMakingOffer" value="2000000">
+							<input class="w3-radio" type="radio" name="cashMakingOffer" value="2000000">
 							2 000 000
 						</td>
 					</tr>
@@ -321,7 +317,7 @@
 						<tr class="w3-blue">
 							<th>Round</th>
 							<th>From</th>
-							<th>Choisir</th>
+							<th>Inclure</th>
 
 						</tr>
 						<c:set var="nombreDePick" value="${NonSessionDraftPickMakingThisYear.pick_no}" />
@@ -332,8 +328,8 @@
 								<td>${NonSessionDraftPickMakingThisYear.ronde[i]}</td>
 								<td>${NonSessionDraftPickMakingThisYear.teamNameOriginalPick[i]}</td>
 								<td>
-									<input type="checkbox" name="picks_id_my_team_this_year" value="${NonSessionDraftPickMakingThisYear.pick_no[i]}">
-									Inclure
+									<input class="w3-check" type="checkbox" name="picks_id_my_team_this_year" value="${NonSessionDraftPickMakingThisYear.pick_no[i]}">
+									
 								</td>
 
 
@@ -349,7 +345,7 @@
 						<tr class="w3-blue">
 							<th>Round</th>
 							<th>From</th>
-							<th>Choisir</th>
+							<th>Inclure</th>
 
 						</tr>
 						<c:set var="nombreDePick" value="${NonSessionDraftPickMaking.pick_no}" />
@@ -360,8 +356,8 @@
 								<td>${NonSessionDraftPickMaking.pick_no[i]}</td>
 								<td>${NonSessionDraftPickMaking.teamNameOriginalPick[i]}</td>
 								<td>
-									<input type="checkbox" name="picks_id_my_team" value="${NonSessionDraftPickMaking.pick_no[i]}">
-									Inclure
+									<input class="w3-check" type="checkbox" name="picks_id_my_team" value="${NonSessionDraftPickMaking.pick_no[i]}">
+									
 								</td>
 
 
@@ -383,7 +379,7 @@
 						<tr class="w3-blue">
 							<th>Round</th>
 							<th>From</th>
-							<th>Choisir</th>
+							<th>Inclure</th>
 
 						</tr>
 						<c:set var="nombreDePick" value="${NonSessionDraftPickMaking.pick_no}" />
@@ -394,8 +390,8 @@
 								<td>${NonSessionDraftPickMaking.pick_no[i]}</td>
 								<td>${NonSessionDraftPickMaking.teamNameOriginalPick[i]}</td>
 								<td>
-									<input type="checkbox" name="picks_id_my_team" value="${NonSessionDraftPickMaking.pick_no[i]}">
-									Inclure
+									<input class="w3-check" type="checkbox" name="picks_id_my_team" value="${NonSessionDraftPickMaking.pick_no[i]}">
+									
 								</td>
 
 
@@ -413,8 +409,8 @@
 			
 			<div class="w3-half w3-center">
 			<br>
-				<h2>Équipe avec qui j'échange</h2>
-				<br>
+				<h1>Équipe avec qui j'échange</h1>
+				
 				<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
 					<caption class="w3-blue w3-xlarge">
 						<h2>Attaquant</h2>
@@ -437,7 +433,7 @@
 							<th>2017-18</th>
 							<th>2018-19</th>
 							<th>2019-20</th>
-							<th>Choisir</th>
+							<th>Inclure</th>
 
 						</tr>
 						<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
@@ -453,8 +449,8 @@
 								<td>${NonSessionAttaquantPickReciving.years_4[i]}</td>
 								<td>${NonSessionAttaquantPickReciving.years_5[i]}</td>
 								<td>
-									<input type="checkbox" name="players_id_trade_with_team" value="${NonSessionAttaquantPickReciving._id[i]}">
-									Inclure
+									<input class="w3-check" type="checkbox" name="players_id_trade_with_team" value="${NonSessionAttaquantPickReciving._id[i]}">
+									
 								</td>
 
 							</tr>
@@ -487,7 +483,7 @@
 							<th>2017-18</th>
 							<th>2018-19</th>
 							<th>2019-20</th>
-							<th>Choisir</th>
+							<th>Inclure</th>
 
 
 						</tr>
@@ -504,8 +500,8 @@
 								<td>${NonSessionDefenseurPickReciving.years_4[i]}</td>
 								<td>${NonSessionDefenseurPickReciving.years_5[i]}</td>
 								<td>
-									<input type="checkbox" name="players_id_trade_with_team" value="${NonSessionDefenseurPickReciving._id[i]}">
-									Inclure
+									<input class="w3-check" type="checkbox" name="players_id_trade_with_team" value="${NonSessionDefenseurPickReciving._id[i]}">
+									
 								</td>
 
 							</tr>
@@ -539,7 +535,7 @@
 							<th>2017-18</th>
 							<th>2018-19</th>
 							<th>2019-20</th>
-							<th>Choisir</th>
+							<th>Inclure</th>
 
 
 						</tr>
@@ -556,8 +552,8 @@
 								<td>${NonSessionGardienPickReciving.years_4[i]}</td>
 								<td>${NonSessionGardienPickReciving.years_5[i]}</td>
 								<td>
-									<input type="checkbox" name="players_id_trade_with_team" value="${NonSessionGardienPickReciving._id[i]}">
-									Inclure
+									<input class="w3-check" type="checkbox" name="players_id_trade_with_team" value="${NonSessionGardienPickReciving._id[i]}">
+									
 								</td>
 
 							</tr>
@@ -589,7 +585,7 @@
 							<th>2017-18</th>
 							<th>2018-19</th>
 							<th>2019-20</th>
-							<th>Choisir</th>
+							<th>Inclure</th>
 
 
 						</tr>
@@ -606,8 +602,8 @@
 								<td>${NonSessionRecruePickReciving.years_4[i]}</td>
 								<td>${NonSessionRecruePickReciving.years_5[i]}</td>
 								<td>
-									<input type="checkbox" name="rookie_id_trade_with_team" value="${NonSessionRecruePickReciving._id[i]}">
-									Inclure
+									<input class="w3-check" type="checkbox" name="rookie_id_trade_with_team" value="${NonSessionRecruePickReciving._id[i]}">
+									
 								</td>
 
 							</tr>
@@ -627,31 +623,31 @@
 					</tr>
 					<tr>
 						<td>
-							<input type="radio" name="cashReceivingOffer" value="0" checked>
+							<input class="w3-radio" type="radio" name="cashReceivingOffer" value="0" checked>
 							0
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<input type="radio" name="cashReceivingOffer" value="500000">
+							<input class="w3-radio" type="radio" name="cashReceivingOffer" value="500000">
 							500 000
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<input type="radio" name="cashReceivingOffer" value="1000000">
+							<input class="w3-radio" type="radio" name="cashReceivingOffer" value="1000000">
 							1 000 000
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<input type="radio" name="cashReceivingOffer" value="1500000">
+							<input class="w3-radio" type="radio" name="cashReceivingOffer" value="1500000">
 							1 500 000
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<input type="radio" name="cashReceivingOffer" value="2000000">
+							<input class="w3-radio" type="radio" name="cashReceivingOffer" value="2000000">
 							2 000 000
 						</td>
 					</tr>
@@ -666,7 +662,7 @@
 						<tr class="w3-blue">
 							<th>Round</th>
 							<th>From</th>
-							<th>Choisir</th>
+							<th>Inclure</th>
 
 						</tr>
 						<c:set var="nombreDePick" value="${NonSessionDraftPickRecivingThisYear.pick_no}" />
@@ -677,8 +673,8 @@
 								<td>${NonSessionDraftPickRecivingThisYear.ronde[i]}</td>
 								<td>${NonSessionDraftPickRecivingThisYear.teamNameOriginalPick[i]}</td>
 								<td>
-									<input type="checkbox" name="picks_id_trade_with_team_this_year" value="${NonSessionDraftPickRecivingThisYear.pick_no[i]}">
-									Inclure
+									<input class="w3-check" type="checkbox" name="picks_id_trade_with_team_this_year" value="${NonSessionDraftPickRecivingThisYear.pick_no[i]}">
+									
 								</td>
 
 
@@ -694,7 +690,7 @@
 						<tr class="w3-blue">
 							<th>Round</th>
 							<th>From</th>
-							<th>Choisir</th>
+							<th>Inclure</th>
 
 						</tr>
 						<c:set var="nombreDePick" value="${NonSessionDraftPickReciving.pick_no}" />
@@ -705,8 +701,8 @@
 								<td>${NonSessionDraftPickReciving.pick_no[i]}</td>
 								<td>${NonSessionDraftPickReciving.teamNameOriginalPick[i]}</td>
 								<td>
-									<input type="checkbox" name="picks_id_trade_with_team" value="${NonSessionDraftPickReciving.pick_no[i]}">
-									Inclure
+									<input class="w3-check" type="checkbox" name="picks_id_trade_with_team" value="${NonSessionDraftPickReciving.pick_no[i]}">
+									
 								</td>
 
 
@@ -728,7 +724,7 @@
 						<tr class="w3-blue">
 							<th>Round</th>
 							<th>From</th>
-							<th>Choisir</th>
+							<th>Inclure</th>
 
 						</tr>
 						<c:set var="nombreDePick" value="${NonSessionDraftPickReciving.pick_no}" />
@@ -739,8 +735,8 @@
 								<td>${NonSessionDraftPickReciving.pick_no[i]}</td>
 								<td>${NonSessionDraftPickReciving.teamNameOriginalPick[i]}</td>
 								<td>
-									<input type="checkbox" name="picks_id_trade_with_team" value="${NonSessionDraftPickReciving.pick_no[i]}">
-									Inclure
+									<input class="w3-check" type="checkbox" name="picks_id_trade_with_team" value="${NonSessionDraftPickReciving.pick_no[i]}">
+									
 								</td>
 
 
@@ -757,7 +753,8 @@
 			<!-- Faire une offre -->
 			<br>
 			<div class="w3-row w3-container w3-center">
-			<textarea name="message_vente" rows="8" cols="150"></textarea>
+			<h2>Message à inclure dans l'offre d'échange (max 720 char)</h2>
+			<textarea maxlength="720" style="outline:none" class="w3-padding-xlarge w3-topbar w3-leftbar w3-bottombar w3-rightbar w3-border-red w3-pale-red w3-round-xlarge w3-large" name="message_vente" rows="8" cols="100" placeholder="Entrez ici un message pour la personne qui va recevoir votre offre"></textarea>
 			</div>
 			<br>
 			<div class="w3-row w3-container w3-center">

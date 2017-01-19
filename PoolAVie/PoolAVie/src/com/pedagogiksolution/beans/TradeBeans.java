@@ -17,8 +17,12 @@ public class TradeBeans implements Serializable{
     private int codeErreurOffreTrade;
     private int trade_id;
     private String[] nomMakingOffer;
+    private int[] salaireMakingOffer;
+    private int[] salaireRookieMakingOffer;
     private String[] pickNumMakingOffer;
     private String[] nomReceivingOffer;
+    private int[] salaireReceivingOffer;
+    private int[] salaireRookieReceivingOffer;
     private String[] pickNumReceivingOffer;
     private String[] playerIdMakingOffer;
     private String[] playerIdReceivingOffer;
@@ -38,7 +42,7 @@ public class TradeBeans implements Serializable{
     private String nomTeam;
     private Date dateTradeOffer;
     private List<String> dateTradeOfferArray;
-    
+    private int vu;
     
     /* 
      * 1:Trop de contrat
@@ -273,6 +277,47 @@ public class TradeBeans implements Serializable{
 	this.dateTradeOfferArray = dateTradeOfferArray;
     }
 
+    public int getVu() {
+	return vu;
+    }
+
+    public void setVu(int vu) {
+	this.vu = vu;
+    }
+
+    public int[] getSalaireMakingOffer() {
+	return salaireMakingOffer;
+    }
+
+    public void setSalaireMakingOffer(int[] salaireMakingOffer) {
+	this.salaireMakingOffer = salaireMakingOffer;
+    }
+
+    public int[] getSalaireRookieMakingOffer() {
+	return salaireRookieMakingOffer;
+    }
+
+    public void setSalaireRookieMakingOffer(int[] salaireRookieMakingOffer) {
+	this.salaireRookieMakingOffer = salaireRookieMakingOffer;
+    }
+
+    public int[] getSalaireReceivingOffer() {
+	return salaireReceivingOffer;
+    }
+
+    public void setSalaireReceivingOffer(int[] salaireReceivingOffer) {
+	this.salaireReceivingOffer = salaireReceivingOffer;
+    }
+
+    public int[] getSalaireRookieReceivingOffer() {
+	return salaireRookieReceivingOffer;
+    }
+
+    public void setSalaireRookieReceivingOffer(int[] salaireRookieReceivingOffer) {
+	this.salaireRookieReceivingOffer = salaireRookieReceivingOffer;
+    }
+
+    
     
 
 }
