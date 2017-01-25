@@ -215,7 +215,7 @@ public class TradeServlet extends HttpServlet {
 		if (cycleAnnuel == 3) {
 		    mModelTrade.sendAlertViaChannel();
 		} else {
-		    mModelTrade.sendEmailForOffer();
+		    mModelTrade.sendEmailForOffer(req);
 		}
 		req.getSession().removeAttribute("tradeOfferBean");
 		resp.sendRedirect("/Trade");

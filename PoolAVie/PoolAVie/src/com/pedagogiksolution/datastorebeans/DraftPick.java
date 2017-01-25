@@ -18,7 +18,7 @@ public class DraftPick implements Serializable {
     private List<Long> team_id; 
     private List<Long> pick_no;
     private List<Long> original_pick_id;
-    private List<Long> orderForTheRound;
+    private List<Long> total_pick_number;
     private List<String> teamNameOriginalPick;
     
     
@@ -47,12 +47,6 @@ public class DraftPick implements Serializable {
     public void setOriginal_pick_id(List<Long> original_pick_id) {
 	this.original_pick_id = original_pick_id;
     }
-    public List<Long> getOrderForTheRound() {
-	return orderForTheRound;
-    }
-    public void setOrderForTheRound(List<Long> orderForTheRound) {
-	this.orderForTheRound = orderForTheRound;
-    }
     public List<String> getTeamNameOriginalPick() {
 	return teamNameOriginalPick;
     }
@@ -72,14 +66,20 @@ public class DraftPick implements Serializable {
 		List<Long> original_pick_id=(List<Long>) mEntity.getProperty("original_pick_id");
 		mBeanDraftPick.setOriginal_pick_id(original_pick_id);
 		
-		List<Long> orderForTheRound=(List<Long>) mEntity.getProperty("orderForTheRound");
-		mBeanDraftPick.setOrderForTheRound(orderForTheRound);
+		List<Long> totalPickNumber=(List<Long>) mEntity.getProperty("total_pick_number");
+		mBeanDraftPick.setTotal_pick_number(totalPickNumber);
 		
 		List<String> teamNameOriginalPick=(List<String>) mEntity.getProperty("teamNameOriginalPick");
 		mBeanDraftPick.setTeamNameOriginalPick(teamNameOriginalPick);
 	    	     
 	
 	     return mBeanDraftPick;
+    }
+    public List<Long> getTotal_pick_number() {
+	return total_pick_number;
+    }
+    public void setTotal_pick_number(List<Long> total_pick_number) {
+	this.total_pick_number = total_pick_number;
     }
 
 }

@@ -118,7 +118,7 @@ public class DraftPickDaoImpl implements DraftPickDao {
 	List<Long> team_id = new ArrayList<Long>();
 	List<Long> pick_no = new ArrayList<Long>();
 	List<Long> original_team_id = new ArrayList<Long>();
-	List<Long> orderForTheRound = new ArrayList<Long>();
+	List<Long> total_pick_number = new ArrayList<Long>();
 	List<String> teamNameOriginalPick = new ArrayList<String>();
 	String datastoreId;
 
@@ -146,8 +146,8 @@ public class DraftPickDaoImpl implements DraftPickDao {
 		int m_original_team_id = (rs.getInt("original_team_id"));
 		original_team_id.add(Long.valueOf(m_original_team_id));
 
-		int m_orderForTheRound = (rs.getInt("orderForTheRound"));
-		orderForTheRound.add(Long.valueOf(m_orderForTheRound));
+		int m_total_pick_number = (rs.getInt("_id"));
+		total_pick_number.add(Long.valueOf(m_total_pick_number));
 
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Key clefDatastore = KeyFactory.createKey("Pool", String.valueOf(poolId));
@@ -177,7 +177,7 @@ public class DraftPickDaoImpl implements DraftPickDao {
 	mBean.setPick_no(pick_no);
 	mBean.setTeam_id(team_id);
 	mBean.setOriginal_pick_id(original_team_id);
-	mBean.setOrderForTheRound(orderForTheRound);
+	mBean.setTotal_pick_number(total_pick_number);
 	mBean.setTeamNameOriginalPick(teamNameOriginalPick);
 
 	// on crée le beans avec le processus JPA qui va créer le datastore en même temps

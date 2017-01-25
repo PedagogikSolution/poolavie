@@ -105,9 +105,9 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 	    while (rs.next()) {
 		trade_id.add(rs.getInt("_id"));
 		dateTradeOfferArray.add(rs.getDate("date_heure").toString());
-		String team2Id = (rs.getString("team_2"));
-		int team2 = Integer.parseInt(team2Id);
-		String nom = getTeamNameFromString(mBeanPool, team2);
+		String team1Id = (rs.getString("team_1"));
+		int team1 = Integer.parseInt(team1Id);
+		String nom = getTeamNameFromString(mBeanPool, team1);
 		nom_equipe_trading_to.add(nom);
 
 		mBean.setTradeOfferId(trade_id);
@@ -162,9 +162,9 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 	}
     }
 
-    private String getTeamNameFromString(Pool mBeanPool, int team2) {
+    private String getTeamNameFromString(Pool mBeanPool, int team1) {
 	String from_temp2 = "Erreur,voir Frank";
-	switch (team2) {
+	switch (team1) {
 
 	case 1:
 	    from_temp2 = mBeanPool.getNomTeam1();

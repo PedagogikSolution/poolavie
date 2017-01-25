@@ -353,7 +353,7 @@
 						<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 
 							<tr>
-								<td>${NonSessionDraftPickMaking.pick_no[i]}</td>
+								<td>${NonSessionDraftPickMaking.ronde[i]}</td>
 								<td>${NonSessionDraftPickMaking.teamNameOriginalPick[i]}</td>
 								<td>
 									<input class="w3-check" type="checkbox" name="picks_id_my_team" value="${NonSessionDraftPickMaking.pick_no[i]}">
@@ -387,7 +387,7 @@
 						<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 
 							<tr>
-								<td>${NonSessionDraftPickMaking.pick_no[i]}</td>
+								<td>${NonSessionDraftPickMaking.ronde[i]}</td>
 								<td>${NonSessionDraftPickMaking.teamNameOriginalPick[i]}</td>
 								<td>
 									<input class="w3-check" type="checkbox" name="picks_id_my_team" value="${NonSessionDraftPickMaking.pick_no[i]}">
@@ -698,7 +698,7 @@
 						<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 
 							<tr>
-								<td>${NonSessionDraftPickReciving.pick_no[i]}</td>
+								<td>${NonSessionDraftPickReciving.ronde[i]}</td>
 								<td>${NonSessionDraftPickReciving.teamNameOriginalPick[i]}</td>
 								<td>
 									<input class="w3-check" type="checkbox" name="picks_id_trade_with_team" value="${NonSessionDraftPickReciving.pick_no[i]}">
@@ -732,7 +732,7 @@
 						<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 
 							<tr>
-								<td>${NonSessionDraftPickReciving.pick_no[i]}</td>
+								<td>${NonSessionDraftPickReciving.ronde[i]}</td>
 								<td>${NonSessionDraftPickReciving.teamNameOriginalPick[i]}</td>
 								<td>
 									<input class="w3-check" type="checkbox" name="picks_id_trade_with_team" value="${NonSessionDraftPickReciving.pick_no[i]}">

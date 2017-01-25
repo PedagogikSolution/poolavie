@@ -44,7 +44,7 @@ public class EquipesServlet extends HttpServlet {
 	mModel.getBeanByTeam(req);
 	
 	
-
+        
 	req.getRequestDispatcher("jsp/team/team.jsp").forward(req, resp);
     }
 
