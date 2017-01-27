@@ -1088,6 +1088,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		mBean.setTotal_salaire_team_making_offer(salaire_joueur_temp);
 		mBean.setNomMakingOfferString(rs.getString("nom"));
 		mBean.setPositionDuJoueurTrade(rs.getString("position"));
+		mBean.setClubEcole(rs.getInt("club_ecole"));
 	    }
 
 	    return mBean;

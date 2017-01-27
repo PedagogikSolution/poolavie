@@ -398,6 +398,13 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 	String[] RoundPickReceivingOffer = new String[nbDraftPickTeamThatReceived];
 	String[] FromPickMakingOffer = new String[nbDraftPickTeamThatOffer];
 	String[] FromPickReceivingOffer = new String[nbDraftPickTeamThatReceived];
+	int[] salaireMakingOffer = new int[nbPlayersTeamThatOffer];
+	int[] salaireReceivingOffer = new int[nbPlayersTeamThatReceived];
+	int[] salaireRookieMakingOffer = new int[nbPlayersTeamThatOffer];
+	int[] salaireRookieReceivingOffer = new int[nbPlayersTeamThatReceived];
+	String[] nomRookieMakingOffer = new String[nbPlayersTeamThatOffer];
+	String[] nomRookieReceivingOffer = new String[nbPlayersTeamThatReceived];
+	
 
 	int i = 0;
 	if (playersTeamThatOffer != null) {
@@ -408,8 +415,14 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 		 mBeanTemp = playersDao.getPlayersById(mBeanPool.getPoolID(), toInt, 2);
 
 		if (mBeanTemp.getNomMakingOfferString() != null) {
-		    nomMakingOffer[i] = mBeanTemp.getNomMakingOfferString();
-
+		    
+		    if(mBeanTemp.getClubEcole()==1){
+			nomRookieMakingOffer[i] = mBeanTemp.getNomMakingOfferString();
+			salaireRookieMakingOffer[i]=mBeanTemp.getTotal_salaire_team_making_offer();
+		    }else {
+			nomMakingOffer[i] = mBeanTemp.getNomMakingOfferString();
+		    salaireMakingOffer[i] = mBeanTemp.getTotal_salaire_team_making_offer();
+		    }
 		}
 	    }
 	    i++;
@@ -428,8 +441,16 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 		mBeanTemp = playersDao.getPlayersById(mBeanPool.getPoolID(), toInt, 2);
 
 		if (mBeanTemp.getNomMakingOfferString() != null) {
-		    nomReceivingOffer[j] = mBeanTemp.getNomMakingOfferString();
-
+		    
+		    
+		    if(mBeanTemp.getClubEcole()==1){
+			nomRookieReceivingOffer[j] = mBeanTemp.getNomMakingOfferString();
+			salaireRookieReceivingOffer[j]=mBeanTemp.getTotal_salaire_team_making_offer();
+		    }else {
+			nomReceivingOffer[j] = mBeanTemp.getNomMakingOfferString();
+		    salaireReceivingOffer[j] = mBeanTemp.getTotal_salaire_team_making_offer();
+		    }
+		    
 		}
 	    }
 
@@ -481,6 +502,12 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 	mBean.setFromPickMakingOffer(FromPickMakingOffer);
 	mBean.setFromPickReceivingOffer(FromPickReceivingOffer);
 	mBean.setTrade_id(trade_id);
+	mBean.setSalaireMakingOffer(salaireMakingOffer);
+	mBean.setSalaireReceivingOffer(salaireReceivingOffer);
+	mBean.setSalaireRookieMakingOffer(salaireRookieMakingOffer);
+	mBean.setSalaireRookieReceivingOffer(salaireRookieReceivingOffer);
+	mBean.setRookieIdMakingOffer(nomRookieMakingOffer);
+	mBean.setRookieIdReceivingOffer(nomRookieReceivingOffer);
 
 	return mBean;
 

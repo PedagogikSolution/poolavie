@@ -43,6 +43,9 @@ public class TradeBeans implements Serializable{
     private Date dateTradeOffer;
     private List<String> dateTradeOfferArray;
     private int vu;
+    private String[] rookieIdTeamMakingOffer;
+    private String[] rookieIdTeamReceivingOffer;
+
     
     /* 
      * 1:Trop de contrat
@@ -67,7 +70,7 @@ public class TradeBeans implements Serializable{
      * 
      */
 
-    public int getIsThereAOfferForMe() {
+     public int getIsThereAOfferForMe() {
 	return isThereAOfferForMe;
     }
 
@@ -315,6 +318,22 @@ public class TradeBeans implements Serializable{
 
     public void setSalaireRookieReceivingOffer(int[] salaireRookieReceivingOffer) {
 	this.salaireRookieReceivingOffer = salaireRookieReceivingOffer;
+    }
+
+    public String[] getRookieIdTeamMakingOffer() {
+	return rookieIdTeamMakingOffer;
+    }
+
+    public void setRookieIdTeamMakingOffer(String[] rookieIdTeamMakingOffer) {
+	this.rookieIdTeamMakingOffer = rookieIdTeamMakingOffer;
+    }
+
+    public String[] getRookieIdTeamReceivingOffer() {
+	return rookieIdTeamReceivingOffer;
+    }
+
+    public void setRookieIdTeamReceivingOffer(String[] rookieIdTeamReceivingOffer) {
+	this.rookieIdTeamReceivingOffer = rookieIdTeamReceivingOffer;
     }
 
     

@@ -798,7 +798,9 @@ public class TradeModel {
 
 	mBean.setPlayerIdMakingOffer(playersIdTeamThatMakeOffer);
 	mBean.setPlayerIdReceivingOffer(playersIdTeamThatReceiveOffer);
+	mBean.setRookieIdTeamMakingOffer(rookie_id_my_team);
 	mBean.setRookieIdMakingOffer(nomRookieMakingOffer);
+	mBean.setRookieIdTeamReceivingOffer(rookie_id_my_team);
 	mBean.setRookieIdReceivingOffer(nomRookieReceivingOffer);
 	mBean.setPickNumMakingOffer(picksIdTeamThatMakeOffer);
 	mBean.setPickNumReceivingOffer(picksIdTeamThatReceiveOffer);
@@ -829,8 +831,29 @@ public class TradeModel {
 
 	TradeBeans mBean = new TradeBeans();
 	mBean = (TradeBeans) req.getSession().getAttribute("tradeOfferBean");
-	String[] playersIdMakingOffer = mBean.getPlayerIdMakingOffer();
-	String[] playersIdReceivingOffer = mBean.getPlayerIdReceivingOffer();
+
+	List<String> playersIdMakingOfferTemp = new ArrayList<String>();
+
+	for (String s : mBean.getPlayerIdMakingOffer()) {
+	    playersIdMakingOfferTemp.add(s);
+	}
+
+	for (String s : mBean.getRookieIdTeamMakingOffer()) {
+	    playersIdMakingOfferTemp.add(s);
+	}
+
+	List<String> playersIdReceivingOfferTemp = new ArrayList<String>();
+
+	for (String s : mBean.getPlayerIdReceivingOffer()) {
+	    playersIdReceivingOfferTemp.add(s);
+	}
+
+	for (String s : mBean.getRookieIdTeamReceivingOffer()) {
+	    playersIdReceivingOfferTemp.add(s);
+	}
+	
+	
+	
 	String[] pickMakingOffer = mBean.getPickNumMakingOffer();
 	String[] pickReceivingOffer = mBean.getPickNumReceivingOffer();
 	int cashMakingOffer = mBean.getCashMakingOffer();
@@ -845,24 +868,24 @@ public class TradeModel {
 	int number_of_player_trade_to = 0;
 	int number_of_pick_trade_to = 0;
 
-	if (playersIdMakingOffer != null) {
-	    number_of_player_trade_by = playersIdMakingOffer.length;
+	if (playersIdMakingOfferTemp != null) {
+	    number_of_player_trade_by = playersIdMakingOfferTemp.size();
 	}
 	if (pickMakingOffer != null) {
 	    number_of_pick_trade_by = pickMakingOffer.length;
 	}
-	if (playersIdReceivingOffer != null) {
-	    number_of_player_trade_to = playersIdReceivingOffer.length;
+	if (playersIdReceivingOfferTemp != null) {
+	    number_of_player_trade_to = playersIdReceivingOfferTemp.size();
 	}
 	if (pickReceivingOffer != null) {
 	    number_of_pick_trade_to = pickReceivingOffer.length;
 	}
 
-	if (playersIdMakingOffer != null) {
+	if (playersIdMakingOfferTemp != null) {
 	    switch (number_of_player_trade_by) {
 
 	    case 1:
-		t1j1 = playersIdMakingOffer[0];
+		t1j1 = playersIdMakingOfferTemp.get(0);
 		t1j2 = null;
 		t1j3 = null;
 		t1j4 = null;
@@ -872,8 +895,8 @@ public class TradeModel {
 
 		break;
 	    case 2:
-		t1j1 = playersIdMakingOffer[0];
-		t1j2 = playersIdMakingOffer[1];
+		t1j1 = playersIdMakingOfferTemp.get(0);
+		t1j2 = playersIdMakingOfferTemp.get(1);
 		t1j3 = null;
 		t1j4 = null;
 		t1j5 = null;
@@ -882,9 +905,9 @@ public class TradeModel {
 
 		break;
 	    case 3:
-		t1j1 = playersIdMakingOffer[0];
-		t1j2 = playersIdMakingOffer[1];
-		t1j3 = playersIdMakingOffer[2];
+		t1j1 = playersIdMakingOfferTemp.get(0);
+		t1j2 = playersIdMakingOfferTemp.get(1);
+		t1j3 = playersIdMakingOfferTemp.get(2);
 		t1j4 = null;
 		t1j5 = null;
 		t1j6 = null;
@@ -892,43 +915,43 @@ public class TradeModel {
 
 		break;
 	    case 4:
-		t1j1 = playersIdMakingOffer[0];
-		t1j2 = playersIdMakingOffer[1];
-		t1j3 = playersIdMakingOffer[2];
-		t1j4 = playersIdMakingOffer[3];
+		t1j1 = playersIdMakingOfferTemp.get(0);
+		t1j2 = playersIdMakingOfferTemp.get(1);
+		t1j3 = playersIdMakingOfferTemp.get(2);
+		t1j4 = playersIdMakingOfferTemp.get(3);
 		t1j5 = null;
 		t1j6 = null;
 		t1j7 = null;
 
 		break;
 	    case 5:
-		t1j1 = playersIdMakingOffer[0];
-		t1j2 = playersIdMakingOffer[1];
-		t1j3 = playersIdMakingOffer[2];
-		t1j4 = playersIdMakingOffer[3];
-		t1j5 = playersIdMakingOffer[4];
+		t1j1 = playersIdMakingOfferTemp.get(0);
+		t1j2 = playersIdMakingOfferTemp.get(1);
+		t1j3 = playersIdMakingOfferTemp.get(2);
+		t1j4 = playersIdMakingOfferTemp.get(3);
+		t1j5 = playersIdMakingOfferTemp.get(4);
 		t1j6 = null;
 		t1j7 = null;
 
 		break;
 	    case 6:
-		t1j1 = playersIdMakingOffer[0];
-		t1j2 = playersIdMakingOffer[1];
-		t1j3 = playersIdMakingOffer[2];
-		t1j4 = playersIdMakingOffer[3];
-		t1j5 = playersIdMakingOffer[4];
-		t1j6 = playersIdMakingOffer[5];
+		t1j1 = playersIdMakingOfferTemp.get(0);
+		t1j2 = playersIdMakingOfferTemp.get(1);
+		t1j3 = playersIdMakingOfferTemp.get(2);
+		t1j4 = playersIdMakingOfferTemp.get(3);
+		t1j5 = playersIdMakingOfferTemp.get(4);
+		t1j6 = playersIdMakingOfferTemp.get(5);
 		t1j7 = null;
 
 		break;
 	    case 7:
-		t1j1 = playersIdMakingOffer[0];
-		t1j2 = playersIdMakingOffer[1];
-		t1j3 = playersIdMakingOffer[2];
-		t1j4 = playersIdMakingOffer[3];
-		t1j5 = playersIdMakingOffer[4];
-		t1j6 = playersIdMakingOffer[5];
-		t1j7 = playersIdMakingOffer[6];
+		t1j1 = playersIdMakingOfferTemp.get(0);
+		t1j2 = playersIdMakingOfferTemp.get(1);
+		t1j3 = playersIdMakingOfferTemp.get(2);
+		t1j4 = playersIdMakingOfferTemp.get(3);
+		t1j5 = playersIdMakingOfferTemp.get(4);
+		t1j6 = playersIdMakingOfferTemp.get(5);
+		t1j7 = playersIdMakingOfferTemp.get(6);
 		break;
 
 	    }
@@ -960,11 +983,11 @@ public class TradeModel {
 
 	}
 
-	if (playersIdReceivingOffer != null) {
+	if (playersIdReceivingOfferTemp != null) {
 	    switch (number_of_player_trade_to) {
 
 	    case 1:
-		t2j1 = playersIdReceivingOffer[0];
+		t2j1 = playersIdReceivingOfferTemp.get(0);
 		t2j2 = null;
 		t2j3 = null;
 		t2j4 = null;
@@ -974,8 +997,8 @@ public class TradeModel {
 
 		break;
 	    case 2:
-		t2j1 = playersIdReceivingOffer[0];
-		t2j2 = playersIdReceivingOffer[1];
+		t2j1 = playersIdReceivingOfferTemp.get(0);
+		t2j2 = playersIdReceivingOfferTemp.get(1);
 		t2j3 = null;
 		t2j4 = null;
 		t2j5 = null;
@@ -984,9 +1007,9 @@ public class TradeModel {
 
 		break;
 	    case 3:
-		t2j1 = playersIdReceivingOffer[0];
-		t2j2 = playersIdReceivingOffer[1];
-		t2j3 = playersIdReceivingOffer[2];
+		t2j1 = playersIdReceivingOfferTemp.get(0);
+		t2j2 = playersIdReceivingOfferTemp.get(1);
+		t2j3 = playersIdReceivingOfferTemp.get(2);
 		t2j4 = null;
 		t2j5 = null;
 		t2j6 = null;
@@ -994,43 +1017,43 @@ public class TradeModel {
 
 		break;
 	    case 4:
-		t2j1 = playersIdReceivingOffer[0];
-		t2j2 = playersIdReceivingOffer[1];
-		t2j3 = playersIdReceivingOffer[2];
-		t2j4 = playersIdReceivingOffer[3];
+		t2j1 = playersIdReceivingOfferTemp.get(0);
+		t2j2 = playersIdReceivingOfferTemp.get(1);
+		t2j3 = playersIdReceivingOfferTemp.get(2);
+		t2j4 = playersIdReceivingOfferTemp.get(3);
 		t2j5 = null;
 		t2j6 = null;
 		t2j7 = null;
 
 		break;
 	    case 5:
-		t2j1 = playersIdReceivingOffer[0];
-		t2j2 = playersIdReceivingOffer[1];
-		t2j3 = playersIdReceivingOffer[2];
-		t2j4 = playersIdReceivingOffer[3];
-		t2j5 = playersIdReceivingOffer[4];
+		t2j1 = playersIdReceivingOfferTemp.get(0);
+		t2j2 = playersIdReceivingOfferTemp.get(1);
+		t2j3 = playersIdReceivingOfferTemp.get(2);
+		t2j4 = playersIdReceivingOfferTemp.get(3);
+		t2j5 = playersIdReceivingOfferTemp.get(4);
 		t2j6 = null;
 		t2j7 = null;
 
 		break;
 	    case 6:
-		t2j1 = playersIdReceivingOffer[0];
-		t2j2 = playersIdReceivingOffer[1];
-		t2j3 = playersIdReceivingOffer[2];
-		t2j4 = playersIdReceivingOffer[3];
-		t2j5 = playersIdReceivingOffer[4];
-		t2j6 = playersIdReceivingOffer[5];
+		t2j1 = playersIdReceivingOfferTemp.get(0);
+		t2j2 = playersIdReceivingOfferTemp.get(1);
+		t2j3 = playersIdReceivingOfferTemp.get(2);
+		t2j4 = playersIdReceivingOfferTemp.get(3);
+		t2j5 = playersIdReceivingOfferTemp.get(4);
+		t2j6 = playersIdReceivingOfferTemp.get(5);
 		t2j7 = null;
 
 		break;
 	    case 7:
-		t2j1 = playersIdReceivingOffer[0];
-		t2j2 = playersIdReceivingOffer[1];
-		t2j3 = playersIdReceivingOffer[2];
-		t2j4 = playersIdReceivingOffer[3];
-		t2j5 = playersIdReceivingOffer[4];
-		t2j6 = playersIdReceivingOffer[5];
-		t2j7 = playersIdReceivingOffer[6];
+		t2j1 = playersIdReceivingOfferTemp.get(0);
+		t2j2 = playersIdReceivingOfferTemp.get(1);
+		t2j3 = playersIdReceivingOfferTemp.get(2);
+		t2j4 = playersIdReceivingOfferTemp.get(3);
+		t2j5 = playersIdReceivingOfferTemp.get(4);
+		t2j6 = playersIdReceivingOfferTemp.get(5);
+		t2j7 = playersIdReceivingOfferTemp.get(6);
 		break;
 
 	    }

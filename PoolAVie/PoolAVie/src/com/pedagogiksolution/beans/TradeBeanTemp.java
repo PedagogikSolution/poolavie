@@ -16,6 +16,7 @@ public class TradeBeanTemp implements Serializable {
     private String[] nomMakingOffer;
     private String roundPick;
     private String fromPick;
+    private int clubEcole;
     private String t1j1;
     private String t1j2;
     private String t1j3;
@@ -40,7 +41,9 @@ public class TradeBeanTemp implements Serializable {
     private String team_2;
     private int t1_cash;
     private int t2_cash;
-    
+    private int total_salaire_team_receiving_offer;
+    private String nomReceivingOfferString;
+    private String[] nomReceivingOffer;
     
 
     public String getT1j1() {
@@ -187,9 +190,7 @@ public class TradeBeanTemp implements Serializable {
     public void setT2_cash(int t2_cash) {
         this.t2_cash = t2_cash;
     }
-    private int total_salaire_team_receiving_offer;
-    private String nomReceivingOfferString;
-    private String[] nomReceivingOffer;
+   
     public int getTotal_salaire_team_making_offer() {
 	return total_salaire_team_making_offer;
     }
@@ -243,6 +244,12 @@ public class TradeBeanTemp implements Serializable {
     }
     public void setFromPick(String fromPick) {
 	this.fromPick = fromPick;
+    }
+    public int getClubEcole() {
+	return clubEcole;
+    }
+    public void setClubEcole(int clubEcole) {
+	this.clubEcole = clubEcole;
     }
     
    

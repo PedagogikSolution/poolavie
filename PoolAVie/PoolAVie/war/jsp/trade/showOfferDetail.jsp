@@ -32,7 +32,11 @@
 		<br>
 		<br>
 		<c:if test="${requestScope.whichShow==6 }">
-		<div class="w3-third w3-container">
+			<div class="w3-container w3-row">
+		<br>
+		<br>
+		
+		<div class="w3-half w3-container">
 
 			<table class="w3-table  w3-striped w3-bordered w3-card-8" style="width: 90%; margin-left: auto; margin-right: auto">
 				<caption class="w3-blue w3-xlarge">
@@ -42,46 +46,71 @@
 				<!-- regulier offer -->
 				<tr class="w3-indigo">
 
-					<th>Nom</th>
+					<th class="w3-large">Joueur du Club ferme</th>
+					<th class="w3-large">Salaire</th>
 
 
 				</tr>
 				<c:set var="nombreDeJoueur" value="${tradeOfferBean.nomMakingOffer}" />
 				<c:if test="${empty nombreDeJoueur}">
 					<tr>
-						<td>Aucun</td>
+						<td class="w3-large">Aucun</td>
 					<tr>
 				</c:if>
 				<c:if test="${not empty nombreDeJoueur}">
 					<c:forEach var="i" begin="0" end="${fn:length(nombreDeJoueur)-1}">
 
 						<tr>
-							<td>${tradeOfferBean.nomMakingOffer[i]}</td>
+							<td class="w3-large">${tradeOfferBean.nomMakingOffer[i]}</td>
+							<td class="w3-large">${tradeOfferBean.salaireMakingOffer[i]}</td>
 						</tr>
 
 					</c:forEach>
 				</c:if>
 
-				
+				<!-- recrue offer -->
+				<tr class="w3-indigo">
+
+					<th class="w3-large">Joueur du Club école</th>
+					<th class="w3-large">Salaire</th>
+
+
+				</tr>
+				<c:set var="nombreDeRookie" value="${tradeOfferBean.rookieIdMakingOffer}" />
+				<c:if test="${empty nombreDeRookie}">
+					<tr>
+						<td class="w3-large" colspan = "2">Aucun</td>
+					<tr>
+				</c:if>
+				<c:if test="${not empty nombreDeRookie}">
+					<c:forEach var="i" begin="0" end="${fn:length(nombreDeJoueur)-1}">
+
+						<tr>
+							<td class="w3-large">${tradeOfferBean.rookieIdMakingOffer[i]}</td>
+							<td class="w3-large">${tradeOfferBean.salaireRookieMakingOffer[i]}</td>
+						</tr>
+
+					</c:forEach>
+				</c:if>
 
 
 				<!-- argent offer -->
 				<tr class="w3-indigo">
 
-					<th>Argent</th>
+					<th class="w3-large" colspan = "2">Argent</th>
 
 
 				</tr>
 
 				<c:if test="${empty tradeOfferBean.cashMakingOffer}">
 					<tr>
-						<td>Aucun</td>
+						<td class="w3-large" colspan = "2">Aucun</td>
 					<tr>
 				</c:if>
 				<c:if test="${not empty tradeOfferBean.cashMakingOffer}">
 
 					<tr>
-						<td>${tradeOfferBean.cashMakingOffer}$</td>
+						<td class="w3-large" colspan = "2">${tradeOfferBean.cashMakingOffer}$</td>
 					</tr>
 
 				</c:if>
@@ -89,23 +118,23 @@
 				<!-- recrue offer -->
 				<tr class="w3-indigo">
 
-					<th>Round</th>
-					<th>team</th>
+					<th class="w3-large">Round</th>
+					<th class="w3-large">Provenance</th>
 
 
 				</tr>
 				<c:set var="nombreDePick" value="${tradeOfferBean.roundPickMakingOffer}" />
 				<c:if test="${empty nombreDePick}">
 					<tr>
-						<td>Aucun</td>
+						<td class="w3-large" colspan = "2">Aucun</td>
 					<tr>
 				</c:if>
 				<c:if test="${not empty nombreDePick}">
 					<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 
 						<tr>
-							<td>${tradeOfferBean.roundPickMakingOffer[i]}</td>
-							<td>${tradeOfferBean.fromPickMakingOffer[i]}</td>
+							<td class="w3-large">${tradeOfferBean.roundPickMakingOffer[i]}</td>
+							<td class="w3-large">${tradeOfferBean.fromPickMakingOffer[i]}</td>
 						</tr>
 
 					</c:forEach>
@@ -116,69 +145,87 @@
 			</table>
 
 
-
-
-		</div>
-
-		<div class="w3-third w3-container">
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<span class="w3-xxxlarge">EN ÉCHANGE DE</span>
+		<br>
+		<br>
 
 		</div>
 
-		<div class="w3-third w3-container">
+		
+
+		<div class="w3-half w3-container">
 			<table class="w3-table  w3-striped w3-bordered w3-card-8" style="width: 90%; margin-left: auto; margin-right: auto">
 				<caption class="w3-blue w3-xlarge">
-					<h1>Je reçois</h1>
+					<h1>Je veux recevoir</h1>
 				</caption>
 
 				<!-- regulier offer -->
 				<tr class="w3-indigo">
 
-					<th>Nom</th>
+					<th class="w3-large">Joueur du Club ferme</th>
+					<th class="w3-large">Salaire</th>
 
 
 				</tr>
 				<c:set var="nombreDeJoueur" value="${tradeOfferBean.nomReceivingOffer}" />
 				<c:if test="${empty nombreDeJoueur}">
 					<tr>
-						<td>Aucun</td>
+						<td class="w3-large" colspan = "2">Aucun</td>
 					<tr>
 				</c:if>
 				<c:if test="${not empty nombreDeJoueur}">
 					<c:forEach var="i" begin="0" end="${fn:length(nombreDeJoueur)-1}">
 
 						<tr>
-							<td>${tradeOfferBean.nomReceivingOffer[i]}</td>
+							<td class="w3-large">${tradeOfferBean.nomReceivingOffer[i]}</td>
+							<td class="w3-large">${tradeOfferBean.salaireReceivingOffer[i]}</td>
 						</tr>
 
 					</c:forEach>
 				</c:if>
 
-				
+				<!-- recrue offer -->
+				<tr class="w3-indigo">
+
+					<th class="w3-large">Joueur du Club école</th>
+					<th class="w3-large">Salaire</th>
+
+
+				</tr>
+				<c:set var="nombreDeJoueur" value="${tradeOfferBean.rookieIdReceivingOffer}" />
+				<c:if test="${empty nombreDeJoueur}">
+					<tr>
+						<td class="w3-large" colspan = "2">Aucun</td>
+					<tr>
+				</c:if>
+				<c:if test="${not empty nombreDeJoueur}">
+					<c:forEach var="i" begin="0" end="${fn:length(nombreDeJoueur)-1}">
+
+						<tr>
+							<td class="w3-large">${tradeOfferBean.rookieIdReceivingOffer[i]}</td>
+							<td class="w3-large">${tradeOfferBean.salaireRookieReceivingOffer[i]}</td>
+						</tr>
+
+					</c:forEach>
+				</c:if>
+
 
 				<!-- argent offer -->
 				<tr class="w3-indigo">
 
-					<th>Argent</th>
+					<th class="w3-large" colspan = "2">Argent</th>
 
 
 				</tr>
 
 				<c:if test="${empty tradeOfferBean.cashReceivingOffer}">
 					<tr>
-						<td>Aucun</td>
+						<td class="w3-large" colspan = "2">Aucun</td>
 					<tr>
 				</c:if>
 				<c:if test="${not empty tradeOfferBean.cashReceivingOffer}">
 
 					<tr>
-						<td>${tradeOfferBean.cashReceivingOffer}$</td>
+						<td class="w3-large" colspan = "2">${tradeOfferBean.cashReceivingOffer}$</td>
 					</tr>
 
 				</c:if>
@@ -186,23 +233,23 @@
 				<!-- recrue offer -->
 				<tr class="w3-indigo">
 
-					<th>Round</th>
-					<th>team</th>
+					<th class="w3-large">Round</th>
+					<th class="w3-large">Provenance</th>
 
 
 				</tr>
 				<c:set var="nombreDePick" value="${tradeOfferBean.roundPickReceivingOffer}" />
 				<c:if test="${empty nombreDePick}">
 					<tr>
-						<td>Aucun</td>
+						<td class="w3-large" colspan = "2">Aucun</td>
 					<tr>
 				</c:if>
 				<c:if test="${not empty nombreDePick}">
 					<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 
 						<tr>
-							<td>${tradeOfferBean.roundPickReceivingOffer[i]}</td>
-							<td>${tradeOfferBean.fromPickReceivingOffer[i]}</td>
+							<td class="w3-large">${tradeOfferBean.roundPickReceivingOffer[i]}</td>
+							<td class="w3-large">${tradeOfferBean.fromPickReceivingOffer[i]}</td>
 						</tr>
 
 					</c:forEach>
@@ -211,159 +258,93 @@
 
 
 			</table>
-
+			<br>
+		<br>
 		</div>
+
+	</div>
 		</c:if>
 				<br>
 		<br>
 		<c:if test="${requestScope.whichShow==7 }">
-		<div class="w3-third w3-container">
-
+			<div class="w3-container w3-row">
+		<br>
+		<br>
+		
+		<div class="w3-half w3-container">
 			<table class="w3-table  w3-striped w3-bordered w3-card-8" style="width: 90%; margin-left: auto; margin-right: auto">
 				<caption class="w3-blue w3-xlarge">
-					<h1>Je recois</h1>
+					<h1>Je dois donner</h1>
 				</caption>
 
 				<!-- regulier offer -->
 				<tr class="w3-indigo">
 
-					<th>Nom</th>
-
-
-				</tr>
-				<c:set var="nombreDeJoueur" value="${tradeOfferBean.nomMakingOffer}" />
-				<c:if test="${empty nombreDeJoueur}">
-					<tr>
-						<td>Aucun</td>
-					<tr>
-				</c:if>
-				<c:if test="${not empty nombreDeJoueur}">
-					<c:forEach var="i" begin="0" end="${fn:length(nombreDeJoueur)-1}">
-
-						<tr>
-							<td>${tradeOfferBean.nomMakingOffer[i]}</td>
-						</tr>
-
-					</c:forEach>
-				</c:if>
-
-				
-
-
-				<!-- argent offer -->
-				<tr class="w3-indigo">
-
-					<th>Argent</th>
-
-
-				</tr>
-
-				<c:if test="${empty tradeOfferBean.cashMakingOffer}">
-					<tr>
-						<td>Aucun</td>
-					<tr>
-				</c:if>
-				<c:if test="${not empty tradeOfferBean.cashMakingOffer}">
-
-					<tr>
-						<td>${tradeOfferBean.cashMakingOffer}$</td>
-					</tr>
-
-				</c:if>
-
-				<!-- recrue offer -->
-				<tr class="w3-indigo">
-
-					<th>Round</th>
-					<th>team</th>
-
-
-				</tr>
-				<c:set var="nombreDePick" value="${tradeOfferBean.roundPickMakingOffer}" />
-				<c:if test="${empty nombreDePick}">
-					<tr>
-						<td>Aucun</td>
-					<tr>
-				</c:if>
-				<c:if test="${not empty nombreDePick}">
-					<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
-
-						<tr>
-							<td>${tradeOfferBean.roundPickMakingOffer[i]}</td>
-							<td>${tradeOfferBean.fromPickMakingOffer[i]}</td>
-						</tr>
-
-					</c:forEach>
-				</c:if>
-
-
-
-			</table>
-
-
-
-
-		</div>
-
-		<div class="w3-third w3-container">
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<span class="w3-xxxlarge">EN ÉCHANGE DE</span>
-
-		</div>
-
-		<div class="w3-third w3-container">
-			<table class="w3-table  w3-striped w3-bordered w3-card-8" style="width: 90%; margin-left: auto; margin-right: auto">
-				<caption class="w3-blue w3-xlarge">
-					<h1>J'offre</h1>
-				</caption>
-
-				<!-- regulier offer -->
-				<tr class="w3-indigo">
-
-					<th>Nom</th>
+					<th class="w3-large">Joueur du Club ferme</th>
+					<th class="w3-large">Salaire</th>
 
 
 				</tr>
 				<c:set var="nombreDeJoueur" value="${tradeOfferBean.nomReceivingOffer}" />
 				<c:if test="${empty nombreDeJoueur}">
 					<tr>
-						<td>Aucun</td>
+						<td class="w3-large" colspan = "2">Aucun</td>
 					<tr>
 				</c:if>
 				<c:if test="${not empty nombreDeJoueur}">
 					<c:forEach var="i" begin="0" end="${fn:length(nombreDeJoueur)-1}">
 
 						<tr>
-							<td>${tradeOfferBean.nomReceivingOffer[i]}</td>
+							<td class="w3-large">${tradeOfferBean.nomReceivingOffer[i]}</td>
+							<td class="w3-large">${tradeOfferBean.salaireReceivingOffer[i]}</td>
 						</tr>
 
 					</c:forEach>
 				</c:if>
 
-				
+				<!-- recrue offer -->
+				<tr class="w3-indigo">
+
+					<th class="w3-large">Joueur du Club école</th>
+					<th class="w3-large">Salaire</th>
+
+
+				</tr>
+				<c:set var="nombreDeJoueur" value="${tradeOfferBean.rookieIdReceivingOffer}" />
+				<c:if test="${empty nombreDeJoueur}">
+					<tr>
+						<td class="w3-large" colspan = "2">Aucun</td>
+					<tr>
+				</c:if>
+				<c:if test="${not empty nombreDeJoueur}">
+					<c:forEach var="i" begin="0" end="${fn:length(nombreDeJoueur)-1}">
+
+						<tr>
+							<td class="w3-large">${tradeOfferBean.rookieIdReceivingOffer[i]}</td>
+							<td class="w3-large">${tradeOfferBean.salaireRookieReceivingOffer[i]}</td>
+						</tr>
+
+					</c:forEach>
+				</c:if>
+
 
 				<!-- argent offer -->
 				<tr class="w3-indigo">
 
-					<th>Argent</th>
+					<th class="w3-large" colspan = "2">Argent</th>
 
 
 				</tr>
 
 				<c:if test="${empty tradeOfferBean.cashReceivingOffer}">
 					<tr>
-						<td>Aucun</td>
+						<td class="w3-large" colspan = "2">Aucun</td>
 					<tr>
 				</c:if>
 				<c:if test="${not empty tradeOfferBean.cashReceivingOffer}">
 
 					<tr>
-						<td>${tradeOfferBean.cashReceivingOffer}$</td>
+						<td class="w3-large" colspan = "2">${tradeOfferBean.cashReceivingOffer}$</td>
 					</tr>
 
 				</c:if>
@@ -371,23 +352,23 @@
 				<!-- recrue offer -->
 				<tr class="w3-indigo">
 
-					<th>Round</th>
-					<th>team</th>
+					<th class="w3-large">Round</th>
+					<th class="w3-large">Provenance</th>
 
 
 				</tr>
 				<c:set var="nombreDePick" value="${tradeOfferBean.roundPickReceivingOffer}" />
 				<c:if test="${empty nombreDePick}">
 					<tr>
-						<td>Aucun</td>
+						<td class="w3-large" colspan = "2">Aucun</td>
 					<tr>
 				</c:if>
 				<c:if test="${not empty nombreDePick}">
 					<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 
 						<tr>
-							<td>${tradeOfferBean.roundPickReceivingOffer[i]}</td>
-							<td>${tradeOfferBean.fromPickReceivingOffer[i]}</td>
+							<td class="w3-large">${tradeOfferBean.roundPickReceivingOffer[i]}</td>
+							<td class="w3-large">${tradeOfferBean.fromPickReceivingOffer[i]}</td>
 						</tr>
 
 					</c:forEach>
@@ -396,23 +377,142 @@
 
 
 			</table>
+			
+
+
+		<br>
+		<br>
 
 		</div>
+
+		
+
+		<div class="w3-half w3-container">
+			<table class="w3-table  w3-striped w3-bordered w3-card-8" style="width: 90%; margin-left: auto; margin-right: auto">
+				<caption class="w3-blue w3-xlarge">
+					<h1>On m'offre</h1>
+				</caption>
+
+				<!-- regulier offer -->
+				<tr class="w3-indigo">
+
+					<th class="w3-large">Joueur du Club ferme</th>
+					<th class="w3-large">Salaire</th>
+
+
+				</tr>
+				<c:set var="nombreDeJoueur" value="${tradeOfferBean.nomMakingOffer}" />
+				<c:if test="${empty nombreDeJoueur}">
+					<tr>
+						<td class="w3-large">Aucun</td>
+					<tr>
+				</c:if>
+				<c:if test="${not empty nombreDeJoueur}">
+					<c:forEach var="i" begin="0" end="${fn:length(nombreDeJoueur)-1}">
+
+						<tr>
+							<td class="w3-large">${tradeOfferBean.nomMakingOffer[i]}</td>
+							<td class="w3-large">${tradeOfferBean.salaireMakingOffer[i]}</td>
+						</tr>
+
+					</c:forEach>
+				</c:if>
+
+				<!-- recrue offer -->
+				<tr class="w3-indigo">
+
+					<th class="w3-large">Joueur du Club école</th>
+					<th class="w3-large">Salaire</th>
+
+
+				</tr>
+				<c:set var="nombreDeJoueur" value="${tradeOfferBean.rookieIdMakingOffer}" />
+				<c:if test="${empty nombreDeJoueur}">
+					<tr>
+						<td class="w3-large" colspan = "2">Aucun</td>
+					<tr>
+				</c:if>
+				<c:if test="${not empty nombreDeJoueur}">
+					<c:forEach var="i" begin="0" end="${fn:length(nombreDeJoueur)-1}">
+
+						<tr>
+							<td class="w3-large">${tradeOfferBean.rookieIdMakingOffer[i]}</td>
+							<td class="w3-large">${tradeOfferBean.salaireRookieMakingOffer[i]}</td>
+						</tr>
+
+					</c:forEach>
+				</c:if>
+
+
+				<!-- argent offer -->
+				<tr class="w3-indigo">
+
+					<th class="w3-large" colspan = "2">Argent</th>
+
+
+				</tr>
+
+				<c:if test="${empty tradeOfferBean.cashMakingOffer}">
+					<tr>
+						<td class="w3-large" colspan = "2">Aucun</td>
+					<tr>
+				</c:if>
+				<c:if test="${not empty tradeOfferBean.cashMakingOffer}">
+
+					<tr>
+						<td class="w3-large" colspan = "2">${tradeOfferBean.cashMakingOffer}$</td>
+					</tr>
+
+				</c:if>
+
+				<!-- recrue offer -->
+				<tr class="w3-indigo">
+
+					<th class="w3-large">Round</th>
+					<th class="w3-large">Provenance</th>
+
+
+				</tr>
+				<c:set var="nombreDePick" value="${tradeOfferBean.roundPickMakingOffer}" />
+				<c:if test="${empty nombreDePick}">
+					<tr>
+						<td class="w3-large" colspan = "2">Aucun</td>
+					<tr>
+				</c:if>
+				<c:if test="${not empty nombreDePick}">
+					<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
+
+						<tr>
+							<td class="w3-large">${tradeOfferBean.roundPickMakingOffer[i]}</td>
+							<td class="w3-large">${tradeOfferBean.fromPickMakingOffer[i]}</td>
+						</tr>
+
+					</c:forEach>
+				</c:if>
+
+
+
+			</table>
+			<br>
+		<br>
+		</div>
+
+	</div>
 		</c:if>
 	</div>
 	
 	
 	
 	
-
+<hr>
 	<div class="w3-container w3-row w3-center">
-		<br>
-		<br>
-
-		Ainsi que le message suivant :
-		<br>
-		<textarea rows="8" cols="150">${tradeOfferBean.messageOffre}</textarea>
-	</div>
+			<h2>Message du DG offrant au DG recevant l'offre</h2>
+			<br>
+			<br>
+			<div class="w3-padding-xlarge w3-topbar w3-leftbar w3-bottombar w3-rightbar w3-border-red w3-pale-red w3-round-xlarge w3-large">
+			${tradeOfferBean.messageOffre}
+			</div>
+			</div>
 	<hr>
 	<div class="w3-container w3-row w3-center">
 	<br>
