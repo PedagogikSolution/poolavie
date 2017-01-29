@@ -834,26 +834,30 @@ public class TradeModel {
 
 	List<String> playersIdMakingOfferTemp = new ArrayList<String>();
 
-	for (String s : mBean.getPlayerIdMakingOffer()) {
-	    playersIdMakingOfferTemp.add(s);
+	if (mBean.getPlayerIdMakingOffer() != null){
+	    for (String s : mBean.getPlayerIdMakingOffer()) {
+		playersIdMakingOfferTemp.add(s);
+	    }
 	}
-
+	if (mBean.getRookieIdTeamMakingOffer() != null){
 	for (String s : mBean.getRookieIdTeamMakingOffer()) {
 	    playersIdMakingOfferTemp.add(s);
+	}
 	}
 
 	List<String> playersIdReceivingOfferTemp = new ArrayList<String>();
 
+	if (mBean.getPlayerIdReceivingOffer() != null){
 	for (String s : mBean.getPlayerIdReceivingOffer()) {
 	    playersIdReceivingOfferTemp.add(s);
 	}
-
+	}
+	if (mBean.getRookieIdTeamReceivingOffer() != null){
 	for (String s : mBean.getRookieIdTeamReceivingOffer()) {
 	    playersIdReceivingOfferTemp.add(s);
 	}
-	
-	
-	
+	}
+
 	String[] pickMakingOffer = mBean.getPickNumMakingOffer();
 	String[] pickReceivingOffer = mBean.getPickNumReceivingOffer();
 	int cashMakingOffer = mBean.getCashMakingOffer();
