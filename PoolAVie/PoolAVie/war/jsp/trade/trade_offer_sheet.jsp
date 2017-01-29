@@ -52,7 +52,7 @@
 	</c:if>
 
 
-	<c:if test="${requestScope.tradeOpen==1}">
+	 <c:if test="${requestScope.tradeOpen==1}">
 
 		<!-- Section  -->
 
@@ -769,6 +769,7 @@
 <br>
 
 	</c:if>
+	
 <br>
 
 

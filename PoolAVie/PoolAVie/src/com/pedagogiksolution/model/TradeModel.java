@@ -1740,6 +1740,7 @@ public class TradeModel {
 	int poolId = Integer.parseInt(poolID);
 
 	tradeMadeDao.insertTradeMade(poolId, trade_id);
+	
 
     }
 

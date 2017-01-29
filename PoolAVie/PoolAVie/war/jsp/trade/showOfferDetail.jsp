@@ -515,29 +515,37 @@
 	<div class="w3-container w3-row w3-center">
 		<br>
 		<c:if test="${requestScope.whichShow==6 }">
-			<form class="w3-container w3-form" action="/Trade" method="post">
-				<input type="hidden" name="trade_id" value="${tradeOfferBean.trade_id}">
-				<input type="hidden" name="tradeTag" value="5">
-				<input style="font-size: 18px" type="submit" value="Annuler cette offre">
-			</form>
+		
+		<form action="/Trade" method="post">
+		<input type="hidden" name="trade_id" value="${tradeOfferBean.trade_id}">
+		<input type="hidden" name="tradeTag" value="5">
+		<button class="w3-btn w3-blue w3-xxlarge w3-round">Annuler cette offre</button>
+	</form>
+			
+				
+				
 			<br>
 
 		</c:if>
 
 		<c:if test="${requestScope.whichShow==7 }">
-			<form class="w3-container w3-form" action="/Trade" method="post">
-				<input type="hidden" name="trade_id" value="${tradeOfferBean.trade_id}">
-				<input type="hidden" name="tradeTag" value="5">
-				<input style="font-size: 18px" type="submit" value="Refuser cette offre">
-			</form>
-			<br>
-			<br>
-
-			<form class="w3-container w3-form" action="/Trade" method="post">
-				<input type="hidden" name="trade_id" value="${tradeOfferBean.trade_id}">
-				<input type="hidden" name="tradeTag" value="4">
-				<input style="font-size: 18px" type="submit" value="Accepter cette offre">
-			</form>
+		
+			<form action="/Trade" method="post">
+		<input type="hidden" name="trade_id" value="${tradeOfferBean.trade_id}">
+		<input type="hidden" name="tradeTag" value="5">
+		<button class="w3-btn w3-blue w3-xxlarge w3-round">Refuser cette offre</button>
+	</form>
+	<br>
+	<br>
+	<form action="/Trade" method="post">
+		<input type="hidden" name="trade_id" value="${tradeOfferBean.trade_id}">
+		<input type="hidden" name="tradeTag" value="4">
+		<button class="w3-btn w3-blue w3-large w3-round">Accepter cette offre</button>
+	</form>
+	<br>
+	<br>
+	
+			
 		</c:if>
 
 		<br>

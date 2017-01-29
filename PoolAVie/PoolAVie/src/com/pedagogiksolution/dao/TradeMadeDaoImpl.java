@@ -64,7 +64,7 @@ public class TradeMadeDaoImpl implements TradeMadeDao {
 
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, INSERT_TRADE_OFFER_INTO_TRADE_MADE, false, poolId,trade_id);
+	    preparedStatement = initialisationRequetePreparee(connexion, INSERT_TRADE_OFFER_INTO_TRADE_MADE, false, poolId,poolId,trade_id);
 	    preparedStatement.executeUpdate();
 	    
 	} catch (SQLException e) {
