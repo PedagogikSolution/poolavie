@@ -320,7 +320,7 @@
 							<th>Inclure</th>
 
 						</tr>
-						<c:set var="nombreDePick" value="${NonSessionDraftPickMakingThisYear.pick_no}" />
+						<c:set var="nombreDePick" value="${NonSessionDraftPickMakingThisYear.ronde}" />
 
 						<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 
@@ -348,7 +348,7 @@
 							<th>Inclure</th>
 
 						</tr>
-						<c:set var="nombreDePick" value="${NonSessionDraftPickMaking.pick_no}" />
+						<c:set var="nombreDePick" value="${NonSessionDraftPickMaking.ronde}" />
 
 						<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 
@@ -382,7 +382,7 @@
 							<th>Inclure</th>
 
 						</tr>
-						<c:set var="nombreDePick" value="${NonSessionDraftPickMaking.pick_no}" />
+						<c:set var="nombreDePick" value="${NonSessionDraftPickMaking.ronde}" />
 
 						<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 
@@ -665,7 +665,7 @@
 							<th>Inclure</th>
 
 						</tr>
-						<c:set var="nombreDePick" value="${NonSessionDraftPickRecivingThisYear.pick_no}" />
+						<c:set var="nombreDePick" value="${NonSessionDraftPickRecivingThisYear.ronde}" />
 
 						<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 
@@ -693,7 +693,7 @@
 							<th>Inclure</th>
 
 						</tr>
-						<c:set var="nombreDePick" value="${NonSessionDraftPickReciving.pick_no}" />
+						<c:set var="nombreDePick" value="${NonSessionDraftPickReciving.ronde}" />
 
 						<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 
@@ -727,7 +727,7 @@
 							<th>Inclure</th>
 
 						</tr>
-						<c:set var="nombreDePick" value="${NonSessionDraftPickReciving.pick_no}" />
+						<c:set var="nombreDePick" value="${NonSessionDraftPickReciving.ronde}" />
 
 						<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 
@@ -769,7 +769,7 @@
 <br>
 
 	</c:if>
-	
+
 <br>
 
 
