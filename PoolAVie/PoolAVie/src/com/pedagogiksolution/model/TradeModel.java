@@ -799,9 +799,9 @@ public class TradeModel {
 	mBean.setPlayerIdMakingOffer(playersIdTeamThatMakeOffer);
 	mBean.setPlayerIdReceivingOffer(playersIdTeamThatReceiveOffer);
 	mBean.setRookieIdTeamMakingOffer(rookie_id_my_team);
-	mBean.setRookieIdMakingOffer(nomRookieMakingOffer);
-	mBean.setRookieIdTeamReceivingOffer(rookie_id_my_team);
-	mBean.setRookieIdReceivingOffer(nomRookieReceivingOffer);
+	mBean.setRookieNomMakingOffer(nomRookieMakingOffer);
+	mBean.setRookieIdTeamReceivingOffer(rookie_id_trade_with_team);
+	mBean.setRookieNomReceivingOffer(nomRookieReceivingOffer);
 	mBean.setPickNumMakingOffer(picksIdTeamThatMakeOffer);
 	mBean.setPickNumReceivingOffer(picksIdTeamThatReceiveOffer);
 	mBean.setCashMakingOffer(cashIncludeTeamThatMakeOfferInt);

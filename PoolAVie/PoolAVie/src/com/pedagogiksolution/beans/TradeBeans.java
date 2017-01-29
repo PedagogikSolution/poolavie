@@ -17,17 +17,17 @@ public class TradeBeans implements Serializable{
     private int codeErreurOffreTrade;
     private int trade_id;
     private String[] nomMakingOffer;
+    private String[] nomReceivingOffer;
     private int[] salaireMakingOffer;
     private int[] salaireRookieMakingOffer;
     private String[] pickNumMakingOffer;
-    private String[] nomReceivingOffer;
     private int[] salaireReceivingOffer;
     private int[] salaireRookieReceivingOffer;
     private String[] pickNumReceivingOffer;
     private String[] playerIdMakingOffer;
     private String[] playerIdReceivingOffer;
-    private String[] rookieIdMakingOffer;
-    private String[] rookieIdReceivingOffer;
+    private String[] rookieNomMakingOffer;
+    private String[] rookieNomReceivingOffer;
     private int cashMakingOffer;
     private int cashReceivingOffer;
     private String[] roundPickMakingOffer;
@@ -240,21 +240,6 @@ public class TradeBeans implements Serializable{
 	this.messageOffre = messageOffre;
     }
 
-    public String[] getRookieIdMakingOffer() {
-	return rookieIdMakingOffer;
-    }
-
-    public void setRookieIdMakingOffer(String[] rookieIdMakingOffer) {
-	this.rookieIdMakingOffer = rookieIdMakingOffer;
-    }
-
-    public String[] getRookieIdReceivingOffer() {
-	return rookieIdReceivingOffer;
-    }
-
-    public void setRookieIdReceivingOffer(String[] rookieIdReceivingOffer) {
-	this.rookieIdReceivingOffer = rookieIdReceivingOffer;
-    }
 
     public String getNomTeam() {
 	return nomTeam;
@@ -334,6 +319,22 @@ public class TradeBeans implements Serializable{
 
     public void setRookieIdTeamReceivingOffer(String[] rookieIdTeamReceivingOffer) {
 	this.rookieIdTeamReceivingOffer = rookieIdTeamReceivingOffer;
+    }
+
+    public String[] getRookieNomMakingOffer() {
+	return rookieNomMakingOffer;
+    }
+
+    public void setRookieNomMakingOffer(String[] rookieNomMakingOffer) {
+	this.rookieNomMakingOffer = rookieNomMakingOffer;
+    }
+
+    public String[] getRookieNomReceivingOffer() {
+	return rookieNomReceivingOffer;
+    }
+
+    public void setRookieNomReceivingOffer(String[] rookieNomReceivingOffer) {
+	this.rookieNomReceivingOffer = rookieNomReceivingOffer;
     }
 
     

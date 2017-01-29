@@ -251,7 +251,7 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
     }
 
     @Override
-    public TradeBeans showOfferX(Pool mBeanPool, Utilisateur mBeanUser, int trade_id,PlayersDao playersDao, DraftPickDao draftPickDao) throws DAOException {
+    public TradeBeans showOfferX(Pool mBeanPool, Utilisateur mBeanUser, int trade_id, PlayersDao playersDao, DraftPickDao draftPickDao) throws DAOException {
 
 	Connection connexion = null;
 	ResultSet rs = null;
@@ -404,24 +404,28 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 	int[] salaireRookieReceivingOffer = new int[nbPlayersTeamThatReceived];
 	String[] nomRookieMakingOffer = new String[nbPlayersTeamThatOffer];
 	String[] nomRookieReceivingOffer = new String[nbPlayersTeamThatReceived];
-	
 
 	int i = 0;
+	int compteurRookie = 0;
+	int compteurJoueur = 0;
 	if (playersTeamThatOffer != null) {
 
 	    for (String s : playersTeamThatOffer) {
 		int toInt = Integer.parseInt(s);
 		TradeBeanTemp mBeanTemp = new TradeBeanTemp();
-		 mBeanTemp = playersDao.getPlayersById(mBeanPool.getPoolID(), toInt, 2);
+		mBeanTemp = playersDao.getPlayersById(mBeanPool.getPoolID(), toInt, 2);
 
 		if (mBeanTemp.getNomMakingOfferString() != null) {
-		    
-		    if(mBeanTemp.getClubEcole()==1){
-			nomRookieMakingOffer[i] = mBeanTemp.getNomMakingOfferString();
-			salaireRookieMakingOffer[i]=mBeanTemp.getTotal_salaire_team_making_offer();
-		    }else {
-			nomMakingOffer[i] = mBeanTemp.getNomMakingOfferString();
-		    salaireMakingOffer[i] = mBeanTemp.getTotal_salaire_team_making_offer();
+
+		    if (mBeanTemp.getClubEcole() == 1) {
+			nomRookieMakingOffer[compteurRookie] = mBeanTemp.getNomMakingOfferString();
+			salaireRookieMakingOffer[compteurRookie] = mBeanTemp.getTotal_salaire_team_making_offer();
+			
+			compteurRookie++;
+		    } else {
+			nomMakingOffer[compteurJoueur] = mBeanTemp.getNomMakingOfferString();
+			salaireMakingOffer[compteurJoueur] = mBeanTemp.getTotal_salaire_team_making_offer();
+			compteurJoueur++;
 		    }
 		}
 	    }
@@ -429,10 +433,25 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 
 	}
 
-	
+	String[] nomRookieMakingOffer2 = new String[compteurRookie];
+	String[] nomMakingOffer2 = new String[compteurJoueur];
+
+	i = 0;
+	for (i = 0; i < compteurJoueur; i++) {
+	    nomMakingOffer2[i] = nomMakingOffer[i];
+	    
+	}
+	i = 0;
+	for (i = 0; i < compteurRookie; i++) {
+	    nomRookieMakingOffer2[i] = nomRookieMakingOffer[i];
+	    
+	}
+
 	// on calcul le total d'Argent des salaire des joueurs de l'Equipe qui recoit et on ajoute leur nom dans un
 	// array
 	int j = 0;
+	int compteurRookieRec = 0;
+	int compteurJoueurRec = 0;
 	if (playersTeamThatReceived != null) {
 
 	    for (String s : playersTeamThatReceived) {
@@ -441,16 +460,17 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 		mBeanTemp = playersDao.getPlayersById(mBeanPool.getPoolID(), toInt, 2);
 
 		if (mBeanTemp.getNomMakingOfferString() != null) {
-		    
-		    
-		    if(mBeanTemp.getClubEcole()==1){
-			nomRookieReceivingOffer[j] = mBeanTemp.getNomMakingOfferString();
-			salaireRookieReceivingOffer[j]=mBeanTemp.getTotal_salaire_team_making_offer();
-		    }else {
-			nomReceivingOffer[j] = mBeanTemp.getNomMakingOfferString();
-		    salaireReceivingOffer[j] = mBeanTemp.getTotal_salaire_team_making_offer();
+
+		    if (mBeanTemp.getClubEcole() == 1) {
+			nomRookieReceivingOffer[compteurRookieRec] = mBeanTemp.getNomMakingOfferString();
+			salaireRookieReceivingOffer[compteurRookieRec] = mBeanTemp.getTotal_salaire_team_making_offer();
+			compteurRookieRec++;
+		    } else {
+			nomReceivingOffer[compteurJoueurRec] = mBeanTemp.getNomMakingOfferString();
+			salaireReceivingOffer[compteurJoueurRec] = mBeanTemp.getTotal_salaire_team_making_offer();
+			compteurJoueurRec++;
 		    }
-		    
+
 		}
 	    }
 
@@ -458,7 +478,20 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 
 	}
 
-	
+	String[] nomRookieReceivingOffer2 = new String[compteurRookieRec];
+	String[] nomReceivingOffer2 = new String[compteurJoueurRec];
+
+	j = 0;
+	for (j = 0; j < compteurJoueurRec; j++) {
+	    nomReceivingOffer2[j] = nomReceivingOffer[j];
+	    
+	}
+	j = 0;
+	for (j = 0; j < compteurRookieRec; j++) {
+	    nomRookieReceivingOffer2[j] = nomRookieReceivingOffer[j];
+	   
+	}
+
 	// roundpick et frompick a faire pour la persistence
 	if (draftPickTeamThatOffer != null) {
 	    int k = 0;
@@ -495,8 +528,8 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 	mBean.setPickNumReceivingOffer(draftPickTeamThatReceived);
 	mBean.setCashMakingOffer(argentOfferTeamThatTrade);
 	mBean.setCashReceivingOffer(argentOfferTeamThatReceivedOffer);
-	mBean.setNomMakingOffer(nomMakingOffer);
-	mBean.setNomReceivingOffer(nomReceivingOffer);
+	mBean.setNomMakingOffer(nomMakingOffer2);
+	mBean.setNomReceivingOffer(nomReceivingOffer2);
 	mBean.setRoundPickMakingOffer(RoundPickMakingOffer);
 	mBean.setRoundPickReceivingOffer(RoundPickReceivingOffer);
 	mBean.setFromPickMakingOffer(FromPickMakingOffer);
@@ -506,8 +539,8 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 	mBean.setSalaireReceivingOffer(salaireReceivingOffer);
 	mBean.setSalaireRookieMakingOffer(salaireRookieMakingOffer);
 	mBean.setSalaireRookieReceivingOffer(salaireRookieReceivingOffer);
-	mBean.setRookieIdMakingOffer(nomRookieMakingOffer);
-	mBean.setRookieIdReceivingOffer(nomRookieReceivingOffer);
+	mBean.setRookieNomMakingOffer(nomRookieMakingOffer2);
+	mBean.setRookieNomReceivingOffer(nomRookieReceivingOffer2);
 
 	return mBean;
 
@@ -529,16 +562,14 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 	} finally {
 	    fermeturesSilencieuses(preparedStatement, connexion);
 	}
-	
+
     }
 
-    
     @Override
     public TradeBeanTemp getTradeNumberX(int poolId, int trade_id) throws DAOException {
-	
-	
+
 	TradeBeanTemp mBeanTemp = new TradeBeanTemp();
-	
+
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
 
@@ -546,10 +577,10 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 	    connexion = daoFactory.getConnection();
 	    preparedStatement = initialisationRequetePreparee(connexion, SHOW_TRADE_X, false, poolId, trade_id);
 	    ResultSet rs = preparedStatement.executeQuery();
-	    
+
 	    if (rs.next()) {
 
-		mBeanTemp.setT1j1(rs.getString("t1j1")); 
+		mBeanTemp.setT1j1(rs.getString("t1j1"));
 		mBeanTemp.setT1j2(rs.getString("t1j2"));
 		mBeanTemp.setT1j3(rs.getString("t1j3"));
 		mBeanTemp.setT1j4(rs.getString("t1j4"));
@@ -573,7 +604,7 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 		mBeanTemp.setTeam_2(rs.getString("team_2"));
 		mBeanTemp.setT1_cash(rs.getInt("t1_cash"));
 		mBeanTemp.setT2_cash(rs.getInt("t2_cash"));
-		
+
 	    }
 
 	} catch (SQLException e) {
@@ -581,7 +612,7 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 	} finally {
 	    fermeturesSilencieuses(preparedStatement, connexion);
 	}
-	
+
 	return mBeanTemp;
     }
 

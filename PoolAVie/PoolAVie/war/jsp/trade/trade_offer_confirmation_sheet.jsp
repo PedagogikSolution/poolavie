@@ -72,7 +72,7 @@
 
 
 				</tr>
-				<c:set var="nombreDeJoueur" value="${tradeOfferBean.rookieIdMakingOffer}" />
+				<c:set var="nombreDeJoueur" value="${tradeOfferBean.rookieNomMakingOffer}" />
 				<c:if test="${empty nombreDeJoueur}">
 					<tr>
 						<td class="w3-large" colspan = "2">Aucun</td>
@@ -82,7 +82,7 @@
 					<c:forEach var="i" begin="0" end="${fn:length(nombreDeJoueur)-1}">
 
 						<tr>
-							<td class="w3-large">${tradeOfferBean.rookieIdMakingOffer[i]}</td>
+							<td class="w3-large">${tradeOfferBean.rookieNomMakingOffer[i]}</td>
 							<td class="w3-large">${tradeOfferBean.salaireRookieMakingOffer[i]}</td>
 						</tr>
 
@@ -187,7 +187,7 @@
 
 
 				</tr>
-				<c:set var="nombreDeJoueur" value="${tradeOfferBean.rookieIdReceivingOffer}" />
+				<c:set var="nombreDeJoueur" value="${tradeOfferBean.rookieNomReceivingOffer}" />
 				<c:if test="${empty nombreDeJoueur}">
 					<tr>
 						<td class="w3-large" colspan = "2">Aucun</td>
@@ -197,7 +197,7 @@
 					<c:forEach var="i" begin="0" end="${fn:length(nombreDeJoueur)-1}">
 
 						<tr>
-							<td class="w3-large">${tradeOfferBean.rookieIdReceivingOffer[i]}</td>
+							<td class="w3-large">${tradeOfferBean.rookieNomReceivingOffer[i]}</td>
 							<td class="w3-large">${tradeOfferBean.salaireRookieReceivingOffer[i]}</td>
 						</tr>
 
