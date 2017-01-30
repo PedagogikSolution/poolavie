@@ -593,7 +593,7 @@ public class TradeModel {
 	String[] nomRookieMakingOffer = new String[nbRookieTeamMakingOffer];
 	String[] nomRookieReceivingOffer = new String[nbRookieTeamReceivingOffer];
 	int[] salaireMakingOffer = new int[nbPlayersTeamMakingOffer];
-	int[] salaireReceivingOffer = new int[nbPlayersTeamMakingOffer];
+	int[] salaireReceivingOffer = new int[nbPlayersTeamReceivingOffer];
 	int[] salaireRookieMakingOffer = new int[nbRookieTeamMakingOffer];
 	int[] salaireRookieReceivingOffer = new int[nbRookieTeamReceivingOffer];
 
