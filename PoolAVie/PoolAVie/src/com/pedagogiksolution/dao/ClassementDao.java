@@ -15,6 +15,7 @@ public interface ClassementDao {
     Classement cronJobGetClassementbyPoolId(int poolId) throws DAOException;
     void updateStat(int poolId, int pj, int but, int passe, int pts, int teamId, int hier, int semaine, int mois)throws DAOException;
     void updateDifference(int poolId, int teamId, List<Long> mouvementArray)throws DAOException;
+    void updateStat(int poolId, int pj, int but, int passe, int pts, int teamId)throws DAOException;
    
     
     

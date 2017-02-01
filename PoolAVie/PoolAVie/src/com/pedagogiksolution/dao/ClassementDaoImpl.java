@@ -32,6 +32,7 @@ public class ClassementDaoImpl implements ClassementDao {
     private static final String GET_FIRST_TEAM_PTS = "SELECT * FROM classement_? ORDER BY points DESC LIMIT 1";
     private static final String GET_NEXT_TEAM_PTS = "SELECT * FROM classement_? ORDER BY points DESC LIMIT ?";
     private static final String UPDATE_DAILY_MOUVEMENT = "UPDATE classement_? SET mouvement=? WHERE team_id=?";
+    private static final String UPDATE_STATS_AFTER_TRADE = "UPDATE classement_? SET pj=?,but=?,passe=?,points=?,moyenne=points/pj WHERE team_id=?";
 
     private DAOFactory daoFactory;
 
@@ -390,6 +391,25 @@ public class ClassementDaoImpl implements ClassementDao {
 
 	}
 
+    }
+
+    
+    @Override
+    public void updateStat(int poolId, int pj, int but, int passe, int pts, int teamId) throws DAOException {
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+
+	try {
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_STATS_AFTER_TRADE, false, poolId, pj, but, passe, pts,teamId);
+	    preparedStatement.execute();
+
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(preparedStatement, connexion);
+	}
+	
     }
 
 }

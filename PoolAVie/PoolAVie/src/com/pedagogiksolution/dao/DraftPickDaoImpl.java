@@ -31,7 +31,7 @@ public class DraftPickDaoImpl implements DraftPickDao {
 
     private static final String CREATE_DRAFT_PICK = "CREATE TABLE draft_pick? LIKE draft_pick";
     private static final String INSERT_DRAFT_PICK = "INSERT INTO draft_pick? (team_id,pick_no,original_team_id) VALUE (?,?,?)";
-    private static final String GET_DRAFT_PICK_BY_POOL_ID = "SELECT * FROM draft_pick? WHERE team_id=? ORDER BY _id ASC";
+    private static final String GET_DRAFT_PICK_BY_POOL_ID = "SELECT * FROM draft_pick? WHERE team_id=? ORDER BY pick_no ASC";
     private static final String GET_ROUND_BY_ID = "SELECT * FROM draft_pick? WHERE _id=?";
     private static final String GET_ROUND_BY_ID_AND_TEAM = "SELECT * FROM draft_pick? WHERE team_id=? AND _id=?";
     private static final String UPDATE_PICK_AFTER_TRADE = "UPDATE draft_pick? SET team_id=? WHERE _id=?";

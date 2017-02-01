@@ -83,7 +83,7 @@
 							<tr>
 						</c:if>
 						<c:if test="${not empty nombreDeRookie}">
-							<c:forEach var="i" begin="0" end="${fn:length(nombreDeJoueur)-1}">
+							<c:forEach var="i" begin="0" end="${fn:length(nombreDeRookie)-1}">
 
 								<tr>
 									<td class="w3-large">${tradeOfferBean.rookieNomMakingOffer[i]}</td>

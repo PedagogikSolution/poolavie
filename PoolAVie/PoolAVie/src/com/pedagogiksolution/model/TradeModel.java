@@ -36,6 +36,10 @@ import com.pedagogiksolution.beans.NonSessionGardien;
 import com.pedagogiksolution.beans.NonSessionRecrue;
 import com.pedagogiksolution.beans.TradeBeanTemp;
 import com.pedagogiksolution.beans.TradeBeans;
+import com.pedagogiksolution.cron.model.ClassementCronModel;
+import com.pedagogiksolution.cron.model.DraftPickCronModel;
+import com.pedagogiksolution.cron.model.PlayersCronModel;
+import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.dao.DraftPickDao;
 import com.pedagogiksolution.dao.PlayersDao;
 import com.pedagogiksolution.dao.TradeMadeDao;
@@ -472,6 +476,14 @@ public class TradeModel {
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 	String poolID = mBeanPool.getPoolID();
 
+	// 0 - un joueur ou un pick ou argent contre rien
+	if ((nbPlayersTeamMakingOffer == 0 && nbPicksTeamMakingOffer == 0 && cashIncludeTeamThatMakeOfferInt == 0 && nbRookieTeamMakingOffer == 0) || (nbPlayersTeamReceivingOffer == 0 && nbPicksTeamReceivingOffer == 0 && cashIncludeThatReceiveOfferInt == 0 && nbRookieTeamReceivingOffer == 0)) {
+
+	    mBeanMessageErreur.setErreurTrade("L'une des deux équipes ne reçoit rien");
+	    req.setAttribute("messageErreur", mBeanMessageErreur);
+	    return false;
+	}
+
 	// 1- check if number of players is 7 or less
 
 	if (nbPlayersTeamMakingOffer > 7 || nbPlayersTeamReceivingOffer > 7) {
@@ -496,64 +508,11 @@ public class TradeModel {
 	    return false;
 	}
 
-	// 4- check si echange un joueur contre rien
-
-	if ((nbPlayersTeamMakingOffer > 0 && nbPlayersTeamReceivingOffer == 0) && (nbPlayersTeamMakingOffer > 0 && nbPicksTeamReceivingOffer == 0) && (nbPlayersTeamMakingOffer > 0 && cashIncludeThatReceiveOfferInt == 0)) {
-
-	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas échanger un joueur contre rien (Reglement 3.1");
-	    req.setAttribute("messageErreur", mBeanMessageErreur);
-	    return false;
-
-	}
-
-	if ((nbPlayersTeamReceivingOffer > 0 && nbPlayersTeamMakingOffer == 0) && (nbPlayersTeamReceivingOffer > 0 && nbPicksTeamMakingOffer == 0) && (nbPlayersTeamReceivingOffer > 0 && cashIncludeTeamThatMakeOfferInt == 0)) {
-
-	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas échanger un joueur contre rien (Reglement 3.1");
-	    req.setAttribute("messageErreur", mBeanMessageErreur);
-	    return false;
-
-	}
-
-	// 5- check si echange un pick contre rien
-	if ((nbPicksTeamMakingOffer > 0 && nbPlayersTeamReceivingOffer == 0) && (nbPicksTeamMakingOffer > 0 && nbPicksTeamReceivingOffer == 0) && (nbPicksTeamMakingOffer > 0 && cashIncludeThatReceiveOfferInt == 0)) {
-
-	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas échanger un choix au repêchage contre rien (Reglement 3.1");
-	    req.setAttribute("messageErreur", mBeanMessageErreur);
-	    return false;
-
-	}
-
-	if ((nbPicksTeamReceivingOffer > 0 && nbPlayersTeamMakingOffer == 0) && (nbPicksTeamReceivingOffer > 0 && nbPicksTeamMakingOffer == 0) && (nbPicksTeamReceivingOffer > 0 && cashIncludeTeamThatMakeOfferInt == 0)) {
-
-	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas échanger un choix au repêchage contre rien (Reglement 3.1");
-	    req.setAttribute("messageErreur", mBeanMessageErreur);
-	    return false;
-
-	}
-
-	// 6- check si echange du cash contre rien
-
-	if ((cashIncludeTeamThatMakeOfferInt > 0 && nbPlayersTeamReceivingOffer == 0) && (cashIncludeTeamThatMakeOfferInt > 0 && nbPicksTeamReceivingOffer == 0) && (cashIncludeTeamThatMakeOfferInt > 0 && cashIncludeThatReceiveOfferInt == 0)) {
-
-	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas échanger de l'argent contre rien (Reglement 3.1");
-	    req.setAttribute("messageErreur", mBeanMessageErreur);
-	    return false;
-
-	}
-
-	if ((cashIncludeThatReceiveOfferInt > 0 && nbPlayersTeamMakingOffer == 0) && (cashIncludeThatReceiveOfferInt > 0 && nbPicksTeamMakingOffer == 0) && (cashIncludeThatReceiveOfferInt > 0 && cashIncludeTeamThatMakeOfferInt == 0)) {
-
-	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas échanger de l'argent contre rien (Reglement 3.1");
-	    req.setAttribute("messageErreur", mBeanMessageErreur);
-	    return false;
-
-	}
-
 	// 7- check si echange draft round contre cash **** impossible durant année
 
 	if (mBeanPool.getCycleAnnuel() == 5 || mBeanPool.getCycleAnnuel() == 6) {
 
-	    if ((nbPicksTeamMakingOffer > 0 && cashIncludeThatReceiveOfferInt > 0 && nbPlayersTeamReceivingOffer == 0)) {
+	    if ((nbPicksTeamMakingOffer > 0 && cashIncludeThatReceiveOfferInt > 0 && nbPlayersTeamReceivingOffer == 0 && nbRookieTeamReceivingOffer == 0)) {
 
 		mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas échanger un choix contre de l'argent à cette période (Reglement 3.1");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
@@ -561,7 +520,7 @@ public class TradeModel {
 
 	    }
 
-	    if ((nbPicksTeamReceivingOffer > 0 && cashIncludeTeamThatMakeOfferInt > 0 && nbPlayersTeamMakingOffer == 0)) {
+	    if ((nbPicksTeamReceivingOffer > 0 && cashIncludeTeamThatMakeOfferInt > 0 && nbPlayersTeamMakingOffer == 0 && nbRookieTeamMakingOffer == 0)) {
 
 		mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas échanger un choix contre de l'argent à cette période (Reglement 3.1");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
@@ -834,28 +793,28 @@ public class TradeModel {
 
 	List<String> playersIdMakingOfferTemp = new ArrayList<String>();
 
-	if (mBean.getPlayerIdMakingOffer() != null){
+	if (mBean.getPlayerIdMakingOffer() != null) {
 	    for (String s : mBean.getPlayerIdMakingOffer()) {
 		playersIdMakingOfferTemp.add(s);
 	    }
 	}
-	if (mBean.getRookieIdTeamMakingOffer() != null){
-	for (String s : mBean.getRookieIdTeamMakingOffer()) {
-	    playersIdMakingOfferTemp.add(s);
-	}
+	if (mBean.getRookieIdTeamMakingOffer() != null) {
+	    for (String s : mBean.getRookieIdTeamMakingOffer()) {
+		playersIdMakingOfferTemp.add(s);
+	    }
 	}
 
 	List<String> playersIdReceivingOfferTemp = new ArrayList<String>();
 
-	if (mBean.getPlayerIdReceivingOffer() != null){
-	for (String s : mBean.getPlayerIdReceivingOffer()) {
-	    playersIdReceivingOfferTemp.add(s);
+	if (mBean.getPlayerIdReceivingOffer() != null) {
+	    for (String s : mBean.getPlayerIdReceivingOffer()) {
+		playersIdReceivingOfferTemp.add(s);
+	    }
 	}
-	}
-	if (mBean.getRookieIdTeamReceivingOffer() != null){
-	for (String s : mBean.getRookieIdTeamReceivingOffer()) {
-	    playersIdReceivingOfferTemp.add(s);
-	}
+	if (mBean.getRookieIdTeamReceivingOffer() != null) {
+	    for (String s : mBean.getRookieIdTeamReceivingOffer()) {
+		playersIdReceivingOfferTemp.add(s);
+	    }
 	}
 
 	String[] pickMakingOffer = mBean.getPickNumMakingOffer();
@@ -1740,7 +1699,6 @@ public class TradeModel {
 	int poolId = Integer.parseInt(poolID);
 
 	tradeMadeDao.insertTradeMade(poolId, trade_id);
-	
 
     }
 
@@ -1762,6 +1720,45 @@ public class TradeModel {
 	int poolId = Integer.parseInt(poolID);
 	Boolean checkIfPicksStillInTeam = draftPickDao.checkIfPicksStillInTeam(poolId, teamId, pickId);
 	return checkIfPicksStillInTeam;
+    }
+
+    public void putDatabaseInDatastore(ClassementDao classementDao, PlayersDao playersDao, DraftPickDao draftPickDao, HttpServletRequest req) {
+
+	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+	String poolID = mBeanPool.getPoolID();
+	int poolId = Integer.parseInt(poolID);
+	PlayersCronModel mModelPlayer = new PlayersCronModel(playersDao);
+	ClassementCronModel mModelClassement = new ClassementCronModel(classementDao, playersDao);
+	DraftPickCronModel mModelDraft = new DraftPickCronModel(draftPickDao);
+	int numberOfTeam = mModelPlayer.getNumberOfTeamByPool(poolId);
+	// Attaquant
+
+	String position = "attaquant";
+	int recrue = 0;
+	mModelPlayer.putDatabaseInDatastore(poolId, numberOfTeam, position, recrue, "3");
+
+	// Defenseur
+
+	position = "defenseur";
+	recrue = 0;
+	mModelPlayer.putDatabaseInDatastore(poolId, numberOfTeam, position, recrue, "4");
+
+	// Gardien
+
+	position = "gardien";
+	recrue = 0;
+	mModelPlayer.putDatabaseInDatastore(poolId, numberOfTeam, position, recrue, "5");
+
+	// Recrue
+
+	position = "recrue";
+	recrue = 1;
+	mModelPlayer.putDatabaseInDatastore(poolId, numberOfTeam, position, recrue, "6");
+	// Classement
+	mModelClassement.updateClassementAfterTrade(poolId,Long.valueOf(numberOfTeam));
+	mModelClassement.putDatabaseInDatastore(poolId);
+	// DraftPick
+	mModelDraft.putDatabaseInDatastore(poolId,numberOfTeam,"7");
     }
 
 }

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.dao.DAOFactory;
 import com.pedagogiksolution.dao.DraftPickDao;
 import com.pedagogiksolution.dao.PlayersDao;
@@ -28,6 +29,7 @@ public class TradeServlet extends HttpServlet {
     private DraftPickDao draftPickDao;
     private TradeOfferDao tradeOfferDao;
     private TradeMadeDao tradeMadeDao;
+    private ClassementDao classementDao;
 
     @Override
     public void init() throws ServletException {
@@ -36,6 +38,8 @@ public class TradeServlet extends HttpServlet {
 	this.draftPickDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftPickDao();
 	this.tradeOfferDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getTradeOfferDao();
 	this.tradeMadeDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getTradeMadeDao();
+	this.classementDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getClassementDao();
+	
     }
 
     @Override
@@ -245,6 +249,12 @@ public class TradeServlet extends HttpServlet {
 		mModelTrade.persistTrade(tradeMadeDao);
 		
 		mModelTrade.annulerOffre(req, tradeOfferDao);
+		
+		// on roule les cron jobs des deux equipes du pool
+		
+		mModelTrade.putDatabaseInDatastore(classementDao,playersDao,draftPickDao,req);
+		
+		// on force re-ecriture dans la session dans un filtre
 		
 		
 		resp.sendRedirect("/Equipes");
