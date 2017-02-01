@@ -107,13 +107,37 @@ public class TradeModel {
 
     }
 
-    public void getMyTrade() {
-	// TODO Auto-generated method stub
+    public void getMyTrade(HttpServletRequest req, TradeMadeDao tradeMadeDao) {
+	TradeBeans mBean = new TradeBeans();
+	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+
+	// on compte le nombre de trade
+
+	int nbTradeMade = tradeMadeDao.getNumberTradeMadeByMe(mBeanPool.getPoolID(), mBeanUser.getTeamId());
+
+	for (int i = 0; i < nbTradeMade; i++) {
+	    mBean = tradeMadeDao.getTradeMadeByMe(mBeanPool, mBeanPool.getPoolID(), mBeanUser.getTeamId(), i);
+	}
+
+	req.setAttribute("tradeOfferMade", mBean);
 
     }
 
-    public void getAllTrade() {
-	// TODO Auto-generated method stub
+    public void getAllTrade(HttpServletRequest req, TradeMadeDao tradeMadeDao) {
+	TradeBeans mBean = new TradeBeans();
+	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+
+	// on compte le nombre de trade
+
+	int nbTradeMade = tradeMadeDao.getNumberTradeMadeByAll(mBeanPool.getPoolID());
+
+	for (int i = 0; i < nbTradeMade; i++) {
+	    mBean = tradeMadeDao.getTradeMadeByAll(mBeanPool, mBeanPool.getPoolID(), mBeanUser.getTeamId(), i);
+	}
+
+	req.setAttribute("tradeOfferMade", mBean);
 
     }
 
@@ -1759,6 +1783,21 @@ public class TradeModel {
 	mModelClassement.putDatabaseInDatastore(poolId);
 	// DraftPick
 	mModelDraft.putDatabaseInDatastore(poolId,numberOfTeam,"7");
+    }
+
+    public void showOfferNumberY(HttpServletRequest req2, int i, TradeMadeDao tradeMadeDao, PlayersDao playersDao, DraftPickDao draftPickDao) {
+	String trade_id_string = req.getParameter("trade_id");
+	int trade_id = Integer.parseInt(trade_id_string);
+
+// initialisation des objets pour le metier
+	TradeBeans mBean = new TradeBeans();
+	mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+	mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+
+	mBean = tradeMadeDao.showOfferX(mBeanPool, mBeanUser, trade_id, playersDao, draftPickDao);
+
+	req.getSession().setAttribute("tradeOfferBean", mBean);
+	
     }
 
 }

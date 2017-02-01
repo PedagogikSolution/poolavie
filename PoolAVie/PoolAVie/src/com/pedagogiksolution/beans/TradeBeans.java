@@ -36,8 +36,11 @@ public class TradeBeans implements Serializable{
     private String[] fromPickReceivingOffer;
     private List<Integer> tradeOfferId;
     private List<String> tradeOfferNameTeamTradeWith;
+    private List<String> tradeOfferNameTeamTradeWith2;
     private int teamThatTrade;
     private int teamTradeTo;
+    private String teamThatTradeName;
+    private String teamTradeToName;
     private String messageOffre;
     private String nomTeam;
     private Date dateTradeOffer;
@@ -336,6 +339,33 @@ public class TradeBeans implements Serializable{
     public void setRookieNomReceivingOffer(String[] rookieNomReceivingOffer) {
 	this.rookieNomReceivingOffer = rookieNomReceivingOffer;
     }
+
+    public List<String> getTradeOfferNameTeamTradeWith2() {
+	return tradeOfferNameTeamTradeWith2;
+    }
+
+    public void setTradeOfferNameTeamTradeWith2(List<String> tradeOfferNameTeamTradeWith2) {
+	this.tradeOfferNameTeamTradeWith2 = tradeOfferNameTeamTradeWith2;
+    }
+
+    public String getTeamThatTradeName() {
+	return teamThatTradeName;
+    }
+
+    public void setTeamThatTradeName(String teamThatTradeName) {
+	this.teamThatTradeName = teamThatTradeName;
+    }
+
+    public String getTeamTradeToName() {
+	return teamTradeToName;
+    }
+
+    public void setTeamTradeToName(String teamTradeToName) {
+	this.teamTradeToName = teamTradeToName;
+    }
+
+
+    
 
     
     

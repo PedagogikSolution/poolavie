@@ -147,14 +147,14 @@ public class TradeServlet extends HttpServlet {
 
 	case 2:
 	    mModelTrade = new TradeModel(req, mBean);
-	    mModelTrade.getMyTrade();
+	    mModelTrade.getMyTrade(req,tradeMadeDao);
 	    req.getRequestDispatcher("jsp/trade/my_trade.jsp").forward(req, resp);
 
 	    break;
 
 	case 3:
 	    mModelTrade = new TradeModel(req, mBean);
-	    mModelTrade.getAllTrade();
+	    mModelTrade.getAllTrade(req,tradeMadeDao);
 	    req.getRequestDispatcher("jsp/trade/all_trade.jsp").forward(req, resp);
 
 	}
@@ -303,17 +303,21 @@ public class TradeServlet extends HttpServlet {
 	    req.getRequestDispatcher("jsp/trade/showOfferDetail.jsp").forward(req, resp);
 	    
 	    break;
-	// Un joueur veut accepter une offre qu'il a recu (verification de la valider de l'offre et message de
-// confirmation de l'offre
+	// Un joueur veut voir les détails d'un trade qu'il a fait
 	case 8:
+	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
+	    mModelTrade.showOfferNumberY(req,2,tradeMadeDao, playersDao, draftPickDao);
+	    
+	    req.getRequestDispatcher("jsp/trade/showOfferDetailTradeMade.jsp").forward(req, resp);
 	    break;
-	// Un joueur veut confirmer l'Echange pour persister celle-ci
+	 // Un joueur veut voir les détails d'un trade fait par n'importe quelle équipe
 	case 9:
+	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
+	    mModelTrade.showOfferNumberY(req,2,tradeMadeDao, playersDao, draftPickDao);
+	   
+	    req.getRequestDispatcher("jsp/trade/showOfferDetailTradeMade.jsp").forward(req, resp);
 	    break;
-	// Un joueur veut annuler une offre recu
-	case 10:
-	    break;
-	// Un joueur veut faire une contre-offre a une offre recu
+	
 
 	}
 
