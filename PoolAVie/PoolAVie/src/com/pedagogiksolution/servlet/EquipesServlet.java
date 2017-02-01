@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.DraftPlayersModel;
 import com.pedagogiksolution.model.EquipeModel;
+import com.pedagogiksolution.model.LoginModel;
 
 public class EquipesServlet extends HttpServlet {
    
@@ -38,6 +39,16 @@ public class EquipesServlet extends HttpServlet {
 	   // mModel.createSessionDefenseurBean();
 	   // mModel.createSessionGardienBean();
 	   // mModel.createSessionRecrueBean();
+	    
+	}
+	if (cycleAnnuel == 6) {  
+	    LoginModel mModel = new LoginModel(req);
+	    mModel.createSessionEquipeBean();
+	    mModel.createSessionAttaquantBean();
+	    mModel.createSessionDefenseurBean();
+	    mModel.createSessionGardienBean();
+	    mModel.createSessionRecrueBean();
+	    mModel.createSessionDraftPickBean();
 	    
 	}
 	EquipeModel mModel = new EquipeModel();

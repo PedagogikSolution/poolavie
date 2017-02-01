@@ -54,6 +54,16 @@ public class TradeServlet extends HttpServlet {
 	    DraftPlayersModel mModelDraft = new DraftPlayersModel();
 	    mModelDraft.putDatastoreIntoBean(mBean, req);
 	}
+	if (cycleAnnuel == 6) {  
+	    LoginModel mModel = new LoginModel(req);
+	    mModel.createSessionEquipeBean();
+	    mModel.createSessionAttaquantBean();
+	    mModel.createSessionDefenseurBean();
+	    mModel.createSessionGardienBean();
+	    mModel.createSessionRecrueBean();
+	    mModel.createSessionDraftPickBean();
+	    
+	}
 
 	int fromId;
 	String fromID = req.getParameter("from");
@@ -62,6 +72,7 @@ public class TradeServlet extends HttpServlet {
 	} else {
 	    fromId = 1;
 	}
+	
 
 	switch (fromId) {
 
@@ -122,6 +133,7 @@ public class TradeServlet extends HttpServlet {
 		break;
 
 	    case 6:
+		
 		mModelTrade = new TradeModel(req, mBean);
 		req.setAttribute("tradeOpen", 1);
 		mModelTrade.getTradeOfferReceived(req, tradeOfferDao);

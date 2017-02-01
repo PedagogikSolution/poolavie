@@ -34,6 +34,17 @@ public class ClassementServlet extends HttpServlet {
 	   mModel.createSessionClassementBean();
 	}
 	
+	if (cycleAnnuel == 6) {  
+	    LoginModel mModel = new LoginModel(req);
+	    mModel.createSessionEquipeBean();
+	    mModel.createSessionAttaquantBean();
+	    mModel.createSessionDefenseurBean();
+	    mModel.createSessionGardienBean();
+	    mModel.createSessionRecrueBean();
+	    mModel.createSessionDraftPickBean();
+	    
+	}
+	
 	    req.getRequestDispatcher("jsp/classement/classement.jsp").forward(req, resp);
 	
 
