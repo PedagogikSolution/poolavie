@@ -1201,7 +1201,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		    
 		    mEntityEquipe.setProperty("nb_contrat", (((Long)mEntityEquipe.getProperty("nb_contrat"))-1) );
 		    mEntityEquipe.setProperty("nb_attaquant", (((Long)mEntityEquipe.getProperty("nb_attaquant"))-1) );
-		    mEntityEquipe.setProperty("manquant_att", (((Long)mEntityEquipe.getProperty("manquant_att"))-1) );
+		    mEntityEquipe.setProperty("manquant_att", (((Long)mEntityEquipe.getProperty("manquant_att"))+1) );
 		    
 		    datastore.put(mEntityEquipe);
 		} catch (EntityNotFoundException e) {

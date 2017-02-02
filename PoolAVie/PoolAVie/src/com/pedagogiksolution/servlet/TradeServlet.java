@@ -272,7 +272,7 @@ public class TradeServlet extends HttpServlet {
 		resp.sendRedirect("/Equipes");
 	    }
 	    
-	    resp.sendRedirect("/Trade");
+
 	   
 	    
 	    

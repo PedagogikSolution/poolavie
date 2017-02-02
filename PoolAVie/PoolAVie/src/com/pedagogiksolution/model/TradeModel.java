@@ -1520,37 +1520,37 @@ public class TradeModel {
 
 	// check si le nombre par position va resister l'echange (min 8 attaquant, 5 def et 2 goal)
 
-	if ((nb_attaquant_make_offer - nbAttInTeamThatOffer + nbAttInTeamThatReceived) < 8) {
+	if ((nb_attaquant_make_offer + nbAttInTeamThatOffer - nbAttInTeamThatReceived) < 8) {
 	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 8 attaquants (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
 
-	if ((nb_attaquant_rec_offer + nbAttInTeamThatOffer - nbAttInTeamThatReceived) < 8) {
+	if ((nb_attaquant_rec_offer - nbAttInTeamThatOffer + nbAttInTeamThatReceived) < 8) {
 	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 8 attaquants (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
 
-	if ((nb_defenseur_make_offer - nbDefInTeamThatOffer + nbDefInTeamThatReceived) < 5) {
+	if ((nb_defenseur_make_offer + nbDefInTeamThatOffer - nbDefInTeamThatReceived) < 5) {
 	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 5 defenseurs (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
 
-	if ((nb_defenseur_rec_offer + nbDefInTeamThatOffer - nbDefInTeamThatReceived) < 5) {
+	if ((nb_defenseur_rec_offer - nbDefInTeamThatOffer + nbDefInTeamThatReceived) < 5) {
 	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 5 defenseurs (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
 
-	if ((nb_goaler_make_offer - nbGoalInTeamThatOffer + nbGoalInTeamThatReceived) < 2) {
+	if ((nb_goaler_make_offer + nbGoalInTeamThatOffer - nbGoalInTeamThatReceived) < 2) {
 	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 2 gardiens (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
 
-	if ((nb_goaler_rec_offer + nbGoalInTeamThatOffer - nbGoalInTeamThatReceived) < 2) {
+	if ((nb_goaler_rec_offer - nbGoalInTeamThatOffer + nbGoalInTeamThatReceived) < 2) {
 	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 2 gardiens (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
