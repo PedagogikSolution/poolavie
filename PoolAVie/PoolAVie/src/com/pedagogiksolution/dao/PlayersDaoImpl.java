@@ -61,7 +61,7 @@ public class PlayersDaoImpl implements PlayersDao {
     private static final String GET_PLAYERS_BY_ID_ALL = "SELECT * FROM players_? WHERE _id=?";
     private static final String GET_PLAYERS_BY_ID_AND_TEAM = "SELECT * FROM players_? WHERE team_id=? AND _id=?";
     private static final String UPDATE_PLAYERS = "UPDATE players_? SET team_id=? WHERE _id=?";
-    private static final String SELECT_FOR_TRADE_A = "SELECT years_1,club_ecole,position FROM players_? WHERE _id=?";
+    private static final String SELECT_FOR_TRADE_A = "SELECT years_1,years_2,club_ecole,position FROM players_? WHERE _id=?";
     private static final String SELECT_FOR_TRADE_B = "SELECT years_1,years_2,years_3,years_4,years_5 FROM players_? WHERE _id=?";
 
     private DAOFactory daoFactory;
@@ -1116,7 +1116,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		return true;
 	    }
 
-	    return true;
+	    return false;
 
 	} catch (SQLException e) {
 	    throw new DAOException(e);
@@ -1130,11 +1130,10 @@ public class PlayersDaoImpl implements PlayersDao {
     public void makeTrade(Pool mBeanPool, int teamId1, int teamId2, int playerId2) throws DAOException {
 
 	
-	
+	String contrat="null";
 	int salaire = 0;
 	int club_ecole = 0;
 	String position = null;
-	String years2 = null, years3 = null, years4 = null, years5 = null;
 	String poolID = mBeanPool.getPoolID();
 	int poolId = Integer.parseInt(poolID);
     
@@ -1164,7 +1163,9 @@ public class PlayersDaoImpl implements PlayersDao {
 	    
 	    if (rs.next()) {
 		club_ecole = rs.getInt("club_ecole");
-		salaire = rs.getInt("years_1");
+		String salaireString = rs.getString("years_1");
+		salaire = Integer.parseInt(salaireString);
+		contrat = rs.getString("years_2");
 		position = rs.getString("position");
 	    }
 	       
@@ -1198,8 +1199,11 @@ public class PlayersDaoImpl implements PlayersDao {
 		    mEntityEquipe.setProperty("budget_restant", (((Long)mEntityEquipe.getProperty("budget_restant"))+salaire) );
 		    mEntityEquipe.setProperty("nb_equipe", (((Long)mEntityEquipe.getProperty("nb_equipe"))-1) );
 		  //  mEntityEquipe.setProperty("moy_sal_restant_draft", (((Long)mEntityEquipe.getProperty("budget_restant"))/((Long)mEntityEquipe.getProperty("manquant_equipe"))) );
-		    
-		    mEntityEquipe.setProperty("nb_contrat", (((Long)mEntityEquipe.getProperty("nb_contrat"))-1) );
+		    if(contrat.equalsIgnoreCase("JA")||contrat.equalsIgnoreCase("X")){
+			    
+		    }else{
+			mEntityEquipe.setProperty("nb_contrat", (((Long)mEntityEquipe.getProperty("nb_contrat"))-1) );
+		    }
 		    mEntityEquipe.setProperty("nb_attaquant", (((Long)mEntityEquipe.getProperty("nb_attaquant"))-1) );
 		    mEntityEquipe.setProperty("manquant_att", (((Long)mEntityEquipe.getProperty("manquant_att"))+1) );
 		    
@@ -1217,8 +1221,11 @@ public class PlayersDaoImpl implements PlayersDao {
 		    
 		    mEntityEquipe.setProperty("nb_equipe", (((Long)mEntityEquipe.getProperty("nb_equipe"))+1) );
 		//    mEntityEquipe.setProperty("moy_sal_restant_draft", (((Long)mEntityEquipe.getProperty("budget_restant"))/((Long)mEntityEquipe.getProperty("manquant_equipe"))) );
+		    if(contrat.equalsIgnoreCase("JA")||contrat.equalsIgnoreCase("X")){
 		    
-		    mEntityEquipe.setProperty("nb_contrat", (((Long)mEntityEquipe.getProperty("nb_contrat"))+1) );
+		    }else{
+			mEntityEquipe.setProperty("nb_contrat", (((Long)mEntityEquipe.getProperty("nb_contrat"))+1) );
+		    }
 		    mEntityEquipe.setProperty("nb_attaquant", (((Long)mEntityEquipe.getProperty("nb_attaquant"))+1) );
 		    mEntityEquipe.setProperty("manquant_att", (((Long)mEntityEquipe.getProperty("manquant_att"))-1) );
 		    
@@ -1238,8 +1245,11 @@ public class PlayersDaoImpl implements PlayersDao {
 		    mEntityEquipe.setProperty("budget_restant", (((Long)mEntityEquipe.getProperty("budget_restant"))+salaire) );
 		    mEntityEquipe.setProperty("nb_equipe", (((Long)mEntityEquipe.getProperty("nb_equipe"))-1) );
 		 //   mEntityEquipe.setProperty("moy_sal_restant_draft", (((Long)mEntityEquipe.getProperty("budget_restant"))/((Long)mEntityEquipe.getProperty("manquant_equipe"))) );
-		    
-		    mEntityEquipe.setProperty("nb_contrat", (((Long)mEntityEquipe.getProperty("nb_contrat"))-1) );
+		    if(contrat.equalsIgnoreCase("JA")||contrat.equalsIgnoreCase("X")){
+			    
+		    }else{
+			mEntityEquipe.setProperty("nb_contrat", (((Long)mEntityEquipe.getProperty("nb_contrat"))-1) );
+		    }
 		    mEntityEquipe.setProperty("nb_defenseur", (((Long)mEntityEquipe.getProperty("nb_defenseur"))-1) );
 		    mEntityEquipe.setProperty("manquant_def", (((Long)mEntityEquipe.getProperty("manquant_def"))+1) );
 		    
@@ -1257,8 +1267,11 @@ public class PlayersDaoImpl implements PlayersDao {
 		    
 		    mEntityEquipe.setProperty("nb_equipe", (((Long)mEntityEquipe.getProperty("nb_equipe"))+1) );
 		//    mEntityEquipe.setProperty("moy_sal_restant_draft", (((Long)mEntityEquipe.getProperty("budget_restant"))/((Long)mEntityEquipe.getProperty("manquant_equipe"))) );
-		    
-		    mEntityEquipe.setProperty("nb_contrat", (((Long)mEntityEquipe.getProperty("nb_contrat"))+1) );
+		    if(contrat.equalsIgnoreCase("JA")||contrat.equalsIgnoreCase("X")){
+			    
+		    }else{
+			mEntityEquipe.setProperty("nb_contrat", (((Long)mEntityEquipe.getProperty("nb_contrat"))+1) );
+		    }
 		    mEntityEquipe.setProperty("nb_defenseur", (((Long)mEntityEquipe.getProperty("nb_defenseur"))+1) );
 		    mEntityEquipe.setProperty("manquant_def", (((Long)mEntityEquipe.getProperty("manquant_def"))-1) );
 		    
@@ -1276,8 +1289,11 @@ public class PlayersDaoImpl implements PlayersDao {
 		    mEntityEquipe.setProperty("budget_restant", (((Long)mEntityEquipe.getProperty("budget_restant"))+salaire) );
 		    mEntityEquipe.setProperty("nb_equipe", (((Long)mEntityEquipe.getProperty("nb_equipe"))-1) );
 		//    mEntityEquipe.setProperty("moy_sal_restant_draft", (((Long)mEntityEquipe.getProperty("budget_restant"))/((Long)mEntityEquipe.getProperty("manquant_equipe"))) );
-		    
-		    mEntityEquipe.setProperty("nb_contrat", (((Long)mEntityEquipe.getProperty("nb_contrat"))-1) );
+		    if(contrat.equalsIgnoreCase("JA")||contrat.equalsIgnoreCase("X")){
+			    
+		    }else{
+			mEntityEquipe.setProperty("nb_contrat", (((Long)mEntityEquipe.getProperty("nb_contrat"))-1) );
+		    }
 		    mEntityEquipe.setProperty("nb_gardien", (((Long)mEntityEquipe.getProperty("nb_gardien"))-1) );
 		    mEntityEquipe.setProperty("manquant_gardien", (((Long)mEntityEquipe.getProperty("manquant_gardien"))+1) );
 		    datastore.put(mEntityEquipe);
@@ -1295,8 +1311,11 @@ public class PlayersDaoImpl implements PlayersDao {
 		    
 		    mEntityEquipe.setProperty("nb_equipe", (((Long)mEntityEquipe.getProperty("nb_equipe"))+1) );
 		//    mEntityEquipe.setProperty("moy_sal_restant_draft", (((Long)mEntityEquipe.getProperty("budget_restant"))/((Long)mEntityEquipe.getProperty("manquant_equipe"))) );
-		    
-		    mEntityEquipe.setProperty("nb_contrat", (((Long)mEntityEquipe.getProperty("nb_contrat"))+1) );
+		    if(contrat.equalsIgnoreCase("JA")||contrat.equalsIgnoreCase("X")){
+			    
+		    }else{
+			mEntityEquipe.setProperty("nb_contrat", (((Long)mEntityEquipe.getProperty("nb_contrat"))+1) );
+		    }
 		    mEntityEquipe.setProperty("nb_gardien", (((Long)mEntityEquipe.getProperty("nb_gardien"))+1) );
 		    mEntityEquipe.setProperty("manquant_gardien", (((Long)mEntityEquipe.getProperty("manquant_gardien"))-1) );
 		    datastore.put(mEntityEquipe);
@@ -1310,7 +1329,6 @@ public class PlayersDaoImpl implements PlayersDao {
 		try {
 		    Entity mEntityEquipe = datastore.get(mKeyEquipeA);
 		    
-		    mEntityEquipe.setProperty("nb_contrat", (((Long)mEntityEquipe.getProperty("nb_contrat"))-1) );
 		    mEntityEquipe.setProperty("nb_rookie", (((Long)mEntityEquipe.getProperty("nb_rookie"))-1) );
 		    mEntityEquipe.setProperty("manquant_recrue", (((Long)mEntityEquipe.getProperty("manquant_recrue"))+1) );
 		    datastore.put(mEntityEquipe);
@@ -1323,7 +1341,6 @@ public class PlayersDaoImpl implements PlayersDao {
 		try {
 		    Entity mEntityEquipe = datastore.get(mKeyEquipeB);
 		    
-		    mEntityEquipe.setProperty("nb_contrat", (((Long)mEntityEquipe.getProperty("nb_contrat"))+1) );
 		    mEntityEquipe.setProperty("nb_rookie", (((Long)mEntityEquipe.getProperty("nb_rookie"))+1) );
 		    mEntityEquipe.setProperty("manquant_recrue", (((Long)mEntityEquipe.getProperty("manquant_recrue"))-1) );
 		    datastore.put(mEntityEquipe);

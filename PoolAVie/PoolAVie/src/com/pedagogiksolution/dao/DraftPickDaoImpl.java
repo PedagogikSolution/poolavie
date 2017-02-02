@@ -284,7 +284,7 @@ public class DraftPickDaoImpl implements DraftPickDao {
 		return true;
 	    }
 
-	    return true;
+	    return false;
 
 	} catch (SQLException e) {
 	    throw new DAOException(e);

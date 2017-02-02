@@ -1673,8 +1673,9 @@ public class TradeModel {
 	try {
 	    Entity mEntityEquipe = datastore.get(mKeyEquipeA);
 
-	    mEntityEquipe.setProperty("max_salaire_begin", (((Long) mEntityEquipe.getProperty("max_salaire_begin")) - cash));
 	    mEntityEquipe.setProperty("budget_restant", (((Long) mEntityEquipe.getProperty("budget_restant")) - cash));
+	    
+	    datastore.put(mEntityEquipe);
 
 	} catch (EntityNotFoundException e) {
 	    // TODO Auto-generated catch block
@@ -1684,9 +1685,9 @@ public class TradeModel {
 	try {
 	    Entity mEntityEquipe = datastore.get(mKeyEquipeB);
 
-	    mEntityEquipe.setProperty("max_salaire_begin", (((Long) mEntityEquipe.getProperty("max_salaire_begin")) + cash));
 	    mEntityEquipe.setProperty("argent_recu", (((Long) mEntityEquipe.getProperty("argent_recu")) + cash));
 
+	    datastore.put(mEntityEquipe);
 	} catch (EntityNotFoundException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
