@@ -1304,8 +1304,8 @@ public class TradeModel {
 	    playersTeamThatReceivedTemp.add(mBeanTemp.getT2j7());
 	}
 	if (mBeanTemp.getT1p1() != null) {
-	    Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT1p1(), playersDao);
-	    if (!isStillInTeam) {
+	    Boolean isStillInPick = checkIfPickStillInTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT1p1(), draftPickDao);
+	    if (!isStillInPick) {
 		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des picks impliqués dans l'échange");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return false;
@@ -1520,25 +1520,25 @@ public class TradeModel {
 
 	// check si le nombre par position va resister l'echange (min 8 attaquant, 5 def et 2 goal)
 
-	if ((nb_attaquant_make_offer + nbAttInTeamThatOffer - nbAttInTeamThatReceived) < 8) {
+	if ((nb_attaquant_make_offer - nbAttInTeamThatOffer + nbAttInTeamThatReceived) < 8) {
 	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 8 attaquants (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
 
-	if ((nb_attaquant_rec_offer - nbAttInTeamThatOffer + nbAttInTeamThatReceived) < 8) {
+	if ((nb_attaquant_rec_offer + nbAttInTeamThatOffer - nbAttInTeamThatReceived) < 8) {
 	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 8 attaquants (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
 
-	if ((nb_defenseur_make_offer + nbDefInTeamThatOffer - nbDefInTeamThatReceived) < 5) {
+	if ((nb_defenseur_make_offer - nbDefInTeamThatOffer + nbDefInTeamThatReceived) < 5) {
 	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 5 defenseurs (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
 
-	if ((nb_defenseur_rec_offer - nbDefInTeamThatOffer + nbDefInTeamThatReceived) < 5) {
+	if ((nb_defenseur_rec_offer + nbDefInTeamThatOffer - nbDefInTeamThatReceived) < 5) {
 	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 5 defenseurs (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
@@ -1558,7 +1558,7 @@ public class TradeModel {
 
 	// check si budget pour abosrber la transaction
 
-	if ((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer - argent_recu_make_offer + argent_recu_rec_offer + cashIncludeTeamThatMakeOfferInt - cashIncludeThatReceiveOfferInt) < 0) {
+	if ((budget_restant_make_offer - total_salaire_team_making_offer + total_salaire_team_receiving_offer + argent_recu_make_offer - cashIncludeTeamThatMakeOfferInt + cashIncludeThatReceiveOfferInt) < 0) {
 
 	    mBeanMessageErreur.setErreurTrade("Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
@@ -1566,7 +1566,7 @@ public class TradeModel {
 
 	}
 
-	if ((budget_restant_received_offer - total_salaire_team_making_offer + total_salaire_team_receiving_offer + argent_recu_make_offer - argent_recu_rec_offer + cashIncludeThatReceiveOfferInt - cashIncludeTeamThatMakeOfferInt) < 0) {
+	if ((budget_restant_received_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer + argent_recu_rec_offer - cashIncludeThatReceiveOfferInt + cashIncludeTeamThatMakeOfferInt) < 0) {
 
 	    mBeanMessageErreur.setErreurTrade("La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
