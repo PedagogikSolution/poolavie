@@ -15,7 +15,6 @@ import com.pedagogiksolution.beans.TradeBeans;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
 
-
 public class TradeMadeDaoImpl implements TradeMadeDao {
 
     private static final String CREATE_TRADE_MADE = "CREATE TABLE trade_made? LIKE trade_made";
@@ -23,8 +22,8 @@ public class TradeMadeDaoImpl implements TradeMadeDao {
     private static final String INSERT_TRADE_OFFER_INTO_TRADE_MADE = "INSERT INTO trade_made? SELECT * FROM trade_offer? WHERE _id=?";
     private static final String GET_NUMBER_TRADE_MADE_BY_ME = "SELECT COUNT(*) FROM trade_made? WHERE team_1 =? OR team_2 =?";
     private static final String GET_NUMBER_TRADE_MADE_BY_ALL = "SELECT COUNT(*) FROM trade_made?";
-    private static final String GET_TRADE_MADE_BY_ME = "SELECT * FROM trade_made? WHERE team_1 =? OR team_2 =? ORDER BY date_heure" ;
-    private static final String GET_TRADE_MADE_BY_ALL = "SELECT * FROM trade_made? ORDER BY date_heure" ;
+    private static final String GET_TRADE_MADE_BY_ME = "SELECT * FROM trade_made? WHERE team_1 =? OR team_2 =? ORDER BY date_heure";
+    private static final String GET_TRADE_MADE_BY_ALL = "SELECT * FROM trade_made? ORDER BY date_heure";
     private static final String SHOW_TRADE_Y = "SELECT * FROM trade_made? WHERE _id=?";
     private DAOFactory daoFactory;
 
@@ -34,21 +33,21 @@ public class TradeMadeDaoImpl implements TradeMadeDao {
 
     @Override
     public void createTradeMadeTable(int poolID) throws DAOException {
-	
+
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
-	
+
 	try {
 	    connexion = daoFactory.getConnection();
 	    preparedStatement = initialisationRequetePreparee(connexion, CREATE_TRADE_MADE, false, poolID);
 	    preparedStatement.execute();
-	    	    
+
 	} catch (SQLException e) {
 	    throw new DAOException(e);
 	} finally {
 	    fermeturesSilencieuses(preparedStatement, connexion);
 	}
-	
+
     }
 
     @Override
@@ -60,15 +59,15 @@ public class TradeMadeDaoImpl implements TradeMadeDao {
 	    connexion = daoFactory.getConnection();
 	    preparedStatement = initialisationRequetePreparee(connexion, CREATE_TRADE_MADE_ARCHIVES, false, poolID);
 	    preparedStatement.execute();
-	    
+
 	} catch (SQLException e) {
 	    throw new DAOException(e);
 	} finally {
 	    fermeturesSilencieuses(preparedStatement, connexion);
 	}
-	
+
     }
-   
+
     @Override
     public void insertTradeMade(int poolId, int trade_id) throws DAOException {
 	Connection connexion = null;
@@ -76,19 +75,17 @@ public class TradeMadeDaoImpl implements TradeMadeDao {
 
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, INSERT_TRADE_OFFER_INTO_TRADE_MADE, false, poolId,poolId,trade_id);
+	    preparedStatement = initialisationRequetePreparee(connexion, INSERT_TRADE_OFFER_INTO_TRADE_MADE, false, poolId, poolId, trade_id);
 	    preparedStatement.executeUpdate();
-	    
+
 	} catch (SQLException e) {
 	    throw new DAOException(e);
 	} finally {
 	    fermeturesSilencieuses(preparedStatement, connexion);
 	}
-	
-	
+
     }
 
-    
     @Override
     public int getNumberTradeMadeByMe(String poolID, int teamId) throws DAOException {
 	Connection connexion = null;
@@ -97,7 +94,7 @@ public class TradeMadeDaoImpl implements TradeMadeDao {
 	ResultSet rs = null;
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_NUMBER_TRADE_MADE_BY_ME, false, Integer.parseInt(poolID), teamId,teamId);
+	    preparedStatement = initialisationRequetePreparee(connexion, GET_NUMBER_TRADE_MADE_BY_ME, false, Integer.parseInt(poolID), teamId, teamId);
 	    rs = preparedStatement.executeQuery();
 	    while (rs.next()) {
 		nbOfferMadeByMe = rs.getInt(1);
@@ -119,6 +116,7 @@ public class TradeMadeDaoImpl implements TradeMadeDao {
 	TradeBeans mBean = new TradeBeans();
 	List<Integer> trade_id = new ArrayList<Integer>();
 	List<String> nom_equipe_trading_to = new ArrayList<String>();
+	List<String> nom_equipe_connect = new ArrayList<String>();
 	List<String> dateTradeOfferArray = new ArrayList<String>();
 	try {
 	    connexion = daoFactory.getConnection();
@@ -129,11 +127,23 @@ public class TradeMadeDaoImpl implements TradeMadeDao {
 		dateTradeOfferArray.add(rs.getDate("date_heure").toString());
 		String team2Id = (rs.getString("team_2"));
 		int team2 = Integer.parseInt(team2Id);
-		String nom = getTeamNameFromString(mBeanPool, team2);
-		nom_equipe_trading_to.add(nom);
+		String team1Id = (rs.getString("team_1"));
+		int team1 = Integer.parseInt(team1Id);
+		if (teamId == team1) {
+		    String nom = getTeamNameFromString(mBeanPool, team2);
+		    nom_equipe_trading_to.add(nom);
+		    String nom2 = getTeamNameFromString(mBeanPool, team1);
+		    nom_equipe_connect.add(nom2);
+		} else {
+		    String nom = getTeamNameFromString(mBeanPool, team1);
+		    nom_equipe_trading_to.add(nom);
+		    String nom2 = getTeamNameFromString(mBeanPool, team2);
+		    nom_equipe_connect.add(nom2);
+		}
 
 		mBean.setTradeOfferId(trade_id);
 		mBean.setTradeOfferNameTeamTradeWith(nom_equipe_trading_to);
+		mBean.setTradeOfferNameTeamTradeWith2(nom_equipe_connect);
 		mBean.setDateTradeOfferArray(dateTradeOfferArray);
 
 	    }
@@ -211,7 +221,6 @@ public class TradeMadeDaoImpl implements TradeMadeDao {
 	}
     }
 
-  
     private String getTeamNameFromString(Pool mBeanPool, int team1) {
 	String from_temp2 = "Erreur,voir Frank";
 	switch (team1) {
@@ -256,7 +265,6 @@ public class TradeMadeDaoImpl implements TradeMadeDao {
 	return from_temp2;
     }
 
-   
     @Override
     public TradeBeans showOfferX(Pool mBeanPool, Utilisateur mBeanUser, int trade_id, PlayersDao playersDao, DraftPickDao draftPickDao) {
 	Connection connexion = null;
@@ -279,7 +287,7 @@ public class TradeMadeDaoImpl implements TradeMadeDao {
 	int argentOfferTeamThatTrade = 0;
 	int argentOfferTeamThatReceivedOffer = 0;
 	String messageOffre = "";
-	String nom1 = "hum!!!",nom2="hum!!!";
+	String nom1 = "hum!!!", nom2 = "hum!!!";
 
 	try {
 	    connexion = daoFactory.getConnection();
@@ -289,20 +297,18 @@ public class TradeMadeDaoImpl implements TradeMadeDao {
 
 		argentOfferTeamThatTrade = rs.getInt("t1_cash");
 		argentOfferTeamThatReceivedOffer = rs.getInt("t2_cash");
-		
+
 		int teamLogIn = mBeanUser.getTeamId();
-		
-		
-		
+
 		int team2Id = rs.getInt("team_2");
 		int team1Id = rs.getInt("team_1");
-		
-		if(teamLogIn==team1Id){
-		 nom2 = getTeamNameFromString(mBeanPool,team2Id);
-		 nom1 = getTeamNameFromString(mBeanPool,teamLogIn);
+
+		if (teamLogIn == team1Id) {
+		    nom2 = getTeamNameFromString(mBeanPool, team2Id);
+		    nom1 = getTeamNameFromString(mBeanPool, teamLogIn);
 		} else {
-		     nom2 = getTeamNameFromString(mBeanPool,team1Id);
-		     nom1 = getTeamNameFromString(mBeanPool,teamLogIn);
+		    nom2 = getTeamNameFromString(mBeanPool, team1Id);
+		    nom1 = getTeamNameFromString(mBeanPool, teamLogIn);
 		}
 
 		String t1j1 = rs.getString("t1j1");
@@ -442,7 +448,7 @@ public class TradeMadeDaoImpl implements TradeMadeDao {
 		    if (mBeanTemp.getClubEcole() == 1) {
 			nomRookieMakingOffer[compteurRookie] = mBeanTemp.getNomMakingOfferString();
 			salaireRookieMakingOffer[compteurRookie] = mBeanTemp.getTotal_salaire_team_making_offer();
-			
+
 			compteurRookie++;
 		    } else {
 			nomMakingOffer[compteurJoueur] = mBeanTemp.getNomMakingOfferString();
@@ -461,12 +467,12 @@ public class TradeMadeDaoImpl implements TradeMadeDao {
 	i = 0;
 	for (i = 0; i < compteurJoueur; i++) {
 	    nomMakingOffer2[i] = nomMakingOffer[i];
-	    
+
 	}
 	i = 0;
 	for (i = 0; i < compteurRookie; i++) {
 	    nomRookieMakingOffer2[i] = nomRookieMakingOffer[i];
-	    
+
 	}
 
 	// on calcul le total d'Argent des salaire des joueurs de l'Equipe qui recoit et on ajoute leur nom dans un
@@ -506,12 +512,12 @@ public class TradeMadeDaoImpl implements TradeMadeDao {
 	j = 0;
 	for (j = 0; j < compteurJoueurRec; j++) {
 	    nomReceivingOffer2[j] = nomReceivingOffer[j];
-	    
+
 	}
 	j = 0;
 	for (j = 0; j < compteurRookieRec; j++) {
 	    nomRookieReceivingOffer2[j] = nomRookieReceivingOffer[j];
-	   
+
 	}
 
 	// roundpick et frompick a faire pour la persistence
@@ -568,8 +574,5 @@ public class TradeMadeDaoImpl implements TradeMadeDao {
 
 	return mBean;
     }
-
-
-   
 
 }
