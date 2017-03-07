@@ -1,12 +1,22 @@
 package com.pedagogiksolution.servlet;
 
+import static com.pedagogiksolution.constants.MessageErreurConstants.CREATE_POOL_PAS_FINI;
+
 import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.dao.DAOFactory;
 import com.pedagogiksolution.dao.DraftPickDao;
@@ -45,14 +55,43 @@ public class TradeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	TradeModel mModelTrade;
-	Pool mBean = new Pool();
-	mBean = (Pool) req.getSession().getAttribute("Pool");
-	int cycleAnnuel = mBean.getCycleAnnuel();
+	// on recupere le poolID et le teamId du Session Bean Utilisateur
+		Utilisateur mBean = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+
+		// int teamId = mBean.getTeamId();
+		int poolId = mBean.getPoolId();
+
+		Pool mBeanPool = new Pool();
+		
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Key clefDatastore = KeyFactory.createKey("Pool", Integer.toString(poolId));
+		try {
+		    // si existe, aucun EntityNotFoundException, donc on recupère
+		    // l'info pour tester password
+		    Entity mEntity = datastore.get(clefDatastore);
+
+		    // on met dans SessionBean
+		    HttpSession session = req.getSession();
+		    mBeanPool = mBeanPool.mapPoolFromDatastore(mEntity, mBeanPool);
+		    synchronized(session){
+			session.setAttribute("Pool", mBeanPool);
+		    }
+
+		    
+
+		} catch (EntityNotFoundException e) {
+		    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+		    mBeanMessageErreur.setErreurFormulaireLogin(CREATE_POOL_PAS_FINI);
+		    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+		   
+		}
+	
+	int cycleAnnuel = mBeanPool.getCycleAnnuel();
 
 	if (cycleAnnuel == 3) {
 
 	    DraftPlayersModel mModelDraft = new DraftPlayersModel();
-	    mModelDraft.putDatastoreIntoBean(mBean, req);
+	    mModelDraft.putDatastoreIntoBean(mBeanPool, req);
 	}
 	if (cycleAnnuel == 6) {  
 	    LoginModel mModel = new LoginModel(req);
@@ -103,7 +142,7 @@ public class TradeServlet extends HttpServlet {
 
 		// on recupere les trade recu du datastore et place dans bean
 		// pour affichage
-		mModelTrade = new TradeModel(req, mBean);
+		mModelTrade = new TradeModel(req, mBeanPool);
 		mModelTrade.getTradeOfferReceived(req, tradeOfferDao);
 		mModelTrade.getTradeOfferMade(req, tradeOfferDao);
 		req.setAttribute("tradeOpen", 1);
@@ -117,8 +156,8 @@ public class TradeServlet extends HttpServlet {
 	    case 5:
 		// Si tradeType==1, on recupere les trade recu du datastore et
 		// place dans bean pour affichage
-		mModelTrade = new TradeModel(req, mBean);
-		int tradeType = mBean.getTradeType();
+		mModelTrade = new TradeModel(req, mBeanPool);
+		int tradeType = mBeanPool.getTradeType();
 		if (tradeType == 1) {
 		    req.setAttribute("tradeOpen", 1);
 		    mModelTrade.getTradeOfferReceived(req, tradeOfferDao);
@@ -134,7 +173,7 @@ public class TradeServlet extends HttpServlet {
 
 	    case 6:
 		
-		mModelTrade = new TradeModel(req, mBean);
+		mModelTrade = new TradeModel(req, mBeanPool);
 		req.setAttribute("tradeOpen", 1);
 		mModelTrade.getTradeOfferReceived(req, tradeOfferDao);
 		mModelTrade.getTradeOfferMade(req, tradeOfferDao);
@@ -146,14 +185,14 @@ public class TradeServlet extends HttpServlet {
 	    break;
 
 	case 2:
-	    mModelTrade = new TradeModel(req, mBean);
+	    mModelTrade = new TradeModel(req, mBeanPool);
 	    mModelTrade.getMyTrade(req,tradeMadeDao);
 	    req.getRequestDispatcher("jsp/trade/my_trade.jsp").forward(req, resp);
 
 	    break;
 
 	case 3:
-	    mModelTrade = new TradeModel(req, mBean);
+	    mModelTrade = new TradeModel(req, mBeanPool);
 	    mModelTrade.getAllTrade(req,tradeMadeDao);
 	    req.getRequestDispatcher("jsp/trade/all_trade.jsp").forward(req, resp);
 

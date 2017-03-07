@@ -32,6 +32,8 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	req.getSession().invalidate();
 	req.getSession().removeAttribute("Pool");
+	Pool mBeanPool = new Pool();
+	
 		
 	// recuperation des 2 inputs du formulaire de la page login.jsp
 	String nomUtilisateur = req.getParameter("username");
@@ -70,7 +72,7 @@ public class LoginServlet extends HttpServlet {
 		    mModel.createSessionEquipeBean();
 		    mModel.createSessionClassementBean();
 
-		    Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		    mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		    int cycleAnnuel = mBeanPool.getCycleAnnuel();
 		    if (cycleAnnuel >= 2) {
 			mModel.createSessionDraftRoundBean();

@@ -12,6 +12,7 @@ import java.security.spec.InvalidKeySpecException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -40,6 +41,7 @@ public class LoginModel {
     private String username;
     private String password;
     private HttpServletRequest requestObject;
+    Pool mBeanPool = new Pool();
 
     // contructeur pour le Servlet Login
     public LoginModel(String nomUtilisateur, String motDePasse, HttpServletRequest req) {
@@ -136,7 +138,7 @@ public class LoginModel {
 	// int teamId = mBean.getTeamId();
 	int poolId = mBean.getPoolId();
 
-	Pool mBeanPool = new Pool();
+	
 
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	Key clefDatastore = KeyFactory.createKey("Pool", Integer.toString(poolId));
@@ -146,8 +148,11 @@ public class LoginModel {
 	    Entity mEntity = datastore.get(clefDatastore);
 
 	    // on met dans SessionBean
+	    HttpSession session = requestObject.getSession();
 	    mBeanPool = mBeanPool.mapPoolFromDatastore(mEntity, mBeanPool);
-	    requestObject.getSession().setAttribute("Pool", mBeanPool);
+	    synchronized(session){
+		session.setAttribute("Pool", mBeanPool);
+	    }
 
 	    return true;
 
