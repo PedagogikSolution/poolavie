@@ -37,7 +37,7 @@
 
 			<table class="w3-table  w3-striped w3-bordered w3-card-8" style="width: 90%; margin-left: auto; margin-right: auto">
 				<caption class="w3-blue w3-xlarge">
-					<h1>${tradeOfferBean.teamThatTradeName} a donné</h1>
+					<h1>${tradeOfferBean.teamThatTradeName} a reçu</h1>
 				</caption>
 
 				<!-- regulier offer -->
@@ -152,7 +152,7 @@
 		<div class="w3-half w3-container">
 			<table class="w3-table  w3-striped w3-bordered w3-card-8" style="width: 90%; margin-left: auto; margin-right: auto">
 				<caption class="w3-blue w3-xlarge">
-					<h1>${tradeOfferBean.teamTradeToName} a donné</h1>
+					<h1>${tradeOfferBean.teamTradeToName} a reçu</h1>
 				</caption>
 
 				<!-- regulier offer -->
@@ -258,7 +258,8 @@
 			<br>
 			<br>
 		</div>
-
+	<br>
+			<br>
 	</div>
 
 	<br>

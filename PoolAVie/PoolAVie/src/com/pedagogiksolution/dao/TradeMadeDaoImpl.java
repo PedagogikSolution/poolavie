@@ -306,93 +306,176 @@ public class TradeMadeDaoImpl implements TradeMadeDao {
 		if (teamLogIn == team1Id) {
 		    nom2 = getTeamNameFromString(mBeanPool, team2Id);
 		    nom1 = getTeamNameFromString(mBeanPool, teamLogIn);
+		    String t1j1 = rs.getString("t1j1");
+			String t1j2 = rs.getString("t1j2");
+			String t1j3 = rs.getString("t1j3");
+			String t1j4 = rs.getString("t1j4");
+			String t1j5 = rs.getString("t1j5");
+			String t1j6 = rs.getString("t1j6");
+			String t1j7 = rs.getString("t1j7");
+			String t2j1 = rs.getString("t2j1");
+			String t2j2 = rs.getString("t2j2");
+			String t2j3 = rs.getString("t2j3");
+			String t2j4 = rs.getString("t2j4");
+			String t2j5 = rs.getString("t2j5");
+			String t2j6 = rs.getString("t2j6");
+			String t2j7 = rs.getString("t2j7");
+			String t1p1 = rs.getString("t1p1");
+			String t1p2 = rs.getString("t1p2");
+			String t1p3 = rs.getString("t1p3");
+			String t2p1 = rs.getString("t2p1");
+			String t2p2 = rs.getString("t2p2");
+			String t2p3 = rs.getString("t2p3");
+			messageOffre = rs.getString("message");
+
+			if (t1j1 != null) {
+			    playersTeamThatReceivedTemp.add(t1j1);
+			}
+			if (t1j2 != null) {
+			    playersTeamThatReceivedTemp.add(t1j2);
+			}
+			if (t1j3 != null) {
+			    playersTeamThatReceivedTemp.add(t1j3);
+			}
+			if (t1j4 != null) {
+			    playersTeamThatReceivedTemp.add(t1j4);
+			}
+			if (t1j5 != null) {
+			    playersTeamThatReceivedTemp.add(t1j5);
+			}
+			if (t1j6 != null) {
+			    playersTeamThatReceivedTemp.add(t1j6);
+			}
+			if (t1j7 != null) {
+			    playersTeamThatReceivedTemp.add(t1j7);
+			}
+			if (t2j1 != null) {
+			    playersTeamThatOfferTemp.add(t2j1);
+			}
+			if (t2j2 != null) {
+			    playersTeamThatOfferTemp.add(t2j2);
+			}
+			if (t2j3 != null) {
+			    playersTeamThatOfferTemp.add(t2j3);
+			}
+			if (t2j4 != null) {
+			    playersTeamThatOfferTemp.add(t2j4);
+			}
+			if (t2j5 != null) {
+			    playersTeamThatOfferTemp.add(t2j5);
+			}
+			if (t2j6 != null) {
+			    playersTeamThatOfferTemp.add(t2j6);
+			}
+			if (t2j7 != null) {
+			    playersTeamThatOfferTemp.add(t2j7);
+			}
+			if (t1p1 != null) {
+			    draftPickTeamThatReceivedTemp.add(t1p1);
+			}
+			if (t1p2 != null) {
+			    draftPickTeamThatReceivedTemp.add(t1p2);
+			}
+			if (t1p3 != null) {
+			    draftPickTeamThatReceivedTemp.add(t1p3);
+			}
+			if (t2p1 != null) {
+			    draftPickTeamThatOfferTemp.add(t2p1);
+			}
+			if (t2p2 != null) {
+			    draftPickTeamThatOfferTemp.add(t2p2);
+			}
+			if (t2p3 != null) {
+			    draftPickTeamThatOfferTemp.add(t2p3);
+			}
 		} else {
 		    nom1 = getTeamNameFromString(mBeanPool, teamLogIn);
 		    nom2 = getTeamNameFromString(mBeanPool, team1Id);
+		    String t1j1 = rs.getString("t1j1");
+			String t1j2 = rs.getString("t1j2");
+			String t1j3 = rs.getString("t1j3");
+			String t1j4 = rs.getString("t1j4");
+			String t1j5 = rs.getString("t1j5");
+			String t1j6 = rs.getString("t1j6");
+			String t1j7 = rs.getString("t1j7");
+			String t2j1 = rs.getString("t2j1");
+			String t2j2 = rs.getString("t2j2");
+			String t2j3 = rs.getString("t2j3");
+			String t2j4 = rs.getString("t2j4");
+			String t2j5 = rs.getString("t2j5");
+			String t2j6 = rs.getString("t2j6");
+			String t2j7 = rs.getString("t2j7");
+			String t1p1 = rs.getString("t1p1");
+			String t1p2 = rs.getString("t1p2");
+			String t1p3 = rs.getString("t1p3");
+			String t2p1 = rs.getString("t2p1");
+			String t2p2 = rs.getString("t2p2");
+			String t2p3 = rs.getString("t2p3");
+			messageOffre = rs.getString("message");
+
+			if (t1j1 != null) {
+			    playersTeamThatOfferTemp.add(t1j1);
+			}
+			if (t1j2 != null) {
+			    playersTeamThatOfferTemp.add(t1j2);
+			}
+			if (t1j3 != null) {
+			    playersTeamThatOfferTemp.add(t1j3);
+			}
+			if (t1j4 != null) {
+			    playersTeamThatOfferTemp.add(t1j4);
+			}
+			if (t1j5 != null) {
+			    playersTeamThatOfferTemp.add(t1j5);
+			}
+			if (t1j6 != null) {
+			    playersTeamThatOfferTemp.add(t1j6);
+			}
+			if (t1j7 != null) {
+			    playersTeamThatOfferTemp.add(t1j7);
+			}
+			if (t2j1 != null) {
+			    playersTeamThatReceivedTemp.add(t2j1);
+			}
+			if (t2j2 != null) {
+			    playersTeamThatReceivedTemp.add(t2j2);
+			}
+			if (t2j3 != null) {
+			    playersTeamThatReceivedTemp.add(t2j3);
+			}
+			if (t2j4 != null) {
+			    playersTeamThatReceivedTemp.add(t2j4);
+			}
+			if (t2j5 != null) {
+			    playersTeamThatReceivedTemp.add(t2j5);
+			}
+			if (t2j6 != null) {
+			    playersTeamThatReceivedTemp.add(t2j6);
+			}
+			if (t2j7 != null) {
+			    playersTeamThatReceivedTemp.add(t2j7);
+			}
+			if (t1p1 != null) {
+			    draftPickTeamThatOfferTemp.add(t1p1);
+			}
+			if (t1p2 != null) {
+			    draftPickTeamThatOfferTemp.add(t1p2);
+			}
+			if (t1p3 != null) {
+			    draftPickTeamThatOfferTemp.add(t1p3);
+			}
+			if (t2p1 != null) {
+			    draftPickTeamThatReceivedTemp.add(t2p1);
+			}
+			if (t2p2 != null) {
+			    draftPickTeamThatReceivedTemp.add(t2p2);
+			}
+			if (t2p3 != null) {
+			    draftPickTeamThatReceivedTemp.add(t2p3);
+			}
 		}
 
-		String t1j1 = rs.getString("t1j1");
-		String t1j2 = rs.getString("t1j2");
-		String t1j3 = rs.getString("t1j3");
-		String t1j4 = rs.getString("t1j4");
-		String t1j5 = rs.getString("t1j5");
-		String t1j6 = rs.getString("t1j6");
-		String t1j7 = rs.getString("t1j7");
-		String t2j1 = rs.getString("t2j1");
-		String t2j2 = rs.getString("t2j2");
-		String t2j3 = rs.getString("t2j3");
-		String t2j4 = rs.getString("t2j4");
-		String t2j5 = rs.getString("t2j5");
-		String t2j6 = rs.getString("t2j6");
-		String t2j7 = rs.getString("t2j7");
-		String t1p1 = rs.getString("t1p1");
-		String t1p2 = rs.getString("t1p2");
-		String t1p3 = rs.getString("t1p3");
-		String t2p1 = rs.getString("t2p1");
-		String t2p2 = rs.getString("t2p2");
-		String t2p3 = rs.getString("t2p3");
-		messageOffre = rs.getString("message");
-
-		if (t1j1 != null) {
-		    playersTeamThatOfferTemp.add(t1j1);
-		}
-		if (t1j2 != null) {
-		    playersTeamThatOfferTemp.add(t1j2);
-		}
-		if (t1j3 != null) {
-		    playersTeamThatOfferTemp.add(t1j3);
-		}
-		if (t1j4 != null) {
-		    playersTeamThatOfferTemp.add(t1j4);
-		}
-		if (t1j5 != null) {
-		    playersTeamThatOfferTemp.add(t1j5);
-		}
-		if (t1j6 != null) {
-		    playersTeamThatOfferTemp.add(t1j6);
-		}
-		if (t1j7 != null) {
-		    playersTeamThatOfferTemp.add(t1j7);
-		}
-		if (t2j1 != null) {
-		    playersTeamThatReceivedTemp.add(t2j1);
-		}
-		if (t2j2 != null) {
-		    playersTeamThatReceivedTemp.add(t2j2);
-		}
-		if (t2j3 != null) {
-		    playersTeamThatReceivedTemp.add(t2j3);
-		}
-		if (t2j4 != null) {
-		    playersTeamThatReceivedTemp.add(t2j4);
-		}
-		if (t2j5 != null) {
-		    playersTeamThatReceivedTemp.add(t2j5);
-		}
-		if (t2j6 != null) {
-		    playersTeamThatReceivedTemp.add(t2j6);
-		}
-		if (t2j7 != null) {
-		    playersTeamThatReceivedTemp.add(t2j7);
-		}
-		if (t1p1 != null) {
-		    draftPickTeamThatOfferTemp.add(t1p1);
-		}
-		if (t1p2 != null) {
-		    draftPickTeamThatOfferTemp.add(t1p2);
-		}
-		if (t1p3 != null) {
-		    draftPickTeamThatOfferTemp.add(t1p3);
-		}
-		if (t2p1 != null) {
-		    draftPickTeamThatReceivedTemp.add(t2p1);
-		}
-		if (t2p2 != null) {
-		    draftPickTeamThatReceivedTemp.add(t2p2);
-		}
-		if (t2p3 != null) {
-		    draftPickTeamThatReceivedTemp.add(t2p3);
-		}
+		
 
 	    }
 
