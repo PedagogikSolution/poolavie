@@ -36,15 +36,7 @@
 			</div>
 		</div>
 		<br>
-		<div class="w3-row w3-container w3-center">
-			<br>
-			<a href="/Trade">
-				<button class="w3-btn w3-blue w3-xxxlarge w3-round">Retournez au trade center</button>
-			</a>
-			<br>
-		</div>
-		<br>
-
+		
 	</c:if>
 
 
