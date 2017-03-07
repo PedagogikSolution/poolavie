@@ -307,8 +307,8 @@ public class TradeMadeDaoImpl implements TradeMadeDao {
 		    nom2 = getTeamNameFromString(mBeanPool, team2Id);
 		    nom1 = getTeamNameFromString(mBeanPool, teamLogIn);
 		} else {
-		    nom2 = getTeamNameFromString(mBeanPool, team1Id);
 		    nom1 = getTeamNameFromString(mBeanPool, teamLogIn);
+		    nom2 = getTeamNameFromString(mBeanPool, team1Id);
 		}
 
 		String t1j1 = rs.getString("t1j1");
