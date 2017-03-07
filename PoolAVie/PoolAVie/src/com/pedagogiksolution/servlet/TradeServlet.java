@@ -345,14 +345,14 @@ public class TradeServlet extends HttpServlet {
 	// Un joueur veut voir les détails d'un trade qu'il a fait
 	case 8:
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
-	    mModelTrade.showOfferNumberY(req,2,tradeMadeDao, playersDao, draftPickDao);
+	    mModelTrade.showOfferNumberY(tradeMadeDao, playersDao, draftPickDao);
 	    
 	    req.getRequestDispatcher("jsp/trade/showOfferDetailTradeMade.jsp").forward(req, resp);
 	    break;
 	 // Un joueur veut voir les détails d'un trade fait par n'importe quelle équipe
 	case 9:
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
-	    mModelTrade.showOfferNumberY(req,2,tradeMadeDao, playersDao, draftPickDao);
+	    mModelTrade.showOfferNumberY(tradeMadeDao, playersDao, draftPickDao);
 	   
 	    req.getRequestDispatcher("jsp/trade/showOfferDetailTradeMade.jsp").forward(req, resp);
 	    break;

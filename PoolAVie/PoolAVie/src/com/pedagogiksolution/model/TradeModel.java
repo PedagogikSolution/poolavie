@@ -1786,7 +1786,7 @@ public class TradeModel {
 	mModelDraft.putDatabaseInDatastore(poolId,numberOfTeam,"7");
     }
 
-    public void showOfferNumberY(HttpServletRequest req2, int i, TradeMadeDao tradeMadeDao, PlayersDao playersDao, DraftPickDao draftPickDao) {
+    public void showOfferNumberY(TradeMadeDao tradeMadeDao, PlayersDao playersDao, DraftPickDao draftPickDao) {
 	String trade_id_string = req.getParameter("trade_id");
 	int trade_id = Integer.parseInt(trade_id_string);
 
