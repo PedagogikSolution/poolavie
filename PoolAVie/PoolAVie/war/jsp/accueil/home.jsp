@@ -54,10 +54,10 @@
 						</c:if>
 						<br>
 						<label class="w3-label w3-text-indigo w3-large">Nom d'utilisateur</label>
-						<input class="w3-input w3-container w3-text-blue w3-validate" type="text" name="username">
+						<input class="w3-input w3-container w3-text-blue w3-validate" type="text" name="username" autocomplete="off">
 						<br>
 						<label class="w3-label w3-text-indigo w3-large">Mot de passe</label>
-						<input class="w3-input w3-container w3-text-blue  w3-validate" type="password" name="password">
+						<input class="w3-input w3-container w3-text-blue  w3-validate" type="password" name="password" autocomplete="off">
 						<br>
 						<button onclick="progressbar(1)" class="w3-btn w3-khaki w3-large w3-text-indigo">Se connecter</button>
 						<br>

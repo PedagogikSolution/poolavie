@@ -472,7 +472,7 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 		    } else {
 			nomReceivingOffer[compteurJoueurRec] = mBeanTemp.getNomMakingOfferString();
 			salaireReceivingOffer[compteurJoueurRec] = mBeanTemp.getTotal_salaire_team_making_offer();
-			total_salaire_team_receiving_offer = total_salaire_team_receiving_offer+mBeanTemp.getTotal_salaire_team_receiving_offer();
+			total_salaire_team_receiving_offer = total_salaire_team_receiving_offer+mBeanTemp.getTotal_salaire_team_making_offer();
 			compteurJoueurRec++;
 		    }
 
@@ -548,8 +548,8 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 	mBean.setRookieNomReceivingOffer(nomRookieReceivingOffer2);
 	
 	// ajout du total de l'argent donné
-		int budgetMakingOffer = (total_salaire_team_making_offer + argentOfferTeamThatTrade)-(total_salaire_team_receiving_offer + argentOfferTeamThatReceivedOffer);
-		int budgetReceivingOffer = (total_salaire_team_receiving_offer + argentOfferTeamThatReceivedOffer)-(total_salaire_team_making_offer + argentOfferTeamThatTrade); 
+		int budgetMakingOffer = (total_salaire_team_making_offer - argentOfferTeamThatTrade)-(total_salaire_team_receiving_offer - argentOfferTeamThatReceivedOffer);
+		int budgetReceivingOffer = (total_salaire_team_receiving_offer - argentOfferTeamThatReceivedOffer)-(total_salaire_team_making_offer - argentOfferTeamThatTrade); 
 		mBean.setBudgetMakingOffer(budgetMakingOffer);
 		mBean.setBudgetReceivingOffer(budgetReceivingOffer);
 

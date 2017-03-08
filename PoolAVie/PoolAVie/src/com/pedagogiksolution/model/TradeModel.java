@@ -802,8 +802,8 @@ public class TradeModel {
 	mBean.setSalaireRookieMakingOffer(salaireRookieMakingOffer);
 	mBean.setSalaireRookieReceivingOffer(salaireRookieReceivingOffer);
 	// ajout du total de l'argent donné
-	int budgetMakingOffer = (total_salaire_team_making_offer + argent_recu_make_offer)-(total_salaire_team_receiving_offer + argent_recu_rec_offer);
-	int budgetReceivingOffer = (total_salaire_team_receiving_offer + argent_recu_rec_offer)-(total_salaire_team_making_offer + argent_recu_make_offer); 
+	int budgetMakingOffer = (total_salaire_team_making_offer - cashIncludeTeamThatMakeOfferInt)-(total_salaire_team_receiving_offer - cashIncludeThatReceiveOfferInt);
+	int budgetReceivingOffer = (total_salaire_team_receiving_offer - cashIncludeThatReceiveOfferInt)-(total_salaire_team_making_offer - cashIncludeTeamThatMakeOfferInt); 
 	mBean.setBudgetMakingOffer(budgetMakingOffer);
 	mBean.setBudgetReceivingOffer(budgetReceivingOffer);
 
