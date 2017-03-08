@@ -562,11 +562,11 @@
 	</script>
 	
 	<div id="progressBar" class="w3-display-middle w3-half w3-center w3-hide">
-	<h1 id="progressMessage1" class="w3-show">Préparation des équipes</h1>
-	<h1 id="progressMessage2" class="w3-hide">Comptabilisation des points au classement</h1>
-	<h1 id="progressMessage3" class="w3-hide">Passage de la zamboni</h1>
-	<h1 id="progressMessage4" class="w3-hide">Aiguissage des patins</h1>
-	<h1 id="progressMessage5" class="w3-hide">Enculage des mouches</h1>
+	<h1 id="progressMessage1" class="w3-show">Vérification de la validité trade</h1>
+	<h1 id="progressMessage2" class="w3-hide">Changement des budgets</h1>
+	<h1 id="progressMessage3" class="w3-hide">Échange des joueurs</h1>
+	<h1 id="progressMessage4" class="w3-hide">Persistence de l'échange</h1>
+	<h1 id="progressMessage5" class="w3-hide">Finalisation de la transaction</h1>
 	<br>
 	<div class="w3-progress-container ">
 		<div id="myBar" class="w3-progressbar w3-blue" style="width: 0%">

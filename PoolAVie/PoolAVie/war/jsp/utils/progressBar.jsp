@@ -42,7 +42,7 @@
 			document.getElementById('progressBar').classList.add('w3-show');
 			var elem = document.getElementById("myBar");
 			var width = 0;
-			var id = setInterval(frame, 100);
+			var id = setInterval(frame, 200);
 			function frame() {
 				if (width >= 100) {
 					clearInterval(id);
