@@ -49,43 +49,41 @@ public class TradeServlet extends HttpServlet {
 	this.tradeOfferDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getTradeOfferDao();
 	this.tradeMadeDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getTradeMadeDao();
 	this.classementDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getClassementDao();
-	
+
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	TradeModel mModelTrade;
 	// on recupere le poolID et le teamId du Session Bean Utilisateur
-		Utilisateur mBean = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+	Utilisateur mBean = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 
-		// int teamId = mBean.getTeamId();
-		int poolId = mBean.getPoolId();
+	// int teamId = mBean.getTeamId();
+	int poolId = mBean.getPoolId();
 
-		Pool mBeanPool = new Pool();
-		
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Key clefDatastore = KeyFactory.createKey("Pool", Integer.toString(poolId));
-		try {
-		    // si existe, aucun EntityNotFoundException, donc on recupère
-		    // l'info pour tester password
-		    Entity mEntity = datastore.get(clefDatastore);
+	Pool mBeanPool = new Pool();
 
-		    // on met dans SessionBean
-		    HttpSession session = req.getSession();
-		    mBeanPool = mBeanPool.mapPoolFromDatastore(mEntity, mBeanPool);
-		    synchronized(session){
-			session.setAttribute("Pool", mBeanPool);
-		    }
+	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	Key clefDatastore = KeyFactory.createKey("Pool", Integer.toString(poolId));
+	try {
+	    // si existe, aucun EntityNotFoundException, donc on recupère
+	    // l'info pour tester password
+	    Entity mEntity = datastore.get(clefDatastore);
 
-		    
+	    // on met dans SessionBean
+	    HttpSession session = req.getSession();
+	    mBeanPool = mBeanPool.mapPoolFromDatastore(mEntity, mBeanPool);
+	    synchronized (session) {
+		session.setAttribute("Pool", mBeanPool);
+	    }
 
-		} catch (EntityNotFoundException e) {
-		    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-		    mBeanMessageErreur.setErreurFormulaireLogin(CREATE_POOL_PAS_FINI);
-		    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-		   
-		}
-	
+	} catch (EntityNotFoundException e) {
+	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+	    mBeanMessageErreur.setErreurFormulaireLogin(CREATE_POOL_PAS_FINI);
+	    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+
+	}
+
 	int cycleAnnuel = mBeanPool.getCycleAnnuel();
 
 	if (cycleAnnuel == 3) {
@@ -93,7 +91,7 @@ public class TradeServlet extends HttpServlet {
 	    DraftPlayersModel mModelDraft = new DraftPlayersModel();
 	    mModelDraft.putDatastoreIntoBean(mBeanPool, req);
 	}
-	if (cycleAnnuel == 6) {  
+	if (cycleAnnuel == 6) {
 	    LoginModel mModel = new LoginModel(req);
 	    mModel.createSessionEquipeBean();
 	    mModel.createSessionAttaquantBean();
@@ -101,7 +99,7 @@ public class TradeServlet extends HttpServlet {
 	    mModel.createSessionGardienBean();
 	    mModel.createSessionRecrueBean();
 	    mModel.createSessionDraftPickBean();
-	    
+
 	}
 
 	int fromId;
@@ -111,7 +109,6 @@ public class TradeServlet extends HttpServlet {
 	} else {
 	    fromId = 1;
 	}
-	
 
 	switch (fromId) {
 
@@ -172,7 +169,7 @@ public class TradeServlet extends HttpServlet {
 		break;
 
 	    case 6:
-		
+
 		mModelTrade = new TradeModel(req, mBeanPool);
 		req.setAttribute("tradeOpen", 1);
 		mModelTrade.getTradeOfferReceived(req, tradeOfferDao);
@@ -186,14 +183,14 @@ public class TradeServlet extends HttpServlet {
 
 	case 2:
 	    mModelTrade = new TradeModel(req, mBeanPool);
-	    mModelTrade.getMyTrade(req,tradeMadeDao);
+	    mModelTrade.getMyTrade(req, tradeMadeDao);
 	    req.getRequestDispatcher("jsp/trade/my_trade.jsp").forward(req, resp);
 
 	    break;
 
 	case 3:
 	    mModelTrade = new TradeModel(req, mBeanPool);
-	    mModelTrade.getAllTrade(req,tradeMadeDao);
+	    mModelTrade.getAllTrade(req, tradeMadeDao);
 	    req.getRequestDispatcher("jsp/trade/all_trade.jsp").forward(req, resp);
 
 	}
@@ -233,7 +230,8 @@ public class TradeServlet extends HttpServlet {
 // connecter d'aller directemetn a URL .jsp si pas bon cycle)
 	    req.setAttribute("tradeOpen", 1);
 
-	    // on test si recuperation des données des deux equipes a jour fait , si oui on retourne message erreur a trade_center,
+	    // on test si recuperation des données des deux equipes a jour fait , si oui on retourne message erreur a
+// trade_center,
 	    // si pas d'erreur on va a page d'Affichage pour faire offre
 	    if (testErreur) {
 		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
@@ -278,57 +276,51 @@ public class TradeServlet extends HttpServlet {
 	    break;
 	// Un joueur veut accepter une offre qu'il a faite
 	case 4:
-	    
+
 	    // on verifie si l'offre tiens toujours avec un boolean
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
 	    mModel = new LoginModel(req);
 	    mModel.createSessionEquipeBean();
-	    Boolean tradeStillPosible = mModelTrade.checkIfTradeIsStillPossible(playersDao,draftPickDao,tradeOfferDao);
-	   
+	    Boolean tradeStillPosible = mModelTrade.checkIfTradeIsStillPossible(playersDao, draftPickDao, tradeOfferDao);
+
 	    if (!tradeStillPosible) {
-		// si pas bon on annule l'offre et renvoie avec un message erreur expliquant l'annulation sur la page trade center
-		mModelTrade.annulerOffre(req,tradeOfferDao);
-		
-		
+		// si pas bon on annule l'offre et renvoie avec un message erreur expliquant l'annulation sur la page
+// trade center
+		mModelTrade.annulerOffre(req, tradeOfferDao);
+
 		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 
 	    } else {
 		// on effectue l'Echange et on persiste celle-ci dans trade_made
-		
-		
-		mModelTrade.makeTrade(playersDao,draftPickDao,tradeOfferDao);
+
+		mModelTrade.makeTrade(playersDao, draftPickDao, tradeOfferDao);
 		mModelTrade.persistTrade(tradeMadeDao);
-		
+
 		mModelTrade.annulerOffre(req, tradeOfferDao);
-		
+
 		// on roule les cron jobs des deux equipes du pool
-		
-		mModelTrade.putDatabaseInDatastore(classementDao,playersDao,draftPickDao,req);
-		
+
+		mModelTrade.putDatabaseInDatastore(classementDao, playersDao, draftPickDao, req);
+
 		// on force re-ecriture dans la session dans un filtre
-		
-		
+
 		resp.sendRedirect("/Equipes");
 	    }
-	    
 
-	   
-	    
-	    
 	    break;
 	// Un joueur veut annuler une offre qu'il a faite
 	case 5:
-	    
+
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
-	    mModelTrade.annulerOffre(req,tradeOfferDao);
+	    mModelTrade.annulerOffre(req, tradeOfferDao);
 	    resp.sendRedirect("/Trade");
-	    
+
 	    break;
 	// Un joueur veut voir les details d'une offre qu'il a faite
 	case 6:
-	    
+
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
-	    mModelTrade.showOfferNumberX(req,1,tradeOfferDao, playersDao, draftPickDao);
+	    mModelTrade.showOfferNumberX(1, tradeOfferDao, tradeMadeDao, playersDao, draftPickDao);
 	    req.setAttribute("whichShow", 6);
 	    req.getRequestDispatcher("jsp/trade/showOfferDetail.jsp").forward(req, resp);
 
@@ -337,26 +329,25 @@ public class TradeServlet extends HttpServlet {
 	case 7:
 
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
-	    mModelTrade.showOfferNumberX(req,2,tradeOfferDao, playersDao, draftPickDao);
+	    mModelTrade.showOfferNumberX(1, tradeOfferDao, tradeMadeDao, playersDao, draftPickDao);
 	    req.setAttribute("whichShow", 7);
 	    req.getRequestDispatcher("jsp/trade/showOfferDetail.jsp").forward(req, resp);
-	    
+
 	    break;
 	// Un joueur veut voir les détails d'un trade qu'il a fait
 	case 8:
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
-	    mModelTrade.showOfferNumberY(tradeMadeDao, playersDao, draftPickDao);
-	    
+	    mModelTrade.showOfferNumberX(2, tradeOfferDao, tradeMadeDao, playersDao, draftPickDao);
+
 	    req.getRequestDispatcher("jsp/trade/showOfferDetailTradeMade.jsp").forward(req, resp);
 	    break;
-	 // Un joueur veut voir les détails d'un trade fait par n'importe quelle équipe
+	// Un joueur veut voir les détails d'un trade fait par n'importe quelle équipe
 	case 9:
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
-	    mModelTrade.showOfferNumberY(tradeMadeDao, playersDao, draftPickDao);
-	   
+	    mModelTrade.showOfferNumberX(2, tradeOfferDao, tradeMadeDao, playersDao, draftPickDao);
+
 	    req.getRequestDispatcher("jsp/trade/showOfferDetailTradeMade.jsp").forward(req, resp);
 	    break;
-	
 
 	}
 

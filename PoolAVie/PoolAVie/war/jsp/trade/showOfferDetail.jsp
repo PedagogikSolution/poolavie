@@ -140,6 +140,25 @@
 							</c:forEach>
 						</c:if>
 
+						<!-- budget restant offer -->
+						<tr class="w3-indigo">
+
+							<th class="w3-large" colspan="2">Budget Restant</th>
+
+
+						</tr>
+						<c:if test="${empty tradeOfferBean.budgetMakingOffer}">
+							<tr>
+								<td class="w3-large" colspan="2">0 $</td>
+							<tr>
+						</c:if>
+						<c:if test="${not empty tradeOfferBean.budgetMakingOffer}">
+
+							<tr>
+								<td class="w3-large" colspan="2">${tradeOfferBean.budgetMakingOffer}$</td>
+							</tr>
+
+						</c:if>
 
 
 					</table>
@@ -254,8 +273,25 @@
 
 							</c:forEach>
 						</c:if>
+						<!-- budget restant offer -->
+						<tr class="w3-indigo">
+
+							<th class="w3-large" colspan="2">Budget Restant</th>
 
 
+						</tr>
+						<c:if test="${empty tradeOfferBean.budgetReceivingOffer}">
+							<tr>
+								<td class="w3-large" colspan="2">0 $</td>
+							<tr>
+						</c:if>
+						<c:if test="${not empty tradeOfferBean.budgetReceivingOffer}">
+
+							<tr>
+								<td class="w3-large" colspan="2">${tradeOfferBean.budgetReceivingOffer}$</td>
+							</tr>
+
+						</c:if>
 
 					</table>
 					<br>
@@ -374,7 +410,25 @@
 							</c:forEach>
 						</c:if>
 
+						<!-- budget restant offer -->
+						<tr class="w3-indigo">
 
+							<th class="w3-large" colspan="2">Budget Restant</th>
+
+
+						</tr>
+						<c:if test="${empty tradeOfferBean.budgetReceivingOffer}">
+							<tr>
+								<td class="w3-large" colspan="2">0 $</td>
+							<tr>
+						</c:if>
+						<c:if test="${not empty tradeOfferBean.budgetReceivingOffer}">
+
+							<tr>
+								<td class="w3-large" colspan="2">${tradeOfferBean.budgetReceivingOffer}$</td>
+							</tr>
+
+						</c:if>
 
 					</table>
 
@@ -490,7 +544,25 @@
 							</c:forEach>
 						</c:if>
 
+						<!-- budget restant offer -->
+						<tr class="w3-indigo">
 
+							<th class="w3-large" colspan="2">Budget Restant</th>
+
+
+						</tr>
+						<c:if test="${empty tradeOfferBean.budgetMakingOffer}">
+							<tr>
+								<td class="w3-large" colspan="2">0 $</td>
+							<tr>
+						</c:if>
+						<c:if test="${not empty tradeOfferBean.budgetMakingOffer}">
+
+							<tr>
+								<td class="w3-large" colspan="2">${tradeOfferBean.budgetMakingOffer}$</td>
+							</tr>
+
+						</c:if>
 
 					</table>
 					<br>
@@ -515,37 +587,37 @@
 	<div id="showOfferDetailAnnulerOffre" class="w3-container w3-row w3-center">
 		<br>
 		<c:if test="${requestScope.whichShow==6 }">
-		
-		<form action="/Trade" method="post">
-		<input type="hidden" name="trade_id" value="${tradeOfferBean.trade_id}">
-		<input type="hidden" name="tradeTag" value="5">
-		<button class="w3-btn w3-blue w3-xxlarge w3-round">Annuler cette offre</button>
-	</form>
-			
-				
-				
+
+			<form action="/Trade" method="post">
+				<input type="hidden" name="trade_id" value="${tradeOfferBean.trade_id}">
+				<input type="hidden" name="tradeTag" value="5">
+				<button class="w3-btn w3-blue w3-xxlarge w3-round">Annuler cette offre</button>
+			</form>
+
+
+
 			<br>
 
 		</c:if>
 
 		<c:if test="${requestScope.whichShow==7 }">
-		<div id="showOfferDetailAccepterRefuserOffre">
-			<form action="/Trade" method="post">
-		<input type="hidden" name="trade_id" value="${tradeOfferBean.trade_id}">
-		<input type="hidden" name="tradeTag" value="5">
-		<button class="w3-btn w3-blue w3-xxlarge w3-round">Refuser cette offre</button>
-	</form>
-	<br>
-	<br>
-	<form onsubmit="confirmationButtonA.disabled = true; return true;"  action="/Trade" method="post">
-		<input type="hidden" name="trade_id" value="${tradeOfferBean.trade_id}">
-		<input type="hidden" name="tradeTag" value="4">
-		<button onclick="progressbar(2)" name="confirmationButtonA" class="w3-btn w3-blue w3-large w3-round">Accepter cette offre</button>
-	</form>
-	<br>
-	<br>
-	</div>
-			
+			<div id="showOfferDetailAccepterRefuserOffre">
+				<form action="/Trade" method="post">
+					<input type="hidden" name="trade_id" value="${tradeOfferBean.trade_id}">
+					<input type="hidden" name="tradeTag" value="5">
+					<button class="w3-btn w3-blue w3-xxlarge w3-round">Refuser cette offre</button>
+				</form>
+				<br>
+				<br>
+				<form onsubmit="confirmationButtonA.disabled = true; return true;" action="/Trade" method="post">
+					<input type="hidden" name="trade_id" value="${tradeOfferBean.trade_id}">
+					<input type="hidden" name="tradeTag" value="4">
+					<button onclick="progressbar(2)" name="confirmationButtonA" class="w3-btn w3-blue w3-large w3-round">Accepter cette offre</button>
+				</form>
+				<br>
+				<br>
+			</div>
+
 		</c:if>
 
 		<br>
@@ -560,21 +632,21 @@
 	<script>
 		document.getElementById('menuSecTrade').classList.add('w3-khaki');
 	</script>
-	
+
 	<div id="progressBar" class="w3-display-middle w3-half w3-center w3-hide">
-	<h1 id="progressMessage1" class="w3-show">Vérification de la validité trade</h1>
-	<h1 id="progressMessage2" class="w3-hide">Changement des budgets</h1>
-	<h1 id="progressMessage3" class="w3-hide">Échange des joueurs</h1>
-	<h1 id="progressMessage4" class="w3-hide">Persistence de l'échange</h1>
-	<h1 id="progressMessage5" class="w3-hide">Finalisation de la transaction</h1>
-	<br>
-	<div class="w3-progress-container ">
-		<div id="myBar" class="w3-progressbar w3-blue" style="width: 0%">
-			<div id="demo" class="w3-container w3-text-white">0</div>
+		<h1 id="progressMessage1" class="w3-show">Vérification de la validité trade</h1>
+		<h1 id="progressMessage2" class="w3-hide">Changement des budgets</h1>
+		<h1 id="progressMessage3" class="w3-hide">Échange des joueurs</h1>
+		<h1 id="progressMessage4" class="w3-hide">Persistence de l'échange</h1>
+		<h1 id="progressMessage5" class="w3-hide">Finalisation de la transaction</h1>
+		<br>
+		<div class="w3-progress-container ">
+			<div id="myBar" class="w3-progressbar w3-blue" style="width: 0%">
+				<div id="demo" class="w3-container w3-text-white">0</div>
+			</div>
 		</div>
 	</div>
-	</div>
-	
+
 	<jsp:directive.include file="../utils/progressBar.jsp" />
 </body>
 </html>

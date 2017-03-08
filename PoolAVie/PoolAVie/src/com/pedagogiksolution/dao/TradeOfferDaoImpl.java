@@ -273,6 +273,8 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 	int argentOfferTeamThatTrade = 0;
 	int argentOfferTeamThatReceivedOffer = 0;
 	String messageOffre = "";
+	int total_salaire_team_making_offer=0;
+	int total_salaire_team_receiving_offer=0;
 
 	try {
 	    connexion = daoFactory.getConnection();
@@ -425,7 +427,9 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 		    } else {
 			nomMakingOffer[compteurJoueur] = mBeanTemp.getNomMakingOfferString();
 			salaireMakingOffer[compteurJoueur] = mBeanTemp.getTotal_salaire_team_making_offer();
+			total_salaire_team_making_offer = total_salaire_team_making_offer+mBeanTemp.getTotal_salaire_team_making_offer();
 			compteurJoueur++;
+			
 		    }
 		}
 	    }
@@ -468,6 +472,7 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 		    } else {
 			nomReceivingOffer[compteurJoueurRec] = mBeanTemp.getNomMakingOfferString();
 			salaireReceivingOffer[compteurJoueurRec] = mBeanTemp.getTotal_salaire_team_making_offer();
+			total_salaire_team_receiving_offer = total_salaire_team_receiving_offer+mBeanTemp.getTotal_salaire_team_receiving_offer();
 			compteurJoueurRec++;
 		    }
 
@@ -541,6 +546,12 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 	mBean.setSalaireRookieReceivingOffer(salaireRookieReceivingOffer);
 	mBean.setRookieNomMakingOffer(nomRookieMakingOffer2);
 	mBean.setRookieNomReceivingOffer(nomRookieReceivingOffer2);
+	
+	// ajout du total de l'argent donné
+		int budgetMakingOffer = (total_salaire_team_making_offer + argentOfferTeamThatTrade)-(total_salaire_team_receiving_offer + argentOfferTeamThatReceivedOffer);
+		int budgetReceivingOffer = (total_salaire_team_receiving_offer + argentOfferTeamThatReceivedOffer)-(total_salaire_team_making_offer + argentOfferTeamThatTrade); 
+		mBean.setBudgetMakingOffer(budgetMakingOffer);
+		mBean.setBudgetReceivingOffer(budgetReceivingOffer);
 
 	return mBean;
 

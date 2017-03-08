@@ -30,6 +30,8 @@ public class TradeBeans implements Serializable{
     private String[] rookieNomReceivingOffer;
     private int cashMakingOffer;
     private int cashReceivingOffer;
+    private int budgetMakingOffer;
+    private int budgetReceivingOffer;
     private String[] roundPickMakingOffer;
     private String[] roundPickReceivingOffer;
     private String[] fromPickMakingOffer;
@@ -362,6 +364,22 @@ public class TradeBeans implements Serializable{
 
     public void setTeamTradeToName(String teamTradeToName) {
 	this.teamTradeToName = teamTradeToName;
+    }
+
+    public int getBudgetMakingOffer() {
+	return budgetMakingOffer;
+    }
+
+    public void setBudgetMakingOffer(int budgetMakingOffer) {
+	this.budgetMakingOffer = budgetMakingOffer;
+    }
+
+    public int getBudgetReceivingOffer() {
+	return budgetReceivingOffer;
+    }
+
+    public void setBudgetReceivingOffer(int budgetReceivingOffer) {
+	this.budgetReceivingOffer = budgetReceivingOffer;
     }
 
 

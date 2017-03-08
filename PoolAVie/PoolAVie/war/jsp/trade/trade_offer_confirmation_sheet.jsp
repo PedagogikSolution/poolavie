@@ -31,7 +31,7 @@
 	<div id="trade_offer_sheet_main" class="w3-container w3-row">
 		<br>
 		<br>
-		
+
 		<div class="w3-half w3-container">
 
 			<table class="w3-table  w3-striped w3-bordered w3-card-8" style="width: 90%; margin-left: auto; margin-right: auto">
@@ -75,7 +75,7 @@
 				<c:set var="nombreDeJoueur" value="${tradeOfferBean.rookieNomMakingOffer}" />
 				<c:if test="${empty nombreDeJoueur}">
 					<tr>
-						<td class="w3-large" colspan = "2">Aucun</td>
+						<td class="w3-large" colspan="2">Aucun</td>
 					<tr>
 				</c:if>
 				<c:if test="${not empty nombreDeJoueur}">
@@ -93,20 +93,20 @@
 				<!-- argent offer -->
 				<tr class="w3-indigo">
 
-					<th class="w3-large" colspan = "2">Argent</th>
+					<th class="w3-large" colspan="2">Argent</th>
 
 
 				</tr>
 
 				<c:if test="${empty tradeOfferBean.cashMakingOffer}">
 					<tr>
-						<td class="w3-large" colspan = "2">Aucun</td>
+						<td class="w3-large" colspan="2">Aucun</td>
 					<tr>
 				</c:if>
 				<c:if test="${not empty tradeOfferBean.cashMakingOffer}">
 
 					<tr>
-						<td class="w3-large" colspan = "2">${tradeOfferBean.cashMakingOffer}$</td>
+						<td class="w3-large" colspan="2">${tradeOfferBean.cashMakingOffer}$</td>
 					</tr>
 
 				</c:if>
@@ -122,7 +122,7 @@
 				<c:set var="nombreDePick" value="${tradeOfferBean.roundPickMakingOffer}" />
 				<c:if test="${empty nombreDePick}">
 					<tr>
-						<td class="w3-large" colspan = "2">Aucun</td>
+						<td class="w3-large" colspan="2">Aucun</td>
 					<tr>
 				</c:if>
 				<c:if test="${not empty nombreDePick}">
@@ -136,17 +136,37 @@
 					</c:forEach>
 				</c:if>
 
+				<!-- budget restant offer -->
+				<tr class="w3-indigo">
+
+					<th class="w3-large" colspan="2">Budget Restant</th>
+
+
+				</tr>
+				
+				<c:if test="${empty tradeOfferBean.budgetMakingOffer}">
+					<tr>
+						<td class="w3-large" colspan="2">0 $</td>
+					<tr>
+				</c:if>
+				<c:if test="${not empty tradeOfferBean.budgetMakingOffer}">
+
+					<tr>
+						<td class="w3-large" colspan="2">${tradeOfferBean.budgetMakingOffer}$</td>
+					</tr>
+
+				</c:if>
 
 
 			</table>
 
 
-		<br>
-		<br>
+			<br>
+			<br>
 
 		</div>
 
-		
+
 
 		<div class="w3-half w3-container">
 			<table class="w3-table  w3-striped w3-bordered w3-card-8" style="width: 90%; margin-left: auto; margin-right: auto">
@@ -165,7 +185,7 @@
 				<c:set var="nombreDeJoueur" value="${tradeOfferBean.nomReceivingOffer}" />
 				<c:if test="${empty nombreDeJoueur}">
 					<tr>
-						<td class="w3-large" colspan = "2">Aucun</td>
+						<td class="w3-large" colspan="2">Aucun</td>
 					<tr>
 				</c:if>
 				<c:if test="${not empty nombreDeJoueur}">
@@ -190,7 +210,7 @@
 				<c:set var="nombreDeJoueur" value="${tradeOfferBean.rookieNomReceivingOffer}" />
 				<c:if test="${empty nombreDeJoueur}">
 					<tr>
-						<td class="w3-large" colspan = "2">Aucun</td>
+						<td class="w3-large" colspan="2">Aucun</td>
 					<tr>
 				</c:if>
 				<c:if test="${not empty nombreDeJoueur}">
@@ -208,20 +228,20 @@
 				<!-- argent offer -->
 				<tr class="w3-indigo">
 
-					<th class="w3-large" colspan = "2">Argent</th>
+					<th class="w3-large" colspan="2">Argent</th>
 
 
 				</tr>
 
 				<c:if test="${empty tradeOfferBean.cashReceivingOffer}">
 					<tr>
-						<td class="w3-large" colspan = "2">Aucun</td>
+						<td class="w3-large" colspan="2">Aucun</td>
 					<tr>
 				</c:if>
 				<c:if test="${not empty tradeOfferBean.cashReceivingOffer}">
 
 					<tr>
-						<td class="w3-large" colspan = "2">${tradeOfferBean.cashReceivingOffer}$</td>
+						<td class="w3-large" colspan="2">${tradeOfferBean.cashReceivingOffer}$</td>
 					</tr>
 
 				</c:if>
@@ -237,7 +257,7 @@
 				<c:set var="nombreDePick" value="${tradeOfferBean.roundPickReceivingOffer}" />
 				<c:if test="${empty nombreDePick}">
 					<tr>
-						<td class="w3-large" colspan = "2">Aucun</td>
+						<td class="w3-large" colspan="2">Aucun</td>
 					<tr>
 				</c:if>
 				<c:if test="${not empty nombreDePick}">
@@ -250,47 +270,64 @@
 
 					</c:forEach>
 				</c:if>
+				
+				<!-- budget restant offer -->
+				<tr class="w3-indigo">
+
+					<th class="w3-large" colspan="2">Budget Restant</th>
 
 
+				</tr>
+
+				<c:if test="${empty tradeOfferBean.budgetReceivingOffer}">
+					<tr>
+						<td class="w3-large" colspan="2">0 $</td>
+					<tr>
+				</c:if>
+				<c:if test="${not empty tradeOfferBean.budgetReceivingOffer}">
+
+					<tr>
+						<td class="w3-large" colspan="2">${tradeOfferBean.budgetReceivingOffer}$</td>
+					</tr>
+
+				</c:if>
 
 			</table>
 			<br>
-		<br>
+			<br>
 		</div>
 
 	</div>
 	<hr id="hr1">
 	<br>
-			<div id="trade_offer_sheet_messageDg" class="w3-container w3-row w3-center">
-			<h2>Message à inclure dans l'offre d'échange</h2>
-			<br>
-			<br>
-			<div class="w3-padding-xlarge w3-topbar w3-leftbar w3-bottombar w3-rightbar w3-border-red w3-pale-red w3-round-xlarge w3-large">
-			${tradeOfferBean.messageOffre}
-			</div>
-			</div>
-			<br>
+	<div id="trade_offer_sheet_messageDg" class="w3-container w3-row w3-center">
+		<h2>Message à inclure dans l'offre d'échange</h2>
+		<br>
+		<br>
+		<div class="w3-padding-xlarge w3-topbar w3-leftbar w3-bottombar w3-rightbar w3-border-red w3-pale-red w3-round-xlarge w3-large">${tradeOfferBean.messageOffre}</div>
+	</div>
+	<br>
 	<hr id="hr2">
 	<div id="trade_offer_sheet_confirmation" class="w3-container w3-row w3-center">
-	<br>
-	<br>
-				
-				
-			
-	<form onsubmit="confirmationButtonA.disabled = true; return true;" action="/Trade" method="post">
-		<input type="hidden" value="oui" name="confirmation" />
-		<input type="hidden" name="tradeTag" value="3">
-		<button name="confirmationButtonA" onclick="progressbar(3)" class="w3-btn w3-blue w3-xxlarge w3-round">Confirmez cette offre</button>
-	</form>
-	<br>
-	<br>
-	<form action="/Trade" method="post">
-		<input type="hidden" value="non" name="confirmation" />
-		<input type="hidden" name="tradeTag" value="3">
-		<button class="w3-btn w3-blue w3-xxlarge w3-round">Fuck je me suis trompé </button>
-	</form>
-	<br>
-	<br>
+		<br>
+		<br>
+
+
+
+		<form onsubmit="confirmationButtonA.disabled = true; return true;" action="/Trade" method="post">
+			<input type="hidden" value="oui" name="confirmation" />
+			<input type="hidden" name="tradeTag" value="3">
+			<button name="confirmationButtonA" onclick="progressbar(3)" class="w3-btn w3-blue w3-xxlarge w3-round">Confirmez cette offre</button>
+		</form>
+		<br>
+		<br>
+		<form action="/Trade" method="post">
+			<input type="hidden" value="non" name="confirmation" />
+			<input type="hidden" name="tradeTag" value="3">
+			<button class="w3-btn w3-blue w3-xxlarge w3-round">Fuck je me suis trompé</button>
+		</form>
+		<br>
+		<br>
 	</div>
 
 	<jsp:directive.include file="../utils/draftMessage.jsp" />
@@ -301,21 +338,21 @@
 	<script>
 		document.getElementById('menuSecTrade').classList.add('w3-khaki');
 	</script>
-	
+
 	<div id="progressBar" class="w3-display-middle w3-half w3-center w3-hide">
-	<h1 id="progressMessage1" class="w3-show">Vérification des joueurs impliqués</h1>
-	<h1 id="progressMessage2" class="w3-hide">Vérification de l'argent impliqué</h1>
-	<h1 id="progressMessage3" class="w3-hide">Vérification des choix aux repêchages</h1>
-	<h1 id="progressMessage4" class="w3-hide">Validation de la transaction versus les règles du pool</h1>
-	<h1 id="progressMessage5" class="w3-hide">Envoie des courriels et persistence de l'offre pour visualisation</h1>
-	<br>
-	<div class="w3-progress-container ">
-		<div id="myBar" class="w3-progressbar w3-blue" style="width: 0%">
-			<div id="demo" class="w3-container w3-text-white">0</div>
+		<h1 id="progressMessage1" class="w3-show">Vérification des joueurs impliqués</h1>
+		<h1 id="progressMessage2" class="w3-hide">Vérification de l'argent impliqué</h1>
+		<h1 id="progressMessage3" class="w3-hide">Vérification des choix aux repêchages</h1>
+		<h1 id="progressMessage4" class="w3-hide">Validation de la transaction versus les règles du pool</h1>
+		<h1 id="progressMessage5" class="w3-hide">Envoie des courriels et persistence de l'offre pour visualisation</h1>
+		<br>
+		<div class="w3-progress-container ">
+			<div id="myBar" class="w3-progressbar w3-blue" style="width: 0%">
+				<div id="demo" class="w3-container w3-text-white">0</div>
+			</div>
 		</div>
 	</div>
-	</div>
-	
+
 	<jsp:directive.include file="../utils/progressBar.jsp" />
 </body>
 </html>

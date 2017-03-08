@@ -136,7 +136,26 @@
 
 					</c:forEach>
 				</c:if>
+				
+				<!-- budget restant offer -->
+				<tr class="w3-indigo">
 
+					<th class="w3-large" colspan="2">Budget Restant</th>
+
+
+				</tr>
+				<c:if test="${empty tradeOfferBean.budgetMakingOffer}">
+					<tr>
+						<td class="w3-large" colspan="2">0 $</td>
+					<tr>
+				</c:if>
+				<c:if test="${not empty tradeOfferBean.budgetMakingOffer}">
+
+					<tr>
+						<td class="w3-large" colspan="2">${tradeOfferBean.budgetMakingOffer}$</td>
+					</tr>
+
+				</c:if>
 
 
 			</table>
@@ -252,7 +271,25 @@
 					</c:forEach>
 				</c:if>
 
+				<!-- budget restant offer -->
+				<tr class="w3-indigo">
 
+					<th class="w3-large" colspan="2">Budget Restant</th>
+
+
+				</tr>
+				<c:if test="${empty tradeOfferBean.budgetReceivingOffer}">
+					<tr>
+						<td class="w3-large" colspan="2">0 $</td>
+					<tr>
+				</c:if>
+				<c:if test="${not empty tradeOfferBean.budgetReceivingOffer}">
+
+					<tr>
+						<td class="w3-large" colspan="2">${tradeOfferBean.budgetReceivingOffer}$</td>
+					</tr>
+
+				</c:if>
 
 			</table>
 			<br>

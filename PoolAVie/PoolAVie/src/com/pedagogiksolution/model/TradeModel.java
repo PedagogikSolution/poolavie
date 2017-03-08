@@ -12,14 +12,12 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.Filter;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
@@ -775,6 +773,8 @@ public class TradeModel {
 
 	    }
 	}
+	
+	
 
 	String messageVente = req.getParameter("message_vente");
 	mBean.setMessageOffre(messageVente);
@@ -801,6 +801,11 @@ public class TradeModel {
 	mBean.setSalaireReceivingOffer(salaireReceivingOffer);
 	mBean.setSalaireRookieMakingOffer(salaireRookieMakingOffer);
 	mBean.setSalaireRookieReceivingOffer(salaireRookieReceivingOffer);
+	// ajout du total de l'argent donné
+	int budgetMakingOffer = (total_salaire_team_making_offer + argent_recu_make_offer)-(total_salaire_team_receiving_offer + argent_recu_rec_offer);
+	int budgetReceivingOffer = (total_salaire_team_receiving_offer + argent_recu_rec_offer)-(total_salaire_team_making_offer + argent_recu_make_offer); 
+	mBean.setBudgetMakingOffer(budgetMakingOffer);
+	mBean.setBudgetReceivingOffer(budgetReceivingOffer);
 
 	req.getSession().setAttribute("tradeOfferBean", mBean);
 
@@ -1130,7 +1135,7 @@ public class TradeModel {
 
     }
 
-    public void showOfferNumberX(HttpServletRequest req, int makeOrOffer, TradeOfferDao tradeOfferDao, PlayersDao playersDao, DraftPickDao draftPickDao) {
+    public void showOfferNumberX(int from, TradeOfferDao tradeOfferDao, TradeMadeDao tradeMadeDao, PlayersDao playersDao, DraftPickDao draftPickDao) {
 
 	String trade_id_string = req.getParameter("trade_id");
 	int trade_id = Integer.parseInt(trade_id_string);
@@ -1140,7 +1145,11 @@ public class TradeModel {
 	mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 	mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 
-	mBean = tradeOfferDao.showOfferX(mBeanPool, mBeanUser, trade_id, playersDao, draftPickDao);
+	if(from==2){
+	mBean = tradeMadeDao.showOfferX(mBeanPool, mBeanUser, trade_id, playersDao, draftPickDao);
+	} else {
+	    mBean = tradeOfferDao.showOfferX(mBeanPool, mBeanUser, trade_id, playersDao, draftPickDao);   
+	}
 
 	req.getSession().setAttribute("tradeOfferBean", mBean);
 
@@ -1786,19 +1795,6 @@ public class TradeModel {
 	mModelDraft.putDatabaseInDatastore(poolId,numberOfTeam,"7");
     }
 
-    public void showOfferNumberY(TradeMadeDao tradeMadeDao, PlayersDao playersDao, DraftPickDao draftPickDao) {
-	String trade_id_string = req.getParameter("trade_id");
-	int trade_id = Integer.parseInt(trade_id_string);
-
-// initialisation des objets pour le metier
-	TradeBeans mBean = new TradeBeans();
-	mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
-	mBeanPool = (Pool) req.getSession().getAttribute("Pool");
-
-	mBean = tradeMadeDao.showOfferX(mBeanPool, mBeanUser, trade_id, playersDao, draftPickDao);
-
-	req.getSession().setAttribute("tradeOfferBean", mBean);
-	
-    }
+   
 
 }
