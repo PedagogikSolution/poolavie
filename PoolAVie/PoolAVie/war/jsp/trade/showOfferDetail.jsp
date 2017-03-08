@@ -504,14 +504,14 @@
 
 
 
-	<hr>
+	<hr id="hr3">
 	<div id="showOfferDetailMessageDG" class="w3-container w3-row w3-center">
 		<h2>Message du DG offrant au DG recevant l'offre</h2>
 		<br>
 		<br>
 		<div class="w3-padding-xlarge w3-topbar w3-leftbar w3-bottombar w3-rightbar w3-border-red w3-pale-red w3-round-xlarge w3-large">${tradeOfferBean.messageOffre}</div>
 	</div>
-	<hr>
+	<hr id="hr4">
 	<div id="showOfferDetailAnnulerOffre" class="w3-container w3-row w3-center">
 		<br>
 		<c:if test="${requestScope.whichShow==6 }">

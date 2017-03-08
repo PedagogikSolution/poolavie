@@ -259,7 +259,7 @@
 		</div>
 
 	</div>
-	<hr>
+	<hr id="hr1">
 	<br>
 			<div id="trade_offer_sheet_messageDg" class="w3-container w3-row w3-center">
 			<h2>Message à inclure dans l'offre d'échange</h2>
@@ -270,7 +270,7 @@
 			</div>
 			</div>
 			<br>
-	<hr>
+	<hr id="hr2">
 	<div id="trade_offer_sheet_confirmation" class="w3-container w3-row w3-center">
 	<br>
 	<br>

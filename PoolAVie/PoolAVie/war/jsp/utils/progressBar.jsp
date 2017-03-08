@@ -21,6 +21,8 @@
 				document.getElementById('showOfferDetailMessageDG').classList.add('w3-hide');
 				document.getElementById('showOfferDetailAnnulerOffre').classList.add('w3-hide');
 				document.getElementById('showOfferDetailAccepterRefuserOffre').classList.add('w3-hide');
+				document.getElementById('hr3').classList.add('w3-hide');
+				document.getElementById('hr4').classList.add('w3-hide');
 				
 				
 				
@@ -30,6 +32,8 @@
 				document.getElementById('trade_offer_sheet_main').classList.add('w3-hide');
 				document.getElementById('trade_offer_sheet_messageDg').classList.add('w3-hide');
 				document.getElementById('trade_offer_sheet_confirmation').classList.add('w3-hide');
+				document.getElementById('hr1').classList.add('w3-hide');
+				document.getElementById('hr2').classList.add('w3-hide');
 				break;
 				
 			}
