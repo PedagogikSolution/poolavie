@@ -59,7 +59,7 @@
 						<label class="w3-label w3-text-indigo w3-large">Mot de passe</label>
 						<input class="w3-input w3-container w3-text-blue  w3-validate" type="password" name="password">
 						<br>
-						<button onclick="progressbar()" class="w3-btn w3-khaki w3-large w3-text-indigo">Se connecter</button>
+						<button onclick="progressbar(1)" class="w3-btn w3-khaki w3-large w3-text-indigo">Se connecter</button>
 						<br>
 						<p class="w3-white">
 							<a href="/recuperation">Vous avez oubliez vos identifiants?</a>
@@ -94,7 +94,7 @@
 						<br>
 						<input id="passwordNewPool" class="w3-input  w3-text-indigo  w3-validate" type="password" name="password" autocomplete="off">
 						<br>
-						<button onclick="progressbar()" class="w3-btn w3-khaki w3-large w3-text-indigo w3">Poursuivre à l'étape suivante</button>
+						<button onclick="progressbar(1)" class="w3-btn w3-khaki w3-large w3-text-indigo w3">Poursuivre à l'étape suivante</button>
 						<br>
 						<c:if test="${MessageErreurBeans.erreurFormulaireRegistration!=null }">
 							<p class="w3-text-red">${MessageErreurBeans.erreurFormulaireRegistration}</p>

@@ -14,7 +14,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
 </head>
-<body>
+<body onload="removeProgressBar()">
 	<c:if test="${Pool.cycleAnnuel==3 }">
 		<c:set var="currentPick" value="${DraftBean.currentPick}" />
 		<c:set var="currentPicker" value="${DraftBean.currentPicker}" />
@@ -28,7 +28,7 @@
 	<jsp:directive.include file="../utils/messageAlerte.jsp" />
 
 
-	<div class="w3-container w3-row">
+	<div id="trade_offer_sheet_main" class="w3-container w3-row">
 		<br>
 		<br>
 		
@@ -261,7 +261,7 @@
 	</div>
 	<hr>
 	<br>
-			<div class="w3-container w3-row w3-center">
+			<div id="trade_offer_sheet_messageDg" class="w3-container w3-row w3-center">
 			<h2>Message à inclure dans l'offre d'échange</h2>
 			<br>
 			<br>
@@ -271,16 +271,16 @@
 			</div>
 			<br>
 	<hr>
-	<div class="w3-container w3-row w3-center">
+	<div id="trade_offer_sheet_confirmation" class="w3-container w3-row w3-center">
 	<br>
 	<br>
 				
 				
 			
-	<form action="/Trade" method="post">
+	<form onsubmit="confirmationButtonA.disabled = true; return true;" action="/Trade" method="post">
 		<input type="hidden" value="oui" name="confirmation" />
 		<input type="hidden" name="tradeTag" value="3">
-		<button class="w3-btn w3-blue w3-xxlarge w3-round">Confirmez cette offre</button>
+		<button name="confirmationButtonA" onclick="progressbar(3)" class="w3-btn w3-blue w3-xxlarge w3-round">Confirmez cette offre</button>
 	</form>
 	<br>
 	<br>
@@ -301,5 +301,21 @@
 	<script>
 		document.getElementById('menuSecTrade').classList.add('w3-khaki');
 	</script>
+	
+	<div id="progressBar" class="w3-display-middle w3-half w3-center w3-hide">
+	<h1 id="progressMessage1" class="w3-show">Préparation des équipes</h1>
+	<h1 id="progressMessage2" class="w3-hide">Comptabilisation des points au classement</h1>
+	<h1 id="progressMessage3" class="w3-hide">Passage de la zamboni</h1>
+	<h1 id="progressMessage4" class="w3-hide">Aiguissage des patins</h1>
+	<h1 id="progressMessage5" class="w3-hide">Enculage des mouches</h1>
+	<br>
+	<div class="w3-progress-container ">
+		<div id="myBar" class="w3-progressbar w3-blue" style="width: 0%">
+			<div id="demo" class="w3-container w3-text-white">0</div>
+		</div>
+	</div>
+	</div>
+	
+	<jsp:directive.include file="../utils/progressBar.jsp" />
 </body>
 </html>

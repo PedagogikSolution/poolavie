@@ -14,7 +14,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
 </head>
-<body>
+<body onload="removeProgressBar()">
 	<c:if test="${Pool.cycleAnnuel==3 }">
 		<c:set var="currentPick" value="${DraftBean.currentPick}" />
 		<c:set var="currentPicker" value="${DraftBean.currentPicker}" />
@@ -28,7 +28,7 @@
 	<jsp:directive.include file="../utils/messageAlerte.jsp" />
 
 
-	<div class="w3-container w3-row">
+	<div id="showOfferDetailMainDiv" class="w3-container w3-row">
 		<br>
 		<br>
 		<c:if test="${requestScope.whichShow==6 }">
@@ -505,14 +505,14 @@
 
 
 	<hr>
-	<div class="w3-container w3-row w3-center">
+	<div id="showOfferDetailMessageDG" class="w3-container w3-row w3-center">
 		<h2>Message du DG offrant au DG recevant l'offre</h2>
 		<br>
 		<br>
 		<div class="w3-padding-xlarge w3-topbar w3-leftbar w3-bottombar w3-rightbar w3-border-red w3-pale-red w3-round-xlarge w3-large">${tradeOfferBean.messageOffre}</div>
 	</div>
 	<hr>
-	<div class="w3-container w3-row w3-center">
+	<div id="showOfferDetailAnnulerOffre" class="w3-container w3-row w3-center">
 		<br>
 		<c:if test="${requestScope.whichShow==6 }">
 		
@@ -529,7 +529,7 @@
 		</c:if>
 
 		<c:if test="${requestScope.whichShow==7 }">
-		
+		<div id="showOfferDetailAccepterRefuserOffre">
 			<form action="/Trade" method="post">
 		<input type="hidden" name="trade_id" value="${tradeOfferBean.trade_id}">
 		<input type="hidden" name="tradeTag" value="5">
@@ -537,14 +537,14 @@
 	</form>
 	<br>
 	<br>
-	<form action="/Trade" method="post">
+	<form onsubmit="confirmationButtonA.disabled = true; return true;"  action="/Trade" method="post">
 		<input type="hidden" name="trade_id" value="${tradeOfferBean.trade_id}">
 		<input type="hidden" name="tradeTag" value="4">
-		<button class="w3-btn w3-blue w3-large w3-round">Accepter cette offre</button>
+		<button onclick="progressbar(2)" name="confirmationButtonA" class="w3-btn w3-blue w3-large w3-round">Accepter cette offre</button>
 	</form>
 	<br>
 	<br>
-	
+	</div>
 			
 		</c:if>
 
@@ -560,5 +560,21 @@
 	<script>
 		document.getElementById('menuSecTrade').classList.add('w3-khaki');
 	</script>
+	
+	<div id="progressBar" class="w3-display-middle w3-half w3-center w3-hide">
+	<h1 id="progressMessage1" class="w3-show">Préparation des équipes</h1>
+	<h1 id="progressMessage2" class="w3-hide">Comptabilisation des points au classement</h1>
+	<h1 id="progressMessage3" class="w3-hide">Passage de la zamboni</h1>
+	<h1 id="progressMessage4" class="w3-hide">Aiguissage des patins</h1>
+	<h1 id="progressMessage5" class="w3-hide">Enculage des mouches</h1>
+	<br>
+	<div class="w3-progress-container ">
+		<div id="myBar" class="w3-progressbar w3-blue" style="width: 0%">
+			<div id="demo" class="w3-container w3-text-white">0</div>
+		</div>
+	</div>
+	</div>
+	
+	<jsp:directive.include file="../utils/progressBar.jsp" />
 </body>
 </html>

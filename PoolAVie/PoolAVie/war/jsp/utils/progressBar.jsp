@@ -3,14 +3,37 @@
 			document.getElementById('progressBar').classList.remove('w3-show');
 			document.getElementById('progressBar').classList.add('w3-hide');
 		}
-		function progressbar() {
-			document.getElementById('marketing1').classList.add('w3-overlay');
-			document.getElementById('marketing1').classList.remove('background-image');
-			document.getElementById('marketing2').classList.add('w3-hide');
-			document.getElementById('marketing3').classList.add('w3-hide');
-			document.getElementById('footerAccueil').classList.add('w3-hide');
-			document.getElementById('hrAccueil1').classList.add('w3-hide');
-			document.getElementById('hrAccueil2').classList.add('w3-hide');
+		function progressbar(from) {
+			
+			
+			switch(from){
+			case 1:
+				document.getElementById('marketing1').classList.add('w3-overlay');
+				document.getElementById('marketing1').classList.remove('background-image');
+				document.getElementById('marketing2').classList.add('w3-hide');
+				document.getElementById('marketing3').classList.add('w3-hide');
+				document.getElementById('footerAccueil').classList.add('w3-hide');
+				document.getElementById('hrAccueil1').classList.add('w3-hide');
+				document.getElementById('hrAccueil2').classList.add('w3-hide');
+				break;
+			case 2:
+				document.getElementById('showOfferDetailMainDiv').classList.add('w3-hide');
+				document.getElementById('showOfferDetailMessageDG').classList.add('w3-hide');
+				document.getElementById('showOfferDetailAnnulerOffre').classList.add('w3-hide');
+				document.getElementById('showOfferDetailAccepterRefuserOffre').classList.add('w3-hide');
+				
+				
+				
+				
+				break;
+			case 3:
+				document.getElementById('trade_offer_sheet_main').classList.add('w3-hide');
+				document.getElementById('trade_offer_sheet_messageDg').classList.add('w3-hide');
+				document.getElementById('trade_offer_sheet_confirmation').classList.add('w3-hide');
+				break;
+				
+			}
+			
 			document.getElementById('progressBar').classList.remove('w3-hide');
 			document.getElementById('progressBar').classList.add('w3-show');
 			var elem = document.getElementById("myBar");
