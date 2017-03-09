@@ -3,7 +3,7 @@
       rel="stylesheet">
 <!-- Header avec titre et images de promo -->
 <header class="w3-center" >
-	<ul class="w3-navbar w3-center w3-blue w3-xlarge">
+	<ul class="w3-navbar w3-center w3-blue w3-xlarge w3-mobile">
 		<li class="w3-navitem w3-left" style="width:4.99%"><img src="${Utilisateur.urlTeamLogo}" style="width:56px; height:56px;"></li>
 		<li class="w3-padding-top w3-xlarge w3-left" style="width:19.99%;text-align: left;"><a href="#">${Utilisateur.teamName}</a></li>
 		<li class="w3-padding-top w3-xxlarge w3-navitem" style="width:60.99%"><b class="w3-margin-top" style="padding-right:128px"><i>${Pool.poolName }</i></b></li>

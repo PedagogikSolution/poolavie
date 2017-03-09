@@ -2,7 +2,7 @@
 
 <header class="w3-container w3-indigo w3-center">
 <c:if test="${Utilisateur.typeUtilisateur==1 }">
-	<ul class="w3-navbar w3-center">
+	<ul class="w3-navbar w3-center w3-mobile">
 		<li id="menuSecNews" class="w3-xlarge"><a href="/Nouvelles">NEWS</a></li>
 
 		<li id="menuSecStand" class="w3-xlarge"><a href="/Classement">CLASSEMENT</a></li>
@@ -24,7 +24,7 @@
 	</ul>
 </c:if>
 <c:if test="${Utilisateur.typeUtilisateur==2 }">
-	<ul class="w3-navbar w3-center">
+	<ul class="w3-navbar w3-center w3-mobile">
 		<li id="menuSecNews" class="w3-xlarge"><a href="/Nouvelles">NEWS</a></li>
 
 		<li id="menuSecStand" class="w3-xlarge"><a href="/Classement">CLASSEMENT</a></li>

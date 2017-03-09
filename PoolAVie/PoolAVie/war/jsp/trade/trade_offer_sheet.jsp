@@ -11,6 +11,8 @@
 <title>Feuille d'échange</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/css/w3.css">
+<link rel="stylesheet" href="/css/trade_offer_sheet.css">
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
 </head>
@@ -80,12 +82,12 @@
 							<th>Nom</th>
 							<th>Équipe</th>
 							<th>Pj</th>
-							<th>Points</th>
-							<th>2015-16</th>
-							<th>2016-17</th>
-							<th>2017-18</th>
-							<th>2018-19</th>
-							<th>2019-20</th>
+							<th>Pts</th>
+							<th>2017</th>
+							<th>2018</th>
+							<th>2019</th>
+							<th>2020</th>
+							<th>2021</th>
 							<th>Inclure</th>
 
 						</tr>
@@ -135,12 +137,12 @@
 							<th>Nom</th>
 							<th>Équipe</th>
 							<th>Pj</th>
-							<th>Points</th>
-							<th>2015-16</th>
-							<th>2016-17</th>
-							<th>2017-18</th>
-							<th>2018-19</th>
-							<th>2019-20</th>
+							<th>Pts</th>
+							<th>2017</th>
+							<th>2018</th>
+							<th>2019</th>
+							<th>2020</th>
+							<th>2021</th>
 							<th>Inclure</th>
 						</tr>
 						<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
@@ -183,12 +185,12 @@
 							<th>Nom</th>
 							<th>Équipe</th>
 							<th>Pj</th>
-							<th>Points</th>
-							<th>2015-16</th>
-							<th>2016-17</th>
-							<th>2017-18</th>
-							<th>2018-19</th>
-							<th>2019-20</th>
+							<th>Pts</th>
+							<th>2017</th>
+							<th>2018</th>
+							<th>2019</th>
+							<th>2020</th>
+							<th>2021</th>
 							<th>Inclure</th>
 
 
@@ -238,12 +240,12 @@
 							<th>Nom</th>
 							<th>Équipe</th>
 							<th>Pj</th>
-							<th>Points</th>
-							<th>2015-16</th>
-							<th>2016-17</th>
-							<th>2017-18</th>
-							<th>2018-19</th>
-							<th>2019-20</th>
+							<th>Pts</th>
+							<th>2017</th>
+							<th>2018</th>
+							<th>2019</th>
+							<th>2020</th>
+							<th>2021</th>
 							<th>Inclure</th>
 						</tr>
 						<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
@@ -427,12 +429,12 @@
 							<th>Nom</th>
 							<th>Équipe</th>
 							<th>Pj</th>
-							<th>Points</th>
-							<th>2015-16</th>
-							<th>2016-17</th>
-							<th>2017-18</th>
-							<th>2018-19</th>
-							<th>2019-20</th>
+							<th>Pts</th>
+							<th>2017</th>
+							<th>2018</th>
+							<th>2019</th>
+							<th>2020</th>
+							<th>2021</th>
 							<th>Inclure</th>
 
 						</tr>
@@ -477,12 +479,12 @@
 							<th>Nom</th>
 							<th>Équipe</th>
 							<th>Pj</th>
-							<th>Points</th>
-							<th>2015-16</th>
-							<th>2016-17</th>
-							<th>2017-18</th>
-							<th>2018-19</th>
-							<th>2019-20</th>
+							<th>Pts</th>
+							<th>2017</th>
+							<th>2018</th>
+							<th>2019</th>
+							<th>2020</th>
+							<th>2021</th>
 							<th>Inclure</th>
 
 
@@ -529,12 +531,12 @@
 							<th>Nom</th>
 							<th>Équipe</th>
 							<th>Pj</th>
-							<th>Points</th>
-							<th>2015-16</th>
-							<th>2016-17</th>
-							<th>2017-18</th>
-							<th>2018-19</th>
-							<th>2019-20</th>
+							<th>Pts</th>
+							<th>2017</th>
+							<th>2018</th>
+							<th>2019</th>
+							<th>2020</th>
+							<th>2021</th>
 							<th>Inclure</th>
 
 
@@ -579,12 +581,12 @@
 							<th>Nom</th>
 							<th>Équipe</th>
 							<th>Pj</th>
-							<th>Points</th>
-							<th>2015-16</th>
-							<th>2016-17</th>
-							<th>2017-18</th>
-							<th>2018-19</th>
-							<th>2019-20</th>
+							<th>Pts</th>
+							<th>2017</th>
+							<th>2018</th>
+							<th>2019</th>
+							<th>2020</th>
+							<th>2021</th>
 							<th>Inclure</th>
 
 

@@ -11,6 +11,7 @@
 <title>Nouvelles ${Pool.poolName}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/css/w3.css">
+<link rel="stylesheet" href="/css/team.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
 </head>
@@ -30,7 +31,7 @@
 	
 		<div class="w3-threequarter w3-margin-top">
 
-			<table class="w3-table  w3-striped w3-bordered w3-card-8" style="width: 90%; margin-left: auto; margin-right: auto">
+			<table class="w3-table  w3-striped w3-bordered w3-card-8" style="width: 95%; margin-left: auto; margin-right: auto">
 				<caption class="w3-blue w3-xlarge">
 					<h1>Attaquant</h1>
 				</caption>
@@ -88,7 +89,7 @@
 
 
 			<br>
-			<table class="w3-table  w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 90%; margin-left: auto; margin-right: auto">
+			<table class="w3-table  w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 95%; margin-left: auto; margin-right: auto">
 				<caption class="w3-blue w3-xlarge">
 					<h1>Defenseur</h1>
 				</caption>
@@ -146,7 +147,7 @@
 
 
 			<br>
-			<table class="w3-table  w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 90%; margin-left: auto; margin-right: auto">
+			<table class="w3-table  w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 95%; margin-left: auto; margin-right: auto">
 				<caption class="w3-blue w3-xlarge">
 					<h1>Gardien</h1>
 				</caption>
@@ -206,7 +207,7 @@
 
 
 			<br>
-			<table class="w3-table  w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 90%; margin-left: auto; margin-right: auto">
+			<table class="w3-table  w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 95%; margin-left: auto; margin-right: auto">
 				<caption class="w3-blue w3-xlarge">
 					<h1>Recrue</h1>
 				</caption>
@@ -263,7 +264,7 @@
 			<br>
 			
 			<c:if test="${Pool.cycleAnnuel>=2}">
-			<div class="w3-card-8 w3-center" style="width: 90%; margin-left: auto; margin-right: auto">
+			<div class="w3-card-8 w3-center" style="width: 95%; margin-left: auto; margin-right: auto">
 				<div class="w3-blue w3-xxlarge w3-center">Pick</div>
 				<div class="w3-third">
 					<table class="w3-table  w3-striped w3-bordered w3-border-indigo">
@@ -355,16 +356,16 @@
 		<div class="w3-quarter w3-margin-top">
 
 
-			<div class="w3-row w3-bottombar w3-leftbar w3-rightbar w3-topbar w3-border-indigo">
+			<div id="boite_team_little_stats" class="w3-row w3-bottombar w3-leftbar w3-rightbar w3-topbar w3-border-indigo" style="witdh:95%">
 
-				<div class="w3-half">
+				<div class="w3-half w3-hide-medium">
 					<br>
 					<br>
 					<br>
 					<br>
-					<img src="${NonSessionBean.logoDuTeam}" style="width: 200px; height: 200px;">
+					<img src="${NonSessionBean.logoDuTeam}" style="width: 184px; height: 184px;">
 				</div>
-				<div class="w3-half">
+				<div class="w3-half w3-padding-left">
 					<div class="w3-xxlarge  w3-bottombar w3-border-indigo" style="width: 90%">${NonSessionBean.nomDuTeam}</div>
 					<br>
 					<div class="w3-xlarge ">Mon rang</div>
@@ -388,7 +389,7 @@
 
 
 
-			<table class="w3-table  w3-striped w3-bordered w3-card-8 w3-margin-top w3-border-indigo">
+			<table class="w3-table  w3-striped w3-bordered w3-card-8 w3-margin-top w3-border-indigo" style="witdh:95%">
 				<caption class="w3-blue w3-xlarge">
 					<h1>MON BUDGET</h1>
 				</caption>
@@ -419,7 +420,7 @@
 
 			</table>
 			<br>
-			<table class="w3-table  w3-striped w3-bordered w3-card-8 w3-margin-top w3-border-indigo">
+			<table class="w3-table  w3-striped w3-bordered w3-card-8 w3-margin-top w3-border-indigo" style="witdh:95%">
 				<caption class="w3-blue w3-xlarge">
 					<h1>MES STATS D'ÉQUIPE</h1>
 				</caption>
@@ -478,7 +479,7 @@
 
 		<jsp:directive.include file="../utils/draftMessage.jsp" />
 
-	</div>
+
 
 	<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token!=null}">
 		<jsp:directive.include file="../utils/draftClientB.jsp" />

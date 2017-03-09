@@ -29,3 +29,10 @@
 	
 }
 
+@media only screen and (max-width:1399px) {
+	.w3-half{
+	width:99.99999%;
+	}
+	
+	
+}

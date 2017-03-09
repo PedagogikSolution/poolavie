@@ -1,0 +1,15 @@
+@media only screen and (max-width:1299px) {
+	.w3-threequarter {
+		width: 99.99999%
+	}
+	
+	.w3-quarter {
+		width: 99.99999%
+	}
+	
+	#boite_team_little_stats{
+	display:none;
+	}
+	
+	
+}

@@ -43,7 +43,7 @@
 			<br>
 			<div class="w3-half">
 
-				<div class="w3-card-24 w3-white" style="width: 40%; height: 40%; margin-left: auto; margin-right: auto">
+				<div class="w3-card-24 w3-white" style="width: 50%; height: 40%; margin-left: auto; margin-right: auto">
 					<div class="w3-indigo w3-center w3-padding">
 						<h3>Connectez-vous</h3>
 					</div>
@@ -76,7 +76,7 @@
 
 			<div class="w3-half">
 
-				<div class="w3-card-24 w3-white" style="width: 40%; height: 40%; margin-left: auto; margin-right: auto">
+				<div class="w3-card-24 w3-white" style="width: 50%; height: 40%; margin-left: auto; margin-right: auto">
 					<div class="w3-indigo w3-center w3-padding">
 						<h3>Créer un nouveau pool</h3>
 					</div>
