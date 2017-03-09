@@ -1227,9 +1227,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		mEntityEquipe.setProperty("total_salaire_now", (((Long) mEntityEquipe.getProperty("total_salaire_now")) - salaire));
 		mEntityEquipe.setProperty("budget_restant", (((Long) mEntityEquipe.getProperty("budget_restant")) + salaire));
 		mEntityEquipe.setProperty("nb_equipe", (((Long) mEntityEquipe.getProperty("nb_equipe")) - 1));
-		// mEntityEquipe.setProperty("moy_sal_restant_draft",
-// (((Long)mEntityEquipe.getProperty("budget_restant"))/((Long)mEntityEquipe.getProperty("manquant_equipe"))) );
-		if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("X")) {
+		if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("X")|| contrat.equalsIgnoreCase("B")|| contrat.equalsIgnoreCase("A")) {
 
 		} else {
 		    mEntityEquipe.setProperty("nb_contrat", (((Long) mEntityEquipe.getProperty("nb_contrat")) - 1));
@@ -1250,9 +1248,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		mEntityEquipe.setProperty("budget_restant", (((Long) mEntityEquipe.getProperty("budget_restant")) - salaire));
 
 		mEntityEquipe.setProperty("nb_equipe", (((Long) mEntityEquipe.getProperty("nb_equipe")) + 1));
-		// mEntityEquipe.setProperty("moy_sal_restant_draft",
-// (((Long)mEntityEquipe.getProperty("budget_restant"))/((Long)mEntityEquipe.getProperty("manquant_equipe"))) );
-		if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("X")) {
+		if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("X")|| contrat.equalsIgnoreCase("B")|| contrat.equalsIgnoreCase("A")) {
 
 		} else {
 		    mEntityEquipe.setProperty("nb_contrat", (((Long) mEntityEquipe.getProperty("nb_contrat")) + 1));
@@ -1263,7 +1259,6 @@ public class PlayersDaoImpl implements PlayersDao {
 		datastore.put(mEntityEquipe);
 
 	    } catch (EntityNotFoundException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	    }
 
@@ -1274,9 +1269,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		mEntityEquipe.setProperty("total_salaire_now", (((Long) mEntityEquipe.getProperty("total_salaire_now")) - salaire));
 		mEntityEquipe.setProperty("budget_restant", (((Long) mEntityEquipe.getProperty("budget_restant")) + salaire));
 		mEntityEquipe.setProperty("nb_equipe", (((Long) mEntityEquipe.getProperty("nb_equipe")) - 1));
-		// mEntityEquipe.setProperty("moy_sal_restant_draft",
-// (((Long)mEntityEquipe.getProperty("budget_restant"))/((Long)mEntityEquipe.getProperty("manquant_equipe"))) );
-		if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("X")) {
+		if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("X")|| contrat.equalsIgnoreCase("B")|| contrat.equalsIgnoreCase("A")) {
 
 		} else {
 		    mEntityEquipe.setProperty("nb_contrat", (((Long) mEntityEquipe.getProperty("nb_contrat")) - 1));
@@ -1286,7 +1279,6 @@ public class PlayersDaoImpl implements PlayersDao {
 
 		datastore.put(mEntityEquipe);
 	    } catch (EntityNotFoundException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	    }
 
@@ -1297,9 +1289,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		mEntityEquipe.setProperty("budget_restant", (((Long) mEntityEquipe.getProperty("budget_restant")) - salaire));
 
 		mEntityEquipe.setProperty("nb_equipe", (((Long) mEntityEquipe.getProperty("nb_equipe")) + 1));
-		// mEntityEquipe.setProperty("moy_sal_restant_draft",
-// (((Long)mEntityEquipe.getProperty("budget_restant"))/((Long)mEntityEquipe.getProperty("manquant_equipe"))) );
-		if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("X")) {
+		if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("X")|| contrat.equalsIgnoreCase("B")|| contrat.equalsIgnoreCase("A")) {
 
 		} else {
 		    mEntityEquipe.setProperty("nb_contrat", (((Long) mEntityEquipe.getProperty("nb_contrat")) + 1));
@@ -1320,9 +1310,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		mEntityEquipe.setProperty("total_salaire_now", (((Long) mEntityEquipe.getProperty("total_salaire_now")) - salaire));
 		mEntityEquipe.setProperty("budget_restant", (((Long) mEntityEquipe.getProperty("budget_restant")) + salaire));
 		mEntityEquipe.setProperty("nb_equipe", (((Long) mEntityEquipe.getProperty("nb_equipe")) - 1));
-		// mEntityEquipe.setProperty("moy_sal_restant_draft",
-// (((Long)mEntityEquipe.getProperty("budget_restant"))/((Long)mEntityEquipe.getProperty("manquant_equipe"))) );
-		if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("X")) {
+		if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("X")|| contrat.equalsIgnoreCase("B")|| contrat.equalsIgnoreCase("A")) {
 
 		} else {
 		    mEntityEquipe.setProperty("nb_contrat", (((Long) mEntityEquipe.getProperty("nb_contrat")) - 1));
@@ -1332,7 +1320,6 @@ public class PlayersDaoImpl implements PlayersDao {
 		datastore.put(mEntityEquipe);
 
 	    } catch (EntityNotFoundException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	    }
 
@@ -1343,8 +1330,6 @@ public class PlayersDaoImpl implements PlayersDao {
 		mEntityEquipe.setProperty("budget_restant", (((Long) mEntityEquipe.getProperty("budget_restant")) - salaire));
 
 		mEntityEquipe.setProperty("nb_equipe", (((Long) mEntityEquipe.getProperty("nb_equipe")) + 1));
-		// mEntityEquipe.setProperty("moy_sal_restant_draft",
-// (((Long)mEntityEquipe.getProperty("budget_restant"))/((Long)mEntityEquipe.getProperty("manquant_equipe"))) );
 		if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("X")) {
 
 		} else {
@@ -1355,7 +1340,6 @@ public class PlayersDaoImpl implements PlayersDao {
 		datastore.put(mEntityEquipe);
 
 	    } catch (EntityNotFoundException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	    }
 
@@ -1368,7 +1352,6 @@ public class PlayersDaoImpl implements PlayersDao {
 		datastore.put(mEntityEquipe);
 
 	    } catch (EntityNotFoundException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	    }
 
@@ -1380,7 +1363,6 @@ public class PlayersDaoImpl implements PlayersDao {
 		datastore.put(mEntityEquipe);
 
 	    } catch (EntityNotFoundException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	    }
 
