@@ -130,21 +130,28 @@
 	</c:if>
 	
 	<c:if test="${sessionScope.beanConfirmationRachat!=null}">
-	
-	<p> Vous voulez racheter ${beanConfirmationRachat.nom} au coût total de ${beanConfirmationRachat.salaire_contrat} avec votre argent de l'année venant de ce terminer?</p>
+	<div id="pickConfirmBox" class="w3-card-24 w3-display-middle w3-center" style="width: auto">
+				<div class="w3-container w3-indigo">
+					<h2>Confirmation choix de repêchage</h2>
+				</div>
+	<p class="w3-xlarge"> Vous voulez racheter ${beanConfirmationRachat.nom} au coût total de ${beanConfirmationRachat.salaire_contrat} avec votre argent de l'année venant de ce terminer?</p>
 	
 	<form action="/Signature" method="post">
 	<input type="hidden" name="players_id" value="${Players._id}">
 	<input type="hidden" name="signatureStep" value="3">
-	<input type="submit" value="Oui">
+	<button class="w3-btn w3-khaki w3-xlarge">Je confirme le rachat de ce joueur</button>
 	
 	
 	
 	</form>
-	<a href="/Signature"><button>Non</button></a>
+	<br>
+	<a href="/Signature"><button class="w3-btn w3-khaki w3-xlarge">Annuler</button></a>
+	
+	<br>
+	</div>
 	</c:if>
 
-
+	
 	<jsp:directive.include file="../utils/draftMessage.jsp" />
 
 	<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token!=null}">

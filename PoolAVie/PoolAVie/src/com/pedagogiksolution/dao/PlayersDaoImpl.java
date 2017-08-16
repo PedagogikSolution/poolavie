@@ -68,6 +68,9 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String UPDATE_PLAYERS8 = "UPDATE players_? SET team_id=? WHERE _id=?";
 	private static final String GET_PLAYERS_FOR_RACHAT_AFTER_SEASON = "SELECT * FROM players_? WHERE years_2>? AND club_ecole=? AND team_id=?";
 	private static final String GET_UNIQUE_PLAYERS_BY_ID_AND_POOL = "SELECT * FROM players_? WHERE _id=?";
+	private static final String DELETE_PLAYERS_FROM_TEAM = "UPDATE players_? SET team_id=null,contrat=0,salaire_contrat=null,contrat_cours=null,contrat_max_years=null,"
+			+ "type_contrat=null,club_ecole=0,years_1=0,years_2=0,years_3=0,years_4=0,years_5=0,projection=0 WHERE _id=?";
+	private static final String GET_POSITION_OF_PLAYERS = "SELECT position FROM players_? WHERE _id=?";
 
 	private DAOFactory daoFactory;
 
@@ -1716,6 +1719,45 @@ public class PlayersDaoImpl implements PlayersDao {
 			return false;
 		}
 
+	}
+
+	@Override
+	public String removePlayersFromTeamAfterRachat(int playersId, String poolID) {
+		
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		String position = null;
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion, DELETE_PLAYERS_FROM_TEAM, false, Integer.parseInt(poolID),playersId);
+			preparedStatement.executeUpdate();
+			
+			
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion, GET_POSITION_OF_PLAYERS, false, Integer.parseInt(poolID),playersId);
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while(rs.next()) {
+				
+				position = rs.getString("position");
+			}
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		return position;
+		
+		
 	}
 
 }

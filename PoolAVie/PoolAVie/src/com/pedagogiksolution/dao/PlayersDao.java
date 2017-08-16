@@ -50,6 +50,8 @@ public interface PlayersDao {
 
 	Boolean getUniquePlayersById(String player_id, String poolID, int teamId, HttpServletRequest req);
 
+	String removePlayersFromTeamAfterRachat(int playersId, String poolID);
+
 
    
 

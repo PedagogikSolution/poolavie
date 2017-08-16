@@ -112,7 +112,7 @@ public class SignatureServlet extends HttpServlet {
 
 	    break;
 	case 2: 
-		
+		// on check si possible et si oui envoie message pour confirmation
 		
 		Boolean checkIfCashIsGood = mModel.checkIfCashAvailablePourRachat(req);
 		if(checkIfCashIsGood) {
@@ -124,7 +124,16 @@ public class SignatureServlet extends HttpServlet {
 		
 		    
 	    break;
-	case 3:
+	case 3: // on effectue le rachat retirant le joueur des bdd et l'argent du datastore equipe. On relance les datastores Attaquant, »def, Goal de la bdd
+		
+		
+		mModel.rachatApresSaison(req);
+		
+		req.getSession().removeAttribute("beanConfirmationRachat");
+		req.setAttribute("messageErreurs", "Votre rachat a été effectué avec succès");
+		resp.sendRedirect("/Signature?from=3");
+		
+		
 	    break;
 	case 4:
 	    break;
