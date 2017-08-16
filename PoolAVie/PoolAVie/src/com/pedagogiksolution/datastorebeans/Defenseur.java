@@ -4,10 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.google.appengine.api.datastore.Entity;
 
-@Entity(name = "Defenseur")
 public class Defenseur implements Serializable {
     
 
@@ -17,7 +15,7 @@ public class Defenseur implements Serializable {
      */
     private static final long serialVersionUID = -799817299002237465L;
     
-    @Id
+
     private String poolTeamId;
     private List<Long> players_id;
     private List<Long> team_id;
@@ -300,6 +298,56 @@ public class Defenseur implements Serializable {
 
 	return mBeanDefenseur;
     }
+
+	public Entity mapBeanToEntityForDatastore(Defenseur mBeanD, String name) {
+		Entity mEntity = new Entity("Defenseur", name);
+
+		mEntity.setProperty("acquire_years", mBeanD.getAcquire_years());
+
+		mEntity.setProperty("aide_overtime", mBeanD.getAide_overtime());
+
+		mEntity.setProperty("birthday", mBeanD.getBirthday());
+
+		mEntity.setProperty("blanchissage", mBeanD.getBlanchissage());
+
+		mEntity.setProperty("but_victoire", mBeanD.getBut_victoire());
+
+		mEntity.setProperty("can_be_rookie", mBeanD.getCan_be_rookie());
+
+		mEntity.setProperty("club_ecole", mBeanD.getClub_ecole());
+
+		mEntity.setProperty("contrat", mBeanD.getContrat());
+
+		mEntity.setProperty("nom", mBeanD.getNom());
+
+		mEntity.setProperty("pj", mBeanD.getPj());
+
+		mEntity.setProperty("players_id", mBeanD.getPlayers_id());
+
+		mEntity.setProperty("position", mBeanD.getPosition());
+
+		mEntity.setProperty("projection", mBeanD.getProjection());
+
+		mEntity.setProperty("pts", mBeanD.getPts());
+
+		mEntity.setProperty("salaire_draft", mBeanD.getSalaire_draft());
+
+		mEntity.setProperty("team_id", mBeanD.getTeam_id());
+
+		mEntity.setProperty("teamOfPlayer", mBeanD.getTeamOfPlayer());
+
+		mEntity.setProperty("years_1", mBeanD.getYears_1());
+
+		mEntity.setProperty("years_2", mBeanD.getYears_2());
+
+		mEntity.setProperty("years_3", mBeanD.getYears_3());
+
+		mEntity.setProperty("years_4", mBeanD.getYears_4());
+
+		mEntity.setProperty("years_5", mBeanD.getYears_5());
+
+		return mEntity;
+	}
 
     
 }

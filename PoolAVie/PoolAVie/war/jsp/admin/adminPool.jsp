@@ -10,7 +10,8 @@
 <head>
 <title>Nouvelles ${Pool.poolName}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/css/w3.css"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="/css/w3.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="../../css/material_design.css" rel="stylesheet">
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
@@ -27,7 +28,7 @@
 
 	<!-- section Alerte -->
 	<jsp:directive.include file="../utils/messageAlerte.jsp" />
-	
+
 	<c:if test="${Pool.cycleAnnuel==0}">
 		<div class="w3-content w3-margin-top" style="max-width: 90%">
 			<div class="w3-container w3-red w3-center">
@@ -37,7 +38,7 @@
 		</div>
 
 	</c:if>
-	
+
 	<c:if test="${Pool.cycleAnnuel==1}">
 		<div class="w3-content w3-margin-top" style="max-width: 90%">
 			<div class="w3-container w3-red w3-center">
@@ -47,16 +48,36 @@
 		</div>
 
 	</c:if>
-	
+
 	<div class="w3-container w3-margin-top">
 
 		<div class="w3-row w3-container">
 			<div class="w3-container w3-half">
+				<c:if test="${Pool.cycleAnnuel==4||Pool.cycleAnnuel==5||Pool.cycleAnnuel==6}">
+					<p>Pour mettre fin à la saison et entamer le cycle de fin d'année et d'été, appuyez sur le bouton ci-dessous</p>
+					<p>Vous ne pourrez revenir en arrière, ceci enverra un message courriel pour féliciter les gagnants et postera sur la page news une nouvelle de fin de saison.</p>
+					<p>Une fois effectuez, le pool ouvrira la période de rachat des contrats avec l'argent de l'année en cours et vous permettra de passez à la suite du processus de fin d'année</p>
+					<form action="/AdminPool" method="post">
+					<input type="hidden" name="adminButton" value="1">
+					<input type="submit" value="FIN DE LA SAISON">
+					
+					</form>
+
+				</c:if>
 				
+				<c:if test="${Pool.cycleAnnuel==7}">
+					<p>C'est la période des rachats de contrat. Pour y mettre fin et entamer le cycle de retrocession d'une rookie dans le club école. Cliquez ci-bas.</p>
+					<p>Ceci mettra fin à la période de rachat de l'année en cours</p>
+					<form action="/AdminPool" method="post">
+					<input type="hidden" name="adminButton" value="1">
+					<input type="submit" value="FIN DE LA SAISON">
+					
+					</form>
+
+				</c:if>
+
 			</div>
-			<div class="w3-container w3-half">
-			
-			</div>
+			<div class="w3-container w3-half"></div>
 		</div>
 
 

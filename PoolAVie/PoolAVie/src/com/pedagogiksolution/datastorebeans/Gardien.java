@@ -4,17 +4,16 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.google.appengine.api.datastore.Entity;
 
-@Entity(name = "Gardien")
+
 public class Gardien implements Serializable {
 
     /**
      * 
      */
     private static final long serialVersionUID = -20243800335314393L;
-    @Id
+
     private String poolTeamId;
     private List<Long> players_id;
     private List<Long> team_id;
@@ -297,6 +296,56 @@ public class Gardien implements Serializable {
 
 	return mBeanGardien;
     }
+
+	public Entity mapBeanToEntityForDatastore(Gardien mBeanG, String name) {
+		Entity mEntity = new Entity("Gardien", name);
+
+		mEntity.setProperty("acquire_years", mBeanG.getAcquire_years());
+
+		mEntity.setProperty("aide_overtime", mBeanG.getAide_overtime());
+
+		mEntity.setProperty("birthday", mBeanG.getBirthday());
+
+		mEntity.setProperty("blanchissage", mBeanG.getBlanchissage());
+
+		mEntity.setProperty("but_victoire", mBeanG.getBut_victoire());
+
+		mEntity.setProperty("can_be_rookie", mBeanG.getCan_be_rookie());
+
+		mEntity.setProperty("club_ecole", mBeanG.getClub_ecole());
+
+		mEntity.setProperty("contrat", mBeanG.getContrat());
+
+		mEntity.setProperty("nom", mBeanG.getNom());
+
+		mEntity.setProperty("pj", mBeanG.getPj());
+
+		mEntity.setProperty("players_id", mBeanG.getPlayers_id());
+
+		mEntity.setProperty("position", mBeanG.getPosition());
+
+		mEntity.setProperty("projection", mBeanG.getProjection());
+
+		mEntity.setProperty("pts", mBeanG.getPts());
+
+		mEntity.setProperty("salaire_draft", mBeanG.getSalaire_draft());
+
+		mEntity.setProperty("team_id", mBeanG.getTeam_id());
+
+		mEntity.setProperty("teamOfPlayer", mBeanG.getTeamOfPlayer());
+
+		mEntity.setProperty("years_1", mBeanG.getYears_1());
+
+		mEntity.setProperty("years_2", mBeanG.getYears_2());
+
+		mEntity.setProperty("years_3", mBeanG.getYears_3());
+
+		mEntity.setProperty("years_4", mBeanG.getYears_4());
+
+		mEntity.setProperty("years_5", mBeanG.getYears_5());
+
+		return mEntity;
+	}
 
     
 

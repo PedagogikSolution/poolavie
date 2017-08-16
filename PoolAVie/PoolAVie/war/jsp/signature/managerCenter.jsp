@@ -44,6 +44,32 @@
 
 
 	</div>
+	
+	<div class="w3-container w3-margin-top">
+
+		<div class="w3-row w3-container">
+			<div class="w3-container w3-half">
+				
+				
+				
+
+			</div>
+			<div class="w3-container w3-half">
+			<c:if test="${Pool.cycleAnnuel==7}">
+					<p>C'est la période de rachat de contrat de fin d'année. Vous pouvez faire vos rachats en cliquant sur le lien ci-bas ou en cliquant sur l'onglet du menu correspondant à Rachat de contrat</p>
+					<p>voir section regles 4.3 pour des détails sur cette étape du cycle de fin d'année</p>
+					<form action="/Signature" method="get">
+					<input type="submit" value="Racheter des contrats">
+					
+					</form>
+
+				</c:if>
+			
+			</div>
+		</div>
+
+
+	</div>
 
 
 

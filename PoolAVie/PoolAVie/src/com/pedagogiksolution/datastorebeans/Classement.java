@@ -3,10 +3,8 @@ package com.pedagogiksolution.datastorebeans;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.google.appengine.api.datastore.Entity;
 
-@Entity(name = "Classement")
 public class Classement implements Serializable {
 
     /**
@@ -14,7 +12,6 @@ public class Classement implements Serializable {
      */
     private static final long serialVersionUID = -4619507573570488993L;
 
-    @Id
     private String poolId;
     private List<Long> team_id;
     private List<String> equipe;
@@ -134,7 +131,8 @@ public class Classement implements Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    public Classement mapClassementFromDatastore(com.google.appengine.api.datastore.Entity mEntity, Classement mBeanClassement) {
+    public Classement mapClassementFromDatastore(Entity mEntity, Classement mBeanClassement) {
+    	
 	List<Long> m_but = (List<Long>) mEntity.getProperty("but");
 	mBeanClassement.setBut(m_but);
 
@@ -175,6 +173,40 @@ public class Classement implements Serializable {
 	mBeanClassement.setPoolId(m_poolId);
 
 	return mBeanClassement;
+	
     }
+
+	public Entity mapBeanToEntityForDatastore(Classement mBean, String name) {
+		
+		Entity mEntity = new Entity("Classement", name);
+		
+		mEntity.setProperty("team_id", mBean.getTeam_id());
+		
+		mEntity.setProperty("but", mBean.getBut());
+		
+		mEntity.setProperty("difference", mBean.getDifference());
+		
+		mEntity.setProperty("mouvement", mBean.getMouvement());
+		
+		mEntity.setProperty("equipe", mBean.getEquipe());
+		
+		mEntity.setProperty("hier", mBean.getHier());
+		
+		mEntity.setProperty("mois", mBean.getMois());
+		
+		mEntity.setProperty("moyenne", mBean.getMoyenne());
+		
+		mEntity.setProperty("passe", mBean.getPasse());
+		
+		mEntity.setProperty("pj", mBean.getPj());
+		
+		mEntity.setProperty("points", mBean.getPoints());
+		
+		mEntity.setProperty("semaine", mBean.getSemaine());
+		
+		mEntity.setProperty("poolId", mBean.getPoolId());
+		
+		return mEntity;
+	}
 
 }

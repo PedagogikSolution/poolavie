@@ -43,7 +43,7 @@ public class TradeServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-	/* Récupération d'une instance de notre DAO Utilisateur */
+	/* Rï¿½cupï¿½ration d'une instance de notre DAO Utilisateur */
 	this.playersDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getPlayersDao();
 	this.draftPickDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftPickDao();
 	this.tradeOfferDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getTradeOfferDao();
@@ -66,7 +66,7 @@ public class TradeServlet extends HttpServlet {
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	Key clefDatastore = KeyFactory.createKey("Pool", Integer.toString(poolId));
 	try {
-	    // si existe, aucun EntityNotFoundException, donc on recupère
+	    // si existe, aucun EntityNotFoundException, donc on recupï¿½re
 	    // l'info pour tester password
 	    Entity mEntity = datastore.get(clefDatastore);
 
@@ -113,26 +113,26 @@ public class TradeServlet extends HttpServlet {
 	switch (fromId) {
 
 	case 1:
-	    // selon la période du pool, on recupere ou pas les offres de trades
+	    // selon la pï¿½riode du pool, on recupere ou pas les offres de trades
 	    switch (cycleAnnuel) {
 
 	    case 0:
 		// pas de trade possible, on envoie sur trade center sans
-		// récupérer les offres
-		req.setAttribute("messageTrade", "Il n'y a pas de trade possible à cet période du pool");
+		// rï¿½cupï¿½rer les offres
+		req.setAttribute("messageTrade", "Il n'y a pas de trade possible ï¿½ cet pï¿½riode du pool");
 		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 		break;
 
 	    case 1:
 		// pas de trade possible, on envoie sur trade center sans
-		// récupérer les offres
-		req.setAttribute("messageTrade", "Il n'y a pas de trade possible à cet période du pool");
+		// rï¿½cupï¿½rer les offres
+		req.setAttribute("messageTrade", "Il n'y a pas de trade possible ï¿½ cet pï¿½riode du pool");
 		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 		break;
 	    case 2:
 		// pas de trade possible, on envoie sur trade center sans
-		// récupérer les offres
-		req.setAttribute("messageTrade", "Il n'y a pas de trade possible à cet période du pool");
+		// rï¿½cupï¿½rer les offres
+		req.setAttribute("messageTrade", "Il n'y a pas de trade possible ï¿½ cet pï¿½riode du pool");
 		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 		break;
 	    case 3:
@@ -147,7 +147,7 @@ public class TradeServlet extends HttpServlet {
 		break;
 	    case 4:
 		// pas de trade possible, on envoie sur trade center sans
-		// récupérer les offres
+		// rï¿½cupï¿½rer les offres
 		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 		break;
 	    case 5:
@@ -155,14 +155,14 @@ public class TradeServlet extends HttpServlet {
 		// place dans bean pour affichage
 		mModelTrade = new TradeModel(req, mBeanPool);
 		int tradeType = mBeanPool.getTradeType();
-		if (tradeType == 1) {
+		if (tradeType == 2) {
 		    req.setAttribute("tradeOpen", 1);
 		    mModelTrade.getTradeOfferReceived(req, tradeOfferDao);
 		    mModelTrade.getTradeOfferMade(req, tradeOfferDao);
 		    req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 		} else {
 		    req.setAttribute("tradeOpen", 0);
-		    req.setAttribute("messageTrade", "Il n'y a pas de trade possible à cet période du pool");
+		    req.setAttribute("messageTrade", "Il n'y a pas de trade possible ï¿½ cet pï¿½riode du pool");
 		    req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 
 		}
@@ -210,10 +210,10 @@ public class TradeServlet extends HttpServlet {
 
 	switch (tradeTagId) {
 
-	// Un joueur veut faire une offre à un autre équipe
+	// Un joueur veut faire une offre ï¿½ un autre ï¿½quipe
 	case 1:
 
-	    // on met a jour les objet de session pour etre certain d'avoir la plus recente representation des données
+	    // on met a jour les objet de session pour etre certain d'avoir la plus recente representation des donnï¿½es
 	    mModel = new LoginModel(req);
 	    mModel.createSessionDraftPickBean();
 	    mModel.createSessionAttaquantBean();
@@ -230,7 +230,7 @@ public class TradeServlet extends HttpServlet {
 // connecter d'aller directemetn a URL .jsp si pas bon cycle)
 	    req.setAttribute("tradeOpen", 1);
 
-	    // on test si recuperation des données des deux equipes a jour fait , si oui on retourne message erreur a
+	    // on test si recuperation des donnï¿½es des deux equipes a jour fait , si oui on retourne message erreur a
 // trade_center,
 	    // si pas d'erreur on va a page d'Affichage pour faire offre
 	    if (testErreur) {
@@ -334,14 +334,14 @@ public class TradeServlet extends HttpServlet {
 	    req.getRequestDispatcher("jsp/trade/showOfferDetail.jsp").forward(req, resp);
 
 	    break;
-	// Un joueur veut voir les détails d'un trade qu'il a fait
+	// Un joueur veut voir les dï¿½tails d'un trade qu'il a fait
 	case 8:
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
 	    mModelTrade.showOfferNumberX(2, tradeOfferDao, tradeMadeDao, playersDao, draftPickDao);
 
 	    req.getRequestDispatcher("jsp/trade/showOfferDetailTradeMade.jsp").forward(req, resp);
 	    break;
-	// Un joueur veut voir les détails d'un trade fait par n'importe quelle équipe
+	// Un joueur veut voir les dï¿½tails d'un trade fait par n'importe quelle ï¿½quipe
 	case 9:
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
 	    mModelTrade.showOfferNumberX(2, tradeOfferDao, tradeMadeDao, playersDao, draftPickDao);

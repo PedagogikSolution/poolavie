@@ -19,8 +19,6 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -32,19 +30,17 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.appengine.labs.repackaged.com.google.common.base.Strings;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
-import com.pedagogiksolution.utils.EMF;
 import com.pedagogiksolution.utils.PasswordEncryption;
 
 public class RegisterModel {
 
-    // methode qui évalue les parametre recu via le formulaire et qui retourne un message d'erreur approprié si vide,
+    // methode qui ï¿½value les parametre recu via le formulaire et qui retourne un message d'erreur appropriï¿½ si vide,
     // null ou pas valide
     public boolean validationParametre(String nomUtilisateur, String motDePasse, String courriel, HttpServletRequest req) {
 	
-	// code temporaire pour empêcher la création de nouveau pool (à retirer lorsque commercialisé et ré-activer le code ci-bas)
+	// code temporaire pour empï¿½cher la crï¿½ation de nouveau pool (ï¿½ retirer lorsque commercialisï¿½ et rï¿½-activer le code ci-bas)
 	if (courriel.equalsIgnoreCase("info@poolavie.ca")){
 	    return false;
 	} else {
@@ -66,7 +62,7 @@ public class RegisterModel {
 
 	// TODO voir TRELLO pour validation REGEX
 
-	// si pas de validation négative, on retourne false et on continu le processus de registration
+	// si pas de validation nï¿½gative, on retourne false et on continu le processus de registration
 	return false;
 	*/
 
@@ -75,7 +71,7 @@ public class RegisterModel {
     public boolean validationParametreDG(String nomUtilisateur, String motDePasse, String courriel, String nomTeam, HttpServletRequest req) {
 
 	// verification si null, si oui, on retourne message d'erreur a la page register via beans d'erreur
-	if (Strings.isNullOrEmpty(nomUtilisateur) || Strings.isNullOrEmpty(motDePasse) || Strings.isNullOrEmpty(courriel) || Strings.isNullOrEmpty(nomTeam)) {
+	if ( (nomUtilisateur != null && !nomUtilisateur.isEmpty())|| (motDePasse != null && !motDePasse.isEmpty()) || (courriel != null && !courriel.isEmpty()) || (nomTeam != null && !nomTeam.isEmpty())) {
 	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
 	    mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_ERREUR_PARAM_NULL);
 	    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
@@ -84,7 +80,7 @@ public class RegisterModel {
 
 	// TODO voir TRELLO pour validation REGEX
 
-	// si pas de validation négative, on retourne false et on continu le processus de registration
+	// si pas de validation nï¿½gative, on retourne false et on continu le processus de registration
 	return false;
 
     }
@@ -131,9 +127,9 @@ public class RegisterModel {
 	    return null;
 	}
 
-	if (!Strings.isNullOrEmpty(motDePasseEncrypter)) {
+	if ((motDePasseEncrypter != null && !motDePasseEncrypter.isEmpty())) {
 	    int poolId;
-	    // génération d'un Code de Validation
+	    // gï¿½nï¿½ration d'un Code de Validation
 	    String validationCode = generateValidationCode();
 
 	    // on appel le service
@@ -159,12 +155,9 @@ public class RegisterModel {
 	    Date date = new Date();
 	    String dateCreation = dateFormat.format(date);
 
-	    // on crée le beans avec le processus JPA qui va créer le datastore en même temps
-	    EntityManagerFactory emf = EMF.get();
-	    EntityManager em = null;
-	    try {
-		em = emf.createEntityManager();
-
+	    // on crï¿½e le beans avec le processus JPA qui va crï¿½er le datastore en mï¿½me temps
+	    
+		
 		// instanciation du bean Utilisateur
 		Utilisateur mBean = new Utilisateur();
 		mBean.setNomUtilisateur(nomUtilisateur);
@@ -182,15 +175,15 @@ public class RegisterModel {
 		// on place le bean dans un attribut de session
 		req.getSession().setAttribute("Utilisateur", mBean);
 		// on persiste dans le datastore via notre EntityManager
-		em.persist(mBean);
+		datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		
+		
+		Entity mEntity = mBean.mapBeanToEntityForDatastore(mBean,nomUtilisateur);
+		
+		datastore.put(mEntity);
 
-
-	    } finally {
-		// on ferme le manager pour libérer la mémoire
-		if (em != null)
-		    em.close();
-	    }
-
+	   
 	    // on retourne le code de validation non null au servlet
 	    return validationCode;
 
@@ -222,7 +215,7 @@ public class RegisterModel {
 
     }
 
-    // TODO methode privée pour générer un code alphanumérique de 8 carateres
+    // TODO methode privï¿½e pour gï¿½nï¿½rer un code alphanumï¿½rique de 8 carateres
     private String generateValidationCode() {
 
 	// genere un code si reussi, return le code, sinon retourne null
@@ -249,7 +242,7 @@ public class RegisterModel {
 	    msg.setFrom(new InternetAddress("pedagogiksolution@gmail.com", "Poolavie.ca"));
 	    msg.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(courriel));
 	    msg.setSubject("Validez votre compte", "utf-8");
-	    msg.setContent("Bonjour, pour valider votre compte veuillez entrer le code suivant : "+code+".\n\n Si vous n'êtes plus sur la page de validation, vous pouvez la retrouver en vous connectant sur la page principale pour terminer votre inscription", "text/html");
+	    msg.setContent("Bonjour, pour valider votre compte veuillez entrer le code suivant : "+code+".\n\n Si vous n'ï¿½tes plus sur la page de validation, vous pouvez la retrouver en vous connectant sur la page principale pour terminer votre inscription", "text/html");
 	    Transport.send(msg);
 	} catch (AddressException e) {
 	    // ...
@@ -263,18 +256,18 @@ public class RegisterModel {
     
     
     public boolean validationParametre(String nomUtilisateur, String motDePasse, HttpServletRequest req) {
-	if (Strings.isNullOrEmpty(nomUtilisateur) || Strings.isNullOrEmpty(motDePasse)) {
+	if ((nomUtilisateur != null && !nomUtilisateur.isEmpty())|| (motDePasse != null && !motDePasse.isEmpty())) {
 	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
 	    mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_ERREUR_PARAM_NULL);
 	    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-	    return true;
+	    return false;
 	}
 	
 
 	// TODO voir TRELLO pour validation REGEX
 
-	// si pas de validation négative, on retourne false et on continu le processus de registration
-	return false;
+	// si pas de validation nï¿½gative, on retourne false et on continu le processus de registration
+	return true;
     }
 
 }

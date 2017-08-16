@@ -10,9 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -25,291 +22,286 @@ import com.google.appengine.api.taskqueue.TaskOptions;
 import com.pedagogiksolution.beans.TradeBeanTemp;
 import com.pedagogiksolution.datastorebeans.DraftPick;
 import com.pedagogiksolution.datastorebeans.Pool;
-import com.pedagogiksolution.utils.EMF;
 
 public class DraftPickDaoImpl implements DraftPickDao {
 
-    private static final String CREATE_DRAFT_PICK = "CREATE TABLE draft_pick? LIKE draft_pick";
-    private static final String INSERT_DRAFT_PICK = "INSERT INTO draft_pick? (team_id,pick_no,original_team_id) VALUE (?,?,?)";
-    private static final String GET_DRAFT_PICK_BY_POOL_ID = "SELECT * FROM draft_pick? WHERE team_id=? ORDER BY pick_no ASC";
-    private static final String GET_ROUND_BY_ID = "SELECT * FROM draft_pick? WHERE _id=?";
-    private static final String GET_ROUND_BY_ID_AND_TEAM = "SELECT * FROM draft_pick? WHERE team_id=? AND _id=?";
-    private static final String UPDATE_PICK_AFTER_TRADE = "UPDATE draft_pick? SET team_id=? WHERE _id=?";
+	private static final String CREATE_DRAFT_PICK = "CREATE TABLE draft_pick? LIKE draft_pick";
+	private static final String INSERT_DRAFT_PICK = "INSERT INTO draft_pick? (team_id,pick_no,original_team_id) VALUE (?,?,?)";
+	private static final String GET_DRAFT_PICK_BY_POOL_ID = "SELECT * FROM draft_pick? WHERE team_id=? ORDER BY pick_no ASC";
+	private static final String GET_ROUND_BY_ID = "SELECT * FROM draft_pick? WHERE _id=?";
+	private static final String GET_ROUND_BY_ID_AND_TEAM = "SELECT * FROM draft_pick? WHERE team_id=? AND _id=?";
+	private static final String UPDATE_PICK_AFTER_TRADE = "UPDATE draft_pick? SET team_id=? WHERE _id=?";
 
-    private DAOFactory daoFactory;
+	private DAOFactory daoFactory;
 
-    DraftPickDaoImpl(DAOFactory daoFactory) {
-	this.daoFactory = daoFactory;
-    }
-
-    @Override
-    public void createDraftPickTable(int poolID) throws DAOException {
-
-	Connection connexion = null;
-	PreparedStatement preparedStatement = null;
-
-	try {
-	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, CREATE_DRAFT_PICK, false, poolID);
-	    preparedStatement.execute();
-
-	} catch (SQLException e) {
-	    throw new DAOException(e);
-	} finally {
-	    fermeturesSilencieuses(preparedStatement, connexion);
+	DraftPickDaoImpl(DAOFactory daoFactory) {
+		this.daoFactory = daoFactory;
 	}
 
-    }
+	@Override
+	public void createDraftPickTable(int poolID) throws DAOException {
 
-    @Override
-    public void insertPickByTeam(int poolID, int nombreEquipe, int numPickByTeam) {
-	// TODO insertion des picks de la nouvelle année selon les parametres du pool
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
 
-	int teamInt;
-	int pickInt;
-	int maxTeamInt = nombreEquipe + 1;
-	int maxPickInt = numPickByTeam + 1;
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion, CREATE_DRAFT_PICK, false, poolID);
+			preparedStatement.execute();
 
-	Connection connexion = null;
-	PreparedStatement preparedStatement = null;
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
 
-	try {
-	    connexion = daoFactory.getConnection();
+	}
 
-	    for (teamInt = 1; teamInt < maxTeamInt; teamInt++) {
+	@Override
+	public void insertPickByTeam(int poolID, int nombreEquipe, int numPickByTeam) {
+		// TODO insertion des picks de la nouvelle annï¿½e selon les parametres du pool
 
-		for (pickInt = 1; pickInt < maxPickInt; pickInt++) {
+		int teamInt;
+		int pickInt;
+		int maxTeamInt = nombreEquipe + 1;
+		int maxPickInt = numPickByTeam + 1;
 
-		    preparedStatement = initialisationRequetePreparee(connexion, INSERT_DRAFT_PICK, false, poolID, teamInt, pickInt, teamInt);
-		    preparedStatement.executeUpdate();
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			connexion = daoFactory.getConnection();
+
+			for (teamInt = 1; teamInt < maxTeamInt; teamInt++) {
+
+				for (pickInt = 1; pickInt < maxPickInt; pickInt++) {
+
+					preparedStatement = initialisationRequetePreparee(connexion, INSERT_DRAFT_PICK, false, poolID,
+							teamInt, pickInt, teamInt);
+					preparedStatement.executeUpdate();
+
+				}
+
+			}
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+
+	}
+
+	@Override
+	public void cronJobGetDraftPickbyPoolId(int poolId, int numberOfTeam, String fromTag) throws DAOException {
+
+		for (int i = 1; i < (numberOfTeam + 1); i++) {
+
+			Queue queue = QueueFactory.getDefaultQueue();
+			queue.add(TaskOptions.Builder.withUrl("/TaskQueueCreationPool").param("counter", String.valueOf(i))
+					.param("poolID", String.valueOf(poolId)).param("fromTag", fromTag)
+
+			);
 
 		}
 
-	    }
-
-	} catch (SQLException e) {
-	    throw new DAOException(e);
-	} finally {
-	    fermeturesSilencieuses(preparedStatement, connexion);
 	}
 
-    }
+	@Override
+	public void getDraftPickForDatastoreFromPoolIdAndTeamNumber(String poolID, String counter) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		DraftPick mBean = new DraftPick();
+		List<Long> team_id = new ArrayList<Long>();
+		List<Long> pick_no = new ArrayList<Long>();
+		List<Long> original_team_id = new ArrayList<Long>();
+		List<Long> total_pick_number = new ArrayList<Long>();
+		List<String> teamNameOriginalPick = new ArrayList<String>();
+		String datastoreId;
 
-    @Override
-    public void cronJobGetDraftPickbyPoolId(int poolId, int numberOfTeam, String fromTag) throws DAOException {
+		int poolId = Integer.parseInt(poolID);
 
-	for (int i = 1; i < (numberOfTeam + 1); i++) {
+		try {
 
-	    Queue queue = QueueFactory.getDefaultQueue();
-	    queue.add(TaskOptions.Builder.withUrl("/TaskQueueCreationPool").param("counter", String.valueOf(i)).param("poolID", String.valueOf(poolId)).param("fromTag", fromTag)
+			connexion = daoFactory.getConnection();
 
-	    );
+			// instanciation du bean Utilisateur
 
-	}
+			datastoreId = poolID + "_" + counter;
 
-    }
+			preparedStatement = initialisationRequetePreparee(connexion, GET_DRAFT_PICK_BY_POOL_ID, false, poolId,
+					counter);
+			rs = preparedStatement.executeQuery();
 
-    @Override
-    public void getDraftPickForDatastoreFromPoolIdAndTeamNumber(String poolID, String counter) {
-	Connection connexion = null;
-	PreparedStatement preparedStatement = null;
-	ResultSet rs = null;
-	DraftPick mBean = new DraftPick();
-	List<Long> team_id = new ArrayList<Long>();
-	List<Long> pick_no = new ArrayList<Long>();
-	List<Long> original_team_id = new ArrayList<Long>();
-	List<Long> total_pick_number = new ArrayList<Long>();
-	List<String> teamNameOriginalPick = new ArrayList<String>();
-	String datastoreId;
+			while (rs.next()) {
 
-	int poolId = Integer.parseInt(poolID);
+				int m_team_id = (rs.getInt("team_id"));
+				team_id.add(Long.valueOf(m_team_id));
 
-	try {
+				int m_pick_no = (rs.getInt("pick_no"));
+				pick_no.add(Long.valueOf(m_pick_no));
 
-	    connexion = daoFactory.getConnection();
+				int m_original_team_id = (rs.getInt("original_team_id"));
+				original_team_id.add(Long.valueOf(m_original_team_id));
 
-	    // instanciation du bean Utilisateur
+				int m_total_pick_number = (rs.getInt("_id"));
+				total_pick_number.add(Long.valueOf(m_total_pick_number));
 
-	    datastoreId = poolID + "_" + counter;
+				DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+				Key clefDatastore = KeyFactory.createKey("Pool", String.valueOf(poolId));
+				Entity mEntity;
+				String nomTeam = null;
+				try {
+					mEntity = datastore.get(clefDatastore);
+					nomTeam = (String) mEntity.getProperty("nomTeam" + m_original_team_id);
+					teamNameOriginalPick.add(nomTeam);
+				} catch (EntityNotFoundException e) {
+					e.printStackTrace();
 
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_DRAFT_PICK_BY_POOL_ID, false, poolId, counter);
-	    rs = preparedStatement.executeQuery();
+				}
 
-	    while (rs.next()) {
+			}
 
-		int m_team_id = (rs.getInt("team_id"));
-		team_id.add(Long.valueOf(m_team_id));
+		} catch (SQLException e) {
 
-		int m_pick_no = (rs.getInt("pick_no"));
-		pick_no.add(Long.valueOf(m_pick_no));
+			throw new DAOException(e);
 
-		int m_original_team_id = (rs.getInt("original_team_id"));
-		original_team_id.add(Long.valueOf(m_original_team_id));
+		} finally {
+			fermeturesSilencieuses(rs, preparedStatement, connexion);
 
-		int m_total_pick_number = (rs.getInt("_id"));
-		total_pick_number.add(Long.valueOf(m_total_pick_number));
+		}
+
+		mBean.setPoolTeamId(datastoreId);
+		mBean.setPick_no(pick_no);
+		mBean.setTeam_id(team_id);
+		mBean.setOriginal_pick_id(original_team_id);
+		mBean.setTotal_pick_number(total_pick_number);
+		mBean.setTeamNameOriginalPick(teamNameOriginalPick);
+
+		// on place dnas datastore
 
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Key clefDatastore = KeyFactory.createKey("Pool", String.valueOf(poolId));
-		Entity mEntity;
-		String nomTeam = null;
+
+		Entity mEntity = mBean.mapBeanToEntityForDatastore(mBean, mBean.getPoolTeamId());
+
+		datastore.put(mEntity);
+
+	}
+
+	@Override
+	public TradeBeanTemp getNameOfTeam(String poolID, int toInt, Pool mBeanPool) throws DAOException {
+		Connection connexion = null;
+		ResultSet rs = null;
+		PreparedStatement preparedStatement = null;
+		TradeBeanTemp mBean = new TradeBeanTemp();
+
 		try {
-		    mEntity = datastore.get(clefDatastore);
-		    nomTeam = (String) mEntity.getProperty("nomTeam" + m_original_team_id);
-		    teamNameOriginalPick.add(nomTeam);
-		} catch (EntityNotFoundException e) {
-		    e.printStackTrace();
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion, GET_ROUND_BY_ID, false,
+					Integer.parseInt(poolID), toInt);
+			rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				int round_temp = rs.getInt("pick_no");
+				int from_temp = rs.getInt("original_team_id");
+				String from_temp2 = null;
+				switch (from_temp) {
 
+				case 1:
+					from_temp2 = mBeanPool.getNomTeam1();
+					break;
+				case 2:
+					from_temp2 = mBeanPool.getNomTeam2();
+					break;
+				case 3:
+					from_temp2 = mBeanPool.getNomTeam3();
+					break;
+				case 4:
+					from_temp2 = mBeanPool.getNomTeam4();
+					break;
+				case 5:
+					from_temp2 = mBeanPool.getNomTeam5();
+					break;
+				case 6:
+					from_temp2 = mBeanPool.getNomTeam6();
+					break;
+				case 7:
+					from_temp2 = mBeanPool.getNomTeam7();
+					break;
+				case 8:
+					from_temp2 = mBeanPool.getNomTeam8();
+					break;
+				case 9:
+					from_temp2 = mBeanPool.getNomTeam9();
+					break;
+				case 10:
+					from_temp2 = mBeanPool.getNomTeam10();
+					break;
+				case 11:
+					from_temp2 = mBeanPool.getNomTeam11();
+					break;
+				case 12:
+					from_temp2 = mBeanPool.getNomTeam12();
+					break;
+				}
+				String round_temp2 = Integer.toString(round_temp);
+
+				mBean.setRoundPick(round_temp2);
+				mBean.setFromPick(from_temp2);
+			}
+
+			return mBean;
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(rs, preparedStatement, connexion);
+		}
+	}
+
+	@Override
+	public Boolean checkIfPicksStillInTeam(int poolId, int teamId, int pickId) throws DAOException {
+		Connection connexion = null;
+		ResultSet rs = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connexion = daoFactory.getConnection();
+
+			preparedStatement = initialisationRequetePreparee(connexion, GET_ROUND_BY_ID_AND_TEAM, false, poolId,
+					teamId, pickId);
+
+			rs = preparedStatement.executeQuery();
+			if (rs.next()) {
+				return true;
+			}
+
+			return false;
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(rs, preparedStatement, connexion);
+		}
+	}
+
+	@Override
+	public void makeTrade(int poolId, int teamId1, int roundId2) throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			connexion = daoFactory.getConnection();
+
+			preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PICK_AFTER_TRADE, false, poolId,
+					teamId1, roundId2);
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
 		}
 
-	    }
-
-	} catch (SQLException e) {
-
-	    throw new DAOException(e);
-
-	} finally {
-	    fermeturesSilencieuses(rs, preparedStatement, connexion);
-
 	}
-
-	mBean.setPoolTeamId(datastoreId);
-	mBean.setPick_no(pick_no);
-	mBean.setTeam_id(team_id);
-	mBean.setOriginal_pick_id(original_team_id);
-	mBean.setTotal_pick_number(total_pick_number);
-	mBean.setTeamNameOriginalPick(teamNameOriginalPick);
-
-	// on crée le beans avec le processus JPA qui va créer le datastore en même temps
-	EntityManagerFactory emf = EMF.get();
-	EntityManager em = null;
-	try {
-	    em = emf.createEntityManager();
-
-	    // on persiste dans le datastore via notre EntityManager
-	    em.persist(mBean);
-
-	} finally {
-
-	    // on ferme le manager pour libérer la mémoire
-	    if (em != null) {
-		em.close();
-
-	    }
-	}
-
-    }
-
-    @Override
-    public TradeBeanTemp getNameOfTeam(String poolID, int toInt, Pool mBeanPool) throws DAOException {
-	Connection connexion = null;
-	ResultSet rs = null;
-	PreparedStatement preparedStatement = null;
-	TradeBeanTemp mBean = new TradeBeanTemp();
-
-	try {
-	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_ROUND_BY_ID, false, Integer.parseInt(poolID), toInt);
-	    rs = preparedStatement.executeQuery();
-	    while (rs.next()) {
-		int round_temp = rs.getInt("pick_no");
-		int from_temp = rs.getInt("original_team_id");
-		String from_temp2 = null;
-		switch (from_temp) {
-
-		case 1:
-		    from_temp2 = mBeanPool.getNomTeam1();
-		    break;
-		case 2:
-		    from_temp2 = mBeanPool.getNomTeam2();
-		    break;
-		case 3:
-		    from_temp2 = mBeanPool.getNomTeam3();
-		    break;
-		case 4:
-		    from_temp2 = mBeanPool.getNomTeam4();
-		    break;
-		case 5:
-		    from_temp2 = mBeanPool.getNomTeam5();
-		    break;
-		case 6:
-		    from_temp2 = mBeanPool.getNomTeam6();
-		    break;
-		case 7:
-		    from_temp2 = mBeanPool.getNomTeam7();
-		    break;
-		case 8:
-		    from_temp2 = mBeanPool.getNomTeam8();
-		    break;
-		case 9:
-		    from_temp2 = mBeanPool.getNomTeam9();
-		    break;
-		case 10:
-		    from_temp2 = mBeanPool.getNomTeam10();
-		    break;
-		case 11:
-		    from_temp2 = mBeanPool.getNomTeam11();
-		    break;
-		case 12:
-		    from_temp2 = mBeanPool.getNomTeam12();
-		    break;
-		}
-		String round_temp2 = Integer.toString(round_temp);
-
-		mBean.setRoundPick(round_temp2);
-		mBean.setFromPick(from_temp2);
-	    }
-
-	    return mBean;
-
-	} catch (SQLException e) {
-	    throw new DAOException(e);
-	} finally {
-	    fermeturesSilencieuses(rs, preparedStatement, connexion);
-	}
-    }
-
-    @Override
-    public Boolean checkIfPicksStillInTeam(int poolId, int teamId, int pickId) throws DAOException {
-	Connection connexion = null;
-	ResultSet rs = null;
-	PreparedStatement preparedStatement = null;
-	try {
-	    connexion = daoFactory.getConnection();
-
-	    preparedStatement = initialisationRequetePreparee(connexion, GET_ROUND_BY_ID_AND_TEAM, false, poolId, teamId, pickId);
-
-	    rs = preparedStatement.executeQuery();
-	    if (rs.next()) {
-		return true;
-	    }
-
-	    return false;
-
-	} catch (SQLException e) {
-	    throw new DAOException(e);
-	} finally {
-	    fermeturesSilencieuses(rs, preparedStatement, connexion);
-	}
-    }
-
-    @Override
-    public void makeTrade(int poolId, int teamId1, int roundId2) throws DAOException {
-	Connection connexion = null;
-	PreparedStatement preparedStatement = null;
-
-	try {
-	    connexion = daoFactory.getConnection();
-
-	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PICK_AFTER_TRADE, false, poolId, teamId1, roundId2);
-	    preparedStatement.executeUpdate();
-
-	} catch (SQLException e) {
-	    throw new DAOException(e);
-	} finally {
-	    fermeturesSilencieuses(preparedStatement, connexion);
-	}
-
-    }
 
 }

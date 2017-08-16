@@ -2,13 +2,14 @@ package com.pedagogiksolution.model;
 
 import static com.pedagogiksolution.constants.MessageErreurConstants.VALIDATION_CODE_ERREUR_PAS_BON;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
-import com.pedagogiksolution.utils.EMF;
 
 public class ValidationModel {
 
@@ -52,17 +53,11 @@ public class ValidationModel {
     private void modificationStorageUtilisateur(Utilisateur mBean) {
 	
 
-	EntityManagerFactory emf = EMF.get();
-	EntityManager em = null;
-
-	try {
-	    em = emf.createEntityManager();
-	    em.merge(mBean);
-	} finally {
-	    if (em != null)
-		em.close();
-	}
-
+    	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    	
+    	Entity mEntity = mBean.mapBeanToEntityForDatastore(mBean,mBean.getNomUtilisateur());
+    	
+    	datastore.put(mEntity);
     }
 
     public void envoyerNouveauCode() {

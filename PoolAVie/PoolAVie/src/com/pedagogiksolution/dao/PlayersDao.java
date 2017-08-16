@@ -1,6 +1,6 @@
 package com.pedagogiksolution.dao;
 
-import java.sql.ResultSet;
+
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -45,6 +45,10 @@ public interface PlayersDao {
     Boolean checkIfPlayersStillInTeam(int poolId, int teamId, int playerId) throws DAOException;
 
     void makeTrade(Pool mBeanPool, int teamId1, int teamId2, int playerId2)throws DAOException;
+
+	void getPlayersThatCanBeRachatAfterSeason(int teamId, int poolId, HttpServletRequest req);
+
+	Boolean getUniquePlayersById(String player_id, String poolID, int teamId, HttpServletRequest req);
 
 
    

@@ -2,10 +2,8 @@ package com.pedagogiksolution.datastorebeans;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.google.appengine.api.datastore.Entity;
 
-@Entity(name = "DraftProcess")
 public class DraftProcess implements Serializable {
 
    
@@ -14,8 +12,7 @@ public class DraftProcess implements Serializable {
      * 
      */
     private static final long serialVersionUID = 4960685510731786182L;
-    
-    @Id
+
     private String poolID;
     private int currentPick;
     private int currentPicker;
@@ -134,6 +131,48 @@ public class DraftProcess implements Serializable {
 	this.numberPickRestant = numberPickRestant;
     }
     
-    
+public Entity mapBeanToEntityForDatastore(DraftProcess mBean, String name) {
+		
+		Entity mEntity = new Entity("DraftProcess", name);
+		
+		mEntity.setIndexedProperty("currentPick", mBean.getCurrentPick());
+		
+		mEntity.setIndexedProperty("currentPicker", mBean.getCurrentPicker());
+		
+		mEntity.setIndexedProperty("numberPickRestant", mBean.getNumberPickRestant());
+		
+		mEntity.setIndexedProperty("team1IsOpen", mBean.getTeam1IsOpen());
+		
+		mEntity.setIndexedProperty("team2IsOpen", mBean.getTeam2IsOpen());
+		
+		mEntity.setIndexedProperty("team3IsOpen", mBean.getTeam3IsOpen());
+		
+		mEntity.setIndexedProperty("team4IsOpen", mBean.getTeam4IsOpen());
+		
+		mEntity.setIndexedProperty("team5IsOpen", mBean.getTeam5IsOpen());
+		
+		mEntity.setIndexedProperty("team6IsOpen", mBean.getTeam6IsOpen());
+		
+		mEntity.setIndexedProperty("team7IsOpen", mBean.getTeam7IsOpen());
+		
+		mEntity.setIndexedProperty("team8IsOpen", mBean.getTeam8IsOpen());
+		
+		mEntity.setIndexedProperty("team9IsOpen", mBean.getTeam9IsOpen());
+		
+		mEntity.setIndexedProperty("team10IsOpen", mBean.getTeam10IsOpen());
+		
+		mEntity.setIndexedProperty("team11IsOpen", mBean.getTeam11IsOpen());
+		
+		mEntity.setIndexedProperty("team12IsOpen", mBean.getTeam12IsOpen());
+		
+		return mEntity;
+	}
+
+public void mapDatastoreToBean(Entity mEntityFromDatastore, DraftProcess mBeanDraftProcess) {
+	// TODO Auto-generated method stub
+	
+}
+
+
 
 }

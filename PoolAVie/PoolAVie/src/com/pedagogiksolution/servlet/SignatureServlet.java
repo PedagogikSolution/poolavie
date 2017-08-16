@@ -24,7 +24,7 @@ public class SignatureServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-	/* Récupération d'une instance de notre nos DAO */
+	/* Rï¿½cupï¿½ration d'une instance de notre nos DAO */
 	this.playersDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getPlayersDao();
     }
 
@@ -61,15 +61,26 @@ public class SignatureServlet extends HttpServlet {
 	    }
 
 	}
+	
+	if(cycleAnnuel==7){
+		fromId=3;
+		req.getSession().removeAttribute("beanConfirmationRachat");
+		SignatureModel mModelSignature = new SignatureModel(playersDao);
+		
+		mModelSignature.preparationRachatApresSaison(req);
+		
+		
+		
+	}
 	switch (fromId) {
-	case 1:
+	case 1: // cycle 0 a 3 ou 5 et 6
 	    req.getRequestDispatcher("jsp/signature/managerCenter.jsp").forward(req, resp);
 	    break;
-	case 2:
+	case 2: // siganture apres darft
 	    req.getRequestDispatcher("jsp/signature/signatureAfterDraft.jsp").forward(req, resp);
 	    break;
-	case 3:
-	    req.getRequestDispatcher("jsp/signature/managerCenter.jsp").forward(req, resp);
+	case 3: // rachat de contrat fin de saison
+	    req.getRequestDispatcher("jsp/signature/rachatContrat.jsp").forward(req, resp);
 	    break;
 	case 4:
 	    req.getRequestDispatcher("jsp/signature/managerCenter.jsp").forward(req, resp);
@@ -78,7 +89,7 @@ public class SignatureServlet extends HttpServlet {
 	    req.getRequestDispatcher("jsp/signature/managerCenter.jsp").forward(req, resp);
 	    break;
 	case 992: // message deja 12 contrat
-	    req.setAttribute("messageErreurs", "Vous avez le nombre maximal de joueur sous contrat dans votre équipe");
+	    req.setAttribute("messageErreurs", "Vous avez le nombre maximal de joueur sous contrat dans votre ï¿½quipe");
 	    req.getRequestDispatcher("jsp/signature/signatureAfterDraft.jsp").forward(req, resp);
 	    break;
 
@@ -100,7 +111,18 @@ public class SignatureServlet extends HttpServlet {
 	    resp.sendRedirect("/Signature?from=2");
 
 	    break;
-	case 2:
+	case 2: 
+		
+		
+		Boolean checkIfCashIsGood = mModel.checkIfCashAvailablePourRachat(req);
+		if(checkIfCashIsGood) {
+			req.getRequestDispatcher("jsp/signature/rachatContrat.jsp").forward(req, resp);
+		} else {
+			req.setAttribute("messageErreurs", "Vous n'avez pas le budget nÃ©cessaire pour racheter ce joueur");
+			req.getRequestDispatcher("jsp/signature/rachatContrat.jsp").forward(req, resp);
+		}
+		
+		    
 	    break;
 	case 3:
 	    break;

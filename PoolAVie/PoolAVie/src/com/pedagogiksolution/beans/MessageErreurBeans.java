@@ -7,7 +7,7 @@ public class MessageErreurBeans implements java.io.Serializable {
      */
     private static final long serialVersionUID = 1120541391585424797L;
 
-    // liste des beans d'erreur selon la page où elle doit être afficher
+    // liste des beans d'erreur selon la page oÃ¹ elle doit Ãªtre afficher
     private String erreurFormulaireRegistration;
     private String erreurCodeValidationType1; // mauvais code
     private String erreurCodeValidationType2; // suite a demande de nouveau code

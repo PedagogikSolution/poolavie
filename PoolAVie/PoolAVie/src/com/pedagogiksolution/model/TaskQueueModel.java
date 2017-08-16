@@ -1,7 +1,5 @@
  package com.pedagogiksolution.model;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -13,7 +11,6 @@ import com.pedagogiksolution.dao.DraftDao;
 import com.pedagogiksolution.dao.DraftPickDao;
 import com.pedagogiksolution.dao.PlayersDao;
 import com.pedagogiksolution.datastorebeans.Equipe;
-import com.pedagogiksolution.utils.EMF;
 
 public class TaskQueueModel {
 
@@ -114,11 +111,8 @@ public class TaskQueueModel {
 	
 	String budget_restant = req.getParameter("budget_restant");
 	String jspSessionName = poolID + "_" + counter;
-	EntityManagerFactory emf = EMF.get();
-	EntityManager em = null;
-	try {
-
-	    em = emf.createEntityManager();
+	
+	
 	    Equipe mBean = new Equipe();
 	    
 	    mBean.setPoolTeamId(jspSessionName);
@@ -148,16 +142,12 @@ public class TaskQueueModel {
 	    mBean.setTotal_salaire_now(Integer.parseInt(total_salaire_now));
 	    
 	    
-	    
-	    em.persist(mBean);
-	} finally {
-
-	    // on ferme le manager pour libérer la mémoire
-	    if (em != null) {
-		em.close();
-
-	    }
-	}
+	    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		Entity mEntity = mBean.mapBeanToEntityForDatastore(mBean,mBean.getPoolTeamId());
+		
+		datastore.put(mEntity);
+	
 
     }
 

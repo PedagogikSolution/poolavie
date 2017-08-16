@@ -4,10 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.google.appengine.api.datastore.Entity;
 
-@Entity(name = "Recrue")
+
 public class Recrue implements Serializable {
 
     /**
@@ -15,7 +14,7 @@ public class Recrue implements Serializable {
      */
     private static final long serialVersionUID = -9071622922654393312L;
 
-        @Id
+
     private String poolTeamId;
     private List<Long> players_id;
     private List<Long> team_id;
@@ -298,6 +297,56 @@ public class Recrue implements Serializable {
 
 	return mBeanRecrue;
     }
+
+	public Entity mapBeanToEntityForDatastore(Recrue mBeanR, String name) {
+		Entity mEntity = new Entity("Recrue", name);
+
+		mEntity.setProperty("acquire_years", mBeanR.getAcquire_years());
+
+		mEntity.setProperty("aide_overtime", mBeanR.getAide_overtime());
+
+		mEntity.setProperty("birthday", mBeanR.getBirthday());
+
+		mEntity.setProperty("blanchissage", mBeanR.getBlanchissage());
+
+		mEntity.setProperty("but_victoire", mBeanR.getBut_victoire());
+
+		mEntity.setProperty("can_be_rookie", mBeanR.getCan_be_rookie());
+
+		mEntity.setProperty("club_ecole", mBeanR.getClub_ecole());
+
+		mEntity.setProperty("contrat", mBeanR.getContrat());
+
+		mEntity.setProperty("nom", mBeanR.getNom());
+
+		mEntity.setProperty("pj", mBeanR.getPj());
+
+		mEntity.setProperty("players_id", mBeanR.getPlayers_id());
+
+		mEntity.setProperty("position", mBeanR.getPosition());
+
+		mEntity.setProperty("projection", mBeanR.getProjection());
+
+		mEntity.setProperty("pts", mBeanR.getPts());
+
+		mEntity.setProperty("salaire_draft", mBeanR.getSalaire_draft());
+
+		mEntity.setProperty("team_id", mBeanR.getTeam_id());
+
+		mEntity.setProperty("teamOfPlayer", mBeanR.getTeamOfPlayer());
+
+		mEntity.setProperty("years_1", mBeanR.getYears_1());
+
+		mEntity.setProperty("years_2", mBeanR.getYears_2());
+
+		mEntity.setProperty("years_3", mBeanR.getYears_3());
+
+		mEntity.setProperty("years_4", mBeanR.getYears_4());
+
+		mEntity.setProperty("years_5", mBeanR.getYears_5());
+
+		return mEntity;
+	}
 
    
 

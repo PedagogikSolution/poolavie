@@ -11,11 +11,11 @@
 
 		<li id="menuSecTrade" class="w3-xlarge"><a href="/Trade">TRADE</a></li>
 
-		<li id="menuSecSign" class="w3-xlarge"><a href="/Signature?from=1">SIGNATURE</a></li>
+		<li id="menuSecSign" class="w3-xlarge"><a href="/Signature?from=1">GESTION</a></li>
 
 		<li id="menuSecTeam" class="w3-xlarge"><a href="/Equipes">TEAM</a></li>
 
-		<li id="menuSecRule" class="w3-xlarge"><a href="/Reglements">RÈGLEMENT</a></li>
+		<li id="menuSecRule" class="w3-xlarge"><a href="/Reglements">RÃˆGLEMENT</a></li>
 
 		<li id="menuSecArchive" class="w3-xlarge"><a href="/Archives">ARCHIVES</a></li>
 
@@ -33,11 +33,11 @@
 
 		<li id="menuSecTrade" class="w3-xlarge"><a href="/Trade">TRADE</a></li>
 
-		<li id="menuSecSign" class="w3-xlarge"><a href="/Signature?from=1">SIGNATURE</a></li>
+		<li id="menuSecSign" class="w3-xlarge"><a href="/Signature?from=1">GESTION</a></li>
 
 		<li id="menuSecTeam" class="w3-xlarge"><a href="/Equipes">TEAM</a></li>
 
-		<li id="menuSecRule" class="w3-xlarge"><a href="/Reglements">RÈGLEMENT</a></li>
+		<li id="menuSecRule" class="w3-xlarge"><a href="/Reglements">RÃˆGLEMENT</a></li>
 
 		<li id="menuSecArchive" class="w3-xlarge"><a href="/Archives">ARCHIVES</a></li>
 

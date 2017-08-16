@@ -16,6 +16,7 @@ import com.pedagogiksolution.datastorebeans.Attaquant;
 import com.pedagogiksolution.datastorebeans.Defenseur;
 import com.pedagogiksolution.datastorebeans.Equipe;
 import com.pedagogiksolution.datastorebeans.Gardien;
+import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
 
 public class SignatureModel {
@@ -48,7 +49,21 @@ public class SignatureModel {
 	playersDao.getPlayersThatCanBeSign(teamId, poolId, req);
 
     }
+    
+    public void preparationRachatApresSaison(HttpServletRequest req) {
+    	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+    	int teamId = mBeanUser.getTeamId();
+    	int poolId = mBeanUser.getPoolId();
 
+    	playersDao.getPlayersThatCanBeRachatAfterSeason(teamId, poolId, req);
+		
+	}
+
+
+    
+    
+    
+    
     @SuppressWarnings("unchecked")
     public void signatureAfterDraft(HttpServletRequest req) {
 	String nombreAnneeSignature = req.getParameter("nombreAnneeSignature");
@@ -168,7 +183,7 @@ public class SignatureModel {
 	    Key clefDatastore2 = KeyFactory.createKey("Defenseur", datastoreId2);
 	    try {
 		// si existe, aucun EntityNotFoundException, donc on
-		// recupère l'info pour tester password
+		// recupï¿½re l'info pour tester password
 		Entity mEntity = datastore.get(clefDatastore2);
 		players_id = (List<Long>) mEntity.getProperty("players_id");
 		int playersIdPosition = players_id.indexOf(Long.valueOf(draft_player_id));
@@ -252,7 +267,7 @@ public class SignatureModel {
 	    Key clefDatastore3 = KeyFactory.createKey("Gardien", datastoreId3);
 	    try {
 		// si existe, aucun EntityNotFoundException, donc on
-		// recupère l'info pour tester password
+		// recupï¿½re l'info pour tester password
 		Entity mEntity = datastore.get(clefDatastore3);
 		players_id = (List<Long>) mEntity.getProperty("players_id");
 		int playersIdPosition = players_id.indexOf(Long.valueOf(draft_player_id));
@@ -371,5 +386,29 @@ public class SignatureModel {
 	}
 
     }
+
+	public void rachatApresSaison(HttpServletRequest req) {
+		// TODO verifier si assez d'argent, si oui on rachete, sinon on retourne message erreur
+		
+		
+	}
+
+	public Boolean checkIfCashAvailablePourRachat(HttpServletRequest req) {
+		
+		String player_id = req.getParameter("player_id");
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		String poolID = mBeanPool.getPoolID();
+		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+		int teamId = mBeanUser.getTeamId();
+		
+		Boolean checkIfCashAvailablePourRachat = playersDao.getUniquePlayersById(player_id,poolID,teamId,req);
+		
+		return checkIfCashAvailablePourRachat;
+		
+		
+	}
+
+	
+
 
 }

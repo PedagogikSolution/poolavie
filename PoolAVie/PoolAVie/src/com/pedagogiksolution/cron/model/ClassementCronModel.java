@@ -7,8 +7,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -25,7 +23,6 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.dao.PlayersDao;
 import com.pedagogiksolution.datastorebeans.Classement;
-import com.pedagogiksolution.utils.EMF;
 
 public class ClassementCronModel {
 
@@ -39,20 +36,15 @@ public class ClassementCronModel {
 
     public void putDatabaseInDatastore(int poolId) {
 
-	Classement mBeanClassement = classementDao.cronJobGetClassementbyPoolId(poolId);
+	Classement mBean = classementDao.cronJobGetClassementbyPoolId(poolId);
 
-	EntityManagerFactory emf = EMF.get();
-	EntityManager em = null;
-	try {
-	    em = emf.createEntityManager();
-	    // on persiste dans le datastore via notre EntityManager
-	    em.persist(mBeanClassement);
-
-	} finally {
-	    // on ferme le manager pour libérer la mémoire
-	    if (em != null)
-		em.close();
-	}
+	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	
+	
+	Entity mEntity = mBean.mapBeanToEntityForDatastore(mBean,mBean.getPoolId());
+	
+	datastore.put(mEntity);
+	
 
     }
 
