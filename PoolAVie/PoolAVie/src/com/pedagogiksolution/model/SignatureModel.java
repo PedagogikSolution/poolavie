@@ -60,6 +60,14 @@ public class SignatureModel {
 		playersDao.getPlayersThatCanBeRachatAfterSeason(teamId, poolId, req);
 
 	}
+	
+	public void preparationRookieBackToClubEcole(HttpServletRequest req) {
+		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+		int teamId = mBeanUser.getTeamId();
+		int poolId = mBeanUser.getPoolId();
+
+		playersDao.getRookieThatCanDropInClubEcoleAfterSeason(teamId, poolId, req);
+	}
 
 	@SuppressWarnings("unchecked")
 	public void signatureAfterDraft(HttpServletRequest req) {
@@ -439,7 +447,7 @@ public class SignatureModel {
 
 		String position = playersDao.removePlayersFromTeamAfterRachat(playersId, poolID);
 
-		// on relance Attaquant, Def, Goaler cron job ou on retire direct
+		// on relance Attaquant, Def, Goaler cron job 
 
 		PlayersCronModel mModel = new PlayersCronModel(playersDao);
 		LoginModel mModelLogin = new LoginModel(req);
@@ -481,5 +489,139 @@ public class SignatureModel {
 		return checkIfCashAvailablePourRachat;
 
 	}
+
+	public Boolean checkIfCashIsGoodForRookieDrop(HttpServletRequest req) {
+		
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		String poolID = mBeanPool.getPoolID();
+		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+		int teamId = mBeanUser.getTeamId();
+		int budget_restant=0;
+		int argent_recu=0;
+		String nomClef = poolID + "_" + teamId;
+
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Key mKey = KeyFactory.createKey("Equipe", nomClef);
+
+		Entity mEntity;
+		try {
+			mEntity = datastore.get(mKey);
+			Long budget_restantL = (Long) mEntity.getProperty("budget_restant");
+			budget_restant = budget_restantL.intValue();
+			Long argent_recuL = (Long) mEntity.getProperty("argent_recu");
+			argent_recu = argent_recuL.intValue();
+			
+			
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if(budget_restant>999999||(budget_restant<1000000&&argent_recu>999999||(budget_restant+argent_recu)>999999)) {
+			Players mBean = new Players();
+			String player_id = req.getParameter("player_id");
+			
+			String nom = playersDao.getPlayersName(player_id,poolID);
+			
+			mBean.setNom(nom);
+
+			mBean.set_id(Integer.parseInt(player_id));
+
+			req.getSession().setAttribute("beanConfirmation", mBean);
+			return true;
+		} else {
+			return false;
+		}
+
+		
+		
+	}
+
+	public void retrocessionRookieDansClubEcole(HttpServletRequest req) {
+		// retrait de l'argent
+		Players mBeanRachat = (Players) req.getSession().getAttribute("beanConfirmation");
+
+		int playersId = mBeanRachat.get_id();
+		int total_cout_rachat = 1000000;
+
+		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+		int teamId = mBeanUser.getTeamId();
+
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		String poolID = mBeanPool.getPoolID();
+
+		String nomClef = poolID + "_" + teamId;
+
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Key mKey = KeyFactory.createKey("Equipe", nomClef);
+
+		try {
+			Entity mEntity = datastore.get(mKey);
+
+			Equipe mBeanEquipe = new Equipe();
+			mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(mEntity, mBeanEquipe);
+
+			int budget_restant = mBeanEquipe.getBudget_restant();
+			int argent_recu = mBeanEquipe.getArgent_recu();
+			int new_budget_restant=0;
+			if(budget_restant<1000000) {
+				
+				budget_restant=budget_restant-total_cout_rachat;
+				argent_recu= argent_recu+budget_restant;
+				new_budget_restant=0;
+				
+			} else {
+				new_budget_restant = budget_restant - total_cout_rachat;
+			}
+			
+				mBeanEquipe.setArgent_recu(argent_recu);
+				mBeanEquipe.setBudget_restant(new_budget_restant);
+				mEntity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomClef);
+
+				datastore.put(mEntity);
+
+
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// on retire joueur de equipe
+
+		String position = playersDao.putPlayersInClubEcole(playersId, poolID);
+		
+		// on place joueurs dans club_ecole
+		
+		// on relance Attaquant, Def, Goaler et Rookie selon la position cron job 
+
+				PlayersCronModel mModel = new PlayersCronModel(playersDao);
+				
+				int numberOfTeam = mModel.getNumberOfTeamByPool(Integer.parseInt(poolID));
+
+				switch (position) {
+				case "attaquant":
+					mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, position, 0, "3");
+					mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, position, 1, "6");
+					
+
+					break;
+				case "defenseur":
+					mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, position, 0, "4");
+					mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, position, 1, "6");
+					
+
+					break;
+				case "gardien":
+					mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, position, 0, "5");
+					mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, position, 1, "6");
+					
+					break;
+
+				}
+		
+	}
+
+	
+	
 
 }

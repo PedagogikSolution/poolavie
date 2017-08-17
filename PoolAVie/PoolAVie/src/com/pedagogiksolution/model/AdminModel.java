@@ -42,6 +42,7 @@ import com.google.appengine.api.datastore.TransactionOptions;
 import com.pedagogiksolution.beans.Article;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.dao.DraftDao;
+import com.pedagogiksolution.dao.PlayersDao;
 import com.pedagogiksolution.datastorebeans.Classement;
 import com.pedagogiksolution.datastorebeans.DraftPick;
 import com.pedagogiksolution.datastorebeans.DraftRound;
@@ -639,6 +640,11 @@ public class AdminModel {
 		// TODO envoyer courriel et ecrire news
 		
 	}
+	
+	public void updateAgeForRookie(HttpServletRequest req, PlayersDao playersDao) {
+		playersDao.updateAgeForRookie(req);
+		
+	}
 
 	/*****************************************************
 	 * private method
@@ -688,6 +694,8 @@ public class AdminModel {
 
 		return nomPropertyTeamName;
 	}
+
+	
 
 
 	

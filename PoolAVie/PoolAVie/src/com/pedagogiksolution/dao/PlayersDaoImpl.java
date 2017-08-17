@@ -13,6 +13,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.joda.time.DateTime;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -71,6 +73,10 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String DELETE_PLAYERS_FROM_TEAM = "UPDATE players_? SET team_id=null,contrat=0,salaire_contrat=null,contrat_cours=null,contrat_max_years=null,"
 			+ "type_contrat=null,club_ecole=0,years_1=0,years_2=0,years_3=0,years_4=0,years_5=0,projection=0 WHERE _id=?";
 	private static final String GET_POSITION_OF_PLAYERS = "SELECT position FROM players_? WHERE _id=?";
+	private static final String UPDATE_AGE_FOR_ROOKIE = "UPDATE players_? SET age = 1 WHERE birthday<?";
+	private static final String GET_ROOKIE_THAT_CAN_GO_DOWN = "SELECT * FROM players_? WHERE age=? AND club_ecole=? AND team_id=?";
+	private static final String GET_PLAYER_NAME = "SELECT nom FROM players_? WHERE _id=?";
+	private static final String PUT_PLAYERS_IN_CLUB_ECOLE = "UPDATE players_? SET club_ecole=1 WHERE _ID=?";
 
 	private DAOFactory daoFactory;
 
@@ -1601,7 +1607,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	}
 
 	@Override
-	public Boolean getUniquePlayersById(String player_id, String poolID, int teamId,HttpServletRequest req) {
+	public Boolean getUniquePlayersById(String player_id, String poolID, int teamId, HttpServletRequest req) {
 		Players mBean = new Players();
 		int coutDuRachat = 0;
 		ResultSet rs = null;
@@ -1679,9 +1685,7 @@ public class PlayersDaoImpl implements PlayersDao {
 				coutDuRachat = (iYears1 + iYears2 + iYears3 + iYears4 + iYears5) / 2;
 			}
 
-			
-
-			String nomClef = poolID +"_"+ teamId;
+			String nomClef = poolID + "_" + teamId;
 
 			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 			Key mKey = KeyFactory.createKey("Equipe", nomClef);
@@ -1692,10 +1696,9 @@ public class PlayersDaoImpl implements PlayersDao {
 			budget_restant = budget_restantL.intValue();
 			Long argent_recuL = (Long) mEntity.getProperty("argent_recu");
 			argent_recu = argent_recuL.intValue();
-			
+
 			total_argent = budget_restant + argent_recu;
-			
-			
+
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} catch (EntityNotFoundException e) {
@@ -1706,12 +1709,12 @@ public class PlayersDaoImpl implements PlayersDao {
 		}
 
 		if ((budget_restant >= coutDuRachat) || (total_argent >= coutDuRachat)) {
-			
+
 			mBean.setSalaire_contrat(coutDuRachat);
 			mBean.setNom(nomDuJoueurRachat);
-			
+
 			mBean.set_id(Integer.parseInt(player_id));
-			
+
 			req.getSession().setAttribute("beanConfirmationRachat", mBean);
 
 			return true;
@@ -1723,30 +1726,30 @@ public class PlayersDaoImpl implements PlayersDao {
 
 	@Override
 	public String removePlayersFromTeamAfterRachat(int playersId, String poolID) {
-		
+
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		String position = null;
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = initialisationRequetePreparee(connexion, DELETE_PLAYERS_FROM_TEAM, false, Integer.parseInt(poolID),playersId);
+			preparedStatement = initialisationRequetePreparee(connexion, DELETE_PLAYERS_FROM_TEAM, false,
+					Integer.parseInt(poolID), playersId);
 			preparedStatement.executeUpdate();
-			
-			
 
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
 			fermeturesSilencieuses(preparedStatement, connexion);
 		}
-		
+
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = initialisationRequetePreparee(connexion, GET_POSITION_OF_PLAYERS, false, Integer.parseInt(poolID),playersId);
+			preparedStatement = initialisationRequetePreparee(connexion, GET_POSITION_OF_PLAYERS, false,
+					Integer.parseInt(poolID), playersId);
 			ResultSet rs = preparedStatement.executeQuery();
-			
-			while(rs.next()) {
-				
+
+			while (rs.next()) {
+
 				position = rs.getString("position");
 			}
 
@@ -1756,8 +1759,173 @@ public class PlayersDaoImpl implements PlayersDao {
 			fermeturesSilencieuses(preparedStatement, connexion);
 		}
 		return position;
-		
-		
+
+	}
+
+	@Override
+	public void updateAgeForRookie(HttpServletRequest req) {
+		DateTime dt = new DateTime();
+
+		int year = dt.getYear() - 25;
+		String birthday = year + "-09-15";
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		String poolID = mBeanPool.getPoolID();
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion, UPDATE_AGE_FOR_ROOKIE, false,
+					Integer.parseInt(poolID), birthday);
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+
+	}
+
+	@Override
+	public void getRookieThatCanDropInClubEcoleAfterSeason(int teamId, int poolId, HttpServletRequest req) {
+		NonSessionPlayers mBeanPlayers = new NonSessionPlayers();
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+
+		List<Integer> players_id = new ArrayList<Integer>();
+
+		List<String> nom = new ArrayList<String>();
+		List<String> teamOfPlayer = new ArrayList<String>();
+
+		List<String> position = new ArrayList<String>();
+
+		List<String> years_1 = new ArrayList<String>();
+		List<String> years_2 = new ArrayList<String>();
+		List<String> years_3 = new ArrayList<String>();
+		List<String> years_4 = new ArrayList<String>();
+		List<String> years_5 = new ArrayList<String>();
+		List<Integer> age = new ArrayList<Integer>();
+
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion, GET_ROOKIE_THAT_CAN_GO_DOWN, false,
+					poolId, 0, 0, teamId);
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				int m_players_id = rs.getInt("_id");
+				players_id.add(m_players_id);
+
+				String m_nom = rs.getString("nom");
+				nom.add(m_nom);
+
+				String m_teamOfPlayer = rs.getString("team");
+				teamOfPlayer.add(m_teamOfPlayer);
+
+				String m_position = rs.getString("position");
+				position.add(m_position);
+
+				String m_years_1 = rs.getString("years_1");
+				years_1.add(m_years_1);
+
+				String m_years_2 = rs.getString("years_2");
+				years_2.add(m_years_2);
+
+				String m_years_3 = rs.getString("years_3");
+				years_3.add(m_years_3);
+
+				String m_years_4 = rs.getString("years_4");
+				years_4.add(m_years_4);
+
+				String m_years_5 = rs.getString("years_5");
+				years_5.add(m_years_5);
+
+				int m_age = rs.getInt("age");
+				age.add(m_age);
+
+			}
+			mBeanPlayers.setPlayers_id(players_id);
+			mBeanPlayers.setAge(age);
+			mBeanPlayers.setNom(nom);
+			mBeanPlayers.setPosition(position);
+			mBeanPlayers.setTeamOfPlayer(teamOfPlayer);
+			mBeanPlayers.setYears_1(years_1);
+			mBeanPlayers.setYears_2(years_2);
+			mBeanPlayers.setYears_3(years_3);
+			mBeanPlayers.setYears_4(years_4);
+			mBeanPlayers.setYears_5(years_5);
+
+			req.getSession().setAttribute("NonSessionPlayers", mBeanPlayers);
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(rs, preparedStatement, connexion);
+		}
+
+	}
+
+	@Override
+	public String getPlayersName(String players_id,String poolID) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		String nom=null;
+
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYER_NAME, false, Integer.parseInt(poolID), Integer.parseInt(players_id));
+			rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				nom = rs.getString("nom");
+				
+
+			}
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(rs,preparedStatement, connexion);
+		}
+		return nom;
+	}
+
+	@Override
+	public String putPlayersInClubEcole(int playersId, String poolID) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		String position = null;
+		ResultSet rs=null;
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion, PUT_PLAYERS_IN_CLUB_ECOLE, false,
+					Integer.parseInt(poolID), playersId);
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion, GET_POSITION_OF_PLAYERS, false,
+					Integer.parseInt(poolID), playersId);
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+
+				position = rs.getString("position");
+			}
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(rs,preparedStatement, connexion);
+		}
+		return position;
 	}
 
 }

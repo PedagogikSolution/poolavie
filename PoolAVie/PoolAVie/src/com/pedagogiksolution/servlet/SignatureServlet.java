@@ -72,6 +72,17 @@ public class SignatureServlet extends HttpServlet {
 		
 		
 	}
+	
+	if(cycleAnnuel==8){
+		fromId=4;
+		req.getSession().removeAttribute("beanConfirmation");
+		SignatureModel mModelSignature = new SignatureModel(playersDao);
+		
+		mModelSignature.preparationRookieBackToClubEcole(req);
+		
+		req.setAttribute("cycleAnnuel", 8);
+		
+	}
 	switch (fromId) {
 	case 1: // cycle 0 a 3 ou 5 et 6
 	    req.getRequestDispatcher("jsp/signature/managerCenter.jsp").forward(req, resp);
@@ -83,9 +94,11 @@ public class SignatureServlet extends HttpServlet {
 	    req.getRequestDispatcher("jsp/signature/rachatContrat.jsp").forward(req, resp);
 	    break;
 	case 4:
-	    req.getRequestDispatcher("jsp/signature/managerCenter.jsp").forward(req, resp);
+		
+	    req.getRequestDispatcher("jsp/signature/rookieManager.jsp").forward(req, resp);
 	    break;
 	case 5:
+		
 	    req.getRequestDispatcher("jsp/signature/managerCenter.jsp").forward(req, resp);
 	    break;
 	case 992: // message deja 12 contrat
@@ -135,7 +148,25 @@ public class SignatureServlet extends HttpServlet {
 		
 		
 	    break;
-	case 4:
+	case 4: // on check si possible et si oui envoie message de confirmation pour retrocession dans club école
+		Boolean checkIfCashIsGoodForRookieDrop = mModel.checkIfCashIsGoodForRookieDrop(req);
+		if(checkIfCashIsGoodForRookieDrop) {
+			req.getRequestDispatcher("jsp/signature/rookieManager.jsp").forward(req, resp);
+		} else {
+			req.getSession().removeAttribute("beanConfirmation");
+			req.setAttribute("messageErreurs", "Vous n'avez pas le budget nécessaire pour descendre ce joueur");
+			req.getRequestDispatcher("jsp/signature/rookieManager.jsp").forward(req, resp);
+		}
+		
+	    break;
+	    
+	case 5: // on effectue la retrocession de la rookie, on retire le million.
+		
+		mModel.retrocessionRookieDansClubEcole(req);
+		req.getSession().removeAttribute("beanConfirmation");
+		req.setAttribute("messageErreurs", "Votre joueurs est maintenant dans votre club école");
+		resp.sendRedirect("/Signature?from=4");
+		
 	    break;
 
 	}

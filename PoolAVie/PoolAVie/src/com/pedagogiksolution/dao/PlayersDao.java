@@ -52,6 +52,14 @@ public interface PlayersDao {
 
 	String removePlayersFromTeamAfterRachat(int playersId, String poolID);
 
+	void updateAgeForRookie(HttpServletRequest req);
+
+	void getRookieThatCanDropInClubEcoleAfterSeason(int teamId, int poolId, HttpServletRequest req);
+
+	String getPlayersName(String player_id, String poolID);
+
+	String putPlayersInClubEcole(int playersId, String poolID);
+
 
    
 
