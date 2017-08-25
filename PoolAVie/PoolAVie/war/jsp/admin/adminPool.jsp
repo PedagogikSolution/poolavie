@@ -53,6 +53,27 @@
 
 		<div class="w3-row w3-container">
 			<div class="w3-container w3-half">
+			
+				<c:if test="${Pool.cycleAnnuel==3}">
+					<p>Période de trade</p>
+					<form action="/AdminPool" method="post">
+					<input type="hidden" name="adminButton" value="8">
+					<input type="submit" value="FIN DE RACHAT DÉBUT D'ANNÉE">
+					
+					</form>
+
+				</c:if>
+				
+				<c:if test="${Pool.cycleAnnuel==4}">
+					<p>Signature apres draft</p>
+					<form action="/AdminPool" method="post">
+					<input type="hidden" name="adminButton" value="9">
+					<input type="submit" value="FIN DE RACHAT DÉBUT D'ANNÉE">
+					
+					</form>
+
+				</c:if>
+				
 				<c:if test="${Pool.cycleAnnuel==5||Pool.cycleAnnuel==6}">
 					<p>Pour mettre fin à la saison et entamer le cycle de fin d'année et d'été, appuyez sur le bouton ci-dessous</p>
 					<p>Vous ne pourrez revenir en arrière, ceci enverra un message courriel pour féliciter les gagnants et postera sur la page news une nouvelle de fin de saison.</p>
@@ -70,7 +91,7 @@
 					<p>Ceci mettra fin à la période de rachat de l'année en cours</p>
 					<form action="/AdminPool" method="post">
 					<input type="hidden" name="adminButton" value="2">
-					<input type="submit" value="FIN DE LA SAISON">
+					<input type="submit" value="FIN DE RACHAT FIN D'ANNÉE">
 					
 					</form>
 
@@ -78,11 +99,54 @@
 				
 				<c:if test="${Pool.cycleAnnuel==8}">
 					<p>Une fois la période de rétrocession terminé, vous pouvez mettre fin à l'année en cours pour entamer la prochaine année.</p>
+					<p>*****AJOUTER LES 217 RECRUES DU DRAFT, LES JOUEURS DE LA KHL CONNU COMME REVENANT SI PAS DEJA DANS LISTE, RETIRER LES MORTS ET RETRAITÉS******</p>
+					<p>*****METTRE A JOUR LA TABLE UPDATE STAT AVEC ITÉRATION LA PLUS RÉCENTE DES JOUEURS POUR UPDATE DES TEAMS DES JOUEURS</p>
+					
 					<p>Ceci persistera les classements, equipes et statistiques dans les archives et fera un reset des equipes monétairement et les joueurs X ou JA seront retourner au draft.</p>
 					<p>Il activera la 2ieme période de rachat avec l'argent de la nouvelle année</p>
 					<form action="/AdminPool" method="post">
 					<input type="hidden" name="adminButton" value="3">
-					<input type="submit" value="FIN DE LA SAISON">
+					<input type="submit" value="FIN DE RÉTROCESSION CLUB ÉCOLE">
+					
+					</form>
+
+				</c:if>
+				
+				<c:if test="${Pool.cycleAnnuel==9}">
+				<p>*****METTRE A JOUR LA TABLE PLAYERS_X AVEC SALAIRE DES ROOKIES</p>
+					<p>Rachat de début d'année</p>
+					<form action="/AdminPool" method="post">
+					<input type="hidden" name="adminButton" value="4">
+					<input type="submit" value="FIN DE RACHAT DÉBUT D'ANNÉE">
+					
+					</form>
+
+				</c:if>
+				
+				<c:if test="${Pool.cycleAnnuel==10}">
+					<p>Trade été</p>
+					<form action="/AdminPool" method="post">
+					<input type="hidden" name="adminButton" value="5">
+					<input type="submit" value="FIN DE RACHAT DÉBUT D'ANNÉE">
+					
+					</form>
+
+				</c:if>
+				
+				<c:if test="${Pool.cycleAnnuel==11}">
+					<p>Rachat apres trade été</p>
+					<form action="/AdminPool" method="post">
+					<input type="hidden" name="adminButton" value="6">
+					<input type="submit" value="FIN DE RACHAT DÉBUT D'ANNÉE">
+					
+					</form>
+
+				</c:if>
+				<c:if test="${Pool.cycleAnnuel==12}">
+					<p>Gestion club école</p>
+					<form action="/AdminPool" method="post">
+					<input type="hidden" name="adminButton" value="7">
+					<input type="submit" value="FIN DE RACHAT DÉBUT D'ANNÉE">
 					
 					</form>
 

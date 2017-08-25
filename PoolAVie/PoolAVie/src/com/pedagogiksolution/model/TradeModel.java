@@ -152,7 +152,7 @@ public class TradeModel {
 	if (teamThatReceivedOfferId == teamThatMakeOfferId) {
 
 	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire un échange avec vous-même... veuillez choisir une autre équipe");
+	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire un ï¿½change avec vous-mï¿½me... veuillez choisir une autre ï¿½quipe");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return true;
 
@@ -501,7 +501,7 @@ public class TradeModel {
 	// 0 - un joueur ou un pick ou argent contre rien
 	if ((nbPlayersTeamMakingOffer == 0 && nbPicksTeamMakingOffer == 0 && cashIncludeTeamThatMakeOfferInt == 0 && nbRookieTeamMakingOffer == 0) || (nbPlayersTeamReceivingOffer == 0 && nbPicksTeamReceivingOffer == 0 && cashIncludeThatReceiveOfferInt == 0 && nbRookieTeamReceivingOffer == 0)) {
 
-	    mBeanMessageErreur.setErreurTrade("L'une des deux équipes ne reçoit rien");
+	    mBeanMessageErreur.setErreurTrade("L'une des deux ï¿½quipes ne reï¿½oit rien");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
@@ -510,7 +510,7 @@ public class TradeModel {
 
 	if (nbPlayersTeamMakingOffer > 7 || nbPlayersTeamReceivingOffer > 7) {
 
-	    mBeanMessageErreur.setErreurTrade("Un maximum de 7 joueurs par équipe peut être inclus dans un échange unique (Reglement 4.1");
+	    mBeanMessageErreur.setErreurTrade("Un maximum de 7 joueurs par ï¿½quipe peut ï¿½tre inclus dans un ï¿½change unique (Reglement 4.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
@@ -518,25 +518,25 @@ public class TradeModel {
 	// 2- check if number of pick is 3 or less
 
 	if (nbPicksTeamMakingOffer > 3 || nbPicksTeamReceivingOffer > 3) {
-	    mBeanMessageErreur.setErreurTrade("Un maximum de 3 choix au repêchage par équipe peut être inclus dans un échange unique (Reglement 4.1");
+	    mBeanMessageErreur.setErreurTrade("Un maximum de 3 choix au repï¿½chage par ï¿½quipe peut ï¿½tre inclus dans un ï¿½change unique (Reglement 4.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
 
 	// 3- checking for cash on the two side
 	if (cashIncludeTeamThatMakeOfferInt > 0 && cashIncludeThatReceiveOfferInt > 0) {
-	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas échangez de l'argent contre de l'argent (Reglement 3.1");
+	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas ï¿½changez de l'argent contre de l'argent (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
 
-	// 7- check si echange draft round contre cash **** impossible durant année
+	// 7- check si echange draft round contre cash **** impossible durant annï¿½e
 
 	if (mBeanPool.getCycleAnnuel() == 5 || mBeanPool.getCycleAnnuel() == 6) {
 
 	    if ((nbPicksTeamMakingOffer > 0 && cashIncludeThatReceiveOfferInt > 0 && nbPlayersTeamReceivingOffer == 0 && nbRookieTeamReceivingOffer == 0)) {
 
-		mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas échanger un choix contre de l'argent à cette période (Reglement 3.1");
+		mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas ï¿½changer un choix contre de l'argent ï¿½ cette pï¿½riode (Reglement 3.1");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return false;
 
@@ -544,7 +544,7 @@ public class TradeModel {
 
 	    if ((nbPicksTeamReceivingOffer > 0 && cashIncludeTeamThatMakeOfferInt > 0 && nbPlayersTeamMakingOffer == 0 && nbRookieTeamMakingOffer == 0)) {
 
-		mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas échanger un choix contre de l'argent à cette période (Reglement 3.1");
+		mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas ï¿½changer un choix contre de l'argent ï¿½ cette pï¿½riode (Reglement 3.1");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return false;
 
@@ -690,37 +690,37 @@ public class TradeModel {
 	// check si le nombre par position va resister l'echange (min 8 attaquant, 5 def et 2 goal)
 
 	if ((nb_attaquant_make_offer - nbAttInTeamThatOffer + nbAttInTeamThatReceived) < 8) {
-	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 8 attaquants (Reglement 3.1");
+	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette ï¿½change sous peine de vous retrouver avec moins de 8 attaquants (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
 
 	if ((nb_attaquant_rec_offer + nbAttInTeamThatOffer - nbAttInTeamThatReceived) < 8) {
-	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 8 attaquants (Reglement 3.1");
+	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette ï¿½change sous peine que la personne avec qui vous ï¿½changez se retrouve avec moins de 8 attaquants (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
 
 	if ((nb_defenseur_make_offer - nbDefInTeamThatOffer + nbDefInTeamThatReceived) < 5) {
-	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 5 defenseurs (Reglement 3.1");
+	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette ï¿½change sous peine de vous retrouver avec moins de 5 defenseurs (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
 
 	if ((nb_defenseur_rec_offer + nbDefInTeamThatOffer - nbDefInTeamThatReceived) < 5) {
-	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 5 defenseurs (Reglement 3.1");
+	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette ï¿½change sous peine que la personne avec qui vous ï¿½changez se retrouve avec moins de 5 defenseurs (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
 
 	if ((nb_goaler_make_offer - nbGoalInTeamThatOffer + nbGoalInTeamThatReceived) < 2) {
-	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 2 gardiens (Reglement 3.1");
+	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette ï¿½change sous peine de vous retrouver avec moins de 2 gardiens (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
 
 	if ((nb_goaler_rec_offer + nbGoalInTeamThatOffer - nbGoalInTeamThatReceived) < 2) {
-	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 2 gardiens (Reglement 3.1");
+	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette ï¿½change sous peine que la personne avec qui vous ï¿½changez se retrouve avec moins de 2 gardiens (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
@@ -729,7 +729,7 @@ public class TradeModel {
 
 	if ((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer - argent_recu_make_offer + argent_recu_rec_offer + cashIncludeTeamThatMakeOfferInt - cashIncludeThatReceiveOfferInt) < 0) {
 
-	    mBeanMessageErreur.setErreurTrade("Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 3.1");
+	    mBeanMessageErreur.setErreurTrade("Vous n'avez pas assez d'argent pour effectuer cette ï¿½change (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 
@@ -737,7 +737,7 @@ public class TradeModel {
 
 	if ((budget_restant_received_offer - total_salaire_team_making_offer + total_salaire_team_receiving_offer + argent_recu_make_offer - argent_recu_rec_offer + cashIncludeThatReceiveOfferInt - cashIncludeTeamThatMakeOfferInt) < 0) {
 
-	    mBeanMessageErreur.setErreurTrade("La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 3.1");
+	    mBeanMessageErreur.setErreurTrade("La personne avec qui vous voulez ï¿½changez n'a pas le budget pour absorber cette transaction (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 
@@ -801,7 +801,7 @@ public class TradeModel {
 	mBean.setSalaireReceivingOffer(salaireReceivingOffer);
 	mBean.setSalaireRookieMakingOffer(salaireRookieMakingOffer);
 	mBean.setSalaireRookieReceivingOffer(salaireRookieReceivingOffer);
-	// ajout du total de l'argent donné
+	// ajout du total de l'argent donnï¿½
 	int budgetMakingOffer = (total_salaire_team_making_offer - cashIncludeTeamThatMakeOfferInt)-(total_salaire_team_receiving_offer - cashIncludeThatReceiveOfferInt);
 	int budgetReceivingOffer = (total_salaire_team_receiving_offer - cashIncludeThatReceiveOfferInt)-(total_salaire_team_making_offer - cashIncludeTeamThatMakeOfferInt); 
 	mBean.setBudgetMakingOffer(budgetMakingOffer);
@@ -815,7 +815,11 @@ public class TradeModel {
     public void persistTradeOffer(HttpServletRequest req, TradeOfferDao tradeOfferDao) {
 
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
-	int annee = mBeanPool.getPoolYear();
+	String anneeComplete = mBeanPool.getThisYear();
+	
+	String anneeString = anneeComplete.substring(5);
+	
+	int annee = Integer.parseInt(anneeString);
 
 	TradeBeans mBean = new TradeBeans();
 	mBean = (TradeBeans) req.getSession().getAttribute("tradeOfferBean");
@@ -1123,7 +1127,7 @@ public class TradeModel {
 	    msg.setFrom(new InternetAddress("pedagogiksolution@gmail.com", "Poolavie.ca"));
 	    msg.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(courriel));
 	    msg.setSubject("Vous avez une offre de trade", "utf-8");
-	    msg.setContent("Bonjour " + nomTeam + ", \n\n Vous avez reçu une nouvelle offre d'échange. Pour voir celle-ci, l'accepter, la refuser ou faire une contre offre. Connectez-vous et aller dans la section Trade Center.", "text/html");
+	    msg.setContent("Bonjour " + nomTeam + ", \n\n Vous avez reï¿½u une nouvelle offre d'ï¿½change. Pour voir celle-ci, l'accepter, la refuser ou faire une contre offre. Connectez-vous et aller dans la section Trade Center.", "text/html");
 	    Transport.send(msg);
 	} catch (AddressException e) {
 	    // ...
@@ -1186,7 +1190,7 @@ public class TradeModel {
 	    Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT1j1(), playersDao);
 	    if (!isStillInTeam) {
 
-		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliquï¿½s dans l'ï¿½change");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return false;
 	    }
@@ -1195,7 +1199,7 @@ public class TradeModel {
 	if (mBeanTemp.getT1j2() != null) {
 	    Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT1j2(), playersDao);
 	    if (!isStillInTeam) {
-		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliquï¿½s dans l'ï¿½change");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return false;
 
@@ -1205,7 +1209,7 @@ public class TradeModel {
 	if (mBeanTemp.getT1j3() != null) {
 	    Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT1j3(), playersDao);
 	    if (!isStillInTeam) {
-		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliquï¿½s dans l'ï¿½change");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return false;
 
@@ -1215,7 +1219,7 @@ public class TradeModel {
 	if (mBeanTemp.getT1j4() != null) {
 	    Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT1j4(), playersDao);
 	    if (!isStillInTeam) {
-		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliquï¿½s dans l'ï¿½change");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return false;
 
@@ -1225,7 +1229,7 @@ public class TradeModel {
 	if (mBeanTemp.getT1j5() != null) {
 	    Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT1j5(), playersDao);
 	    if (!isStillInTeam) {
-		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliquï¿½s dans l'ï¿½change");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return false;
 	    }
@@ -1234,7 +1238,7 @@ public class TradeModel {
 	if (mBeanTemp.getT1j6() != null) {
 	    Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT1j6(), playersDao);
 	    if (!isStillInTeam) {
-		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliquï¿½s dans l'ï¿½change");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return false;
 	    }
@@ -1243,7 +1247,7 @@ public class TradeModel {
 	if (mBeanTemp.getT1j7() != null) {
 	    Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT1j7(), playersDao);
 	    if (!isStillInTeam) {
-		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliquï¿½s dans l'ï¿½change");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return false;
 	    }
@@ -1252,7 +1256,7 @@ public class TradeModel {
 	if (mBeanTemp.getT2j1() != null) {
 	    Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT2j1(), playersDao);
 	    if (!isStillInTeam) {
-		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliquï¿½s dans l'ï¿½change");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return false;
 	    }
@@ -1261,7 +1265,7 @@ public class TradeModel {
 	if (mBeanTemp.getT2j2() != null) {
 	    Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT2j2(), playersDao);
 	    if (!isStillInTeam) {
-		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliquï¿½s dans l'ï¿½change");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return false;
 	    }
@@ -1270,7 +1274,7 @@ public class TradeModel {
 	if (mBeanTemp.getT2j3() != null) {
 	    Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT2j3(), playersDao);
 	    if (!isStillInTeam) {
-		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliquï¿½s dans l'ï¿½change");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return false;
 	    }
@@ -1279,7 +1283,7 @@ public class TradeModel {
 	if (mBeanTemp.getT2j4() != null) {
 	    Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT2j4(), playersDao);
 	    if (!isStillInTeam) {
-		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliquï¿½s dans l'ï¿½change");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return false;
 	    }
@@ -1288,7 +1292,7 @@ public class TradeModel {
 	if (mBeanTemp.getT2j5() != null) {
 	    Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT2j5(), playersDao);
 	    if (!isStillInTeam) {
-		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliquï¿½s dans l'ï¿½change");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return false;
 	    }
@@ -1297,7 +1301,7 @@ public class TradeModel {
 	if (mBeanTemp.getT2j6() != null) {
 	    Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT2j6(), playersDao);
 	    if (!isStillInTeam) {
-		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliquï¿½s dans l'ï¿½change");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return false;
 	    }
@@ -1306,7 +1310,7 @@ public class TradeModel {
 	if (mBeanTemp.getT2j7() != null) {
 	    Boolean isStillInTeam = checkIfplayerStillInTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT2j7(), playersDao);
 	    if (!isStillInTeam) {
-		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliqués dans l'échange");
+		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des joueurs impliquï¿½s dans l'ï¿½change");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return false;
 	    }
@@ -1315,7 +1319,7 @@ public class TradeModel {
 	if (mBeanTemp.getT1p1() != null) {
 	    Boolean isStillInPick = checkIfPickStillInTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT1p1(), draftPickDao);
 	    if (!isStillInPick) {
-		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des picks impliqués dans l'échange");
+		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des picks impliquï¿½s dans l'ï¿½change");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return false;
 	    }
@@ -1324,7 +1328,7 @@ public class TradeModel {
 	if (mBeanTemp.getT1p2() != null) {
 	    Boolean isStillInPick = checkIfPickStillInTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT1p2(), draftPickDao);
 	    if (!isStillInPick) {
-		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des picks impliqués dans l'échange");
+		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des picks impliquï¿½s dans l'ï¿½change");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return false;
 	    }
@@ -1334,7 +1338,7 @@ public class TradeModel {
 	if (mBeanTemp.getT1p3() != null) {
 	    Boolean isStillInPick = checkIfPickStillInTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT1p3(), draftPickDao);
 	    if (!isStillInPick) {
-		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des picks impliqués dans l'échange");
+		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des picks impliquï¿½s dans l'ï¿½change");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return false;
 	    }
@@ -1343,7 +1347,7 @@ public class TradeModel {
 	if (mBeanTemp.getT2p1() != null) {
 	    Boolean isStillInPick = checkIfPickStillInTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT2p1(), draftPickDao);
 	    if (!isStillInPick) {
-		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des picks impliqués dans l'échange");
+		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des picks impliquï¿½s dans l'ï¿½change");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return false;
 	    }
@@ -1352,7 +1356,7 @@ public class TradeModel {
 	if (mBeanTemp.getT2p2() != null) {
 	    Boolean isStillInPick = checkIfPickStillInTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT2p2(), draftPickDao);
 	    if (!isStillInPick) {
-		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des picks impliqués dans l'échange");
+		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des picks impliquï¿½s dans l'ï¿½change");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return false;
 	    }
@@ -1361,7 +1365,7 @@ public class TradeModel {
 	if (mBeanTemp.getT2p3() != null) {
 	    Boolean isStillInPick = checkIfPickStillInTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT2p3(), draftPickDao);
 	    if (!isStillInPick) {
-		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des picks impliqués dans l'échange");
+		mBeanMessageErreur.setErreurTrade("Vous n'avez plus l'un des picks impliquï¿½s dans l'ï¿½change");
 		req.setAttribute("messageErreur", mBeanMessageErreur);
 		return false;
 	    }
@@ -1530,37 +1534,37 @@ public class TradeModel {
 	// check si le nombre par position va resister l'echange (min 8 attaquant, 5 def et 2 goal)
 
 	if ((nb_attaquant_make_offer - nbAttInTeamThatOffer + nbAttInTeamThatReceived) < 8) {
-	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 8 attaquants (Reglement 3.1");
+	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette ï¿½change sous peine de vous retrouver avec moins de 8 attaquants (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
 
 	if ((nb_attaquant_rec_offer + nbAttInTeamThatOffer - nbAttInTeamThatReceived) < 8) {
-	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 8 attaquants (Reglement 3.1");
+	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette ï¿½change sous peine que la personne avec qui vous ï¿½changez se retrouve avec moins de 8 attaquants (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
 
 	if ((nb_defenseur_make_offer - nbDefInTeamThatOffer + nbDefInTeamThatReceived) < 5) {
-	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 5 defenseurs (Reglement 3.1");
+	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette ï¿½change sous peine de vous retrouver avec moins de 5 defenseurs (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
 
 	if ((nb_defenseur_rec_offer + nbDefInTeamThatOffer - nbDefInTeamThatReceived) < 5) {
-	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 5 defenseurs (Reglement 3.1");
+	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette ï¿½change sous peine que la personne avec qui vous ï¿½changez se retrouve avec moins de 5 defenseurs (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
 
 	if ((nb_goaler_make_offer + nbGoalInTeamThatOffer - nbGoalInTeamThatReceived) < 2) {
-	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 2 gardiens (Reglement 3.1");
+	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette ï¿½change sous peine de vous retrouver avec moins de 2 gardiens (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
 
 	if ((nb_goaler_rec_offer - nbGoalInTeamThatOffer + nbGoalInTeamThatReceived) < 2) {
-	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 2 gardiens (Reglement 3.1");
+	    mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas faire cette ï¿½change sous peine que la personne avec qui vous ï¿½changez se retrouve avec moins de 2 gardiens (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 	}
@@ -1569,7 +1573,7 @@ public class TradeModel {
 
 	if ((budget_restant_make_offer - total_salaire_team_making_offer + total_salaire_team_receiving_offer + argent_recu_make_offer - cashIncludeTeamThatMakeOfferInt + cashIncludeThatReceiveOfferInt) < 0) {
 
-	    mBeanMessageErreur.setErreurTrade("Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 3.1");
+	    mBeanMessageErreur.setErreurTrade("Vous n'avez pas assez d'argent pour effectuer cette ï¿½change (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 
@@ -1577,7 +1581,7 @@ public class TradeModel {
 
 	if ((budget_restant_received_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer + argent_recu_rec_offer - cashIncludeThatReceiveOfferInt + cashIncludeTeamThatMakeOfferInt) < 0) {
 
-	    mBeanMessageErreur.setErreurTrade("La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 3.1");
+	    mBeanMessageErreur.setErreurTrade("La personne avec qui vous voulez ï¿½changez n'a pas le budget pour absorber cette transaction (Reglement 3.1");
 	    req.setAttribute("messageErreur", mBeanMessageErreur);
 	    return false;
 
@@ -1736,7 +1740,7 @@ public class TradeModel {
 
     }
 
-    /******************************* methode privée à la classe **********************************/
+    /******************************* methode privï¿½e ï¿½ la classe **********************************/
 
     private Boolean checkIfplayerStillInTeam(String team, String identifiant, PlayersDao playersDao) {
 	int teamId = Integer.parseInt(team);

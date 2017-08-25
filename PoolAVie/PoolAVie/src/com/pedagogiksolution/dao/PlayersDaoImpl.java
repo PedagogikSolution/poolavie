@@ -77,7 +77,39 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String GET_ROOKIE_THAT_CAN_GO_DOWN = "SELECT * FROM players_? WHERE age=? AND club_ecole=? AND team_id=?";
 	private static final String GET_PLAYER_NAME = "SELECT nom FROM players_? WHERE _id=?";
 	private static final String PUT_PLAYERS_IN_CLUB_ECOLE = "UPDATE players_? SET club_ecole=1 WHERE _ID=?";
-
+	private static final String ARCHIVE_PLAYERS_LAST_YEAR = "INSERT INTO players_archive_? SELECT * FROM players_? WHERE team_id IS NOT NULL";
+	private static final String UPDATE_PLAYERS_REMOVE_JA_X = "UPDATE players_? SET team_id=NULL WHERE years_2='JA' OR years_2='X'";
+	private static final String UPDATE_PROJECTION = "UPDATE players_? SET projection=((pts+pts_1_years_ago+pts_2_years_ago)/(pj+pj_1_years_ago+pj_2_years_ago)*82) WHERE (pj+pj_1_years_ago+pj_2_years_ago)>81";
+	private static final String UPDATE_PROJECTION_2 = "UPDATE players_? SET projection=0 WHERE (pj+pj_1_years_ago+pj_2_years_ago)<82";
+	private static final String UPDATE_PROJECTION_3 = "UPDATE players_? SET projection=((pts+pts_1_years_ago+pts_2_years_ago)/(pj+pj_1_years_ago+pj_2_years_ago)*60) WHERE (pj+pj_1_years_ago+pj_2_years_ago)>81 AND position='gardien'";
+	private static final String UPDATE_PROJECTION_4 = "UPDATE players_? SET projection=0 WHERE (pj+pj_1_years_ago+pj_2_years_ago)<82 AND position='gardien'";
+	private static final String SET_CAN_BE_ROOKIE = "UPDATE players_? SET can_be_rookie=1 WHERE age=0";
+	private static final String SET_TAKE_PROJ = "UPDATE players_? SET take_proj=1 WHERE pj<50";
+	private static final String MIGRATE_PTS_FOR_YEARS_AGO_1 = "UPDATE players_? SET pj_2_years_ago=pj_1_years_ago,pts_2_years_ago=pts_1_years_ago";
+	private static final String MIGRATE_PTS_FOR_YEARS_AGO_2 = "UPDATE players_? SET pj_1_years_ago=pj,pts_1_years_ago=pts ";
+	private static final String MOVE_YEARS_TO_YEARS = "UPDATE players_? SET years_1=years_2,years_2=years_3,years_3=years_4,years_4=years_5,years_5='X'";
+	private static final String SET_TAKE_PROJ_0 = "UPDATE players_? SET take_proj=0";
+	private static final String UPDATE_YEARS_TO_YEARS = "UPDATE players_? SET years_1=0,years_2=0,years_3=0,years_4=0,years_5=0,contrat=0,club_ecole=0 WHERE years_1='JA' OR years_1='X' OR years_1 IS NULL";
+	private static final String SET_SALAIRE_ATTAQUANT = "UPDATE players_? AS p INNER JOIN salaire? AS s ON p.pts=s.points SET p.salaire_draft = s.salaire"
+			+ " WHERE s.position=1 AND p.position='attaquant' AND take_proj=0";
+	private static final String SET_SALAIRE_DEFENSEUR = "UPDATE players_? AS p INNER JOIN salaire? AS s ON p.pts=s.points SET p.salaire_draft = s.salaire"
+			+ " WHERE s.position=2 AND p.position='defenseur' AND take_proj=0";
+	private static final String SET_SALAIRE_GARDIEN = "UPDATE players_? AS p INNER JOIN salaire? AS s ON p.pts=s.points SET p.salaire_draft = s.salaire"
+			+ " WHERE s.position=3 AND p.position='gardien' AND take_proj=0";
+	private static final String SET_SALAIRE_ATTAQUANT2 = "UPDATE players_? AS p INNER JOIN salaire? AS s ON p.projection=s.points SET p.salaire_draft = s.salaire"
+			+ " WHERE s.position=1 AND p.position='attaquant' AND take_proj=1 AND super_rookie=0";
+	private static final String SET_SALAIRE_DEFENSEUR2 = "UPDATE players_? AS p INNER JOIN salaire? AS s ON p.projection=s.points SET p.salaire_draft = s.salaire"
+			+ " WHERE s.position=2 AND p.position='defenseur' AND take_proj=1 AND super_rookie=0";
+	private static final String SET_SALAIRE_GARDIEN2 = "UPDATE players_? AS p INNER JOIN salaire? AS s ON p.projection=s.points SET p.salaire_draft = s.salaire"
+			+ " WHERE s.position=3 AND p.position='gardien' AND take_proj=1 AND super_rookie=0";
+	private static final String RESET_CAN_BE_ROOKIE = "UPDATE players_? SET can_be_rookie=0";
+	private static final String GET_NB_ATTAQUANT = "SELECT COUNT(_id) FROM players_? WHERE years_1>1 AND team_id=? AND position='attaquant' AND club_ecole=0";
+	private static final String GET_NB_DEFENSEUR = "SELECT COUNT(_id) FROM players_? WHERE years_1>1 AND team_id=? AND position='defenseur' AND club_ecole=0";
+	private static final String GET_NB_GARDIEN = "SELECT COUNT(_id) FROM players_? WHERE years_1>1 AND team_id=? AND position='gardien' AND club_ecole=0";
+	private static final String GET_NB_ROOKIE = "SELECT COUNT(_id) FROM players_? WHERE years_1>1 AND team_id=? AND club_ecole=1";
+	private static final String GET_NB_CONTRAT = "SELECT COUNT(_id) FROM players_? WHERE years_1>1 AND team_id=? AND club_ecole=0";
+	private static final String GET_TOTAL_SALAIRE_NOW = "SELECT sum(years_1) FROM players_? WHERE years_1>1 AND team_id=? AND club_ecole=0";
+	
 	private DAOFactory daoFactory;
 
 	PlayersDaoImpl(DAOFactory daoFactory) {
@@ -198,7 +230,6 @@ public class PlayersDaoImpl implements PlayersDao {
 		List<Long> take_proj = new ArrayList<Long>();
 		List<Long> salaire_draft = new ArrayList<Long>();
 		List<Long> contrat = new ArrayList<Long>();
-		List<Long> acquire_years = new ArrayList<Long>();
 		List<Long> club_ecole = new ArrayList<Long>();
 		List<String> years_1 = new ArrayList<String>();
 		List<String> years_2 = new ArrayList<String>();
@@ -270,9 +301,6 @@ public class PlayersDaoImpl implements PlayersDao {
 				int m_contrat = rs.getInt("contrat");
 				contrat.add(Long.valueOf(m_contrat));
 
-				int m_acquire_years = rs.getInt("acquire_years");
-				acquire_years.add(Long.valueOf(m_acquire_years));
-
 				int m_club_ecole = rs.getInt("club_ecole");
 				club_ecole.add(Long.valueOf(m_club_ecole));
 
@@ -318,7 +346,6 @@ public class PlayersDaoImpl implements PlayersDao {
 				mBeanA.setCan_be_rookie(can_be_rookie);
 				mBeanA.setClub_ecole(club_ecole);
 				mBeanA.setContrat(contrat);
-				mBeanA.setAcquire_years(acquire_years);
 				mBeanA.setNom(nom);
 				mBeanA.setPj(pj);
 				mBeanA.setPoolTeamId(datastoreId);
@@ -352,7 +379,6 @@ public class PlayersDaoImpl implements PlayersDao {
 				mBeanD.setCan_be_rookie(can_be_rookie);
 				mBeanD.setClub_ecole(club_ecole);
 				mBeanD.setContrat(contrat);
-				mBeanD.setAcquire_years(acquire_years);
 				mBeanD.setNom(nom);
 				mBeanD.setPj(pj);
 				mBeanD.setPoolTeamId(datastoreId);
@@ -388,14 +414,12 @@ public class PlayersDaoImpl implements PlayersDao {
 				mBeanG.setCan_be_rookie(can_be_rookie);
 				mBeanG.setClub_ecole(club_ecole);
 				mBeanG.setContrat(contrat);
-				mBeanG.setAcquire_years(acquire_years);
 				mBeanG.setNom(nom);
 				mBeanG.setPj(pj);
 				mBeanG.setPoolTeamId(datastoreId);
 				mBeanG.setPosition(position);
 				mBeanG.setProjection(projection);
 				mBeanG.setPts(pts);
-				mBeanG.setAcquire_years(acquire_years);
 				mBeanG.setSalaire_draft(salaire_draft);
 				mBeanG.setTeam_id(team_id);
 				mBeanG.setTeamOfPlayer(teamOfPlayer);
@@ -428,10 +452,8 @@ public class PlayersDaoImpl implements PlayersDao {
 			mBeanR.setCan_be_rookie(can_be_rookie);
 			mBeanR.setClub_ecole(club_ecole);
 			mBeanR.setContrat(contrat);
-			mBeanR.setAcquire_years(acquire_years);
 			mBeanR.setNom(nom);
 			mBeanR.setPj(pj);
-			mBeanR.setAcquire_years(acquire_years);
 			mBeanR.setPoolTeamId(datastoreId);
 			mBeanR.setPosition(position);
 			mBeanR.setProjection(projection);
@@ -1926,6 +1948,438 @@ public class PlayersDaoImpl implements PlayersDao {
 			fermeturesSilencieuses(rs,preparedStatement, connexion);
 		}
 		return position;
+	}
+
+	@Override
+	public void insertionDansArchives(HttpServletRequest req) {
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		String poolID = mBeanPool.getPoolID();
+		
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, ARCHIVE_PLAYERS_LAST_YEAR, false, Integer.parseInt(poolID), Integer.parseInt(poolID));
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+	}
+
+	@Override
+	public void dropPlayersJaAndX(String poolID) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_REMOVE_JA_X, false, Integer.parseInt(poolID));
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+	}
+
+	@Override
+	public void updateProjection(String poolID) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PROJECTION, false, Integer.parseInt(poolID));
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PROJECTION_2, false, Integer.parseInt(poolID));
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PROJECTION_3, false, Integer.parseInt(poolID));
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PROJECTION_4, false, Integer.parseInt(poolID));
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+	}
+
+	@Override
+	public void setCanBeRookie(String poolID) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, RESET_CAN_BE_ROOKIE, false, Integer.parseInt(poolID));
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, SET_CAN_BE_ROOKIE, false, Integer.parseInt(poolID));
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+	}
+
+	@Override
+	public void setTakeProj(String poolID) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, SET_TAKE_PROJ_0, false, Integer.parseInt(poolID));
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, SET_TAKE_PROJ, false, Integer.parseInt(poolID));
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+	}
+
+	@Override
+	public void migratePtsToLastYear(String poolID) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, MIGRATE_PTS_FOR_YEARS_AGO_1, false, Integer.parseInt(poolID));
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, MIGRATE_PTS_FOR_YEARS_AGO_2, false, Integer.parseInt(poolID));
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+	}
+
+	@Override
+	public void moveYearsToYearsContract(String poolID) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, MOVE_YEARS_TO_YEARS, false, Integer.parseInt(poolID));
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_YEARS_TO_YEARS, false, Integer.parseInt(poolID));
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+		
+	}
+
+	@Override
+	public void setSalaireDraft(String poolID) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, SET_SALAIRE_ATTAQUANT, false, Integer.parseInt(poolID), Integer.parseInt(poolID));
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+		
+
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, SET_SALAIRE_DEFENSEUR, false, Integer.parseInt(poolID), Integer.parseInt(poolID));
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+	
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, SET_SALAIRE_GARDIEN, false, Integer.parseInt(poolID), Integer.parseInt(poolID));
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+		
+
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, SET_SALAIRE_ATTAQUANT2, false, Integer.parseInt(poolID), Integer.parseInt(poolID));
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+	
+
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, SET_SALAIRE_DEFENSEUR2, false, Integer.parseInt(poolID), Integer.parseInt(poolID));
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+		
+
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, SET_SALAIRE_GARDIEN2, false, Integer.parseInt(poolID), Integer.parseInt(poolID));
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+	}
+
+	@Override
+	public int getTotalSalaireNow(String poolID, int i) {
+		
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs;
+		int result = 0;
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, GET_TOTAL_SALAIRE_NOW, false, Integer.parseInt(poolID), Integer.parseInt(poolID));
+		    rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+
+				result = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		return result;
+		
+
+	}
+
+	@Override
+	public int getNbAttaquant(String poolID, int i) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs;
+		int result = 0;
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, GET_NB_ATTAQUANT, false, Integer.parseInt(poolID), Integer.parseInt(poolID));
+		    rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+
+				result = rs.getInt(1);
+			}
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		return result;
+	}
+
+	@Override
+	public int getNbDefenseur(String poolID, int i) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs;
+		int result = 0;
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, GET_NB_DEFENSEUR, false, Integer.parseInt(poolID), Integer.parseInt(poolID));
+		    rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+
+				result = rs.getInt(1);
+			}
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		return result;
+	}
+
+	@Override
+	public int getNbGardien(String poolID, int i) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs;
+		int result = 0;
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, GET_NB_GARDIEN, false, Integer.parseInt(poolID), Integer.parseInt(poolID));
+		    rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+
+				result = rs.getInt(1);
+			}
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		return result;
+	}
+
+	@Override
+	public int getNbRookie(String poolID, int i) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs;
+		int result = 0;
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, GET_NB_ROOKIE, false, Integer.parseInt(poolID), Integer.parseInt(poolID));
+		    rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+
+				result = rs.getInt(1);
+			}
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		return result;
+	}
+
+	@Override
+	public int getNbContrat(String poolID, int i) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs;
+		int result = 0;
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, GET_NB_CONTRAT, false, Integer.parseInt(poolID), Integer.parseInt(poolID));
+		    rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+
+				result = rs.getInt(1);
+			}
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		return result;
 	}
 
 }

@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -18,6 +20,7 @@ import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.pedagogiksolution.datastorebeans.Classement;
+import com.pedagogiksolution.datastorebeans.Pool;
 
 public class ClassementDaoImpl implements ClassementDao {
 
@@ -33,6 +36,8 @@ public class ClassementDaoImpl implements ClassementDao {
     private static final String GET_NEXT_TEAM_PTS = "SELECT * FROM classement_? ORDER BY points DESC LIMIT ?";
     private static final String UPDATE_DAILY_MOUVEMENT = "UPDATE classement_? SET mouvement=? WHERE team_id=?";
     private static final String UPDATE_STATS_AFTER_TRADE = "UPDATE classement_? SET pj=?,but=?,passe=?,points=?,moyenne=points/pj WHERE team_id=?";
+	private static final String ARCHIVE_CLASSEMENT_LAST_YEAR = "INSERT INTO classement_archive_? (`equipe`,`pj`,`but`,`passe`,`points`,`hier`,`semaine`,`mois`,`moyenne`,`difference`,`team_id`,`pool_id`,`year_of_the_standing`) SELECT equipe,pj,but,passe,points,hier,semaine,mois,moyenne,difference,team_id,pool_id, year_of_the_standing FROM classement_?";
+	private static final String RESET_CLASSEMENT_FOR_NEW_YEARS = "UPDATE classement_? SET pj=0,but=0,passe=0,points=0,hier=0,semaine=0,mois=0,moyenne=0,difference=0,year_of_the_standing=?,mouvement=0";
 
     private DAOFactory daoFactory;
 
@@ -260,6 +265,7 @@ public class ClassementDaoImpl implements ClassementDao {
 		if (rs.next()) {
 		    teamId = rs.getInt("team_id");
 		}
+		preparedStatement.close();
 		preparedStatement = initialisationRequetePreparee(connexion, UPDATE_DIFFERENCE, false, poolId, difference, teamId);
 		preparedStatement.execute();
 
@@ -411,5 +417,47 @@ public class ClassementDaoImpl implements ClassementDao {
 	}
 	
     }
+
+	@Override
+	public void insertionDansArchives(HttpServletRequest req) {
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		String poolID = mBeanPool.getPoolID();
+		
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, ARCHIVE_CLASSEMENT_LAST_YEAR, false, Integer.parseInt(poolID), Integer.parseInt(poolID));
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+		
+		
+	}
+
+	@Override
+	public void resetClassement(String poolID,String years) {
+		
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, RESET_CLASSEMENT_FOR_NEW_YEARS, false, Integer.parseInt(poolID),years);
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+	}
 
 }

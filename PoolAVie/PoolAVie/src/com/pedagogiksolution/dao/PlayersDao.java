@@ -60,6 +60,34 @@ public interface PlayersDao {
 
 	String putPlayersInClubEcole(int playersId, String poolID);
 
+	void insertionDansArchives(HttpServletRequest req);
+
+	void dropPlayersJaAndX(String poolID);
+
+	void updateProjection(String poolID);
+
+	void setCanBeRookie(String poolID);
+
+	void setTakeProj(String poolID);
+
+	void migratePtsToLastYear(String poolID);
+
+	void moveYearsToYearsContract(String poolID);
+
+	void setSalaireDraft(String poolID);
+
+	int getTotalSalaireNow(String poolID, int i);
+
+	int getNbAttaquant(String poolID, int i);
+
+	int getNbDefenseur(String poolID, int i);
+
+	int getNbGardien(String poolID, int i);
+
+	int getNbRookie(String poolID, int i);
+
+	int getNbContrat(String poolID, int i);
+
 
    
 

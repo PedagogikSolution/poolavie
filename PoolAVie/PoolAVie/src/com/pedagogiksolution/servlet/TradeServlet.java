@@ -91,7 +91,7 @@ public class TradeServlet extends HttpServlet {
 	    DraftPlayersModel mModelDraft = new DraftPlayersModel();
 	    mModelDraft.putDatastoreIntoBean(mBeanPool, req);
 	}
-	if (cycleAnnuel == 6) {
+	
 	    LoginModel mModel = new LoginModel(req);
 	    mModel.createSessionEquipeBean();
 	    mModel.createSessionAttaquantBean();
@@ -100,7 +100,7 @@ public class TradeServlet extends HttpServlet {
 	    mModel.createSessionRecrueBean();
 	    mModel.createSessionDraftPickBean();
 
-	}
+	
 
 	int fromId;
 	String fromID = req.getParameter("from");
@@ -177,7 +177,44 @@ public class TradeServlet extends HttpServlet {
 		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 
 		break;
+		
+	    case 7:
+
+	    	// pas de trade possible, on envoie sur trade center sans
+			// r�cup�rer les offres
+			req.setAttribute("messageTrade", "Il n'y a pas de trade possible � cet p�riode du pool");
+			req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
+
+			break;
+			
+	    case 8:
+
+	    	// pas de trade possible, on envoie sur trade center sans
+			// r�cup�rer les offres
+			req.setAttribute("messageTrade", "Il n'y a pas de trade possible � cet p�riode du pool");
+			req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
+
+			break;
+			
+	    case 9:
+
+	    	// pas de trade possible, on envoie sur trade center sans
+			// r�cup�rer les offres
+			req.setAttribute("messageTrade", "Il n'y a pas de trade possible � cet p�riode du pool");
+			req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
+
+
+	    case 10:
+
+	    	// pas de trade possible, on envoie sur trade center sans
+			// r�cup�rer les offres
+			req.setAttribute("messageTrade", "Il n'y a pas de trade possible � cet p�riode du pool");
+			req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
+
+			break;
 	    }
+	    
+	    
 
 	    break;
 

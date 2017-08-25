@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.pedagogiksolution.beans.TradeBeanTemp;
 import com.pedagogiksolution.beans.TradeBeans;
 import com.pedagogiksolution.datastorebeans.Pool;
@@ -25,7 +27,9 @@ public class TradeMadeDaoImpl implements TradeMadeDao {
     private static final String GET_TRADE_MADE_BY_ME = "SELECT * FROM trade_made? WHERE team_1 =? OR team_2 =? ORDER BY date_heure";
     private static final String GET_TRADE_MADE_BY_ALL = "SELECT * FROM trade_made? ORDER BY date_heure";
     private static final String SHOW_TRADE_Y = "SELECT * FROM trade_made? WHERE _id=?";
-    private DAOFactory daoFactory;
+	private static final String ARCHIVE_TRADE_LAST_YEAR = "INSERT INTO trade_made_archive_? (team_1,team_2,t1j1,t1j2,t1j3,t1j4,t1j5,t1j6,t1j7,t1p1,t1p2,t1p3,t1_cash,t2j1,t2j2,t2j3,t2j4,t2j5,t2j6,t2j7,t2p1,t2p2,t2p3,t2_cash,date_heure,periode_echange,annee,message) SELECT team_1,team_2,t1j1,t1j2,t1j3,t1j4,t1j5,t1j6,t1j7,t1p1,t1p2,t1p3,t1_cash,t2j1,t2j2,t2j3,t2j4,t2j5,t2j6,t2j7,t2p1,t2p2,t2p3,t2_cash,date_heure,periode_echange,annee,message FROM trade_made?";
+	private static final String TRUNCATE_FOR_NEW_YEARS = "TRUNCATE trade_made?";
+	private DAOFactory daoFactory;
 
     TradeMadeDaoImpl(DAOFactory daoFactory) {
 	this.daoFactory = daoFactory;
@@ -659,7 +663,7 @@ public class TradeMadeDaoImpl implements TradeMadeDao {
 	mBean.setTeamThatTradeName(nom1);
 	mBean.setTeamTradeToName(nom2);
 	
-	// ajout du total de l'argent donné
+	// ajout du total de l'argent donnï¿½
 			int budgetMakingOffer = (total_salaire_team_making_offer - argentOfferTeamThatTrade)-(total_salaire_team_receiving_offer - argentOfferTeamThatReceivedOffer);
 			int budgetReceivingOffer = (total_salaire_team_receiving_offer - argentOfferTeamThatReceivedOffer)-(total_salaire_team_making_offer - argentOfferTeamThatTrade); 
 			mBean.setBudgetMakingOffer(budgetMakingOffer);
@@ -667,5 +671,44 @@ public class TradeMadeDaoImpl implements TradeMadeDao {
 
 	return mBean;
     }
+
+	@Override
+	public void insertionDansArchives(HttpServletRequest req) {
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		String poolID = mBeanPool.getPoolID();
+		
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, ARCHIVE_TRADE_LAST_YEAR, false, Integer.parseInt(poolID), Integer.parseInt(poolID));
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+	}
+
+	@Override
+	public void resetTradeMade(String poolID) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, TRUNCATE_FOR_NEW_YEARS, false, Integer.parseInt(poolID));
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+	}
 
 }

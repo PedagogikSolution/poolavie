@@ -7,8 +7,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pedagogiksolution.cron.model.PlayersCronModel;
+import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.dao.DAOFactory;
+import com.pedagogiksolution.dao.DraftDao;
 import com.pedagogiksolution.dao.PlayersDao;
+import com.pedagogiksolution.dao.TradeMadeDao;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.AdminModel;
 import com.pedagogiksolution.model.DraftPlayersModel;
@@ -21,11 +25,17 @@ public class AdminPoolServlet extends HttpServlet {
 
 	public static final String CONF_DAO_FACTORY = "daofactory";
 	private PlayersDao playersDao;
+	private DraftDao draftDao;
+	private TradeMadeDao tradeMadeDao;
+	private ClassementDao classementDao;
 
 	@Override
 	public void init() throws ServletException {
 		/* R�cup�ration d'une instance de notre nos DAO */
 		this.playersDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getPlayersDao();
+		this.draftDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftDao();
+		this.tradeMadeDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getTradeMadeDao();
+		this.classementDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getClassementDao();
 	}
 
 	@Override
@@ -98,51 +108,81 @@ public class AdminPoolServlet extends HttpServlet {
 			// on change le cycle du pool a 7
 			mAdminModel = new AdminModel();
 
+			mAdminModel.updateAgeForRookie(req, playersDao);
+
+			mAdminModel.archivageFinSaison(req, classementDao, playersDao, tradeMadeDao, draftDao);
+
 			mAdminModel.changeCycleAnnuel(req, 7);
 
-			mAdminModel.writeNewsAndEmailForWinner(req);
+			// TODO mAdminModel.writeNewsAndEmailForWinner(req);
 
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 			break;
-		case 2: // on change le cycle a 8
+		case 2:
+
+			// on change le cycle a 8
 			mAdminModel = new AdminModel();
 
 			mAdminModel.changeCycleAnnuel(req, 8);
 
-			mAdminModel.updateAgeForRookie(req,playersDao);
-
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 			break;
 		case 3:
+			// on lance la série de modification pour le reset de l'année
+			mAdminModel = new AdminModel();
+
+			mAdminModel.changeCycleAnnuel(req, 9);
+			mAdminModel.updateAgeForRookie(req, playersDao);
+			mAdminModel.resetDatastorePoolEntity(req);
+			mAdminModel.dropJoueurJAETX(req, playersDao);
+
+			mAdminModel.resetFinAnneePlayers(req, playersDao);
+
+			mAdminModel.resetDatastoreEquipeEntity(req,playersDao);
+
+			mAdminModel.vidageEtResetTableBDD(req,classementDao, tradeMadeDao, draftDao);
+
+			Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+			String poolID = mBeanPool.getPoolID();
+			PlayersCronModel mModel = new PlayersCronModel(playersDao);
+			int numberOfTeam = mModel.getNumberOfTeamByPool(Integer.parseInt(poolID));
+
+			mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, "attaquant", 0, "3");
+			mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, "attaquant", 1, "6");
+
+			mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, "defenseur", 0, "4");
+			mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, "defenseur", 1, "6");
+
+			mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, "gardien", 0, "5");
+			mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, "gardien", 1, "6");
+
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 			break;
 		case 4:
+			// fin de rachat 2
+			mAdminModel = new AdminModel();
+			mAdminModel.changeCycleAnnuel(req, 10);
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 			break;
 		case 5:
+			// fin de période de trade
+			mAdminModel = new AdminModel();
+			mAdminModel.changeCycleAnnuel(req, 11);
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 			break;
 		case 6:
+			// fin de rachat 3
+			mAdminModel = new AdminModel();
+			mAdminModel.changeCycleAnnuel(req, 12);
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 			break;
 		case 7:
+			// fin de drop et promo rookie
+			mAdminModel = new AdminModel();
+			mAdminModel.changeCycleAnnuel(req, 2);
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 			break;
-		case 8:
-			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
-			break;
-		case 9:
-			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
-			break;
-		case 10:
-			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
-			break;
-		case 11:
-			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
-			break;
-		case 12:
-			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
-			break;
+
 		}
 
 	}

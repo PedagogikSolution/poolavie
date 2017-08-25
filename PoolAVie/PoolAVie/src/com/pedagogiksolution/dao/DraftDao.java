@@ -2,6 +2,8 @@ package com.pedagogiksolution.dao;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.pedagogiksolution.datastorebeans.DraftRound;
 import com.pedagogiksolution.datastorebeans.Pool;
 
@@ -13,6 +15,8 @@ public interface DraftDao {
     void populateFirstYearsDraft(int poolID, List<Integer> permutation, Pool mBeanPool) throws DAOException;
     DraftRound setDraftRoundOrder(int poolId)throws DAOException;
 	void persistPlayerPick(String nom, int currentPickId, int poolId);
+	void insertionDansArchives(HttpServletRequest req);
+	void resetDraft(String poolID, String years);
     
     
 
