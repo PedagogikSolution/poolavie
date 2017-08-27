@@ -41,7 +41,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String GET_PLAYERS_BY_POOL_ID_AND_POSITION = "SELECT * FROM players_? WHERE team_id=? AND position=? AND club_ecole=? ORDER BY pts DESC";
 	private static final String GET_PLAYERS_FOR_DRAFT = "SELECT * FROM players_?";
 	private static final String GET_PLAYERS_BY_POOL_ID_FOR_ROOKIE = "SELECT * FROM players_? WHERE team_id=? AND club_ecole=? ORDER BY pts DESC";
-	private static final String UPDATE_PLAYERS_AFTER_DRAFT_PICK = "UPDATE players_? SET team_id=?,contrat=?,acquire_years=?,club_ecole=?,years_1=?,years_2='JA',years_3='A',years_4='A',years_5='A' WHERE _id=?";
+	private static final String UPDATE_PLAYERS_AFTER_DRAFT_PICK = "UPDATE players_? SET team_id=?,contrat=?,club_ecole=?,years_1=?,years_2='JA',years_3='A',years_4='A',years_5='A' WHERE _id=?";
 	private static final String GET_PLAYERS_FOR_SIGNATURE_AFTER_DRAFT = "SELECT * FROM players_? WHERE contrat=1 AND club_ecole=0 AND team_id=? AND years_2='JA'";
 	private static final String UPDATE_PLAYERS_SIGNATURE_AFTER_DRAFT = "UPDATE players_? SET years_1=?,years_2=?,years_3=?,years_4=?,years_5=? WHERE _id=?";
 	private static final String GET_FOWARD_PJ_TOP_X = "SELECT SUM(pj) AS sommePts FROM (SELECT pj FROM players_? WHERE position='attaquant' AND team_id=? AND club_ecole=0 ORDER BY pts DESC LIMIT ?) AS subquery";
@@ -183,8 +183,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	}
 
 	@Override
-	public void persistPlayerPick(int playerId, int salaireId, int poolId, int teamId, int clubEcoleId,
-			int acquire_years) {
+	public void persistPlayerPick(int playerId, int salaireId, int poolId, int teamId, int clubEcoleId) {
 
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
@@ -193,7 +192,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		try {
 			connexion = daoFactory.getConnection();
 			preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_AFTER_DRAFT_PICK, false, poolId,
-					teamId, contrat, acquire_years, clubEcoleId, salaireId, playerId);
+					teamId, contrat, clubEcoleId, salaireId, playerId);
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -505,7 +504,6 @@ public class PlayersDaoImpl implements PlayersDao {
 		int take_proj = 0;
 		int salaire_draft = 0;
 		int contrat = 0;
-		int acquire_years = 0;
 		int club_ecole = 0;
 		String years_1 = null;
 		String years_2 = null;
@@ -540,7 +538,6 @@ public class PlayersDaoImpl implements PlayersDao {
 				take_proj = rs.getInt("take_proj");
 				salaire_draft = rs.getInt("salaire_draft");
 				contrat = rs.getInt("contrat");
-				acquire_years = rs.getInt("acquire_years");
 				club_ecole = rs.getInt("club_ecole");
 				years_1 = rs.getString("years_1");
 				years_2 = rs.getString("years_2");
@@ -560,7 +557,6 @@ public class PlayersDaoImpl implements PlayersDao {
 				mBean.setCan_be_rookie(can_be_rookie);
 				mBean.setClub_ecole(club_ecole);
 				mBean.setContrat(contrat);
-				mBean.setAcquire_years(acquire_years);
 				mBean.setNom(nom);
 				mBean.setPj(pj);
 				mBean.setPosition(position);
@@ -627,13 +623,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		List<Integer> take_proj = new ArrayList<Integer>();
 		List<Integer> salaire_draft = new ArrayList<Integer>();
 		List<Integer> contrat = new ArrayList<Integer>();
-		List<Integer> acquire_years = new ArrayList<Integer>();
-		List<Integer> salaire_contrat = new ArrayList<Integer>();
-		List<Integer> contrat_cours = new ArrayList<Integer>();
-		List<Integer> contrat_max_years = new ArrayList<Integer>();
-		List<Integer> type_contrat = new ArrayList<Integer>();
 		List<Integer> club_ecole = new ArrayList<Integer>();
-		List<Date> date_calcul = new ArrayList<Date>();
 		List<String> years_1 = new ArrayList<String>();
 		List<String> years_2 = new ArrayList<String>();
 		List<String> years_3 = new ArrayList<String>();
@@ -700,26 +690,12 @@ public class PlayersDaoImpl implements PlayersDao {
 				int m_contrat = rs.getInt("contrat");
 				contrat.add(m_contrat);
 
-				int m_acquire_years = rs.getInt("acquire_years");
-				acquire_years.add(m_acquire_years);
-
-				int m_salaire_contrat = rs.getInt("salaire_contrat");
-				salaire_contrat.add(m_salaire_contrat);
-
-				int m_contrat_cours = rs.getInt("contrat_cours");
-				contrat_cours.add(m_contrat_cours);
-
-				int m_contrat_max_years = rs.getInt("contrat_max_years");
-				contrat_max_years.add(m_contrat_max_years);
-
-				int m_type_contrat = rs.getInt("type_contrat");
-				type_contrat.add(m_type_contrat);
+			
+			
 
 				int m_club_ecole = rs.getInt("club_ecole");
 				club_ecole.add(m_club_ecole);
 
-				Date m_date_calcul = rs.getDate("date_calcul");
-				date_calcul.add(m_date_calcul);
 
 				String m_years_1 = rs.getString("years_1");
 				years_1.add(m_years_1);
@@ -760,8 +736,7 @@ public class PlayersDaoImpl implements PlayersDao {
 			mBeanPlayers.setCan_be_rookie(can_be_rookie);
 			mBeanPlayers.setClub_ecole(club_ecole);
 			mBeanPlayers.setContrat(contrat);
-			mBeanPlayers.setContrat_cours(contrat_cours);
-			mBeanPlayers.setAcquire_years(acquire_years);
+			
 			mBeanPlayers.setHier(hier);
 			mBeanPlayers.setMois(mois);
 			mBeanPlayers.setNom(nom);
@@ -769,15 +744,14 @@ public class PlayersDaoImpl implements PlayersDao {
 			mBeanPlayers.setPosition(position);
 			mBeanPlayers.setProjection(projection);
 			mBeanPlayers.setPts(pts);
-			mBeanPlayers.setAcquire_years(acquire_years);
-			mBeanPlayers.setSalaire_contrat(salaire_contrat);
+			
 			mBeanPlayers.setSalaire_draft(salaire_draft);
 			mBeanPlayers.setSemaine(semaine);
 			mBeanPlayers.setTake_proj(take_proj);
 			mBeanPlayers.setTeam_id(team_id);
 			mBeanPlayers.setTeam_was_update(team_was_update);
 			mBeanPlayers.setTeamOfPlayer(teamOfPlayer);
-			mBeanPlayers.setType_contrat(type_contrat);
+			
 			mBeanPlayers.setYears_1(years_1);
 			mBeanPlayers.setYears_2(years_2);
 			mBeanPlayers.setYears_3(years_3);
@@ -835,8 +809,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	}
 
 	@Override
-	public void persistPlayerPickRookie(int playersId, int salaireId, int poolId, int teamId, int clubEcoleId,
-			int acquireYearsId) throws DAOException {
+	public void persistPlayerPickRookie(int playersId, int salaireId, int poolId, int teamId, int clubEcoleId) throws DAOException {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		int contrat = 1;
@@ -844,7 +817,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		try {
 			connexion = daoFactory.getConnection();
 			preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_AFTER_DRAFT_PICK, false, poolId,
-					teamId, contrat, acquireYearsId, clubEcoleId, salaireId, playersId);
+					teamId, contrat, clubEcoleId, salaireId, playersId);
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -1461,13 +1434,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		List<Integer> take_proj = new ArrayList<Integer>();
 		List<Integer> salaire_draft = new ArrayList<Integer>();
 		List<Integer> contrat = new ArrayList<Integer>();
-		List<Integer> acquire_years = new ArrayList<Integer>();
-		List<Integer> salaire_contrat = new ArrayList<Integer>();
-		List<Integer> contrat_cours = new ArrayList<Integer>();
-		List<Integer> contrat_max_years = new ArrayList<Integer>();
-		List<Integer> type_contrat = new ArrayList<Integer>();
 		List<Integer> club_ecole = new ArrayList<Integer>();
-		List<Date> date_calcul = new ArrayList<Date>();
 		List<String> years_1 = new ArrayList<String>();
 		List<String> years_2 = new ArrayList<String>();
 		List<String> years_3 = new ArrayList<String>();
@@ -1534,27 +1501,12 @@ public class PlayersDaoImpl implements PlayersDao {
 				int m_contrat = rs.getInt("contrat");
 				contrat.add(m_contrat);
 
-				int m_acquire_years = rs.getInt("acquire_years");
-				acquire_years.add(m_acquire_years);
-
-				int m_salaire_contrat = rs.getInt("salaire_contrat");
-				salaire_contrat.add(m_salaire_contrat);
-
-				int m_contrat_cours = rs.getInt("contrat_cours");
-				contrat_cours.add(m_contrat_cours);
-
-				int m_contrat_max_years = rs.getInt("contrat_max_years");
-				contrat_max_years.add(m_contrat_max_years);
-
-				int m_type_contrat = rs.getInt("type_contrat");
-				type_contrat.add(m_type_contrat);
+				
 
 				int m_club_ecole = rs.getInt("club_ecole");
 				club_ecole.add(m_club_ecole);
 
-				Date m_date_calcul = rs.getDate("date_calcul");
-				date_calcul.add(m_date_calcul);
-
+			
 				String m_years_1 = rs.getString("years_1");
 				years_1.add(m_years_1);
 
@@ -1594,8 +1546,6 @@ public class PlayersDaoImpl implements PlayersDao {
 			mBeanPlayers.setCan_be_rookie(can_be_rookie);
 			mBeanPlayers.setClub_ecole(club_ecole);
 			mBeanPlayers.setContrat(contrat);
-			mBeanPlayers.setContrat_cours(contrat_cours);
-			mBeanPlayers.setAcquire_years(acquire_years);
 			mBeanPlayers.setHier(hier);
 			mBeanPlayers.setMois(mois);
 			mBeanPlayers.setNom(nom);
@@ -1603,15 +1553,12 @@ public class PlayersDaoImpl implements PlayersDao {
 			mBeanPlayers.setPosition(position);
 			mBeanPlayers.setProjection(projection);
 			mBeanPlayers.setPts(pts);
-			mBeanPlayers.setAcquire_years(acquire_years);
-			mBeanPlayers.setSalaire_contrat(salaire_contrat);
 			mBeanPlayers.setSalaire_draft(salaire_draft);
 			mBeanPlayers.setSemaine(semaine);
 			mBeanPlayers.setTake_proj(take_proj);
 			mBeanPlayers.setTeam_id(team_id);
 			mBeanPlayers.setTeam_was_update(team_was_update);
 			mBeanPlayers.setTeamOfPlayer(teamOfPlayer);
-			mBeanPlayers.setType_contrat(type_contrat);
 			mBeanPlayers.setYears_1(years_1);
 			mBeanPlayers.setYears_2(years_2);
 			mBeanPlayers.setYears_3(years_3);

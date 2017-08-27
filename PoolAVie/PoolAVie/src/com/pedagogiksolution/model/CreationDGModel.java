@@ -243,6 +243,7 @@ public class CreationDGModel {
 		mBeanUser.setTeamName(nomDuTeam);
 		mBeanUser.setFirstConnexionFinish(1);
 		mBeanPool.setNumTeamCreate(numTeamCreate);
+		mBeanUser.setUrlTeamLogo(urlLogoTeam);
 
 		if (numTeamCreate == numberTeamForPool) {
 			mBeanPool.setCycleAnnuel(1);

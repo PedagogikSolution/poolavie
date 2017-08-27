@@ -51,15 +51,13 @@ public class TaskQueueModel {
 	int teamId = Integer.parseInt(teamID);
 	String clubEcole = req.getParameter("club_ecole");
 	int clubEcoleId = Integer.parseInt(clubEcole);
-	String acquireYearsID = req.getParameter("acquireYearsID");
-	int acquireYearsId = Integer.parseInt(acquireYearsID);
 	String isRookie = req.getParameter("isRookie");
 	int isRookieId = Integer.parseInt(isRookie);
 	
 	if(isRookieId==0){
-	playersDao.persistPlayerPick(playersId, salaireId, poolId, teamId, clubEcoleId, acquireYearsId);
+	playersDao.persistPlayerPick(playersId, salaireId, poolId, teamId, clubEcoleId);
 	} else {
-	playersDao.persistPlayerPickRookie(playersId, salaireId, poolId, teamId, clubEcoleId, acquireYearsId);   
+	playersDao.persistPlayerPickRookie(playersId, salaireId, poolId, teamId, clubEcoleId);   
 	}
 
     }

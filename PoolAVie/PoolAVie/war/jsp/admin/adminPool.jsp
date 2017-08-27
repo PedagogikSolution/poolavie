@@ -68,7 +68,7 @@
 					<p>Signature apres draft</p>
 					<form action="/AdminPool" method="post">
 					<input type="hidden" name="adminButton" value="9">
-					<input type="submit" value="FIN DE RACHAT DÉBUT D'ANNÉE">
+					<input type="submit" value="FIN DE SIGNATURE DÉBUT D'ANNÉE">
 					
 					</form>
 

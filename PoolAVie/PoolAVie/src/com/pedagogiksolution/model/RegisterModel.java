@@ -75,13 +75,13 @@ public class RegisterModel {
 	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
 	    mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_ERREUR_PARAM_NULL);
 	    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-	    return true;
+	    return false;
 	}
 
 	// TODO voir TRELLO pour validation REGEX
 
 	// si pas de validation n�gative, on retourne false et on continu le processus de registration
-	return false;
+	return true;
 
     }
 

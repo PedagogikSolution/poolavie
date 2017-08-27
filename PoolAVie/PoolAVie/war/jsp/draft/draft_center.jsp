@@ -340,16 +340,16 @@
 						</tr>
 
 						<tr class="w3-red">
-							<td>${DraftRound.draft_pick_no[currentPick-1]}</td>
-							<td>${DraftRound.ronde[currentPick-1]}</td>
-							<td>${DraftRound.equipe[currentPick-1]}</td>
-							<td>${DraftRound.player_drafted[currentPick-1]}</td>
-							<td>${DraftRound.team_count[currentPick-1]}</td>
+							<td>${DraftRound.draft_pick_no[currentPick]}</td>
+							<td>${DraftRound.ronde[currentPick]}</td>
+							<td>${DraftRound.equipe[currentPick]}</td>
+							<td>${DraftRound.player_drafted[currentPick]}</td>
+							<td>${DraftRound.team_count[currentPick]}</td>
 
 						</tr>
 
 
-						<c:forEach var="i" begin="${DraftBean.currentPick}" end="${(DraftBean.currentPick)+(DraftBean.numberPickRestant)-1}">
+						<c:forEach var="i" begin="${DraftBean.currentPick+1}" end="${(DraftBean.currentPick-1)+(DraftBean.numberPickRestant)}">
 
 							<tr>
 								<td>${DraftRound.draft_pick_no[i]}</td>

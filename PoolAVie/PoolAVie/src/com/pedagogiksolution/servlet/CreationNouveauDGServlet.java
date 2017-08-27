@@ -33,7 +33,7 @@ public class CreationNouveauDGServlet extends HttpServlet {
     private DraftPickDao draftPickDao;
     @Override
     public void init() throws ServletException {
-	/* Récupération d'une instance de notre DAO Utilisateur */
+	/* Rï¿½cupï¿½ration d'une instance de notre DAO Utilisateur */
 	this.classementDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getClassementDao();
 	this.draftPickDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftPickDao();
     }
@@ -88,7 +88,7 @@ public class CreationNouveauDGServlet extends HttpServlet {
 	int poolId = Integer.parseInt(poolID);
 	String urlLogoTeam = req.getParameter("logoUrlTeam");
 	
-	// Instantiation de la classe métier pour le processus de registration
+	// Instantiation de la classe mï¿½tier pour le processus de registration
 	RegisterModel mModel = new RegisterModel();
 
 	// validation des parametres du formulaire
@@ -99,7 +99,7 @@ public class CreationNouveauDGServlet extends HttpServlet {
 	    return;
 	}
 
-	// on verifie si username existe dans le Datastore, si existe on verifie si password match, sinon on crée un
+	// on verifie si username existe dans le Datastore, si existe on verifie si password match, sinon on crï¿½e un
 // nouveau compte client admin
 
 	if (mModel.checkIfUsernameExist(nomUtilisateur, req)) {
@@ -108,22 +108,22 @@ public class CreationNouveauDGServlet extends HttpServlet {
 
 	} else {
 
-	    // on check si utilisateur exist deja, si oui et que le mot de passe match, on update,sinon on crée
+	    // on check si utilisateur exist deja, si oui et que le mot de passe match, on update,sinon on crï¿½e
 
 	    String validationCode = mModel.createDatastoreUserEntity(nomUtilisateur, motDePasse, courriel, teamId, 2, req);
 
-	    // étape 2 on ajoute les info dans les storage Pool et Utilisateur
+	    // ï¿½tape 2 on ajoute les info dans les storage Pool et Utilisateur
 	    CreationDGModel mModel2 = new CreationDGModel(classementDao);
 	    mModel2.storePoolAndUserInfo(nomDuTeam, poolId,urlLogoTeam, req);
 	    
 	    
 
-	    // si le code est retourné, c'est que tout à réussi, donc on envoie un courriel avec Code Validation à
+	    // si le code est retournï¿½, c'est que tout ï¿½ rï¿½ussi, donc on envoie un courriel avec Code Validation ï¿½
 // l'utilisateur
 	    if (validationCode != null) {
 
 		mModel.sendingValidationCode(nomUtilisateur, courriel, req);
-		// si succes du courriel, on envoie vers la page permettant a l'utilisateur d'entrée son code de
+		// si succes du courriel, on envoie vers la page permettant a l'utilisateur d'entrï¿½e son code de
 		// Validation et ainsi confirmer son abonnement
 		
 

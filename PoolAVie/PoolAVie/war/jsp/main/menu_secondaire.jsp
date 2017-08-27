@@ -15,7 +15,7 @@
 
 		<li id="menuSecTeam" class="w3-xlarge"><a href="/Equipes">TEAM</a></li>
 
-		<li id="menuSecRule" class="w3-xlarge"><a href="/Reglements">RÈGLEMENT</a></li>
+		<li id="menuSecRule" class="w3-xlarge"><a href="/Reglements">RÈGLEMENTS</a></li>
 
 		<li id="menuSecArchive" class="w3-xlarge"><a href="/Archives">ARCHIVES</a></li>
 
@@ -37,7 +37,7 @@
 
 		<li id="menuSecTeam" class="w3-xlarge"><a href="/Equipes">TEAM</a></li>
 
-		<li id="menuSecRule" class="w3-xlarge"><a href="/Reglements">RÈGLEMENT</a></li>
+		<li id="menuSecRule" class="w3-xlarge"><a href="/Reglements">RÈGLEMENTS</a></li>
 
 		<li id="menuSecArchive" class="w3-xlarge"><a href="/Archives">ARCHIVES</a></li>
 

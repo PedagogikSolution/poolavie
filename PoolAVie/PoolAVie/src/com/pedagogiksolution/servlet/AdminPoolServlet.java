@@ -182,6 +182,11 @@ public class AdminPoolServlet extends HttpServlet {
 			mAdminModel.changeCycleAnnuel(req, 2);
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 			break;
+		case 9 : 
+			mAdminModel = new AdminModel();
+			mAdminModel.changeCycleAnnuel(req, 5);
+			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
+			break;
 
 		}
 

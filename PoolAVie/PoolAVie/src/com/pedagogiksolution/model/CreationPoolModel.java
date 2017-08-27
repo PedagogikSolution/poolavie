@@ -337,7 +337,7 @@ public class CreationPoolModel {
 				msg.setContent(
 						"Bonjour, un de vos amis vous invite � participer � un pool de hockey sur la plateforme de www.poolavie.ca."
 								+ "\n\n Vous pouvez d�s maintenant aller cr�er les bases de votre �quipe en suivant le lien ci-bas."
-								+ "\n\n <a href='http://www.poolavie.com/CreationDirecteurGeneral?po=" + poolId + "&pl="
+								+ "\n\n <a href='http://www.poolavie.ca/CreationDirecteurGeneral?po=" + poolId + "&pl="
 								+ playerId + "&co=" + code + "&fo=1'>Cr�er mon �quipe</a>",
 						"text/html");
 				Transport.send(msg);

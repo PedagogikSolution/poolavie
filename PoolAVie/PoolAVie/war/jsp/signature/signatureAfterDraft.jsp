@@ -64,7 +64,6 @@
 					<th>Équipe</th>
 					<th>Position</th>
 					<th>Salaire</th>
-					<th>${Pool.thisYear}</th>
 					<th>${Pool.secondYear}</th>
 					<th>${Pool.thirdYear}</th>
 					<th>${Pool.fourthYear}</th>
@@ -85,9 +84,7 @@
 								<td>${NonSessionPlayers.teamOfPlayer[i]}</td>
 								<td>${NonSessionPlayers.position[i]}</td>
 								<td>${NonSessionPlayers.salaire_draft[i]}</td>
-								<td>
-									<input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="1" checked>
-								</td>
+								
 								<td>
 									<input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="2">
 								</td>

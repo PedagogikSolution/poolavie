@@ -316,12 +316,15 @@ public class DraftPlayersModel {
 
 		try {
 			Entity mEntity = datastore2.get(mKey2);
-			List<Long> currentPickerArray = (List<Long>) mEntity.getProperty("team_id");
-			Long currentPicker = currentPickerArray.get(currentPick2 - 1);
+			List<Long> currentPickerArray = new ArrayList<Long>();
+			
+			currentPickerArray = (List<Long>) mEntity.getProperty("team_id");
+			Long currentPicker = currentPickerArray.get(currentPick2);
 			int currentPicker2 = currentPicker.intValue();
 			mBeanDraft.setCurrentPicker(currentPicker2);
-
-			List<Long> draftPickNoArray = (List<Long>) mEntity.getProperty("draft_pick_no");
+			
+			List<Long> draftPickNoArray = new ArrayList<Long>();
+			draftPickNoArray = (List<Long>) mEntity.getProperty("draft_pick_no");
 			draftPickNo = draftPickNoArray.size();
 
 		} catch (EntityNotFoundException e) {
@@ -368,7 +371,7 @@ public class DraftPlayersModel {
 
 			@SuppressWarnings("unchecked")
 			List<Long> currentPickerArray = (List<Long>) mEntity.getProperty("team_id");
-			Long currentPicker = currentPickerArray.get(currentPick2 - 1);
+			Long currentPicker = currentPickerArray.get(currentPick2);
 			currentPicker2 = currentPicker.intValue();
 
 		} catch (EntityNotFoundException e) {
@@ -811,9 +814,18 @@ public class DraftPlayersModel {
 			try {
 				draftRoundEntity = datastore.get(draftRoundKey);
 
-				List<String> player_drafted = (List<String>) draftRoundEntity.getProperty("player_drafted");
-				player_drafted.set((currentPick - 1), nom);
+				DraftRound mBeanDraftRound = new DraftRound();
+				mBeanDraftRound = mBeanDraftRound.mapDraftRoundFromDatastore(draftRoundEntity, mBeanDraftRound);
+				
+				List<String> player_drafted = (List<String>)mBeanDraftRound.getPlayer_drafted();
+				
+				player_drafted.set((currentPick), nom);
+				
+				mBeanDraftRound.setPlayer_drafted(player_drafted);
+				
 				draftRoundEntity.setProperty("player_drafted", player_drafted);
+	
+				req.getSession().setAttribute("DraftRound", mBeanDraftRound);
 
 				datastore.put(txn, draftRoundEntity);
 
@@ -837,10 +849,7 @@ public class DraftPlayersModel {
 
 			}
 
-			DraftRound mBeanDraftRound = (DraftRound) req.getSession().getAttribute("DraftRound");
-			mBeanDraftRound = mapDraftRound(draftRoundEntity, mBeanDraftRound);
-
-			req.getSession().setAttribute("DraftRound", mBeanDraftRound);
+			
 
 			String clubEcole = "0";
 			int acquireYearsId = mBeanPool.getPoolYear();
@@ -1034,9 +1043,18 @@ public class DraftPlayersModel {
 			try {
 				draftRoundEntity = datastore.get(draftRoundKey);
 
-				List<String> player_drafted = (List<String>) draftRoundEntity.getProperty("player_drafted");
-				player_drafted.set((currentPick - 1), nom);
+				DraftRound mBeanDraftRound = new DraftRound();
+				mBeanDraftRound = mBeanDraftRound.mapDraftRoundFromDatastore(draftRoundEntity, mBeanDraftRound);
+				
+				List<String> player_drafted = (List<String>)mBeanDraftRound.getPlayer_drafted();
+				
+				player_drafted.set((currentPick), nom);
+				
+				mBeanDraftRound.setPlayer_drafted(player_drafted);
+				
 				draftRoundEntity.setProperty("player_drafted", player_drafted);
+	
+				req.getSession().setAttribute("DraftRound", mBeanDraftRound);
 
 				datastore.put(txn, draftRoundEntity);
 
@@ -1060,9 +1078,7 @@ public class DraftPlayersModel {
 
 			}
 
-			DraftRound mBeanDraftRound = (DraftRound) req.getSession().getAttribute("DraftRound");
-			mBeanDraftRound = mapDraftRound(draftRoundEntity, mBeanDraftRound);
-
+			
 			String clubEcole = "1";
 			int acquireYearsId = mBeanPool.getPoolYear();
 			String acquireYearsID = String.valueOf((acquireYearsId));
@@ -1099,7 +1115,7 @@ public class DraftPlayersModel {
 		try {
 			Entity mEntity = datastore.get(mKey);
 			Long currentPick2 = (Long) mEntity.getProperty("currentPick");
-			currentPick2 = currentPick2 - 1;
+			currentPick2 = currentPick2 + 1;
 			currentPick = currentPick2.toString();
 
 		} catch (EntityNotFoundException e) {
@@ -1284,13 +1300,7 @@ public class DraftPlayersModel {
 	 * ************************************************
 	 */
 
-	@SuppressWarnings("unchecked")
-	private DraftRound mapDraftRound(Entity entity, DraftRound mBean) {
-
-		mBean.setPlayer_drafted((List<String>) entity.getProperty("player_drafted"));
-
-		return mBean;
-	}
+	
 
 	private Entity getEntityEquipe(String poolID, String teamID) {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();

@@ -20,7 +20,7 @@ public interface PlayersDao {
 
     void cronJobPlayersAvailableForDraft(int poolId) throws DAOException;
 
-    void persistPlayerPick(int playerId, int salaireId, int poolId, int teamId, int clubEcoleId, int acquire_years) throws DAOException;
+    void persistPlayerPick(int playerId, int salaireId, int poolId, int teamId, int clubEcoleId) throws DAOException;
 
     void getPlayersForDatastoreFromPoolIdAndTeamNumber(String poolID, String counter, String string, int i) throws DAOException;
 
@@ -30,7 +30,7 @@ public interface PlayersDao {
 
     void signPlayerAfterDraft(int teamId, int poolId, String draft_player_id, String salaire, int numberOfYear) throws DAOException;
 
-    void persistPlayerPickRookie(int playersId, int salaireId, int poolId, int teamId, int clubEcoleId, int acquireYearsId)throws DAOException;
+    void persistPlayerPickRookie(int playersId, int salaireId, int poolId, int teamId, int clubEcoleId)throws DAOException;
 
     int getPj(int i, int poolId)throws DAOException;
     
