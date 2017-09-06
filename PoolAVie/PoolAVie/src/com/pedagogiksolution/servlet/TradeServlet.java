@@ -43,7 +43,7 @@ public class TradeServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-	/* R�cup�ration d'une instance de notre DAO Utilisateur */
+	
 	this.playersDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getPlayersDao();
 	this.draftPickDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftPickDao();
 	this.tradeOfferDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getTradeOfferDao();
@@ -117,23 +117,20 @@ public class TradeServlet extends HttpServlet {
 	    switch (cycleAnnuel) {
 
 	    case 0:
-		// pas de trade possible, on envoie sur trade center sans
-		// r�cup�rer les offres
-		req.setAttribute("messageTrade", "Il n'y a pas de trade possible � cet p�riode du pool");
-		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
+	    	// pas de trade possible, on envoie sur trade center sans
+	    	req.setAttribute("messageTrade", "Il n'y a pas de trade possible à cet période du pool");
+			req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 		break;
 
 	    case 1:
-		// pas de trade possible, on envoie sur trade center sans
-		// r�cup�rer les offres
-		req.setAttribute("messageTrade", "Il n'y a pas de trade possible � cet p�riode du pool");
-		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
+	    	// pas de trade possible, on envoie sur trade center sans
+	    	req.setAttribute("messageTrade", "Il n'y a pas de trade possible à cet période du pool");
+			req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 		break;
 	    case 2:
-		// pas de trade possible, on envoie sur trade center sans
-		// r�cup�rer les offres
-		req.setAttribute("messageTrade", "Il n'y a pas de trade possible � cet p�riode du pool");
-		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
+	    	// pas de trade possible, on envoie sur trade center sans
+	    	req.setAttribute("messageTrade", "Il n'y a pas de trade possible à cet période du pool");
+			req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 		break;
 	    case 3:
 
@@ -181,8 +178,7 @@ public class TradeServlet extends HttpServlet {
 	    case 7:
 
 	    	// pas de trade possible, on envoie sur trade center sans
-			// r�cup�rer les offres
-			req.setAttribute("messageTrade", "Il n'y a pas de trade possible � cet p�riode du pool");
+	    	req.setAttribute("messageTrade", "Il n'y a pas de trade possible à cet période du pool");
 			req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 
 			break;
@@ -190,8 +186,7 @@ public class TradeServlet extends HttpServlet {
 	    case 8:
 
 	    	// pas de trade possible, on envoie sur trade center sans
-			// r�cup�rer les offres
-			req.setAttribute("messageTrade", "Il n'y a pas de trade possible � cet p�riode du pool");
+	    	req.setAttribute("messageTrade", "Il n'y a pas de trade possible à cet période du pool");
 			req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 
 			break;
@@ -199,16 +194,37 @@ public class TradeServlet extends HttpServlet {
 	    case 9:
 
 	    	// pas de trade possible, on envoie sur trade center sans
-			// r�cup�rer les offres
-			req.setAttribute("messageTrade", "Il n'y a pas de trade possible � cet p�riode du pool");
+	    	req.setAttribute("messageTrade", "Il n'y a pas de trade possible à cet période du pool");
 			req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 
 
 	    case 10:
+	    	// pas de trade possible, on envoie sur trade center sans
+	    	req.setAttribute("messageTrade", "Il n'y a pas de trade possible à cet période du pool");
+			req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
+
+			break;
+	    case 11:
+
+	    	mModelTrade = new TradeModel(req, mBeanPool);
+	    	req.setAttribute("tradeOpen", 1);
+		    mModelTrade.getTradeOfferReceived(req, tradeOfferDao);
+		    mModelTrade.getTradeOfferMade(req, tradeOfferDao);
+			req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
+
+
+			break;
+	    case 12:
 
 	    	// pas de trade possible, on envoie sur trade center sans
-			// r�cup�rer les offres
-			req.setAttribute("messageTrade", "Il n'y a pas de trade possible � cet p�riode du pool");
+	    	req.setAttribute("messageTrade", "Il n'y a pas de trade possible à cet période du pool");
+			req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
+
+			break;
+	    case 13:
+
+	    	// pas de trade possible, on envoie sur trade center sans
+	    	req.setAttribute("messageTrade", "Il n'y a pas de trade possible à cet période du pool");
 			req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 
 			break;
@@ -283,7 +299,7 @@ public class TradeServlet extends HttpServlet {
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
 	    Boolean offerGood = mModelTrade.checkIfTradeIsValid(playersDao, draftPickDao);
 	    if (!offerGood) {
-
+	    	req.setAttribute("tradeOpen", 1);
 		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 
 	    } else {
@@ -324,7 +340,7 @@ public class TradeServlet extends HttpServlet {
 		// si pas bon on annule l'offre et renvoie avec un message erreur expliquant l'annulation sur la page
 // trade center
 		mModelTrade.annulerOffre(req, tradeOfferDao);
-
+		req.setAttribute("tradeOpen", 1);
 		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 
 	    } else {

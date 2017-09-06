@@ -26,6 +26,7 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
     private static final String GET_NUMBER_OFFER_MAKED = "SELECT COUNT(*) FROM trade_offer? WHERE team_1 =?";
     private static final String SHOW_TRADE_X = "SELECT * FROM trade_offer? WHERE _id=?";
     private static final String CANCEL_TRADE_OFFER = "DELETE FROM trade_offer? WHERE _id=?";
+	private static final String TRUNCATE_ALL_OFFER = "TRUNCATE trade_offer?";
 
     private DAOFactory daoFactory;
 
@@ -547,7 +548,7 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 	mBean.setRookieNomMakingOffer(nomRookieMakingOffer2);
 	mBean.setRookieNomReceivingOffer(nomRookieReceivingOffer2);
 	
-	// ajout du total de l'argent donné
+	// ajout du total de l'argent donnï¿½
 		int budgetMakingOffer = (total_salaire_team_making_offer - argentOfferTeamThatTrade)-(total_salaire_team_receiving_offer - argentOfferTeamThatReceivedOffer);
 		int budgetReceivingOffer = (total_salaire_team_receiving_offer - argentOfferTeamThatReceivedOffer)-(total_salaire_team_making_offer - argentOfferTeamThatTrade); 
 		mBean.setBudgetMakingOffer(budgetMakingOffer);
@@ -626,5 +627,23 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 
 	return mBeanTemp;
     }
+
+	@Override
+	public void truncateAfterYears(String poolID) throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, TRUNCATE_ALL_OFFER, false, poolID);
+
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+	}
 
 }

@@ -26,6 +26,7 @@ public class DraftDaoImpl implements DraftDao {
 	private static final String ARCHIVE_DRAFT_LAST_YEAR = "INSERT INTO draft_archive_? (`draft_pick_no`,`ronde`,`equipe`,`team_id`,`from_who`,`team_id_from`,`team_count`,`follow_up`,`player_drafted`,`year_of_draft`,`pool_id`) SELECT draft_pick_no,ronde,equipe,team_id,from_who,team_id_from,team_count,follow_up,player_drafted,year_of_draft,pool_id FROM draft?";
 
 	private static final String RESET_FOR_NEW_YEARS = "UPDATE draft? SET equipe=null,team_id=null,from_who=null,team_id_from=null,team_count=null,follow_up=0,player_drafted=null,year_of_draft=?";
+	private static final String UPDATE_DRAFT_ROUND_FROM_DRAFT_PICK = "UPDATE draft? AS p INNER JOIN draft_pick_? AS s ON p.draft_pick_no=s.pick_no SET p.team_id=s.team_id,p.team_if_from=s.original_team_id";
     
     private DAOFactory daoFactory;
 
@@ -290,6 +291,25 @@ public class DraftDaoImpl implements DraftDao {
 		} finally {
 		    fermeturesSilencieuses(preparedStatement, connexion);
 		}
+		
+	}
+
+	@Override
+	public void populationDraftRoundFromDraftPick(String poolID, int numberOfTeam) throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		try {
+
+		    connexion = daoFactory.getConnection();
+
+		    
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+
 		
 	}
 

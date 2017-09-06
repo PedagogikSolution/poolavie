@@ -44,7 +44,9 @@ import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.dao.DraftDao;
 import com.pedagogiksolution.dao.PlayersDao;
+import com.pedagogiksolution.dao.SalaireDao;
 import com.pedagogiksolution.dao.TradeMadeDao;
+import com.pedagogiksolution.dao.TradeOfferDao;
 import com.pedagogiksolution.datastorebeans.Classement;
 import com.pedagogiksolution.datastorebeans.DraftPick;
 import com.pedagogiksolution.datastorebeans.DraftRound;
@@ -1017,7 +1019,7 @@ public class AdminModel {
 
 	}
 
-	public void resetFinAnneePlayers(HttpServletRequest req, PlayersDao playersDao) {
+	public void resetFinAnneePlayers(HttpServletRequest req, PlayersDao playersDao, SalaireDao salaireDao) {
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		String poolID = mBeanPool.getPoolID();
 
@@ -1028,6 +1030,8 @@ public class AdminModel {
 		playersDao.setTakeProj(poolID);
 
 		playersDao.migratePtsToLastYear(poolID);
+		
+		playersDao.setSalaireForRookie(poolID,salaireDao);
 
 		playersDao.moveYearsToYearsContract(poolID);
 
@@ -1035,7 +1039,7 @@ public class AdminModel {
 
 	}
 	
-	public void vidageEtResetTableBDD(HttpServletRequest req, ClassementDao classementDao, TradeMadeDao tradeMadeDao, DraftDao draftDao2) {
+	public void vidageEtResetTableBDD(HttpServletRequest req, ClassementDao classementDao, TradeMadeDao tradeMadeDao, DraftDao draftDao2, TradeOfferDao tradeOfferDao) {
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		String poolID = mBeanPool.getPoolID();
 		String thisYear = mBeanPool.getThisYear();
@@ -1043,8 +1047,36 @@ public class AdminModel {
 		classementDao.resetClassement(poolID,years);
 		tradeMadeDao.resetTradeMade(poolID);
 		draftDao2.resetDraft(poolID,years);
+		tradeOfferDao.truncateAfterYears(poolID);
 	}
 
+	public void dropAB(HttpServletRequest req, PlayersDao playersDao) {
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		String poolID = mBeanPool.getPoolID();
+		playersDao.dropPlayersAandB(poolID);
+		
+	}
+	
+	public Boolean preparationNouveauDraft(DraftDao draftDao2, HttpServletRequest req, PlayersDao playersDao) {
+		// drop rookie C et D pas monter
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		String poolID = mBeanPool.getPoolID();
+		int numberOfTeam = mBeanPool.getNumberTeam();
+		
+		
+		playersDao.dropPlayersCetD(req,poolID);
+		// check if rookie number is ok to start the new season
+		// TODO envoyer courriel au DG qui n'ont pas le bon nombre pour commencer la nouvelle année et stopper le processus de new years
+		// return false;
+		
+		
+		// populate draftRound from DraftPick
+		draftDao2.populationDraftRoundFromDraftPick(poolID,numberOfTeam);
+		// reset draftPick to initial value
+		
+		return true;
+		
+	}
 	/*****************************************************
 	 * private method
 	 ******************************************/
@@ -1093,6 +1125,10 @@ public class AdminModel {
 
 		return nomPropertyTeamName;
 	}
+
+	
+
+	
 
 	
 

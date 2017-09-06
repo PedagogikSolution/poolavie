@@ -819,7 +819,7 @@ public class DraftPlayersModel {
 				
 				List<String> player_drafted = (List<String>)mBeanDraftRound.getPlayer_drafted();
 				
-				player_drafted.set((currentPick), nom);
+				player_drafted.set((currentPick-1), nom);
 				
 				mBeanDraftRound.setPlayer_drafted(player_drafted);
 				
@@ -1429,7 +1429,7 @@ public class DraftPlayersModel {
 				TaskOptions.Builder.withUrl("/TaskQueueDraftPlayer").param("isRookie", "0").param("salaireID", salaire)
 						.param("poolID", poolID).param("playersID", playersID).param("teamID", teamID).param("nom", nom)
 						.param("team", team).param("acquireYearsID", acquireYearsID).param("club_ecole", clubEcole)
-						.param("position", position).param("currentPick", String.valueOf(currentPick)));
+						.param("position", position).param("currentPick", String.valueOf(currentPick-1)));
 
 	}
 
@@ -1440,7 +1440,7 @@ public class DraftPlayersModel {
 				TaskOptions.Builder.withUrl("/TaskQueueDraftPlayer").param("isRookie", "1").param("salaireID", salaire)
 						.param("poolID", poolID).param("playersID", playersID).param("teamID", teamID).param("nom", nom)
 						.param("team", team).param("acquireYearsID", acquireYearsID).param("club_ecole", clubEcole)
-						.param("position", position).param("currentPick", String.valueOf(currentPick)));
+						.param("position", position).param("currentPick", String.valueOf(currentPick-1)));
 
 	}
 

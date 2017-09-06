@@ -26,18 +26,12 @@ public class DraftCenterServlet extends HttpServlet {
 	int cycleAnnuel = mBean.getCycleAnnuel();
 	
 	if (cycleAnnuel == 3) {
-	 //   LoginModel mModel = new LoginModel(req);
-	  //  mModel.createSessionDraftRoundBean();
-	  //  mModel.createSessionEquipeBean();
-	  //  mModel.createSessionAttaquantBean();
-	  //  mModel.createSessionDefenseurBean();
-	  //  mModel.createSessionGardienBean();
-	 //   mModel.createSessionRecrueBean();
+	
 	    DraftPlayersModel mModelDraft = new DraftPlayersModel();	    	   
 	    mModelDraft.putDatastoreIntoBean(mBean,req);
 	    
 	}
-	if (cycleAnnuel == 4) {  
+	
 	    LoginModel mModel = new LoginModel(req);
 	    mModel.createSessionEquipeBean();
 	    mModel.createSessionAttaquantBean();
@@ -45,22 +39,11 @@ public class DraftCenterServlet extends HttpServlet {
 	    mModel.createSessionGardienBean();
 	    mModel.createSessionRecrueBean();
 	    mModel.createSessionDraftPickBean();
-	    
-	}
-	if (cycleAnnuel == 6) {  
-	    LoginModel mModel = new LoginModel(req);
-	    mModel.createSessionEquipeBean();
-	    mModel.createSessionAttaquantBean();
-	    mModel.createSessionDefenseurBean();
-	    mModel.createSessionGardienBean();
-	    mModel.createSessionRecrueBean();
-	    mModel.createSessionDraftPickBean();
-	    
-	}
+	
 	
 	if(cycleAnnuel>=2){
-	    	EquipeModel mModel = new EquipeModel();
-		mModel.getBeanByTeam(req);
+	    	EquipeModel mModelEquipe = new EquipeModel();
+	    	mModelEquipe.getBeanByTeam(req);
 	}
 	
 	

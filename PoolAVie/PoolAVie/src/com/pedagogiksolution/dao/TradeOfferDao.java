@@ -19,6 +19,7 @@ public interface TradeOfferDao {
     TradeBeans showOfferX(Pool mBeanPool, Utilisateur mBeanUser, int trade_id, PlayersDao playersDao, DraftPickDao draftPickDao)throws DAOException;
     void cancelOffreX(int trade_id_int, Pool mBeanPool)throws DAOException;
     TradeBeanTemp getTradeNumberX(int poolId, int trade_id)throws DAOException;
+	void truncateAfterYears(String poolID)throws DAOException;
     
     
 }

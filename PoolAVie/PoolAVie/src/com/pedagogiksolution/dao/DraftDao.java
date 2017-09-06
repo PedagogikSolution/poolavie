@@ -13,10 +13,11 @@ public interface DraftDao {
     void createDraftTable(int poolID) throws DAOException;
     void createDraftArchiveTable(int poolID) throws DAOException;
     void populateFirstYearsDraft(int poolID, List<Integer> permutation, Pool mBeanPool) throws DAOException;
-    DraftRound setDraftRoundOrder(int poolId)throws DAOException;
-	void persistPlayerPick(String nom, int currentPickId, int poolId);
-	void insertionDansArchives(HttpServletRequest req);
-	void resetDraft(String poolID, String years);
+    DraftRound setDraftRoundOrder(int poolId) throws DAOException;
+	void persistPlayerPick(String nom, int currentPickId, int poolId) throws DAOException;
+	void insertionDansArchives(HttpServletRequest req) throws DAOException;
+	void resetDraft(String poolID, String years) throws DAOException;
+	void populationDraftRoundFromDraftPick(String poolID, int numberOfTeam) throws DAOException;
     
     
 

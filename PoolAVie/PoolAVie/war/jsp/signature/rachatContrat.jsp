@@ -56,7 +56,7 @@
 		<div class="w3-responsive" style="width: 90%">
 			<table id="playersPickBox" class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top w3-large" style="width: 95%">
 				<caption class="w3-blue w3-xlarge">
-					<h1>Joueurs pouvant être racheter avec l'argent de l'année venant de ce terminer</h1>
+					<h1>Joueurs pouvant être racheter</h1>
 				</caption>
 				<tr class="w3-indigo">
 					<th>Nom</th>
@@ -92,7 +92,9 @@
 								<td>
 									<form action="/Signature" method="post">
 										<input type="hidden" value="${NonSessionPlayers.players_id[i]}"
-											name="player_id" /> <input type="hidden" value="2"
+											name="player_id" />
+											<input type="hidden" value="${NonSessionPlayers.position[i]}"
+											name="position" /> <input type="hidden" value="2"
 											name="signatureStep" /> <input type="submit"
 											value="Racheté ce joueur">
 									</form></td>

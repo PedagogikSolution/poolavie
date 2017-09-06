@@ -12,7 +12,9 @@ import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.dao.DAOFactory;
 import com.pedagogiksolution.dao.DraftDao;
 import com.pedagogiksolution.dao.PlayersDao;
+import com.pedagogiksolution.dao.SalaireDao;
 import com.pedagogiksolution.dao.TradeMadeDao;
+import com.pedagogiksolution.dao.TradeOfferDao;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.AdminModel;
 import com.pedagogiksolution.model.DraftPlayersModel;
@@ -27,7 +29,9 @@ public class AdminPoolServlet extends HttpServlet {
 	private PlayersDao playersDao;
 	private DraftDao draftDao;
 	private TradeMadeDao tradeMadeDao;
+	private TradeOfferDao tradeOfferDao;
 	private ClassementDao classementDao;
+	private SalaireDao salaireDao;
 
 	@Override
 	public void init() throws ServletException {
@@ -35,7 +39,9 @@ public class AdminPoolServlet extends HttpServlet {
 		this.playersDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getPlayersDao();
 		this.draftDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftDao();
 		this.tradeMadeDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getTradeMadeDao();
+		this.tradeOfferDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getTradeOfferDao();
 		this.classementDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getClassementDao();
+		this.salaireDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getSalaireDao();
 	}
 
 	@Override
@@ -136,11 +142,11 @@ public class AdminPoolServlet extends HttpServlet {
 			mAdminModel.resetDatastorePoolEntity(req);
 			mAdminModel.dropJoueurJAETX(req, playersDao);
 
-			mAdminModel.resetFinAnneePlayers(req, playersDao);
+			mAdminModel.resetFinAnneePlayers(req, playersDao,salaireDao);
 
 			mAdminModel.resetDatastoreEquipeEntity(req,playersDao);
 
-			mAdminModel.vidageEtResetTableBDD(req,classementDao, tradeMadeDao, draftDao);
+			mAdminModel.vidageEtResetTableBDD(req,classementDao, tradeMadeDao, draftDao,tradeOfferDao);
 
 			Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 			String poolID = mBeanPool.getPoolID();
@@ -165,21 +171,36 @@ public class AdminPoolServlet extends HttpServlet {
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 			break;
 		case 5:
-			// fin de période de trade
+			// fin de signatureAB
+			
 			mAdminModel = new AdminModel();
+			mAdminModel.dropAB(req,playersDao);
 			mAdminModel.changeCycleAnnuel(req, 11);
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 			break;
 		case 6:
-			// fin de rachat 3
+			// fin de trade
 			mAdminModel = new AdminModel();
 			mAdminModel.changeCycleAnnuel(req, 12);
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 			break;
 		case 7:
+			// fin de rachat 3
+			mAdminModel = new AdminModel();
+			
+			mAdminModel.changeCycleAnnuel(req, 13);
+			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
+			break;
+		case 8:
 			// fin de drop et promo rookie
 			mAdminModel = new AdminModel();
+			
+			Boolean goodToGo = mAdminModel.preparationNouveauDraft(draftDao,req,playersDao);
+			
+			if(goodToGo) {
 			mAdminModel.changeCycleAnnuel(req, 2);
+			}
+			
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 			break;
 		case 9 : 

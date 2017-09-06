@@ -154,6 +154,111 @@
 	</div>
 	</c:if>
 
+	<!-- MONTER ET DROPPER ROOKIE -->
+	
+	<c:if test="${requestScope.cycleAnnuel==13}">
+
+		<div class="w3-responsive" style="width: 90%">
+			<table id="playersPickBox" class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top w3-large" style="width: 95%">
+				<caption class="w3-blue w3-xlarge">
+					<h1>Gestion club école</h1>
+				</caption>
+				<tr class="w3-indigo">
+					<th>Nom</th>
+					<th>Équipe</th>
+					<th>Position</th>
+					<th>Salaire</th>
+					<th>${Pool.secondYear}</th>
+					<th>${Pool.thirdYear}</th>
+					<th>${Pool.fourthYear}</th>
+					<th>${Pool.fifthYear}</th>
+					<th>Signature</th>
+					<th>Drop</th>
+
+				</tr>
+
+				<c:set var="nombreDePlayers" value="${NonSessionPlayers.nom}" />
+				<c:choose>
+
+					<c:when test="${not empty nombreDePlayers}">
+						<c:forEach var="i" begin="0" end="${fn:length(nombreDePlayers)-1}">
+
+							<tr id=i>
+
+								<td>${NonSessionPlayers.nom[i]}</td>
+								<td>${NonSessionPlayers.teamOfPlayer[i]}</td>
+								<td>${NonSessionPlayers.position[i]}</td>
+								<td>${NonSessionPlayers.salaire_draft[i]}</td>
+								
+								<td>
+									<input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="2">
+								</td>
+								<td>
+									<input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="3">
+								</td>
+								<td>
+									<input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="4">
+								</td>
+								<td>
+									<input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="5">
+								</td>
+
+								<td>
+									<form id="signatureAbform${i}" action="/Signature" method="POST">
+										<input type="hidden" name="signatureStep" value="6">
+										<input type="hidden" name="draft_player_id" value="${NonSessionPlayers.players_id[i]}">
+										<input type="hidden" name="nom" value="${NonSessionPlayers.nom[i]}">
+										<input type="hidden" name="position" value="${NonSessionPlayers.position[i]}">
+										<input type="hidden" name="team" value="${NonSessionPlayers.teamOfPlayer[i]}">
+										<input type="hidden" name="salaire" value="${NonSessionPlayers.salaire_draft[i]}">
+										<button class="w3-btn w3-round-xxlarge w3-blue">Signer ce joueur</button>
+									</form>
+
+								</td>
+								<td>
+									<form id="signatureAbform${i}" action="/Signature" method="POST">
+										<input type="hidden" name="signatureStep" value="7">
+										<input type="hidden" name="draft_player_id" value="${NonSessionPlayers.players_id[i]}">
+										<input type="hidden" name="nom" value="${NonSessionPlayers.nom[i]}">
+										<input type="hidden" name="position" value="${NonSessionPlayers.position[i]}">
+										<input type="hidden" name="team" value="${NonSessionPlayers.teamOfPlayer[i]}">
+										<input type="hidden" name="salaire" value="${NonSessionPlayers.salaire_draft[i]}">
+										<button class="w3-btn w3-round-xxlarge w3-blue">Dropper ce joueur</button>
+									</form>
+
+								</td>
+
+							</tr>
+
+						</c:forEach>
+					</c:when>
+					<c:otherwise>
+
+						<tr>
+							<td class="w3-overflow">Vous n'avez plus aucun joueurs dans votre club école
+							<td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+
+					</c:otherwise>
+
+				</c:choose>
+
+
+			</table>
+
+		</div>
+
+
+	</c:if>
 	
 	<jsp:directive.include file="../utils/draftMessage.jsp" />
 

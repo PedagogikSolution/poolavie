@@ -13,6 +13,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.pedagogiksolution.cron.model.PlayersCronModel;
 import com.pedagogiksolution.dao.PlayersDao;
+import com.pedagogiksolution.dao.SalaireDao;
 import com.pedagogiksolution.datastorebeans.Attaquant;
 import com.pedagogiksolution.datastorebeans.Defenseur;
 import com.pedagogiksolution.datastorebeans.Equipe;
@@ -42,13 +43,13 @@ public class SignatureModel {
 		this.playersDao = playersDao;
 	}
 
-	public void putPlayersThatCanBeSignInBean(HttpServletRequest req) {
+	public void putPlayersThatCanBeSignInBean(HttpServletRequest req, SalaireDao salaireDao) {
 
 		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 		int teamId = mBeanUser.getTeamId();
 		int poolId = mBeanUser.getPoolId();
 
-		playersDao.getPlayersThatCanBeSign(teamId, poolId, req);
+		playersDao.getPlayersThatCanBeSign(teamId, poolId, req,salaireDao);
 
 	}
 
@@ -56,11 +57,13 @@ public class SignatureModel {
 		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 		int teamId = mBeanUser.getTeamId();
 		int poolId = mBeanUser.getPoolId();
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		int cycleAnnuel = mBeanPool.getCycleAnnuel();
 
-		playersDao.getPlayersThatCanBeRachatAfterSeason(teamId, poolId, req);
+		playersDao.getPlayersThatCanBeRachatAfterSeason(teamId, poolId, req, cycleAnnuel);
 
 	}
-	
+
 	public void preparationRookieBackToClubEcole(HttpServletRequest req) {
 		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 		int teamId = mBeanUser.getTeamId();
@@ -80,7 +83,10 @@ public class SignatureModel {
 		int teamId = mBeanUser.getTeamId();
 		int poolId = mBeanUser.getPoolId();
 		String datastoreID = poolId + "_" + teamId;
+		
+		Key equipeKey = KeyFactory.createKey("Equipe", datastoreID);
 
+		
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
 		// A: on change la valeur des years_x dans la bdd players_x
@@ -106,6 +112,9 @@ public class SignatureModel {
 				int playersIdPosition = players_id.indexOf(Long.valueOf(draft_player_id));
 
 				years_1 = (ArrayList<String>) mEntity.getProperty("years_1");
+				
+			
+				
 				years_2 = (ArrayList<String>) mEntity.getProperty("years_2");
 				years_3 = (ArrayList<String>) mEntity.getProperty("years_3");
 				years_4 = (ArrayList<String>) mEntity.getProperty("years_4");
@@ -170,6 +179,24 @@ public class SignatureModel {
 				mBeanAttaquant.setYears_5(years_5);
 
 				req.getSession().setAttribute(jspSessionName, mBeanAttaquant);
+				
+				Entity equipeEntity = datastore.get(equipeKey);
+				Equipe mBeanEquipe = new Equipe();
+				mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(equipeEntity, mBeanEquipe);
+				
+				mBeanEquipe.setNb_attaquant(mBeanEquipe.getNb_attaquant()+1);
+				mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat()+1);
+				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe()+1);
+				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now()+Integer.parseInt(salaire));
+				mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant()-Integer.parseInt(salaire));
+				mBeanEquipe.setManquant_att(mBeanEquipe.getManquant_att()-1);
+				mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe()-1);
+				if(mBeanEquipe.getManquant_equipe()!=0) {
+				mBeanEquipe.setMoy_sal_restant_draft(mBeanEquipe.getBudget_restant()/mBeanEquipe.getManquant_equipe());
+				}
+				
+				Entity entityEquipe = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, datastoreID);
+				datastore.put(entityEquipe);
 
 			} catch (EntityNotFoundException e) {
 
@@ -255,6 +282,24 @@ public class SignatureModel {
 				mBeanDefenseur.setYears_5(years_5);
 
 				req.getSession().setAttribute(jspSessionName2, mBeanDefenseur);
+				
+				Entity equipeEntity = datastore.get(equipeKey);
+				Equipe mBeanEquipe = new Equipe();
+				mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(equipeEntity, mBeanEquipe);
+				
+				mBeanEquipe.setNb_defenseur(mBeanEquipe.getNb_defenseur()+1);
+				mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat()+1);
+				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe()+1);
+				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now()+Integer.parseInt(salaire));
+				mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant()-Integer.parseInt(salaire));
+				mBeanEquipe.setManquant_def(mBeanEquipe.getManquant_def()-1);
+				mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe()-1);
+				if(mBeanEquipe.getManquant_equipe()!=0) {
+				mBeanEquipe.setMoy_sal_restant_draft(mBeanEquipe.getBudget_restant()/mBeanEquipe.getManquant_equipe());
+				}
+				
+				Entity entityEquipe = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, datastoreID);
+				datastore.put(entityEquipe);
 
 			} catch (EntityNotFoundException e) {
 
@@ -339,6 +384,24 @@ public class SignatureModel {
 				mBeanGardien.setYears_5(years_5);
 
 				req.getSession().setAttribute(jspSessionName3, mBeanGardien);
+				
+				Entity equipeEntity = datastore.get(equipeKey);
+				Equipe mBeanEquipe = new Equipe();
+				mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(equipeEntity, mBeanEquipe);
+				
+				mBeanEquipe.setNb_gardien(mBeanEquipe.getNb_gardien()+1);
+				mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat()+1);
+				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe()+1);
+				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now()+Integer.parseInt(salaire));
+				mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant()-Integer.parseInt(salaire));
+				mBeanEquipe.setManquant_gardien(mBeanEquipe.getManquant_gardien()-1);
+				mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe()-1);
+				if(mBeanEquipe.getManquant_equipe()!=0) {
+				mBeanEquipe.setMoy_sal_restant_draft(mBeanEquipe.getBudget_restant()/mBeanEquipe.getManquant_equipe());
+				}
+				
+				Entity entityEquipe = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, datastoreID);
+				datastore.put(entityEquipe);
 
 			} catch (EntityNotFoundException e) {
 
@@ -347,39 +410,35 @@ public class SignatureModel {
 
 		}
 
-		// C: on modifie le datastore equipe
+	
 
-		Key equipeKey = KeyFactory.createKey("Equipe", datastoreID);
-
-		try {
-			Entity equipeEntity = datastore.get(equipeKey);
-			Long temp_nb_contrat = (Long) equipeEntity.getProperty("nb_contrat");
-			int nb_contrat = temp_nb_contrat.intValue();
-			nb_contrat = nb_contrat + 1;
-			equipeEntity.setProperty("nb_contrat", nb_contrat);
-			datastore.put(equipeEntity);
-
-			String jspName;
-			jspName = "Equipe" + teamId;
-
-			Equipe mBeanEquipe = (Equipe) req.getSession().getAttribute(jspName);
-			mBeanEquipe.setNb_contrat(nb_contrat);
-			req.getSession().setAttribute(jspName, mBeanEquipe);
-
-		} catch (EntityNotFoundException e) {
-
-		}
+		
 
 	}
 
 	public Boolean checkIfSignatureIsPossible(HttpServletRequest req) {
-
+		Long nb_contrat=null;
 		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 		int teamId = mBeanUser.getTeamId();
-		String jspNameEquipe = "Equipe" + teamId;
 
-		Equipe mBeanEquipe = (Equipe) req.getSession().getAttribute(jspNameEquipe);
-		int nb_contrat = mBeanEquipe.getNb_contrat();
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		String poolID = mBeanPool.getPoolID();
+		
+
+		String nomClef = poolID + "_" + teamId;
+
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Key mKey = KeyFactory.createKey("Equipe", nomClef);
+		
+		Entity mEntity;
+		try {
+			mEntity = datastore.get(mKey);
+			nb_contrat = (Long)mEntity.getProperty("nb_contrat");
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+
 
 		if (nb_contrat >= 12) {
 			return false;
@@ -396,6 +455,7 @@ public class SignatureModel {
 		Players mBeanRachat = (Players) req.getSession().getAttribute("beanConfirmationRachat");
 
 		int playersId = mBeanRachat.get_id();
+		String position = mBeanRachat.getPosition();
 		int total_cout_rachat = mBeanRachat.getSalaire_contrat();
 
 		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
@@ -403,6 +463,7 @@ public class SignatureModel {
 
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		String poolID = mBeanPool.getPoolID();
+		
 
 		String nomClef = poolID + "_" + teamId;
 
@@ -419,10 +480,32 @@ public class SignatureModel {
 
 			int new_budget_restant = budget_restant - total_cout_rachat;
 
-			if (budget_restant >= 0) {
+			if (new_budget_restant >= 0) {
 
 				mBeanEquipe.setBudget_restant(new_budget_restant);
 				mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);
+				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe()-1);
+				mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe()+1);
+				
+				switch(position) {
+				
+				case "attaquant":
+					
+					mBeanEquipe.setNb_attaquant(mBeanEquipe.getNb_attaquant()-1);
+					mBeanEquipe.setManquant_att(mBeanEquipe.getManquant_att()+1);
+					break;
+				case "defenseur":
+					mBeanEquipe.setNb_defenseur(mBeanEquipe.getNb_defenseur()-1);
+					mBeanEquipe.setManquant_def(mBeanEquipe.getManquant_def()+1);
+					break;
+				case "gardien":
+					mBeanEquipe.setNb_gardien(mBeanEquipe.getNb_gardien()-1);
+					mBeanEquipe.setManquant_gardien(mBeanEquipe.getManquant_gardien()+1);
+					break;
+					
+				
+				
+				}
 				mEntity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomClef);
 
 				datastore.put(mEntity);
@@ -432,6 +515,26 @@ public class SignatureModel {
 				mBeanEquipe.setBudget_restant(0);
 				mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu() + new_budget_restant);
 				mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);
+				
+				
+				switch(position) {
+				
+				case "attaquant":
+					
+					mBeanEquipe.setNb_attaquant(mBeanEquipe.getNb_attaquant()-1);
+					mBeanEquipe.setManquant_att(mBeanEquipe.getManquant_att()+1);
+					break;
+				case "defenseur":
+					mBeanEquipe.setNb_defenseur(mBeanEquipe.getNb_defenseur()-1);
+					mBeanEquipe.setManquant_def(mBeanEquipe.getManquant_def()+1);
+					break;
+				case "gardien":
+					mBeanEquipe.setNb_gardien(mBeanEquipe.getNb_gardien()-1);
+					mBeanEquipe.setManquant_gardien(mBeanEquipe.getManquant_gardien()+1);
+					break;
+					
+				}
+				
 				mEntity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomClef);
 
 				datastore.put(mEntity);
@@ -445,7 +548,7 @@ public class SignatureModel {
 
 		// on retire joueur de equipe
 
-		String position = playersDao.removePlayersFromTeamAfterRachat(playersId, poolID);
+		playersDao.removePlayersFromTeamAfterRachat(playersId, poolID);
 
 		// on relance Attaquant, Def, Goaler cron job 
 
@@ -479,25 +582,27 @@ public class SignatureModel {
 	public Boolean checkIfCashAvailablePourRachat(HttpServletRequest req) {
 
 		String player_id = req.getParameter("player_id");
+		String position = req.getParameter("position");
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		String poolID = mBeanPool.getPoolID();
 		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 		int teamId = mBeanUser.getTeamId();
 
-		Boolean checkIfCashAvailablePourRachat = playersDao.getUniquePlayersById(player_id, poolID, teamId, req);
+		Boolean checkIfCashAvailablePourRachat = playersDao.getUniquePlayersById(player_id, poolID, teamId, req,
+				position);
 
 		return checkIfCashAvailablePourRachat;
 
 	}
 
 	public Boolean checkIfCashIsGoodForRookieDrop(HttpServletRequest req) {
-		
+
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		String poolID = mBeanPool.getPoolID();
 		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 		int teamId = mBeanUser.getTeamId();
-		int budget_restant=0;
-		int argent_recu=0;
+		int budget_restant = 0;
+		int argent_recu = 0;
 		String nomClef = poolID + "_" + teamId;
 
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -510,19 +615,19 @@ public class SignatureModel {
 			budget_restant = budget_restantL.intValue();
 			Long argent_recuL = (Long) mEntity.getProperty("argent_recu");
 			argent_recu = argent_recuL.intValue();
-			
-			
+
 		} catch (EntityNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		if(budget_restant>999999||(budget_restant<1000000&&argent_recu>999999||(budget_restant+argent_recu)>999999)) {
+		if (budget_restant > 999999
+				|| (budget_restant < 1000000 && argent_recu > 999999 || (budget_restant + argent_recu) > 999999)) {
 			Players mBean = new Players();
 			String player_id = req.getParameter("player_id");
-			
-			String nom = playersDao.getPlayersName(player_id,poolID);
-			
+
+			String nom = playersDao.getPlayersName(player_id, poolID);
+
 			mBean.setNom(nom);
 
 			mBean.set_id(Integer.parseInt(player_id));
@@ -533,8 +638,6 @@ public class SignatureModel {
 			return false;
 		}
 
-		
-		
 	}
 
 	public void retrocessionRookieDansClubEcole(HttpServletRequest req) {
@@ -563,23 +666,22 @@ public class SignatureModel {
 
 			int budget_restant = mBeanEquipe.getBudget_restant();
 			int argent_recu = mBeanEquipe.getArgent_recu();
-			int new_budget_restant=0;
-			if(budget_restant<1000000) {
-				
-				budget_restant=budget_restant-total_cout_rachat;
-				argent_recu= argent_recu+budget_restant;
-				new_budget_restant=0;
-				
+			int new_budget_restant = 0;
+			if (budget_restant < 1000000) {
+
+				budget_restant = budget_restant - total_cout_rachat;
+				argent_recu = argent_recu + budget_restant;
+				new_budget_restant = 0;
+
 			} else {
 				new_budget_restant = budget_restant - total_cout_rachat;
 			}
-			
-				mBeanEquipe.setArgent_recu(argent_recu);
-				mBeanEquipe.setBudget_restant(new_budget_restant);
-				mEntity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomClef);
 
-				datastore.put(mEntity);
+			mBeanEquipe.setArgent_recu(argent_recu);
+			mBeanEquipe.setBudget_restant(new_budget_restant);
+			mEntity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomClef);
 
+			datastore.put(mEntity);
 
 		} catch (EntityNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -589,39 +691,237 @@ public class SignatureModel {
 		// on retire joueur de equipe
 
 		String position = playersDao.putPlayersInClubEcole(playersId, poolID);
-		
+
 		// on place joueurs dans club_ecole
+
+		// on relance Attaquant, Def, Goaler et Rookie selon la position cron job
+
+		PlayersCronModel mModel = new PlayersCronModel(playersDao);
+
+		int numberOfTeam = mModel.getNumberOfTeamByPool(Integer.parseInt(poolID));
+
+		switch (position) {
+		case "attaquant":
+			mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, position, 0, "3");
+			mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, position, 1, "6");
+
+			break;
+		case "defenseur":
+			mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, position, 0, "4");
+			mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, position, 1, "6");
+
+			break;
+		case "gardien":
+			mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, position, 0, "5");
+			mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, position, 1, "6");
+
+			break;
+
+		}
+
+	}
+
+	public void preparationClubEcole(HttpServletRequest req) {
 		
-		// on relance Attaquant, Def, Goaler et Rookie selon la position cron job 
+		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+		int teamId = mBeanUser.getTeamId();
+		int poolId = mBeanUser.getPoolId();
 
-				PlayersCronModel mModel = new PlayersCronModel(playersDao);
-				
-				int numberOfTeam = mModel.getNumberOfTeamByPool(Integer.parseInt(poolID));
-
-				switch (position) {
-				case "attaquant":
-					mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, position, 0, "3");
-					mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, position, 1, "6");
-					
-
-					break;
-				case "defenseur":
-					mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, position, 0, "4");
-					mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, position, 1, "6");
-					
-
-					break;
-				case "gardien":
-					mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, position, 0, "5");
-					mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, position, 1, "6");
-					
-					break;
-
-				}
+		playersDao.getRookieInClubEcole(teamId, poolId, req);
+		
 		
 	}
 
-	
-	
+	public void dropRookie(HttpServletRequest req) {
+		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+		int poolId = mBeanUser.getPoolId();
+		int team_id = mBeanUser.getTeamId();
+		
+		String players_id = (String) req.getParameter("draft_player_id");
+		String position = (String) req.getParameter("position");
+
+		// on ajuste la bdd players
+		playersDao.dropRookie(poolId,players_id);
+		
+		
+		// on ajuste le datastore Recrue
+		PlayersCronModel mModel = new PlayersCronModel(playersDao);
+
+		int numberOfTeam = mModel.getNumberOfTeamByPool(poolId);
+
+		switch (position) {
+		case "attaquant":
+			mModel.putDatabaseInDatastore(poolId, numberOfTeam, position, 1, "6");
+
+			break;
+		case "defenseur":
+			mModel.putDatabaseInDatastore(poolId, numberOfTeam, position, 1, "6");
+
+			break;
+		case "gardien":
+			mModel.putDatabaseInDatastore(poolId, numberOfTeam, position, 1, "6");
+
+			break;
+
+		}
+		
+		// on ajuste les stats du datastore Equipe
+		
+		String nomClef = poolId + "_" + team_id;
+
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Key mKey = KeyFactory.createKey("Equipe", nomClef);
+
+		try {
+			Entity mEntity = datastore.get(mKey);
+
+			Equipe mBeanEquipe = new Equipe();
+			mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(mEntity, mBeanEquipe);
+
+			mBeanEquipe.setManquant_recrue(mBeanEquipe.getManquant_recrue()+1);
+			mBeanEquipe.setNb_rookie(mBeanEquipe.getNb_rookie()-1);
+			
+			
+			mEntity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomClef);
+
+			datastore.put(mEntity);
+
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
+
+	public void signatureRookie(HttpServletRequest req) {
+		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+		int poolId = mBeanUser.getPoolId();
+		int team_id = mBeanUser.getTeamId();
+		
+		String players_id = (String) req.getParameter("draft_player_id");
+		String position = (String) req.getParameter("position");
+		String nombreAnneeSignature = (String) req.getParameter("nombreAnneeSignature");
+		int numberOfYearSign = Integer.parseInt(nombreAnneeSignature);
+		String salaire = (String) req.getParameter("salaire");
+		
+		// on ajuste la bdd players
+		int salaireInt =playersDao.monterRookie(poolId,players_id,numberOfYearSign,salaire,playersDao);
+		
+		
+		// on ajuste le datastore Recrue
+		PlayersCronModel mModel = new PlayersCronModel(playersDao);
+
+		int numberOfTeam = mModel.getNumberOfTeamByPool(poolId);
+
+		switch (position) {
+		case "attaquant":
+			mModel.putDatabaseInDatastore(poolId, numberOfTeam, position, 0, "3");
+			mModel.putDatabaseInDatastore(poolId, numberOfTeam, position, 1, "6");
+
+			break;
+		case "defenseur":
+			mModel.putDatabaseInDatastore(poolId, numberOfTeam, position, 0, "4");
+			mModel.putDatabaseInDatastore(poolId, numberOfTeam, position, 1, "6");
+
+			break;
+		case "gardien":
+			mModel.putDatabaseInDatastore(poolId, numberOfTeam, position, 0, "5");
+			mModel.putDatabaseInDatastore(poolId, numberOfTeam, position, 1, "6");
+
+			break;
+
+		}
+		
+		// on ajuste les stats du datastore Equipe
+		
+		String nomClef = poolId + "_" + team_id;
+
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Key mKey = KeyFactory.createKey("Equipe", nomClef);
+
+		try {
+			Entity mEntity = datastore.get(mKey);
+
+			Equipe mBeanEquipe = new Equipe();
+			mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(mEntity, mBeanEquipe);
+
+			mBeanEquipe.setManquant_recrue(mBeanEquipe.getManquant_recrue()+1);
+			mBeanEquipe.setNb_rookie(mBeanEquipe.getNb_rookie()-1);
+			
+			mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe()-1);
+			mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe()+1);
+			
+			switch (position) {
+			case "attaquant":
+				mBeanEquipe.setNb_attaquant(mBeanEquipe.getNb_attaquant()+1);
+				mBeanEquipe.setManquant_att(mBeanEquipe.getManquant_att()-1);
+
+				break;
+			case "defenseur":
+				mBeanEquipe.setNb_defenseur(mBeanEquipe.getNb_defenseur()+1);
+				mBeanEquipe.setManquant_def(mBeanEquipe.getManquant_def()-1);
+				break;
+			case "gardien":
+				mBeanEquipe.setNb_gardien(mBeanEquipe.getNb_gardien()+1);
+				mBeanEquipe.setManquant_gardien(mBeanEquipe.getManquant_gardien()-1);
+
+				break;
+
+			}
+			
+			mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant()-salaireInt);
+			mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now()+salaireInt);
+			
+			mBeanEquipe.setMoy_sal_restant_draft((mBeanEquipe.getBudget_restant()-salaireInt)/(mBeanEquipe.getManquant_equipe()-1));
+			
+			
+			mEntity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomClef);
+
+			datastore.put(mEntity);
+
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	public Boolean checkIfCashIsGoodToGo(HttpServletRequest req) {
+		Long manquant_equipe=null;
+		Long budget_restant=null;
+		String salaire = req.getParameter("salaire");
+		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+		int teamId = mBeanUser.getTeamId();
+
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		String poolID = mBeanPool.getPoolID();
+		
+
+		String nomClef = poolID + "_" + teamId;
+
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Key mKey = KeyFactory.createKey("Equipe", nomClef);
+		
+		Entity mEntity;
+		try {
+			mEntity = datastore.get(mKey);
+			manquant_equipe = (Long)mEntity.getProperty("manquant_equipe");
+			budget_restant = (Long)mEntity.getProperty("budget_restant");
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+
+		int moyenne_restante = (budget_restant.intValue()-Integer.parseInt(salaire))/(manquant_equipe.intValue()-1);
+		
+		if(moyenne_restante>=1000000) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
 
 }

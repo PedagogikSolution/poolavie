@@ -35,6 +35,7 @@ public class Players implements Serializable {
     private int type_contrat;
     private int club_ecole;
     private Date date_calcul;
+    private int years_0;
     private String years_1;
     private String years_2;
     private String years_3;
@@ -252,6 +253,12 @@ public class Players implements Serializable {
     public void setAcquire_years(int acquire_years) {
 	this.acquire_years = acquire_years;
     }
+	public int getYears_0() {
+		return years_0;
+	}
+	public void setYears_0(int years_0) {
+		this.years_0 = years_0;
+	}
     
     
 

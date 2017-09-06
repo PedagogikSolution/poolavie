@@ -54,15 +54,7 @@
 		<div class="w3-row w3-container">
 			<div class="w3-container w3-half">
 			
-				<c:if test="${Pool.cycleAnnuel==3}">
-					<p>Période de trade</p>
-					<form action="/AdminPool" method="post">
-					<input type="hidden" name="adminButton" value="8">
-					<input type="submit" value="FIN DE RACHAT DÉBUT D'ANNÉE">
-					
-					</form>
-
-				</c:if>
+				
 				
 				<c:if test="${Pool.cycleAnnuel==4}">
 					<p>Signature apres draft</p>
@@ -124,29 +116,38 @@
 				</c:if>
 				
 				<c:if test="${Pool.cycleAnnuel==10}">
-					<p>Trade été</p>
+					<p>Signature AB</p>
 					<form action="/AdminPool" method="post">
 					<input type="hidden" name="adminButton" value="5">
-					<input type="submit" value="FIN DE RACHAT DÉBUT D'ANNÉE">
+					<input type="submit" value="FIN DE SIGNATURE">
 					
 					</form>
 
 				</c:if>
 				
 				<c:if test="${Pool.cycleAnnuel==11}">
-					<p>Rachat apres trade été</p>
+					<p>Trade été</p>
 					<form action="/AdminPool" method="post">
 					<input type="hidden" name="adminButton" value="6">
-					<input type="submit" value="FIN DE RACHAT DÉBUT D'ANNÉE">
+					<input type="submit" value="FIN DE TRADE ÉTÉ">
 					
 					</form>
 
 				</c:if>
 				<c:if test="${Pool.cycleAnnuel==12}">
-					<p>Gestion club école</p>
+					<p>Rachat apres Trade</p>
 					<form action="/AdminPool" method="post">
 					<input type="hidden" name="adminButton" value="7">
-					<input type="submit" value="FIN DE RACHAT DÉBUT D'ANNÉE">
+					<input type="submit" value="FIN DE RACHAT APRES TRADE ÉTÉ">
+					
+					</form>
+
+				</c:if>
+				<c:if test="${Pool.cycleAnnuel==13}">
+					<p>Gestion club école</p>
+					<form action="/AdminPool" method="post">
+					<input type="hidden" name="adminButton" value="8">
+					<input type="submit" value="FIN DE GESTION CLUB ECOLE, PREPARATION AU DRAFT">
 					
 					</form>
 

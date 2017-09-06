@@ -26,7 +26,7 @@ public interface PlayersDao {
 
     void getPlayersForDatastoreFromPoolId(String poolID) throws DAOException;
 
-    void getPlayersThatCanBeSign(int teamId, int poolId, HttpServletRequest req) throws DAOException;
+    void getPlayersThatCanBeSign(int teamId, int poolId, HttpServletRequest req, SalaireDao salaireDao) throws DAOException;
 
     void signPlayerAfterDraft(int teamId, int poolId, String draft_player_id, String salaire, int numberOfYear) throws DAOException;
 
@@ -44,49 +44,63 @@ public interface PlayersDao {
 
     Boolean checkIfPlayersStillInTeam(int poolId, int teamId, int playerId) throws DAOException;
 
-    void makeTrade(Pool mBeanPool, int teamId1, int teamId2, int playerId2)throws DAOException;
+    void makeTrade(Pool mBeanPool, int teamId1, int teamId2, int playerId2) throws DAOException;
 
-	void getPlayersThatCanBeRachatAfterSeason(int teamId, int poolId, HttpServletRequest req);
+	void getPlayersThatCanBeRachatAfterSeason(int teamId, int poolId, HttpServletRequest req, int cycleAnnuel) throws DAOException;
 
-	Boolean getUniquePlayersById(String player_id, String poolID, int teamId, HttpServletRequest req);
+	Boolean getUniquePlayersById(String player_id, String poolID, int teamId, HttpServletRequest req, String position) throws DAOException;
+	
+	void removePlayersFromTeamAfterRachat(int playersId, String poolID) throws DAOException;
 
-	String removePlayersFromTeamAfterRachat(int playersId, String poolID);
+	void updateAgeForRookie(HttpServletRequest req) throws DAOException;
 
-	void updateAgeForRookie(HttpServletRequest req);
+	void getRookieThatCanDropInClubEcoleAfterSeason(int teamId, int poolId, HttpServletRequest req) throws DAOException;
 
-	void getRookieThatCanDropInClubEcoleAfterSeason(int teamId, int poolId, HttpServletRequest req);
+	String getPlayersName(String player_id, String poolID) throws DAOException;
 
-	String getPlayersName(String player_id, String poolID);
+	String putPlayersInClubEcole(int playersId, String poolID) throws DAOException;
 
-	String putPlayersInClubEcole(int playersId, String poolID);
+	void insertionDansArchives(HttpServletRequest req) throws DAOException;
 
-	void insertionDansArchives(HttpServletRequest req);
+	void dropPlayersJaAndX(String poolID) throws DAOException;
 
-	void dropPlayersJaAndX(String poolID);
+	void updateProjection(String poolID) throws DAOException;
 
-	void updateProjection(String poolID);
+	void setCanBeRookie(String poolID) throws DAOException;
 
-	void setCanBeRookie(String poolID);
+	void setTakeProj(String poolID) throws DAOException;
 
-	void setTakeProj(String poolID);
+	void migratePtsToLastYear(String poolID) throws DAOException;
 
-	void migratePtsToLastYear(String poolID);
+	void moveYearsToYearsContract(String poolID) throws DAOException;
 
-	void moveYearsToYearsContract(String poolID);
+	void setSalaireDraft(String poolID) throws DAOException;
 
-	void setSalaireDraft(String poolID);
+	int getTotalSalaireNow(String poolID, int i) throws DAOException;
 
-	int getTotalSalaireNow(String poolID, int i);
+	int getNbAttaquant(String poolID, int i) throws DAOException;
 
-	int getNbAttaquant(String poolID, int i);
+	int getNbDefenseur(String poolID, int i) throws DAOException;
 
-	int getNbDefenseur(String poolID, int i);
+	int getNbGardien(String poolID, int i) throws DAOException;
 
-	int getNbGardien(String poolID, int i);
+	int getNbRookie(String poolID, int i) throws DAOException;
 
-	int getNbRookie(String poolID, int i);
+	int getNbContrat(String poolID, int i) throws DAOException;
 
-	int getNbContrat(String poolID, int i);
+	void dropPlayersAandB(String poolID) throws DAOException;
+
+	void getRookieInClubEcole(int teamId, int poolId, HttpServletRequest req) throws DAOException;
+
+	void dropRookie(int poolId, String players_id) throws DAOException;
+
+	int monterRookie(int poolId, String players_id, int numberOfYearSign, String salaire, PlayersDao playersDao)throws DAOException;
+
+	void setSalaireForRookie(String poolID, SalaireDao salaireDao) throws DAOException;
+
+	int getYears0(int poolId, String players_id) throws DAOException;
+
+	void dropPlayersCetD(HttpServletRequest req, String poolID) throws DAOException;
 
 
    
