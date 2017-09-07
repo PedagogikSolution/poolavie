@@ -38,6 +38,7 @@ public class ClassementDaoImpl implements ClassementDao {
     private static final String UPDATE_STATS_AFTER_TRADE = "UPDATE classement_? SET pj=?,but=?,passe=?,points=?,moyenne=points/pj WHERE team_id=?";
 	private static final String ARCHIVE_CLASSEMENT_LAST_YEAR = "INSERT INTO classement_archive_? (`equipe`,`pj`,`but`,`passe`,`points`,`hier`,`semaine`,`mois`,`moyenne`,`difference`,`team_id`,`pool_id`,`year_of_the_standing`) SELECT equipe,pj,but,passe,points,hier,semaine,mois,moyenne,difference,team_id,pool_id, year_of_the_standing FROM classement_?";
 	private static final String RESET_CLASSEMENT_FOR_NEW_YEARS = "UPDATE classement_? SET pj=0,but=0,passe=0,points=0,hier=0,semaine=0,mois=0,moyenne=0,difference=0,year_of_the_standing=?,mouvement=0";
+	private static final String GET_CLASSEMENT_LAST_YEARS_INVERSE_FROM_ARCHIVE = "SELECT * FROM classement_archive_? WHERE year_of_the_standing=? ORDER BY points ASC, moyenne ASC, but ASC";
 
     private DAOFactory daoFactory;
 
@@ -458,6 +459,29 @@ public class ClassementDaoImpl implements ClassementDao {
 		    fermeturesSilencieuses(preparedStatement, connexion);
 		}
 		
+	}
+
+	@Override
+	public List<Integer> getClassementLastYear(String poolID,String years) throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		List<Integer> classementInverse = new ArrayList<Integer>();
+		ResultSet rs=null;
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, GET_CLASSEMENT_LAST_YEARS_INVERSE_FROM_ARCHIVE, false, Integer.parseInt(poolID),years);
+		    rs =preparedStatement.executeQuery();
+		    
+		    while(rs.next()) {
+		    	classementInverse.add(rs.getInt("team_id"));
+		    }
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		return classementInverse;
 	}
 
 }

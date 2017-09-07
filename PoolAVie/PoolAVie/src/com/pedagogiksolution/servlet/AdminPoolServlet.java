@@ -11,6 +11,7 @@ import com.pedagogiksolution.cron.model.PlayersCronModel;
 import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.dao.DAOFactory;
 import com.pedagogiksolution.dao.DraftDao;
+import com.pedagogiksolution.dao.DraftPickDao;
 import com.pedagogiksolution.dao.PlayersDao;
 import com.pedagogiksolution.dao.SalaireDao;
 import com.pedagogiksolution.dao.TradeMadeDao;
@@ -32,6 +33,8 @@ public class AdminPoolServlet extends HttpServlet {
 	private TradeOfferDao tradeOfferDao;
 	private ClassementDao classementDao;
 	private SalaireDao salaireDao;
+	private DraftPickDao draftPickDao;
+	
 
 	@Override
 	public void init() throws ServletException {
@@ -42,6 +45,7 @@ public class AdminPoolServlet extends HttpServlet {
 		this.tradeOfferDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getTradeOfferDao();
 		this.classementDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getClassementDao();
 		this.salaireDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getSalaireDao();
+		this.draftPickDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftPickDao();
 	}
 
 	@Override
@@ -93,6 +97,9 @@ public class AdminPoolServlet extends HttpServlet {
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 			break;
 		case 12:
+			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
+			break;
+		case 13:
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 			break;
 		}
@@ -195,7 +202,7 @@ public class AdminPoolServlet extends HttpServlet {
 			// fin de drop et promo rookie
 			mAdminModel = new AdminModel();
 			
-			Boolean goodToGo = mAdminModel.preparationNouveauDraft(draftDao,req,playersDao);
+			Boolean goodToGo = mAdminModel.preparationNouveauDraft(draftDao,req,playersDao,classementDao,draftPickDao);
 			
 			if(goodToGo) {
 			mAdminModel.changeCycleAnnuel(req, 2);

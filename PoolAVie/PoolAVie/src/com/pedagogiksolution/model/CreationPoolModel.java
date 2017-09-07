@@ -378,6 +378,8 @@ public class CreationPoolModel {
 		// on cr�e les bases de donn�e player
 		playersDao.createPlayersTable(poolID);
 		playersDao.createPlayersArchiveTable(poolID);
+		
+		playersDao.setCanBeRookie(String.valueOf(poolID));
 
 		draftDao.createDraftTable(poolID);
 		draftDao.createDraftArchiveTable(poolID);
@@ -479,7 +481,7 @@ public class CreationPoolModel {
 		nb_rookie = 0;
 		nb_contrat = 0;
 		nb_equipe = 0;
-		manquant_equipe = 23;
+		manquant_equipe = 22;
 		manquant_att = 8;
 		manquant_def = 5;
 		manquant_gardien = 2;

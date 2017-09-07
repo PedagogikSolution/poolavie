@@ -50,7 +50,7 @@ public class LoginServlet extends HttpServlet {
 	}
 	
 	
-	// Instantiation de la classe métier pour le processus de registration
+	// Instantiation de la classe mï¿½tier pour le processus de registration
 	LoginModel mModel = new LoginModel(nomUtilisateur, motDePasse, req);
 
 	// verifie si le compte existe et le mot de passe est bon, si oui creation du Bean Utilisateur
@@ -58,13 +58,13 @@ public class LoginServlet extends HttpServlet {
 
 	// si valide on continu, sinon on retourne message erreur
 	if (validateCredential) {
-	    // on verifie si le compte a été validé une premiere fois via le processus de code
+	    // on verifie si le compte a ï¿½tï¿½ validï¿½ une premiere fois via le processus de code
 	    Boolean checkIfValidateAccount = mModel.checkIfValidateAccount();
 	    // si valide, on
 	    if (checkIfValidateAccount) {
 		MenuPrincipalModel mModel2 = new MenuPrincipalModel();
 
-		// on verifie si processus de creation de cette utilisateur est terminé terminer
+		// on verifie si processus de creation de cette utilisateur est terminï¿½ terminer
 		Boolean checkIfRegistrationFinish = mModel2.checkIfRegistrationFinish(req);
 		if (checkIfRegistrationFinish) {
 		    // creation des bean Pool et Classement et Equipe
@@ -89,7 +89,7 @@ public class LoginServlet extends HttpServlet {
 		    if (!checkIfDatastoreCreate) {
 			mModelDraft.createDraftDatastoreForThatPool(mBeanPool);
 		    }
-		    mModel.resetConnexionOpen();
+		     mModel.resetConnexionOpen();
 		    // connectFilter Session Attribute
 		    req.getSession().setAttribute("connectUser", 1);
 

@@ -15,11 +15,12 @@ public interface ClassementDao {
     Boolean checkIfTeamAlreadyCreate(int teamID, int poolID) throws DAOException;
     void updateTeamInClassement(String nomDuTeam, int teamID, int poolID) throws DAOException;
     Classement cronJobGetClassementbyPoolId(int poolId) throws DAOException;
-    void updateStat(int poolId, int pj, int but, int passe, int pts, int teamId, int hier, int semaine, int mois)throws DAOException;
-    void updateDifference(int poolId, int teamId, List<Long> mouvementArray)throws DAOException;
-    void updateStat(int poolId, int pj, int but, int passe, int pts, int teamId)throws DAOException;
-	void insertionDansArchives(HttpServletRequest req);
-	void resetClassement(String poolID, String years);
+    void updateStat(int poolId, int pj, int but, int passe, int pts, int teamId, int hier, int semaine, int mois) throws DAOException;
+    void updateDifference(int poolId, int teamId, List<Long> mouvementArray) throws DAOException;
+    void updateStat(int poolId, int pj, int but, int passe, int pts, int teamId) throws DAOException;
+	void insertionDansArchives(HttpServletRequest req) throws DAOException;
+	void resetClassement(String poolID, String years) throws DAOException;
+	List<Integer> getClassementLastYear(String poolID, String years) throws DAOException;
    
     
     

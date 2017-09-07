@@ -41,8 +41,10 @@ import com.google.appengine.api.datastore.Transaction;
 import com.google.appengine.api.datastore.TransactionOptions;
 import com.pedagogiksolution.beans.Article;
 import com.pedagogiksolution.beans.MessageErreurBeans;
+import com.pedagogiksolution.cron.model.DraftPickCronModel;
 import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.dao.DraftDao;
+import com.pedagogiksolution.dao.DraftPickDao;
 import com.pedagogiksolution.dao.PlayersDao;
 import com.pedagogiksolution.dao.SalaireDao;
 import com.pedagogiksolution.dao.TradeMadeDao;
@@ -94,6 +96,7 @@ public class AdminModel {
 		String dateDraft = mBeanPool.getDraftDate();
 		int poolYearId = mBeanPool.getPoolYear();
 
+		
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
 		DateTime dt = formatter.parseDateTime(dateDraft);
 
@@ -1057,12 +1060,15 @@ public class AdminModel {
 		
 	}
 	
-	public Boolean preparationNouveauDraft(DraftDao draftDao2, HttpServletRequest req, PlayersDao playersDao) {
+	public Boolean preparationNouveauDraft(DraftDao draftDao2, HttpServletRequest req, PlayersDao playersDao, ClassementDao classementDao,DraftPickDao draftPickDao) {
 		// drop rookie C et D pas monter
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		String poolID = mBeanPool.getPoolID();
-		int numberOfTeam = mBeanPool.getNumberTeam();
-		
+		String thisYear = mBeanPool.getThisYear();
+		String years = thisYear.substring(0,4);
+		String years2 = thisYear.substring(5,9);
+		int nombreEquipe = mBeanPool.getNumberTeam();
+		int numPickByTeam=30;
 		
 		playersDao.dropPlayersCetD(req,poolID);
 		// check if rookie number is ok to start the new season
@@ -1071,8 +1077,52 @@ public class AdminModel {
 		
 		
 		// populate draftRound from DraftPick
-		draftDao2.populationDraftRoundFromDraftPick(poolID,numberOfTeam);
+		List<Integer> classementInverseLastYears = classementDao.getClassementLastYear(poolID,years);
+		draftDao2.populationDraftRoundFromDraftPick(poolID,classementInverseLastYears,years2,req);
+		
 		// reset draftPick to initial value
+		draftPickDao.truncateTableDraftPick(Integer.parseInt(poolID));
+		draftPickDao.insertPickByTeam(Integer.parseInt(poolID), nombreEquipe, numPickByTeam);
+		
+		// reset draftProcess
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Key keyDraftProcess = KeyFactory.createKey("DraftProcess", poolID);
+		
+		try {
+			Entity mEntity = datastore.get(keyDraftProcess);
+			
+			mEntity.setProperty("currentPick",0);
+			
+			datastore.put(mEntity);
+		} catch (EntityNotFoundException e) {
+
+			e.printStackTrace();
+			return false;
+		}
+		
+		
+		//runCronJobDraftRound and draftPick
+		
+		DraftPickCronModel mModelDraftPick = new DraftPickCronModel(draftPickDao);
+		mModelDraftPick.putDatabaseInDatastore(Integer.parseInt(poolID), nombreEquipe, "7");
+				
+		draftDao2.putDatabaseInDatastore(poolID);
+			
+		// reset draftTime from pool datatstore to avoid jumping from cycle 2 to 3
+		
+		Key keyPool = KeyFactory.createKey("Pool", poolID);
+		
+		try {
+			Entity mEntity = datastore.get(keyPool);
+			
+			mEntity.setProperty("draftDate","9999-10-21 22:00");
+			
+			datastore.put(mEntity);
+		} catch (EntityNotFoundException e) {
+
+			e.printStackTrace();
+			return false;
+		}
 		
 		return true;
 		

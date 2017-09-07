@@ -19,7 +19,9 @@ public interface DraftPickDao {
 
     Boolean checkIfPicksStillInTeam(int poolId, int teamId, int pickId)throws DAOException;
 
-    void makeTrade(int poolId, int teamId1, int roundId2)throws DAOException;
+    void makeTrade(int poolId, int teamId1, int roundId2) throws DAOException;
+
+	void truncateTableDraftPick(int poolId) throws DAOException;
     
     
 

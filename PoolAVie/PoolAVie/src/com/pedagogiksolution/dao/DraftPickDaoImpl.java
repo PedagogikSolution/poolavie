@@ -31,6 +31,7 @@ public class DraftPickDaoImpl implements DraftPickDao {
 	private static final String GET_ROUND_BY_ID = "SELECT * FROM draft_pick? WHERE _id=?";
 	private static final String GET_ROUND_BY_ID_AND_TEAM = "SELECT * FROM draft_pick? WHERE team_id=? AND _id=?";
 	private static final String UPDATE_PICK_AFTER_TRADE = "UPDATE draft_pick? SET team_id=? WHERE _id=?";
+	private static final String TRUNCATE_TABLE = "TRUNCATE draft_pick?";
 
 	private DAOFactory daoFactory;
 
@@ -302,6 +303,25 @@ public class DraftPickDaoImpl implements DraftPickDao {
 			fermeturesSilencieuses(preparedStatement, connexion);
 		}
 
+	}
+
+	@Override
+	public void truncateTableDraftPick(int poolId) throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			connexion = daoFactory.getConnection();
+
+			preparedStatement = initialisationRequetePreparee(connexion, TRUNCATE_TABLE, false, poolId);
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
 	}
 
 }

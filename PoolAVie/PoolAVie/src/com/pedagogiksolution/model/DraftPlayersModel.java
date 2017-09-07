@@ -266,11 +266,27 @@ public class DraftPlayersModel {
 	public void createDraftDatastoreForThatPool(Pool mBean) {
 
 		String poolID = mBean.getPoolID();
+		
+		
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Key mKey = KeyFactory.createKey("DraftProcess", poolID);
 
 		Entity mEntity = new Entity(mKey);
 		mEntity.setProperty("currentPick", 1);
+		mEntity.setProperty("currentPicker", 0);
+		mEntity.setProperty("numberPickRestant", 0);
+		mEntity.setProperty("team1IsOpen", 0);
+		mEntity.setProperty("team2IsOpen", 0);
+		mEntity.setProperty("team3IsOpen", 0);
+		mEntity.setProperty("team4IsOpen", 0);
+		mEntity.setProperty("team5IsOpen", 0);
+		mEntity.setProperty("team6IsOpen", 0);
+		mEntity.setProperty("team7IsOpen", 0);
+		mEntity.setProperty("team8IsOpen", 0);
+		mEntity.setProperty("team9IsOpen", 0);
+		mEntity.setProperty("team10IsOpen", 0);
+		mEntity.setProperty("team11IsOpen", 0);
+		mEntity.setProperty("team12IsOpen", 0);
 		datastore.put(mEntity);
 	}
 
