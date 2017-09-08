@@ -311,38 +311,13 @@
 
 				<br>
 
-				<c:if test="${Pool.cycleAnnuel==3}">
+				
+
+
+				
 					<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
 						<caption class="w3-blue w3-xlarge">
-							<h2>Draft pick this year</h2>
-						</caption>
-						<tr class="w3-blue">
-							<th>Round</th>
-							<th>From</th>
-							<th>Inclure</th>
-
-						</tr>
-						<c:set var="nombreDePick" value="${NonSessionDraftPickMakingThisYear.ronde}" />
-
-						<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
-
-							<tr>
-								<td>${NonSessionDraftPickMakingThisYear.ronde[i]}</td>
-								<td>${NonSessionDraftPickMakingThisYear.teamNameOriginalPick[i]}</td>
-								<td>
-									<input class="w3-check" type="checkbox" name="picks_id_my_team_this_year" value="${NonSessionDraftPickMakingThisYear.pick_no[i]}">
-									
-								</td>
-
-
-							</tr>
-
-						</c:forEach>
-
-					</table>
-					<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
-						<caption class="w3-blue w3-xlarge">
-							<h2>Draft pick next year</h2>
+							<h2>Draft pick</h2>
 						</caption>
 						<tr class="w3-blue">
 							<th>Round</th>
@@ -369,41 +344,7 @@
 
 					</table>
 
-
-				</c:if>
-
-
-				<c:if test="${Pool.cycleAnnuel>3}">
-					<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
-						<caption class="w3-blue w3-xlarge">
-							<h2>Draft pick next year</h2>
-						</caption>
-						<tr class="w3-blue">
-							<th>Round</th>
-							<th>From</th>
-							<th>Inclure</th>
-
-						</tr>
-						<c:set var="nombreDePick" value="${NonSessionDraftPickMaking.ronde}" />
-
-						<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
-
-							<tr>
-								<td>${NonSessionDraftPickMaking.ronde[i]}</td>
-								<td>${NonSessionDraftPickMaking.teamNameOriginalPick[i]}</td>
-								<td>
-									<input class="w3-check" type="checkbox" name="picks_id_my_team" value="${NonSessionDraftPickMaking.pick_no[i]}">
-									
-								</td>
-
-
-							</tr>
-
-						</c:forEach>
-
-					</table>
-
-				</c:if>
+			
 
 			</div>
 
@@ -656,38 +597,10 @@
 				</table>
 
 				<br>
-				<c:if test="${Pool.cycleAnnuel==3}">
+				
 					<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
 						<caption class="w3-blue w3-xlarge">
-							<h2>Draft pick this year</h2>
-						</caption>
-						<tr class="w3-blue">
-							<th>Round</th>
-							<th>From</th>
-							<th>Inclure</th>
-
-						</tr>
-						<c:set var="nombreDePick" value="${NonSessionDraftPickRecivingThisYear.ronde}" />
-
-						<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
-
-							<tr>
-								<td>${NonSessionDraftPickRecivingThisYear.ronde[i]}</td>
-								<td>${NonSessionDraftPickRecivingThisYear.teamNameOriginalPick[i]}</td>
-								<td>
-									<input class="w3-check" type="checkbox" name="picks_id_trade_with_team_this_year" value="${NonSessionDraftPickRecivingThisYear.pick_no[i]}">
-									
-								</td>
-
-
-							</tr>
-
-						</c:forEach>
-
-					</table>
-					<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
-						<caption class="w3-blue w3-xlarge">
-							<h2>Draft pick next year</h2>
+							<h2>Draft pick</h2>
 						</caption>
 						<tr class="w3-blue">
 							<th>Round</th>
@@ -714,41 +627,6 @@
 
 					</table>
 
-
-				</c:if>
-
-
-				<c:if test="${Pool.cycleAnnuel>3}">
-					<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
-						<caption class="w3-blue w3-xlarge">
-							<h2>Draft pick next year</h2>
-						</caption>
-						<tr class="w3-blue">
-							<th>Round</th>
-							<th>From</th>
-							<th>Inclure</th>
-
-						</tr>
-						<c:set var="nombreDePick" value="${NonSessionDraftPickReciving.ronde}" />
-
-						<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
-
-							<tr>
-								<td>${NonSessionDraftPickReciving.ronde[i]}</td>
-								<td>${NonSessionDraftPickReciving.teamNameOriginalPick[i]}</td>
-								<td>
-									<input class="w3-check" type="checkbox" name="picks_id_trade_with_team" value="${NonSessionDraftPickReciving.pick_no[i]}">
-									
-								</td>
-
-
-							</tr>
-
-						</c:forEach>
-
-					</table>
-
-				</c:if>
 			</div>
 			</div>
 

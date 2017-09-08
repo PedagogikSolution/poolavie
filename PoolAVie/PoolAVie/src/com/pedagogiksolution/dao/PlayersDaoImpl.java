@@ -1203,6 +1203,7 @@ public class PlayersDaoImpl implements PlayersDao {
 				mBean.setNomMakingOfferString(rs.getString("nom"));
 				mBean.setPositionDuJoueurTrade(rs.getString("position"));
 				mBean.setClubEcole(rs.getInt("club_ecole"));
+				mBean.setYears_2(rs.getString("years_2"));
 			}
 
 			return mBean;

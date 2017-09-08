@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.pedagogiksolution.beans.TradeBeanTemp;
 import com.pedagogiksolution.datastorebeans.DraftRound;
 import com.pedagogiksolution.datastorebeans.Pool;
 
@@ -23,7 +24,7 @@ public class DraftDaoImpl implements DraftDao {
 
 	private static final String CREATE_DRAFT = "CREATE TABLE draft? LIKE draft";
 	private static final String CREATE_DRAFT_ARCHIVES = "CREATE TABLE draft_archive_? LIKE draft";
-	private static final String INSERT_DRAFT_FIRST_YEAR = "INSERT INTO draft? (draft_pick_no,team_id,ronde,team_count,pool_id,follow_up,year_of_draft,equipe) VALUE(?,?,?,?,?,?,?,?)";
+	private static final String INSERT_DRAFT_FIRST_YEAR = "INSERT INTO draft? (draft_pick_no,team_id,ronde,team_count,pool_id,follow_up,year_of_draft,equipe,from_who,team_id_from) VALUE(?,?,?,?,?,?,?,?,?,?)";
 	private static final String GET_DRAFT_ROUND_ORDER = "SELECT * FROM draft? ORDER BY draft_pick_no ASC";
 	private static final String UPDATE_DRAFT_ROUND_AFTER_DRAFT_PICK = "UPDATE draft? SET player_drafted=? WHERE _id=?";
 	private static final String ARCHIVE_DRAFT_LAST_YEAR = "INSERT INTO draft_archive_? (`draft_pick_no`,`ronde`,`equipe`,`team_id`,`from_who`,`team_id_from`,`team_count`,`follow_up`,`player_drafted`,`year_of_draft`,`pool_id`) SELECT draft_pick_no,ronde,equipe,team_id,from_who,team_id_from,team_count,follow_up,player_drafted,year_of_draft,pool_id FROM draft?";
@@ -32,6 +33,7 @@ public class DraftDaoImpl implements DraftDao {
 	private static final String UPDATE_FROM_DRAFT_PICK = "UPDATE draft? AS a INNER JOIN draft_pick? AS b ON (a.ronde=b.pick_no AND a.team_id=b.original_team_id) SET a.team_id=b.team_id,a.team_id_from=a.team_id,a.from_who=a.equipe";
 	private static final String TRUNCATE_TABLE = "TRUNCATE draft?";
 	private static final String UPDATE_TEAM_NAME = "UPDATE draft? SET equipe=? WHERE team_id=?";
+	private static final String GET_ROUND_BY_ID = "SELECT * FROM draft? WHERE draft_pick_no=?";
 
 	private DAOFactory daoFactory;
 
@@ -131,7 +133,7 @@ public class DraftDaoImpl implements DraftDao {
 
 				}
 				preparedStatement = initialisationRequetePreparee(connexion, INSERT_DRAFT_FIRST_YEAR, false, poolId,
-						draft_pick_no, teamId, ronde, ronde, poolId, 0, years_of_the_draft, nomTeam);
+						draft_pick_no, teamId, ronde, ronde, poolId, 0, years_of_the_draft, nomTeam,nomTeam,teamId);
 				preparedStatement.execute();
 				draft_pick_no++;
 			}
@@ -393,7 +395,7 @@ public class DraftDaoImpl implements DraftDao {
 					}
 
 					preparedStatement = initialisationRequetePreparee(connexion, INSERT_DRAFT_FIRST_YEAR, false, Integer.parseInt(poolID),
-							draft_pick_no, teamId, ronde, ronde, Integer.parseInt(poolID), 0, years_of_the_draft, nomTeam);
+							draft_pick_no, teamId, ronde, ronde, Integer.parseInt(poolID), 0, years_of_the_draft, nomTeam,nomTeam,teamId);
 					preparedStatement.execute();
 					draft_pick_no++;
 				}
@@ -550,6 +552,41 @@ public class DraftDaoImpl implements DraftDao {
 		}
 
 		
+	}
+
+	@Override
+	public TradeBeanTemp getRoundAndNameOfTeam(String poolID, int toInt, Pool mBeanPool) throws DAOException {
+		
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		TradeBeanTemp mBean = new TradeBeanTemp();
+		
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion, GET_ROUND_BY_ID, false,
+					Integer.parseInt(poolID), toInt);
+			rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				int round_temp = rs.getInt("ronde");
+				String from_temp = rs.getString("from_who");
+				
+
+				String round_temp2 = Integer.toString(round_temp);
+
+				mBean.setRoundPick(round_temp2);
+				mBean.setFromPick(from_temp);
+			}
+
+			return mBean;
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(rs, preparedStatement, connexion);
+		}
+
+	
 	}
 
 }

@@ -44,6 +44,7 @@ public class TradeBeanTemp implements Serializable {
     private int total_salaire_team_receiving_offer;
     private String nomReceivingOfferString;
     private String[] nomReceivingOffer;
+    private String years_2;
     
 
     public String getT1j1() {
@@ -251,6 +252,12 @@ public class TradeBeanTemp implements Serializable {
     public void setClubEcole(int clubEcole) {
 	this.clubEcole = clubEcole;
     }
+	public String getYears_2() {
+		return years_2;
+	}
+	public void setYears_2(String years_2) {
+		this.years_2 = years_2;
+	}
     
    
 }

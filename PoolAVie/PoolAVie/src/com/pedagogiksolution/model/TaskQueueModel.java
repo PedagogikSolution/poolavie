@@ -98,7 +98,7 @@ public class TaskQueueModel {
 		String nom = req.getParameter("nom");
 		String currentPick = req.getParameter("currentPick");
 		int currentPickId = Integer.parseInt(currentPick);
-		int currentPickReel = currentPickId - 1;
+		int currentPickReel = currentPickId + 1;
 
 		draftDao.persistPlayerPick(nom, currentPickReel, poolId);
 

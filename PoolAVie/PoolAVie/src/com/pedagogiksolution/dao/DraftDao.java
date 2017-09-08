@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.pedagogiksolution.beans.TradeBeanTemp;
 import com.pedagogiksolution.datastorebeans.DraftRound;
 import com.pedagogiksolution.datastorebeans.Pool;
 
@@ -18,7 +19,8 @@ public interface DraftDao {
 	void insertionDansArchives(HttpServletRequest req) throws DAOException;
 	void resetDraft(String poolID, String years) throws DAOException;
 	void populationDraftRoundFromDraftPick(String poolID, List<Integer> classementInverseLastYears, String years, HttpServletRequest req) throws DAOException;
-	void putDatabaseInDatastore(String poolID);
+	void putDatabaseInDatastore(String poolID) throws DAOException;
+	TradeBeanTemp getRoundAndNameOfTeam(String poolID, int toInt, Pool mBeanPool) throws DAOException;
     
     
 

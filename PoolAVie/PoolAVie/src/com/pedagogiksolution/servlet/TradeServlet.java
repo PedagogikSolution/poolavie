@@ -19,6 +19,7 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.dao.DAOFactory;
+import com.pedagogiksolution.dao.DraftDao;
 import com.pedagogiksolution.dao.DraftPickDao;
 import com.pedagogiksolution.dao.PlayersDao;
 import com.pedagogiksolution.dao.TradeMadeDao;
@@ -40,6 +41,7 @@ public class TradeServlet extends HttpServlet {
     private TradeOfferDao tradeOfferDao;
     private TradeMadeDao tradeMadeDao;
     private ClassementDao classementDao;
+    private DraftDao draftDao;
 
     @Override
     public void init() throws ServletException {
@@ -49,6 +51,7 @@ public class TradeServlet extends HttpServlet {
 	this.tradeOfferDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getTradeOfferDao();
 	this.tradeMadeDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getTradeMadeDao();
 	this.classementDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getClassementDao();
+	this.draftDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftDao();
 
     }
 
@@ -297,7 +300,7 @@ public class TradeServlet extends HttpServlet {
 // envoyer l'offre
 	case 2:
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
-	    Boolean offerGood = mModelTrade.checkIfTradeIsValid(playersDao, draftPickDao);
+	    Boolean offerGood = mModelTrade.checkIfTradeIsValid(playersDao, draftPickDao,draftDao);
 	    if (!offerGood) {
 	    	req.setAttribute("tradeOpen", 1);
 		req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
