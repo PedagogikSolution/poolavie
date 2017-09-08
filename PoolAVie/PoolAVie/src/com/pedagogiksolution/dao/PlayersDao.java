@@ -30,7 +30,7 @@ public interface PlayersDao {
 
     void signPlayerAfterDraft(int teamId, int poolId, String draft_player_id, String salaire, int numberOfYear) throws DAOException;
 
-    void persistPlayerPickRookie(int playersId, int salaireId, int poolId, int teamId, int clubEcoleId)throws DAOException;
+    void persistPlayerPickRookie(int playersId, int salaireId, int poolId, int teamId, int clubEcoleId, int yearsOfC)throws DAOException;
 
     int getPj(int i, int poolId)throws DAOException;
     
@@ -101,6 +101,10 @@ public interface PlayersDao {
 	int getYears0(int poolId, String players_id) throws DAOException;
 
 	void dropPlayersCetD(HttpServletRequest req, String poolID) throws DAOException;
+
+	int checkIfPlayersWillHaveMoreThan25DuringContract(int poolId, int playersId) throws DAOException;
+
+	void updateCAfterRetro(int playersId, String poolID, int teamId, int checker) throws DAOException;
 
 
    

@@ -138,7 +138,7 @@ public class DraftDaoImpl implements DraftDao {
 
 			ronde++;
 
-			for (ronde = 2; ronde < 32; ronde++) {
+			for (ronde = 2; ronde < 31; ronde++) {
 
 				Collections.reverse(permutation);
 				for (int teamId : permutation) {

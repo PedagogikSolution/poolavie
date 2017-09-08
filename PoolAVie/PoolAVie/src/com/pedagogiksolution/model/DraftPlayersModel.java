@@ -272,7 +272,7 @@ public class DraftPlayersModel {
 		Key mKey = KeyFactory.createKey("DraftProcess", poolID);
 
 		Entity mEntity = new Entity(mKey);
-		mEntity.setProperty("currentPick", 1);
+		mEntity.setProperty("currentPick", 0);
 		mEntity.setProperty("currentPicker", 0);
 		mEntity.setProperty("numberPickRestant", 0);
 		mEntity.setProperty("team1IsOpen", 0);
@@ -835,7 +835,7 @@ public class DraftPlayersModel {
 				
 				List<String> player_drafted = (List<String>)mBeanDraftRound.getPlayer_drafted();
 				
-				player_drafted.set((currentPick-1), nom);
+				player_drafted.set((currentPick), nom);
 				
 				mBeanDraftRound.setPlayer_drafted(player_drafted);
 				

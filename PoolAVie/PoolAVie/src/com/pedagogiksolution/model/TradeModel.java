@@ -148,6 +148,9 @@ public class TradeModel {
 	String teamThatReceivedOfferID = req.getParameter("tradeWith");
 	int teamThatReceivedOfferId = Integer.parseInt(teamThatReceivedOfferID);
 	int teamThatMakeOfferId = mBeanUser.getTeamId();
+	int cycleAnnuel=mBeanPool.getCycleAnnuel();
+			
+	
 
 	if (teamThatReceivedOfferId == teamThatMakeOfferId) {
 
@@ -179,16 +182,26 @@ public class TradeModel {
 	defenseurNameTeamReceivingOffer = "Defenseur" + teamThatReceivedOfferId;
 	gardienNameTeamReceivingOffer = "Gardien" + teamThatReceivedOfferId;
 	recrueNameTeamReceivingOffer = "Recrue" + teamThatReceivedOfferId;
+	DraftPick mBeanDraftPickThatMakingOffer = null;
+	DraftPick mBeanDraftPickThatReceivedOffer = null;
+	DraftRound mBeanDraftRound=null;
+	
+	if(cycleAnnuel==5||cycleAnnuel==6||cycleAnnuel==11) {
+	mBeanDraftPickThatMakingOffer = (DraftPick) req.getSession().getAttribute(draftPickNameTeamMakingOffer);
+	mBeanDraftPickThatReceivedOffer = (DraftPick) req.getSession().getAttribute(draftPickNameTeamReceivingOffer);	
+	}
+	
+	if(cycleAnnuel==3) {
+		mBeanDraftRound = (DraftRound) req.getSession().getAttribute("DraftRound");
+		
+	}
+	
 
-	DraftPick mBeanDraftPickThatMakingOffer = (DraftPick) req.getSession().getAttribute(draftPickNameTeamMakingOffer);
 	NonSessionDraftPick mNonSessionDraftBeanThatMakingOffer = new NonSessionDraftPick();
-
-	DraftPick mBeanDraftPickThatReceivedOffer = (DraftPick) req.getSession().getAttribute(draftPickNameTeamReceivingOffer);
 	NonSessionDraftPick mNonSessionDraftBeanThatReceivedOffer = new NonSessionDraftPick();
-
-	DraftRound mBeanDraftRound = (DraftRound) req.getSession().getAttribute("DraftRound");
 	NonSessionDraftPick mNonSessionDraftBeanThatMakingOffer2 = new NonSessionDraftPick();
 	NonSessionDraftPick mNonSessionDraftBeanThatReceivedOffer2 = new NonSessionDraftPick();
+	
 
 	Attaquant mBeanAttaquantThatMakingOffer = (Attaquant) req.getSession().getAttribute(attaquantNameTeamMakingOffer);
 	NonSessionAttaquant mNonSessionAttaquantBeanThatMakingOffer = new NonSessionAttaquant();
@@ -215,6 +228,7 @@ public class TradeModel {
 	NonSessionRecrue mNonSessionRecrueBeanThatReceivedOffer = new NonSessionRecrue();
 
 	// DraftPick From DraftPick for next year or for nonDraftTrade
+	if(cycleAnnuel==5||cycleAnnuel==6||cycleAnnuel==11) {
 	mNonSessionDraftBeanThatMakingOffer.setPick_no(mBeanDraftPickThatMakingOffer.getTotal_pick_number());
 	mNonSessionDraftBeanThatMakingOffer.setRonde(mBeanDraftPickThatMakingOffer.getPick_no());
 	mNonSessionDraftBeanThatMakingOffer.setTeamNameOriginalPick(mBeanDraftPickThatMakingOffer.getTeamNameOriginalPick());
@@ -223,7 +237,11 @@ public class TradeModel {
 	mNonSessionDraftBeanThatReceivedOffer.setRonde(mBeanDraftPickThatReceivedOffer.getPick_no());
 	mNonSessionDraftBeanThatReceivedOffer.setTeamNameOriginalPick(mBeanDraftPickThatReceivedOffer.getTeamNameOriginalPick());
 
+	}
+	
 	// DraftPick From DraftRound for trade while draft is up
+	
+	if(cycleAnnuel==3) {
 	List<Long> pick_no = new ArrayList<Long>();
 	List<Long> ronde = new ArrayList<Long>();
 	List<Long> team_id = new ArrayList<Long>();
@@ -262,6 +280,8 @@ public class TradeModel {
 	mNonSessionDraftBeanThatReceivedOffer2.setTeamNameOriginalPick(teamNameOriginePick2);
 	mNonSessionDraftBeanThatReceivedOffer2.setTeam_id(team_id2);
 	mNonSessionDraftBeanThatReceivedOffer2.setRonde(ronde2);
+	
+	}
 
 	// Attaquant
 	mNonSessionAttaquantBeanThatMakingOffer.set_id(mBeanAttaquantThatMakingOffer.getPlayers_id());
@@ -380,11 +400,15 @@ public class TradeModel {
 	mNonSessionRecrueBeanThatReceivedOffer.setYears_4(mBeanRecrueThatReceivedOffer.getYears_4());
 	mNonSessionRecrueBeanThatReceivedOffer.setYears_5(mBeanRecrueThatReceivedOffer.getYears_5());
 
+	
+	if(cycleAnnuel==5||cycleAnnuel==6||cycleAnnuel==11) {
 	req.setAttribute("NonSessionDraftPickMaking", mNonSessionDraftBeanThatMakingOffer);
 	req.setAttribute("NonSessionDraftPickReciving", mNonSessionDraftBeanThatReceivedOffer);
-
-	req.setAttribute("NonSessionDraftPickMakingThisYear", mNonSessionDraftBeanThatMakingOffer2);
-	req.setAttribute("NonSessionDraftPickRecivingThisYear", mNonSessionDraftBeanThatReceivedOffer2);
+	}
+	if(cycleAnnuel==3) {
+	req.setAttribute("NonSessionDraftPickMaking", mNonSessionDraftBeanThatMakingOffer2);
+	req.setAttribute("NonSessionDraftPickReciving", mNonSessionDraftBeanThatReceivedOffer2);
+	}
 
 	req.setAttribute("NonSessionAttaquantPickMaking", mNonSessionAttaquantBeanThatMakingOffer);
 	req.setAttribute("NonSessionAttaquantPickReciving", mNonSessionAttaquantBeanThatReceivedOffer);

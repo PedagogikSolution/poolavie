@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pedagogiksolution.cron.model.PlayersCronModel;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.DraftPlayersModel;
 
@@ -101,6 +102,8 @@ public class DraftPlayersServlet extends HttpServlet {
 		case 3: // persitence d'un pick dans club recrue
 			mModel = new DraftPlayersModel(req, resp);
 			mModel.persistenceDraftPickRookie();
+			
+			
 			mModel.channelMessage(2);
 			checkIfDraftFinish = mModel.checkIfDraftFinish();
 			if (checkIfDraftFinish) {

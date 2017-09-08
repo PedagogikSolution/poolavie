@@ -368,7 +368,7 @@ public class CreationPoolModel {
 		// on recupere le nombre d'�quipe et le nombre de joueurs par �quipe
 		nombreEquipe = req.getParameter("nombreEquipe");
 		int numTeam = Integer.parseInt(nombreEquipe);
-		int numPickByTeam = 31;
+		int numPickByTeam = 30;
 
 		// on cr�e les bases de donn�e classement et ins�re la ligne
 		classementDao.createClassementTable(poolID);

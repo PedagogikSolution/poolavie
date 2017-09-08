@@ -7,7 +7,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -41,7 +44,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String GET_PLAYERS_BY_POOL_ID_AND_POSITION = "SELECT * FROM players_? WHERE team_id=? AND position=? AND club_ecole=? ORDER BY pts DESC";
 	private static final String GET_PLAYERS_FOR_DRAFT = "SELECT * FROM players_?";
 	private static final String GET_PLAYERS_BY_POOL_ID_FOR_ROOKIE = "SELECT * FROM players_? WHERE team_id=? AND club_ecole=? ORDER BY pts DESC";
-	private static final String UPDATE_PLAYERS_AFTER_DRAFT_PICK = "UPDATE players_? SET team_id=?,contrat=?,club_ecole=?,years_1=?,years_2='JA',years_3='A',years_4='A',years_5='A' WHERE _id=?";
+	private static final String UPDATE_PLAYERS_AFTER_DRAFT_PICK = "UPDATE players_? SET team_id=?,contrat=?,club_ecole=?,years_1=?,years_2='JA',years_3='X',years_4='X',years_5='X' WHERE _id=?";
 	private static final String GET_PLAYERS_FOR_SIGNATURE_AFTER_DRAFT = "SELECT * FROM players_? WHERE contrat=1 AND club_ecole=0 AND team_id=? AND years_2='JA'";
 	private static final String UPDATE_PLAYERS_SIGNATURE_AFTER_DRAFT = "UPDATE players_? SET contrat=1,years_1=?,years_2=?,years_3=?,years_4=?,years_5=? WHERE _id=?";
 	private static final String GET_FOWARD_PJ_TOP_X = "SELECT SUM(pj) AS sommePts FROM (SELECT pj FROM players_? WHERE position='attaquant' AND team_id=? AND club_ecole=0 ORDER BY pts DESC LIMIT ?) AS subquery";
@@ -121,7 +124,10 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String UPDATE_SALAIRE_ROOKIE = "UPDATE players_? SET years_1=?,years_2=?,years_3=?,years_4=?,years_5=? WHERE _id=?";
 	private static final String GET_YEARS_0 = "SELECT years_0 FROM players_? WHERE _id=?";
 	private static final String DROP_PLAYERS_C_D = "UPDATE players_? SET contrat=0,club_ecole=0,years_1=0,years_2=0,years_3=0,years_4=0,years_5=0,team_id=null WHERE (years_1='C' OR years_1='D')";
-	private static final String UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK = null;
+	private static final String UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK = "UPDATE players_? SET team_id=?,contrat=?,club_ecole=?,years_1=?,years_2=?,years_3=?,years_4=?,years_5=? WHERE _id=?";
+	private static final String GET_BIRTHDAY = "SELECT birthday FROM players_? WHERE _id=?";
+	private static final String UPDATE_C_AFTER_RETRO = null;
+	private static final String UPDATE_C_AFTER_RETRO_1 = null;
 
 	private DAOFactory daoFactory;
 
@@ -874,7 +880,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	}
 
 	@Override
-	public void persistPlayerPickRookie(int playersId, int salaireId, int poolId, int teamId, int clubEcoleId)
+	public void persistPlayerPickRookie(int playersId, int salaireId, int poolId, int teamId, int clubEcoleId, int yearsOfC)
 			throws DAOException {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
@@ -882,8 +888,33 @@ public class PlayersDaoImpl implements PlayersDao {
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = initialisationRequetePreparee(connexion, UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK, false, poolId,
-					teamId, contrat, clubEcoleId, salaireId, playersId);
+			switch(yearsOfC) {
+			case 0:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK, false, poolId,
+						teamId, contrat, clubEcoleId, salaireId,salaireId,salaireId,salaireId,salaireId, playersId);
+				break;
+			case 1:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK, false, poolId,
+						teamId, contrat, clubEcoleId, "C","C","C","C","C", playersId);
+				break;
+			case 2:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK, false, poolId,
+						teamId, contrat, clubEcoleId, salaireId,"C","C","C","C", playersId);
+				break;
+			case 3:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK, false, poolId,
+						teamId, contrat, clubEcoleId, salaireId,salaireId,"C","C","C", playersId);
+				break;
+			case 4:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK, false, poolId,
+						teamId, contrat, clubEcoleId, salaireId,salaireId,salaireId,"C","C", playersId);
+				break;
+			case 5:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK, false, poolId,
+						teamId, contrat, clubEcoleId, salaireId,salaireId,salaireId,salaireId,"C", playersId);
+				break;
+			}
+		
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -2798,6 +2829,126 @@ public class PlayersDaoImpl implements PlayersDao {
 			fermeturesSilencieuses(preparedStatement, connexion);
 		}
 		
+		
+	}
+
+	@Override
+	public int checkIfPlayersWillHaveMoreThan25DuringContract(int poolId, int playersId) throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		Date maxDateForRookie2 = null;
+		Date maxDateForRookie3 = null;
+		Date maxDateForRookie4 = null;
+		Date maxDateForRookie5 = null;
+		try {
+			connexion = daoFactory.getConnection();
+
+			preparedStatement = initialisationRequetePreparee(connexion, GET_BIRTHDAY, false, poolId,playersId);
+			ResultSet rs = preparedStatement.executeQuery();
+			while(rs.next()) {
+
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-dd");
+				Date mDate = rs.getDate("birthday");
+				DateTime dt = new DateTime();
+				
+				int year2 = dt.getYear() - 24;
+				String birthday2 = year2 + "-09-15";
+				
+				
+				try {
+					maxDateForRookie2 = formatter.parse(birthday2);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				int year3 = dt.getYear() - 23;
+				String birthday3 = year3 + "-09-15";
+				try {
+					maxDateForRookie3 = formatter.parse(birthday3);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				int year4 = dt.getYear() - 22;
+				String birthday4 = year4 + "-09-15";
+				try {
+					maxDateForRookie4 = formatter.parse(birthday4);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				int year5 = dt.getYear() - 21;
+				String birthday5 = year5 + "-09-15";
+				try {
+					maxDateForRookie5 = formatter.parse(birthday5);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+				
+					
+					if(mDate.before(maxDateForRookie2)) {
+						return 2;
+					}
+					if(mDate.before(maxDateForRookie3)) {
+						return 3;
+					}
+					if(mDate.before(maxDateForRookie4)) {
+						return 4;
+					}
+					if(mDate.before(maxDateForRookie5)) {
+						return 5;
+					}
+					
+			
+				
+				
+				
+			}
+			
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+		return 0;
+	}
+
+	@Override
+	public void updateCAfterRetro(int playersId, String poolID, int teamId, int checker) throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		
+
+		try {
+			connexion = daoFactory.getConnection();
+			switch(checker) {
+			case 2:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_1, false, Integer.parseInt(poolID),"C","C","C",playersId);
+				break;
+			
+			case 3:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_1, false, Integer.parseInt(poolID),"C","C",playersId);
+				break;
+			case 4:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_1, false, Integer.parseInt(poolID),"C",playersId);
+				break;
+			
+			default : 
+				break;
+			}
+		
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
 		
 	}
 

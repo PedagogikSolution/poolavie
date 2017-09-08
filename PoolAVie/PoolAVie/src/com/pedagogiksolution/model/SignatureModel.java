@@ -692,7 +692,13 @@ public class SignatureModel {
 
 		String position = playersDao.putPlayersInClubEcole(playersId, poolID);
 
-		// on place joueurs dans club_ecole
+		// on verifie si joueur de type C et on ajuste les salaires
+		
+		int checkC = playersDao.checkIfPlayersWillHaveMoreThan25DuringContract(Integer.parseInt(poolID), playersId);
+		
+		
+		
+		playersDao.updateCAfterRetro(playersId, poolID, teamId, checkC);
 
 		// on relance Attaquant, Def, Goaler et Rookie selon la position cron job
 
