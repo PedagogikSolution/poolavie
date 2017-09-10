@@ -36,7 +36,7 @@
 			</div>
 		</div>
 		<br>
-		
+
 	</c:if>
 
 
@@ -51,8 +51,8 @@
 		</div>
 
 	</c:if>
-	
-	
+
+
 
 
 	<c:if test="${requestScope.tradeOpen==1}">
@@ -61,9 +61,7 @@
 		<!-- Liste des offres recu -->
 		<div class="w3-row">
 			<div class="w3-half">
-				<br>
-				<br>
-				<br>
+				<br> <br> <br>
 				<table class="w3-table  w3-striped w3-bordered w3-card-8" style="width: 90%; margin-left: auto; margin-right: auto">
 					<caption class="w3-blue w3-xlarge">
 						<h2>Les offres que j'ai reçu</h2>
@@ -93,9 +91,7 @@
 								<td>${tradeOfferReceived.dateTradeOfferArray[i]}</td>
 								<td>
 									<form method="post" action="/Trade">
-									<input type="hidden" name="tradeTag" value="7">
-									<input type="hidden" name="trade_id" value="${tradeOfferReceived.tradeOfferId[i]}">
-									<input type="submit" value="Voir">
+										<input type="hidden" name="tradeTag" value="7"> <input type="hidden" name="trade_id" value="${tradeOfferReceived.tradeOfferId[i]}"> <input type="submit" value="Voir">
 									</form>
 								</td>
 
@@ -115,9 +111,7 @@
 			<!-- Liste des offres fait -->
 
 			<div class="w3-half">
-				<br>
-				<br>
-				<br>
+				<br> <br> <br>
 				<table class="w3-table  w3-striped w3-bordered w3-card-8" style="width: 90%; margin-left: auto; margin-right: auto">
 					<caption class="w3-blue w3-xlarge">
 						<h2>Les offres que j'ai fait</h2>
@@ -147,9 +141,7 @@
 								<td>${tradeOfferMade.dateTradeOfferArray[i]}</td>
 								<td>
 									<form method="post" action="/Trade">
-									<input type="hidden" name="tradeTag" value="6">
-									<input type="hidden" name="trade_id" value="${tradeOfferMade.tradeOfferId[i]}">
-									<input type="submit" value="Voir">
+										<input type="hidden" name="tradeTag" value="6"> <input type="hidden" name="trade_id" value="${tradeOfferMade.tradeOfferId[i]}"> <input type="submit" value="Voir">
 									</form>
 								</td>
 
@@ -170,105 +162,91 @@
 		<!-- Faire une offre -->
 
 		<div class="w3-row w3-container w3-center">
-			<br>
-			<br>
-			<br>
+			<br> <br> <br>
 			<h2>Cliquez sur une équipe pour faire une offre à celle-ci</h2>
-			<br>
-			<br>
+			<br> <br>
 			<div class="w3-quarter">
 				<form class="w3-container" method="post" action="/Trade">
-					<input type="hidden" name="tradeWith" value="1">
-					<input type="hidden" name="tradeTag" value="1">
-					<input type="image" src="${Pool.logoTeam1}" alt="Submit" width="128px" height="128px" />
+					<input type="hidden" name="tradeWith" value="1"> <input type="hidden" name="tradeTag" value="1"> <input type="image" src="${Pool.logoTeam1}" alt="Submit" width="128px"
+						height="128px" /> ${Pool.nomTeam1}
 				</form>
 
 				<br>
 				<form class="w3-container" method="post" action="/Trade">
-					<input type="hidden" name="tradeWith" value="2">
-					<input type="hidden" name="tradeTag" value="1">
-					<input type="image" src="${Pool.logoTeam2}" alt="Submit" width="128px" height="128px" />
+					<input type="hidden" name="tradeWith" value="2"> <input type="hidden" name="tradeTag" value="1"> <input type="image" src="${Pool.logoTeam2}" alt="Submit" width="128px"
+						height="128px" /> ${Pool.nomTeam2}
 				</form>
 				<br>
 				<form class="w3-container" method="post" action="/Trade">
-					<input type="hidden" name="tradeWith" value="3">
-					<input type="hidden" name="tradeTag" value="1">
-					<input type="image" src="${Pool.logoTeam3}" alt="Submit" width="128px" height="128px" />
+					<input type="hidden" name="tradeWith" value="3"> <input type="hidden" name="tradeTag" value="1"> <input type="image" src="${Pool.logoTeam3}" alt="Submit" width="128px"
+						height="128px" /> ${Pool.nomTeam3}
 				</form>
 			</div>
 			<div class="w3-quarter">
 				<form class="w3-container" method="post" action="/Trade">
-					<input type="hidden" name="tradeWith" value="4">
-					<input type="hidden" name="tradeTag" value="1">
-					<input type="image" src="${Pool.logoTeam4}" alt="Submit" width="128px" height="128px" />
+					<input type="hidden" name="tradeWith" value="4"> <input type="hidden" name="tradeTag" value="1"> <input type="image" src="${Pool.logoTeam4}" alt="Submit" width="128px"
+						height="128px" /> ${Pool.nomTeam4}
 				</form>
 				<br>
 				<form class="w3-container" method="post" action="/Trade">
-					<input type="hidden" name="tradeWith" value="5">
-					<input type="hidden" name="tradeTag" value="1">
-					<input type="image" src="${Pool.logoTeam5}" alt="Submit" width="128px" height="128px" />
+					<input type="hidden" name="tradeWith" value="5"> <input type="hidden" name="tradeTag" value="1"> <input type="image" src="${Pool.logoTeam5}" alt="Submit" width="128px"
+						height="128px" /> ${Pool.nomTeam5}
 				</form>
 				<br>
 				<form class="w3-container" method="post" action="/Trade">
-					<input type="hidden" name="tradeWith" value="6">
-					<input type="hidden" name="tradeTag" value="1">
-					<input type="image" src="${Pool.logoTeam6}" alt="Submit" width="128px" height="128px" />
+					<input type="hidden" name="tradeWith" value="6"> <input type="hidden" name="tradeTag" value="1"> <input type="image" src="${Pool.logoTeam6}" alt="Submit" width="128px"
+						height="128px" /> ${Pool.nomTeam6}
 				</form>
 			</div>
 			<div class="w3-quarter">
 				<form class="w3-container" method="post" action="/Trade">
-					<input type="hidden" name="tradeWith" value="7">
-					<input type="hidden" name="tradeTag" value="1">
-					<input type="image" src="${Pool.logoTeam7}" alt="Submit" width="128px" height="128px" />
+					<input type="hidden" name="tradeWith" value="7"> <input type="hidden" name="tradeTag" value="1"> <input type="image" src="${Pool.logoTeam7}" alt="Submit" width="128px"
+						height="128px" /> ${Pool.nomTeam7}
 				</form>
 				<br>
 				<form class="w3-container" method="post" action="/Trade">
-					<input type="hidden" name="tradeWith" value="8">
-					<input type="hidden" name="tradeTag" value="1">
-					<input type="image" src="${Pool.logoTeam8}" alt="Submit" width="128px" height="128px" />
+					<input type="hidden" name="tradeWith" value="8"> <input type="hidden" name="tradeTag" value="1"> <input type="image" src="${Pool.logoTeam8}" alt="Submit" width="128px"
+						height="128px" /> ${Pool.nomTeam8}
 				</form>
 				<br>
 				<c:if test="${Pool.nomTeam9!=null}">
 					<form class="w3-container" method="post" action="/Trade">
-						<input type="hidden" name="tradeWith" value="9">
-						<input type="hidden" name="tradeTag" value="1">
-						<input type="image" src="${Pool.logoTeam9}" alt="Submit" width="128px" height="128px" />
+						<input type="hidden" name="tradeWith" value="9"> <input type="hidden" name="tradeTag" value="1"> <input type="image" src="${Pool.logoTeam9}" alt="Submit" width="128px"
+							height="128px" />
 					</form>
+					${Pool.nomTeam9}
 				</c:if>
 			</div>
 			<div class="w3-quarter">
 				<c:if test="${Pool.nomTeam10!=null}">
 					<form class="w3-container" method="post" action="/Trade">
-						<input type="hidden" name="tradeWith" value="10">
-						<input type="hidden" name="tradeTag" value="1">
-						<input type="image" src="${Pool.logoTeam10}" alt="Submit" width="128px" height="128px" />
+						<input type="hidden" name="tradeWith" value="10"> <input type="hidden" name="tradeTag" value="1"> <input type="image" src="${Pool.logoTeam10}" alt="Submit" width="128px"
+							height="128px" /> ${Pool.nomTeam10}
 					</form>
 				</c:if>
 				<br>
 				<c:if test="${Pool.nomTeam11!=null}">
 					<form class="w3-container" method="post" action="/Trade">
-						<input type="hidden" name="tradeWith" value="11">
-						<input type="hidden" name="tradeTag" value="1">
-						<input type="image" src="${Pool.logoTeam11}" alt="Submit" width="128px" height="128px" />
+						<input type="hidden" name="tradeWith" value="11"> <input type="hidden" name="tradeTag" value="1"> <input type="image" src="${Pool.logoTeam11}" alt="Submit" width="128px"
+							height="128px" /> ${Pool.nomTeam11}
 					</form>
 				</c:if>
 				<br>
 				<c:if test="${Pool.nomTeam12!=null}">
 					<form class="w3-container" method="post" action="/Trade">
-						<input type="hidden" name="tradeWith" value="12">
-						<input type="hidden" name="tradeTag" value="1">
-						<input type="image" src="${Pool.logoTeam12}" alt="Submit" width="128px" height="128px" />
+						<input type="hidden" name="tradeWith" value="12"> <input type="hidden" name="tradeTag" value="1"> <input type="image" src="${Pool.logoTeam12}" alt="Submit" width="128px"
+							height="128px" /> ${Pool.nomTeam12}
 					</form>
 				</c:if>
 			</div>
-			<br>
-			<br>
-			<br>
+			<br> <br> <br>
 		</div>
 
 	</c:if>
 
-
+	<br>
+	<br>
+	<br>
 
 
 

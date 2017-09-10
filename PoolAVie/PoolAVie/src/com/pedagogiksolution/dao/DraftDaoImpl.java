@@ -34,6 +34,7 @@ public class DraftDaoImpl implements DraftDao {
 	private static final String TRUNCATE_TABLE = "TRUNCATE draft?";
 	private static final String UPDATE_TEAM_NAME = "UPDATE draft? SET equipe=? WHERE team_id=?";
 	private static final String GET_ROUND_BY_ID = "SELECT * FROM draft? WHERE draft_pick_no=?";
+	private static final String MAKE_TRADE_DURING_DRAFT = "UPDATE draft? SET from_who=equipe,team_id_from=team_id,team_id=?,equipe=? WHERE draft_pick_no=?" ;
 
 	private DAOFactory daoFactory;
 
@@ -587,6 +588,98 @@ public class DraftDaoImpl implements DraftDao {
 		}
 
 	
+	}
+
+	@Override
+	public Boolean checkIfPickStillInTeam(int poolId, int teamId, int pickId) throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion, GET_ROUND_BY_ID, false,
+					poolId, pickId);
+			rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				int team_id = rs.getInt("team_id");
+				String players_drafted = rs.getString("player_drafted");
+				if(team_id==teamId && players_drafted==null) {
+
+					return true;
+				}
+				
+			}
+
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(rs, preparedStatement, connexion);
+		}
+
+		return false;
+	}
+
+	@Override
+	public void makeTrade(int poolId, int teamId1, int pickNo, Pool mBeanPool) throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		String nomTeam=null;
+		switch (teamId1) {
+		case 1:
+			nomTeam = mBeanPool.getNomTeam1();
+			break;
+		case 2:
+			nomTeam = mBeanPool.getNomTeam2();
+			break;
+		case 3:
+			nomTeam = mBeanPool.getNomTeam3();
+			break;
+		case 4:
+			nomTeam = mBeanPool.getNomTeam4();
+			break;
+		case 5:
+			nomTeam = mBeanPool.getNomTeam5();
+			break;
+		case 6:
+			nomTeam = mBeanPool.getNomTeam6();
+			break;
+		case 7:
+			nomTeam = mBeanPool.getNomTeam7();
+			break;
+		case 8:
+			nomTeam = mBeanPool.getNomTeam8();
+			break;
+		case 9:
+			nomTeam = mBeanPool.getNomTeam9();
+			break;
+		case 10:
+			nomTeam = mBeanPool.getNomTeam10();
+			break;
+		case 11:
+			nomTeam = mBeanPool.getNomTeam11();
+			break;
+		case 12:
+			nomTeam = mBeanPool.getNomTeam12();
+			break;
+
+		}
+		
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion, MAKE_TRADE_DURING_DRAFT, false,
+					poolId,teamId1,nomTeam, pickNo);
+			preparedStatement.execute();
+			
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(rs, preparedStatement, connexion);
+		}
+
+		
 	}
 
 }

@@ -14,7 +14,7 @@
 		messageReceived = JSON.parse(m.data);
 		testIfOpen = messageReceived.testIfOpen;
 		draftPickMade = messageReceived.draftPickMade;
-		// connexion avec les serveurs établie
+		// connexion avec les serveurs ï¿½tablie
 		if(testIfOpen==1){
 			document.getElementById('connexionAlert').classList.remove('w3-hide');
 			document.getElementById('connexionAlert').classList.add('w3-show');
@@ -148,5 +148,5 @@
 		openChannel();
 
 	}
-	setTimeout(initialize, 100);
+	// setTimeout(initialize, 100);
 </script>

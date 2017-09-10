@@ -64,7 +64,7 @@
 			<div class="w3-row">
 			<div class="w3-half w3-center">
 			<br>
-				<h1>Mon équipe</h1>
+				<h1>Mon équipe <br>(${requestScope.team1})</h1>
 				
 				<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
 					<caption class="w3-blue w3-xlarge">
@@ -352,7 +352,7 @@
 			
 			<div class="w3-half w3-center">
 			<br>
-				<h1>Équipe avec qui j'échange</h1>
+				<h1>Équipe avec qui j'échange<br> (${requestScope.team2})</h1>
 				
 				<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
 					<caption class="w3-blue w3-xlarge">

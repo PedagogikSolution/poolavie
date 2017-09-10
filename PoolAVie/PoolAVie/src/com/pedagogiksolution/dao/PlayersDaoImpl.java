@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -126,8 +125,11 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String DROP_PLAYERS_C_D = "UPDATE players_? SET contrat=0,club_ecole=0,years_1=0,years_2=0,years_3=0,years_4=0,years_5=0,team_id=null WHERE (years_1='C' OR years_1='D')";
 	private static final String UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK = "UPDATE players_? SET team_id=?,contrat=?,club_ecole=?,years_1=?,years_2=?,years_3=?,years_4=?,years_5=? WHERE _id=?";
 	private static final String GET_BIRTHDAY = "SELECT birthday FROM players_? WHERE _id=?";
-	private static final String UPDATE_C_AFTER_RETRO = null;
-	private static final String UPDATE_C_AFTER_RETRO_1 = null;
+	
+	private static final String UPDATE_C_AFTER_RETRO_1 = "UPDATE players_? SET years_3=?,years_4?,years_5=? WHERE _id=?";
+	private static final String UPDATE_C_AFTER_RETRO_2 = "UPDATE players_? SET years_4?,years_5=? WHERE _id=?";
+	private static final String UPDATE_C_AFTER_RETRO_3 = "UPDATE players_? SET years_5=? WHERE _id=?";
+	private static final String UPDATE_C_AFTER_RETRO_0 = "UPDATE players_? SET years_2=?,years_3=?,years_4?,years_5=? WHERE _id=?";
 
 	private DAOFactory daoFactory;
 
@@ -2928,15 +2930,18 @@ public class PlayersDaoImpl implements PlayersDao {
 		try {
 			connexion = daoFactory.getConnection();
 			switch(checker) {
+			case 1:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_0, false, Integer.parseInt(poolID),"C","C","C","C",playersId);
+				break;
 			case 2:
 				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_1, false, Integer.parseInt(poolID),"C","C","C",playersId);
 				break;
 			
 			case 3:
-				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_1, false, Integer.parseInt(poolID),"C","C",playersId);
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_2, false, Integer.parseInt(poolID),"C","C",playersId);
 				break;
 			case 4:
-				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_1, false, Integer.parseInt(poolID),"C",playersId);
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_3, false, Integer.parseInt(poolID),"C",playersId);
 				break;
 			
 			default : 

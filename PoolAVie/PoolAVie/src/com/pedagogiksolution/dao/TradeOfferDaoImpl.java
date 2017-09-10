@@ -252,7 +252,7 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
     }
 
     @Override
-    public TradeBeans showOfferX(Pool mBeanPool, Utilisateur mBeanUser, int trade_id, PlayersDao playersDao, DraftPickDao draftPickDao) throws DAOException {
+    public TradeBeans showOfferX(Pool mBeanPool, Utilisateur mBeanUser, int trade_id, PlayersDao playersDao, DraftPickDao draftPickDao, DraftDao draftDao) throws DAOException {
 
 	Connection connexion = null;
 	ResultSet rs = null;
@@ -499,35 +499,42 @@ public class TradeOfferDaoImpl implements TradeOfferDao {
 	}
 
 	// roundpick et frompick a faire pour la persistence
-	if (draftPickTeamThatOffer != null) {
-	    int k = 0;
-	    for (String s : draftPickTeamThatOffer) {
-		int toInt = Integer.parseInt(s);
-		TradeBeanTemp mBeanTemp = new TradeBeanTemp();
-		mBeanTemp = draftPickDao.getNameOfTeam(mBeanPool.getPoolID(), toInt, mBeanPool);
+			if (draftPickTeamThatOffer != null) {
+				int k = 0;
+				TradeBeanTemp mBeanTemp = null;
+				for (String s : draftPickTeamThatOffer) {
+					int toInt = Integer.parseInt(s);
 
-		RoundPickMakingOffer[k] = mBeanTemp.getRoundPick();
-		FromPickMakingOffer[k] = mBeanTemp.getFromPick();
+					if (mBeanPool.getCycleAnnuel() == 3) {
+						mBeanTemp = draftDao.getRoundAndNameOfTeam(mBeanPool.getPoolID(), toInt, mBeanPool);
+					} else {
+						mBeanTemp = draftPickDao.getNameOfTeam(mBeanPool.getPoolID(), toInt, mBeanPool);
+					}
+					RoundPickMakingOffer[k] = mBeanTemp.getRoundPick();
+					FromPickMakingOffer[k] = mBeanTemp.getFromPick();
 
-		k++;
+					k++;
 
-	    }
-	}
+				}
+			}
 
-	if (draftPickTeamThatReceived != null) {
-	    int l = 0;
-	    for (String s : draftPickTeamThatReceived) {
-		int toInt = Integer.parseInt(s);
-		TradeBeanTemp mBeanTemp = new TradeBeanTemp();
-		mBeanTemp = draftPickDao.getNameOfTeam(mBeanPool.getPoolID(), toInt, mBeanPool);
+			if (draftPickTeamThatReceived != null) {
+				int l = 0;
+				TradeBeanTemp mBeanTemp = null;
+				for (String s : draftPickTeamThatReceived) {
+					int toInt = Integer.parseInt(s);
+					if (mBeanPool.getCycleAnnuel() == 3) {
+						mBeanTemp = draftDao.getRoundAndNameOfTeam(mBeanPool.getPoolID(), toInt, mBeanPool);
+					} else {
+						mBeanTemp = draftPickDao.getNameOfTeam(mBeanPool.getPoolID(), toInt, mBeanPool);
+					}
+					RoundPickReceivingOffer[l] = mBeanTemp.getRoundPick();
+					FromPickReceivingOffer[l] = mBeanTemp.getFromPick();
 
-		RoundPickReceivingOffer[l] = mBeanTemp.getRoundPick();
-		FromPickReceivingOffer[l] = mBeanTemp.getFromPick();
+					l++;
 
-		l++;
-
-	    }
-	}
+				}
+			}
 
 	mBean.setMessageOffre(messageOffre);
 	mBean.setPickNumMakingOffer(draftPickTeamThatOffer);

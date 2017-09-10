@@ -337,7 +337,8 @@ public class TradeServlet extends HttpServlet {
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
 	    mModel = new LoginModel(req);
 	    mModel.createSessionEquipeBean();
-	    Boolean tradeStillPosible = mModelTrade.checkIfTradeIsStillPossible(playersDao, draftPickDao, tradeOfferDao);
+	    mModel.createSessionDraftRoundBean();
+	    Boolean tradeStillPosible = mModelTrade.checkIfTradeIsStillPossible(playersDao, draftPickDao, tradeOfferDao,draftDao);
 
 	    if (!tradeStillPosible) {
 		// si pas bon on annule l'offre et renvoie avec un message erreur expliquant l'annulation sur la page
@@ -349,7 +350,7 @@ public class TradeServlet extends HttpServlet {
 	    } else {
 		// on effectue l'Echange et on persiste celle-ci dans trade_made
 
-		mModelTrade.makeTrade(playersDao, draftPickDao, tradeOfferDao);
+		mModelTrade.makeTrade(playersDao, draftPickDao, tradeOfferDao,draftDao);
 		mModelTrade.persistTrade(tradeMadeDao);
 
 		mModelTrade.annulerOffre(req, tradeOfferDao);
@@ -376,7 +377,7 @@ public class TradeServlet extends HttpServlet {
 	case 6:
 
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
-	    mModelTrade.showOfferNumberX(1, tradeOfferDao, tradeMadeDao, playersDao, draftPickDao);
+	    mModelTrade.showOfferNumberX(1, tradeOfferDao, tradeMadeDao, playersDao, draftPickDao,draftDao);
 	    req.setAttribute("whichShow", 6);
 	    req.getRequestDispatcher("jsp/trade/showOfferDetail.jsp").forward(req, resp);
 
@@ -385,7 +386,7 @@ public class TradeServlet extends HttpServlet {
 	case 7:
 
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
-	    mModelTrade.showOfferNumberX(1, tradeOfferDao, tradeMadeDao, playersDao, draftPickDao);
+	    mModelTrade.showOfferNumberX(1, tradeOfferDao, tradeMadeDao, playersDao, draftPickDao,draftDao);
 	    req.setAttribute("whichShow", 7);
 	    req.getRequestDispatcher("jsp/trade/showOfferDetail.jsp").forward(req, resp);
 
@@ -393,14 +394,14 @@ public class TradeServlet extends HttpServlet {
 	// Un joueur veut voir les d�tails d'un trade qu'il a fait
 	case 8:
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
-	    mModelTrade.showOfferNumberX(2, tradeOfferDao, tradeMadeDao, playersDao, draftPickDao);
+	    mModelTrade.showOfferNumberX(2, tradeOfferDao, tradeMadeDao, playersDao, draftPickDao,draftDao);
 
 	    req.getRequestDispatcher("jsp/trade/showOfferDetailTradeMade.jsp").forward(req, resp);
 	    break;
 	// Un joueur veut voir les d�tails d'un trade fait par n'importe quelle �quipe
 	case 9:
 	    mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
-	    mModelTrade.showOfferNumberX(2, tradeOfferDao, tradeMadeDao, playersDao, draftPickDao);
+	    mModelTrade.showOfferNumberX(2, tradeOfferDao, tradeMadeDao, playersDao, draftPickDao,draftDao);
 
 	    req.getRequestDispatcher("jsp/trade/showOfferDetailTradeMade.jsp").forward(req, resp);
 	    break;

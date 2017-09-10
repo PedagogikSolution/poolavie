@@ -36,7 +36,7 @@
 
 			<table class="w3-table  w3-striped w3-bordered w3-card-8" style="width: 90%; margin-left: auto; margin-right: auto">
 				<caption class="w3-blue w3-xlarge">
-					<h1>J'offre</h1>
+					<h1>J'offre <br>(${requestScope.team1})</h1>
 				</caption>
 
 				<!-- regulier offer -->
@@ -171,7 +171,7 @@
 		<div class="w3-half w3-container">
 			<table class="w3-table  w3-striped w3-bordered w3-card-8" style="width: 90%; margin-left: auto; margin-right: auto">
 				<caption class="w3-blue w3-xlarge">
-					<h1>Je reçois</h1>
+					<h1>Je reçois <br> (${requestScope.team2})</h1>
 				</caption>
 
 				<!-- regulier offer -->

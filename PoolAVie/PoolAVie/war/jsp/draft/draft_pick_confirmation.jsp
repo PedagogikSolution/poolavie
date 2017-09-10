@@ -47,7 +47,7 @@
 					<input type="hidden" name="team" value="${confirmationPick.teamOfPlayer}" />
 					<input type="hidden" name="can_be_rookie" value="${confirmationPick.can_be_rookie}" />
 					<input type="hidden" name="salaire" value="${confirmationPick.salaire_draft}" />
-					<button name="confirmationButton" class="w3-btn w3-khaki w3-xlarge">Oui je le veux</button>
+					<button name="confirmationButton" class="w3-btn w3-khaki w3-xlarge">Oui dans mon club régulier</button>
 					<br>
 				</form>
 
