@@ -1,9 +1,10 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token==null}">
 	<div class="w3-container w3-section w3-red">
 		<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
 		<h4>C'est l'heure du Draft</h4>
 		<p>
-			Votre draft est prêt à commencer.
+			Votre draft est prÃªt Ã  commencer.
 			<a href="/DraftCenter"> Cliquez ici pour vous connecter</a>
 			ou rendez-vous dans la section Draft
 		</p>
@@ -15,7 +16,7 @@
 		<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
 		<h4>C'est l'heure des signatures de contrat</h4>
 		<p>
-			Aller dans le ManagerCenter et signez vos joueurs repêcher
+			Aller dans le ManagerCenter et signez vos joueurs repecher
 			<a href="/Signature"> Cliquez ici pour vous y rendre</a>
 			ou rendez-vous dans la section Signature via le menu
 		</p>
@@ -48,8 +49,8 @@
 	<div class="w3-container w3-section w3-red">
 
 		<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
-		<h3>Votre draft est terminé</h3>
-		<p>Vous pouvez maintenant rester connecter pour suivre la fin du draft ou vous déconnecter et revenir signer vos contrats de fin de draft aussitôt que celui-ci est terminé dans la section
+		<h3>Votre draft est terminÃ©</h3>
+		<p>Vous pouvez maintenant rester connecter pour suivre la fin du draft ou vous dÃ©connecter et revenir signer vos contrats de fin de draft aussitÃ´t que celui-ci est terminÃ© dans la section
 			signature.</p>
 
 	</div>

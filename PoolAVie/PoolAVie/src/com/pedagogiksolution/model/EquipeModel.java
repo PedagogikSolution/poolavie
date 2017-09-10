@@ -39,6 +39,7 @@ public class EquipeModel {
 	String recrueName = null;
 	String logoDuTeam = null;
 	String nomDuTeam = null;
+	String position2 =null;
 	NonSessionBean mBean = new NonSessionBean();
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 	String poolID = mBeanPool.getPoolID();

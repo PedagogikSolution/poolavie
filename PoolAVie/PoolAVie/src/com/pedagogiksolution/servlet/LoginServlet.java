@@ -89,7 +89,7 @@ public class LoginServlet extends HttpServlet {
 		    if (!checkIfDatastoreCreate) {
 			mModelDraft.createDraftDatastoreForThatPool(mBeanPool);
 		    }
-		     mModel.resetConnexionOpen();
+		    // mModel.resetConnexionOpen();
 		    // connectFilter Session Attribute
 		    req.getSession().setAttribute("connectUser", 1);
 

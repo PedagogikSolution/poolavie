@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <div id="teamLogoPicker" class="w3-hide w3-display-middle w3-card-24 w3-white">
 
 	<div class="w3-khaki w3-center">

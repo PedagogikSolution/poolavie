@@ -895,10 +895,7 @@ public class PlayersDaoImpl implements PlayersDao {
 				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK, false, poolId,
 						teamId, contrat, clubEcoleId, salaireId,salaireId,salaireId,salaireId,salaireId, playersId);
 				break;
-			case 1:
-				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK, false, poolId,
-						teamId, contrat, clubEcoleId, "C","C","C","C","C", playersId);
-				break;
+			
 			case 2:
 				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK, false, poolId,
 						teamId, contrat, clubEcoleId, salaireId,"C","C","C","C", playersId);

@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <script type="text/javascript">
 		function removeProgressBar() {
 			document.getElementById('progressBar').classList.remove('w3-show');

@@ -214,10 +214,9 @@
 				<tr class="w3-indigo">
 					<th>Pos</th>
 					<th>Nom</th>
+					<th>Position</th>
 					<th>Équipe</th>
 					<th>Pj</th>
-					<th>But</th>
-					<th>Passe</th>
 					<th>Points</th>
 					<th>${Pool.thisYear}</th>
 					<th>${Pool.secondYear}</th>
@@ -240,10 +239,9 @@
 
 							<td>${i+1}</td>
 							<td>${NonSessionRecrue.nom[i]}</td>
+							<td>${NonSessionRecrue.position[i]}</td>
 							<td>${NonSessionRecrue.teamOfPlayer[i]}</td>
 							<td>${NonSessionRecrue.pj[i]}</td>
-							<td>${NonSessionRecrue.but_victoire[i]}</td>
-							<td>${NonSessionRecrue.aide_overtime[i]}</td>
 							<td>${NonSessionRecrue.pts[i]}</td>
 							<td>${NonSessionRecrue.years_1[i]}</td>
 							<td>${NonSessionRecrue.years_2[i]}</td>

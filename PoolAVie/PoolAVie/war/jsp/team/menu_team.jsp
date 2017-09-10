@@ -1,5 +1,5 @@
 <!-- Contient la bar de navigation de l'interface principal -->
-
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <header class="w3-container w3-khaki w3-center">
 
 		<ul class="w3-navbar w3-center w3-mobile">

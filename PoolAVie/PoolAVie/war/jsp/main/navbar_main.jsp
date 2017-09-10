@@ -1,4 +1,5 @@
 <!-- Contient la bar de navigation de l'interface principal -->
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
 <!-- Header avec titre et images de promo -->

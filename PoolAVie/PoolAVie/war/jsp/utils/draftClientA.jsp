@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <script type="text/javascript">
 	
 
@@ -13,7 +14,7 @@
 		newState = JSON.parse(m.data);
 		testIfOpen = newState.testIfOpen;
 		if(testIfOpen==1){
-			alert("Vous êtes maintenant connecté au serveur de draft");
+			alert("Vous ï¿½tes maintenant connectï¿½ au serveur de draft");
 		} else {
 			
 		}
