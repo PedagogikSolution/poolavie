@@ -75,7 +75,14 @@ public class SignatureModel {
 	@SuppressWarnings("unchecked")
 	public void signatureAfterDraft(HttpServletRequest req) {
 		String nombreAnneeSignature = req.getParameter("nombreAnneeSignature");
-		int numberOfYear = Integer.parseInt(nombreAnneeSignature);
+		int numberOfYear=0;
+		if(nombreAnneeSignature!=null) {
+		numberOfYear = Integer.parseInt(nombreAnneeSignature);
+		} else {
+			req.setAttribute("messageErreurs", "Vous n'avez pas choisi de notre d'année au contrat");
+			return;
+		}
+		
 		String draft_player_id = req.getParameter("draft_player_id");
 		String salaire = req.getParameter("salaire");
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");

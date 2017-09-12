@@ -211,8 +211,24 @@ public class AdminPoolServlet extends HttpServlet {
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 			break;
 		case 9 : 
+			
 			mAdminModel = new AdminModel();
+			mAdminModel.addCashForYears(req);
+			mAdminModel.resetPlayersStats(req,playersDao);
 			mAdminModel.changeCycleAnnuel(req, 5);
+			Pool mBeanPool2 = (Pool) req.getSession().getAttribute("Pool");
+			String poolID2 = mBeanPool2.getPoolID();
+			PlayersCronModel mModelPlayers = new PlayersCronModel(playersDao);
+			int numberOfTeam2 = mModelPlayers.getNumberOfTeamByPool(Integer.parseInt(poolID2));
+
+			mModelPlayers.putDatabaseInDatastore(Integer.parseInt(poolID2), numberOfTeam2, "attaquant", 0, "3");
+			mModelPlayers.putDatabaseInDatastore(Integer.parseInt(poolID2), numberOfTeam2, "attaquant", 1, "6");
+
+			mModelPlayers.putDatabaseInDatastore(Integer.parseInt(poolID2), numberOfTeam2, "defenseur", 0, "4");
+			mModelPlayers.putDatabaseInDatastore(Integer.parseInt(poolID2), numberOfTeam2, "defenseur", 1, "6");
+
+			mModelPlayers.putDatabaseInDatastore(Integer.parseInt(poolID2), numberOfTeam2, "gardien", 0, "5");
+			mModelPlayers.putDatabaseInDatastore(Integer.parseInt(poolID2), numberOfTeam2, "gardien", 1, "6");
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 			break;
 

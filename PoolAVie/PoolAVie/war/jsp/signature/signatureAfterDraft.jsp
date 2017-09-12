@@ -44,7 +44,7 @@
 			<br>
 		<p>
 	</c:if>
-	<c:if test="${Pool.poolType==1&&Pool.cycleAnnuel==4&&requestScope.messageErreurs!=null}">
+	<c:if test="${requestScope.messageErreurs!=null}">
 		<div class="w3-content w3-margin-top" style="max-width: 90%">
 			<div class="w3-container w3-red w3-center">
 				<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>

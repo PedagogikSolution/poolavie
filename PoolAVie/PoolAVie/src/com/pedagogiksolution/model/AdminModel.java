@@ -1127,6 +1127,62 @@ public class AdminModel {
 		return true;
 		
 	}
+	
+	public void addCashForYears(HttpServletRequest req) {
+		// on remet les budgets en mode debut d'année
+				DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+				Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+
+				String poolID = mBeanPool.getPoolID();
+
+				int numberOfTeam = mBeanPool.getNumberTeam();
+
+				for (int i = 1; i < numberOfTeam + 1; i++) {
+
+					String keyTeam = poolID + "_" + i;
+					Key mKey = KeyFactory.createKey("Equipe", keyTeam);
+					Equipe mBeanEquipe = new Equipe();
+					try {
+						Entity entity = datastore.get(mKey);
+
+						mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(entity, mBeanEquipe);
+
+						// on transfert argent recu, ajoute bonus ou malus et ensuite on reset a 52
+						// Millions et recalcule les positions par team
+						
+						int max_salaire_begin = mBeanEquipe.getMax_salaire_begin();
+
+						int budget_restant = mBeanEquipe.getBudget_restant();
+
+						
+						mBeanEquipe.setBudget_restant(budget_restant+2000000);
+						mBeanEquipe.setMax_salaire_begin(max_salaire_begin+2000000);
+	
+						entity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, keyTeam);
+
+						datastore.put(entity);
+					} catch (EntityNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				}
+
+	}
+	
+	public void resetPlayersStats(HttpServletRequest req, PlayersDao playersDao) {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+
+		String poolID = mBeanPool.getPoolID();
+		
+		playersDao.resetStatsToZeroForNewYear(poolID);
+		
+		
+		
+	}
 	/*****************************************************
 	 * private method
 	 ******************************************/
@@ -1175,6 +1231,10 @@ public class AdminModel {
 
 		return nomPropertyTeamName;
 	}
+
+	
+
+	
 
 	
 

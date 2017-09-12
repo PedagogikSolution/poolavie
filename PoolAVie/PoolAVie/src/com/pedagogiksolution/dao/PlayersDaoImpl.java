@@ -130,6 +130,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String UPDATE_C_AFTER_RETRO_2 = "UPDATE players_? SET years_4?,years_5=? WHERE _id=?";
 	private static final String UPDATE_C_AFTER_RETRO_3 = "UPDATE players_? SET years_5=? WHERE _id=?";
 	private static final String UPDATE_C_AFTER_RETRO_0 = "UPDATE players_? SET years_2=?,years_3=?,years_4?,years_5=? WHERE _id=?";
+	private static final String RESET_STATS_TO_ZERO = "UPDATE players_? SET pj=0,but_victoire=0,aide_overtime=0,blanchissage=0,pts=0";
 
 	private DAOFactory daoFactory;
 
@@ -1251,6 +1252,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		int club_ecole = 0;
 		String position = null;
 		String poolID = mBeanPool.getPoolID();
+		int cycleAnnuel=mBeanPool.getCycleAnnuel();
 		int poolId = Integer.parseInt(poolID);
 
 		Connection connexion = null;
@@ -1283,6 +1285,46 @@ public class PlayersDaoImpl implements PlayersDao {
 
 		try {
 			connexion = daoFactory.getConnection();
+			
+			if(cycleAnnuel==4) {
+				if (contrat.equalsIgnoreCase("JA")) {
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS8, false, poolId,
+						teamId2, playerId2);
+				} else {
+					if (contrat.equalsIgnoreCase("X")) {
+						preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS2, false, poolId, teamId2,
+								playerId2);
+					}
+
+					else if (contrat.equalsIgnoreCase("B")) {
+						preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS3, false, poolId, teamId2,
+								playerId2);
+					} else if (contrat.equalsIgnoreCase("C")) {
+						preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS4, false, poolId, teamId2,
+								playerId2);
+					} else {
+
+						if (years_3.equalsIgnoreCase("X")) {
+							preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS5, false, poolId,
+									teamId2, playerId2);
+						} else if (years_4.equalsIgnoreCase("X")) {
+							preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS6, false, poolId,
+									teamId2, playerId2);
+						} else if (years_5.equalsIgnoreCase("X")) {
+							preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS7, false, poolId,
+									teamId2, playerId2);
+						}
+
+						else {
+							preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS8, false, poolId,
+									teamId2, playerId2);
+
+						}
+
+					}
+					
+				}
+			} else {
 
 			if (contrat.equalsIgnoreCase("JA")) {
 				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS, false, poolId, teamId2,
@@ -1319,6 +1361,8 @@ public class PlayersDaoImpl implements PlayersDao {
 
 				}
 
+			}
+			
 			}
 
 			preparedStatement.executeUpdate();
@@ -2944,6 +2988,28 @@ public class PlayersDaoImpl implements PlayersDao {
 			default : 
 				break;
 			}
+		
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+	}
+
+	@Override
+	public void resetStatsToZeroForNewYear(String poolID) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		
+
+		try {
+			connexion = daoFactory.getConnection();
+			
+			preparedStatement = initialisationRequetePreparee(connexion, RESET_STATS_TO_ZERO, false, Integer.parseInt(poolID));
+				
 		
 			preparedStatement.executeUpdate();
 
