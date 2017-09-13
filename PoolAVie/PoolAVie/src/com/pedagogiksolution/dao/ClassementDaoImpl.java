@@ -35,7 +35,7 @@ public class ClassementDaoImpl implements ClassementDao {
     private static final String GET_FIRST_TEAM_PTS = "SELECT * FROM classement_? ORDER BY points DESC LIMIT 1";
     private static final String GET_NEXT_TEAM_PTS = "SELECT * FROM classement_? ORDER BY points DESC LIMIT ?";
     private static final String UPDATE_DAILY_MOUVEMENT = "UPDATE classement_? SET mouvement=? WHERE team_id=?";
-    private static final String UPDATE_STATS_AFTER_TRADE = "UPDATE classement_? SET pj=?,but=?,passe=?,points=?,moyenne=points/pj WHERE team_id=?";
+    private static final String UPDATE_STATS_AFTER_TRADE = "UPDATE classement_? SET pj=?,but=?,passe=?,points=?,moyenne=? WHERE team_id=?";
 	private static final String ARCHIVE_CLASSEMENT_LAST_YEAR = "INSERT INTO classement_archive_? (`equipe`,`pj`,`but`,`passe`,`points`,`hier`,`semaine`,`mois`,`moyenne`,`difference`,`team_id`,`pool_id`,`year_of_the_standing`) SELECT equipe,pj,but,passe,points,hier,semaine,mois,moyenne,difference,team_id,pool_id, year_of_the_standing FROM classement_?";
 	private static final String RESET_CLASSEMENT_FOR_NEW_YEARS = "UPDATE classement_? SET pj=0,but=0,passe=0,points=0,hier=0,semaine=0,mois=0,moyenne=0,difference=0,year_of_the_standing=?,mouvement=0";
 	private static final String GET_CLASSEMENT_LAST_YEARS_INVERSE_FROM_ARCHIVE = "SELECT * FROM classement_archive_? WHERE year_of_the_standing=? ORDER BY points ASC, moyenne ASC, but ASC";
@@ -405,10 +405,18 @@ public class ClassementDaoImpl implements ClassementDao {
     public void updateStat(int poolId, int pj, int but, int passe, int pts, int teamId) throws DAOException {
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
-
+    int moyenne =0;
+    
+    if(pj==0) {
+    	moyenne=0;
+    } else {
+    	moyenne=pts/pj;
+    }
+    
+    
 	try {
 	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_STATS_AFTER_TRADE, false, poolId, pj, but, passe, pts,teamId);
+	    preparedStatement = initialisationRequetePreparee(connexion, UPDATE_STATS_AFTER_TRADE, false, poolId, pj, but, passe, pts,moyenne,teamId);
 	    preparedStatement.execute();
 
 	} catch (SQLException e) {

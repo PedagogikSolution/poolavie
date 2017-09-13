@@ -151,12 +151,9 @@ public class TradeModel {
 		int teamThatMakeOfferId = mBeanUser.getTeamId();
 		int cycleAnnuel = mBeanPool.getCycleAnnuel();
 		String poolID = mBeanPool.getPoolID();
-		String nomTeam1=getTeamNameFromString(mBeanPool,teamThatMakeOfferId);
-		String nomTeam2=getTeamNameFromString(mBeanPool,teamThatReceivedOfferId);
-		
-		
+		String nomTeam1 = getTeamNameFromString(mBeanPool, teamThatMakeOfferId);
+		String nomTeam2 = getTeamNameFromString(mBeanPool, teamThatReceivedOfferId);
 
-		
 		req.setAttribute("team1", nomTeam1);
 		req.setAttribute("team2", nomTeam2);
 
@@ -589,7 +586,7 @@ public class TradeModel {
 				|| (nbPlayersTeamReceivingOffer == 0 && nbPicksTeamReceivingOffer == 0
 						&& cashIncludeThatReceiveOfferInt == 0 && nbRookieTeamReceivingOffer == 0)) {
 
-			mBeanMessageErreur.setErreurTrade("L'une des deux �quipes ne re�oit rien");
+			mBeanMessageErreur.setErreurTrade("L'une des deux équipes ne reçoit rien");
 			req.setAttribute("messageErreur", mBeanMessageErreur);
 			return false;
 		}
@@ -599,7 +596,7 @@ public class TradeModel {
 		if (nbPlayersTeamMakingOffer > 7 || nbPlayersTeamReceivingOffer > 7) {
 
 			mBeanMessageErreur.setErreurTrade(
-					"Un maximum de 7 joueurs par �quipe peut �tre inclus dans un �change unique (Reglement 4.1");
+					"Un maximum de 7 joueurs par �quipe peut être inclus dans un échange unique (Reglement 4.1");
 			req.setAttribute("messageErreur", mBeanMessageErreur);
 			return false;
 		}
@@ -891,8 +888,7 @@ public class TradeModel {
 		// check si budget pour abosrber la transaction
 
 		if ((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer
-				- argent_recu_make_offer + argent_recu_rec_offer + cashIncludeTeamThatMakeOfferInt
-				- cashIncludeThatReceiveOfferInt) < 0) {
+				+ argent_recu_make_offer - cashIncludeTeamThatMakeOfferInt + cashIncludeThatReceiveOfferInt) < 0) {
 
 			mBeanMessageErreur
 					.setErreurTrade("Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 3.1");
@@ -902,8 +898,7 @@ public class TradeModel {
 		}
 
 		if ((budget_restant_received_offer - total_salaire_team_making_offer + total_salaire_team_receiving_offer
-				+ argent_recu_make_offer - argent_recu_rec_offer + cashIncludeThatReceiveOfferInt
-				- cashIncludeTeamThatMakeOfferInt) < 0) {
+				+ argent_recu_rec_offer - cashIncludeThatReceiveOfferInt + cashIncludeTeamThatMakeOfferInt) < 0) {
 
 			mBeanMessageErreur.setErreurTrade(
 					"La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 3.1");
@@ -914,11 +909,10 @@ public class TradeModel {
 
 		// check si moyenne restant pour draft est bonne été et draft suite a trade
 
-		if (mBeanPool.getCycleAnnuel() == 3 || mBeanPool.getCycleAnnuel() == 11) {
+		if (mBeanPool.getCycleAnnuel() == 3) {
 
 			if ((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer
-					- argent_recu_make_offer + argent_recu_rec_offer + cashIncludeTeamThatMakeOfferInt
-					- cashIncludeThatReceiveOfferInt)
+					+ argent_recu_make_offer + cashIncludeTeamThatMakeOfferInt - cashIncludeThatReceiveOfferInt)
 					/ (mBeanEquipeThatIsMakingOffer.getManquant_equipe() + nbPlayersTeamMakingOffer
 							- nbPlayersTeamReceivingOffer) < 1000000) {
 
@@ -930,8 +924,7 @@ public class TradeModel {
 			}
 
 			if ((budget_restant_received_offer - total_salaire_team_making_offer + total_salaire_team_receiving_offer
-					+ argent_recu_make_offer - argent_recu_rec_offer + cashIncludeThatReceiveOfferInt
-					- cashIncludeTeamThatMakeOfferInt)
+					+ argent_recu_rec_offer + cashIncludeThatReceiveOfferInt - cashIncludeTeamThatMakeOfferInt)
 					/ (mBeanEquipeThatIsReceivingOffer.getManquant_equipe() - nbPlayersTeamMakingOffer
 							+ nbPlayersTeamReceivingOffer) < 1000000) {
 
@@ -1015,10 +1008,9 @@ public class TradeModel {
 		mBean.setBudgetMakingOffer(budgetMakingOffer);
 		mBean.setBudgetReceivingOffer(budgetReceivingOffer);
 
-		
-		String nomTeam1=getTeamNameFromString(mBeanPool,teamId);
-		String nomTeam2=getTeamNameFromString(mBeanPool,Integer.parseInt(tradeWithID));
-		
+		String nomTeam1 = getTeamNameFromString(mBeanPool, teamId);
+		String nomTeam2 = getTeamNameFromString(mBeanPool, Integer.parseInt(tradeWithID));
+
 		req.setAttribute("team1", nomTeam1);
 		req.setAttribute("team2", nomTeam2);
 		req.getSession().setAttribute("tradeOfferBean", mBean);
@@ -1371,9 +1363,9 @@ public class TradeModel {
 		mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 
 		if (from == 2) {
-			mBean = tradeMadeDao.showOfferX(mBeanPool, mBeanUser, trade_id, playersDao, draftPickDao,draftDao);
+			mBean = tradeMadeDao.showOfferX(mBeanPool, mBeanUser, trade_id, playersDao, draftPickDao, draftDao);
 		} else {
-			mBean = tradeOfferDao.showOfferX(mBeanPool, mBeanUser, trade_id, playersDao, draftPickDao,draftDao);
+			mBean = tradeOfferDao.showOfferX(mBeanPool, mBeanUser, trade_id, playersDao, draftPickDao, draftDao);
 		}
 
 		req.getSession().setAttribute("tradeOfferBean", mBean);
@@ -1680,17 +1672,17 @@ public class TradeModel {
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		String poolID = mBeanPool.getPoolID();
 
-		budget_restant_make_offer = mBeanEquipeThatIsMakingOffer.getBudget_restant();
-		nb_attaquant_make_offer = mBeanEquipeThatIsMakingOffer.getNb_attaquant();
-		nb_defenseur_make_offer = mBeanEquipeThatIsMakingOffer.getNb_defenseur();
-		nb_goaler_make_offer = mBeanEquipeThatIsMakingOffer.getNb_gardien();
-		argent_recu_make_offer = mBeanEquipeThatIsMakingOffer.getArgent_recu();
+		budget_restant_received_offer = mBeanEquipeThatIsMakingOffer.getBudget_restant();
+		nb_attaquant_rec_offer = mBeanEquipeThatIsMakingOffer.getNb_attaquant();
+		nb_defenseur_rec_offer = mBeanEquipeThatIsMakingOffer.getNb_defenseur();
+		nb_goaler_rec_offer = mBeanEquipeThatIsMakingOffer.getNb_gardien();
+		argent_recu_rec_offer = mBeanEquipeThatIsMakingOffer.getArgent_recu();
 
-		budget_restant_received_offer = mBeanEquipeThatIsReceivingOffer.getBudget_restant();
-		nb_attaquant_rec_offer = mBeanEquipeThatIsReceivingOffer.getNb_attaquant();
-		nb_defenseur_rec_offer = mBeanEquipeThatIsReceivingOffer.getNb_defenseur();
-		nb_goaler_rec_offer = mBeanEquipeThatIsReceivingOffer.getNb_gardien();
-		argent_recu_rec_offer = mBeanEquipeThatIsReceivingOffer.getArgent_recu();
+		budget_restant_make_offer = mBeanEquipeThatIsReceivingOffer.getBudget_restant();
+		nb_attaquant_make_offer = mBeanEquipeThatIsReceivingOffer.getNb_attaquant();
+		nb_defenseur_make_offer = mBeanEquipeThatIsReceivingOffer.getNb_defenseur();
+		nb_goaler_make_offer = mBeanEquipeThatIsReceivingOffer.getNb_gardien();
+		argent_recu_make_offer = mBeanEquipeThatIsReceivingOffer.getArgent_recu();
 
 		String[] nomMakingOffer = new String[nbPlayersTeamMakingOffer];
 		String[] nomReceivingOffer = new String[nbPlayersTeamReceivingOffer];
@@ -1799,44 +1791,44 @@ public class TradeModel {
 		// check si le nombre par position va resister l'echange (min 8 attaquant, 5 def
 		// et 2 goal)
 		if (mBeanPool.getCycleAnnuel() == 5 || mBeanPool.getCycleAnnuel() == 6) {
-			if ((nb_attaquant_make_offer - nbAttInTeamThatOffer + nbAttInTeamThatReceived) < 8) {
+			if ((nb_attaquant_make_offer + nbAttInTeamThatOffer - nbAttInTeamThatReceived) < 8) {
 				mBeanMessageErreur.setErreurTrade(
-						"Vous ne pouvez pas faire cette �change sous peine de vous retrouver avec moins de 8 attaquants (Reglement 3.1");
+						"Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 8 attaquants (Reglement 3.1");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 			}
 
-			if ((nb_attaquant_rec_offer + nbAttInTeamThatOffer - nbAttInTeamThatReceived) < 8) {
+			if ((nb_attaquant_rec_offer - nbAttInTeamThatOffer + nbAttInTeamThatReceived) < 8) {
 				mBeanMessageErreur.setErreurTrade(
-						"Vous ne pouvez pas faire cette �change sous peine que la personne avec qui vous �changez se retrouve avec moins de 8 attaquants (Reglement 3.1");
+						"Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 8 attaquants (Reglement 3.1");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 			}
 
-			if ((nb_defenseur_make_offer - nbDefInTeamThatOffer + nbDefInTeamThatReceived) < 5) {
+			if ((nb_defenseur_make_offer + nbDefInTeamThatOffer - nbDefInTeamThatReceived) < 5) {
 				mBeanMessageErreur.setErreurTrade(
-						"Vous ne pouvez pas faire cette �change sous peine de vous retrouver avec moins de 5 defenseurs (Reglement 3.1");
+						"Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 5 defenseurs (Reglement 3.1");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 			}
 
-			if ((nb_defenseur_rec_offer + nbDefInTeamThatOffer - nbDefInTeamThatReceived) < 5) {
+			if ((nb_defenseur_rec_offer - nbDefInTeamThatOffer + nbDefInTeamThatReceived) < 5) {
 				mBeanMessageErreur.setErreurTrade(
-						"Vous ne pouvez pas faire cette �change sous peine que la personne avec qui vous �changez se retrouve avec moins de 5 defenseurs (Reglement 3.1");
+						"Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 5 defenseurs (Reglement 3.1");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 			}
 
 			if ((nb_goaler_make_offer + nbGoalInTeamThatOffer - nbGoalInTeamThatReceived) < 2) {
 				mBeanMessageErreur.setErreurTrade(
-						"Vous ne pouvez pas faire cette �change sous peine de vous retrouver avec moins de 2 gardiens (Reglement 3.1");
+						"Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 2 gardiens (Reglement 3.1");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 			}
 
 			if ((nb_goaler_rec_offer - nbGoalInTeamThatOffer + nbGoalInTeamThatReceived) < 2) {
 				mBeanMessageErreur.setErreurTrade(
-						"Vous ne pouvez pas faire cette �change sous peine que la personne avec qui vous �changez se retrouve avec moins de 2 gardiens (Reglement 3.1");
+						"Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 2 gardiens (Reglement 3.1");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 			}
@@ -1884,32 +1876,31 @@ public class TradeModel {
 
 		// check si budget pour abosrber la transaction
 
-		if ((budget_restant_make_offer - total_salaire_team_making_offer + total_salaire_team_receiving_offer
-				+ argent_recu_make_offer - cashIncludeTeamThatMakeOfferInt + cashIncludeThatReceiveOfferInt) < 0) {
+		if ((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer
+				+ argent_recu_rec_offer + cashIncludeTeamThatMakeOfferInt - cashIncludeThatReceiveOfferInt) < 0) {
 
 			mBeanMessageErreur
-					.setErreurTrade("Vous n'avez pas assez d'argent pour effectuer cette �change (Reglement 3.1");
+					.setErreurTrade("Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 3.1");
 			req.setAttribute("messageErreur", mBeanMessageErreur);
 			return false;
 
 		}
 
-		if ((budget_restant_received_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer
-				+ argent_recu_rec_offer - cashIncludeThatReceiveOfferInt + cashIncludeTeamThatMakeOfferInt) < 0) {
+		if ((budget_restant_received_offer - total_salaire_team_making_offer + total_salaire_team_receiving_offer
+				+ argent_recu_make_offer + cashIncludeThatReceiveOfferInt - cashIncludeTeamThatMakeOfferInt) < 0) {
 
 			mBeanMessageErreur.setErreurTrade(
-					"La personne avec qui vous voulez �changez n'a pas le budget pour absorber cette transaction (Reglement 3.1");
+					"La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 3.1");
 			req.setAttribute("messageErreur", mBeanMessageErreur);
 			return false;
 
 		}
 
 		// check si moyenne restante toujours bonne lors de draft ou été
-		if (mBeanPool.getCycleAnnuel() == 3 || mBeanPool.getCycleAnnuel() == 11) {
+		if (mBeanPool.getCycleAnnuel() == 3) {
 
 			if ((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer
-					- argent_recu_make_offer + argent_recu_rec_offer + cashIncludeTeamThatMakeOfferInt
-					- cashIncludeThatReceiveOfferInt)
+					+ argent_recu_make_offer + cashIncludeTeamThatMakeOfferInt - cashIncludeThatReceiveOfferInt)
 					/ (mBeanEquipeThatIsMakingOffer.getManquant_equipe() + nbPlayersTeamMakingOffer
 							- nbPlayersTeamReceivingOffer) < 1000000) {
 
@@ -1921,8 +1912,7 @@ public class TradeModel {
 			}
 
 			if ((budget_restant_received_offer - total_salaire_team_making_offer + total_salaire_team_receiving_offer
-					+ argent_recu_make_offer - argent_recu_rec_offer + cashIncludeThatReceiveOfferInt
-					- cashIncludeTeamThatMakeOfferInt)
+					+ argent_recu_rec_offer + cashIncludeThatReceiveOfferInt - cashIncludeTeamThatMakeOfferInt)
 					/ (mBeanEquipeThatIsReceivingOffer.getManquant_equipe() - nbPlayersTeamMakingOffer
 							+ nbPlayersTeamReceivingOffer) < 1000000) {
 
@@ -1939,7 +1929,8 @@ public class TradeModel {
 
 	}
 
-	public void makeTrade(PlayersDao playersDao, DraftPickDao draftPickDao, TradeOfferDao tradeOfferDao,DraftDao draftDao) {
+	public void makeTrade(PlayersDao playersDao, DraftPickDao draftPickDao, TradeOfferDao tradeOfferDao,
+			DraftDao draftDao) {
 
 		TradeBeanTemp mBeanTemp = new TradeBeanTemp();
 
@@ -2009,22 +2000,22 @@ public class TradeModel {
 		}
 
 		if (mBeanTemp.getT1p1() != null) {
-			movePickFromFirstToSecondTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT1p1(), draftPickDao,draftDao);
+			movePickFromFirstToSecondTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT1p1(), draftPickDao, draftDao);
 		}
 		if (mBeanTemp.getT1p2() != null) {
-			movePickFromFirstToSecondTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT1p2(), draftPickDao,draftDao);
+			movePickFromFirstToSecondTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT1p2(), draftPickDao, draftDao);
 		}
 		if (mBeanTemp.getT1p3() != null) {
-			movePickFromFirstToSecondTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT1p3(), draftPickDao,draftDao);
+			movePickFromFirstToSecondTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT1p3(), draftPickDao, draftDao);
 		}
 		if (mBeanTemp.getT2p1() != null) {
-			movePickFromFirstToSecondTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT2p1(), draftPickDao,draftDao);
+			movePickFromFirstToSecondTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT2p1(), draftPickDao, draftDao);
 		}
 		if (mBeanTemp.getT2p2() != null) {
-			movePickFromFirstToSecondTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT2p2(), draftPickDao,draftDao);
+			movePickFromFirstToSecondTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT2p2(), draftPickDao, draftDao);
 		}
 		if (mBeanTemp.getT2p3() != null) {
-			movePickFromFirstToSecondTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT2p3(), draftPickDao,draftDao);
+			movePickFromFirstToSecondTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT2p3(), draftPickDao, draftDao);
 		}
 
 		if (mBeanTemp.getT1_cash() > 0) {
@@ -2072,7 +2063,8 @@ public class TradeModel {
 
 	}
 
-	private void movePickFromFirstToSecondTeam(String team, String round, DraftPickDao draftPickDao, DraftDao draftDao) {
+	private void movePickFromFirstToSecondTeam(String team, String round, DraftPickDao draftPickDao,
+			DraftDao draftDao) {
 
 		int teamId1 = Integer.parseInt(team);
 		int roundId2 = Integer.parseInt(round);
@@ -2081,8 +2073,8 @@ public class TradeModel {
 		int poolId = Integer.parseInt(poolID);
 
 		if (mBeanPool.getCycleAnnuel() == 3) {
-			
-			draftDao.makeTrade(poolId,teamId1,roundId2,mBeanPool);
+
+			draftDao.makeTrade(poolId, teamId1, roundId2, mBeanPool);
 			draftDao.putDatabaseInDatastore(poolID);
 		} else {
 			draftPickDao.makeTrade(poolId, teamId1, roundId2);
@@ -2106,7 +2098,7 @@ public class TradeModel {
 		String poolID = mBeanPool.getPoolID();
 		int poolId = Integer.parseInt(poolID);
 		int cycleAnnuel = mBeanPool.getCycleAnnuel();
-		tradeMadeDao.insertTradeMade(poolId, trade_id,cycleAnnuel);
+		tradeMadeDao.insertTradeMade(poolId, trade_id, cycleAnnuel);
 
 	}
 
@@ -2173,16 +2165,16 @@ public class TradeModel {
 		recrue = 1;
 		mModelPlayer.putDatabaseInDatastore(poolId, numberOfTeam, position, recrue, "6");
 		// Classement
-		if(mBeanPool.getCycleAnnuel()==3) {
-			
+		if (mBeanPool.getCycleAnnuel() == 3||mBeanPool.getCycleAnnuel()==11) {
+
 		} else {
-		mModelClassement.updateClassementAfterTrade(poolId, Long.valueOf(numberOfTeam));
-		mModelClassement.putDatabaseInDatastore(poolId);
-		// DraftPick
-		mModelDraft.putDatabaseInDatastore(poolId, numberOfTeam, "7");
+			mModelClassement.updateClassementAfterTrade(poolId,numberOfTeam);
+			mModelClassement.putDatabaseInDatastore(poolId);
+			// DraftPick
+			mModelDraft.putDatabaseInDatastore(poolId, numberOfTeam, "7");
 		}
 	}
-	
+
 	private String getTeamNameFromString(Pool mBeanPool, int team1) {
 		String from_temp2 = "Erreur,voir Frank";
 		switch (team1) {

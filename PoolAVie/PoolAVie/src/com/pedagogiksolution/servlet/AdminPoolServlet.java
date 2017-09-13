@@ -34,7 +34,6 @@ public class AdminPoolServlet extends HttpServlet {
 	private ClassementDao classementDao;
 	private SalaireDao salaireDao;
 	private DraftPickDao draftPickDao;
-	
 
 	@Override
 	public void init() throws ServletException {
@@ -112,6 +111,10 @@ public class AdminPoolServlet extends HttpServlet {
 		AdminModel mAdminModel;
 		String adminButton = req.getParameter("adminButton");
 		int adminButtonInt = Integer.parseInt(adminButton);
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		String poolID = mBeanPool.getPoolID();
+		PlayersCronModel mModel = new PlayersCronModel(playersDao);
+		int numberOfTeam = mModel.getNumberOfTeamByPool(Integer.parseInt(poolID));
 
 		switch (adminButtonInt) {
 
@@ -149,16 +152,16 @@ public class AdminPoolServlet extends HttpServlet {
 			mAdminModel.resetDatastorePoolEntity(req);
 			mAdminModel.dropJoueurJAETX(req, playersDao);
 
-			mAdminModel.resetFinAnneePlayers(req, playersDao,salaireDao);
+			mAdminModel.resetFinAnneePlayers(req, playersDao, salaireDao);
 
-			mAdminModel.resetDatastoreEquipeEntity(req,playersDao);
+			mAdminModel.resetDatastoreEquipeEntity(req, playersDao);
 
-			mAdminModel.vidageEtResetTableBDD(req,classementDao, tradeMadeDao, draftDao,tradeOfferDao);
+			mAdminModel.vidageEtResetTableBDD(req, classementDao, tradeMadeDao, draftDao, tradeOfferDao);
 
-			Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
-			String poolID = mBeanPool.getPoolID();
-			PlayersCronModel mModel = new PlayersCronModel(playersDao);
-			int numberOfTeam = mModel.getNumberOfTeamByPool(Integer.parseInt(poolID));
+			mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+			poolID = mBeanPool.getPoolID();
+			mModel = new PlayersCronModel(playersDao);
+			numberOfTeam = mModel.getNumberOfTeamByPool(Integer.parseInt(poolID));
 
 			mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, "attaquant", 0, "3");
 			mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, "attaquant", 1, "6");
@@ -179,9 +182,22 @@ public class AdminPoolServlet extends HttpServlet {
 			break;
 		case 5:
 			// fin de signatureAB
-			
+
 			mAdminModel = new AdminModel();
-			mAdminModel.dropAB(req,playersDao);
+			mAdminModel.dropAB(req, playersDao);
+			mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+			poolID = mBeanPool.getPoolID();
+			mModel = new PlayersCronModel(playersDao);
+			numberOfTeam = mModel.getNumberOfTeamByPool(Integer.parseInt(poolID));
+
+			mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, "attaquant", 0, "3");
+			mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, "attaquant", 1, "6");
+
+			mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, "defenseur", 0, "4");
+			mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, "defenseur", 1, "6");
+
+			mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, "gardien", 0, "5");
+			mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, "gardien", 1, "6");
 			mAdminModel.changeCycleAnnuel(req, 11);
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 			break;
@@ -194,27 +210,28 @@ public class AdminPoolServlet extends HttpServlet {
 		case 7:
 			// fin de rachat 3
 			mAdminModel = new AdminModel();
-			
+
 			mAdminModel.changeCycleAnnuel(req, 13);
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 			break;
 		case 8:
 			// fin de drop et promo rookie
 			mAdminModel = new AdminModel();
-			
-			Boolean goodToGo = mAdminModel.preparationNouveauDraft(draftDao,req,playersDao,classementDao,draftPickDao);
-			
-			if(goodToGo) {
-			mAdminModel.changeCycleAnnuel(req, 2);
+
+			Boolean goodToGo = mAdminModel.preparationNouveauDraft(draftDao, req, playersDao, classementDao,
+					draftPickDao);
+
+			if (goodToGo) {
+				mAdminModel.changeCycleAnnuel(req, 1);
 			}
-			
+
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 			break;
-		case 9 : 
-			
+		case 9:
+
 			mAdminModel = new AdminModel();
 			mAdminModel.addCashForYears(req);
-			mAdminModel.resetPlayersStats(req,playersDao);
+			mAdminModel.resetPlayersStats(req, playersDao);
 			mAdminModel.changeCycleAnnuel(req, 5);
 			Pool mBeanPool2 = (Pool) req.getSession().getAttribute("Pool");
 			String poolID2 = mBeanPool2.getPoolID();

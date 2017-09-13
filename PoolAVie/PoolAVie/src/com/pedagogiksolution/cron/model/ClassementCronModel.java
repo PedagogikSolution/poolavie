@@ -205,7 +205,7 @@ public class ClassementCronModel {
     }
 
     
-    public void updateClassementAfterTrade(int poolId, Long numberTeam) {
+    public void updateClassementAfterTrade(int poolId, int numberTeam) {
 	for (int teamId = 1; teamId < (numberTeam + 1); teamId++) {
 	    int pj = playersDao.getPj(teamId, poolId);
 	    int but = playersDao.getBut(teamId, poolId);

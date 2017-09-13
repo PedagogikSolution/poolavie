@@ -34,7 +34,7 @@
 
 
 
-		<c:if test="${Pool.draftType==1&&Pool.poolYear==0&&Pool.cycleAnnuel==1}">
+		<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==1}">
 
 			<h2 class="w3-blue">Set the draft date and time</h2>
 			<form class="w3-container w3-card-24 w3-white" action="/AdminDraft" method="post">

@@ -591,7 +591,7 @@
 			<form action="/Trade" method="post">
 				<input type="hidden" name="trade_id" value="${tradeOfferBean.trade_id}">
 				<input type="hidden" name="tradeTag" value="5">
-				<button class="w3-btn w3-blue w3-xxlarge w3-round">Annuler cette offre</button>
+				<button class="w3-btn w3-red w3-xxlarge w3-round">Annuler cette offre</button>
 			</form>
 
 
@@ -605,14 +605,14 @@
 				<form action="/Trade" method="post">
 					<input type="hidden" name="trade_id" value="${tradeOfferBean.trade_id}">
 					<input type="hidden" name="tradeTag" value="5">
-					<button class="w3-btn w3-blue w3-xxlarge w3-round">Refuser cette offre</button>
+					<button class="w3-btn w3-red w3-xxlarge w3-round">Refuser cette offre</button>
 				</form>
 				<br>
 				<br>
 				<form onsubmit="confirmationButtonA.disabled = true; return true;" action="/Trade" method="post">
 					<input type="hidden" name="trade_id" value="${tradeOfferBean.trade_id}">
 					<input type="hidden" name="tradeTag" value="4">
-					<button onclick="progressbar(2)" name="confirmationButtonA" class="w3-btn w3-blue w3-large w3-round">Accepter cette offre</button>
+					<button onclick="progressbar(2)" name="confirmationButtonA" class="w3-btn w3-green w3-xxlarge w3-round">Accepter cette offre</button>
 				</form>
 				<br>
 				<br>

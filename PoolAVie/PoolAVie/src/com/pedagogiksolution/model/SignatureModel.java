@@ -75,14 +75,14 @@ public class SignatureModel {
 	@SuppressWarnings("unchecked")
 	public void signatureAfterDraft(HttpServletRequest req) {
 		String nombreAnneeSignature = req.getParameter("nombreAnneeSignature");
-		int numberOfYear=0;
-		if(nombreAnneeSignature!=null) {
-		numberOfYear = Integer.parseInt(nombreAnneeSignature);
+		int numberOfYear = 0;
+		if (nombreAnneeSignature != null) {
+			numberOfYear = Integer.parseInt(nombreAnneeSignature);
 		} else {
 			req.setAttribute("messageErreurs", "Vous n'avez pas choisi de notre d'année au contrat");
 			return;
 		}
-		
+
 		String draft_player_id = req.getParameter("draft_player_id");
 		String salaire = req.getParameter("salaire");
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
@@ -191,16 +191,16 @@ public class SignatureModel {
 
 				mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() + 1);
 				if (cycleAnnuel == 10) {
-				mBeanEquipe.setNb_attaquant(mBeanEquipe.getNb_attaquant() + 1);
-				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() + 1);
-				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() + Integer.parseInt(salaire));
-				mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() - Integer.parseInt(salaire));
-				mBeanEquipe.setManquant_att(mBeanEquipe.getManquant_att() - 1);
-				mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe() - 1);
-				if (mBeanEquipe.getManquant_equipe() != 0) {
-					mBeanEquipe.setMoy_sal_restant_draft(
-							mBeanEquipe.getBudget_restant() / mBeanEquipe.getManquant_equipe());
-				}
+					mBeanEquipe.setNb_attaquant(mBeanEquipe.getNb_attaquant() + 1);
+					mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() + 1);
+					mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() + Integer.parseInt(salaire));
+					mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() - Integer.parseInt(salaire));
+					mBeanEquipe.setManquant_att(mBeanEquipe.getManquant_att() - 1);
+					mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe() - 1);
+					if (mBeanEquipe.getManquant_equipe() != 0) {
+						mBeanEquipe.setMoy_sal_restant_draft(
+								mBeanEquipe.getBudget_restant() / mBeanEquipe.getManquant_equipe());
+					}
 
 				}
 				Entity entityEquipe = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, datastoreID);
@@ -511,6 +511,8 @@ public class SignatureModel {
 					break;
 
 				}
+				
+				
 				mEntity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomClef);
 
 				datastore.put(mEntity);
@@ -662,6 +664,10 @@ public class SignatureModel {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Key mKey = KeyFactory.createKey("Equipe", nomClef);
 
+		// on retire joueur de equipe
+
+		String position = playersDao.putPlayersInClubEcole(playersId, poolID);
+
 		try {
 			Entity mEntity = datastore.get(mKey);
 
@@ -681,8 +687,29 @@ public class SignatureModel {
 				new_budget_restant = budget_restant - total_cout_rachat;
 			}
 
+			switch(position) {
+			case "attaquant":
+				mBeanEquipe.setManquant_att(mBeanEquipe.getManquant_att() + 1);
+				mBeanEquipe.setNb_attaquant(mBeanEquipe.getNb_attaquant() - 1);
+				break;
+			case "defenseur":
+				mBeanEquipe.setManquant_def(mBeanEquipe.getManquant_def() + 1);
+				mBeanEquipe.setNb_defenseur(mBeanEquipe.getNb_defenseur() - 1);
+				break;
+			case "gardien":
+				mBeanEquipe.setManquant_gardien(mBeanEquipe.getManquant_gardien() + 1);
+				mBeanEquipe.setNb_gardien(mBeanEquipe.getNb_gardien() - 1);
+				break;
+			
+			
+			}
+			mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe() + 1);
+			mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() - 1);
 			mBeanEquipe.setArgent_recu(argent_recu);
 			mBeanEquipe.setBudget_restant(new_budget_restant);
+			
+			
+			
 			mEntity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomClef);
 
 			datastore.put(mEntity);
@@ -691,10 +718,6 @@ public class SignatureModel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		// on retire joueur de equipe
-
-		String position = playersDao.putPlayersInClubEcole(playersId, poolID);
 
 		// on verifie si joueur de type C et on ajuste les salaires
 

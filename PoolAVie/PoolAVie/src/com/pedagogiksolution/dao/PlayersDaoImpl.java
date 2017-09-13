@@ -119,17 +119,17 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String GET_PLAYERS_IN_CLUB_ECOLE = "SELECT * FROM players_? WHERE club_ecole=? AND team_id=?";
 	private static final String DROP_ROOKIE = "UPDATE players_? SET team_id=null,club_ecole=0,years_1=0,years_2=0,years_3=0,years_4=0,years_5=0,contrat=0 WHERE _id=?";
 	private static final String MONTER_ROOKIE = "UPDATE players_? SET club_ecole=0,contrat=1,years_1=?,years_2=?,years_3=?,years_4=?,years_5=? WHERE _id=?";
-	private static final String GET_ROOKIE_AB = "SELECT * FROM players_1 WHERE club_ecole=1 AND (years_1='A' OR years_1='B')";
+	private static final String GET_ROOKIE_AB = "SELECT * FROM players_? WHERE club_ecole=1 AND (years_1='A' OR years_1='B')";
 	private static final String UPDATE_SALAIRE_ROOKIE = "UPDATE players_? SET years_1=?,years_2=?,years_3=?,years_4=?,years_5=? WHERE _id=?";
 	private static final String GET_YEARS_0 = "SELECT years_0 FROM players_? WHERE _id=?";
 	private static final String DROP_PLAYERS_C_D = "UPDATE players_? SET contrat=0,club_ecole=0,years_1=0,years_2=0,years_3=0,years_4=0,years_5=0,team_id=null WHERE (years_1='C' OR years_1='D')";
 	private static final String UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK = "UPDATE players_? SET team_id=?,contrat=?,club_ecole=?,years_1=?,years_2=?,years_3=?,years_4=?,years_5=? WHERE _id=?";
-	private static final String GET_BIRTHDAY = "SELECT birthday FROM players_? WHERE _id=?";
-	
-	private static final String UPDATE_C_AFTER_RETRO_1 = "UPDATE players_? SET years_3=?,years_4?,years_5=? WHERE _id=?";
-	private static final String UPDATE_C_AFTER_RETRO_2 = "UPDATE players_? SET years_4?,years_5=? WHERE _id=?";
+	private static final String GET_BIRTHDAY = "SELECT birthday,years_3,years_4,years_5 FROM players_? WHERE _id=?";
+
+	private static final String UPDATE_C_AFTER_RETRO_1 = "UPDATE players_? SET years_3=?,years_4=?,years_5=? WHERE _id=?";
+	private static final String UPDATE_C_AFTER_RETRO_2 = "UPDATE players_? SET years_4=?,years_5=? WHERE _id=?";
 	private static final String UPDATE_C_AFTER_RETRO_3 = "UPDATE players_? SET years_5=? WHERE _id=?";
-	private static final String UPDATE_C_AFTER_RETRO_0 = "UPDATE players_? SET years_2=?,years_3=?,years_4?,years_5=? WHERE _id=?";
+	private static final String UPDATE_C_AFTER_RETRO_0 = "UPDATE players_? SET years_2=?,years_3=?,years_4=?,years_5=? WHERE _id=?";
 	private static final String RESET_STATS_TO_ZERO = "UPDATE players_? SET pj=0,but_victoire=0,aide_overtime=0,blanchissage=0,pts=0";
 
 	private DAOFactory daoFactory;
@@ -883,38 +883,41 @@ public class PlayersDaoImpl implements PlayersDao {
 	}
 
 	@Override
-	public void persistPlayerPickRookie(int playersId, int salaireId, int poolId, int teamId, int clubEcoleId, int yearsOfC)
-			throws DAOException {
+	public void persistPlayerPickRookie(int playersId, int salaireId, int poolId, int teamId, int clubEcoleId,
+			int yearsOfC) throws DAOException {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		int contrat = 1;
 
 		try {
 			connexion = daoFactory.getConnection();
-			switch(yearsOfC) {
+			switch (yearsOfC) {
 			case 0:
-				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK, false, poolId,
-						teamId, contrat, clubEcoleId, salaireId,salaireId,salaireId,salaireId,salaireId, playersId);
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK,
+						false, poolId, teamId, contrat, clubEcoleId, salaireId, salaireId, salaireId, salaireId,
+						salaireId, playersId);
 				break;
-			
+
 			case 2:
-				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK, false, poolId,
-						teamId, contrat, clubEcoleId, salaireId,"C","C","C","C", playersId);
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK,
+						false, poolId, teamId, contrat, clubEcoleId, salaireId, "C", "C", "C", "C", playersId);
 				break;
 			case 3:
-				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK, false, poolId,
-						teamId, contrat, clubEcoleId, salaireId,salaireId,"C","C","C", playersId);
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK,
+						false, poolId, teamId, contrat, clubEcoleId, salaireId, salaireId, "C", "C", "C", playersId);
 				break;
 			case 4:
-				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK, false, poolId,
-						teamId, contrat, clubEcoleId, salaireId,salaireId,salaireId,"C","C", playersId);
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK,
+						false, poolId, teamId, contrat, clubEcoleId, salaireId, salaireId, salaireId, "C", "C",
+						playersId);
 				break;
 			case 5:
-				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK, false, poolId,
-						teamId, contrat, clubEcoleId, salaireId,salaireId,salaireId,salaireId,"C", playersId);
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK,
+						false, poolId, teamId, contrat, clubEcoleId, salaireId, salaireId, salaireId, salaireId, "C",
+						playersId);
 				break;
 			}
-		
+
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -1198,8 +1201,12 @@ public class PlayersDaoImpl implements PlayersDao {
 			}
 			rs = preparedStatement.executeQuery();
 			while (rs.next()) {
-				int salaire_joueur_temp = rs.getInt("years_1");
-				mBean.setTotal_salaire_team_making_offer(salaire_joueur_temp);
+				String salaire_joueur_temp = rs.getString("years_1");
+				if (salaire_joueur_temp.equalsIgnoreCase("C")) {
+					salaire_joueur_temp = rs.getString("years_0");
+				}
+				int salaire = Integer.parseInt(salaire_joueur_temp);
+				mBean.setTotal_salaire_team_making_offer(salaire);
 				mBean.setNomMakingOfferString(rs.getString("nom"));
 				mBean.setPositionDuJoueurTrade(rs.getString("position"));
 				mBean.setClubEcole(rs.getInt("club_ecole"));
@@ -1252,7 +1259,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		int club_ecole = 0;
 		String position = null;
 		String poolID = mBeanPool.getPoolID();
-		int cycleAnnuel=mBeanPool.getCycleAnnuel();
+		int cycleAnnuel = mBeanPool.getCycleAnnuel();
 		int poolId = Integer.parseInt(poolID);
 
 		Connection connexion = null;
@@ -1269,7 +1276,14 @@ public class PlayersDaoImpl implements PlayersDao {
 			if (rs.next()) {
 				club_ecole = rs.getInt("club_ecole");
 				String salaireString = rs.getString("years_1");
-				salaire = Integer.parseInt(salaireString);
+				if (salaireString.equalsIgnoreCase("C") || salaireString.equalsIgnoreCase("B")
+						|| salaireString.equalsIgnoreCase("A")) {
+					salaireString = rs.getString("years_0");
+					salaire = Integer.parseInt(salaireString);
+				} else {
+
+					salaire = Integer.parseInt(salaireString);
+				}
 				contrat = rs.getString("years_2");
 				years_3 = rs.getString("years_3");
 				years_4 = rs.getString("years_4");
@@ -1285,23 +1299,23 @@ public class PlayersDaoImpl implements PlayersDao {
 
 		try {
 			connexion = daoFactory.getConnection();
-			
-			if(cycleAnnuel==4) {
+
+			if (cycleAnnuel == 3) {
 				if (contrat.equalsIgnoreCase("JA")) {
-				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS8, false, poolId,
-						teamId2, playerId2);
+					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS8, false, poolId,
+							teamId2, playerId2);
 				} else {
 					if (contrat.equalsIgnoreCase("X")) {
-						preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS2, false, poolId, teamId2,
-								playerId2);
+						preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS2, false, poolId,
+								teamId2, playerId2);
 					}
 
 					else if (contrat.equalsIgnoreCase("B")) {
-						preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS3, false, poolId, teamId2,
-								playerId2);
+						preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS3, false, poolId,
+								teamId2, playerId2);
 					} else if (contrat.equalsIgnoreCase("C")) {
-						preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS4, false, poolId, teamId2,
-								playerId2);
+						preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS4, false, poolId,
+								teamId2, playerId2);
 					} else {
 
 						if (years_3.equalsIgnoreCase("X")) {
@@ -1322,47 +1336,47 @@ public class PlayersDaoImpl implements PlayersDao {
 						}
 
 					}
-					
+
 				}
 			} else {
 
-			if (contrat.equalsIgnoreCase("JA")) {
-				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS, false, poolId, teamId2,
-						playerId2);
-			}
+				if (contrat.equalsIgnoreCase("JA")) {
+					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS, false, poolId, teamId2,
+							playerId2);
+				}
 
-			else if (contrat.equalsIgnoreCase("X")) {
-				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS2, false, poolId, teamId2,
-						playerId2);
-			}
-
-			else if (contrat.equalsIgnoreCase("B")) {
-				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS3, false, poolId, teamId2,
-						playerId2);
-			} else if (contrat.equalsIgnoreCase("C")) {
-				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS4, false, poolId, teamId2,
-						playerId2);
-			} else {
-
-				if (years_3.equalsIgnoreCase("X")) {
-					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS5, false, poolId,
-							teamId2, playerId2);
-				} else if (years_4.equalsIgnoreCase("X")) {
-					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS6, false, poolId,
-							teamId2, playerId2);
-				} else if (years_5.equalsIgnoreCase("X")) {
-					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS7, false, poolId,
+				else if (contrat.equalsIgnoreCase("X")) {
+					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS2, false, poolId,
 							teamId2, playerId2);
 				}
 
-				else {
-					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS8, false, poolId,
+				else if (contrat.equalsIgnoreCase("B")) {
+					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS3, false, poolId,
 							teamId2, playerId2);
+				} else if (contrat.equalsIgnoreCase("C")) {
+					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS4, false, poolId,
+							teamId2, playerId2);
+				} else {
+
+					if (years_3.equalsIgnoreCase("X")) {
+						preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS5, false, poolId,
+								teamId2, playerId2);
+					} else if (years_4.equalsIgnoreCase("X")) {
+						preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS6, false, poolId,
+								teamId2, playerId2);
+					} else if (years_5.equalsIgnoreCase("X")) {
+						preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS7, false, poolId,
+								teamId2, playerId2);
+					}
+
+					else {
+						preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS8, false, poolId,
+								teamId2, playerId2);
+
+					}
 
 				}
 
-			}
-			
 			}
 
 			preparedStatement.executeUpdate();
@@ -1399,6 +1413,31 @@ public class PlayersDaoImpl implements PlayersDao {
 				mEntityEquipe.setProperty("nb_attaquant", (((Long) mEntityEquipe.getProperty("nb_attaquant")) - 1));
 				mEntityEquipe.setProperty("manquant_att", (((Long) mEntityEquipe.getProperty("manquant_att")) + 1));
 
+				Long budget = (Long) mEntityEquipe.getProperty("budget_restant");
+				int budget_restant_test = budget.intValue();
+
+				if (budget_restant_test < 0) {
+
+					int argentToTakeInArgentRecu = 0 - budget_restant_test;
+
+					mEntityEquipe.setProperty("argent_recu",
+							((Long) mEntityEquipe.getProperty("argent_recu")) - argentToTakeInArgentRecu);
+
+					mEntityEquipe.setProperty("budget_restant", 0);
+
+				}
+
+				mEntityEquipe.setProperty("manquant_equipe",
+						(((Long) mEntityEquipe.getProperty("manquant_equipe")) + 1));
+
+				if ((Long) mEntityEquipe.getProperty("manquant_equipe") == 0) {
+					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
+				} else {
+					Long moyenne_restante = (((Long) mEntityEquipe.getProperty("budget_restant"))
+							/ ((Long) mEntityEquipe.getProperty("manquant_equipe")));
+					mEntityEquipe.setProperty("moy_sal_restant_draft", moyenne_restante);
+				}
+
 				datastore.put(mEntityEquipe);
 			} catch (EntityNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -1422,6 +1461,31 @@ public class PlayersDaoImpl implements PlayersDao {
 				}
 				mEntityEquipe.setProperty("nb_attaquant", (((Long) mEntityEquipe.getProperty("nb_attaquant")) + 1));
 				mEntityEquipe.setProperty("manquant_att", (((Long) mEntityEquipe.getProperty("manquant_att")) - 1));
+
+				Long budget = (Long) mEntityEquipe.getProperty("budget_restant");
+				int budget_restant_test = budget.intValue();
+
+				if (budget_restant_test < 0) {
+
+					int argentToTakeInArgentRecu = 0 - budget_restant_test;
+
+					mEntityEquipe.setProperty("argent_recu",
+							((Long) mEntityEquipe.getProperty("argent_recu")) - argentToTakeInArgentRecu);
+
+					mEntityEquipe.setProperty("budget_restant", 0);
+
+				}
+
+				mEntityEquipe.setProperty("manquant_equipe",
+						(((Long) mEntityEquipe.getProperty("manquant_equipe")) - 1));
+
+				if ((Long) mEntityEquipe.getProperty("manquant_equipe") == 0) {
+					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
+				} else {
+					Long moyenne_restante = (((Long) mEntityEquipe.getProperty("budget_restant"))
+							/ ((Long) mEntityEquipe.getProperty("manquant_equipe")));
+					mEntityEquipe.setProperty("moy_sal_restant_draft", moyenne_restante);
+				}
 
 				datastore.put(mEntityEquipe);
 
@@ -1447,6 +1511,31 @@ public class PlayersDaoImpl implements PlayersDao {
 				mEntityEquipe.setProperty("nb_defenseur", (((Long) mEntityEquipe.getProperty("nb_defenseur")) - 1));
 				mEntityEquipe.setProperty("manquant_def", (((Long) mEntityEquipe.getProperty("manquant_def")) + 1));
 
+				Long budget = (Long) mEntityEquipe.getProperty("budget_restant");
+				int budget_restant_test = budget.intValue();
+
+				if (budget_restant_test < 0) {
+
+					int argentToTakeInArgentRecu = 0 - budget_restant_test;
+
+					mEntityEquipe.setProperty("argent_recu",
+							((Long) mEntityEquipe.getProperty("argent_recu")) - argentToTakeInArgentRecu);
+
+					mEntityEquipe.setProperty("budget_restant", 0);
+
+				}
+
+				mEntityEquipe.setProperty("manquant_equipe",
+						(((Long) mEntityEquipe.getProperty("manquant_equipe")) + 1));
+
+				if ((Long) mEntityEquipe.getProperty("manquant_equipe") == 0) {
+					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
+				} else {
+					Long moyenne_restante = (((Long) mEntityEquipe.getProperty("budget_restant"))
+							/ ((Long) mEntityEquipe.getProperty("manquant_equipe")));
+					mEntityEquipe.setProperty("moy_sal_restant_draft", moyenne_restante);
+				}
+
 				datastore.put(mEntityEquipe);
 			} catch (EntityNotFoundException e) {
 				e.printStackTrace();
@@ -1469,6 +1558,31 @@ public class PlayersDaoImpl implements PlayersDao {
 				}
 				mEntityEquipe.setProperty("nb_defenseur", (((Long) mEntityEquipe.getProperty("nb_defenseur")) + 1));
 				mEntityEquipe.setProperty("manquant_def", (((Long) mEntityEquipe.getProperty("manquant_def")) - 1));
+
+				Long budget = (Long) mEntityEquipe.getProperty("budget_restant");
+				int budget_restant_test = budget.intValue();
+
+				if (budget_restant_test < 0) {
+
+					int argentToTakeInArgentRecu = 0 - budget_restant_test;
+
+					mEntityEquipe.setProperty("argent_recu",
+							((Long) mEntityEquipe.getProperty("argent_recu")) - argentToTakeInArgentRecu);
+
+					mEntityEquipe.setProperty("budget_restant", 0);
+
+				}
+
+				mEntityEquipe.setProperty("manquant_equipe",
+						(((Long) mEntityEquipe.getProperty("manquant_equipe"))- 1));
+
+				if ((Long) mEntityEquipe.getProperty("manquant_equipe") == 0) {
+					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
+				} else {
+					Long moyenne_restante = (((Long) mEntityEquipe.getProperty("budget_restant"))
+							/ ((Long) mEntityEquipe.getProperty("manquant_equipe")));
+					mEntityEquipe.setProperty("moy_sal_restant_draft", moyenne_restante);
+				}
 
 				datastore.put(mEntityEquipe);
 			} catch (EntityNotFoundException e) {
@@ -1494,6 +1608,31 @@ public class PlayersDaoImpl implements PlayersDao {
 				mEntityEquipe.setProperty("nb_gardien", (((Long) mEntityEquipe.getProperty("nb_gardien")) - 1));
 				mEntityEquipe.setProperty("manquant_gardien",
 						(((Long) mEntityEquipe.getProperty("manquant_gardien")) + 1));
+
+				Long budget = (Long) mEntityEquipe.getProperty("budget_restant");
+				int budget_restant_test = budget.intValue();
+
+				if (budget_restant_test < 0) {
+
+					int argentToTakeInArgentRecu = 0 - budget_restant_test;
+
+					mEntityEquipe.setProperty("argent_recu",
+							((Long) mEntityEquipe.getProperty("argent_recu")) - argentToTakeInArgentRecu);
+
+					mEntityEquipe.setProperty("budget_restant", 0);
+
+				}
+
+				mEntityEquipe.setProperty("manquant_equipe",
+						(((Long) mEntityEquipe.getProperty("manquant_equipe")) + 1));
+
+				if ((Long) mEntityEquipe.getProperty("manquant_equipe") == 0) {
+					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
+				} else {
+					Long moyenne_restante = (((Long) mEntityEquipe.getProperty("budget_restant"))
+							/ ((Long) mEntityEquipe.getProperty("manquant_equipe")));
+					mEntityEquipe.setProperty("moy_sal_restant_draft", moyenne_restante);
+				}
 				datastore.put(mEntityEquipe);
 
 			} catch (EntityNotFoundException e) {
@@ -1517,6 +1656,31 @@ public class PlayersDaoImpl implements PlayersDao {
 				mEntityEquipe.setProperty("nb_gardien", (((Long) mEntityEquipe.getProperty("nb_gardien")) + 1));
 				mEntityEquipe.setProperty("manquant_gardien",
 						(((Long) mEntityEquipe.getProperty("manquant_gardien")) - 1));
+
+				Long budget = (Long) mEntityEquipe.getProperty("budget_restant");
+				int budget_restant_test = budget.intValue();
+
+				if (budget_restant_test < 0) {
+
+					int argentToTakeInArgentRecu = 0 - budget_restant_test;
+
+					mEntityEquipe.setProperty("argent_recu",
+							((Long) mEntityEquipe.getProperty("argent_recu")) - argentToTakeInArgentRecu);
+
+					mEntityEquipe.setProperty("budget_restant", 0);
+
+				}
+
+				mEntityEquipe.setProperty("manquant_equipe",
+						(((Long) mEntityEquipe.getProperty("manquant_equipe")) - 1));
+
+				if ((Long) mEntityEquipe.getProperty("manquant_equipe") == 0) {
+					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
+				} else {
+					Long moyenne_restante = (((Long) mEntityEquipe.getProperty("budget_restant"))
+							/ ((Long) mEntityEquipe.getProperty("manquant_equipe")));
+					mEntityEquipe.setProperty("moy_sal_restant_draft", moyenne_restante);
+				}
 				datastore.put(mEntityEquipe);
 
 			} catch (EntityNotFoundException e) {
@@ -2673,17 +2837,18 @@ public class PlayersDaoImpl implements PlayersDao {
 	}
 
 	@Override
-	public int monterRookie(int poolId, String players_id, int numberOfYearSign, String salaire, PlayersDao playersDao) throws DAOException {
+	public int monterRookie(int poolId, String players_id, int numberOfYearSign, String salaire, PlayersDao playersDao)
+			throws DAOException {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		String years1 = null, years2 = null, years3 = null, years4 = null, years5 = null;
-		int salaireInt=0;
-		if(salaire.equalsIgnoreCase("C")||salaire.equalsIgnoreCase("D")) {
-			salaireInt = playersDao.getYears0(poolId,players_id);
+		int salaireInt = 0;
+		if (salaire.equalsIgnoreCase("C") || salaire.equalsIgnoreCase("D")) {
+			salaireInt = playersDao.getYears0(poolId, players_id);
 		} else {
-			salaireInt= Integer.parseInt(salaire);
+			salaireInt = Integer.parseInt(salaire);
 		}
-		
+
 		switch (numberOfYearSign) {
 		case 2:
 			years1 = String.valueOf(salaireInt);
@@ -2731,7 +2896,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		} finally {
 			fermeturesSilencieuses(preparedStatement, connexion);
 		}
-		
+
 		return salaireInt;
 
 	}
@@ -2741,15 +2906,16 @@ public class PlayersDaoImpl implements PlayersDao {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs;
-		String years_2=null;
-		String years_3=null;
-		String years_4=null;
-		String years_5=null;
-		
+		String years_2 = null;
+		String years_3 = null;
+		String years_4 = null;
+		String years_5 = null;
+
 		try {
 			connexion = daoFactory.getConnection();
 
-			preparedStatement = initialisationRequetePreparee(connexion, GET_ROOKIE_AB, false, poolID);
+			preparedStatement = initialisationRequetePreparee(connexion, GET_ROOKIE_AB, false,
+					Integer.parseInt(poolID));
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
@@ -2796,30 +2962,28 @@ public class PlayersDaoImpl implements PlayersDao {
 					}
 
 				}
-		
-					
-					if (years_2.equalsIgnoreCase("X")) {
 
-						preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false, poolID,
-								salaire, "X", "X", "X", "X", players_id);
-						preparedStatement.execute();
-					} else if (years_3.equalsIgnoreCase("X")) {
-						preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false, poolID,
-								salaire, salaire, "X", "X", "X", players_id);
-						preparedStatement.execute();
+				if (years_2.equalsIgnoreCase("X")) {
 
-					} else if (years_4.equalsIgnoreCase("X")) {
-						preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false, poolID,
-								salaire, salaire, salaire, "X", "X", players_id);
-						preparedStatement.execute();
+					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false, poolID,
+							salaire, "X", "X", "X", "X", players_id);
+					preparedStatement.execute();
+				} else if (years_3.equalsIgnoreCase("X")) {
+					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false, poolID,
+							salaire, salaire, "X", "X", "X", players_id);
+					preparedStatement.execute();
 
-					} else if (years_5.equalsIgnoreCase("X")) {
-						preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false, poolID,
-								salaire, salaire, salaire, salaire, players_id, "X");
-						preparedStatement.execute();
+				} else if (years_4.equalsIgnoreCase("X")) {
+					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false, poolID,
+							salaire, salaire, salaire, "X", "X", players_id);
+					preparedStatement.execute();
 
-					}
-				
+				} else if (years_5.equalsIgnoreCase("X")) {
+					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false, poolID,
+							salaire, salaire, salaire, salaire, players_id, "X");
+					preparedStatement.execute();
+
+				}
 
 			}
 
@@ -2829,30 +2993,28 @@ public class PlayersDaoImpl implements PlayersDao {
 			fermeturesSilencieuses(preparedStatement, connexion);
 		}
 
-		
-
 	}
 
 	@Override
 	public int getYears0(int poolId, String players_id) {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
-		ResultSet rs=null;
-		String salaire=null;
+		ResultSet rs = null;
+		String salaire = null;
 		try {
 			connexion = daoFactory.getConnection();
 
 			preparedStatement = initialisationRequetePreparee(connexion, GET_YEARS_0, false, poolId, players_id);
 			rs = preparedStatement.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				salaire = rs.getString("years_0");
-				
+
 			}
 
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
-			fermeturesSilencieuses(rs,preparedStatement, connexion);
+			fermeturesSilencieuses(rs, preparedStatement, connexion);
 		}
 		return Integer.parseInt(salaire);
 	}
@@ -2864,16 +3026,16 @@ public class PlayersDaoImpl implements PlayersDao {
 		try {
 			connexion = daoFactory.getConnection();
 
-			preparedStatement = initialisationRequetePreparee(connexion, DROP_PLAYERS_C_D, false, Integer.parseInt(poolID));
+			preparedStatement = initialisationRequetePreparee(connexion, DROP_PLAYERS_C_D, false,
+					Integer.parseInt(poolID));
 			preparedStatement.execute();
-			
+
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
 			fermeturesSilencieuses(preparedStatement, connexion);
 		}
-		
-		
+
 	}
 
 	@Override
@@ -2887,18 +3049,20 @@ public class PlayersDaoImpl implements PlayersDao {
 		try {
 			connexion = daoFactory.getConnection();
 
-			preparedStatement = initialisationRequetePreparee(connexion, GET_BIRTHDAY, false, poolId,playersId);
+			preparedStatement = initialisationRequetePreparee(connexion, GET_BIRTHDAY, false, poolId, playersId);
 			ResultSet rs = preparedStatement.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-dd");
 				Date mDate = rs.getDate("birthday");
+				String years_3 = rs.getString("years_3");
+				String years_4 = rs.getString("years_4");
+				String years_5 = rs.getString("years_5");
+
 				DateTime dt = new DateTime();
-				
 				int year2 = dt.getYear() - 24;
 				String birthday2 = year2 + "-09-15";
-				
-				
+
 				try {
 					maxDateForRookie2 = formatter.parse(birthday2);
 				} catch (ParseException e) {
@@ -2930,35 +3094,73 @@ public class PlayersDaoImpl implements PlayersDao {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				
-				
-					
-					if(mDate.before(maxDateForRookie2)) {
+
+				if (years_5.equalsIgnoreCase("X")) {
+
+					if (mDate.before(maxDateForRookie2)) {
+						return 52;
+					}
+					if (mDate.before(maxDateForRookie3)) {
+						return 53;
+					}
+					if (mDate.before(maxDateForRookie4)) {
+						return 54;
+					}
+					if (mDate.before(maxDateForRookie5)) {
+						return 55;
+					}
+
+				} else if (years_4.equalsIgnoreCase("X")) {
+					if (mDate.before(maxDateForRookie2)) {
+						return 42;
+					}
+					if (mDate.before(maxDateForRookie3)) {
+						return 43;
+					}
+					if (mDate.before(maxDateForRookie4)) {
+						return 44;
+					}
+					if (mDate.before(maxDateForRookie5)) {
+						return 45;
+					}
+				} else if (years_3.equalsIgnoreCase("X")) {
+					if (mDate.before(maxDateForRookie2)) {
+						return 32;
+					}
+					if (mDate.before(maxDateForRookie3)) {
+						return 33;
+					}
+					if (mDate.before(maxDateForRookie4)) {
+						return 34;
+					}
+					if (mDate.before(maxDateForRookie5)) {
+						return 35;
+					}
+				} else {
+
+					if (mDate.before(maxDateForRookie2)) {
 						return 2;
 					}
-					if(mDate.before(maxDateForRookie3)) {
+					if (mDate.before(maxDateForRookie3)) {
 						return 3;
 					}
-					if(mDate.before(maxDateForRookie4)) {
+					if (mDate.before(maxDateForRookie4)) {
 						return 4;
 					}
-					if(mDate.before(maxDateForRookie5)) {
+					if (mDate.before(maxDateForRookie5)) {
 						return 5;
 					}
-					
-			
-				
-				
-				
+
+				}
+
 			}
-			
+
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
 			fermeturesSilencieuses(preparedStatement, connexion);
 		}
-		
+
 		return 0;
 	}
 
@@ -2966,51 +3168,124 @@ public class PlayersDaoImpl implements PlayersDao {
 	public void updateCAfterRetro(int playersId, String poolID, int teamId, int checker) throws DAOException {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
-		
 
 		try {
 			connexion = daoFactory.getConnection();
-			switch(checker) {
-			case 1:
-				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_0, false, Integer.parseInt(poolID),"C","C","C","C",playersId);
+			switch (checker) {
+
+			case 0:
 				break;
 			case 2:
-				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_1, false, Integer.parseInt(poolID),"C","C","C",playersId);
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_0, false,
+						Integer.parseInt(poolID), "C", "C", "C", "C", playersId);
+				preparedStatement.executeUpdate();
 				break;
-			
 			case 3:
-				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_2, false, Integer.parseInt(poolID),"C","C",playersId);
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_1, false,
+						Integer.parseInt(poolID), "C", "C", "C", playersId);
+				preparedStatement.executeUpdate();
 				break;
+
 			case 4:
-				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_3, false, Integer.parseInt(poolID),"C",playersId);
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_2, false,
+						Integer.parseInt(poolID), "C", "C", playersId);
+				preparedStatement.executeUpdate();
 				break;
-			
-			default : 
+			case 5:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_3, false,
+						Integer.parseInt(poolID), "C", playersId);
+				preparedStatement.executeUpdate();
+				break;
+
+			case 52:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_0, false,
+						Integer.parseInt(poolID), "C", "C", "C", "X", playersId);
+				preparedStatement.executeUpdate();
+				break;
+			case 53:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_1, false,
+						Integer.parseInt(poolID), "C", "C", "X", playersId);
+				preparedStatement.executeUpdate();
+				break;
+
+			case 54:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_2, false,
+						Integer.parseInt(poolID), "C", "X", playersId);
+				preparedStatement.executeUpdate();
+				break;
+			case 55:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_3, false,
+						Integer.parseInt(poolID), "X", playersId);
+				preparedStatement.executeUpdate();
+				break;
+
+			case 42:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_0, false,
+						Integer.parseInt(poolID), "C", "C", "X", "X", playersId);
+				preparedStatement.executeUpdate();
+				break;
+			case 43:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_1, false,
+						Integer.parseInt(poolID), "C", "X", "X", playersId);
+				preparedStatement.executeUpdate();
+				break;
+
+			case 44:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_2, false,
+						Integer.parseInt(poolID), "X", "X", playersId);
+				preparedStatement.executeUpdate();
+				break;
+			case 45:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_3, false,
+						Integer.parseInt(poolID), "X", playersId);
+				preparedStatement.executeUpdate();
+				break;
+
+			case 32:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_0, false,
+						Integer.parseInt(poolID), "C", "X", "X", "X", playersId);
+				preparedStatement.executeUpdate();
+				break;
+			case 33:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_1, false,
+						Integer.parseInt(poolID), "X", "X", "X", playersId);
+				preparedStatement.executeUpdate();
+				break;
+
+			case 34:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_2, false,
+						Integer.parseInt(poolID), "X", "X", playersId);
+				preparedStatement.executeUpdate();
+				break;
+			case 35:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_3, false,
+						Integer.parseInt(poolID), "X", playersId);
+				preparedStatement.executeUpdate();
+				break;
+
+			default:
 				break;
 			}
-		
-			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
 			fermeturesSilencieuses(preparedStatement, connexion);
 		}
-		
+
 	}
 
 	@Override
 	public void resetStatsToZeroForNewYear(String poolID) {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
-		
 
 		try {
 			connexion = daoFactory.getConnection();
-			
-			preparedStatement = initialisationRequetePreparee(connexion, RESET_STATS_TO_ZERO, false, Integer.parseInt(poolID));
-				
-		
+
+			preparedStatement = initialisationRequetePreparee(connexion, RESET_STATS_TO_ZERO, false,
+					Integer.parseInt(poolID));
+
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -3018,7 +3293,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		} finally {
 			fermeturesSilencieuses(preparedStatement, connexion);
 		}
-		
+
 	}
 
 }

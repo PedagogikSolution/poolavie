@@ -103,7 +103,11 @@ public class AdminModel {
 		if (dt.isBeforeNow()) {
 
 			mBeanPool.setCycleAnnuel(3);
+			
+			if(poolYearId==0) {
 			mBeanPool.setPoolYear((poolYearId + 1));
+			}
+			
 
 			req.getSession().setAttribute("Pool", mBeanPool);
 
@@ -1091,7 +1095,7 @@ public class AdminModel {
 		try {
 			Entity mEntity = datastore.get(keyDraftProcess);
 			
-			mEntity.setProperty("currentPick",0);
+			mEntity.setProperty("currentPick",1);
 			
 			datastore.put(mEntity);
 		} catch (EntityNotFoundException e) {
@@ -1115,7 +1119,7 @@ public class AdminModel {
 		try {
 			Entity mEntity = datastore.get(keyPool);
 			
-			mEntity.setProperty("draftDate","9999-10-21 22:00");
+			mEntity.setProperty("draftDate","2099-10-21");
 			
 			datastore.put(mEntity);
 		} catch (EntityNotFoundException e) {
@@ -1172,7 +1176,6 @@ public class AdminModel {
 	}
 	
 	public void resetPlayersStats(HttpServletRequest req, PlayersDao playersDao) {
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 
