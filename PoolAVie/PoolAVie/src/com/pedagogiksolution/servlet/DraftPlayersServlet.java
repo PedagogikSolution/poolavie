@@ -8,6 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.cron.model.PlayersCronModel;
+import com.pedagogiksolution.dao.ClassementDao;
+import com.pedagogiksolution.dao.DAOFactory;
+import com.pedagogiksolution.dao.DraftDao;
+import com.pedagogiksolution.dao.DraftPickDao;
+import com.pedagogiksolution.dao.PlayersDao;
+import com.pedagogiksolution.dao.TradeMadeDao;
+import com.pedagogiksolution.dao.TradeOfferDao;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.DraftPlayersModel;
 import com.pedagogiksolution.model.LoginModel;
@@ -18,6 +25,17 @@ public class DraftPlayersServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = -2767768156351834050L;
+	public static final String CONF_DAO_FACTORY = "daofactory";
+	
+	private DraftDao draftDao;
+
+	@Override
+	public void init() throws ServletException {
+
+		
+		this.draftDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftDao();
+
+	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -95,7 +113,7 @@ public class DraftPlayersServlet extends HttpServlet {
 			mModel = new DraftPlayersModel(req, resp);
 			mModel.persistenceDraftPickRegulier();
 			mModel.channelMessage(1);
-			checkIfDraftFinish = mModel.checkIfDraftFinish();
+			checkIfDraftFinish = mModel.checkIfDraftFinish(draftDao);
 			if (checkIfDraftFinish) {
 				mModel.persistDraftFinishForUser();
 				Boolean checkifDraftFinishForAll = mModel.checkifDraftFinishForAll();
@@ -114,7 +132,7 @@ public class DraftPlayersServlet extends HttpServlet {
 			
 			
 			mModel.channelMessage(2);
-			checkIfDraftFinish = mModel.checkIfDraftFinish();
+			checkIfDraftFinish = mModel.checkIfDraftFinish(draftDao);
 			if (checkIfDraftFinish) {
 				mModel.persistDraftFinishForUser();
 				Boolean checkifDraftFinishForAll = mModel.checkifDraftFinishForAll();

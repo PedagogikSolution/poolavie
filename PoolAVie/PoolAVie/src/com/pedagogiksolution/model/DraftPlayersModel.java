@@ -34,6 +34,7 @@ import com.google.appengine.api.taskqueue.TaskOptions;
 import com.google.gson.JsonObject;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.beans.NonSessionPlayers;
+import com.pedagogiksolution.dao.DraftDao;
 import com.pedagogiksolution.datastorebeans.Attaquant;
 import com.pedagogiksolution.datastorebeans.Defenseur;
 import com.pedagogiksolution.datastorebeans.DraftProcess;
@@ -1219,7 +1220,7 @@ public class DraftPlayersModel {
 
 	}
 
-	public Boolean checkIfDraftFinish() {
+	public Boolean checkIfDraftFinish(DraftDao draftDao) {
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		String poolID = mBeanPool.getPoolID();
 		String teamID = req.getParameter("team_id");
@@ -1232,6 +1233,12 @@ public class DraftPlayersModel {
 		int manquant_recrue = manquant_recrue2.intValue();
 
 		if (manquant_equipe == 0 && manquant_recrue == 0) {
+			
+			// on retire les pick restant du DraftRound
+			
+			draftDao.deleteDraftPickWhenFinishPicking(poolID,teamID);
+			
+			
 			return true;
 		} else {
 			return false;
@@ -1262,36 +1269,43 @@ public class DraftPlayersModel {
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		String poolID = mBeanPool.getPoolID();
 		int numberOfTeam = mBeanPool.getNumberTeam();
+		int total_numbe_of_pick_for_this_draft = 0;
 		Key mKey = KeyFactory.createKey("DraftProcess", poolID);
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		for(int i=1;i<numberOfTeam+1;i++) {
+			
+			String name = poolID+"_"+i;
+			Key mKeyEquipe = KeyFactory.createKey("Equipe", name);
+			
+			Entity mEquipe;
+			try {
+				mEquipe = datastore.get(mKeyEquipe);
+				Long manquant_recrueL = (Long) mEquipe.getProperty("manquant_recrue");
+				Long manquant_equipeL = (Long) mEquipe.getProperty("manquant_equipe");
+				total_numbe_of_pick_for_this_draft= total_numbe_of_pick_for_this_draft+manquant_recrueL.intValue()+manquant_equipeL.intValue();
+			} catch (EntityNotFoundException e) {
+				e.printStackTrace();
+			}
+			
+			
+			
+		}
+		
+				
 		try {
 			Entity mEntity = datastore.get(mKey);
-			int counter = 0;
-			for (int i = 1; i < (numberOfTeam + 1); i++) {
-				String teamName = i + "isFinish";
-				Long testIfFinishSetToOne = (Long) mEntity.getProperty(teamName);
-				if (testIfFinishSetToOne == null) {
-
-					mEntity.setProperty(teamName, 0);
-					datastore.put(mEntity);
-
-				} else {
-					if (testIfFinishSetToOne == 1) {
-						counter++;
-					}
-				}
-			}
-
-			if (counter == numberOfTeam) {
+			Long currentPickL = (Long) mEntity.getProperty("currentPick");
+			int currentPick = currentPickL.intValue();
+			if(currentPick==total_numbe_of_pick_for_this_draft) {
 				return true;
-			} else {
-				return false;
-			}
-
+			} 
+			
 		} catch (EntityNotFoundException e) {
-			return false;
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
+		return false;
 	}
 
 	public void changeCycleAnnuelToSignature4() {

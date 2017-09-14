@@ -34,7 +34,10 @@ public class DraftDaoImpl implements DraftDao {
 	private static final String TRUNCATE_TABLE = "TRUNCATE draft?";
 	private static final String UPDATE_TEAM_NAME = "UPDATE draft? SET equipe=? WHERE team_id=?";
 	private static final String GET_ROUND_BY_ID = "SELECT * FROM draft? WHERE draft_pick_no=?";
-	private static final String MAKE_TRADE_DURING_DRAFT = "UPDATE draft? SET from_who=equipe,team_id_from=team_id,team_id=?,equipe=? WHERE draft_pick_no=?" ;
+	private static final String MAKE_TRADE_DURING_DRAFT = "UPDATE draft? SET from_who=equipe,team_id_from=team_id,team_id=?,equipe=? WHERE draft_pick_no=?";
+	private static final String DELETE_PICK_WHEN_DRAFT_FINISH = "DELETE FROM draft? WHERE team_id=? AND player_drafted IS NULL";
+	private static final String GET_PICK_RESTANT = "SELECT * FROM draft? WHERE player_drafted IS NULL ORDER BY _id ASC";
+	private static final String RESET_DRAFT_PICK_NO_ORDER = "UPDATE draft? SET draft_pick_no=? WHERE draft_pick_no=?";
 
 	private DAOFactory daoFactory;
 
@@ -134,7 +137,7 @@ public class DraftDaoImpl implements DraftDao {
 
 				}
 				preparedStatement = initialisationRequetePreparee(connexion, INSERT_DRAFT_FIRST_YEAR, false, poolId,
-						draft_pick_no, teamId, ronde, ronde, poolId, 0, years_of_the_draft, nomTeam,nomTeam,teamId);
+						draft_pick_no, teamId, ronde, ronde, poolId, 0, years_of_the_draft, nomTeam, nomTeam, teamId);
 				preparedStatement.execute();
 				draft_pick_no++;
 			}
@@ -329,7 +332,8 @@ public class DraftDaoImpl implements DraftDao {
 	}
 
 	@Override
-	public void populationDraftRoundFromDraftPick(String poolID, List<Integer> classementInverseLastYears, String years, HttpServletRequest req) throws DAOException {
+	public void populationDraftRoundFromDraftPick(String poolID, List<Integer> classementInverseLastYears, String years,
+			HttpServletRequest req) throws DAOException {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		int draft_pick_no = 1;
@@ -337,10 +341,11 @@ public class DraftDaoImpl implements DraftDao {
 		int years_of_the_draft = Integer.parseInt(years);
 		String nomTeam = null;
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
-		
+
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = initialisationRequetePreparee(connexion, TRUNCATE_TABLE, false, Integer.parseInt(poolID));
+			preparedStatement = initialisationRequetePreparee(connexion, TRUNCATE_TABLE, false,
+					Integer.parseInt(poolID));
 			preparedStatement.execute();
 
 		} catch (SQLException e) {
@@ -395,8 +400,9 @@ public class DraftDaoImpl implements DraftDao {
 
 					}
 
-					preparedStatement = initialisationRequetePreparee(connexion, INSERT_DRAFT_FIRST_YEAR, false, Integer.parseInt(poolID),
-							draft_pick_no, teamId, ronde, ronde, Integer.parseInt(poolID), 0, years_of_the_draft, nomTeam,nomTeam,teamId);
+					preparedStatement = initialisationRequetePreparee(connexion, INSERT_DRAFT_FIRST_YEAR, false,
+							Integer.parseInt(poolID), draft_pick_no, teamId, ronde, ronde, Integer.parseInt(poolID), 0,
+							years_of_the_draft, nomTeam, nomTeam, teamId);
 					preparedStatement.execute();
 					draft_pick_no++;
 				}
@@ -411,7 +417,8 @@ public class DraftDaoImpl implements DraftDao {
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = initialisationRequetePreparee(connexion, UPDATE_FROM_DRAFT_PICK, false, Integer.parseInt(poolID),Integer.parseInt(poolID));
+			preparedStatement = initialisationRequetePreparee(connexion, UPDATE_FROM_DRAFT_PICK, false,
+					Integer.parseInt(poolID), Integer.parseInt(poolID));
 			preparedStatement.execute();
 
 		} catch (SQLException e) {
@@ -420,55 +427,55 @@ public class DraftDaoImpl implements DraftDao {
 			fermeturesSilencieuses(preparedStatement, connexion);
 
 		}
-		
-		
+
 		// on update nom des teams
 		try {
 			connexion = daoFactory.getConnection();
-			
-		for (int teamId = 1;teamId<(mBeanPool.getNumberTeam()+1);teamId++) {
-			switch (teamId) {
-			case 1:
-				nomTeam = mBeanPool.getNomTeam1();
-				break;
-			case 2:
-				nomTeam = mBeanPool.getNomTeam2();
-				break;
-			case 3:
-				nomTeam = mBeanPool.getNomTeam3();
-				break;
-			case 4:
-				nomTeam = mBeanPool.getNomTeam4();
-				break;
-			case 5:
-				nomTeam = mBeanPool.getNomTeam5();
-				break;
-			case 6:
-				nomTeam = mBeanPool.getNomTeam6();
-				break;
-			case 7:
-				nomTeam = mBeanPool.getNomTeam7();
-				break;
-			case 8:
-				nomTeam = mBeanPool.getNomTeam8();
-				break;
-			case 9:
-				nomTeam = mBeanPool.getNomTeam9();
-				break;
-			case 10:
-				nomTeam = mBeanPool.getNomTeam10();
-				break;
-			case 11:
-				nomTeam = mBeanPool.getNomTeam11();
-				break;
-			case 12:
-				nomTeam = mBeanPool.getNomTeam12();
-				break;
 
+			for (int teamId = 1; teamId < (mBeanPool.getNumberTeam() + 1); teamId++) {
+				switch (teamId) {
+				case 1:
+					nomTeam = mBeanPool.getNomTeam1();
+					break;
+				case 2:
+					nomTeam = mBeanPool.getNomTeam2();
+					break;
+				case 3:
+					nomTeam = mBeanPool.getNomTeam3();
+					break;
+				case 4:
+					nomTeam = mBeanPool.getNomTeam4();
+					break;
+				case 5:
+					nomTeam = mBeanPool.getNomTeam5();
+					break;
+				case 6:
+					nomTeam = mBeanPool.getNomTeam6();
+					break;
+				case 7:
+					nomTeam = mBeanPool.getNomTeam7();
+					break;
+				case 8:
+					nomTeam = mBeanPool.getNomTeam8();
+					break;
+				case 9:
+					nomTeam = mBeanPool.getNomTeam9();
+					break;
+				case 10:
+					nomTeam = mBeanPool.getNomTeam10();
+					break;
+				case 11:
+					nomTeam = mBeanPool.getNomTeam11();
+					break;
+				case 12:
+					nomTeam = mBeanPool.getNomTeam12();
+					break;
+
+				}
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_TEAM_NAME, false,
+						Integer.parseInt(poolID), nomTeam, teamId);
+				preparedStatement.execute();
 			}
-			preparedStatement = initialisationRequetePreparee(connexion, UPDATE_TEAM_NAME, false, Integer.parseInt(poolID),nomTeam,teamId);
-			preparedStatement.execute();
-		}
 
 		} catch (SQLException e) {
 			throw new DAOException(e);
@@ -476,9 +483,6 @@ public class DraftDaoImpl implements DraftDao {
 			fermeturesSilencieuses(preparedStatement, connexion);
 
 		}
-		
-		
-	
 
 	}
 
@@ -489,7 +493,8 @@ public class DraftDaoImpl implements DraftDao {
 		ResultSet rs = null;
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = initialisationRequetePreparee(connexion, GET_DRAFT_ROUND_ORDER, false, Integer.parseInt(poolID));
+			preparedStatement = initialisationRequetePreparee(connexion, GET_DRAFT_ROUND_ORDER, false,
+					Integer.parseInt(poolID));
 			rs = preparedStatement.executeQuery();
 			List<Long> draft_pick_no = new ArrayList<Long>();
 			List<String> equipe = new ArrayList<String>();
@@ -502,7 +507,7 @@ public class DraftDaoImpl implements DraftDao {
 			List<String> player_drafted = new ArrayList<String>();
 			List<Long> year_of_draft = new ArrayList<Long>();
 			DraftRound mBeanDraftRound = new DraftRound();
-			
+
 			while (rs.next()) {
 				int draft_pick_no2 = rs.getInt("draft_pick_no");
 				draft_pick_no.add(Long.valueOf(draft_pick_no2));
@@ -525,7 +530,7 @@ public class DraftDaoImpl implements DraftDao {
 				int year_of_draft2 = rs.getInt("year_of_draft");
 				year_of_draft.add(Long.valueOf(year_of_draft2));
 			}
-			
+
 			mBeanDraftRound.setDraft_pick_no(draft_pick_no);
 			mBeanDraftRound.setEquipe(equipe);
 			mBeanDraftRound.setRonde(ronde);
@@ -536,15 +541,13 @@ public class DraftDaoImpl implements DraftDao {
 			mBeanDraftRound.setFollow_up(follow_up);
 			mBeanDraftRound.setPlayer_drafted(player_drafted);
 			mBeanDraftRound.setYear_of_draft(year_of_draft);
-			
-			
+
 			Entity mEntity = mBeanDraftRound.mapBeanToEntityForDatastore(mBeanDraftRound, poolID);
-			
+
 			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-						
+
 			datastore.put(mEntity);
-			
-			
+
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
@@ -552,17 +555,16 @@ public class DraftDaoImpl implements DraftDao {
 
 		}
 
-		
 	}
 
 	@Override
 	public TradeBeanTemp getRoundAndNameOfTeam(String poolID, int toInt, Pool mBeanPool) throws DAOException {
-		
+
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		TradeBeanTemp mBean = new TradeBeanTemp();
-		
+
 		try {
 			connexion = daoFactory.getConnection();
 			preparedStatement = initialisationRequetePreparee(connexion, GET_ROUND_BY_ID, false,
@@ -571,7 +573,6 @@ public class DraftDaoImpl implements DraftDao {
 			while (rs.next()) {
 				int round_temp = rs.getInt("ronde");
 				String from_temp = rs.getString("from_who");
-				
 
 				String round_temp2 = Integer.toString(round_temp);
 
@@ -587,7 +588,6 @@ public class DraftDaoImpl implements DraftDao {
 			fermeturesSilencieuses(rs, preparedStatement, connexion);
 		}
 
-	
 	}
 
 	@Override
@@ -595,22 +595,20 @@ public class DraftDaoImpl implements DraftDao {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
-		
+
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = initialisationRequetePreparee(connexion, GET_ROUND_BY_ID, false,
-					poolId, pickId);
+			preparedStatement = initialisationRequetePreparee(connexion, GET_ROUND_BY_ID, false, poolId, pickId);
 			rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				int team_id = rs.getInt("team_id");
 				String players_drafted = rs.getString("player_drafted");
-				if(team_id==teamId && players_drafted==null) {
+				if (team_id == teamId && players_drafted == null) {
 
 					return true;
 				}
-				
-			}
 
+			}
 
 		} catch (SQLException e) {
 			throw new DAOException(e);
@@ -626,7 +624,7 @@ public class DraftDaoImpl implements DraftDao {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
-		String nomTeam=null;
+		String nomTeam = null;
 		switch (teamId1) {
 		case 1:
 			nomTeam = mBeanPool.getNomTeam1();
@@ -666,20 +664,72 @@ public class DraftDaoImpl implements DraftDao {
 			break;
 
 		}
-		
+
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = initialisationRequetePreparee(connexion, MAKE_TRADE_DURING_DRAFT, false,
-					poolId,teamId1,nomTeam, pickNo);
+			preparedStatement = initialisationRequetePreparee(connexion, MAKE_TRADE_DURING_DRAFT, false, poolId,
+					teamId1, nomTeam, pickNo);
 			preparedStatement.execute();
-			
+
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
 			fermeturesSilencieuses(rs, preparedStatement, connexion);
 		}
 
-		
+	}
+
+	@Override
+	public void deleteDraftPickWhenFinishPicking(String poolID, String teamID) throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion, DELETE_PICK_WHEN_DRAFT_FINISH, false, poolID,
+					teamID);
+			preparedStatement.execute();
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion, GET_PICK_RESTANT, false, poolID);
+			ResultSet rs = preparedStatement.executeQuery();
+
+			int counter = 0;
+
+			while (rs.next()) {
+
+				int draft_pick_no = rs.getInt("draft_pick_no");
+				counter = draft_pick_no;
+
+				preparedStatement = initialisationRequetePreparee(connexion, RESET_DRAFT_PICK_NO_ORDER, false, poolID,
+						counter, draft_pick_no);
+				preparedStatement.execute();
+
+				return;
+
+			}
+
+			while (rs.next()) {
+				int draft_pick_no = rs.getInt("draft_pick_no");
+				counter = counter+1;
+
+				preparedStatement = initialisationRequetePreparee(connexion, RESET_DRAFT_PICK_NO_ORDER, false, poolID,
+						counter, draft_pick_no);
+				preparedStatement.execute();
+			}
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+
 	}
 
 }

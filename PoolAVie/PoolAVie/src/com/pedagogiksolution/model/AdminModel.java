@@ -1105,7 +1105,19 @@ public class AdminModel {
 		try {
 			Entity mEntity = datastore.get(keyDraftProcess);
 			
-			mEntity.setProperty("currentPick",1);
+			mEntity.setProperty("currentPick",0);
+			mEntity.setProperty("1isFinish",0);
+			mEntity.setProperty("2isFinish",0);
+			mEntity.setProperty("3isFinish",0);
+			mEntity.setProperty("4isFinish",0);
+			mEntity.setProperty("5isFinish",0);
+			mEntity.setProperty("6isFinish",0);
+			mEntity.setProperty("7isFinish",0);
+			mEntity.setProperty("8isFinish",0);
+			mEntity.setProperty("9isFinish",0);
+			mEntity.setProperty("10isFinish",0);
+			mEntity.setProperty("11isFinish",0);
+			mEntity.setProperty("12isFinish",0);
 			
 			datastore.put(mEntity);
 		} catch (EntityNotFoundException e) {
