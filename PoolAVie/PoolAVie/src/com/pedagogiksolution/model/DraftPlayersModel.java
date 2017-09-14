@@ -1236,7 +1236,11 @@ public class DraftPlayersModel {
 			
 			// on retire les pick restant du DraftRound
 			
-			draftDao.deleteDraftPickWhenFinishPicking(poolID,teamID);
+			Queue queue = QueueFactory.getDefaultQueue();
+			queue.add(
+					TaskOptions.Builder.withUrl("/TaskQueueFinDraft").param("poolID", poolID).param("teamID", teamID));
+			
+			
 			
 			
 			
@@ -1259,6 +1263,7 @@ public class DraftPlayersModel {
 		try {
 			Entity mEntity = datastore.get(mKey);
 			mEntity.setProperty(teamName, 1);
+			mEntity.setProperty("oneFinish", 1);
 			datastore.put(mEntity);
 
 		} catch (EntityNotFoundException e) {

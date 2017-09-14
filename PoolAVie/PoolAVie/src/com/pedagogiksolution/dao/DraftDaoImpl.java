@@ -551,7 +551,7 @@ public class DraftDaoImpl implements DraftDao {
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
-			fermeturesSilencieuses(preparedStatement, connexion);
+			fermeturesSilencieuses(rs,preparedStatement, connexion);
 
 		}
 
@@ -732,7 +732,7 @@ public class DraftDaoImpl implements DraftDao {
 			fermeturesSilencieuses(rs,preparedStatement, connexion);
 		}
 		
-		putDatabaseInDatastore(poolID);
+		
 
 	}
 

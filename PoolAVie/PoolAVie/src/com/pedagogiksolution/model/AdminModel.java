@@ -1118,6 +1118,7 @@ public class AdminModel {
 			mEntity.setProperty("10isFinish",0);
 			mEntity.setProperty("11isFinish",0);
 			mEntity.setProperty("12isFinish",0);
+			mEntity.setProperty("oneFinish", 0);
 			
 			datastore.put(mEntity);
 		} catch (EntityNotFoundException e) {

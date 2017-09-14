@@ -45,7 +45,7 @@
 		<filter-name>NoCacheFilter</filter-name>
 		<filter-class>com.pedagogiksolution.filtre.NoCacheFilter</filter-class>
 	</filter>
-	<filter-mapping> 
+	<filter-mapping>
 		<filter-name>NoCacheFilter</filter-name>
 		<url-pattern>/DraftCenter</url-pattern>
 		<url-pattern>/Classement</url-pattern>
@@ -493,6 +493,15 @@
 	<servlet-mapping>
 		<servlet-name>TaskQueueDraftPlayer</servlet-name>
 		<url-pattern>/TaskQueueDraftPlayer</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>TaskQueueFinDraft</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.TaskQueueFinDraft</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TaskQueueFinDraft</servlet-name>
+		<url-pattern>/TaskQueueFinDraft</url-pattern>
 	</servlet-mapping>
 
 </web-app>

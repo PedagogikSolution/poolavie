@@ -7,14 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pedagogiksolution.cron.model.PlayersCronModel;
-import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.dao.DAOFactory;
 import com.pedagogiksolution.dao.DraftDao;
-import com.pedagogiksolution.dao.DraftPickDao;
-import com.pedagogiksolution.dao.PlayersDao;
-import com.pedagogiksolution.dao.TradeMadeDao;
-import com.pedagogiksolution.dao.TradeOfferDao;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.DraftPlayersModel;
 import com.pedagogiksolution.model.LoginModel;
