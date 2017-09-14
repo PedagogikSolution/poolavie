@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.DraftPlayersModel;
+import com.pedagogiksolution.model.LoginModel;
 
 public class ReglementServlet extends HttpServlet {
     /**
@@ -18,6 +19,16 @@ public class ReglementServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    	
+    	LoginModel mModel2 = new LoginModel(req);
+	    mModel2.createSessionEquipeBean();
+	    mModel2.createSessionAttaquantBean();
+	    mModel2.createSessionDefenseurBean();
+	    mModel2.createSessionGardienBean();
+	    mModel2.createSessionRecrueBean();
+	    mModel2.createSessionDraftPickBean();
+	    mModel2.createSessionDraftRoundBean();
+	    mModel2.createSessionPoolBean();
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 	int cycleAnnuel = mBeanPool.getCycleAnnuel();
 	if (cycleAnnuel == 3) {

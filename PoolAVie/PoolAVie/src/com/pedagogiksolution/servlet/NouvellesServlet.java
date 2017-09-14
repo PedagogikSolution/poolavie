@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.AdminModel;
 import com.pedagogiksolution.model.DraftPlayersModel;
+import com.pedagogiksolution.model.LoginModel;
 import com.pedagogiksolution.model.MenuPrincipalModel;
 import com.pedagogiksolution.model.NouvellesModel;
 
@@ -25,12 +26,12 @@ public class NouvellesServlet extends HttpServlet {
 
 	MenuPrincipalModel mModel = new MenuPrincipalModel();
 
-	// on verifie si processus de creation de cette utilisateur est terminé terminer
+	// on verifie si processus de creation de cette utilisateur est termine terminer
 	Boolean checkIfRegistrationFinish = mModel.checkIfRegistrationFinish(req);
 
 	if (!checkIfRegistrationFinish) {
 
-	    // si pas terminé, on vérifie le type d'Utilisateur
+	    // si pas termine, on verifie le type d'Utilisateur
 	    int checkTypeOfUser = mModel.checkTypeOfUser(req);
 	    
 	    // si type 1 on envoie finir la creation du Pool, si type 2, on envoie finir Creation d'un joueur du pool
@@ -39,11 +40,21 @@ public class NouvellesServlet extends HttpServlet {
 	    } else {
 		resp.sendRedirect("/CreationDirecteurGeneral");
 	    }
-	// si terminé, on envoie a la page principal
+	// si termine, on envoie a la page principal
 	} else {
 	    
 	    NouvellesModel mModelNouvelles = new NouvellesModel();
 	    mModelNouvelles.putNewsInBean(req);
+	    
+	    LoginModel mModel2 = new LoginModel(req);
+	    mModel2.createSessionEquipeBean();
+	    mModel2.createSessionAttaquantBean();
+	    mModel2.createSessionDefenseurBean();
+	    mModel2.createSessionGardienBean();
+	    mModel2.createSessionRecrueBean();
+	    mModel2.createSessionDraftPickBean();
+	    mModel2.createSessionDraftRoundBean();
+	    mModel2.createSessionPoolBean();
 	    
 	    // on check si la date du pool est en cours
 	    Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");

@@ -22,14 +22,14 @@ public class GardienCron extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-	/* Récupération d'une instance de notre DAO Utilisateur */
+	/* Recuperation d'une instance de notre DAO Utilisateur */
 	this.playersDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getPlayersDao();
 
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	// initilisation du métier
+	// initilisation du metier
 	PlayersCronModel mModel = new PlayersCronModel(playersDao);
 	
 	String position="gardien";

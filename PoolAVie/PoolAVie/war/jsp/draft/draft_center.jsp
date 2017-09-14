@@ -51,7 +51,18 @@
 				</div>
 
 			</c:if>
-			
+
+			<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.cycleAnnuel==1}">
+				<!-- Si first years and avant draft sans date set-->
+				<div class="w3-container w3-section w3-red">
+					<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+					<h3>Date du draft</h3>
+					<p>Nous attendons la date de draft, rappel de l'ordre selon la table draft round.</p>
+				</div>
+
+
+			</c:if>
+
 
 
 			<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.cycleAnnuel==2}">
@@ -61,7 +72,7 @@
 
 				<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
 					<caption class="w3-blue w3-xlarge">
-						<h1>First 2 round Draft Order first year of the pool</h1>
+						<h1>Aperçu des cinq premières rondes du draft</h1>
 					</caption>
 					<tr class="w3-indigo">
 						<th>Overall pick no</th>
@@ -70,7 +81,7 @@
 
 					</tr>
 					<c:set var="nombreDeTeam" value="${Pool.numberTeam}" />
-					<c:forEach var="i" begin="0" end="${(nombreDeTeam*2)-1}">
+					<c:forEach var="i" begin="0" end="${(nombreDeTeam*5)-1}">
 
 						<tr>
 							<td>${DraftRound.draft_pick_no[i]}</td>
@@ -87,296 +98,293 @@
 
 			<!-- **************************DRAFT TIME********************************************************************* -->
 
-			<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.cycleAnnuel>2}">
+			<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.cycleAnnuel==3}">
 
 				<!-- ***************SECTION TEAM -->
-				<div class="w3-half">
-					<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
-						<caption class="w3-blue w3-xlarge">
-							<h1>Attaquant</h1>
-						</caption>
-						<tr class="w3-indigo">
-							<th>Pos</th>
-							<th>Nom</th>
-							<th>Équipe</th>
-							<th>Points</th>
-
-						</tr>
-						<c:set var="nombreDePick" value="${NonSessionAttaquant.nom}" />
-						<c:if test="${empty nombreDePick}">
-							<tr>
-								<td>Vous n'avez aucun joueur présentementt</td>
-							<tr>
-						</c:if>
-						<c:if test="${not empty nombreDePick}">
-							<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
-
-								<tr>
-									<td>${i+1}</td>
-									<td>${NonSessionAttaquant.nom[i]}</td>
-									<td>${NonSessionAttaquant.teamOfPlayer[i]}</td>
-									<td>${NonSessionAttaquant.pts[i]}</td>
-
-								</tr>
-
-							</c:forEach>
-						</c:if>
-
-					</table>
-
-
-
-
-					<br>
-					<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
-						<caption class="w3-blue w3-xlarge">
-							<h1>Defenseur</h1>
-						</caption>
-						<tr class="w3-indigo">
-							<th>Pos</th>
-							<th>Nom</th>
-							<th>Équipe</th>
-							<th>Points</th>
-
-						</tr>
-						<c:set var="nombreDePick" value="${NonSessionDefenseur.nom}" />
-						<c:if test="${empty nombreDePick}">
-							<tr>
-								<td>Vous n'avez aucun joueur présentementt</td>
-							<tr>
-						</c:if>
-						<c:if test="${not empty nombreDePick}">
-							<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
-
-								<tr>
-
-									<td>${i+1}</td>
-									<td>${NonSessionDefenseur.nom[i]}</td>
-									<td>${NonSessionDefenseur.teamOfPlayer[i]}</td>
-									<td>${NonSessionDefenseur.pts[i]}</td>
-
-								</tr>
-
-							</c:forEach>
-						</c:if>
-
-
-
-
-					</table>
-
-
-
-
-					<br>
-					<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
-						<caption class="w3-blue w3-xlarge">
-							<h1>Gardien</h1>
-						</caption>
-						<tr class="w3-indigo">
-							<th>Pos</th>
-							<th>Nom</th>
-							<th>Équipe</th>
-							<th>Points</th>
-
-						</tr>
-						<c:set var="nombreDePick" value="${NonSessionGardien.nom}" />
-						<c:if test="${empty nombreDePick}">
-							<tr>
-								<td>Vous n'avez aucun joueur présentementt</td>
-							<tr>
-						</c:if>
-						<c:if test="${not empty nombreDePick}">
-							<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
-
-								<tr>
-									<td>${i+1}</td>
-									<td>${NonSessionGardien.nom[i]}</td>
-									<td>${NonSessionGardien.teamOfPlayer[i]}</td>
-									<td>${NonSessionGardien.pts[i]}</td>
-								</tr>
-
-							</c:forEach>
-						</c:if>
-
-					</table>
-
-
-
-
-					<br>
-					<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
-						<caption class="w3-blue w3-xlarge">
-							<h1>Recrue</h1>
-						</caption>
-						<tr class="w3-indigo">
-							<th>Pos</th>
-							<th>Nom</th>
-							<th>Équipe</th>
-							<th>Points</th>
-
-						</tr>
-						<c:set var="nombreDePick" value="${NonSessionRecrue.nom}" />
-						<c:if test="${empty nombreDePick}">
-							<tr>
-								<td>Vous n'avez aucun joueur présentementt</td>
-							<tr>
-						</c:if>
-						<c:if test="${not empty nombreDePick}">
-							<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
-
-								<tr>
-
-									<td>${i+1}</td>
-									<td>${NonSessionRecrue.nom[i]}</td>
-									<td>${NonSessionRecrue.teamOfPlayer[i]}</td>
-									<td>${NonSessionRecrue.pts[i]}</td>
-								</tr>
-
-							</c:forEach>
-						</c:if>
-
-					</table>
-
-					<br>
-
-				</div>
-				<!-- ***************SECTION BUDGET -->
-				<div class="w3-quarter">
-					<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
-						<caption class="w3-blue w3-xlarge">
-							<h1>MON BUDGET</h1>
-						</caption>
-						<tr>
-							<td>Masse salarial maximum :</td>
-							<td>${NonSessionEquipe.max_salaire_begin}</td>
-
-						</tr>
-						<tr>
-							<td>Total des salaires actuel :</td>
-							<td>${NonSessionEquipe.total_salaire_now}</td>
-						</tr>
-						<tr>
-							<td>Budget restant :</td>
-							<td>${NonSessionEquipe.budget_restant}</td>
-						</tr>
-						<tr>
-							<td>Argent Reçu :</td>
-							<td>${NonSessionEquipe.argent_recu}</td>
-						</tr>
-						<tr>
-							<td>Moyenne restante par joueurs :</td>
-							<td>${NonSessionEquipe.moy_sal_restant_draft}</td>
-						</tr>
-
-					</table>
-					<br>
-					<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
-						<caption class="w3-blue w3-xlarge">
-							<h1>MES STATS D'ÉQUIPE</h1>
-						</caption>
-						<tr>
-							<td>Nombre d'attaquant :</td>
-							<td>${NonSessionEquipe.nb_attaquant}</td>
-						</tr>
-						<tr>
-							<td>Nombre de défenseur :</td>
-							<td>${NonSessionEquipe.nb_defenseur}</td>
-						</tr>
-						<tr>
-							<td>Nombre de Gardien :</td>
-							<td>${NonSessionEquipe.nb_gardien}</td>
-						</tr>
-						<tr>
-							<td>Nombre de Recrue :</td>
-							<td>${NonSessionEquipe.nb_rookie}</td>
-						</tr>
-						<tr>
-							<td>Nombre de contrat :</td>
-							<td>${NonSessionEquipe.nb_contrat}</td>
-						</tr>
-						<tr>
-							<td>Nombre de joueur dans l'équipe :</td>
-							<td>${NonSessionEquipe.nb_equipe}</td>
-						</tr>
-						<tr>
-							<td>Nombre de joueur manquant :</td>
-							<td>${NonSessionEquipe.manquant_equipe}</td>
-						</tr>
-						<tr>
-							<td>Attanquant manquant :</td>
-							<td>${NonSessionEquipe.manquant_att}</td>
-						</tr>
-						<tr>
-							<td>Defenseur manquant :</td>
-							<td>${NonSessionEquipe.manquant_def}</td>
-						</tr>
-						<tr>
-							<td>Gardien manquant :</td>
-							<td>${NonSessionEquipe.manquant_gardien}</td>
-						</tr>
-						<tr>
-							<td>Recrue manquante :</td>
-							<td>${NonSessionEquipe.manquant_recrue}</td>
-						</tr>
-
-					</table>
-				</div>
-
-				<!-- ***************SECTION PICK -->
-				<div class="w3-quarter">
-				<c:if test="${Pool.cycleAnnuel==3}">
-					<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
-						<caption class="w3-blue w3-xlarge">
-							<h1>Next 20 pick</h1>
-						</caption>
-						<tr class="w3-indigo">
-							<th>Overall pick no</th>
-							<th>Ronde</th>
-							<th>Equipe</th>
-							<th>Joueur repêché</th>
-							<th>Team pick no</th>
-
-						</tr>
-
-						<tr class="w3-red">
-							<td>${DraftRound.draft_pick_no[currentPick]}</td>
-							<td>${DraftRound.ronde[currentPick]}</td>
-							<td>${DraftRound.equipe[currentPick]}</td>
-							<td>${DraftRound.player_drafted[currentPick]}</td>
-							<td>${DraftRound.team_count[currentPick]}</td>
-
-						</tr>
-
-
-						<c:forEach var="i" begin="${DraftBean.currentPick+1}" end="${(DraftBean.currentPick-1)+(DraftBean.numberPickRestant)}">
-
-							<tr>
-								<td>${DraftRound.draft_pick_no[i]}</td>
-								<td>${DraftRound.ronde[i]}</td>
-								<td>${DraftRound.equipe[i]}</td>
-								<td>${DraftRound.player_drafted[i]}</td>
-								<td>${DraftRound.team_count[i]}</td>
+				<div class="w3-row">
+					<div class="w3-half">
+						<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
+							<caption class="w3-blue w3-xlarge">
+								<h1>Attaquant</h1>
+							</caption>
+							<tr class="w3-indigo">
+								<th>Pos</th>
+								<th>Nom</th>
+								<th>Équipe</th>
+								<th>Points</th>
 
 							</tr>
+							<c:set var="nombreDePick" value="${NonSessionAttaquant.nom}" />
+							<c:if test="${empty nombreDePick}">
+								<tr>
+									<td>Vous n'avez aucun joueur présentementt</td>
+								<tr>
+							</c:if>
+							<c:if test="${not empty nombreDePick}">
+								<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 
-						</c:forEach>
-					</table>
-					</c:if>
+									<tr>
+										<td>${i+1}</td>
+										<td>${NonSessionAttaquant.nom[i]}</td>
+										<td>${NonSessionAttaquant.teamOfPlayer[i]}</td>
+										<td>${NonSessionAttaquant.pts[i]}</td>
 
+									</tr>
+
+								</c:forEach>
+							</c:if>
+
+						</table>
+
+
+
+
+						<br>
+						<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
+							<caption class="w3-blue w3-xlarge">
+								<h1>Defenseur</h1>
+							</caption>
+							<tr class="w3-indigo">
+								<th>Pos</th>
+								<th>Nom</th>
+								<th>Équipe</th>
+								<th>Points</th>
+
+							</tr>
+							<c:set var="nombreDePick" value="${NonSessionDefenseur.nom}" />
+							<c:if test="${empty nombreDePick}">
+								<tr>
+									<td>Vous n'avez aucun joueur présentementt</td>
+								<tr>
+							</c:if>
+							<c:if test="${not empty nombreDePick}">
+								<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
+
+									<tr>
+
+										<td>${i+1}</td>
+										<td>${NonSessionDefenseur.nom[i]}</td>
+										<td>${NonSessionDefenseur.teamOfPlayer[i]}</td>
+										<td>${NonSessionDefenseur.pts[i]}</td>
+
+									</tr>
+
+								</c:forEach>
+							</c:if>
+
+
+
+
+						</table>
+
+
+
+
+						<br>
+						<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
+							<caption class="w3-blue w3-xlarge">
+								<h1>Gardien</h1>
+							</caption>
+							<tr class="w3-indigo">
+								<th>Pos</th>
+								<th>Nom</th>
+								<th>Équipe</th>
+								<th>Points</th>
+
+							</tr>
+							<c:set var="nombreDePick" value="${NonSessionGardien.nom}" />
+							<c:if test="${empty nombreDePick}">
+								<tr>
+									<td>Vous n'avez aucun joueur présentementt</td>
+								<tr>
+							</c:if>
+							<c:if test="${not empty nombreDePick}">
+								<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
+
+									<tr>
+										<td>${i+1}</td>
+										<td>${NonSessionGardien.nom[i]}</td>
+										<td>${NonSessionGardien.teamOfPlayer[i]}</td>
+										<td>${NonSessionGardien.pts[i]}</td>
+									</tr>
+
+								</c:forEach>
+							</c:if>
+
+						</table>
+
+
+
+
+						<br>
+						<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
+							<caption class="w3-blue w3-xlarge">
+								<h1>Recrue</h1>
+							</caption>
+							<tr class="w3-indigo">
+								<th>Pos</th>
+								<th>Nom</th>
+								<th>Équipe</th>
+								<th>Points</th>
+
+							</tr>
+							<c:set var="nombreDePick" value="${NonSessionRecrue.nom}" />
+							<c:if test="${empty nombreDePick}">
+								<tr>
+									<td>Vous n'avez aucun joueur présentementt</td>
+								<tr>
+							</c:if>
+							<c:if test="${not empty nombreDePick}">
+								<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
+
+									<tr>
+
+										<td>${i+1}</td>
+										<td>${NonSessionRecrue.nom[i]}</td>
+										<td>${NonSessionRecrue.teamOfPlayer[i]}</td>
+										<td>${NonSessionRecrue.pts[i]}</td>
+									</tr>
+
+								</c:forEach>
+							</c:if>
+
+						</table>
+
+						<br>
+
+					</div>
+					<!-- ***************SECTION BUDGET -->
+					<div class="w3-quarter">
+						<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
+							<caption class="w3-blue w3-xlarge">
+								<h1>MON BUDGET</h1>
+							</caption>
+							<tr>
+								<td>Masse salarial maximum :</td>
+								<td>${NonSessionEquipe.max_salaire_begin}</td>
+
+							</tr>
+							<tr>
+								<td>Total des salaires actuel :</td>
+								<td>${NonSessionEquipe.total_salaire_now}</td>
+							</tr>
+							<tr>
+								<td>Budget restant :</td>
+								<td>${NonSessionEquipe.budget_restant}</td>
+							</tr>
+							<tr>
+								<td>Argent Reçu :</td>
+								<td>${NonSessionEquipe.argent_recu}</td>
+							</tr>
+							<tr>
+								<td>Moyenne restante par joueurs :</td>
+								<td>${NonSessionEquipe.moy_sal_restant_draft}</td>
+							</tr>
+
+						</table>
+						<br>
+						<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
+							<caption class="w3-blue w3-xlarge">
+								<h1>MES STATS D'ÉQUIPE</h1>
+							</caption>
+							<tr>
+								<td>Nombre d'attaquant :</td>
+								<td>${NonSessionEquipe.nb_attaquant}</td>
+							</tr>
+							<tr>
+								<td>Nombre de défenseur :</td>
+								<td>${NonSessionEquipe.nb_defenseur}</td>
+							</tr>
+							<tr>
+								<td>Nombre de Gardien :</td>
+								<td>${NonSessionEquipe.nb_gardien}</td>
+							</tr>
+							<tr>
+								<td>Nombre de Recrue :</td>
+								<td>${NonSessionEquipe.nb_rookie}</td>
+							</tr>
+							<tr>
+								<td>Nombre de contrat :</td>
+								<td>${NonSessionEquipe.nb_contrat}</td>
+							</tr>
+							<tr>
+								<td>Nombre de joueur dans l'équipe :</td>
+								<td>${NonSessionEquipe.nb_equipe}</td>
+							</tr>
+							<tr>
+								<td>Nombre de joueur manquant :</td>
+								<td>${NonSessionEquipe.manquant_equipe}</td>
+							</tr>
+							<tr>
+								<td>Attanquant manquant :</td>
+								<td>${NonSessionEquipe.manquant_att}</td>
+							</tr>
+							<tr>
+								<td>Defenseur manquant :</td>
+								<td>${NonSessionEquipe.manquant_def}</td>
+							</tr>
+							<tr>
+								<td>Gardien manquant :</td>
+								<td>${NonSessionEquipe.manquant_gardien}</td>
+							</tr>
+							<tr>
+								<td>Recrue manquante :</td>
+								<td>${NonSessionEquipe.manquant_recrue}</td>
+							</tr>
+
+						</table>
+					</div>
+
+					<!-- ***************SECTION PICK -->
+					<div class="w3-quarter">
+						<c:if test="${Pool.cycleAnnuel>0}">
+							<table class="w3-table w3-content w3-striped w3-bordered w3-card-8 w3-margin-top" style="width: 80%">
+								<caption class="w3-blue w3-xlarge">
+									<h1>Next 20 pick</h1>
+								</caption>
+								<tr class="w3-indigo">
+									<th>Overall pick no</th>
+									<th>Ronde</th>
+									<th>Equipe</th>
+									<th>Joueur repêché</th>
+									<th>Team pick no</th>
+
+								</tr>
+
+								<tr class="w3-red">
+									<td>${DraftRound.draft_pick_no[currentPick]}</td>
+									<td>${DraftRound.ronde[currentPick]}</td>
+									<td>${DraftRound.equipe[currentPick]}</td>
+									<td>${DraftRound.player_drafted[currentPick]}</td>
+									<td>${DraftRound.team_count[currentPick]}</td>
+
+								</tr>
+
+
+								<c:forEach var="i" begin="${DraftBean.currentPick+1}" end="${(DraftBean.currentPick-1)+(DraftBean.numberPickRestant)}">
+
+									<tr>
+										<td>${DraftRound.draft_pick_no[i]}</td>
+										<td>${DraftRound.ronde[i]}</td>
+										<td>${DraftRound.equipe[i]}</td>
+										<td>${DraftRound.player_drafted[i]}</td>
+										<td>${DraftRound.team_count[i]}</td>
+
+									</tr>
+
+								</c:forEach>
+							</table>
+						</c:if>
+
+
+					</div>
 
 				</div>
-
-
 
 			</c:if>
 
 
-			<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.poolYear==1&&Pool.cycleAnnuel==1}">
-				<!-- Si multi years and avant draft -->
-		Nous attendons la date de draft, rappel de l'ordre selon la table draft round.
-		
-	</c:if>
+
 
 			<!-- fin du container sans menu et alerte -->
 		</div>

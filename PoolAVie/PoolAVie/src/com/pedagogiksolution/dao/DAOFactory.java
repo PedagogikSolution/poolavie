@@ -32,7 +32,7 @@ public class DAOFactory {
     }
 
     /*
-     * Méthodes de récupération de l'implémentation des différents DAO (un seul
+     * Methodes de recuperation de l'implementation des differents DAO (un seul
      * pour le moment)
      */
     public ClassementDao getClassementDao() {
@@ -59,8 +59,8 @@ public class DAOFactory {
        }
 
     /*
-     * Méthode chargée de récupérer les informations de connexion à la base de
-     * données, charger le driver JDBC et retourner une instance de la Factory
+     * Methode chargee de recuperer les informations de connexion e la base de
+     * donnees, charger le driver JDBC et retourner une instance de la Factory
      */
     public static DAOFactory getInstance() throws DAOConfigurationException {
 	Properties properties = new Properties();
@@ -107,7 +107,7 @@ public class DAOFactory {
 	return instance;
     }
 
-    /* Méthode chargée de fournir une connexion à la base de données */
+    /* Methode chargee de fournir une connexion e la base de donnees */
     /* package */Connection getConnection() throws SQLException {
 	return DriverManager.getConnection(url,username,password);
     }

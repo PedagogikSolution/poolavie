@@ -69,7 +69,7 @@ public class TradeServlet extends HttpServlet {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Key clefDatastore = KeyFactory.createKey("Pool", Integer.toString(poolId));
 		try {
-			// si existe, aucun EntityNotFoundException, donc on recup�re
+			// si existe, aucun EntityNotFoundException, donc on recupere
 			// l'info pour tester password
 			Entity mEntity = datastore.get(clefDatastore);
 
@@ -95,13 +95,15 @@ public class TradeServlet extends HttpServlet {
 			mModelDraft.putDatastoreIntoBean(mBeanPool, req);
 		}
 
-		LoginModel mModel = new LoginModel(req);
-		mModel.createSessionEquipeBean();
-		mModel.createSessionAttaquantBean();
-		mModel.createSessionDefenseurBean();
-		mModel.createSessionGardienBean();
-		mModel.createSessionRecrueBean();
-		mModel.createSessionDraftPickBean();
+		LoginModel mModel2 = new LoginModel(req);
+	    mModel2.createSessionEquipeBean();
+	    mModel2.createSessionAttaquantBean();
+	    mModel2.createSessionDefenseurBean();
+	    mModel2.createSessionGardienBean();
+	    mModel2.createSessionRecrueBean();
+	    mModel2.createSessionDraftPickBean();
+	    mModel2.createSessionDraftRoundBean();
+	    mModel2.createSessionPoolBean();
 
 		int fromId;
 		String fromID = req.getParameter("from");
@@ -114,7 +116,7 @@ public class TradeServlet extends HttpServlet {
 		switch (fromId) {
 
 		case 1:
-			// selon la p�riode du pool, on recupere ou pas les offres de trades
+			// selon la periode du pool, on recupere ou pas les offres de trades
 			switch (cycleAnnuel) {
 
 			case 0:
@@ -145,7 +147,7 @@ public class TradeServlet extends HttpServlet {
 				break;
 			case 4:
 				// pas de trade possible, on envoie sur trade center sans
-				// r�cup�rer les offres
+				// recuperer les offres
 				req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 				break;
 			case 5:
@@ -160,7 +162,7 @@ public class TradeServlet extends HttpServlet {
 					req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 				} else {
 					req.setAttribute("tradeOpen", 0);
-					req.setAttribute("messageTrade", "Il n'y a pas de trade possible � cet p�riode du pool");
+					req.setAttribute("messageTrade", "Il n'y a pas de trade possible à cet période du pool");
 					req.getRequestDispatcher("jsp/trade/trade_center.jsp").forward(req, resp);
 
 				}
@@ -260,11 +262,11 @@ public class TradeServlet extends HttpServlet {
 
 		switch (tradeTagId) {
 
-		// Un joueur veut faire une offre � un autre �quipe
+		// Un joueur veut faire une offre e un autre equipe
 		case 1:
 
 			// on met a jour les objet de session pour etre certain d'avoir la plus recente
-			// representation des donn�es
+			// representation des donnees
 			mModel = new LoginModel(req);
 			mModel.createSessionDraftPickBean();
 			mModel.createSessionAttaquantBean();
@@ -283,7 +285,7 @@ public class TradeServlet extends HttpServlet {
 			// connecter d'aller directemetn a URL .jsp si pas bon cycle)
 			req.setAttribute("tradeOpen", 1);
 
-			// on test si recuperation des donn�es des deux equipes a jour fait , si oui on
+			// on test si recuperation des donnees des deux equipes a jour fait , si oui on
 			// retourne message erreur a
 			// trade_center,
 			// si pas d'erreur on va a page d'Affichage pour faire offre
@@ -392,14 +394,14 @@ public class TradeServlet extends HttpServlet {
 			req.getRequestDispatcher("jsp/trade/showOfferDetail.jsp").forward(req, resp);
 
 			break;
-		// Un joueur veut voir les d�tails d'un trade qu'il a fait
+		// Un joueur veut voir les details d'un trade qu'il a fait
 		case 8:
 			mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
 			mModelTrade.showOfferNumberX(2, tradeOfferDao, tradeMadeDao, playersDao, draftPickDao, draftDao);
 
 			req.getRequestDispatcher("jsp/trade/showOfferDetailTradeMade.jsp").forward(req, resp);
 			break;
-		// Un joueur veut voir les d�tails d'un trade fait par n'importe quelle �quipe
+		// Un joueur veut voir les details d'un trade fait par n'importe quelle equipe
 		case 9:
 			mModelTrade = new TradeModel(mBeanUser, mBeanPool, req);
 			mModelTrade.showOfferNumberX(2, tradeOfferDao, tradeMadeDao, playersDao, draftPickDao, draftDao);

@@ -679,7 +679,7 @@ public class TradeMadeDaoImpl implements TradeMadeDao {
 		mBean.setTeamThatTradeName(nom1);
 		mBean.setTeamTradeToName(nom2);
 
-		// ajout du total de l'argent donn�
+		// ajout du total de l'argent donne
 		int budgetMakingOffer = (total_salaire_team_making_offer - argentOfferTeamThatTrade)
 				- (total_salaire_team_receiving_offer - argentOfferTeamThatReceivedOffer);
 		int budgetReceivingOffer = (total_salaire_team_receiving_offer - argentOfferTeamThatReceivedOffer)

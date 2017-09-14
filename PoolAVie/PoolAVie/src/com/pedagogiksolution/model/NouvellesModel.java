@@ -34,13 +34,13 @@ public class NouvellesModel {
 
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-	// Stocke le message posté
+	// Stocke le message poste
 	Entity article = new Entity("Articles", KeyFactory.createKey("Nouvelles", poolID));
 
 	article.setProperty("titre", titre);
 	article.setProperty("body", body);
 	article.setProperty("date", new Date());
-	// writer a 0 quand c'est le système qui écrit le message automatisé, sinon teamId du writer
+	// writer a 0 quand c'est le systeme qui ecrit le message automatise, sinon teamId du writer
 	article.setProperty("writerName", writerName);
 	article.setProperty("writerLogo", writerLogo);
 
@@ -51,19 +51,19 @@ public class NouvellesModel {
     public void createMessageForNewsBySystem(String titre, String body, HttpServletRequest req) {
 
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
-	String writerName = "L'équipe de Pool à vie";
+	String writerName = "L'Ã©quipe de Pool Ã  vie";
 	String writerLogo = "https://storage.googleapis.com/poolavie-bucket/QUE.png";
 	String poolID = mBeanPool.getPoolID();
 
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-	// Stocke le message posté
+	// Stocke le message poste
 	Entity article = new Entity("Articles", KeyFactory.createKey("Nouvelles", poolID));
 
 	article.setProperty("titre", titre);
 	article.setProperty("body", body);
 	article.setProperty("date", new Date());
-	// writer a 0 quand c'est le système qui écrit le message automatisé, sinon teamId du writer
+	// writer a 0 quand c'est le systeme qui ecrit le message automatise, sinon teamId du writer
 	article.setProperty("writerName", writerName);
 	article.setProperty("writerLogo", writerLogo);
 

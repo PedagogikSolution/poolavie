@@ -60,7 +60,7 @@ public class DraftPickDaoImpl implements DraftPickDao {
 
 	@Override
 	public void insertPickByTeam(int poolID, int nombreEquipe, int numPickByTeam) {
-		// TODO insertion des picks de la nouvelle ann�e selon les parametres du pool
+		// TODO insertion des picks de la nouvelle annee selon les parametres du pool
 
 		int teamInt;
 		int pickInt;

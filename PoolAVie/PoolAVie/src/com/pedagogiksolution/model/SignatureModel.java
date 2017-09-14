@@ -220,7 +220,7 @@ public class SignatureModel {
 			Key clefDatastore2 = KeyFactory.createKey("Defenseur", datastoreId2);
 			try {
 				// si existe, aucun EntityNotFoundException, donc on
-				// recup�re l'info pour tester password
+				// recupere l'info pour tester password
 				Entity mEntity = datastore.get(clefDatastore2);
 				players_id = (List<Long>) mEntity.getProperty("players_id");
 				int playersIdPosition = players_id.indexOf(Long.valueOf(draft_player_id));
@@ -325,7 +325,7 @@ public class SignatureModel {
 			Key clefDatastore3 = KeyFactory.createKey("Gardien", datastoreId3);
 			try {
 				// si existe, aucun EntityNotFoundException, donc on
-				// recup�re l'info pour tester password
+				// recupere l'info pour tester password
 				Entity mEntity = datastore.get(clefDatastore3);
 				players_id = (List<Long>) mEntity.getProperty("players_id");
 				int playersIdPosition = players_id.indexOf(Long.valueOf(draft_player_id));

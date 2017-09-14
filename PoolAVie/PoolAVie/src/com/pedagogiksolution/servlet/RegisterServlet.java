@@ -26,7 +26,7 @@ public class RegisterServlet extends HttpServlet {
 	String motDePasse = req.getParameter("password");
 	String courriel = req.getParameter("email");
 
-	// Instantiation de la classe métier pour le processus de registration
+	// Instantiation de la classe metier pour le processus de registration
 	RegisterModel mModel = new RegisterModel();
 
 	// validation des parametres du formulaire
@@ -37,7 +37,7 @@ public class RegisterServlet extends HttpServlet {
 	    return;
 	}
 
-	// on verifie si username existe dans le Datastore, si existe on verifie si password match, sinon on crée un
+	// on verifie si username existe dans le Datastore, si existe on verifie si password match, sinon on cree un
 // nouveau compte client admin
 
 	if (mModel.checkIfUsernameExist(nomUtilisateur, req)) {
@@ -46,12 +46,12 @@ public class RegisterServlet extends HttpServlet {
 
 	} else {
 
-	    // étape 1 : on encrypte mot de passe, créer un code de validation, assigne un poolId et player ID, et crée
+	    // etape 1 : on encrypte mot de passe, creer un code de validation, assigne un poolId et player ID, et cree
 	    // le bean Utilisateur, le dattastore et le Memcache
 
 	    String validationCode = mModel.createDatastoreUserEntity(nomUtilisateur, motDePasse, courriel, 1, 1, req);
 
-	    // si le code est retourné, c'est que tout à réussi, donc on envoie un courriel avec Code Validation à
+	    // si le code est retourne, c'est que tout e reussi, donc on envoie un courriel avec Code Validation e
 // l'utilisateur
 	    if (validationCode != null) {
 

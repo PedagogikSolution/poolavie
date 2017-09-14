@@ -399,7 +399,7 @@ public class DraftPlayersModel {
 		} else {
 			MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
 			mBeanMessageErreur.setErreurDraft(
-					"Ce n'est pas votre tour de draft. Vous avez peut-�tre tent� de r�-envoyer un formulaire de draft pr�c�dent en cliquant sur refresh. Nous travaillons � rsoudre ce probl�me. Merci de notifier cette erreur dans le formulaire de rapport d'erreur  de la BETA TEST.");
+					"Ce n'est pas votre tour de draft. Vous avez peut-être tenté de ré-envoyer un formulaire de draft précédent en cliquant sur refresh. Nous travaillons à rsoudre ce problème. Merci de notifier cette erreur dans le formulaire de rapport d'erreur  de la BETA TEST.");
 			req.setAttribute("messageErreur", mBeanMessageErreur);
 
 			return;
@@ -415,7 +415,7 @@ public class DraftPlayersModel {
 		} else {
 			MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
 			mBeanMessageErreur.setErreurDraft(
-					"Ce joueur n'est plus disponible. D�sol� de cette erreur. Merci de bien vouloir remplir le formualire de la BETA test pour nous le signaler");
+					"Ce joueur n'est plus disponible. Désolé de cette erreur. Merci de bien vouloir remplir le formualire de la BETA test pour nous le signaler");
 			req.setAttribute("messageErreur", mBeanMessageErreur);
 			return;
 		}
@@ -431,7 +431,7 @@ public class DraftPlayersModel {
 			} else {
 				MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
 				mBeanMessageErreur.setErreurDraft(
-						"Vous devez choisir un joueur recrue ou vous avez deja trop de recue dans votre equipe. Il ne vous reste de la place que pour les recrues dans votre �quipe");
+						"Vous devez choisir un joueur recrue ou vous avez deja trop de recue dans votre equipe. Il ne vous reste de la place que pour les recrues dans votre équipe");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return;
 			}
@@ -448,7 +448,7 @@ public class DraftPlayersModel {
 			} else {
 				MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
 				mBeanMessageErreur.setErreurDraft(
-						"Vous n'avez pas l'argent pour rep�cher ce joueur sans �ventuellement d�passer votre budget disponible au draft");
+						"Vous n'avez pas l'argent pour repécher ce joueur sans éventuellement dépasser votre budget disponible au draft");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return;
 			}
@@ -474,7 +474,7 @@ public class DraftPlayersModel {
 			} else {
 				MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
 				mBeanMessageErreur.setErreurDraft(
-						"Vous ne pouvez prendre ce joueur car ceci aurait pour influence de vous emp�cher de rep�cher le nombre de joueur minimum requis par position");
+						"Vous ne pouvez prendre ce joueur car ceci aurait pour influence de vous empêcher de repêcher le nombre de joueur minimum requis par position");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return;
 			}
@@ -1312,7 +1312,7 @@ public class DraftPlayersModel {
 	}
 
 	/*
-	 * ******************************************* Methode priv�
+	 * ******************************************* Methode prive
 	 * ************************************************
 	 */
 

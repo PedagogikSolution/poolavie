@@ -10,8 +10,8 @@ public final class DAOUtilitaire {
 
 
 /*
- * Constructeur caché par défaut (car c'est une classe finale utilitaire,
- * contenant uniquement des méthode appelées de maniÃ¨re statique)
+ * Constructeur cache par defaut (car c'est une classe finale utilitaire,
+ * contenant uniquement des methode appelees de maniÃ¨re statique)
  */
 private DAOUtilitaire() {
 }
@@ -22,7 +22,7 @@ public static void fermetureSilencieuse( ResultSet resultSet ) {
         try {
             resultSet.close();
         } catch ( SQLException e ) {
-            System.out.println( "Échec de la fermeture du ResultSet : " + e.getMessage() );
+            System.out.println( "Ã©chec de la fermeture du ResultSet : " + e.getMessage() );
         }
     }
 }
@@ -33,7 +33,7 @@ public static void fermetureSilencieuse( Statement statement ) {
         try {
             statement.close();
         } catch ( SQLException e ) {
-            System.out.println( "Échec de la fermeture du Statement : " + e.getMessage() );
+            System.out.println( "Ã©chec de la fermeture du Statement : " + e.getMessage() );
         }
     }
 }
@@ -44,7 +44,7 @@ public static void fermetureSilencieuse( Connection connexion ) {
         try {
             connexion.close();
         } catch ( SQLException e ) {
-            System.out.println( "Échec de la fermeture de la connexion : " + e.getMessage() );
+            System.out.println( "Ã©chec de la fermeture de la connexion : " + e.getMessage() );
         }
     }
 }
@@ -63,8 +63,8 @@ public static void fermeturesSilencieuses( ResultSet resultSet, Statement statem
 }
 
 /*
- * Initialise la requête préparée basée sur la connexion passée en argument,
- * avec la requête SQL et les objets donnés.
+ * Initialise la requete preparee basee sur la connexion passee en argument,
+ * avec la requete SQL et les objets donnes.
  */
 public static PreparedStatement initialisationRequetePreparee( Connection connexion, String sql, boolean returnGeneratedKeys, Object... objets ) throws SQLException {
     PreparedStatement preparedStatement = connexion.prepareStatement( sql, returnGeneratedKeys ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS );

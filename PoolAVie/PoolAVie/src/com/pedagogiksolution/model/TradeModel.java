@@ -161,7 +161,7 @@ public class TradeModel {
 
 			MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
 			mBeanMessageErreur.setErreurTrade(
-					"Vous ne pouvez pas faire un �change avec vous-m�me... veuillez choisir une autre �quipe");
+					"Vous ne pouvez pas faire un échange avec vous-même... veuillez choisir une autre équipe");
 			req.setAttribute("messageErreur", mBeanMessageErreur);
 			return true;
 
@@ -596,7 +596,7 @@ public class TradeModel {
 		if (nbPlayersTeamMakingOffer > 7 || nbPlayersTeamReceivingOffer > 7) {
 
 			mBeanMessageErreur.setErreurTrade(
-					"Un maximum de 7 joueurs par �quipe peut être inclus dans un échange unique (Reglement 4.1");
+					"Un maximum de 7 joueurs par équipe peut être inclus dans un échange unique (Reglement 4.1");
 			req.setAttribute("messageErreur", mBeanMessageErreur);
 			return false;
 		}
@@ -605,7 +605,7 @@ public class TradeModel {
 
 		if (nbPicksTeamMakingOffer > 3 || nbPicksTeamReceivingOffer > 3) {
 			mBeanMessageErreur.setErreurTrade(
-					"Un maximum de 3 choix au rep�chage par �quipe peut �tre inclus dans un �change unique (Reglement 4.1");
+					"Un maximum de 3 choix au repêchage par équipe peut être inclus dans un échange unique (Reglement 4.1");
 			req.setAttribute("messageErreur", mBeanMessageErreur);
 			return false;
 		}
@@ -613,12 +613,12 @@ public class TradeModel {
 		// 3- checking for cash on the two side
 		if (cashIncludeTeamThatMakeOfferInt > 0 && cashIncludeThatReceiveOfferInt > 0) {
 			mBeanMessageErreur
-					.setErreurTrade("Vous ne pouvez pas �changez de l'argent contre de l'argent (Reglement 3.1");
+					.setErreurTrade("Vous ne pouvez pas échangez de l'argent contre de l'argent (Reglement 3.1");
 			req.setAttribute("messageErreur", mBeanMessageErreur);
 			return false;
 		}
 
-		// 7- check si echange draft round contre cash **** impossible durant ann�e
+		// 7- check si echange draft round contre cash **** impossible durant annee
 
 		if (mBeanPool.getCycleAnnuel() == 5 || mBeanPool.getCycleAnnuel() == 6) {
 
@@ -626,7 +626,7 @@ public class TradeModel {
 					&& nbRookieTeamReceivingOffer == 0)) {
 
 				mBeanMessageErreur.setErreurTrade(
-						"Vous ne pouvez pas échanger un choix contre de l'argent à cette p�riode (Reglement 3.1");
+						"Vous ne pouvez pas échanger un choix contre de l'argent à cette période (Reglement 3.1");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 
@@ -1338,7 +1338,7 @@ public class TradeModel {
 			msg.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(courriel));
 			msg.setSubject("Vous avez une offre de trade", "utf-8");
 			msg.setContent("Bonjour " + nomTeam
-					+ ", \n\n Vous avez re�u une nouvelle offre d'�change. Pour voir celle-ci, l'accepter, la refuser ou faire une contre offre. Connectez-vous et aller dans la section Trade Center.",
+					+ ", \n\n Vous avez reçu une nouvelle offre d'échange. Pour voir celle-ci, l'accepter, la refuser ou faire une contre offre. Connectez-vous et aller dans la section Trade Center.",
 					"text/html");
 			Transport.send(msg);
 		} catch (AddressException e) {
@@ -2103,7 +2103,7 @@ public class TradeModel {
 	}
 
 	/*******************************
-	 * methode priv�e � la classe
+	 * methode privee e la classe
 	 **********************************/
 
 	private Boolean checkIfplayerStillInTeam(String team, String identifiant, PlayersDao playersDao) {

@@ -67,9 +67,9 @@ public class RecuperationModel {
 	    MimeMessage msg = new MimeMessage(session);
 	    msg.setFrom(new InternetAddress("pedagogiksolution@gmail.com", "Poolavie.ca"));
 	    msg.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(courriel));
-	    msg.setSubject("Récupération de vos identifiants", "utf-8");
+	    msg.setSubject("RÃ©cupÃ©ration de vos identifiants", "utf-8");
 	    msg.setContent("Bonjour, si vous vouliez changer votre mot de passe cliquez sur le lien suivant :" +
-	    		" <a href='http://www.poolavie.ca/recuperation?courriel=" + courriel + "&codeValidation=" + codeValidation + "'>Récupérer mon compte</a>.\n\n" +
+	    		" <a href='http://www.poolavie.ca/recuperation?courriel=" + courriel + "&codeValidation=" + codeValidation + "'>RÃ©cupÃ©rer mon compte</a>.\n\n" +
 	    		"Si vous aviez besoin de votre code de validation, entrez le code suivant : " + codeValidation +" dans le formulaire de connexion de la page d'accueil", "text/html");
 	    Transport.send(msg);
 	} catch (AddressException e) {
@@ -106,7 +106,7 @@ public class RecuperationModel {
 	}
 
 	MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-	mBeanMessageErreur.setErreurFormulaireRecuperation("Le code de validation n'est pas bon, veuillez ré-essayer ou nous contacter si cela persiste");
+	mBeanMessageErreur.setErreurFormulaireRecuperation("Le code de validation n'est pas bon, veuillez rÃ©-essayer ou nous contacter si cela persiste");
 	req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
 	return false;
 

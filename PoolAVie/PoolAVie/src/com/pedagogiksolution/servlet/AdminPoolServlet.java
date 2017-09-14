@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pedagogiksolution.cron.model.ClassementCronModel;
 import com.pedagogiksolution.cron.model.PlayersCronModel;
 import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.dao.DAOFactory;
@@ -19,6 +20,7 @@ import com.pedagogiksolution.dao.TradeOfferDao;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.AdminModel;
 import com.pedagogiksolution.model.DraftPlayersModel;
+import com.pedagogiksolution.model.LoginModel;
 
 public class AdminPoolServlet extends HttpServlet {
 	/**
@@ -37,7 +39,7 @@ public class AdminPoolServlet extends HttpServlet {
 
 	@Override
 	public void init() throws ServletException {
-		/* R�cup�ration d'une instance de notre nos DAO */
+		/* Recuperation d'une instance de notre nos DAO */
 		this.playersDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getPlayersDao();
 		this.draftDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftDao();
 		this.tradeMadeDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getTradeMadeDao();
@@ -49,7 +51,15 @@ public class AdminPoolServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		LoginModel mModel2 = new LoginModel(req);
+	    mModel2.createSessionEquipeBean();
+	    mModel2.createSessionAttaquantBean();
+	    mModel2.createSessionDefenseurBean();
+	    mModel2.createSessionGardienBean();
+	    mModel2.createSessionRecrueBean();
+	    mModel2.createSessionDraftPickBean();
+	    mModel2.createSessionDraftRoundBean();
+	    mModel2.createSessionPoolBean();
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		int cycleAnnuel = mBeanPool.getCycleAnnuel();
 		if (cycleAnnuel == 3) {
@@ -63,7 +73,7 @@ public class AdminPoolServlet extends HttpServlet {
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 			break;
 		case 1:
-			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
+			req.getRequestDispatcher("jsp/admin/adminDraft.jsp").forward(req, resp);
 			break;
 		case 2:
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
@@ -222,8 +232,22 @@ public class AdminPoolServlet extends HttpServlet {
 					draftPickDao);
 
 			if (goodToGo) {
+				ClassementCronModel mModelClassementCron = new ClassementCronModel(classementDao, playersDao);
+				mModelClassementCron.putDatabaseInDatastore(Integer.parseInt(poolID));
+				
+				
+				
+				
+				
 				mAdminModel.changeCycleAnnuel(req, 1);
+				
+				
+				
+				
+				
 			}
+			
+					
 
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 			break;

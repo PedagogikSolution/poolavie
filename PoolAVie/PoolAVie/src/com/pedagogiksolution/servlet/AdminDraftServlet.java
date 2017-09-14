@@ -25,7 +25,7 @@ public class AdminDraftServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-	/* Récupération d'une instance de notre DAO Utilisateur */
+	/* Recuperation d'une instance de notre DAO Utilisateur */
 	this.draftDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftDao();
 
     }
@@ -58,13 +58,13 @@ public class AdminDraftServlet extends HttpServlet {
 	    
 	    mAdminModel.setDraftTime(dateDraft, heureDraft, req);
 
-	    // on écrit une news de la part du system pour annoncer la date
+	    // on ecrit une news de la part du system pour annoncer la date
 	    NouvellesModel mNewsModel = new NouvellesModel();
 	    String titre = "Date du Draft";
-	    String body = "La date de notre draft annuel aura lieu le " + dateDraft + " à partir de " + heureDraft + ". La section Draft est maintenant accessible avec l'ensemble des informations utiles";
+	    String body = "La date de notre draft annuel aura lieu le " + dateDraft + " Ã  partir de " + heureDraft + ". La section Draft est maintenant accessible avec l'ensemble des informations utiles";
 	    mNewsModel.createMessageForNewsBySystem(titre, body, req);
 
-	    // on détermine l'ordre de draft au hasard si Pool de premiere année
+	    // on determine l'ordre de draft au hasard si Pool de premiere annee
 	    mAdminModel.determineOrderOfDraft(req);
 	    // on envoie un courriel pour avertir les joueur avec top 10 pick
 	    mAdminModel.envoieCourrielDateEtOrdreDeDraft(req,dateDraft,heureDraft);
@@ -77,10 +77,10 @@ public class AdminDraftServlet extends HttpServlet {
 	   
 	    mAdminModel.setDraftTime(dateDraft, heureDraft, req);
 
-	    // on écrit une news de la part du system pour annoncer la date
+	    // on ecrit une news de la part du system pour annoncer la date
 	    NouvellesModel mNewsModel2 = new NouvellesModel();
 	    String titre2 = "Date du Draft";
-	    String body2 = "La date de notre draft annuel aura lieu le " + dateDraft + " à partir de " + heureDraft + ". La section Draft est maintenant accessible avec l'ensemble des informations utiles";
+	    String body2 = "La date de notre draft annuel aura lieu le " + dateDraft + " Ã  partir de " + heureDraft + ". La section Draft est maintenant accessible avec l'ensemble des informations utiles";
 	    mNewsModel2.createMessageForNewsBySystem(titre2, body2, req);
 	    
 	    
@@ -95,10 +95,10 @@ public class AdminDraftServlet extends HttpServlet {
 	    mAdminModel.setDraftTime(dateDraft, heureDraft, req);
 	    mAdminModel.annulationStartDraft(req);
 
-	    // on écrit une news de la part du system pour annoncer la date
+	    // on ecrit une news de la part du system pour annoncer la date
 	    NouvellesModel mNewsModel3 = new NouvellesModel();
 	    String titre3 = "Changement de la Date du Draft";
-	    String body3 = "La date de notre draft annuel aura finalement lieu le " + dateDraft + " à partir de " + heureDraft + ". La section Draft est maintenant accessible avec l'ensemble des informations utiles";
+	    String body3 = "La date de notre draft annuel aura finalement lieu le " + dateDraft + " Ã  partir de " + heureDraft + ". La section Draft est maintenant accessible avec l'ensemble des informations utiles";
 	    mNewsModel3.createMessageForNewsBySystem(titre3, body3, req);
 	    
 	 
@@ -111,10 +111,10 @@ public class AdminDraftServlet extends HttpServlet {
 	case 4:
 	    mAdminModel.setDraftTime(dateDraft, heureDraft, req);
 
-	    // on écrit une news de la part du system pour annoncer la date
+	    // on ecrit une news de la part du system pour annoncer la date
 	    NouvellesModel mNewsModel4 = new NouvellesModel();
 	    String titre4 = "Changement de la Date du Draft";
-	    String body4 = "La date de notre draft annuel aura finalement lieu le " + dateDraft + " à partir de " + heureDraft + ". La section Draft est maintenant accessible avec l'ensemble des informations utiles";
+	    String body4 = "La date de notre draft annuel aura finalement lieu le " + dateDraft + " Ã  partir de " + heureDraft + ". La section Draft est maintenant accessible avec l'ensemble des informations utiles";
 	    mNewsModel4.createMessageForNewsBySystem(titre4, body4, req);
 	    
 	 // on remet le cycle a 2

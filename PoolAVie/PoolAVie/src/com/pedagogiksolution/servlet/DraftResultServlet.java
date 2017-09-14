@@ -20,19 +20,21 @@ public class DraftResultServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    	
+    	LoginModel mModel2 = new LoginModel(req);
+	    mModel2.createSessionEquipeBean();
+	    mModel2.createSessionAttaquantBean();
+	    mModel2.createSessionDefenseurBean();
+	    mModel2.createSessionGardienBean();
+	    mModel2.createSessionRecrueBean();
+	    mModel2.createSessionDraftPickBean();
+	    mModel2.createSessionDraftRoundBean();
+	    mModel2.createSessionPoolBean();
 	Pool mBean = (Pool) req.getSession().getAttribute("Pool");
 	int cycleAnnuel = mBean.getCycleAnnuel();
 
 	if (cycleAnnuel == 3) {
-	    LoginModel mModel = new LoginModel(req);
-	    mModel.createSessionDraftRoundBean();
-	    mModel.createSessionEquipeBean();
-	    mModel.createSessionDraftPickBean();
-	    mModel.createSessionAttaquantBean();
-	    mModel.createSessionDefenseurBean();
-	    mModel.createSessionGardienBean();
-	    mModel.createSessionRecrueBean();
-
+	    
 	    DraftPlayersModel mModelDraft = new DraftPlayersModel();
 	    mModelDraft.putDatastoreIntoBean(mBean, req);
 

@@ -28,7 +28,7 @@ public class TaskQueueDraftPlayer extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-	/* Récupération d'une instance de notre DAO Utilisateur */
+	/* Recuperation d'une instance de notre DAO Utilisateur */
 	this.draftDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftDao();
 	this.playerDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getPlayersDao();
 

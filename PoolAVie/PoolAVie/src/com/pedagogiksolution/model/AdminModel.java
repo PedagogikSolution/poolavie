@@ -42,6 +42,7 @@ import com.google.appengine.api.datastore.TransactionOptions;
 import com.pedagogiksolution.beans.Article;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.cron.model.DraftPickCronModel;
+import com.pedagogiksolution.cron.model.PlayersCronModel;
 import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.dao.DraftDao;
 import com.pedagogiksolution.dao.DraftPickDao;
@@ -212,11 +213,11 @@ public class AdminModel {
 				msg.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(courriel));
 				msg.setSubject("Date et Ordre de Draft", "utf-8");
 				msg.setContent("Bonjour " + nomTeam
-						+ ", votre administrateur de pool � d�terminer une date pour votre draft. \n\n"
-						+ "Celui-ci aura lieu le " + dateDraft + " � " + heureDraft
+						+ ", votre administrateur de pool a déterminé une date pour votre draft. \n\n"
+						+ "Celui-ci aura lieu le " + dateDraft + " à " + heureDraft
 						+ ". Vous pourrez alors vous connecter au serveur de draft"
 						+ " via l'onglet Draft ou en cliquant sur l'alerte en rouge lorsque vous vous connecterez"
-						+ " sur le site et que vous arriverez � la page des nouvelles. \n\n Vous trouverez im�diatement aussi dans la section Draft Center l'ordre de draft des 20 premiers picks.\n\n Votre administrateur",
+						+ " sur le site et que vous arriverez à la page des nouvelles. \n\n Vous trouverez immédiatement aussi dans la section Draft Center l'ordre de draft des 20 premiers picks.\n\n Votre administrateur",
 						"text/html");
 				Transport.send(msg);
 			} catch (AddressException e) {
@@ -256,7 +257,7 @@ public class AdminModel {
 				if (checkIfUsernameExist) {
 
 					req.setAttribute("messageErreurChangementUsername",
-							"Ce nom d'utilisateur existe d�ja, merci de bien vouloir en choisir un diff�rent");
+							"Ce nom d'utilisateur existe déjà, merci de bien vouloir en choisir un différent");
 					return false;
 				}
 
@@ -287,7 +288,7 @@ public class AdminModel {
 					e.printStackTrace();
 				}
 
-				req.setAttribute("messageConfirmationChangementUsername", "Votre nom d'utilisateur a �t� modifi�");
+				req.setAttribute("messageConfirmationChangementUsername", "Votre nom d'utilisateur a été modifié");
 
 			}
 
@@ -310,7 +311,7 @@ public class AdminModel {
 					return false;
 				}
 
-				// on recupere le nouveau beanUser ou le vieux, selon si �tape 1 fait ou pas
+				// on recupere le nouveau beanUser ou le vieux, selon si etape 1 fait ou pas
 				Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 				String nomUtilisateur = mBeanUser.getNomUtilisateur();
 				mUserKey1 = KeyFactory.createKey("Utilisateur", nomUtilisateur);
@@ -337,14 +338,14 @@ public class AdminModel {
 					e.printStackTrace();
 				}
 
-				req.setAttribute("messageConfirmationChangementPassword", "Votre mot de passe a �t� modifi�");
+				req.setAttribute("messageConfirmationChangementPassword", "Votre mot de passe a été modifié");
 
 			}
 
 			// 3- Si courriel pas vide on le change
 			if (email != null && email != "") {
 
-				// on recupere le nouveau beanUser ou le vieux, selon si �tape 1 fait ou pas
+				// on recupere le nouveau beanUser ou le vieux, selon si etape 1 fait ou pas
 				Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 				String nomUtilisateur = mBeanUser.getNomUtilisateur();
 				mUserKey1 = KeyFactory.createKey("Utilisateur", nomUtilisateur);
@@ -370,7 +371,7 @@ public class AdminModel {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				req.setAttribute("messageConfirmationChangementCourriel", "Votre courriel a �t� modifi�");
+				req.setAttribute("messageConfirmationChangementCourriel", "Votre courriel a été modifié");
 			}
 			// 4- Si teamName pas vide on le change
 			if (teamName != null && teamName != "") {
@@ -544,7 +545,7 @@ public class AdminModel {
 
 				req.getSession().setAttribute("Articles", mBeanArticles);
 
-				req.setAttribute("messageConfirmationChangementNomTeam", "Votre nom d'�quipe a �t� modifi�");
+				req.setAttribute("messageConfirmationChangementNomTeam", "Votre nom d'équipe a été modifié");
 
 				// F- on change la valeur dans la BDD classement
 
@@ -1075,6 +1076,15 @@ public class AdminModel {
 		int numPickByTeam=30;
 		
 		playersDao.dropPlayersCetD(req,poolID);
+		
+		
+		PlayersCronModel mModel = new PlayersCronModel(playersDao);
+		int numberOfTeam = mModel.getNumberOfTeamByPool(Integer.parseInt(poolID));
+		mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, "attaquant", 1, "6");
+
+		mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, "defenseur", 1, "6");
+
+		mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, "gardien", 1, "6");
 		// check if rookie number is ok to start the new season
 		// TODO envoyer courriel au DG qui n'ont pas le bon nombre pour commencer la nouvelle année et stopper le processus de new years
 		// return false;
@@ -1127,6 +1137,9 @@ public class AdminModel {
 			e.printStackTrace();
 			return false;
 		}
+		
+		
+		playersDao.cronJobPlayersAvailableForDraft(Integer.parseInt(poolID));
 		
 		return true;
 		

@@ -35,14 +35,14 @@ public class BetaServlet extends HttpServlet {
 	    entity.setProperty("nbVisite", nbVisiteur);
 	    datastore.put(entity);
 	} catch (EntityNotFoundException e) {
-	 // Crée l'entité de type (kind) "Personnage"
+	 // Cree l'entite de type (kind) "Personnage"
 	    Entity visiteur = new Entity("Visiteur","nbVisite");
 
-	    // Assigne des propriétés à l'entité
+	    // Assigne des proprietes e l'entite
 	    visiteur.setProperty("nbVisite", 1);
 	    
 
-	    // Enregistre l'entité dans le Datastore
+	    // Enregistre l'entite dans le Datastore
 	    datastore.put(visiteur);
 	}
 

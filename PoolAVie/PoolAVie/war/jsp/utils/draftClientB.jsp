@@ -15,7 +15,7 @@
 		messageReceived = JSON.parse(m.data);
 		testIfOpen = messageReceived.testIfOpen;
 		draftPickMade = messageReceived.draftPickMade;
-		// connexion avec les serveurs �tablie
+		// connexion avec les serveurs etablie
 		if(testIfOpen==1){
 			document.getElementById('connexionAlert').classList.remove('w3-hide');
 			document.getElementById('connexionAlert').classList.add('w3-show');

@@ -12,6 +12,7 @@ import com.pedagogiksolution.dao.PlayersDao;
 import com.pedagogiksolution.dao.SalaireDao;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.DraftPlayersModel;
+import com.pedagogiksolution.model.LoginModel;
 import com.pedagogiksolution.model.SignatureModel;
 
 public class SignatureServlet extends HttpServlet {
@@ -26,7 +27,7 @@ public class SignatureServlet extends HttpServlet {
 
 	@Override
 	public void init() throws ServletException {
-		/* R�cup�ration d'une instance de notre nos DAO */
+		/* Recuperation d'une instance de notre nos DAO */
 		this.playersDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getPlayersDao();
 		this.salaireDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getSalaireDao();
 	}
@@ -34,6 +35,15 @@ public class SignatureServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+		LoginModel mModel2 = new LoginModel(req);
+	    mModel2.createSessionEquipeBean();
+	    mModel2.createSessionAttaquantBean();
+	    mModel2.createSessionDefenseurBean();
+	    mModel2.createSessionGardienBean();
+	    mModel2.createSessionRecrueBean();
+	    mModel2.createSessionDraftPickBean();
+	    mModel2.createSessionDraftRoundBean();
+	    mModel2.createSessionPoolBean();
 		int fromId;
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		int cycleAnnuel = mBeanPool.getCycleAnnuel();

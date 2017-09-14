@@ -84,7 +84,7 @@ public class ResetForTestCron extends HttpServlet {
 	bonus_penalite = 0;
 		for (int i = 1; i < (9); i++) {
 
-		    // on crée le beans avec le processus JPA qui va créer le datastore en même temps
+		    // on cree le beans avec le processus JPA qui va creer le datastore en meme temps
 		    
 		    try {
 			em = emf.createEntityManager();
@@ -130,7 +130,7 @@ public class ResetForTestCron extends HttpServlet {
 
 		    } finally {
 
-			// on ferme le manager pour libérer la mémoire
+			// on ferme le manager pour liberer la memoire
 			if (em != null) {
 			    em.close();
 

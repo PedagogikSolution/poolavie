@@ -26,7 +26,7 @@ public class ValidationServlet extends HttpServlet {
 	req.getRequestDispatcher("jsp/accueil/validation.jsp").forward(req, resp);
 	}else {
 	    MessageErreurBeans mBeanErreur = new MessageErreurBeans();
-	    mBeanErreur.setErreurFormulaireRegistration("Vous ne pouvez pas créer de nouveau pool à ce moment d'une saison en cours. Merci de revenir entre le 1 juillet et le 31 décembre pour débuter un nouveau Pool.");
+	    mBeanErreur.setErreurFormulaireRegistration("Vous ne pouvez pas crÃ©er de nouveau pool Ã  ce moment d'une saison en cours. Merci de revenir entre le 1 juillet et le 31 dÃ©cembre pour dÃ©buter un nouveau Pool.");
 	    req.setAttribute("mauvaiseDate", mBeanErreur);
 	    req.getRequestDispatcher("jsp/accueil/creationnouveaupool.jsp").forward(req, resp);   
 	}
@@ -34,7 +34,7 @@ public class ValidationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	// initialisation de la classe métier
+	// initialisation de la classe metier
 	ValidationModel mModel = new ValidationModel();
 	// recuperation de la provenance du client et du type de formulaire
 	String mParam = req.getParameter("formulaire");

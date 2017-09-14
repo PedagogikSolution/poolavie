@@ -487,7 +487,7 @@ public class ClassementDaoImpl implements ClassementDao {
 		} catch (SQLException e) {
 		    throw new DAOException(e);
 		} finally {
-		    fermeturesSilencieuses(preparedStatement, connexion);
+		    fermeturesSilencieuses(rs,preparedStatement, connexion);
 		}
 		return classementInverse;
 	}

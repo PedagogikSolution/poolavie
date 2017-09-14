@@ -14,7 +14,7 @@
 		newState = JSON.parse(m.data);
 		testIfOpen = newState.testIfOpen;
 		if(testIfOpen==1){
-			alert("Vous �tes maintenant connect� au serveur de draft");
+			alert("Vous êtes maintenant connecté au serveur de draft");
 		} else {
 			
 		}

@@ -19,7 +19,7 @@ public class RecuperationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	// vérifie si provient de home page ou du courriel de recuperation
+	// verifie si provient de home page ou du courriel de recuperation
 	String email = req.getParameter("courriel");
 	
 	if(email!=null){
@@ -59,7 +59,7 @@ public class RecuperationServlet extends HttpServlet {
 	    mModel.changePassword(username,password,req);
 	    
 	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-	    mBeanMessageErreur.setErreurFormulaireLogin("Votre mot de passe a été changé ave  succès");
+	    mBeanMessageErreur.setErreurFormulaireLogin("Votre mot de passe a Ã©tÃ© changÃ© ave  succÃ¨s");
 	    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
 	    req.getRequestDispatcher("jsp/accueil/home.jsp").forward(req, resp);
 	    
@@ -74,7 +74,7 @@ public class RecuperationServlet extends HttpServlet {
 	    String codeValidation = "A1B2C3D4";
 	    mModel.sendInfoForRecuperation(req,courriel,codeValidation);
 	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-	    mBeanMessageErreur.setErreurFormulaireLogin("Un courriel vous a été envoyé afin de récupérer vos identifiants");
+	    mBeanMessageErreur.setErreurFormulaireLogin("Un courriel vous a Ã©tÃ© envoyÃ© afin de rÃ©cupÃ©rer vos identifiants");
 	    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
 	    req.getRequestDispatcher("jsp/accueil/home.jsp").forward(req, resp);
 	} else {

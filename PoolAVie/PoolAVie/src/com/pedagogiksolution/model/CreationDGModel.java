@@ -56,7 +56,7 @@ public class CreationDGModel {
 
 				if (!checkIfTeamExist) {
 					MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-					mBeanMessageErreur.setErreurCreateNewTeam("Cette �quipe a d�j� �t� cr��e");
+					mBeanMessageErreur.setErreurCreateNewTeam("Cette équipe a déjà été créée");
 					req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
 					return false;
 				} else {
@@ -203,14 +203,17 @@ public class CreationDGModel {
 		// TODO ajouter les info partout
 
 		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
-		// on r�cup�re le numero du Pool et de l'�quipe
+		// on recupere le numero du Pool et de l'equipe
+		Pool mBeanPool = new Pool();
 
 		int poolID = mBeanUser.getPoolId();
 		int teamID = mBeanUser.getTeamId();
-		// on trouve la date de l'ann�e
+		// on trouve la date de l'annee
 		// TODO rendre dynamique
-		int years = 2017;
-
+		String thisYears = mBeanPool.getThisYear();
+		
+		String yearsString = thisYears.substring(5, 9);
+		int years = Integer.parseInt(yearsString);
 		// on insere les info dans la table classement
 		Boolean checkIfTeamAlreadyCreate = classementDao.checkIfTeamAlreadyCreate(teamID, poolID);
 		if (checkIfTeamAlreadyCreate) {
@@ -223,7 +226,7 @@ public class CreationDGModel {
 
 		// on recupere le bean POOL du memcache ou du datastore
 
-		Pool mBeanPool = new Pool();
+		
 
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Key clefDatastorePool = KeyFactory.createKey("Pool", Integer.toString(mBeanUser.getPoolId()));
@@ -233,7 +236,7 @@ public class CreationDGModel {
 			mBeanPool = mBeanPool.mapPoolFromDatastore(mEntity, mBeanPool);
 
 		} catch (EntityNotFoundException e) {
-			// TODO g�rer cette erreur
+			// TODO gerer cette erreur
 		}
 
 		int tempNumTeam = mBeanPool.getNumTeamCreate();
@@ -301,7 +304,7 @@ public class CreationDGModel {
 
 		}
 
-		// on recr�er les sessions
+		// on recreer les sessions
 		req.getSession().setAttribute("Utilisateur", mBeanUser);
 		req.getSession().setAttribute("Pool", mBeanPool);
 

@@ -40,7 +40,7 @@ public class CreationPoolServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-	/* Récupération d'une instance de notre nos DAO */
+	/* Recuperation d'une instance de notre nos DAO */
 	this.classementDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getClassementDao();
 	this.playersDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getPlayersDao();
 	this.draftDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftDao();
@@ -60,25 +60,25 @@ public class CreationPoolServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-	// initilisation du métier
+	// initilisation du metier
 	CreationPoolModel mModel = new CreationPoolModel(classementDao, playersDao, draftDao, tradeMadeDao, tradeOfferDao, salaireDao, draftPickDao);
 
 	// test des parametres formulaire bien rempli
 	Boolean validationFormulaireCreation = mModel.validationFormulaireCreation(req);
 
-	// si false, retourne a la page de creation avec message d'erreur approprié
+	// si false, retourne a la page de creation avec message d'erreur approprie
 	if (!validationFormulaireCreation) {
 	    req.getRequestDispatcher("jsp/accueil/creationnouveaupool.jsp").forward(req, resp);
 	} else {
 	    
-	    // on crée les datastores POOL et EQUIPE
+	    // on cree les datastores POOL et EQUIPE
 	    mModel.createPoolBean(req);
 	    mModel.createEquipeBean(req);
 	    
 	    // on envoie les courriels au futur DG
 	    mModel.sendEmail(req);
 	    
-	    // on créer les bases de donnée du POOL
+	    // on creer les bases de donnee du POOL
 	    mModel.createDatabase(req);
 	    mModel.createSucceed(req);
 	    
@@ -119,11 +119,11 @@ public class CreationPoolServlet extends HttpServlet {
 	    NouvellesModel mModelNouvelles = new NouvellesModel();
 	    // initialisation du message du bienvenue
 	    String titre = "Bienvenue dans poolavie.ca";
-	    String body = "L'équipe de poolavie.ca vous souhaite la bienvenue dans votre nouveau pool." +
-	    		" Nous espérons que vous apprécierez votre expérience. Si ce n'est pas encore fait," +
-	    		" vous recevrez sous peu un courriel vous indiquant la date de votre premier repêchage" +
-	    		" une fois que le commissaire de votre pool l'aura déterminer." +
-	    		" Il ne reste qu'à vous souhaitez la meilleure des chances!!!";
+	    String body = "L'Ã©quipe de poolavie.ca vous souhaite la bienvenue dans votre nouveau pool." +
+	    		" Nous espÃ©rons que vous apprÃ©cierez votre expÃ©rience. Si ce n'est pas encore fait," +
+	    		" vous recevrez sous peu un courriel vous indiquant la date de votre premier repÃªchage" +
+	    		" une fois que le commissaire de votre pool l'aura dÃ©terminer." +
+	    		" Il ne reste qu'Ã  vous souhaitez la meilleure des chances!!!";
 	    
 	    mModelNouvelles.createMessageForNewsBySystem(titre, body, req);
 	    

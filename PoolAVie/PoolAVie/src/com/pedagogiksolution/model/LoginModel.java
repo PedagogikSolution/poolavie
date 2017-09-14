@@ -53,7 +53,7 @@ public class LoginModel {
 
 	// Methode qui valide les identifiants (username et password) et retourne
 	// message d'erreur si pas bon
-	// Cr�ation du Session Bean Utilisateur, avec valeur de login � 1
+	// Creation du Session Bean Utilisateur, avec valeur de login e 1
 	public Boolean validateCredential() {
 
 		// si l'objet n'existe pas, on verifie si il existe dans le Datastore
@@ -61,7 +61,7 @@ public class LoginModel {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Key clefDatastore = KeyFactory.createKey("Utilisateur", username);
 		try {
-			// si existe, aucun EntityNotFoundException, donc on recup�re
+			// si existe, aucun EntityNotFoundException, donc on recupere
 			// l'info pour tester password
 			Entity mEntity = datastore.get(clefDatastore);
 			String mEncryptPassword = (String) mEntity.getProperty("motDePasse");
@@ -109,8 +109,8 @@ public class LoginModel {
 
 	}
 
-	// M�thode qui v�rifie si le processus de validation du compte est termin�,
-	// si pas fini, on envoie � la page de
+	// Methode qui verifie si le processus de validation du compte est termine,
+	// si pas fini, on envoie e la page de
 	// validation
 	public Boolean checkIfValidateAccount() {
 		Utilisateur mBean = (Utilisateur) requestObject.getSession().getAttribute("Utilisateur");
@@ -126,7 +126,7 @@ public class LoginModel {
 
 	}
 
-	// M�thode pour initialiser le Session Bean Pool et Equipe
+	// Methode pour initialiser le Session Bean Pool et Equipe
 	public Boolean createSessionPoolBean() {
 
 		// on recupere le poolID et le teamId du Session Bean Utilisateur
@@ -138,7 +138,7 @@ public class LoginModel {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Key clefDatastore = KeyFactory.createKey("Pool", Integer.toString(poolId));
 		try {
-			// si existe, aucun EntityNotFoundException, donc on recup�re
+			// si existe, aucun EntityNotFoundException, donc on recupere
 			// l'info pour tester password
 			Entity mEntity = datastore.get(clefDatastore);
 
@@ -175,7 +175,7 @@ public class LoginModel {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Key clefDatastore = KeyFactory.createKey("Classement", poolID);
 		try {
-			// si existe, aucun EntityNotFoundException, donc on recup�re
+			// si existe, aucun EntityNotFoundException, donc on recupere
 			// l'info pour tester password
 			Entity mEntity = datastore.get(clefDatastore);
 
@@ -215,7 +215,7 @@ public class LoginModel {
 			Key clefDatastore = KeyFactory.createKey("Equipe", datastoreId);
 			try {
 				// si existe, aucun EntityNotFoundException, donc on
-				// recup�re l'info pour tester password
+				// recupere l'info pour tester password
 				Entity mEntity = datastore.get(clefDatastore);
 
 				// on met dans SessionBean
@@ -247,7 +247,7 @@ public class LoginModel {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Key clefDatastore = KeyFactory.createKey("DraftRound", poolID);
 		try {
-			// si existe, aucun EntityNotFoundException, donc on recup�re
+			// si existe, aucun EntityNotFoundException, donc on recupere
 			// l'info pour tester password
 			Entity mEntity = datastore.get(clefDatastore);
 
@@ -324,7 +324,7 @@ public class LoginModel {
 			Key clefDatastore = KeyFactory.createKey("Attaquant", datastoreId);
 			try {
 				// si existe, aucun EntityNotFoundException, donc on
-				// recup�re l'info pour tester password
+				// recupere l'info pour tester password
 				Entity mEntity = datastore.get(clefDatastore);
 
 				// on met dans SessionBean
@@ -360,7 +360,7 @@ public class LoginModel {
 			Key clefDatastore = KeyFactory.createKey("Defenseur", datastoreId);
 			try {
 				// si existe, aucun EntityNotFoundException, donc on
-				// recup�re l'info pour tester password
+				// recupere l'info pour tester password
 				Entity mEntity = datastore.get(clefDatastore);
 
 				// on met dans SessionBean
@@ -396,7 +396,7 @@ public class LoginModel {
 			Key clefDatastore = KeyFactory.createKey("Gardien", datastoreId);
 			try {
 				// si existe, aucun EntityNotFoundException, donc on
-				// recup�re l'info pour tester password
+				// recupere l'info pour tester password
 				Entity mEntity = datastore.get(clefDatastore);
 
 				// on met dans SessionBean
@@ -432,7 +432,7 @@ public class LoginModel {
 			Key clefDatastore = KeyFactory.createKey("Recrue", datastoreId);
 			try {
 				// si existe, aucun EntityNotFoundException, donc on
-				// recup�re l'info pour tester password
+				// recupere l'info pour tester password
 				Entity mEntity = datastore.get(clefDatastore);
 
 				// on met dans SessionBean

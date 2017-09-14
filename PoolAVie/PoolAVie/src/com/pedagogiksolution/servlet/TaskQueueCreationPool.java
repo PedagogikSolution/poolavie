@@ -20,7 +20,7 @@ public class TaskQueueCreationPool extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-	/* Récupération d'une instance de notre DAO Utilisateur */
+	/* Recuperation d'une instance de notre DAO Utilisateur */
 	this.draftPickDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftPickDao();
 	this.playerDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getPlayersDao();
 

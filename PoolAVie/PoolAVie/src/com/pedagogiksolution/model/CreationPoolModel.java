@@ -64,7 +64,7 @@ public class CreationPoolModel {
 
 	public Boolean validationFormulaireCreation(HttpServletRequest req) {
 
-		// TODO v�rifier si les courriels sont REGEX validate et retourner message
+		// TODO verifier si les courriels sont REGEX validate et retourner message
 		// d'erreur mais avec informations
 		// encore bonne re-afficher
 
@@ -101,7 +101,7 @@ public class CreationPoolModel {
 		String fourthYear = (yearInt + 3) + "-" + (yearInt + 4);
 		String fifthYear = (yearInt + 4) + "-" + (yearInt + 5);
 
-		// on cr�e le beans avec le processus JPA qui va cr�er le datastore en m�me
+		// on cree le beans avec le processus JPA qui va creer le datastore en meme
 		// temps
 
 		// instanciation du bean Utilisateur
@@ -167,7 +167,7 @@ public class CreationPoolModel {
 
 		for (int i = 1; i < (Integer.parseInt(nombreEquipe) + 1); i++) {
 
-			// on cr�e le beans avec le processus JPA qui va cr�er le datastore en m�me
+			// on cree le beans avec le processus JPA qui va creer le datastore en meme
 			// temps
 
 			// instanciation du bean Utilisateur
@@ -333,12 +333,12 @@ public class CreationPoolModel {
 				MimeMessage msg = new MimeMessage(session);
 				msg.setFrom(new InternetAddress("pedagogiksolution@gmail.com", "Poolavie.ca"));
 				msg.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(courriel));
-				msg.setSubject("Invitation pour un Pool � vie", "utf-8");
+				msg.setSubject("Invitation pour un Pool à vie", "utf-8");
 				msg.setContent(
-						"Bonjour, un de vos amis vous invite � participer � un pool de hockey sur la plateforme de www.poolavie.ca."
-								+ "\n\n Vous pouvez d�s maintenant aller cr�er les bases de votre �quipe en suivant le lien ci-bas."
+						"Bonjour, un de vos amis vous invite à participer à un pool de hockey sur la plateforme de www.poolavie.ca."
+								+ "\n\n Vous pouvez dès maintenant aller créer les bases de votre équipe en suivant le lien ci-bas."
 								+ "\n\n <a href='http://www.poolavie.ca/CreationDirecteurGeneral?po=" + poolId + "&pl="
-								+ playerId + "&co=" + code + "&fo=1'>Cr�er mon �quipe</a>",
+								+ playerId + "&co=" + code + "&fo=1'>Créer mon équipe</a>",
 						"text/html");
 				Transport.send(msg);
 			} catch (AddressException e) {
@@ -355,27 +355,27 @@ public class CreationPoolModel {
 
 	public void createDatabase(HttpServletRequest req) {
 
-		// on r�cup�re le nom du team
+		// on recupere le nom du team
 		nomDuTeam = req.getParameter("nomDuTeam");
-		// on r�cup�re le numero du Pool et de l'�quipe
+		// on recupere le numero du Pool et de l'equipe
 		Utilisateur mBean = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 		int poolID = mBean.getPoolId();
 		int teamID = mBean.getTeamId();
-		// on trouve la date de l'ann�e
+		// on trouve la date de l'annee
 		// TODO rendre dynamique
 		int years = 2017;
 
-		// on recupere le nombre d'�quipe et le nombre de joueurs par �quipe
+		// on recupere le nombre d'equipe et le nombre de joueurs par equipe
 		nombreEquipe = req.getParameter("nombreEquipe");
 		int numTeam = Integer.parseInt(nombreEquipe);
 		int numPickByTeam = 30;
 
-		// on cr�e les bases de donn�e classement et ins�re la ligne
+		// on cree les bases de donnee classement et insere la ligne
 		classementDao.createClassementTable(poolID);
 		classementDao.createClassementArchiveTable(poolID);
 		classementDao.insertTeamInClassement(nomDuTeam, teamID, poolID, years);
 
-		// on cr�e les bases de donn�e player
+		// on cree les bases de donnee player
 		playersDao.createPlayersTable(poolID);
 		playersDao.createPlayersArchiveTable(poolID);
 		
@@ -492,7 +492,7 @@ public class CreationPoolModel {
 
 	}
 
-	// TODO methode priv�e pour g�n�rer un code alphanum�rique de 8 carateres
+	// TODO methode privee pour generer un code alphanumerique de 8 carateres
 	private String generateValidationCode() {
 
 		// genere un code si reussi, return le code, sinon retourne null

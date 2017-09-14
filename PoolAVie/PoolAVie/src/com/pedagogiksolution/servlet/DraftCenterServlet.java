@@ -20,7 +20,15 @@ public class DraftCenterServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
+    	LoginModel mModel2 = new LoginModel(req);
+	    mModel2.createSessionEquipeBean();
+	    mModel2.createSessionAttaquantBean();
+	    mModel2.createSessionDefenseurBean();
+	    mModel2.createSessionGardienBean();
+	    mModel2.createSessionRecrueBean();
+	    mModel2.createSessionDraftPickBean();
+	    mModel2.createSessionDraftRoundBean();
+	    mModel2.createSessionPoolBean();
 	
 	Pool mBean = (Pool) req.getSession().getAttribute("Pool");
 	int cycleAnnuel = mBean.getCycleAnnuel();
@@ -32,17 +40,10 @@ public class DraftCenterServlet extends HttpServlet {
 	    
 	}
 	
-	    LoginModel mModel = new LoginModel(req);
-	    mModel.createSessionEquipeBean();
-	    mModel.createSessionAttaquantBean();
-	    mModel.createSessionDefenseurBean();
-	    mModel.createSessionGardienBean();
-	    mModel.createSessionRecrueBean();
-	    mModel.createSessionDraftPickBean();
-	    mModel.createSessionDraftRoundBean();
+	   
 	
 	
-	if(cycleAnnuel>=2){
+	if(cycleAnnuel>=1){
 	    	EquipeModel mModelEquipe = new EquipeModel();
 	    	mModelEquipe.getBeanByTeam(req);
 	}

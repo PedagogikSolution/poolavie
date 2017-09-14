@@ -381,7 +381,7 @@ public class PlayersDaoImpl implements PlayersDao {
 				mBeanA.setYears_4(years_4);
 				mBeanA.setYears_5(years_5);
 
-				// on cr�e le beans avec le processus JPA qui va cr�er le datastore en m�me
+				// on cree le beans avec le processus JPA qui va creer le datastore en meme
 				// temps
 
 				Entity mEntity = mBeanA.mapBeanToEntityForDatastore(mBeanA, mBeanA.getPoolTeamId());
@@ -415,7 +415,7 @@ public class PlayersDaoImpl implements PlayersDao {
 				mBeanD.setYears_4(years_4);
 				mBeanD.setYears_5(years_5);
 
-				// on cr�e le beans avec le processus JPA qui va cr�er le datastore en m�me
+				// on cree le beans avec le processus JPA qui va creer le datastore en meme
 				// temps
 
 				datastore = DatastoreServiceFactory.getDatastoreService();
@@ -450,7 +450,7 @@ public class PlayersDaoImpl implements PlayersDao {
 				mBeanG.setYears_4(years_4);
 				mBeanG.setYears_5(years_5);
 
-				// on cr�e le beans avec le processus JPA qui va cr�er le datastore en m�me
+				// on cree le beans avec le processus JPA qui va creer le datastore en meme
 				// temps
 
 				datastore = DatastoreServiceFactory.getDatastoreService();
@@ -488,7 +488,7 @@ public class PlayersDaoImpl implements PlayersDao {
 			mBeanR.setYears_4(years_4);
 			mBeanR.setYears_5(years_5);
 
-			// on cr�e le beans avec le processus JPA qui va cr�er le datastore en m�me
+			// on cree le beans avec le processus JPA qui va creer le datastore en meme
 			// temps
 
 			datastore = DatastoreServiceFactory.getDatastoreService();

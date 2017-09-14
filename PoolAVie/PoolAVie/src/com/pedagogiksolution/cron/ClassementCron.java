@@ -31,7 +31,7 @@ public class ClassementCron extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-	/* Récupération d'une instance de notre DAO Utilisateur */
+	/* Recuperation d'une instance de notre DAO Utilisateur */
 	this.classementDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getClassementDao();
 	this.playersDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getPlayersDao();
 
@@ -39,7 +39,7 @@ public class ClassementCron extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	// initilisation du métier
+	// initilisation du metier
 	ClassementCronModel mModel = new ClassementCronModel(classementDao,playersDao);
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	int numberOfPool = mModel.getNumberOfPool();
@@ -55,7 +55,7 @@ public class ClassementCron extends HttpServlet {
 		    entity = datastore.get(key);
 		    Long cycleAnnuel = (Long) entity.getProperty("cycleAnnuel");
 		    Long numberTeam = (Long) entity.getProperty("numberTeam");
-		    if(cycleAnnuel>3){
+		    if(cycleAnnuel==5||cycleAnnuel==6){
 			mModel.updateClassement(i,numberTeam);
 			}
 		} catch (EntityNotFoundException e) {

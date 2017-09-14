@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.pedagogiksolution.cron.model.PlayersCronModel;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.DraftPlayersModel;
+import com.pedagogiksolution.model.LoginModel;
 
 public class DraftPlayersServlet extends HttpServlet {
 
@@ -20,7 +21,15 @@ public class DraftPlayersServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		LoginModel mModel2 = new LoginModel(req);
+	    mModel2.createSessionEquipeBean();
+	    mModel2.createSessionAttaquantBean();
+	    mModel2.createSessionDefenseurBean();
+	    mModel2.createSessionGardienBean();
+	    mModel2.createSessionRecrueBean();
+	    mModel2.createSessionDraftPickBean();
+	    mModel2.createSessionDraftRoundBean();
+	    mModel2.createSessionPoolBean();
 		String segment = req.getParameter("seg");
 		String sort = req.getParameter("sort");
 		if(segment==null){

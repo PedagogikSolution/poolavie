@@ -20,6 +20,15 @@ public class ClassementServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    	LoginModel mModel2 = new LoginModel(req);
+	    mModel2.createSessionEquipeBean();
+	    mModel2.createSessionAttaquantBean();
+	    mModel2.createSessionDefenseurBean();
+	    mModel2.createSessionGardienBean();
+	    mModel2.createSessionRecrueBean();
+	    mModel2.createSessionDraftPickBean();
+	    mModel2.createSessionDraftRoundBean();
+	    mModel2.createSessionPoolBean();
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 	int cycleAnnuel = mBeanPool.getCycleAnnuel();
 	if (cycleAnnuel == 3) {
@@ -27,24 +36,8 @@ public class ClassementServlet extends HttpServlet {
 	    DraftPlayersModel mModelDraft = new DraftPlayersModel();	    	   
 	    mModelDraft.putDatastoreIntoBean(mBeanPool,req);
 	}
-	// permet un update instantanné si un joueur est connecté et qu'il refresh ou renavigue sur cette page avant la création de tout les équipes
-	if (cycleAnnuel < 3) {
-   	    
-	   LoginModel mModel = new LoginModel(req);
-	   mModel.createSessionClassementBean();
-	}
-	
-	if (cycleAnnuel == 6||cycleAnnuel == 5) {  
-	    LoginModel mModel = new LoginModel(req);
-	    mModel.createSessionEquipeBean();
-	    mModel.createSessionAttaquantBean();
-	    mModel.createSessionDefenseurBean();
-	    mModel.createSessionGardienBean();
-	    mModel.createSessionRecrueBean();
-	    mModel.createSessionDraftPickBean();
-	    mModel.createSessionClassementBean();
-	    
-	}
+	// permet un update instantanne si un joueur est connecte et qu'il refresh ou renavigue sur cette page avant la creation de tout les equipes
+
 	
 	
 	

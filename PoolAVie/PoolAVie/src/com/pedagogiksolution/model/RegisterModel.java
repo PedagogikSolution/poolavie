@@ -36,11 +36,11 @@ import com.pedagogiksolution.utils.PasswordEncryption;
 
 public class RegisterModel {
 
-    // methode qui �value les parametre recu via le formulaire et qui retourne un message d'erreur appropri� si vide,
+    // methode qui evalue les parametre recu via le formulaire et qui retourne un message d'erreur approprie si vide,
     // null ou pas valide
     public boolean validationParametre(String nomUtilisateur, String motDePasse, String courriel, HttpServletRequest req) {
 	
-	// code temporaire pour emp�cher la cr�ation de nouveau pool (� retirer lorsque commercialis� et r�-activer le code ci-bas)
+	// code temporaire pour empecher la creation de nouveau pool (e retirer lorsque commercialise et re-activer le code ci-bas)
 	if (courriel.equalsIgnoreCase("info@poolavie.ca")){
 	    return false;
 	} else {
@@ -62,7 +62,7 @@ public class RegisterModel {
 
 	// TODO voir TRELLO pour validation REGEX
 
-	// si pas de validation n�gative, on retourne false et on continu le processus de registration
+	// si pas de validation negative, on retourne false et on continu le processus de registration
 	return false;
 	*/
 
@@ -80,7 +80,7 @@ public class RegisterModel {
 
 	// TODO voir TRELLO pour validation REGEX
 
-	// si pas de validation n�gative, on retourne false et on continu le processus de registration
+	// si pas de validation negative, on retourne false et on continu le processus de registration
 	return true;
 
     }
@@ -129,7 +129,7 @@ public class RegisterModel {
 
 	if ((motDePasseEncrypter != null && !motDePasseEncrypter.isEmpty())) {
 	    int poolId;
-	    // g�n�ration d'un Code de Validation
+	    // generation d'un Code de Validation
 	    String validationCode = generateValidationCode();
 
 	    // on appel le service
@@ -155,7 +155,7 @@ public class RegisterModel {
 	    Date date = new Date();
 	    String dateCreation = dateFormat.format(date);
 
-	    // on cr�e le beans avec le processus JPA qui va cr�er le datastore en m�me temps
+	    // on cree le beans avec le processus JPA qui va creer le datastore en meme temps
 	    
 		
 		// instanciation du bean Utilisateur
@@ -215,7 +215,7 @@ public class RegisterModel {
 
     }
 
-    // TODO methode priv�e pour g�n�rer un code alphanum�rique de 8 carateres
+    // TODO methode privee pour generer un code alphanumerique de 8 carateres
     private String generateValidationCode() {
 
 	// genere un code si reussi, return le code, sinon retourne null
@@ -242,7 +242,7 @@ public class RegisterModel {
 	    msg.setFrom(new InternetAddress("pedagogiksolution@gmail.com", "Poolavie.ca"));
 	    msg.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(courriel));
 	    msg.setSubject("Validez votre compte", "utf-8");
-	    msg.setContent("Bonjour, pour valider votre compte veuillez entrer le code suivant : "+code+".\n\n Si vous n'�tes plus sur la page de validation, vous pouvez la retrouver en vous connectant sur la page principale pour terminer votre inscription", "text/html");
+	    msg.setContent("Bonjour, pour valider votre compte veuillez entrer le code suivant : "+code+".\n\n Si vous n'êtes plus sur la page de validation, vous pouvez la retrouver en vous connectant sur la page principale pour terminer votre inscription", "text/html");
 	    Transport.send(msg);
 	} catch (AddressException e) {
 	    // ...
@@ -266,7 +266,7 @@ public class RegisterModel {
 
 	// TODO voir TRELLO pour validation REGEX
 
-	// si pas de validation n�gative, on retourne false et on continu le processus de registration
+	// si pas de validation negative, on retourne false et on continu le processus de registration
 	return true;
     }
 

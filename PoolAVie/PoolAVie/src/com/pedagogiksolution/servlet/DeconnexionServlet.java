@@ -26,11 +26,17 @@ public class DeconnexionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    	
+    
 	String nomProperty = null;
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 	
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+	
+	if(mBeanPool==null) {
+		return;
+	}
 	String poolID = mBeanPool.getPoolID();
 	int teamId = mBeanUser.getTeamId();
 	String teamID = String.valueOf(teamId);
