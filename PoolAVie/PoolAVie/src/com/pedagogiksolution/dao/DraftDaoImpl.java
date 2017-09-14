@@ -685,7 +685,7 @@ public class DraftDaoImpl implements DraftDao {
 		PreparedStatement preparedStatement = null;
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = initialisationRequetePreparee(connexion, DELETE_PICK_WHEN_DRAFT_FINISH, false, poolID,
+			preparedStatement = initialisationRequetePreparee(connexion, DELETE_PICK_WHEN_DRAFT_FINISH, false, Integer.parseInt(poolID),
 					teamID);
 			preparedStatement.execute();
 
@@ -698,7 +698,7 @@ public class DraftDaoImpl implements DraftDao {
 		ResultSet rs=null;
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = initialisationRequetePreparee(connexion, GET_PICK_RESTANT, false, poolID);
+			preparedStatement = initialisationRequetePreparee(connexion, GET_PICK_RESTANT, false, Integer.parseInt(poolID));
 			rs = preparedStatement.executeQuery();
 
 			int counter = 0;
@@ -709,7 +709,7 @@ public class DraftDaoImpl implements DraftDao {
 				counter = draft_pick_no;
 
 				
-				preparedStatement = initialisationRequetePreparee(connexion, RESET_DRAFT_PICK_NO_ORDER, false, poolID,
+				preparedStatement = initialisationRequetePreparee(connexion, RESET_DRAFT_PICK_NO_ORDER, false, Integer.parseInt(poolID),
 						counter, draft_pick_no);
 				preparedStatement.execute();
 
@@ -721,7 +721,7 @@ public class DraftDaoImpl implements DraftDao {
 				int draft_pick_no = rs.getInt("draft_pick_no");
 				counter = counter+1;
 
-				preparedStatement = initialisationRequetePreparee(connexion, RESET_DRAFT_PICK_NO_ORDER, false, poolID,
+				preparedStatement = initialisationRequetePreparee(connexion, RESET_DRAFT_PICK_NO_ORDER, false, Integer.parseInt(poolID),
 						counter, draft_pick_no);
 				preparedStatement.execute();
 			}
