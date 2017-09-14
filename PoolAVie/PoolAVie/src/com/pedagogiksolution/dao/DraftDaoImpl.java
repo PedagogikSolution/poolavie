@@ -695,10 +695,11 @@ public class DraftDaoImpl implements DraftDao {
 			fermeturesSilencieuses(preparedStatement, connexion);
 		}
 
+		ResultSet rs=null;
 		try {
 			connexion = daoFactory.getConnection();
 			preparedStatement = initialisationRequetePreparee(connexion, GET_PICK_RESTANT, false, poolID);
-			ResultSet rs = preparedStatement.executeQuery();
+			rs = preparedStatement.executeQuery();
 
 			int counter = 0;
 
@@ -707,6 +708,7 @@ public class DraftDaoImpl implements DraftDao {
 				int draft_pick_no = rs.getInt("draft_pick_no");
 				counter = draft_pick_no;
 
+				
 				preparedStatement = initialisationRequetePreparee(connexion, RESET_DRAFT_PICK_NO_ORDER, false, poolID,
 						counter, draft_pick_no);
 				preparedStatement.execute();
@@ -727,8 +729,10 @@ public class DraftDaoImpl implements DraftDao {
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
-			fermeturesSilencieuses(preparedStatement, connexion);
+			fermeturesSilencieuses(rs,preparedStatement, connexion);
 		}
+		
+		putDatabaseInDatastore(poolID);
 
 	}
 

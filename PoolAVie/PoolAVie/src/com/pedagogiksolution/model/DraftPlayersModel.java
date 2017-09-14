@@ -1239,6 +1239,8 @@ public class DraftPlayersModel {
 			draftDao.deleteDraftPickWhenFinishPicking(poolID,teamID);
 			
 			
+			
+			
 			return true;
 		} else {
 			return false;
