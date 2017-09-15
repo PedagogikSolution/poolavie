@@ -56,7 +56,7 @@ public class ClassementCron extends HttpServlet {
 		    Long cycleAnnuel = (Long) entity.getProperty("cycleAnnuel");
 		    Long numberTeam = (Long) entity.getProperty("numberTeam");
 		    if(cycleAnnuel==5||cycleAnnuel==6){
-			mModel.updateClassement(i,numberTeam);
+			mModel.updateClassement(i,numberTeam,cycleAnnuel);
 			}
 		} catch (EntityNotFoundException e) {
 		    // TODO Auto-generated catch block

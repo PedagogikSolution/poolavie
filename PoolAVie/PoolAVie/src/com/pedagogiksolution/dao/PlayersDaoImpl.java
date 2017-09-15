@@ -92,7 +92,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String MIGRATE_PTS_FOR_YEARS_AGO_2 = "UPDATE players_? SET pj_1_years_ago=pj,pts_1_years_ago=pts ";
 	private static final String MOVE_YEARS_TO_YEARS = "UPDATE players_? SET years_0=years_1,years_1=years_2,years_2=years_3,years_3=years_4,years_4=years_5,years_5='X'";
 	private static final String SET_TAKE_PROJ_0 = "UPDATE players_? SET take_proj=0";
-	private static final String UPDATE_YEARS_TO_YEARS = "UPDATE players_? SET years_0=0,years_1=0,years_2=0,years_3=0,years_4=0,years_5=0,contrat=0,club_ecole=0 WHERE years_1='JA' OR years_1='X'";
+	private static final String UPDATE_YEARS_TO_YEARS = "UPDATE players_? SET team_id=null,years_0=0,years_1=0,years_2=0,years_3=0,years_4=0,years_5=0,contrat=0,club_ecole=0 WHERE years_1='JA' OR years_1='X'";
 	private static final String SET_SALAIRE_ATTAQUANT = "UPDATE players_? AS p INNER JOIN salaire? AS s ON p.pts=s.points SET p.salaire_draft = s.salaire"
 			+ " WHERE s.position=1 AND p.position='attaquant' AND take_proj=0";
 	private static final String SET_SALAIRE_DEFENSEUR = "UPDATE players_? AS p INNER JOIN salaire? AS s ON p.pts=s.points SET p.salaire_draft = s.salaire"
@@ -109,7 +109,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String GET_NB_ATTAQUANT = "SELECT COUNT(_id) FROM players_? WHERE years_1>1 AND team_id=? AND position='attaquant' AND club_ecole=0";
 	private static final String GET_NB_DEFENSEUR = "SELECT COUNT(_id) FROM players_? WHERE years_1>1 AND team_id=? AND position='defenseur' AND club_ecole=0";
 	private static final String GET_NB_GARDIEN = "SELECT COUNT(_id) FROM players_? WHERE years_1>1 AND team_id=? AND position='gardien' AND club_ecole=0";
-	private static final String GET_NB_ROOKIE = "SELECT COUNT(_id) FROM players_? WHERE years_1>1 AND team_id=? AND club_ecole=1";
+	private static final String GET_NB_ROOKIE = "SELECT COUNT(_id) FROM players_? WHERE team_id=? AND club_ecole=1";
 	private static final String GET_NB_CONTRAT = "SELECT COUNT(_id) FROM players_? WHERE years_1>1 AND team_id=? AND club_ecole=0";
 	private static final String GET_TOTAL_SALAIRE_NOW = "SELECT sum(years_1) FROM players_? WHERE years_1>1 AND team_id=? AND club_ecole=0";
 	private static final String GET_PLAYERS_FOR_SIGNATURE_AFTER_SEASON = "SELECT * FROM players_? WHERE team_id=? AND club_ecole=0 AND (years_1='A' OR years_1='B')";
@@ -130,7 +130,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String UPDATE_C_AFTER_RETRO_2 = "UPDATE players_? SET years_4=?,years_5=? WHERE _id=?";
 	private static final String UPDATE_C_AFTER_RETRO_3 = "UPDATE players_? SET years_5=? WHERE _id=?";
 	private static final String UPDATE_C_AFTER_RETRO_0 = "UPDATE players_? SET years_2=?,years_3=?,years_4=?,years_5=? WHERE _id=?";
-	private static final String RESET_STATS_TO_ZERO = "UPDATE players_? SET pj=0,but_victoire=0,aide_overtime=0,blanchissage=0,pts=0";
+	private static final String RESET_STATS_TO_ZERO = "UPDATE players_? SET pj=0,but_victoire=0,aide_overtime=0,blanchissage=0,pts=0,year_for_draft=?";
 
 	private DAOFactory daoFactory;
 
@@ -1951,6 +1951,10 @@ public class PlayersDaoImpl implements PlayersDao {
 
 			/***********   ************/
 
+			if (bYears1 && !bYears2 && !bYears3 && !bYears4 && !bYears5) {
+				coutDuRachat = (iYears1 ) / 2;
+			}
+			
 			if (bYears1 && bYears2 && !bYears3 && !bYears4 && !bYears5) {
 				coutDuRachat = (iYears1 + iYears2) / 2;
 			}
@@ -2965,21 +2969,21 @@ public class PlayersDaoImpl implements PlayersDao {
 
 				if (years_2.equalsIgnoreCase("X")) {
 
-					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false, poolID,
+					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false, Integer.parseInt(poolID),
 							salaire, "X", "X", "X", "X", players_id);
 					preparedStatement.execute();
 				} else if (years_3.equalsIgnoreCase("X")) {
-					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false, poolID,
+					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false, Integer.parseInt(poolID),
 							salaire, salaire, "X", "X", "X", players_id);
 					preparedStatement.execute();
 
 				} else if (years_4.equalsIgnoreCase("X")) {
-					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false, poolID,
+					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false, Integer.parseInt(poolID),
 							salaire, salaire, salaire, "X", "X", players_id);
 					preparedStatement.execute();
 
 				} else if (years_5.equalsIgnoreCase("X")) {
-					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false, poolID,
+					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false, Integer.parseInt(poolID),
 							salaire, salaire, salaire, salaire, players_id, "X");
 					preparedStatement.execute();
 
@@ -3276,7 +3280,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	}
 
 	@Override
-	public void resetStatsToZeroForNewYear(String poolID) {
+	public void resetStatsToZeroForNewYear(String poolID,String years_for_archive) {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 
@@ -3284,7 +3288,7 @@ public class PlayersDaoImpl implements PlayersDao {
 			connexion = daoFactory.getConnection();
 
 			preparedStatement = initialisationRequetePreparee(connexion, RESET_STATS_TO_ZERO, false,
-					Integer.parseInt(poolID));
+					Integer.parseInt(poolID),Integer.parseInt(years_for_archive));
 
 			preparedStatement.executeUpdate();
 

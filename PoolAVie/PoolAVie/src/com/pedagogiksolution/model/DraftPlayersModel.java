@@ -1235,16 +1235,23 @@ public class DraftPlayersModel {
 		if (manquant_equipe == 0 && manquant_recrue == 0) {
 			
 			// on retire les pick restant du DraftRound
+			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+			Key mKey = KeyFactory.createKey("DraftProcess", poolID);
+			String currentPick = null;
+			Entity mEntity;
+			try {
+				mEntity = datastore.get(mKey);
+				Long currentPickL = (Long) mEntity.getProperty("currentPick");
+				currentPick = currentPickL.toString();
+			} catch (EntityNotFoundException e) {
+				e.printStackTrace();
+			}
+			
+			
 			
 			Queue queue = QueueFactory.getDefaultQueue();
-			queue.add(
-					TaskOptions.Builder.withUrl("/TaskQueueFinDraft").param("poolID", poolID).param("teamID", teamID));
-			
-			
-			
-			
-			
-			
+			queue.add(TaskOptions.Builder.withUrl("/TaskQueueFinDraft").param("poolID", poolID).param("teamID", teamID).param("currentPick", currentPick));
+		
 			return true;
 		} else {
 			return false;
@@ -1276,8 +1283,6 @@ public class DraftPlayersModel {
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		String poolID = mBeanPool.getPoolID();
 		int numberOfTeam = mBeanPool.getNumberTeam();
-		int total_numbe_of_pick_for_this_draft = 0;
-		Key mKey = KeyFactory.createKey("DraftProcess", poolID);
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		
 		for(int i=1;i<numberOfTeam+1;i++) {
@@ -1290,7 +1295,12 @@ public class DraftPlayersModel {
 				mEquipe = datastore.get(mKeyEquipe);
 				Long manquant_recrueL = (Long) mEquipe.getProperty("manquant_recrue");
 				Long manquant_equipeL = (Long) mEquipe.getProperty("manquant_equipe");
-				total_numbe_of_pick_for_this_draft= total_numbe_of_pick_for_this_draft+manquant_recrueL.intValue()+manquant_equipeL.intValue();
+				int checkIfFinish= manquant_recrueL.intValue()+manquant_equipeL.intValue();
+				if(checkIfFinish==0) {
+					
+				} else {
+					return false;
+				}
 			} catch (EntityNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -1300,19 +1310,7 @@ public class DraftPlayersModel {
 		}
 		
 				
-		try {
-			Entity mEntity = datastore.get(mKey);
-			Long currentPickL = (Long) mEntity.getProperty("currentPick");
-			int currentPick = currentPickL.intValue();
-			if(currentPick==total_numbe_of_pick_for_this_draft) {
-				return true;
-			} 
-			
-		} catch (EntityNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return false;
+		return true;
 	}
 
 	public void changeCycleAnnuelToSignature4() {

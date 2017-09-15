@@ -26,7 +26,7 @@ public class DraftDaoImpl implements DraftDao {
 	private static final String CREATE_DRAFT_ARCHIVES = "CREATE TABLE draft_archive_? LIKE draft";
 	private static final String INSERT_DRAFT_FIRST_YEAR = "INSERT INTO draft? (draft_pick_no,team_id,ronde,team_count,pool_id,follow_up,year_of_draft,equipe,from_who,team_id_from) VALUE(?,?,?,?,?,?,?,?,?,?)";
 	private static final String GET_DRAFT_ROUND_ORDER = "SELECT * FROM draft? ORDER BY draft_pick_no ASC";
-	private static final String UPDATE_DRAFT_ROUND_AFTER_DRAFT_PICK = "UPDATE draft? SET player_drafted=? WHERE _id=?";
+	private static final String UPDATE_DRAFT_ROUND_AFTER_DRAFT_PICK = "UPDATE draft? SET player_drafted=? WHERE draft_pick_no=?";
 	private static final String ARCHIVE_DRAFT_LAST_YEAR = "INSERT INTO draft_archive_? (`draft_pick_no`,`ronde`,`equipe`,`team_id`,`from_who`,`team_id_from`,`team_count`,`follow_up`,`player_drafted`,`year_of_draft`,`pool_id`) SELECT draft_pick_no,ronde,equipe,team_id,from_who,team_id_from,team_count,follow_up,player_drafted,year_of_draft,pool_id FROM draft?";
 
 	private static final String RESET_FOR_NEW_YEARS = "UPDATE draft? SET equipe=null,team_id=null,from_who=null,team_id_from=null,team_count=null,follow_up=0,player_drafted=null,year_of_draft=?";
@@ -35,7 +35,7 @@ public class DraftDaoImpl implements DraftDao {
 	private static final String UPDATE_TEAM_NAME = "UPDATE draft? SET equipe=? WHERE team_id=?";
 	private static final String GET_ROUND_BY_ID = "SELECT * FROM draft? WHERE draft_pick_no=?";
 	private static final String MAKE_TRADE_DURING_DRAFT = "UPDATE draft? SET from_who=equipe,team_id_from=team_id,team_id=?,equipe=? WHERE draft_pick_no=?";
-	private static final String DELETE_PICK_WHEN_DRAFT_FINISH = "DELETE FROM draft? WHERE team_id=? AND player_drafted IS NULL";
+	private static final String DELETE_PICK_WHEN_DRAFT_FINISH = "DELETE FROM draft? WHERE team_id=? AND draft_pick_no>?";
 	private static final String GET_PICK_RESTANT = "SELECT * FROM draft? WHERE player_drafted IS NULL ORDER BY _id ASC";
 	private static final String RESET_DRAFT_PICK_NO_ORDER = "UPDATE draft? SET draft_pick_no=? WHERE draft_pick_no=?";
 
@@ -680,13 +680,13 @@ public class DraftDaoImpl implements DraftDao {
 	}
 
 	@Override
-	public void deleteDraftPickWhenFinishPicking(String poolID, String teamID) throws DAOException {
+	public void deleteDraftPickWhenFinishPicking(String poolID, String teamID,String currentPick) throws DAOException {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		try {
 			connexion = daoFactory.getConnection();
 			preparedStatement = initialisationRequetePreparee(connexion, DELETE_PICK_WHEN_DRAFT_FINISH, false, Integer.parseInt(poolID),
-					teamID);
+					teamID,currentPick);
 			preparedStatement.execute();
 
 		} catch (SQLException e) {
@@ -703,7 +703,7 @@ public class DraftDaoImpl implements DraftDao {
 
 			int counter = 0;
 
-			while (rs.next()) {
+			if(rs.next()) {
 
 				int draft_pick_no = rs.getInt("draft_pick_no");
 				counter = draft_pick_no;
@@ -713,8 +713,7 @@ public class DraftDaoImpl implements DraftDao {
 						counter, draft_pick_no);
 				preparedStatement.execute();
 
-				return;
-
+				
 			}
 
 			while (rs.next()) {

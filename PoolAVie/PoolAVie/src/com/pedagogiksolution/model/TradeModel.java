@@ -911,28 +911,41 @@ public class TradeModel {
 
 		if (mBeanPool.getCycleAnnuel() == 3) {
 
-			if ((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer
-					+ argent_recu_make_offer + cashIncludeTeamThatMakeOfferInt - cashIncludeThatReceiveOfferInt)
-					/ (mBeanEquipeThatIsMakingOffer.getManquant_equipe() + nbPlayersTeamMakingOffer
-							- nbPlayersTeamReceivingOffer) < 1000000) {
+			if ((mBeanEquipeThatIsMakingOffer.getManquant_equipe() + nbPlayersTeamMakingOffer
+					- nbPlayersTeamReceivingOffer) == 0) {
 
-				mBeanMessageErreur
-						.setErreurTrade("Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 3.1");
-				req.setAttribute("messageErreur", mBeanMessageErreur);
-				return false;
+			} else {
+
+				if ((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer
+						+ argent_recu_make_offer + cashIncludeTeamThatMakeOfferInt - cashIncludeThatReceiveOfferInt)
+						/ (mBeanEquipeThatIsMakingOffer.getManquant_equipe() + nbPlayersTeamMakingOffer
+								- nbPlayersTeamReceivingOffer) < 1000000) {
+
+					mBeanMessageErreur.setErreurTrade(
+							"Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 3.1");
+					req.setAttribute("messageErreur", mBeanMessageErreur);
+					return false;
+
+				}
 
 			}
 
-			if ((budget_restant_received_offer - total_salaire_team_making_offer + total_salaire_team_receiving_offer
-					+ argent_recu_rec_offer + cashIncludeThatReceiveOfferInt - cashIncludeTeamThatMakeOfferInt)
-					/ (mBeanEquipeThatIsReceivingOffer.getManquant_equipe() - nbPlayersTeamMakingOffer
-							+ nbPlayersTeamReceivingOffer) < 1000000) {
+			if ((mBeanEquipeThatIsReceivingOffer.getManquant_equipe() - nbPlayersTeamMakingOffer
+					+ nbPlayersTeamReceivingOffer) == 0) {
 
-				mBeanMessageErreur.setErreurTrade(
-						"La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 3.1");
-				req.setAttribute("messageErreur", mBeanMessageErreur);
-				return false;
+			} else {
+				if ((budget_restant_received_offer - total_salaire_team_making_offer
+						+ total_salaire_team_receiving_offer + argent_recu_rec_offer + cashIncludeThatReceiveOfferInt
+						- cashIncludeTeamThatMakeOfferInt)
+						/ (mBeanEquipeThatIsReceivingOffer.getManquant_equipe() - nbPlayersTeamMakingOffer
+								+ nbPlayersTeamReceivingOffer) < 1000000) {
 
+					mBeanMessageErreur.setErreurTrade(
+							"La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 3.1");
+					req.setAttribute("messageErreur", mBeanMessageErreur);
+					return false;
+
+				}
 			}
 
 		}
@@ -1841,13 +1854,13 @@ public class TradeModel {
 			int nb_recrue_donner = mBeanEquipeThatIsMakingOffer.getNb_rookie();
 			int nb_recrue_recu = mBeanEquipeThatIsReceivingOffer.getNb_rookie();
 
-			if (nbRookieTeamMakingOffer - nb_recrue_donner + nb_recrue_recu > 8) {
+			if (nb_recrue_recu + nbRookieTeamMakingOffer - nbRookieTeamReceivingOffer > 8) {
 				mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas avoir plus de 8 recrues");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 
 			}
-			if (nbRookieTeamReceivingOffer + nb_recrue_donner - nb_recrue_recu > 8) {
+			if (nb_recrue_donner - nbRookieTeamMakingOffer + nbRookieTeamReceivingOffer > 8) {
 				mBeanMessageErreur.setErreurTrade("L'autre équipe ne peut pas avoir plus de 8 recrues");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
@@ -1875,34 +1888,9 @@ public class TradeModel {
 		}
 
 		// check si budget pour abosrber la transaction
-
-		if ((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer
-				+ argent_recu_rec_offer + cashIncludeTeamThatMakeOfferInt - cashIncludeThatReceiveOfferInt) < 0) {
-
-			mBeanMessageErreur
-					.setErreurTrade("Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 3.1");
-			req.setAttribute("messageErreur", mBeanMessageErreur);
-			return false;
-
-		}
-
-		if ((budget_restant_received_offer - total_salaire_team_making_offer + total_salaire_team_receiving_offer
-				+ argent_recu_make_offer + cashIncludeThatReceiveOfferInt - cashIncludeTeamThatMakeOfferInt) < 0) {
-
-			mBeanMessageErreur.setErreurTrade(
-					"La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 3.1");
-			req.setAttribute("messageErreur", mBeanMessageErreur);
-			return false;
-
-		}
-
-		// check si moyenne restante toujours bonne lors de draft ou été
-		if (mBeanPool.getCycleAnnuel() == 3) {
-
-			if ((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer
-					+ argent_recu_make_offer + cashIncludeTeamThatMakeOfferInt - cashIncludeThatReceiveOfferInt)
-					/ (mBeanEquipeThatIsMakingOffer.getManquant_equipe() + nbPlayersTeamMakingOffer
-							- nbPlayersTeamReceivingOffer) < 1000000) {
+		
+			if ((budget_restant_received_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer
+					+ argent_recu_rec_offer + cashIncludeTeamThatMakeOfferInt - cashIncludeThatReceiveOfferInt) < 0) {
 
 				mBeanMessageErreur
 						.setErreurTrade("Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 3.1");
@@ -1911,15 +1899,54 @@ public class TradeModel {
 
 			}
 
-			if ((budget_restant_received_offer - total_salaire_team_making_offer + total_salaire_team_receiving_offer
-					+ argent_recu_rec_offer + cashIncludeThatReceiveOfferInt - cashIncludeTeamThatMakeOfferInt)
-					/ (mBeanEquipeThatIsReceivingOffer.getManquant_equipe() - nbPlayersTeamMakingOffer
-							+ nbPlayersTeamReceivingOffer) < 1000000) {
+			if ((budget_restant_make_offer - total_salaire_team_making_offer + total_salaire_team_receiving_offer
+					+ argent_recu_make_offer - cashIncludeTeamThatMakeOfferInt + cashIncludeThatReceiveOfferInt) < 0) {
 
 				mBeanMessageErreur.setErreurTrade(
 						"La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 3.1");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
+
+			}
+		
+
+		// check si moyenne restante toujours bonne lors de draft ou été
+		if (mBeanPool.getCycleAnnuel() == 3) {
+
+			if ((mBeanEquipeThatIsMakingOffer.getManquant_equipe() + nbPlayersTeamMakingOffer
+					- nbPlayersTeamReceivingOffer) == 0) {
+
+			} else {
+
+				if ((budget_restant_received_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer)
+						/ (mBeanEquipeThatIsMakingOffer.getManquant_equipe() + nbPlayersTeamMakingOffer
+								- nbPlayersTeamReceivingOffer) < 1000000) {
+
+					mBeanMessageErreur.setErreurTrade(
+							"Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 3.1");
+					req.setAttribute("messageErreur", mBeanMessageErreur);
+					return false;
+
+				}
+
+			}
+
+			if ((mBeanEquipeThatIsReceivingOffer.getManquant_equipe() - nbPlayersTeamMakingOffer
+					+ nbPlayersTeamReceivingOffer) == 0) {
+
+			} else {
+
+				if ((budget_restant_make_offer - total_salaire_team_making_offer
+						+ total_salaire_team_receiving_offer)
+						/ (mBeanEquipeThatIsReceivingOffer.getManquant_equipe() - nbPlayersTeamMakingOffer
+								+ nbPlayersTeamReceivingOffer) < 1000000) {
+
+					mBeanMessageErreur.setErreurTrade(
+							"La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 3.1");
+					req.setAttribute("messageErreur", mBeanMessageErreur);
+					return false;
+
+				}
 
 			}
 
@@ -2165,10 +2192,10 @@ public class TradeModel {
 		recrue = 1;
 		mModelPlayer.putDatabaseInDatastore(poolId, numberOfTeam, position, recrue, "6");
 		// Classement
-		if (mBeanPool.getCycleAnnuel() == 3||mBeanPool.getCycleAnnuel()==11) {
+		if (mBeanPool.getCycleAnnuel() == 3 || mBeanPool.getCycleAnnuel() == 11) {
 
 		} else {
-			mModelClassement.updateClassementAfterTrade(poolId,numberOfTeam);
+			mModelClassement.updateClassementAfterTrade(poolId, numberOfTeam);
 			mModelClassement.putDatabaseInDatastore(poolId);
 			// DraftPick
 			mModelDraft.putDatabaseInDatastore(poolId, numberOfTeam, "7");

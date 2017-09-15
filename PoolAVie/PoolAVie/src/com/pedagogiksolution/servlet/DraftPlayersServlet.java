@@ -114,6 +114,8 @@ public class DraftPlayersServlet extends HttpServlet {
 				if (checkifDraftFinishForAll) {
 					mModel.changeCycleAnnuelToSignature4();
 					mModel.channelMessage(3);
+					
+					
 				} else {
 					req.getSession().setAttribute("DraftFinish", 1);
 				}

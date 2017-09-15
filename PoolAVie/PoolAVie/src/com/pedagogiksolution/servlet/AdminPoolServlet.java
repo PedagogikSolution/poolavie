@@ -256,6 +256,8 @@ public class AdminPoolServlet extends HttpServlet {
 			mAdminModel = new AdminModel();
 			mAdminModel.addCashForYears(req);
 			mAdminModel.resetPlayersStats(req, playersDao);
+			ClassementCronModel mModelCronClassement = new ClassementCronModel(classementDao, playersDao);
+			mModelCronClassement.putDatabaseInDatastore(Integer.parseInt(poolID));
 			mAdminModel.changeCycleAnnuel(req, 5);
 			Pool mBeanPool2 = (Pool) req.getSession().getAttribute("Pool");
 			String poolID2 = mBeanPool2.getPoolID();

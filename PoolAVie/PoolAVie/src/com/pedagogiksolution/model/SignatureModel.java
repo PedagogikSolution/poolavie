@@ -493,6 +493,7 @@ public class SignatureModel {
 				mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);
 				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() - 1);
 				mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe() + 1);
+				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now()-total_cout_rachat);
 
 				switch (position) {
 
@@ -518,7 +519,7 @@ public class SignatureModel {
 				datastore.put(mEntity);
 
 			} else {
-
+				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now()-total_cout_rachat);
 				mBeanEquipe.setBudget_restant(0);
 				mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu() + new_budget_restant);
 				mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);

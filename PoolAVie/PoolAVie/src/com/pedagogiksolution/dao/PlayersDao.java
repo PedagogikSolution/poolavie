@@ -106,7 +106,7 @@ public interface PlayersDao {
 
 	void updateCAfterRetro(int playersId, String poolID, int teamId, int checker) throws DAOException;
 
-	void resetStatsToZeroForNewYear(String poolID);
+	void resetStatsToZeroForNewYear(String poolID, String years_for_archive)  throws DAOException;
 
 
    

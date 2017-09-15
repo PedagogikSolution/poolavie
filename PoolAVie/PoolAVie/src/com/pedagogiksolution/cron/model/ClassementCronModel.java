@@ -91,9 +91,9 @@ public class ClassementCronModel {
 
     }
 
-    public void updateClassement(int poolId, Long numberTeam) {
+    public void updateClassement(int poolId, Long numberTeam, Long cycleAnnuel) {
 
-	for (int teamId = 1; teamId < (numberTeam + 1); teamId++) {
+	for (int teamId = 1; teamId < (numberTeam.intValue()+1); teamId++) {
 	    int pj = playersDao.getPj(teamId, poolId);
 	    int but = playersDao.getBut(teamId, poolId);
 	    int passe = playersDao.getPasse(teamId, poolId);
@@ -108,12 +108,15 @@ public class ClassementCronModel {
 
 	}
 	
+	
+	if(cycleAnnuel.intValue()==5||cycleAnnuel.intValue()==6) {
 	List<Long> mouvementArray = getMouvementArray(poolId);
 
 	for (int teamId = 1; teamId < (numberTeam + 1); teamId++) {
 	    classementDao.updateDifference(poolId, teamId,mouvementArray);
 	}
-
+	
+	}
     }
 
     @SuppressWarnings("unchecked")
