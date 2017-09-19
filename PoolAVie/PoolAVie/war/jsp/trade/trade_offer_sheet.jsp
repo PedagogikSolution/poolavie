@@ -326,7 +326,7 @@
 
 						</tr>
 						<c:set var="nombreDePick" value="${NonSessionDraftPickMaking.ronde}" />
-
+						<c:if test="${not empty nombreDePick}">
 						<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 
 							<tr>
@@ -341,7 +341,7 @@
 							</tr>
 
 						</c:forEach>
-
+						</c:if>
 					</table>
 
 			
@@ -609,7 +609,7 @@
 
 						</tr>
 						<c:set var="nombreDePick" value="${NonSessionDraftPickReciving.ronde}" />
-
+						<c:if test="${not empty nombreDePick}">
 						<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
 
 							<tr>
@@ -624,7 +624,7 @@
 							</tr>
 
 						</c:forEach>
-
+						</c:if>
 					</table>
 
 			</div>
