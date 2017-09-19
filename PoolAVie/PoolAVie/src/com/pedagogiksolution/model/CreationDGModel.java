@@ -4,6 +4,8 @@ import static com.pedagogiksolution.constants.MessageErreurConstants.CREATE_NEW_
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.joda.time.DateTime;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -200,26 +202,26 @@ public class CreationDGModel {
 	}
 
 	public void storePoolAndUserInfo(String nomDuTeam, int poolId2, String urlLogoTeam, HttpServletRequest req) {
-		// TODO ajouter les info partout
+		
+		// on recupere les objets de sessions
 
 		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+		
 		// on recupere le numero du Pool et de l'equipe
-		Pool mBeanPool = new Pool();
+		
 
 		int poolID = mBeanUser.getPoolId();
 		int teamID = mBeanUser.getTeamId();
 		// on trouve la date de l'annee
-		// TODO rendre dynamique
-		String thisYears = mBeanPool.getThisYear();
+		DateTime dt = new DateTime();
+		int year = dt.getYear();
 		
-		String yearsString = thisYears.substring(0, 4);
-		int years = Integer.parseInt(yearsString);
 		// on insere les info dans la table classement
 		Boolean checkIfTeamAlreadyCreate = classementDao.checkIfTeamAlreadyCreate(teamID, poolID);
 		if (checkIfTeamAlreadyCreate) {
 			classementDao.updateTeamInClassement(nomDuTeam, teamID, poolID);
 		} else {
-			classementDao.insertTeamInClassement(nomDuTeam, teamID, poolID, years);
+			classementDao.insertTeamInClassement(nomDuTeam, teamID, poolID, year);
 		}
 		// on change la valeur de firstConnexionFinish dans Utilisateur et de
 		// numTeamCreate + nom d'equipe dans POOL
@@ -229,7 +231,7 @@ public class CreationDGModel {
 		
 
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		
+		Pool mBeanPool = new Pool();
 		Key clefDatastorePool = KeyFactory.createKey("Pool", Integer.toString(mBeanUser.getPoolId()));
 		try {
 			Entity mEntity = datastore.get(clefDatastorePool);
