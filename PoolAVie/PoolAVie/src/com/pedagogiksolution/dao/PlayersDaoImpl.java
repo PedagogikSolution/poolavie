@@ -109,7 +109,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String GET_NB_ATTAQUANT = "SELECT COUNT(_id) FROM players_? WHERE years_1>1 AND team_id=? AND position='attaquant' AND club_ecole=0";
 	private static final String GET_NB_DEFENSEUR = "SELECT COUNT(_id) FROM players_? WHERE years_1>1 AND team_id=? AND position='defenseur' AND club_ecole=0";
 	private static final String GET_NB_GARDIEN = "SELECT COUNT(_id) FROM players_? WHERE years_1>1 AND team_id=? AND position='gardien' AND club_ecole=0";
-	private static final String GET_NB_ROOKIE = "SELECT COUNT(_id) FROM players_? WHERE team_id=? AND club_ecole=1";
+	private static final String GET_NB_ROOKIE = "SELECT COUNT(_id) FROM players_? WHERE (years_1>1 OR years_1='A' OR years_1='B') AND team_id=? AND club_ecole=1";
 	private static final String GET_NB_CONTRAT = "SELECT COUNT(_id) FROM players_? WHERE years_1>1 AND team_id=? AND club_ecole=0";
 	private static final String GET_TOTAL_SALAIRE_NOW = "SELECT sum(years_1) FROM players_? WHERE years_1>1 AND team_id=? AND club_ecole=0";
 	private static final String GET_PLAYERS_FOR_SIGNATURE_AFTER_SEASON = "SELECT * FROM players_? WHERE team_id=? AND club_ecole=0 AND (years_1='A' OR years_1='B')";
@@ -2499,6 +2499,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		} finally {
 			fermeturesSilencieuses(preparedStatement, connexion);
 		}
+		
 	}
 
 	@Override

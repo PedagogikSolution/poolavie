@@ -29,7 +29,6 @@ public class DraftDaoImpl implements DraftDao {
 	private static final String UPDATE_DRAFT_ROUND_AFTER_DRAFT_PICK = "UPDATE draft? SET player_drafted=? WHERE draft_pick_no=?";
 	private static final String ARCHIVE_DRAFT_LAST_YEAR = "INSERT INTO draft_archive_? (`draft_pick_no`,`ronde`,`equipe`,`team_id`,`from_who`,`team_id_from`,`team_count`,`follow_up`,`player_drafted`,`year_of_draft`,`pool_id`) SELECT draft_pick_no,ronde,equipe,team_id,from_who,team_id_from,team_count,follow_up,player_drafted,year_of_draft,pool_id FROM draft?";
 
-	private static final String RESET_FOR_NEW_YEARS = "UPDATE draft? SET equipe=null,team_id=null,from_who=null,team_id_from=null,team_count=null,follow_up=0,player_drafted=null,year_of_draft=?";
 	private static final String UPDATE_FROM_DRAFT_PICK = "UPDATE draft? AS a INNER JOIN draft_pick? AS b ON (a.ronde=b.pick_no AND a.team_id=b.original_team_id) SET a.team_id=b.team_id,a.team_id_from=a.team_id,a.from_who=a.equipe";
 	private static final String TRUNCATE_TABLE = "TRUNCATE draft?";
 	private static final String UPDATE_TEAM_NAME = "UPDATE draft? SET equipe=? WHERE team_id=?";
@@ -316,24 +315,6 @@ public class DraftDaoImpl implements DraftDao {
 
 	}
 
-	@Override
-	public void resetDraft(String poolID, String years) {
-		Connection connexion = null;
-		PreparedStatement preparedStatement = null;
-
-		try {
-			connexion = daoFactory.getConnection();
-			preparedStatement = initialisationRequetePreparee(connexion, RESET_FOR_NEW_YEARS, false,
-					Integer.parseInt(poolID), years);
-			preparedStatement.execute();
-
-		} catch (SQLException e) {
-			throw new DAOException(e);
-		} finally {
-			fermeturesSilencieuses(preparedStatement, connexion);
-		}
-
-	}
 
 	@Override
 	public void populationDraftRoundFromDraftPick(String poolID, List<Integer> classementInverseLastYears, String years,
@@ -738,5 +719,7 @@ public class DraftDaoImpl implements DraftDao {
 		
 
 	}
+
+	
 
 }

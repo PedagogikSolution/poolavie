@@ -97,18 +97,16 @@ public class AdminModel {
 		String dateDraft = mBeanPool.getDraftDate();
 		int poolYearId = mBeanPool.getPoolYear();
 
-		
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
 		DateTime dt = formatter.parseDateTime(dateDraft);
 
 		if (dt.isBeforeNow()) {
 
 			mBeanPool.setCycleAnnuel(3);
-			
-			if(poolYearId==0) {
-			mBeanPool.setPoolYear((poolYearId + 1));
+
+			if (poolYearId == 0) {
+				mBeanPool.setPoolYear((poolYearId + 1));
 			}
-			
 
 			req.getSession().setAttribute("Pool", mBeanPool);
 
@@ -863,7 +861,7 @@ public class AdminModel {
 			case 2:
 				bonus_malus = 1000000;
 				break;
-			
+
 			case 5:
 				bonus_malus = -1000000;
 				break;
@@ -873,15 +871,14 @@ public class AdminModel {
 			case 7:
 				bonus_malus = -3000000;
 				break;
-				
-				default : bonus_malus=0;
+
+			default:
+				bonus_malus = 0;
 			}
 			break;
 
 		case 9:
 			switch (positionClassement) {
-
-			
 
 			case 0:
 				bonus_malus = 3000000;
@@ -910,8 +907,6 @@ public class AdminModel {
 
 		case 10:
 			switch (positionClassement) {
-
-			
 
 			case 0:
 				bonus_malus = 3000000;
@@ -946,7 +941,6 @@ public class AdminModel {
 		case 11:
 			switch (positionClassement) {
 
-
 			case 0:
 				bonus_malus = 3000000;
 				break;
@@ -979,8 +973,6 @@ public class AdminModel {
 
 		case 12:
 			switch (positionClassement) {
-
-		
 
 			case 0:
 				bonus_malus = 3000000;
@@ -1038,23 +1030,23 @@ public class AdminModel {
 		playersDao.setTakeProj(poolID);
 
 		playersDao.migratePtsToLastYear(poolID);
-		
-		playersDao.setSalaireForRookie(poolID,salaireDao);
+
+		playersDao.setSalaireForRookie(poolID, salaireDao);
 
 		playersDao.moveYearsToYearsContract(poolID);
 
 		playersDao.setSalaireDraft(poolID);
 
 	}
-	
-	public void vidageEtResetTableBDD(HttpServletRequest req, ClassementDao classementDao, TradeMadeDao tradeMadeDao, DraftDao draftDao2, TradeOfferDao tradeOfferDao) {
+
+	public void vidageEtResetTableBDD(HttpServletRequest req, ClassementDao classementDao, TradeMadeDao tradeMadeDao,
+			DraftDao draftDao2, TradeOfferDao tradeOfferDao) {
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		String poolID = mBeanPool.getPoolID();
 		String thisYear = mBeanPool.getThisYear();
-		String years = thisYear.substring(5,9);
-		classementDao.resetClassement(poolID,years);
+		String years = thisYear.substring(0, 4);
+		classementDao.resetClassement(poolID, years);
 		tradeMadeDao.resetTradeMade(poolID);
-		draftDao2.resetDraft(poolID,years);
 		tradeOfferDao.truncateAfterYears(poolID);
 	}
 
@@ -1062,22 +1054,23 @@ public class AdminModel {
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		String poolID = mBeanPool.getPoolID();
 		playersDao.dropPlayersAandB(poolID);
-		
+
 	}
-	
-	public Boolean preparationNouveauDraft(DraftDao draftDao2, HttpServletRequest req, PlayersDao playersDao, ClassementDao classementDao,DraftPickDao draftPickDao) {
+
+	public Boolean preparationNouveauDraft(DraftDao draftDao2, HttpServletRequest req, PlayersDao playersDao,
+			ClassementDao classementDao, DraftPickDao draftPickDao) {
 		// drop rookie C et D pas monter
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		String poolID = mBeanPool.getPoolID();
 		String thisYear = mBeanPool.getThisYear();
-		String years = thisYear.substring(0,4);
-		String years2 = thisYear.substring(5,9);
+		String years = thisYear.substring(0, 4);
+		int lastYear = Integer.parseInt(thisYear) - 1;
+
 		int nombreEquipe = mBeanPool.getNumberTeam();
-		int numPickByTeam=30;
-		
-		playersDao.dropPlayersCetD(req,poolID);
-		
-		
+		int numPickByTeam = 30;
+
+		playersDao.dropPlayersCetD(req, poolID);
+
 		PlayersCronModel mModel = new PlayersCronModel(playersDao);
 		int numberOfTeam = mModel.getNumberOfTeamByPool(Integer.parseInt(poolID));
 		mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, "attaquant", 1, "6");
@@ -1086,137 +1079,134 @@ public class AdminModel {
 
 		mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, "gardien", 1, "6");
 		// check if rookie number is ok to start the new season
-		// TODO envoyer courriel au DG qui n'ont pas le bon nombre pour commencer la nouvelle année et stopper le processus de new years
+		// TODO envoyer courriel au DG qui n'ont pas le bon nombre pour commencer la
+		// nouvelle année et stopper le processus de new years
 		// return false;
-		
-		
+
 		// populate draftRound from DraftPick
-		List<Integer> classementInverseLastYears = classementDao.getClassementLastYear(poolID,years);
-		draftDao2.populationDraftRoundFromDraftPick(poolID,classementInverseLastYears,years2,req);
-		
+		List<Integer> classementInverseLastYears = classementDao.getClassementLastYear(poolID,
+				String.valueOf(lastYear));
+		draftDao2.populationDraftRoundFromDraftPick(poolID, classementInverseLastYears, years, req);
+
 		// reset draftPick to initial value
 		draftPickDao.truncateTableDraftPick(Integer.parseInt(poolID));
 		draftPickDao.insertPickByTeam(Integer.parseInt(poolID), nombreEquipe, numPickByTeam);
-		
+
 		// reset draftProcess
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Key keyDraftProcess = KeyFactory.createKey("DraftProcess", poolID);
-		
+
 		try {
 			Entity mEntity = datastore.get(keyDraftProcess);
-			
-			mEntity.setProperty("currentPick",0);
-			mEntity.setProperty("1isFinish",0);
-			mEntity.setProperty("2isFinish",0);
-			mEntity.setProperty("3isFinish",0);
-			mEntity.setProperty("4isFinish",0);
-			mEntity.setProperty("5isFinish",0);
-			mEntity.setProperty("6isFinish",0);
-			mEntity.setProperty("7isFinish",0);
-			mEntity.setProperty("8isFinish",0);
-			mEntity.setProperty("9isFinish",0);
-			mEntity.setProperty("10isFinish",0);
-			mEntity.setProperty("11isFinish",0);
-			mEntity.setProperty("12isFinish",0);
+
+			mEntity.setProperty("currentPick", 0);
+			mEntity.setProperty("1isFinish", 0);
+			mEntity.setProperty("2isFinish", 0);
+			mEntity.setProperty("3isFinish", 0);
+			mEntity.setProperty("4isFinish", 0);
+			mEntity.setProperty("5isFinish", 0);
+			mEntity.setProperty("6isFinish", 0);
+			mEntity.setProperty("7isFinish", 0);
+			mEntity.setProperty("8isFinish", 0);
+			mEntity.setProperty("9isFinish", 0);
+			mEntity.setProperty("10isFinish", 0);
+			mEntity.setProperty("11isFinish", 0);
+			mEntity.setProperty("12isFinish", 0);
 			mEntity.setProperty("oneFinish", 0);
-			
+
 			datastore.put(mEntity);
 		} catch (EntityNotFoundException e) {
 
 			e.printStackTrace();
 			return false;
 		}
-		
-		
-		//runCronJobDraftRound and draftPick
-		
+
+		// runCronJobDraftRound and draftPick
+
 		DraftPickCronModel mModelDraftPick = new DraftPickCronModel(draftPickDao);
+
 		mModelDraftPick.putDatabaseInDatastore(Integer.parseInt(poolID), nombreEquipe, "7");
-				
+
 		draftDao2.putDatabaseInDatastore(poolID);
-			
+
 		// reset draftTime from pool datatstore to avoid jumping from cycle 2 to 3
-		
+
 		Key keyPool = KeyFactory.createKey("Pool", poolID);
-		
+
 		try {
 			Entity mEntity = datastore.get(keyPool);
-			
-			mEntity.setProperty("draftDate","2099-10-21");
-			
+
+			mEntity.setProperty("draftDate", "2999-10-21");
+
 			datastore.put(mEntity);
 		} catch (EntityNotFoundException e) {
 
 			e.printStackTrace();
 			return false;
 		}
-		
-		
+
 		playersDao.cronJobPlayersAvailableForDraft(Integer.parseInt(poolID));
-		
+
 		return true;
-		
+
 	}
-	
+
 	public void addCashForYears(HttpServletRequest req) {
 		// on remet les budgets en mode debut d'année
-				DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-				Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 
-				String poolID = mBeanPool.getPoolID();
+		String poolID = mBeanPool.getPoolID();
 
-				int numberOfTeam = mBeanPool.getNumberTeam();
+		int numberOfTeam = mBeanPool.getNumberTeam();
 
-				for (int i = 1; i < numberOfTeam + 1; i++) {
+		for (int i = 1; i < numberOfTeam + 1; i++) {
 
-					String keyTeam = poolID + "_" + i;
-					Key mKey = KeyFactory.createKey("Equipe", keyTeam);
-					Equipe mBeanEquipe = new Equipe();
-					try {
-						Entity entity = datastore.get(mKey);
+			String keyTeam = poolID + "_" + i;
+			Key mKey = KeyFactory.createKey("Equipe", keyTeam);
+			Equipe mBeanEquipe = new Equipe();
+			try {
+				Entity entity = datastore.get(mKey);
 
-						mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(entity, mBeanEquipe);
+				mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(entity, mBeanEquipe);
 
-						// on transfert argent recu, ajoute bonus ou malus et ensuite on reset a 52
-						// Millions et recalcule les positions par team
-						
-						int max_salaire_begin = mBeanEquipe.getMax_salaire_begin();
+				// on transfert argent recu, ajoute bonus ou malus et ensuite on reset a 52
+				// Millions et recalcule les positions par team
 
-						int budget_restant = mBeanEquipe.getBudget_restant();
+				int max_salaire_begin = mBeanEquipe.getMax_salaire_begin();
 
-						
-						mBeanEquipe.setBudget_restant(budget_restant+2000000);
-						mBeanEquipe.setMax_salaire_begin(max_salaire_begin+2000000);
-	
-						entity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, keyTeam);
+				int budget_restant = mBeanEquipe.getBudget_restant();
 
-						datastore.put(entity);
-					} catch (EntityNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				mBeanEquipe.setBudget_restant(budget_restant + 2000000);
+				mBeanEquipe.setMax_salaire_begin(max_salaire_begin + 2000000);
 
-				}
+				entity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, keyTeam);
+
+				datastore.put(entity);
+			} catch (EntityNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
 
 	}
-	
+
 	public void resetPlayersStats(HttpServletRequest req, PlayersDao playersDao) {
 
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 
 		String poolID = mBeanPool.getPoolID();
-		
+
 		String thisYear = mBeanPool.getThisYear();
-		
-		
+
 		String years_for_archive = thisYear.substring(0, 4);
-		
-		playersDao.resetStatsToZeroForNewYear(poolID,years_for_archive);
-		
-		
-		
+
+		playersDao.resetStatsToZeroForNewYear(poolID, years_for_archive);
+
 	}
+
 	/*****************************************************
 	 * private method
 	 ******************************************/
@@ -1265,15 +1255,5 @@ public class AdminModel {
 
 		return nomPropertyTeamName;
 	}
-
-	
-
-	
-
-	
-
-	
-
-	
 
 }

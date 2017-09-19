@@ -157,7 +157,7 @@ public class AdminPoolServlet extends HttpServlet {
 			// on lance la série de modification pour le reset de l'année
 			mAdminModel = new AdminModel();
 
-			mAdminModel.changeCycleAnnuel(req, 9);
+			
 			mAdminModel.updateAgeForRookie(req, playersDao);
 			mAdminModel.resetDatastorePoolEntity(req);
 			mAdminModel.dropJoueurJAETX(req, playersDao);
@@ -181,7 +181,7 @@ public class AdminPoolServlet extends HttpServlet {
 
 			mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, "gardien", 0, "5");
 			mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, "gardien", 1, "6");
-
+			mAdminModel.changeCycleAnnuel(req, 9);
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 			break;
 		case 4:
