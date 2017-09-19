@@ -1430,7 +1430,7 @@ public class PlayersDaoImpl implements PlayersDao {
 				mEntityEquipe.setProperty("manquant_equipe",
 						(((Long) mEntityEquipe.getProperty("manquant_equipe")) + 1));
 
-				if ((Long) mEntityEquipe.getProperty("manquant_equipe") == 0) {
+				if ((Long) mEntityEquipe.getProperty("manquant_equipe") <= 0) {
 					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
 				} else {
 					Long manquantEquipe = (Long) mEntityEquipe.getProperty("manquant_equipe");
@@ -1480,7 +1480,7 @@ public class PlayersDaoImpl implements PlayersDao {
 				mEntityEquipe.setProperty("manquant_equipe",
 						(((Long) mEntityEquipe.getProperty("manquant_equipe")) - 1));
 
-				if ((Long) mEntityEquipe.getProperty("manquant_equipe") == 0) {
+				if ((Long) mEntityEquipe.getProperty("manquant_equipe") <= 0) {
 					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
 				} else {
 					Long manquantEquipe = (Long) mEntityEquipe.getProperty("manquant_equipe");
@@ -1530,7 +1530,7 @@ public class PlayersDaoImpl implements PlayersDao {
 				mEntityEquipe.setProperty("manquant_equipe",
 						(((Long) mEntityEquipe.getProperty("manquant_equipe")) + 1));
 
-				if ((Long) mEntityEquipe.getProperty("manquant_equipe") == 0) {
+				if ((Long) mEntityEquipe.getProperty("manquant_equipe") <= 0) {
 					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
 				} else {
 					Long manquantEquipe = (Long) mEntityEquipe.getProperty("manquant_equipe");
@@ -1579,7 +1579,7 @@ public class PlayersDaoImpl implements PlayersDao {
 				mEntityEquipe.setProperty("manquant_equipe",
 						(((Long) mEntityEquipe.getProperty("manquant_equipe"))- 1));
 
-				if ((Long) mEntityEquipe.getProperty("manquant_equipe") == 0) {
+				if ((Long) mEntityEquipe.getProperty("manquant_equipe") <= 0) {
 					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
 				} else {
 					Long manquantEquipe = (Long) mEntityEquipe.getProperty("manquant_equipe");
@@ -1630,7 +1630,7 @@ public class PlayersDaoImpl implements PlayersDao {
 				mEntityEquipe.setProperty("manquant_equipe",
 						(((Long) mEntityEquipe.getProperty("manquant_equipe")) + 1));
 
-				if ((Long) mEntityEquipe.getProperty("manquant_equipe") == 0) {
+				if ((Long) mEntityEquipe.getProperty("manquant_equipe") <= 0) {
 					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
 				} else {
 					Long manquantEquipe = (Long) mEntityEquipe.getProperty("manquant_equipe");
@@ -1679,7 +1679,7 @@ public class PlayersDaoImpl implements PlayersDao {
 				mEntityEquipe.setProperty("manquant_equipe",
 						(((Long) mEntityEquipe.getProperty("manquant_equipe")) - 1));
 
-				if ((Long) mEntityEquipe.getProperty("manquant_equipe") == 0) {
+				if ((Long) mEntityEquipe.getProperty("manquant_equipe") <= 0) {
 					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
 				} else {
 					Long manquantEquipe = (Long) mEntityEquipe.getProperty("manquant_equipe");
