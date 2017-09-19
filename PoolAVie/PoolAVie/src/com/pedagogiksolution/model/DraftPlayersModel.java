@@ -288,6 +288,7 @@ public class DraftPlayersModel {
 		mEntity.setProperty("team10IsOpen", 0);
 		mEntity.setProperty("team11IsOpen", 0);
 		mEntity.setProperty("team12IsOpen", 0);
+		mEntity.setProperty("oneFinish", 0);
 		datastore.put(mEntity);
 	}
 

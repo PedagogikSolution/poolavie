@@ -29,6 +29,7 @@ public class DraftProcess implements Serializable {
     private int team10IsOpen;
     private int team11IsOpen;
     private int team12IsOpen;
+    private int oneFinish;
       
     
     public int getCurrentPick() {
@@ -130,6 +131,13 @@ public class DraftProcess implements Serializable {
     	this.team12IsOpen = team12IsOpen;
     }
 
+    public int getOneFinish() {
+    	return oneFinish;
+    }
+    public void setOneFinish(int oneFinish) {
+    	this.oneFinish = oneFinish;
+    }
+    
 public Entity mapBeanToEntityForDatastore(DraftProcess mBean, String name) {
 		
 		Entity mEntity = new Entity("DraftProcess", name);
@@ -163,6 +171,8 @@ public Entity mapBeanToEntityForDatastore(DraftProcess mBean, String name) {
 		mEntity.setProperty("team11IsOpen", mBean.getTeam11IsOpen());
 		
 		mEntity.setProperty("team12IsOpen", mBean.getTeam12IsOpen());
+		
+		mEntity.setProperty("oneFinish", mBean.getOneFinish());
 		
 		return mEntity;
 	}
@@ -214,11 +224,15 @@ public DraftProcess mapDatastoreToBean(Entity mEntity, DraftProcess mBeanDraftPr
 	Long team12IsOpen = (Long) mEntity.getProperty("team12IsOpen");
 	mBeanDraftProcess.setTeam12IsOpen(team12IsOpen.intValue());
 	
+	Long oneFinish = (Long) mEntity.getProperty("oneFinish");
+	mBeanDraftProcess.setOneFinish(oneFinish.intValue());
+	
 	
 	
 	return mBeanDraftProcess;
 	
 }
+
 
 
 
