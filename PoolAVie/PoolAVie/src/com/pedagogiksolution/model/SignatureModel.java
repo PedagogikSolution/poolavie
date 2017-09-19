@@ -493,7 +493,7 @@ public class SignatureModel {
 				mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);
 				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() - 1);
 				mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe() + 1);
-				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now()-total_cout_rachat);
+				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() - total_cout_rachat);
 
 				switch (position) {
 
@@ -512,14 +512,13 @@ public class SignatureModel {
 					break;
 
 				}
-				
-				
+
 				mEntity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomClef);
 
 				datastore.put(mEntity);
 
 			} else {
-				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now()-total_cout_rachat);
+				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() - total_cout_rachat);
 				mBeanEquipe.setBudget_restant(0);
 				mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu() + new_budget_restant);
 				mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);
@@ -594,9 +593,13 @@ public class SignatureModel {
 		String poolID = mBeanPool.getPoolID();
 		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 		int teamId = mBeanUser.getTeamId();
+		int checkForMoyenne=0;
+		if (mBeanPool.getCycleAnnuel() == 9 || mBeanPool.getCycleAnnuel() == 12) {
+			checkForMoyenne = 1;
+		}
 
 		Boolean checkIfCashAvailablePourRachat = playersDao.getUniquePlayersById(player_id, poolID, teamId, req,
-				position);
+				position,checkForMoyenne);
 
 		return checkIfCashAvailablePourRachat;
 
@@ -688,7 +691,7 @@ public class SignatureModel {
 				new_budget_restant = budget_restant - total_cout_rachat;
 			}
 
-			switch(position) {
+			switch (position) {
 			case "attaquant":
 				mBeanEquipe.setManquant_att(mBeanEquipe.getManquant_att() + 1);
 				mBeanEquipe.setNb_attaquant(mBeanEquipe.getNb_attaquant() - 1);
@@ -701,16 +704,13 @@ public class SignatureModel {
 				mBeanEquipe.setManquant_gardien(mBeanEquipe.getManquant_gardien() + 1);
 				mBeanEquipe.setNb_gardien(mBeanEquipe.getNb_gardien() - 1);
 				break;
-			
-			
+
 			}
 			mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe() + 1);
 			mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() - 1);
 			mBeanEquipe.setArgent_recu(argent_recu);
 			mBeanEquipe.setBudget_restant(new_budget_restant);
-			
-			
-			
+
 			mEntity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomClef);
 
 			datastore.put(mEntity);
@@ -875,6 +875,8 @@ public class SignatureModel {
 
 			mBeanEquipe.setManquant_recrue(mBeanEquipe.getManquant_recrue() + 1);
 			mBeanEquipe.setNb_rookie(mBeanEquipe.getNb_rookie() - 1);
+			
+			mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat()+1);
 
 			mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe() - 1);
 			mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() + 1);
@@ -901,7 +903,7 @@ public class SignatureModel {
 			mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() + salaireInt);
 
 			mBeanEquipe.setMoy_sal_restant_draft(
-					(mBeanEquipe.getBudget_restant() - salaireInt) / (mBeanEquipe.getManquant_equipe() - 1));
+					(mBeanEquipe.getBudget_restant()) / (mBeanEquipe.getManquant_equipe()));
 
 			mEntity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomClef);
 
@@ -949,5 +951,8 @@ public class SignatureModel {
 		}
 
 	}
+
+	
+	
 
 }

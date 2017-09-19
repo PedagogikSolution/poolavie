@@ -52,14 +52,14 @@ public class AdminPoolServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LoginModel mModel2 = new LoginModel(req);
-	    mModel2.createSessionEquipeBean();
-	    mModel2.createSessionAttaquantBean();
-	    mModel2.createSessionDefenseurBean();
-	    mModel2.createSessionGardienBean();
-	    mModel2.createSessionRecrueBean();
-	    mModel2.createSessionDraftPickBean();
-	    mModel2.createSessionDraftRoundBean();
-	    mModel2.createSessionPoolBean();
+		mModel2.createSessionEquipeBean();
+		mModel2.createSessionAttaquantBean();
+		mModel2.createSessionDefenseurBean();
+		mModel2.createSessionGardienBean();
+		mModel2.createSessionRecrueBean();
+		mModel2.createSessionDraftPickBean();
+		mModel2.createSessionDraftRoundBean();
+		mModel2.createSessionPoolBean();
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		int cycleAnnuel = mBeanPool.getCycleAnnuel();
 		if (cycleAnnuel == 3) {
@@ -234,20 +234,10 @@ public class AdminPoolServlet extends HttpServlet {
 			if (goodToGo) {
 				ClassementCronModel mModelClassementCron = new ClassementCronModel(classementDao, playersDao);
 				mModelClassementCron.putDatabaseInDatastore(Integer.parseInt(poolID));
-				
-				
-				
-				
-				
+
 				mAdminModel.changeCycleAnnuel(req, 1);
-				
-				
-				
-				
-				
+
 			}
-			
-					
 
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
 			break;

@@ -1209,7 +1209,8 @@ public class AdminModel {
 		
 		String thisYear = mBeanPool.getThisYear();
 		
-		String years_for_archive = thisYear.substring(5, 9);
+		
+		String years_for_archive = thisYear.substring(0, 4);
 		
 		playersDao.resetStatsToZeroForNewYear(poolID,years_for_archive);
 		

@@ -226,6 +226,8 @@ public class SignatureServlet extends HttpServlet {
 
 		case 6: // on effectue la signature et ajuste les table bdd et datastore en conséquence
 
+		
+			
 			Boolean checkIfSignatureIsPoosible = mModel.checkIfSignatureIsPossible(req);
 			
 			if(checkIfSignatureIsPoosible) {
@@ -247,6 +249,7 @@ public class SignatureServlet extends HttpServlet {
 				req.getRequestDispatcher("jsp/signature/rookieManager.jsp").forward(req, resp);
 				
 			}
+			
 			
 			
 

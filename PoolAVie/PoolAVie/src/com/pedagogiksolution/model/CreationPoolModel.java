@@ -143,9 +143,6 @@ public class CreationPoolModel {
 		// on place le bean dans un attribut de session
 		req.getSession().setAttribute("Utilisateur", mBeanUser);
 		// on persiste dans le datastore via notre EntityManager
-		datastore = DatastoreServiceFactory.getDatastoreService();
-
-
 		mEntity = mBeanUser.mapBeanToEntityForDatastore(mBeanUser, mBeanUser.getNomUtilisateur());
 
 		datastore.put(mEntity);
@@ -362,8 +359,11 @@ public class CreationPoolModel {
 		int poolID = mBean.getPoolId();
 		int teamID = mBean.getTeamId();
 		// on trouve la date de l'annee
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		String thisYear = mBeanPool.getThisYear();
 		// TODO rendre dynamique
-		int years = 2017;
+		String years = thisYear.substring(0, 4) ;
+		int yearsInt = Integer.parseInt(years);
 
 		// on recupere le nombre d'equipe et le nombre de joueurs par equipe
 		nombreEquipe = req.getParameter("nombreEquipe");
@@ -373,12 +373,13 @@ public class CreationPoolModel {
 		// on cree les bases de donnee classement et insere la ligne
 		classementDao.createClassementTable(poolID);
 		classementDao.createClassementArchiveTable(poolID);
-		classementDao.insertTeamInClassement(nomDuTeam, teamID, poolID, years);
+		classementDao.insertTeamInClassement(nomDuTeam, teamID, poolID, yearsInt);
 
 		// on cree les bases de donnee player
 		playersDao.createPlayersTable(poolID);
 		playersDao.createPlayersArchiveTable(poolID);
 		
+		playersDao.updateAgeForRookie(req);
 		playersDao.setCanBeRookie(String.valueOf(poolID));
 
 		draftDao.createDraftTable(poolID);

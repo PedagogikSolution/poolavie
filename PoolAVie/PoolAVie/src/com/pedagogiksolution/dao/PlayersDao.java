@@ -48,7 +48,7 @@ public interface PlayersDao {
 
 	void getPlayersThatCanBeRachatAfterSeason(int teamId, int poolId, HttpServletRequest req, int cycleAnnuel) throws DAOException;
 
-	Boolean getUniquePlayersById(String player_id, String poolID, int teamId, HttpServletRequest req, String position) throws DAOException;
+	Boolean getUniquePlayersById(String player_id, String poolID, int teamId, HttpServletRequest req, String position, int checkForMoyenne) throws DAOException;
 	
 	void removePlayersFromTeamAfterRachat(int playersId, String poolID) throws DAOException;
 

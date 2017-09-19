@@ -62,7 +62,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String GET_PLAYERS_BY_ID_ALL = "SELECT * FROM players_? WHERE _id=?";
 	private static final String GET_PLAYERS_BY_ID_AND_TEAM = "SELECT * FROM players_? WHERE team_id=? AND _id=?";
 	private static final String UPDATE_PLAYERS = "UPDATE players_? SET team_id=?,years_2='B',years_3='B',years_4='B',years_5='B' WHERE _id=?";
-	private static final String SELECT_FOR_TRADE_A = "SELECT years_1,years_2,years_3,years_4,years_5, club_ecole,position FROM players_? WHERE _id=?";
+	private static final String SELECT_FOR_TRADE_A = "SELECT years_1,years_2,years_3,years_4,years_5, years_0, club_ecole,position FROM players_? WHERE _id=?";
 	private static final String UPDATE_PLAYERS2 = "UPDATE players_? SET team_id=?,years_2='A',years_3='A',years_4='A',years_5='A' WHERE _id=?";
 	private static final String UPDATE_PLAYERS3 = "UPDATE players_? SET team_id=?,years_2='B',years_3='B',years_4='B',years_5='B' WHERE _id=?";
 	private static final String UPDATE_PLAYERS4 = "UPDATE players_? SET team_id=?,years_2='C',years_3='C',years_4='C',years_5='C' WHERE _id=?";
@@ -1502,7 +1502,7 @@ public class PlayersDaoImpl implements PlayersDao {
 				mEntityEquipe.setProperty("budget_restant",
 						(((Long) mEntityEquipe.getProperty("budget_restant")) + salaire));
 				mEntityEquipe.setProperty("nb_equipe", (((Long) mEntityEquipe.getProperty("nb_equipe")) - 1));
-				if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("X") || contrat.equalsIgnoreCase("B")
+				if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("B")
 						|| contrat.equalsIgnoreCase("A")) {
 
 				} else {
@@ -1550,7 +1550,7 @@ public class PlayersDaoImpl implements PlayersDao {
 						(((Long) mEntityEquipe.getProperty("budget_restant")) - salaire));
 
 				mEntityEquipe.setProperty("nb_equipe", (((Long) mEntityEquipe.getProperty("nb_equipe")) + 1));
-				if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("X") || contrat.equalsIgnoreCase("B")
+				if (contrat.equalsIgnoreCase("JA") ||  contrat.equalsIgnoreCase("B")
 						|| contrat.equalsIgnoreCase("A")) {
 
 				} else {
@@ -1599,7 +1599,7 @@ public class PlayersDaoImpl implements PlayersDao {
 				mEntityEquipe.setProperty("budget_restant",
 						(((Long) mEntityEquipe.getProperty("budget_restant")) + salaire));
 				mEntityEquipe.setProperty("nb_equipe", (((Long) mEntityEquipe.getProperty("nb_equipe")) - 1));
-				if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("X") || contrat.equalsIgnoreCase("B")
+				if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("B")
 						|| contrat.equalsIgnoreCase("A")) {
 
 				} else {
@@ -1886,7 +1886,7 @@ public class PlayersDaoImpl implements PlayersDao {
 
 	@Override
 	public Boolean getUniquePlayersById(String player_id, String poolID, int teamId, HttpServletRequest req,
-			String position) {
+			String position,int checkForMoyenne) {
 		Players mBean = new Players();
 		int coutDuRachat = 0;
 		ResultSet rs = null;
@@ -1981,6 +1981,15 @@ public class PlayersDaoImpl implements PlayersDao {
 			argent_recu = argent_recuL.intValue();
 
 			total_argent = budget_restant + argent_recu;
+			
+			if(checkForMoyenne==1) {
+				
+				Long nb_equipe = (Long) mEntity.getProperty("nb_equipe");
+				
+				if((budget_restant/nb_equipe.intValue())<1000000){
+					return false;
+				}
+			}
 
 		} catch (SQLException e) {
 			throw new DAOException(e);
@@ -1990,7 +1999,10 @@ public class PlayersDaoImpl implements PlayersDao {
 		} finally {
 			fermeturesSilencieuses(rs, preparedStatement, connexion);
 		}
+		
 
+		
+		
 		if ((budget_restant >= coutDuRachat) || (total_argent >= coutDuRachat)) {
 
 			mBean.setSalaire_contrat(coutDuRachat);

@@ -212,7 +212,7 @@ public class CreationDGModel {
 		// TODO rendre dynamique
 		String thisYears = mBeanPool.getThisYear();
 		
-		String yearsString = thisYears.substring(5, 9);
+		String yearsString = thisYears.substring(0, 4);
 		int years = Integer.parseInt(yearsString);
 		// on insere les info dans la table classement
 		Boolean checkIfTeamAlreadyCreate = classementDao.checkIfTeamAlreadyCreate(teamID, poolID);
@@ -229,6 +229,7 @@ public class CreationDGModel {
 		
 
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
 		Key clefDatastorePool = KeyFactory.createKey("Pool", Integer.toString(mBeanUser.getPoolId()));
 		try {
 			Entity mEntity = datastore.get(clefDatastorePool);
@@ -236,7 +237,7 @@ public class CreationDGModel {
 			mBeanPool = mBeanPool.mapPoolFromDatastore(mEntity, mBeanPool);
 
 		} catch (EntityNotFoundException e) {
-			// TODO gerer cette erreur
+			
 		}
 
 		int tempNumTeam = mBeanPool.getNumTeamCreate();
@@ -310,19 +311,14 @@ public class CreationDGModel {
 
 		// on persiste dans Datastore
 
-		datastore = DatastoreServiceFactory.getDatastoreService();
-
 		Entity mEntity = mBeanUser.mapBeanToEntityForDatastore(mBeanUser, mBeanUser.getNomUtilisateur());
 
 		datastore.put(mEntity);
-
-		datastore = DatastoreServiceFactory.getDatastoreService();
 
 
 		mEntity = mBeanPool.mapBeanToEntityForDatastore(mBeanPool, mBeanPool.getPoolID());
 
 		datastore.put(mEntity);
-		// on ajoute nom du team dans DraftPickDatastore et Bdd et SessionBean
 
 	}
 

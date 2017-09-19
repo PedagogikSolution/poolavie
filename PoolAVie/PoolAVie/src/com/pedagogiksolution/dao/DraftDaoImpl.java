@@ -93,7 +93,11 @@ public class DraftDaoImpl implements DraftDao {
 
 			int draft_pick_no = 1;
 			int ronde = 1;
-			int years_of_the_draft = 1;
+			
+			String thisYear = mBeanPool.getThisYear();
+			String yearsString = thisYear.substring(0, 4);
+			
+			int years_of_the_draft = Integer.parseInt(yearsString);
 			String nomTeam = null;
 
 			for (int teamId : permutation) {
