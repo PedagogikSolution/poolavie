@@ -901,11 +901,13 @@ public class TradeModel {
 				+ argent_recu_rec_offer - cashIncludeThatReceiveOfferInt + cashIncludeTeamThatMakeOfferInt) < 0) {
 
 			mBeanMessageErreur.setErreurTrade(
-					"La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 3.1");
+					"La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 3.3");
 			req.setAttribute("messageErreur", mBeanMessageErreur);
 			return false;
 
 		}
+		
+		
 
 		// check si moyenne restant pour draft est bonne été et draft suite a trade
 
@@ -917,12 +919,12 @@ public class TradeModel {
 			} else {
 
 				if ((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer
-						+ argent_recu_make_offer + cashIncludeTeamThatMakeOfferInt - cashIncludeThatReceiveOfferInt)
+						 - cashIncludeThatReceiveOfferInt)
 						/ (mBeanEquipeThatIsMakingOffer.getManquant_equipe() + nbPlayersTeamMakingOffer
 								- nbPlayersTeamReceivingOffer) < 1000000) {
 
 					mBeanMessageErreur.setErreurTrade(
-							"Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 3.1");
+							"Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 3.2");
 					req.setAttribute("messageErreur", mBeanMessageErreur);
 					return false;
 
@@ -935,13 +937,13 @@ public class TradeModel {
 
 			} else {
 				if ((budget_restant_received_offer - total_salaire_team_making_offer
-						+ total_salaire_team_receiving_offer + argent_recu_rec_offer + cashIncludeThatReceiveOfferInt
+						+ total_salaire_team_receiving_offer 
 						- cashIncludeTeamThatMakeOfferInt)
 						/ (mBeanEquipeThatIsReceivingOffer.getManquant_equipe() - nbPlayersTeamMakingOffer
 								+ nbPlayersTeamReceivingOffer) < 1000000) {
 
 					mBeanMessageErreur.setErreurTrade(
-							"La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 3.1");
+							"La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 3.4");
 					req.setAttribute("messageErreur", mBeanMessageErreur);
 					return false;
 
@@ -2203,6 +2205,8 @@ public class TradeModel {
 		} else {
 			mModelClassement.updateClassementAfterTrade(poolId, numberOfTeam);
 			mModelClassement.putDatabaseInDatastore(poolId);
+			
+			
 			// DraftPick
 			mModelDraft.putDatabaseInDatastore(poolId, numberOfTeam, "7");
 		}

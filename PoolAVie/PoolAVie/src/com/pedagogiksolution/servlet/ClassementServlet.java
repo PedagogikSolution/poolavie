@@ -29,6 +29,7 @@ public class ClassementServlet extends HttpServlet {
 	    mModel2.createSessionDraftPickBean();
 	    mModel2.createSessionDraftRoundBean();
 	    mModel2.createSessionPoolBean();
+	    mModel2.createSessionClassementBean();
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 	int cycleAnnuel = mBeanPool.getCycleAnnuel();
 	if (cycleAnnuel == 3) {

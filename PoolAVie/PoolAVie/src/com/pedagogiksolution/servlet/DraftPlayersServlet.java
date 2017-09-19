@@ -112,6 +112,8 @@ public class DraftPlayersServlet extends HttpServlet {
 				mModel.persistDraftFinishForUser();
 				Boolean checkifDraftFinishForAll = mModel.checkifDraftFinishForAll();
 				if (checkifDraftFinishForAll) {
+
+					
 					mModel.changeCycleAnnuelToSignature4();
 					mModel.channelMessage(3);
 					
@@ -133,6 +135,8 @@ public class DraftPlayersServlet extends HttpServlet {
 				mModel.persistDraftFinishForUser();
 				Boolean checkifDraftFinishForAll = mModel.checkifDraftFinishForAll();
 				if (checkifDraftFinishForAll) {
+
+					
 					mModel.changeCycleAnnuelToSignature4();
 					mModel.channelMessage(4);
 				} else {

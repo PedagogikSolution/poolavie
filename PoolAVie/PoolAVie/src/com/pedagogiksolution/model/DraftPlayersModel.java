@@ -1328,6 +1328,18 @@ public class DraftPlayersModel {
 		Entity mEntity = mBeanPool.mapBeanToEntityForDatastore(mBeanPool, mBeanPool.getPoolID());
 
 		datastore.put(mEntity);
+		
+		Key keyPool = KeyFactory.createKey("Pool", mBeanPool.getPoolID());
+
+		try {
+			Entity mEntityPool = datastore.get(keyPool);
+
+			mEntityPool.setProperty("draftDate", "2999-10-21");
+
+			datastore.put(mEntityPool);
+		} catch (EntityNotFoundException e) {
+
+		}
 
 	}
 

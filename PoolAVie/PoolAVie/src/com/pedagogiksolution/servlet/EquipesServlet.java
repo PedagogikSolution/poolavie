@@ -37,6 +37,7 @@ public class EquipesServlet extends HttpServlet {
 	    mModel.createSessionDraftPickBean();
 	    mModel.createSessionDraftRoundBean();
 	    mModel.createSessionPoolBean();
+	    mModel.createSessionClassementBean();
 	
 	EquipeModel mModelTeam = new EquipeModel();
 	mModelTeam.getBeanByTeam(req);

@@ -55,6 +55,7 @@ public class NouvellesServlet extends HttpServlet {
 	    mModel2.createSessionDraftPickBean();
 	    mModel2.createSessionDraftRoundBean();
 	    mModel2.createSessionPoolBean();
+	    mModel2.createSessionClassementBean();
 	    
 	    // on check si la date du draft du pool est en cours
 	    Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");

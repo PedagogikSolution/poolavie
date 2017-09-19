@@ -611,7 +611,7 @@ public class AdminModel {
 
 		try {
 			Entity mEntity = datastore.get(mKey);
-			Long cycleAnnuel = Long.valueOf(7);
+			Long cycleAnnuel = Long.valueOf(5);
 			mEntity.setProperty("cycleAnnuel", cycleAnnuel);
 			mBeanPool = mBeanPool.mapPoolFromDatastore(mEntity, mBeanPool);
 

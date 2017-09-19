@@ -130,7 +130,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String UPDATE_C_AFTER_RETRO_2 = "UPDATE players_? SET years_4=?,years_5=? WHERE _id=?";
 	private static final String UPDATE_C_AFTER_RETRO_3 = "UPDATE players_? SET years_5=? WHERE _id=?";
 	private static final String UPDATE_C_AFTER_RETRO_0 = "UPDATE players_? SET years_2=?,years_3=?,years_4=?,years_5=? WHERE _id=?";
-	private static final String RESET_STATS_TO_ZERO = "UPDATE players_? SET pj=0,but_victoire=0,aide_overtime=0,blanchissage=0,pts=0,year_for_draft=?";
+	private static final String RESET_STATS_TO_ZERO = "UPDATE players_? SET pj=0,but_victoire=0,aide_overtime=0,blanchissage=0,pts=0,year_for_archive=?";
 
 	private DAOFactory daoFactory;
 
@@ -1433,10 +1433,9 @@ public class PlayersDaoImpl implements PlayersDao {
 				if ((Long) mEntityEquipe.getProperty("manquant_equipe") == 0) {
 					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
 				} else {
-					Long budgetRestant = (Long) mEntityEquipe.getProperty("budget_restant");
 					Long manquantEquipe = (Long) mEntityEquipe.getProperty("manquant_equipe");
 					
-					int moyenne_restante = budgetRestant.intValue()/manquantEquipe.intValue();
+					int moyenne_restante = budget_restant_test/manquantEquipe.intValue();
 					mEntityEquipe.setProperty("moy_sal_restant_draft", moyenne_restante);
 				}
 
@@ -1484,10 +1483,9 @@ public class PlayersDaoImpl implements PlayersDao {
 				if ((Long) mEntityEquipe.getProperty("manquant_equipe") == 0) {
 					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
 				} else {
-					Long budgetRestant = (Long) mEntityEquipe.getProperty("budget_restant");
 					Long manquantEquipe = (Long) mEntityEquipe.getProperty("manquant_equipe");
 					
-					int moyenne_restante = budgetRestant.intValue()/manquantEquipe.intValue();
+					int moyenne_restante = budget_restant_test/manquantEquipe.intValue();
 					mEntityEquipe.setProperty("moy_sal_restant_draft", moyenne_restante);
 				}
 
@@ -1535,10 +1533,9 @@ public class PlayersDaoImpl implements PlayersDao {
 				if ((Long) mEntityEquipe.getProperty("manquant_equipe") == 0) {
 					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
 				} else {
-					Long budgetRestant = (Long) mEntityEquipe.getProperty("budget_restant");
 					Long manquantEquipe = (Long) mEntityEquipe.getProperty("manquant_equipe");
 					
-					int moyenne_restante = budgetRestant.intValue()/manquantEquipe.intValue();
+					int moyenne_restante = budget_restant_test/manquantEquipe.intValue();
 					mEntityEquipe.setProperty("moy_sal_restant_draft", moyenne_restante);
 				}
 
@@ -1585,10 +1582,9 @@ public class PlayersDaoImpl implements PlayersDao {
 				if ((Long) mEntityEquipe.getProperty("manquant_equipe") == 0) {
 					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
 				} else {
-					Long budgetRestant = (Long) mEntityEquipe.getProperty("budget_restant");
 					Long manquantEquipe = (Long) mEntityEquipe.getProperty("manquant_equipe");
 					
-					int moyenne_restante = budgetRestant.intValue()/manquantEquipe.intValue();
+					int moyenne_restante = budget_restant_test/manquantEquipe.intValue();
 					mEntityEquipe.setProperty("moy_sal_restant_draft", moyenne_restante);
 				}
 
@@ -1637,10 +1633,9 @@ public class PlayersDaoImpl implements PlayersDao {
 				if ((Long) mEntityEquipe.getProperty("manquant_equipe") == 0) {
 					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
 				} else {
-					Long budgetRestant = (Long) mEntityEquipe.getProperty("budget_restant");
 					Long manquantEquipe = (Long) mEntityEquipe.getProperty("manquant_equipe");
 					
-					int moyenne_restante = budgetRestant.intValue()/manquantEquipe.intValue();
+					int moyenne_restante = budget_restant_test/manquantEquipe.intValue();
 					mEntityEquipe.setProperty("moy_sal_restant_draft", moyenne_restante);
 				}
 				datastore.put(mEntityEquipe);
@@ -1687,10 +1682,9 @@ public class PlayersDaoImpl implements PlayersDao {
 				if ((Long) mEntityEquipe.getProperty("manquant_equipe") == 0) {
 					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
 				} else {
-					Long budgetRestant = (Long) mEntityEquipe.getProperty("budget_restant");
 					Long manquantEquipe = (Long) mEntityEquipe.getProperty("manquant_equipe");
 					
-					int moyenne_restante = budgetRestant.intValue()/manquantEquipe.intValue();
+					int moyenne_restante = budget_restant_test/manquantEquipe.intValue();
 					mEntityEquipe.setProperty("moy_sal_restant_draft", moyenne_restante);
 				}
 				datastore.put(mEntityEquipe);
