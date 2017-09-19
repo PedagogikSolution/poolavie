@@ -192,7 +192,7 @@ public class DraftDaoImpl implements DraftDao {
 					}
 
 					preparedStatement = initialisationRequetePreparee(connexion, INSERT_DRAFT_FIRST_YEAR, false, poolId,
-							draft_pick_no, teamId, ronde, ronde, poolId, 0, years_of_the_draft, nomTeam);
+							draft_pick_no, teamId, ronde, ronde, poolId, 0, years_of_the_draft, nomTeam,nomTeam,teamId);
 					preparedStatement.execute();
 					draft_pick_no++;
 				}
