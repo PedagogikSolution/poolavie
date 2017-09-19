@@ -52,7 +52,7 @@
 
 			</c:if>
 
-			<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.poolYear=>1&&Pool.cycleAnnuel==1}">
+			<c:if test="${Pool.draftType==1&&Pool.poolType==1&&Pool.poolYear>=1&&Pool.cycleAnnuel==1}">
 				<!-- Si first years and avant draft sans date set-->
 				<div class="w3-container w3-section w3-red">
 					<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
