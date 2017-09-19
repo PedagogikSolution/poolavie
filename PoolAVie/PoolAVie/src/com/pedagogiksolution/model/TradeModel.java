@@ -649,13 +649,13 @@ public class TradeModel {
 			int nb_recrue_donner = mBeanEquipeThatIsMakingOffer.getNb_rookie();
 			int nb_recrue_recu = mBeanEquipeThatIsReceivingOffer.getNb_rookie();
 
-			if (nbRookieTeamMakingOffer - nb_recrue_donner + nb_recrue_recu > 8) {
+			if (nb_recrue_recu - nbRookieTeamMakingOffer + nbRookieTeamReceivingOffer > 8) {
 				mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas avoir plus de 8 recrues");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 
 			}
-			if (nbRookieTeamReceivingOffer + nb_recrue_donner - nb_recrue_recu > 8) {
+			if (nb_recrue_donner + nbRookieTeamMakingOffer - nbRookieTeamReceivingOffer > 8) {
 				mBeanMessageErreur.setErreurTrade("L'autre équipe ne peut pas avoir plus de 8 recrues");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
