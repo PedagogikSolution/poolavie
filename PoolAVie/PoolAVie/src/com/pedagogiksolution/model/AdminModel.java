@@ -748,7 +748,7 @@ public class AdminModel {
 				if (nb_gardien < 2) {
 					manquant_gardien = 2 - nb_gardien;
 				}
-				if (nb_rookie < 2) {
+				if (nb_rookie < 8) {
 					manquant_recrue = 8 - nb_rookie;
 				}
 				if (nb_equipe < 22) {

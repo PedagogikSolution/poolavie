@@ -108,6 +108,9 @@ public interface PlayersDao {
 
 	void resetStatsToZeroForNewYear(String poolID, String years_for_archive)  throws DAOException;
 
+	String getYears1(int poolId, String players_id) throws DAOException;
+
+
 
    
 

@@ -40,8 +40,7 @@
 	<c:if test="${Pool.poolType==2}">
 		<br>
 		<p>
-			Il n'y a pas d'options de signature dans votre type de pool. Vous pouvez recréer un pool de type keeper (Pool à vie) pour essayer un pool plus complet.
-			<br>
+			Il n'y a pas d'options de signature dans votre type de pool. Vous pouvez recréer un pool de type keeper (Pool à vie) pour essayer un pool plus complet. <br>
 		<p>
 	</c:if>
 	<c:if test="${requestScope.messageErreurs!=null}">
@@ -84,33 +83,61 @@
 								<td>${NonSessionPlayers.teamOfPlayer[i]}</td>
 								<td>${NonSessionPlayers.position[i]}</td>
 								<td>${NonSessionPlayers.salaire_draft[i]}</td>
-								
-								<td>
-									<input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="2">
-								</td>
-								<td>
-									<input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="3">
-								</td>
-								<td>
-									<input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="4">
-								</td>
-								<td>
-									<input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="5">
-								</td>
+								<c:choose>
+									<c:when test="${Pool.cycleAnnuel=='4'}">
+										<td><input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="2"></td>
+										<td><input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="3"></td>
+										<td><input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="4"></td>
+										<td><input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="5"></td>
 
+									</c:when>
+									<c:otherwise>
+
+
+										<c:choose>
+											<c:when test="${NonSessionPlayers.years_2[i]!='X'}">
+												<td><input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="2"></td>
+											</c:when>
+											<c:otherwise>
+												<td>X</td>
+											</c:otherwise>
+										</c:choose>
+										<c:choose>
+											<c:when test="${NonSessionPlayers.years_3[i]!='X'}">
+												<td><input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="3"></td>
+											</c:when>
+											<c:otherwise>
+												<td>X</td>
+											</c:otherwise>
+										</c:choose>
+										<c:choose>
+											<c:when test="${NonSessionPlayers.years_4[i]!='X'}">
+												<td><input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="4"></td>
+											</c:when>
+											<c:otherwise>
+												<td>X</td>
+											</c:otherwise>
+										</c:choose>
+										<c:choose>
+											<c:when test="${NonSessionPlayers.years_5[i]!='X'}">
+												<td><input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="5"></td>
+											</c:when>
+											<c:otherwise>
+												<td>X</td>
+											</c:otherwise>
+										</c:choose>
+
+									</c:otherwise>
+								</c:choose>
 								<td>
 									<form id="signatureAbform${i}" action="/Signature" method="POST">
-										<input type="hidden" name="signatureStep" value="1">
-										<input type="hidden" name="draft_player_id" value="${NonSessionPlayers.players_id[i]}">
-										<input type="hidden" name="nom" value="${NonSessionPlayers.nom[i]}">
-										<input type="hidden" name="position" value="${NonSessionPlayers.position[i]}">
-										<input type="hidden" name="team" value="${NonSessionPlayers.teamOfPlayer[i]}">
-										<input type="hidden" name="salaire" value="${NonSessionPlayers.salaire_draft[i]}">
+										<input type="hidden" name="signatureStep" value="1"> <input type="hidden" name="draft_player_id" value="${NonSessionPlayers.players_id[i]}"> <input type="hidden" name="nom"
+											value="${NonSessionPlayers.nom[i]}"> <input type="hidden" name="position" value="${NonSessionPlayers.position[i]}"> <input type="hidden" name="team"
+											value="${NonSessionPlayers.teamOfPlayer[i]}"> <input type="hidden" name="salaire" value="${NonSessionPlayers.salaire_draft[i]}">
 										<button class="w3-btn w3-round-xxlarge w3-blue">Signer ce joueur</button>
 									</form>
 
 								</td>
-
 							</tr>
 
 						</c:forEach>

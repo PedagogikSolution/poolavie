@@ -489,11 +489,13 @@ public class SignatureModel {
 
 			if (new_budget_restant >= 0) {
 
+				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() - total_cout_rachat);
 				mBeanEquipe.setBudget_restant(new_budget_restant);
 				mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);
 				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() - 1);
 				mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe() + 1);
-				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() - total_cout_rachat);
+				mBeanEquipe
+						.setMoy_sal_restant_draft(mBeanEquipe.getBudget_restant() / mBeanEquipe.getManquant_equipe());
 
 				switch (position) {
 
@@ -520,8 +522,12 @@ public class SignatureModel {
 			} else {
 				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() - total_cout_rachat);
 				mBeanEquipe.setBudget_restant(0);
-				mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu() + new_budget_restant);
 				mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);
+				mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu() + new_budget_restant);
+				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() - 1);
+				mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe() + 1);
+				mBeanEquipe
+						.setMoy_sal_restant_draft(mBeanEquipe.getBudget_restant() / mBeanEquipe.getManquant_equipe());
 
 				switch (position) {
 
@@ -593,13 +599,13 @@ public class SignatureModel {
 		String poolID = mBeanPool.getPoolID();
 		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 		int teamId = mBeanUser.getTeamId();
-		int checkForMoyenne=0;
+		int checkForMoyenne = 0;
 		if (mBeanPool.getCycleAnnuel() == 9 || mBeanPool.getCycleAnnuel() == 12) {
 			checkForMoyenne = 1;
 		}
 
 		Boolean checkIfCashAvailablePourRachat = playersDao.getUniquePlayersById(player_id, poolID, teamId, req,
-				position,checkForMoyenne);
+				position, checkForMoyenne);
 
 		return checkIfCashAvailablePourRachat;
 
@@ -770,7 +776,7 @@ public class SignatureModel {
 
 		String players_id = (String) req.getParameter("draft_player_id");
 		String position = (String) req.getParameter("position");
-
+		String years_1 = playersDao.getYears1(poolId, players_id);
 		// on ajuste la bdd players
 		playersDao.dropRookie(poolId, players_id);
 
@@ -808,8 +814,14 @@ public class SignatureModel {
 			Equipe mBeanEquipe = new Equipe();
 			mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(mEntity, mBeanEquipe);
 
-			mBeanEquipe.setManquant_recrue(mBeanEquipe.getManquant_recrue() + 1);
-			mBeanEquipe.setNb_rookie(mBeanEquipe.getNb_rookie() - 1);
+			
+
+			if (years_1.equalsIgnoreCase("C")) {
+
+			} else {
+				mBeanEquipe.setManquant_recrue(mBeanEquipe.getManquant_recrue() + 1);
+				mBeanEquipe.setNb_rookie(mBeanEquipe.getNb_rookie() - 1);
+			}
 
 			mEntity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomClef);
 
@@ -875,8 +887,8 @@ public class SignatureModel {
 
 			mBeanEquipe.setManquant_recrue(mBeanEquipe.getManquant_recrue() + 1);
 			mBeanEquipe.setNb_rookie(mBeanEquipe.getNb_rookie() - 1);
-			
-			mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat()+1);
+
+			mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() + 1);
 
 			mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe() - 1);
 			mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() + 1);
@@ -902,8 +914,8 @@ public class SignatureModel {
 			mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() - salaireInt);
 			mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() + salaireInt);
 
-			mBeanEquipe.setMoy_sal_restant_draft(
-					(mBeanEquipe.getBudget_restant()) / (mBeanEquipe.getManquant_equipe()));
+			mBeanEquipe
+					.setMoy_sal_restant_draft((mBeanEquipe.getBudget_restant()) / (mBeanEquipe.getManquant_equipe()));
 
 			mEntity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomClef);
 
@@ -941,8 +953,8 @@ public class SignatureModel {
 			e.printStackTrace();
 		}
 
-		int moyenne_restante = (budget_restant.intValue() - Integer.parseInt(salaire))
-				/ (manquant_equipe.intValue() - 1);
+		int moyenne_restante = ((budget_restant.intValue() - Integer.parseInt(salaire)) / (manquant_equipe.intValue())
+				+ 1);
 
 		if (moyenne_restante >= 1000000) {
 			return true;
@@ -951,8 +963,5 @@ public class SignatureModel {
 		}
 
 	}
-
-	
-	
 
 }

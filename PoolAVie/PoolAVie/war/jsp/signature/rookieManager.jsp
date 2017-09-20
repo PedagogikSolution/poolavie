@@ -29,7 +29,7 @@
 	<!-- section Alerte -->
 	<jsp:directive.include file="../utils/messageAlerte.jsp" />
 
-	<c:if test="${Pool.poolType==1&&(Pool.cycleAnnuel!=8||Pool.cycleAnnuel!=13)}">
+	<c:if test="${Pool.poolType==1&&(Pool.cycleAnnuel==1||Pool.cycleAnnuel==2||Pool.cycleAnnuel==3||Pool.cycleAnnuel==4||Pool.cycleAnnuel==5||Pool.cycleAnnuel==6||Pool.cycleAnnuel==7||Pool.cycleAnnuel==9||Pool.cycleAnnuel==10||Pool.cycleAnnuel==11||Pool.cycleAnnuel==12)}">
 		<div class="w3-content w3-margin-top" style="max-width: 90%">
 			<div class="w3-container w3-red w3-center">
 				<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
@@ -223,6 +223,7 @@
 											<input type="hidden" name="signatureStep" value="6"> <input type="hidden" name="draft_player_id" value="${NonSessionPlayers.players_id[i]}"> <input type="hidden" name="nom"
 												value="${NonSessionPlayers.nom[i]}"> <input type="hidden" name="position" value="${NonSessionPlayers.position[i]}"> <input type="hidden" name="team"
 												value="${NonSessionPlayers.teamOfPlayer[i]}"> <input type="hidden" name="salaire" value="${NonSessionPlayers.salaire_draft[i]}">
+												 
 											<button class="w3-btn w3-round-xxlarge w3-blue">Signer ce joueur</button>
 										</form>
 

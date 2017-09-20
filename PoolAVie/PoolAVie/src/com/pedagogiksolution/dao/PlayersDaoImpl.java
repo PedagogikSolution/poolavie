@@ -30,6 +30,7 @@ import com.pedagogiksolution.beans.NonSessionPlayers;
 import com.pedagogiksolution.beans.TradeBeanTemp;
 import com.pedagogiksolution.datastorebeans.Attaquant;
 import com.pedagogiksolution.datastorebeans.Defenseur;
+import com.pedagogiksolution.datastorebeans.Equipe;
 import com.pedagogiksolution.datastorebeans.Gardien;
 import com.pedagogiksolution.datastorebeans.Players;
 import com.pedagogiksolution.datastorebeans.Pool;
@@ -131,6 +132,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String UPDATE_C_AFTER_RETRO_3 = "UPDATE players_? SET years_5=? WHERE _id=?";
 	private static final String UPDATE_C_AFTER_RETRO_0 = "UPDATE players_? SET years_2=?,years_3=?,years_4=?,years_5=? WHERE _id=?";
 	private static final String RESET_STATS_TO_ZERO = "UPDATE players_? SET pj=0,but_victoire=0,aide_overtime=0,blanchissage=0,pts=0,year_for_archive=?";
+	private static final String GET_YEARS_1 = "SELECT years_1 FROM players_? WHERE _id=?";
 
 	private DAOFactory daoFactory;
 
@@ -1399,47 +1401,38 @@ public class PlayersDaoImpl implements PlayersDao {
 			try {
 				Entity mEntityEquipe = datastore.get(mKeyEquipeA);
 
-				mEntityEquipe.setProperty("total_salaire_now",
-						(((Long) mEntityEquipe.getProperty("total_salaire_now")) - salaire));
-				mEntityEquipe.setProperty("budget_restant",
-						(((Long) mEntityEquipe.getProperty("budget_restant")) + salaire));
-				mEntityEquipe.setProperty("nb_equipe", (((Long) mEntityEquipe.getProperty("nb_equipe")) - 1));
+				Equipe mBeanEquipe = new Equipe();
+
+				mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(mEntityEquipe, mBeanEquipe);
+
+				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() - salaire);
+				mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() + salaire);
+				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() - 1);
+				mBeanEquipe.setNb_attaquant(mBeanEquipe.getNb_attaquant() - 1);
+				mBeanEquipe.setManquant_att(mBeanEquipe.getManquant_att() + 1);
+
+				if (mBeanPool.getCycleAnnuel() == 3 || mBeanPool.getCycleAnnuel() == 11) {
+					mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe() + 1);
+
+					if (mBeanEquipe.getManquant_equipe() <= 0) {
+						mBeanEquipe.setMoy_sal_restant_draft(0);
+					} else {
+						mBeanEquipe.setMoy_sal_restant_draft(
+								mBeanEquipe.getBudget_restant() / mBeanEquipe.getManquant_equipe());
+					}
+
+				}
+
 				if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("X") || contrat.equalsIgnoreCase("B")
 						|| contrat.equalsIgnoreCase("A")) {
-
+					// rien
 				} else {
-					mEntityEquipe.setProperty("nb_contrat", (((Long) mEntityEquipe.getProperty("nb_contrat")) - 1));
-				}
-				mEntityEquipe.setProperty("nb_attaquant", (((Long) mEntityEquipe.getProperty("nb_attaquant")) - 1));
-				mEntityEquipe.setProperty("manquant_att", (((Long) mEntityEquipe.getProperty("manquant_att")) + 1));
-
-				Long budget = (Long) mEntityEquipe.getProperty("budget_restant");
-				int budget_restant_test = budget.intValue();
-
-				if (budget_restant_test < 0) {
-
-					int argentToTakeInArgentRecu = 0 - budget_restant_test;
-
-					mEntityEquipe.setProperty("argent_recu",
-							((Long) mEntityEquipe.getProperty("argent_recu")) - argentToTakeInArgentRecu);
-
-					mEntityEquipe.setProperty("budget_restant", 0);
-
+					mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);
 				}
 
-				mEntityEquipe.setProperty("manquant_equipe",
-						(((Long) mEntityEquipe.getProperty("manquant_equipe")) + 1));
-
-				if ((Long) mEntityEquipe.getProperty("manquant_equipe") <= 0) {
-					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
-				} else {
-					Long manquantEquipe = (Long) mEntityEquipe.getProperty("manquant_equipe");
-					
-					int moyenne_restante = budget_restant_test/manquantEquipe.intValue();
-					mEntityEquipe.setProperty("moy_sal_restant_draft", moyenne_restante);
-				}
-
+				mEntityEquipe = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomEquipeA);
 				datastore.put(mEntityEquipe);
+
 			} catch (EntityNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -1448,147 +1441,120 @@ public class PlayersDaoImpl implements PlayersDao {
 			try {
 				Entity mEntityEquipe = datastore.get(mKeyEquipeB);
 
-				mEntityEquipe.setProperty("total_salaire_now",
-						(((Long) mEntityEquipe.getProperty("total_salaire_now")) + salaire));
-				mEntityEquipe.setProperty("budget_restant",
-						(((Long) mEntityEquipe.getProperty("budget_restant")) - salaire));
+				Equipe mBeanEquipe = new Equipe();
 
-				mEntityEquipe.setProperty("nb_equipe", (((Long) mEntityEquipe.getProperty("nb_equipe")) + 1));
+				mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(mEntityEquipe, mBeanEquipe);
+
+				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() + salaire);
+				mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() - salaire);
+				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() + 1);
+				mBeanEquipe.setNb_attaquant(mBeanEquipe.getNb_attaquant() + 1);
+				mBeanEquipe.setManquant_att(mBeanEquipe.getManquant_att() - 1);
+
+				if (mBeanPool.getCycleAnnuel() == 3 || mBeanPool.getCycleAnnuel() == 11) {
+					mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe() - 1);
+
+					if (mBeanEquipe.getManquant_equipe() <= 0) {
+						mBeanEquipe.setMoy_sal_restant_draft(0);
+					} else {
+						mBeanEquipe.setMoy_sal_restant_draft(
+								mBeanEquipe.getBudget_restant() / mBeanEquipe.getManquant_equipe());
+					}
+
+				}
+
 				if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("X") || contrat.equalsIgnoreCase("B")
 						|| contrat.equalsIgnoreCase("A")) {
-
+					// rien
 				} else {
-					mEntityEquipe.setProperty("nb_contrat", (((Long) mEntityEquipe.getProperty("nb_contrat")) + 1));
-				}
-				mEntityEquipe.setProperty("nb_attaquant", (((Long) mEntityEquipe.getProperty("nb_attaquant")) + 1));
-				mEntityEquipe.setProperty("manquant_att", (((Long) mEntityEquipe.getProperty("manquant_att")) - 1));
-
-				Long budget = (Long) mEntityEquipe.getProperty("budget_restant");
-				int budget_restant_test = budget.intValue();
-
-				if (budget_restant_test < 0) {
-
-					int argentToTakeInArgentRecu = 0 - budget_restant_test;
-
-					mEntityEquipe.setProperty("argent_recu",
-							((Long) mEntityEquipe.getProperty("argent_recu")) - argentToTakeInArgentRecu);
-
-					mEntityEquipe.setProperty("budget_restant", 0);
-
+					mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() + 1);
 				}
 
-				mEntityEquipe.setProperty("manquant_equipe",
-						(((Long) mEntityEquipe.getProperty("manquant_equipe")) - 1));
-
-				if ((Long) mEntityEquipe.getProperty("manquant_equipe") <= 0) {
-					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
-				} else {
-					Long manquantEquipe = (Long) mEntityEquipe.getProperty("manquant_equipe");
-					
-					int moyenne_restante = budget_restant_test/manquantEquipe.intValue();
-					mEntityEquipe.setProperty("moy_sal_restant_draft", moyenne_restante);
-				}
-
+				mEntityEquipe = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomEquipeB);
 				datastore.put(mEntityEquipe);
 
 			} catch (EntityNotFoundException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
-		} else if (club_ecole == 0 && position.equalsIgnoreCase("defenseur")) {
+		} else if (club_ecole == 0 && position.equalsIgnoreCase("defenseur"))
+
+		{
 			try {
 				Entity mEntityEquipe = datastore.get(mKeyEquipeA);
 
-				mEntityEquipe.setProperty("total_salaire_now",
-						(((Long) mEntityEquipe.getProperty("total_salaire_now")) - salaire));
-				mEntityEquipe.setProperty("budget_restant",
-						(((Long) mEntityEquipe.getProperty("budget_restant")) + salaire));
-				mEntityEquipe.setProperty("nb_equipe", (((Long) mEntityEquipe.getProperty("nb_equipe")) - 1));
-				if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("B")
+				Equipe mBeanEquipe = new Equipe();
+
+				mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(mEntityEquipe, mBeanEquipe);
+
+				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() - salaire);
+				mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() + salaire);
+				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() - 1);
+				mBeanEquipe.setNb_defenseur(mBeanEquipe.getNb_defenseur() - 1);
+				mBeanEquipe.setManquant_def(mBeanEquipe.getManquant_def() + 1);
+
+				if (mBeanPool.getCycleAnnuel() == 3 || mBeanPool.getCycleAnnuel() == 11) {
+					mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe() + 1);
+
+					if (mBeanEquipe.getManquant_equipe() <= 0) {
+						mBeanEquipe.setMoy_sal_restant_draft(0);
+					} else {
+						mBeanEquipe.setMoy_sal_restant_draft(
+								mBeanEquipe.getBudget_restant() / mBeanEquipe.getManquant_equipe());
+					}
+
+				}
+
+				if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("X") || contrat.equalsIgnoreCase("B")
 						|| contrat.equalsIgnoreCase("A")) {
-
+					// rien
 				} else {
-					mEntityEquipe.setProperty("nb_contrat", (((Long) mEntityEquipe.getProperty("nb_contrat")) - 1));
-				}
-				mEntityEquipe.setProperty("nb_defenseur", (((Long) mEntityEquipe.getProperty("nb_defenseur")) - 1));
-				mEntityEquipe.setProperty("manquant_def", (((Long) mEntityEquipe.getProperty("manquant_def")) + 1));
-
-				Long budget = (Long) mEntityEquipe.getProperty("budget_restant");
-				int budget_restant_test = budget.intValue();
-
-				if (budget_restant_test < 0) {
-
-					int argentToTakeInArgentRecu = 0 - budget_restant_test;
-
-					mEntityEquipe.setProperty("argent_recu",
-							((Long) mEntityEquipe.getProperty("argent_recu")) - argentToTakeInArgentRecu);
-
-					mEntityEquipe.setProperty("budget_restant", 0);
-
+					mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);
 				}
 
-				mEntityEquipe.setProperty("manquant_equipe",
-						(((Long) mEntityEquipe.getProperty("manquant_equipe")) + 1));
-
-				if ((Long) mEntityEquipe.getProperty("manquant_equipe") <= 0) {
-					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
-				} else {
-					Long manquantEquipe = (Long) mEntityEquipe.getProperty("manquant_equipe");
-					
-					int moyenne_restante = budget_restant_test/manquantEquipe.intValue();
-					mEntityEquipe.setProperty("moy_sal_restant_draft", moyenne_restante);
-				}
-
+				mEntityEquipe = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomEquipeA);
 				datastore.put(mEntityEquipe);
+
 			} catch (EntityNotFoundException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 			try {
 				Entity mEntityEquipe = datastore.get(mKeyEquipeB);
 
-				mEntityEquipe.setProperty("total_salaire_now",
-						(((Long) mEntityEquipe.getProperty("total_salaire_now")) + salaire));
-				mEntityEquipe.setProperty("budget_restant",
-						(((Long) mEntityEquipe.getProperty("budget_restant")) - salaire));
+				Equipe mBeanEquipe = new Equipe();
 
-				mEntityEquipe.setProperty("nb_equipe", (((Long) mEntityEquipe.getProperty("nb_equipe")) + 1));
-				if (contrat.equalsIgnoreCase("JA") ||  contrat.equalsIgnoreCase("B")
+				mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(mEntityEquipe, mBeanEquipe);
+
+				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() + salaire);
+				mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() - salaire);
+				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() + 1);
+				mBeanEquipe.setNb_defenseur(mBeanEquipe.getNb_defenseur() + 1);
+				mBeanEquipe.setManquant_def(mBeanEquipe.getManquant_def() - 1);
+
+				if (mBeanPool.getCycleAnnuel() == 3 || mBeanPool.getCycleAnnuel() == 11) {
+					mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe() - 1);
+
+					if (mBeanEquipe.getManquant_equipe() <= 0) {
+						mBeanEquipe.setMoy_sal_restant_draft(0);
+					} else {
+						mBeanEquipe.setMoy_sal_restant_draft(
+								mBeanEquipe.getBudget_restant() / mBeanEquipe.getManquant_equipe());
+					}
+
+				}
+				if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("X") || contrat.equalsIgnoreCase("B")
 						|| contrat.equalsIgnoreCase("A")) {
-
+					// rien
 				} else {
-					mEntityEquipe.setProperty("nb_contrat", (((Long) mEntityEquipe.getProperty("nb_contrat")) + 1));
-				}
-				mEntityEquipe.setProperty("nb_defenseur", (((Long) mEntityEquipe.getProperty("nb_defenseur")) + 1));
-				mEntityEquipe.setProperty("manquant_def", (((Long) mEntityEquipe.getProperty("manquant_def")) - 1));
-
-				Long budget = (Long) mEntityEquipe.getProperty("budget_restant");
-				int budget_restant_test = budget.intValue();
-
-				if (budget_restant_test < 0) {
-
-					int argentToTakeInArgentRecu = 0 - budget_restant_test;
-
-					mEntityEquipe.setProperty("argent_recu",
-							((Long) mEntityEquipe.getProperty("argent_recu")) - argentToTakeInArgentRecu);
-
-					mEntityEquipe.setProperty("budget_restant", 0);
-
+					mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() + 1);
 				}
 
-				mEntityEquipe.setProperty("manquant_equipe",
-						(((Long) mEntityEquipe.getProperty("manquant_equipe"))- 1));
-
-				if ((Long) mEntityEquipe.getProperty("manquant_equipe") <= 0) {
-					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
-				} else {
-					Long manquantEquipe = (Long) mEntityEquipe.getProperty("manquant_equipe");
-					
-					int moyenne_restante = budget_restant_test/manquantEquipe.intValue();
-					mEntityEquipe.setProperty("moy_sal_restant_draft", moyenne_restante);
-				}
-
+				mEntityEquipe = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomEquipeB);
 				datastore.put(mEntityEquipe);
+
 			} catch (EntityNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -1598,98 +1564,79 @@ public class PlayersDaoImpl implements PlayersDao {
 			try {
 				Entity mEntityEquipe = datastore.get(mKeyEquipeA);
 
-				mEntityEquipe.setProperty("total_salaire_now",
-						(((Long) mEntityEquipe.getProperty("total_salaire_now")) - salaire));
-				mEntityEquipe.setProperty("budget_restant",
-						(((Long) mEntityEquipe.getProperty("budget_restant")) + salaire));
-				mEntityEquipe.setProperty("nb_equipe", (((Long) mEntityEquipe.getProperty("nb_equipe")) - 1));
-				if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("B")
+				Equipe mBeanEquipe = new Equipe();
+
+				mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(mEntityEquipe, mBeanEquipe);
+
+				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() - salaire);
+				mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() + salaire);
+				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() - 1);
+				mBeanEquipe.setNb_gardien(mBeanEquipe.getNb_gardien() - 1);
+				mBeanEquipe.setManquant_gardien(mBeanEquipe.getManquant_gardien() + 1);
+
+				if (mBeanPool.getCycleAnnuel() == 3 || mBeanPool.getCycleAnnuel() == 11) {
+					mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe() + 1);
+
+					if (mBeanEquipe.getManquant_equipe() <= 0) {
+						mBeanEquipe.setMoy_sal_restant_draft(0);
+					} else {
+						mBeanEquipe.setMoy_sal_restant_draft(
+								mBeanEquipe.getBudget_restant() / mBeanEquipe.getManquant_equipe());
+					}
+
+				}
+
+				if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("X") || contrat.equalsIgnoreCase("B")
 						|| contrat.equalsIgnoreCase("A")) {
-
+					// rien
 				} else {
-					mEntityEquipe.setProperty("nb_contrat", (((Long) mEntityEquipe.getProperty("nb_contrat")) - 1));
-				}
-				mEntityEquipe.setProperty("nb_gardien", (((Long) mEntityEquipe.getProperty("nb_gardien")) - 1));
-				mEntityEquipe.setProperty("manquant_gardien",
-						(((Long) mEntityEquipe.getProperty("manquant_gardien")) + 1));
-
-				Long budget = (Long) mEntityEquipe.getProperty("budget_restant");
-				int budget_restant_test = budget.intValue();
-
-				if (budget_restant_test < 0) {
-
-					int argentToTakeInArgentRecu = 0 - budget_restant_test;
-
-					mEntityEquipe.setProperty("argent_recu",
-							((Long) mEntityEquipe.getProperty("argent_recu")) - argentToTakeInArgentRecu);
-
-					mEntityEquipe.setProperty("budget_restant", 0);
-
+					mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);
 				}
 
-				mEntityEquipe.setProperty("manquant_equipe",
-						(((Long) mEntityEquipe.getProperty("manquant_equipe")) + 1));
-
-				if ((Long) mEntityEquipe.getProperty("manquant_equipe") <= 0) {
-					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
-				} else {
-					Long manquantEquipe = (Long) mEntityEquipe.getProperty("manquant_equipe");
-					
-					int moyenne_restante = budget_restant_test/manquantEquipe.intValue();
-					mEntityEquipe.setProperty("moy_sal_restant_draft", moyenne_restante);
-				}
+				mEntityEquipe = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomEquipeA);
 				datastore.put(mEntityEquipe);
 
 			} catch (EntityNotFoundException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 			try {
 				Entity mEntityEquipe = datastore.get(mKeyEquipeB);
 
-				mEntityEquipe.setProperty("total_salaire_now",
-						(((Long) mEntityEquipe.getProperty("total_salaire_now")) + salaire));
-				mEntityEquipe.setProperty("budget_restant",
-						(((Long) mEntityEquipe.getProperty("budget_restant")) - salaire));
+				Equipe mBeanEquipe = new Equipe();
 
-				mEntityEquipe.setProperty("nb_equipe", (((Long) mEntityEquipe.getProperty("nb_equipe")) + 1));
-				if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("X")) {
+				mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(mEntityEquipe, mBeanEquipe);
 
+				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() + salaire);
+				mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() - salaire);
+				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() + 1);
+				mBeanEquipe.setNb_gardien(mBeanEquipe.getNb_gardien() + 1);
+				mBeanEquipe.setManquant_gardien(mBeanEquipe.getManquant_gardien() - 1);
+
+				if (mBeanPool.getCycleAnnuel() == 3 || mBeanPool.getCycleAnnuel() == 11) {
+					mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe() - 1);
+
+					if (mBeanEquipe.getManquant_equipe() <= 0) {
+						mBeanEquipe.setMoy_sal_restant_draft(0);
+					} else {
+						mBeanEquipe.setMoy_sal_restant_draft(
+								mBeanEquipe.getBudget_restant() / mBeanEquipe.getManquant_equipe());
+					}
+				}
+
+				if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("X") || contrat.equalsIgnoreCase("B")
+						|| contrat.equalsIgnoreCase("A")) {
+					// rien
 				} else {
-					mEntityEquipe.setProperty("nb_contrat", (((Long) mEntityEquipe.getProperty("nb_contrat")) + 1));
-				}
-				mEntityEquipe.setProperty("nb_gardien", (((Long) mEntityEquipe.getProperty("nb_gardien")) + 1));
-				mEntityEquipe.setProperty("manquant_gardien",
-						(((Long) mEntityEquipe.getProperty("manquant_gardien")) - 1));
-
-				Long budget = (Long) mEntityEquipe.getProperty("budget_restant");
-				int budget_restant_test = budget.intValue();
-
-				if (budget_restant_test < 0) {
-
-					int argentToTakeInArgentRecu = 0 - budget_restant_test;
-
-					mEntityEquipe.setProperty("argent_recu",
-							((Long) mEntityEquipe.getProperty("argent_recu")) - argentToTakeInArgentRecu);
-
-					mEntityEquipe.setProperty("budget_restant", 0);
-
+					mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() + 1);
 				}
 
-				mEntityEquipe.setProperty("manquant_equipe",
-						(((Long) mEntityEquipe.getProperty("manquant_equipe")) - 1));
-
-				if ((Long) mEntityEquipe.getProperty("manquant_equipe") <= 0) {
-					mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
-				} else {
-					Long manquantEquipe = (Long) mEntityEquipe.getProperty("manquant_equipe");
-					
-					int moyenne_restante = budget_restant_test/manquantEquipe.intValue();
-					mEntityEquipe.setProperty("moy_sal_restant_draft", moyenne_restante);
-				}
+				mEntityEquipe = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomEquipeB);
 				datastore.put(mEntityEquipe);
 
 			} catch (EntityNotFoundException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -1892,7 +1839,7 @@ public class PlayersDaoImpl implements PlayersDao {
 
 	@Override
 	public Boolean getUniquePlayersById(String player_id, String poolID, int teamId, HttpServletRequest req,
-			String position,int checkForMoyenne) {
+			String position, int checkForMoyenne) {
 		Players mBean = new Players();
 		int coutDuRachat = 0;
 		ResultSet rs = null;
@@ -1958,9 +1905,9 @@ public class PlayersDaoImpl implements PlayersDao {
 			/***********   ************/
 
 			if (bYears1 && !bYears2 && !bYears3 && !bYears4 && !bYears5) {
-				coutDuRachat = (iYears1 ) / 2;
+				coutDuRachat = (iYears1) / 2;
 			}
-			
+
 			if (bYears1 && bYears2 && !bYears3 && !bYears4 && !bYears5) {
 				coutDuRachat = (iYears1 + iYears2) / 2;
 			}
@@ -1987,12 +1934,12 @@ public class PlayersDaoImpl implements PlayersDao {
 			argent_recu = argent_recuL.intValue();
 
 			total_argent = budget_restant + argent_recu;
-			
-			if(checkForMoyenne==1) {
-				
-				Long nb_equipe = (Long) mEntity.getProperty("nb_equipe");
-				
-				if((budget_restant/nb_equipe.intValue())<1000000){
+
+			if (checkForMoyenne == 1) {
+
+				Long manquant_equipe = (Long) mEntity.getProperty("manquant_equipe");
+
+				if (((budget_restant - coutDuRachat) / (manquant_equipe.intValue() + 1)) < 1000000) {
 					return false;
 				}
 			}
@@ -2005,10 +1952,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		} finally {
 			fermeturesSilencieuses(rs, preparedStatement, connexion);
 		}
-		
 
-		
-		
 		if ((budget_restant >= coutDuRachat) || (total_argent >= coutDuRachat)) {
 
 			mBean.setSalaire_contrat(coutDuRachat);
@@ -2505,7 +2449,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		} finally {
 			fermeturesSilencieuses(preparedStatement, connexion);
 		}
-		
+
 	}
 
 	@Override
@@ -2873,6 +2817,14 @@ public class PlayersDaoImpl implements PlayersDao {
 		}
 
 		switch (numberOfYearSign) {
+		case 1:
+			years1 = String.valueOf(salaireInt);
+			years2 = "X";
+			years3 = "X";
+			years4 = "X";
+			years5 = "X";
+
+			break;
 		case 2:
 			years1 = String.valueOf(salaireInt);
 			years2 = String.valueOf(salaireInt);
@@ -2988,22 +2940,22 @@ public class PlayersDaoImpl implements PlayersDao {
 
 				if (years_2.equalsIgnoreCase("X")) {
 
-					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false, Integer.parseInt(poolID),
-							salaire, "X", "X", "X", "X", players_id);
+					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false,
+							Integer.parseInt(poolID), salaire, "X", "X", "X", "X", players_id);
 					preparedStatement.execute();
 				} else if (years_3.equalsIgnoreCase("X")) {
-					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false, Integer.parseInt(poolID),
-							salaire, salaire, "X", "X", "X", players_id);
+					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false,
+							Integer.parseInt(poolID), salaire, salaire, "X", "X", "X", players_id);
 					preparedStatement.execute();
 
 				} else if (years_4.equalsIgnoreCase("X")) {
-					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false, Integer.parseInt(poolID),
-							salaire, salaire, salaire, "X", "X", players_id);
+					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false,
+							Integer.parseInt(poolID), salaire, salaire, salaire, "X", "X", players_id);
 					preparedStatement.execute();
 
 				} else if (years_5.equalsIgnoreCase("X")) {
-					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false, Integer.parseInt(poolID),
-							salaire, salaire, salaire, salaire, players_id, "X");
+					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_SALAIRE_ROOKIE, false,
+							Integer.parseInt(poolID), salaire, salaire, salaire, salaire, players_id, "X");
 					preparedStatement.execute();
 
 				}
@@ -3299,7 +3251,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	}
 
 	@Override
-	public void resetStatsToZeroForNewYear(String poolID,String years_for_archive) {
+	public void resetStatsToZeroForNewYear(String poolID, String years_for_archive) {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 
@@ -3307,7 +3259,7 @@ public class PlayersDaoImpl implements PlayersDao {
 			connexion = daoFactory.getConnection();
 
 			preparedStatement = initialisationRequetePreparee(connexion, RESET_STATS_TO_ZERO, false,
-					Integer.parseInt(poolID),Integer.parseInt(years_for_archive));
+					Integer.parseInt(poolID), Integer.parseInt(years_for_archive));
 
 			preparedStatement.executeUpdate();
 
@@ -3317,6 +3269,31 @@ public class PlayersDaoImpl implements PlayersDao {
 			fermeturesSilencieuses(preparedStatement, connexion);
 		}
 
+	}
+
+	
+	@Override
+	public String getYears1(int poolId, String players_id) throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		String salaire = null;
+		try {
+			connexion = daoFactory.getConnection();
+
+			preparedStatement = initialisationRequetePreparee(connexion, GET_YEARS_1, false, poolId, players_id);
+			rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				salaire = rs.getString("years_1");
+
+			}
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(rs, preparedStatement, connexion);
+		}
+		return salaire;
 	}
 
 }

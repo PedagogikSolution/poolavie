@@ -1806,42 +1806,42 @@ public class TradeModel {
 		// check si le nombre par position va resister l'echange (min 8 attaquant, 5 def
 		// et 2 goal)
 		if (mBeanPool.getCycleAnnuel() == 5 || mBeanPool.getCycleAnnuel() == 6) {
-			if ((nb_attaquant_make_offer + nbAttInTeamThatOffer - nbAttInTeamThatReceived) < 8) {
+			if ((nb_attaquant_make_offer - nbAttInTeamThatOffer + nbAttInTeamThatReceived) < 8) {
 				mBeanMessageErreur.setErreurTrade(
 						"Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 8 attaquants (Reglement 3.1");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 			}
 
-			if ((nb_attaquant_rec_offer - nbAttInTeamThatOffer + nbAttInTeamThatReceived) < 8) {
+			if ((nb_attaquant_rec_offer + nbAttInTeamThatOffer - nbAttInTeamThatReceived) < 8) {
 				mBeanMessageErreur.setErreurTrade(
 						"Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 8 attaquants (Reglement 3.1");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 			}
 
-			if ((nb_defenseur_make_offer + nbDefInTeamThatOffer - nbDefInTeamThatReceived) < 5) {
+			if ((nb_defenseur_make_offer - nbDefInTeamThatOffer + nbDefInTeamThatReceived) < 5) {
 				mBeanMessageErreur.setErreurTrade(
 						"Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 5 defenseurs (Reglement 3.1");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 			}
 
-			if ((nb_defenseur_rec_offer - nbDefInTeamThatOffer + nbDefInTeamThatReceived) < 5) {
+			if ((nb_defenseur_rec_offer + nbDefInTeamThatOffer - nbDefInTeamThatReceived) < 5) {
 				mBeanMessageErreur.setErreurTrade(
 						"Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 5 defenseurs (Reglement 3.1");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 			}
 
-			if ((nb_goaler_make_offer + nbGoalInTeamThatOffer - nbGoalInTeamThatReceived) < 2) {
+			if ((nb_goaler_make_offer - nbGoalInTeamThatOffer + nbGoalInTeamThatReceived) < 2) {
 				mBeanMessageErreur.setErreurTrade(
 						"Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 2 gardiens (Reglement 3.1");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 			}
 
-			if ((nb_goaler_rec_offer - nbGoalInTeamThatOffer + nbGoalInTeamThatReceived) < 2) {
+			if ((nb_goaler_rec_offer + nbGoalInTeamThatOffer - nbGoalInTeamThatReceived) < 2) {
 				mBeanMessageErreur.setErreurTrade(
 						"Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 2 gardiens (Reglement 3.1");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
@@ -2066,19 +2066,28 @@ public class TradeModel {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Key mKeyEquipeA = KeyFactory.createKey("Equipe", nomEquipeA);
 		Key mKeyEquipeB = KeyFactory.createKey("Equipe", nomEquipeB);
-		Long moyenne_restante=null;
+		
 		try {
 			Entity mEntityEquipe = datastore.get(mKeyEquipeA);
+			Equipe mBeanEquipe = new Equipe();
+			
+			mBeanEquipe.mapEquipeFromDatastore(mEntityEquipe, mBeanEquipe);
+			
+			mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant()-cash);
 
-			mEntityEquipe.setProperty("budget_restant", (((Long) mEntityEquipe.getProperty("budget_restant")) - cash));
-			if ((Long) mEntityEquipe.getProperty("manquant_equipe") == 0) {
-				mEntityEquipe.setProperty("moy_sal_restant_draft", 0);
-			} else {
-			 moyenne_restante = (((Long) mEntityEquipe.getProperty("budget_restant"))
-					/ ((Long) mEntityEquipe.getProperty("manquant_equipe")));}
-			mEntityEquipe.setProperty("moy_sal_restant_draft", moyenne_restante);
 			
+			if (mBeanPool.getCycleAnnuel() == 3 || mBeanPool.getCycleAnnuel() == 11) {
+
+				if (mBeanEquipe.getManquant_equipe() <= 0) {
+					mBeanEquipe.setMoy_sal_restant_draft(0);
+				} else {
+					mBeanEquipe.setMoy_sal_restant_draft(
+							mBeanEquipe.getBudget_restant() / mBeanEquipe.getManquant_equipe());
+				}
+
+			}
 			
+			mEntityEquipe = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomEquipeA);
 			datastore.put(mEntityEquipe);
 
 		} catch (EntityNotFoundException e) {
@@ -2087,9 +2096,25 @@ public class TradeModel {
 
 		try {
 			Entity mEntityEquipe = datastore.get(mKeyEquipeB);
+			Equipe mBeanEquipe = new Equipe();
+			
+			mBeanEquipe.mapEquipeFromDatastore(mEntityEquipe, mBeanEquipe);
+			
+			mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant()+cash);
 
-			mEntityEquipe.setProperty("argent_recu", (((Long) mEntityEquipe.getProperty("argent_recu")) + cash));
+			
+			if (mBeanPool.getCycleAnnuel() == 3 || mBeanPool.getCycleAnnuel() == 11) {
 
+				if (mBeanEquipe.getManquant_equipe() <= 0) {
+					mBeanEquipe.setMoy_sal_restant_draft(0);
+				} else {
+					mBeanEquipe.setMoy_sal_restant_draft(
+							mBeanEquipe.getBudget_restant() / mBeanEquipe.getManquant_equipe());
+				}
+
+			}
+			
+			mEntityEquipe = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomEquipeB);
 			datastore.put(mEntityEquipe);
 		} catch (EntityNotFoundException e) {
 			e.printStackTrace();
