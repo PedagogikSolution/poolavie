@@ -1064,7 +1064,7 @@ public class AdminModel {
 		String poolID = mBeanPool.getPoolID();
 		String thisYear = mBeanPool.getThisYear();
 		String years = thisYear.substring(0, 4);
-		int lastYear = Integer.parseInt(thisYear) - 1;
+		int lastYear = Integer.parseInt(years) - 1;
 
 		int nombreEquipe = mBeanPool.getNumberTeam();
 		int numPickByTeam = 30;
