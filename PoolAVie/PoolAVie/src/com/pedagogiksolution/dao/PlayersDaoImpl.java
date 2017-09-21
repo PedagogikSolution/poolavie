@@ -93,7 +93,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String MIGRATE_PTS_FOR_YEARS_AGO_2 = "UPDATE players_? SET pj_1_years_ago=pj,pts_1_years_ago=pts ";
 	private static final String MOVE_YEARS_TO_YEARS = "UPDATE players_? SET years_0=years_1,years_1=years_2,years_2=years_3,years_3=years_4,years_4=years_5,years_5='X' WHERE team_id IS NOT NULL";
 	private static final String SET_TAKE_PROJ_0 = "UPDATE players_? SET take_proj=0";
-	private static final String UPDATE_YEARS_TO_YEARS = "UPDATE players_? SET team_id=null,years_0=0,years_1=0,years_2=0,years_3=0,years_4=0,years_5=0,contrat=0,club_ecole=0 WHERE years_1='JA' OR years_1='X'";
+	private static final String UPDATE_YEARS_TO_YEARS = "UPDATE players_? SET team_id=null,years_0=0,years_1=0,years_2=0,years_3=0,years_4=0,years_5=0,contrat=0,club_ecole=0 WHERE team_id IS NULL";
 	private static final String SET_SALAIRE_ATTAQUANT = "UPDATE players_? AS p INNER JOIN salaire? AS s ON p.pts=s.points SET p.salaire_draft = s.salaire"
 			+ " WHERE s.position=1 AND p.position='attaquant' AND take_proj=0";
 	private static final String SET_SALAIRE_DEFENSEUR = "UPDATE players_? AS p INNER JOIN salaire? AS s ON p.pts=s.points SET p.salaire_draft = s.salaire"
