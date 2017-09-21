@@ -2074,6 +2074,12 @@ public class TradeModel {
 			mBeanEquipe.mapEquipeFromDatastore(mEntityEquipe, mBeanEquipe);
 			
 			mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant()-cash);
+			
+			if(mBeanEquipe.getBudget_restant()<0) {
+				mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu()+mBeanEquipe.getBudget_restant());
+
+				mBeanEquipe.setBudget_restant(0);
+			}
 
 			
 			if (mBeanPool.getCycleAnnuel() == 3 || mBeanPool.getCycleAnnuel() == 11) {
@@ -2086,6 +2092,7 @@ public class TradeModel {
 				}
 
 			}
+			
 			
 			mEntityEquipe = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomEquipeA);
 			datastore.put(mEntityEquipe);
@@ -2100,8 +2107,8 @@ public class TradeModel {
 			
 			mBeanEquipe.mapEquipeFromDatastore(mEntityEquipe, mBeanEquipe);
 			
-			mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant()+cash);
 
+			mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu()+cash);
 			
 			if (mBeanPool.getCycleAnnuel() == 3 || mBeanPool.getCycleAnnuel() == 11) {
 
@@ -2113,6 +2120,7 @@ public class TradeModel {
 				}
 
 			}
+			
 			
 			mEntityEquipe = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomEquipeB);
 			datastore.put(mEntityEquipe);
