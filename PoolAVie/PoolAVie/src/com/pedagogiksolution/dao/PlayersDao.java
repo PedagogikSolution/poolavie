@@ -110,6 +110,12 @@ public interface PlayersDao {
 
 	String getYears1(int poolId, String players_id) throws DAOException;
 
+	void addPlayer(String poolID, String nom, String team, String position, String birthday) throws DAOException;
+
+	void setAgeForNewPlayer(HttpServletRequest req) throws DAOException;
+
+	void putNewPlayersInDatastore(String poolID) throws DAOException;
+
 
 
    

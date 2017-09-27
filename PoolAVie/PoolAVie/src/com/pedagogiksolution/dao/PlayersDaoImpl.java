@@ -133,6 +133,8 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String UPDATE_C_AFTER_RETRO_0 = "UPDATE players_? SET years_2=?,years_3=?,years_4=?,years_5=? WHERE _id=?";
 	private static final String RESET_STATS_TO_ZERO = "UPDATE players_? SET pj=0,but_victoire=0,aide_overtime=0,blanchissage=0,pts=0,year_for_archive=?";
 	private static final String GET_YEARS_1 = "SELECT years_1 FROM players_? WHERE _id=?";
+	private static final String ADD_NEW_PLAYERS = "INSERT INTO players_? (nom,team,position,birthday) VALUES (?,?,?,?)";
+	private static final String GET_LAST_PLAYER_ADD = "SELECT * FROM players_? ORDER BY _id DESC LIMIT 1";
 
 	private DAOFactory daoFactory;
 
@@ -768,7 +770,7 @@ public class PlayersDaoImpl implements PlayersDao {
 					int salaire = 0;
 					int salaireB = 0;
 
-					if (years_1.equals("A")) {
+					if (m_years_1.equalsIgnoreCase("A")) {
 						if (m_take_proj == 0) {
 
 							salaire = salaireDao.getSalaireTable(poolId, m_position, m_pts);
@@ -854,7 +856,7 @@ public class PlayersDaoImpl implements PlayersDao {
 			switch (numberOfYear) {
 			case 1:
 				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_SIGNATURE_AFTER_DRAFT,
-						false, poolId, salaire, "JA", "X", "X", "X", draft_player_id);
+						false, poolId, salaire, "X", "X", "X", "X", draft_player_id);
 				break;
 			case 2:
 				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_SIGNATURE_AFTER_DRAFT,
@@ -1448,11 +1450,7 @@ public class PlayersDaoImpl implements PlayersDao {
 				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() + salaire);
 				mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() - salaire);
 				
-				if(mBeanEquipe.getBudget_restant()<0) {
-					mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu()+mBeanEquipe.getBudget_restant());
-
-					mBeanEquipe.setBudget_restant(0);
-				}
+				
 				
 				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() + 1);
 				mBeanEquipe.setNb_attaquant(mBeanEquipe.getNb_attaquant() + 1);
@@ -1537,11 +1535,7 @@ public class PlayersDaoImpl implements PlayersDao {
 
 				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() + salaire);
 				mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() - salaire);
-				if(mBeanEquipe.getBudget_restant()<0) {
-					mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu()+mBeanEquipe.getBudget_restant());
-
-					mBeanEquipe.setBudget_restant(0);
-				}
+				
 				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() + 1);
 				mBeanEquipe.setNb_defenseur(mBeanEquipe.getNb_defenseur() + 1);
 				mBeanEquipe.setManquant_def(mBeanEquipe.getManquant_def() - 1);
@@ -1622,11 +1616,7 @@ public class PlayersDaoImpl implements PlayersDao {
 
 				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() + salaire);
 				mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() - salaire);
-				if(mBeanEquipe.getBudget_restant()<0) {
-					mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu()+mBeanEquipe.getBudget_restant());
-
-					mBeanEquipe.setBudget_restant(0);
-				}
+				
 				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() + 1);
 				mBeanEquipe.setNb_gardien(mBeanEquipe.getNb_gardien() + 1);
 				mBeanEquipe.setManquant_gardien(mBeanEquipe.getManquant_gardien() - 1);
@@ -1648,6 +1638,7 @@ public class PlayersDaoImpl implements PlayersDao {
 				} else {
 					mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() + 1);
 				}
+				
 
 				mEntityEquipe = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomEquipeB);
 				datastore.put(mEntityEquipe);
@@ -1682,6 +1673,48 @@ public class PlayersDaoImpl implements PlayersDao {
 				e.printStackTrace();
 			}
 
+		}
+		
+		try {
+			Entity mEntityEquipe = datastore.get(mKeyEquipeA);
+
+			Equipe mBeanEquipe = new Equipe();
+
+			mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(mEntityEquipe, mBeanEquipe);
+
+
+			if(mBeanEquipe.getBudget_restant()<0) {
+				mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu()+mBeanEquipe.getBudget_restant());
+
+				mBeanEquipe.setBudget_restant(0);
+			}
+			mEntityEquipe = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomEquipeA);
+			datastore.put(mEntityEquipe);
+
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			Entity mEntityEquipe = datastore.get(mKeyEquipeB);
+
+			Equipe mBeanEquipe = new Equipe();
+
+			mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(mEntityEquipe, mBeanEquipe);
+
+			if(mBeanEquipe.getBudget_restant()<0) {
+				mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu()+mBeanEquipe.getBudget_restant());
+
+				mBeanEquipe.setBudget_restant(0);
+			}
+
+			mEntityEquipe = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomEquipeB);
+			datastore.put(mEntityEquipe);
+
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 	}
@@ -3287,7 +3320,6 @@ public class PlayersDaoImpl implements PlayersDao {
 		}
 
 	}
-
 	
 	@Override
 	public String getYears1(int poolId, String players_id) throws DAOException {
@@ -3311,6 +3343,135 @@ public class PlayersDaoImpl implements PlayersDao {
 			fermeturesSilencieuses(rs, preparedStatement, connexion);
 		}
 		return salaire;
+	}
+
+	@Override
+	public void addPlayer(String poolID, String nom, String team, String position, String birthday)
+			throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connexion = daoFactory.getConnection();
+
+			preparedStatement = initialisationRequetePreparee(connexion, ADD_NEW_PLAYERS, false, Integer.parseInt(poolID), nom,team,position,birthday);
+			preparedStatement.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+		
+		
+	}
+
+	@Override
+	public void setAgeForNewPlayer(HttpServletRequest req) throws DAOException {
+		DateTime dt = new DateTime();
+
+		int year = dt.getYear() - 25;
+		String birthday = year + "-09-15";
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		String poolID = mBeanPool.getPoolID();
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion, UPDATE_AGE_FOR_ROOKIE, false,
+					Integer.parseInt(poolID), birthday);
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+
+		
+	}
+
+	
+	@Override
+	public void putNewPlayersInDatastore(String poolID) throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs=null;
+		
+		int players_id = 0;
+		
+		String nom = null;
+		String teamOfPlayer = null;
+		int pj = 0;
+		int but_victoire = 0;
+		int aide_overtime = 0;
+		int blanchissage = 0;
+		int pts = 0;
+		int projection = 0;
+		String position = null;
+		
+		int can_be_rookie = 0;
+		
+		int salaire_draft = 0;
+		int contrat = 0;
+		int club_ecole = 0;
+		
+		
+		try {
+			connexion = daoFactory.getConnection();
+
+			preparedStatement = initialisationRequetePreparee(connexion, GET_LAST_PLAYER_ADD, false, Integer.parseInt(poolID));
+			rs =preparedStatement.executeQuery();
+			
+			while(rs.next()) {
+				
+				players_id = rs.getInt("_id");
+				nom = rs.getString("nom");
+				teamOfPlayer = rs.getString("team");
+				pj = rs.getInt("pj");
+				but_victoire = rs.getInt("but_victoire");
+				aide_overtime = rs.getInt("aide_overtime");
+				blanchissage = rs.getInt("blanchissage");
+				pts = rs.getInt("pts");
+				projection = rs.getInt("projection");
+				position = rs.getString("position");
+				can_be_rookie = rs.getInt("can_be_rookie");
+				salaire_draft = rs.getInt("salaire_draft");
+				contrat = rs.getInt("contrat");
+				club_ecole = rs.getInt("club_ecole");	
+				
+				String playersTableName = "Players_" + poolID;
+				Key datastoreKey = KeyFactory.createKey(playersTableName, String.valueOf(players_id));
+				
+				DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+				Entity playersEntity = new Entity(datastoreKey);
+				playersEntity.setProperty("players_id", players_id);
+				playersEntity.setProperty("nom", nom);
+				playersEntity.setProperty("teamOfPlayer", teamOfPlayer);
+				playersEntity.setProperty("pj", pj);
+				playersEntity.setProperty("but_victoire", but_victoire);
+				playersEntity.setProperty("aide_overtime", aide_overtime);
+				playersEntity.setProperty("blanchissage", blanchissage);
+				playersEntity.setProperty("pts", pts);
+				playersEntity.setProperty("projection", projection);
+				playersEntity.setProperty("position", position);
+				playersEntity.setProperty("can_be_rookie", can_be_rookie);
+				playersEntity.setProperty("salaire_draft", salaire_draft);
+				playersEntity.setProperty("contrat", contrat);
+				playersEntity.setProperty("club_ecole", club_ecole);
+
+				datastore.put(playersEntity);
+
+				
+			}
+			
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(rs,preparedStatement, connexion);
+		}
+		
 	}
 
 }

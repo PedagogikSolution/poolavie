@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.dao.DAOFactory;
 import com.pedagogiksolution.dao.DraftDao;
+import com.pedagogiksolution.dao.PlayersDao;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.AdminModel;
 import com.pedagogiksolution.model.DraftPlayersModel;
@@ -22,11 +23,13 @@ public class AdminDraftServlet extends HttpServlet {
     
     public static final String CONF_DAO_FACTORY = "daofactory";
     private DraftDao draftDao;
+    private PlayersDao playersDao;
 
     @Override
     public void init() throws ServletException {
 	/* Recuperation d'une instance de notre DAO Utilisateur */
 	this.draftDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getDraftDao();
+	this.playersDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getPlayersDao();
 
     }
 
@@ -122,6 +125,20 @@ public class AdminDraftServlet extends HttpServlet {
 	
 	 // on envoie un courriel pour avertir les joueur avec top 10 pick
 	    mAdminModel.envoieCourrielDateEtOrdreDeDraft(req,dateDraft,heureDraft);
+	    req.getRequestDispatcher("jsp/main/nouvelles.jsp").forward(req, resp);
+	    break;
+	    
+	case 5:
+		
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		String poolID = mBeanPool.getPoolID();
+	    String nom = req.getParameter("nom");
+	    String team = req.getParameter("team");
+	    String position = req.getParameter("position");
+	    String birthday = req.getParameter("birthday");
+	    
+	    mAdminModel.addPlayerDuringDraft(poolID,nom,team,position,birthday,playersDao,req);
+	    
 	    req.getRequestDispatcher("jsp/main/nouvelles.jsp").forward(req, resp);
 	    break;
 	default: //

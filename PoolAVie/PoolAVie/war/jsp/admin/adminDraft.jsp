@@ -25,11 +25,11 @@
 	<jsp:directive.include file="../main/navbar_main.jsp" />
 	<jsp:directive.include file="../main/menu_secondaire.jsp" />
 	<jsp:directive.include file="menu_admin.jsp" />
-	
+
 	<!-- section Alerte -->
 	<jsp:directive.include file="../utils/messageAlerte.jsp" />
-	
-	
+
+
 	<div class="w3-container w3-margin-top">
 
 
@@ -43,13 +43,11 @@
 
 
 				<p>
-					<label>Date</label>
-					<input class="w3-input w3-validate" type="date" name="dateDraft" min="Date.now()">
+					<label>Date</label> <input class="w3-input w3-validate" type="date" name="dateDraft" min="Date.now()">
 				</p>
 
 				<p>
-					<label>Heure</label>
-					<input class="w3-input w3-validate" type="time" name="heureDraft">
+					<label>Heure</label> <input class="w3-input w3-validate" type="time" name="heureDraft">
 				</p>
 
 
@@ -69,13 +67,11 @@
 
 
 				<p>
-					<label>Date</label>
-					<input class="w3-input w3-validate" type="date" name="dateDraft" min="Date.now()">
+					<label>Date</label> <input class="w3-input w3-validate" type="date" name="dateDraft" min="Date.now()">
 				</p>
 
 				<p>
-					<label>Heure</label>
-					<input class="w3-input w3-validate" type="time" name="heureDraft">
+					<label>Heure</label> <input class="w3-input w3-validate" type="time" name="heureDraft">
 				</p>
 
 
@@ -95,13 +91,11 @@
 
 
 				<p>
-					<label>Date</label>
-					<input class="w3-input w3-validate" type="date" name="dateDraft" min="Date.now()">
+					<label>Date</label> <input class="w3-input w3-validate" type="date" name="dateDraft" min="Date.now()">
 				</p>
 
 				<p>
-					<label>Heure</label>
-					<input class="w3-input w3-validate" type="time" name="heureDraft">
+					<label>Heure</label> <input class="w3-input w3-validate" type="time" name="heureDraft">
 				</p>
 
 
@@ -114,31 +108,67 @@
 
 		<c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3}">
 
-			<h2 class="w3-blue">Change the draft date and time</h2>
-			<form class="w3-container w3-card-24 w3-white" action="/AdminDraft" method="post">
+			<div class="w3-container w3-margin-top">
 
-				<input type="hidden" name="numeroFormulaire" value="4">
+				<div class="w3-row w3-container">
+					<div class="w3-container w3-half">
 
+						<h2 class="w3-blue">Change the draft date and time</h2>
+						<form class="w3-container w3-card-24 w3-white" action="/AdminDraft" method="post">
 
-				<p>
-					<label>Date</label>
-					<input class="w3-input w3-validate" type="date" name="dateDraft" min="Date.now()">
-				</p>
-
-				<p>
-					<label>Heure</label>
-					<input class="w3-input w3-validate" type="time" name="heureDraft">
-				</p>
+							<input type="hidden" name="numeroFormulaire" value="4">
 
 
-				<button class="w3-btn w3-blue w3-xlarge">Confirmer</button>
+							<p>
+								<label>Date</label> <input class="w3-input w3-validate" type="date" name="dateDraft" min="Date.now()">
+							</p>
 
-				<br>
+							<p>
+								<label>Heure</label> <input class="w3-input w3-validate" type="time" name="heureDraft">
+							</p>
 
-			</form>
+
+							<button class="w3-btn w3-blue w3-xlarge">Confirmer</button>
+
+							<br>
+
+						</form>
+
+
+					</div>
+					<div class="w3-container w3-half">
+
+
+						<div class="w3-card-24 w3-white" style="width: 80%; height: 80%; margin-left: auto; margin-right: auto">
+							<div class="w3-indigo w3-center w3-padding">
+								<h3>Ajoutez un joueur dans la base de donnée</h3>
+							</div>
+							<br> <form class="w3-container" action="/AdminDraft" method="post" name="joueur" autocomplete="off">
+							<input type="hidden" name="numeroFormulaire" value="5">
+							<label class="w3-label w3-text-indigo w3-large w3-container">Nom du joueur</label> <input class="w3-input w3-container w3-margin-left" type="text" name="nom"
+								placeholder="Nom tel que dans hockey reference" maxlength="30" style="width: 90%"> <br> <label class="w3-label w3-text-indigo w3-large w3-container">Équipe</label> <input
+								class="w3-input w3-container w3-margin-left" type="text" name="team" placeholder="en trois lettre" maxlength="30" style="width: 90%"> <br> <label
+								class="w3-label w3-text-indigo w3-large w3-container">Position</label> <input class="w3-input w3-container w3-margin-left" type="text" name="position" placeholder="attaquant,defenseur,gardien"
+								maxlength="30" style="width: 90%"> <br> <label class="w3-label w3-text-indigo w3-large w3-container">Date de naissance</label> <input class="w3-input w3-container w3-margin-left"
+								type="text" name="birthday" placeholder="yyyy-MM-dd" maxlength="30" style="width: 90%"> <br> <br>
+							<div style="width: 80%; height: 80%; margin-left: auto; margin-right: auto">
+								<button class="w3-btn w3-khaki w3-xlarge w3-text-indigo w3-center">Ajouter ce joueur</button>
+							</div>
+							</form>
+							<br> <br>
+						</div>
+
+
+
+					</div>
+				</div>
+
+
+			</div>
+
 		</c:if>
-		
-			
+
+
 
 
 	</div>

@@ -223,6 +223,7 @@
 											<input type="hidden" name="signatureStep" value="6"> <input type="hidden" name="draft_player_id" value="${NonSessionPlayers.players_id[i]}"> <input type="hidden" name="nom"
 												value="${NonSessionPlayers.nom[i]}"> <input type="hidden" name="position" value="${NonSessionPlayers.position[i]}"> <input type="hidden" name="team"
 												value="${NonSessionPlayers.teamOfPlayer[i]}"> <input type="hidden" name="salaire" value="${NonSessionPlayers.salaire_draft[i]}">
+												<input type="hidden" name="years_1" value="${NonSessionPlayers.years_1[i]}">
 												 
 											<button class="w3-btn w3-round-xxlarge w3-blue">Signer ce joueur</button>
 										</form>

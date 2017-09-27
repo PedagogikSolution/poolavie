@@ -128,7 +128,7 @@ public class SignatureModel {
 				switch (numberOfYear) {
 				case 1:
 					years_1.set(playersIdPosition, salaire);
-					years_2.set(playersIdPosition, "JA");
+					years_2.set(playersIdPosition, "X");
 					years_3.set(playersIdPosition, "X");
 					years_4.set(playersIdPosition, "X");
 					years_5.set(playersIdPosition, "X");
@@ -190,6 +190,7 @@ public class SignatureModel {
 				mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(equipeEntity, mBeanEquipe);
 
 				mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() + 1);
+				
 				if (cycleAnnuel == 10) {
 					mBeanEquipe.setNb_attaquant(mBeanEquipe.getNb_attaquant() + 1);
 					mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() + 1);
@@ -494,8 +495,7 @@ public class SignatureModel {
 				mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);
 				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() - 1);
 				mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe() + 1);
-				mBeanEquipe
-						.setMoy_sal_restant_draft(mBeanEquipe.getBudget_restant() / mBeanEquipe.getManquant_equipe());
+				mBeanEquipe.setMoy_sal_restant_draft(mBeanEquipe.getBudget_restant() / mBeanEquipe.getManquant_equipe());
 
 				switch (position) {
 
@@ -844,6 +844,7 @@ public class SignatureModel {
 		String nombreAnneeSignature = (String) req.getParameter("nombreAnneeSignature");
 		int numberOfYearSign = Integer.parseInt(nombreAnneeSignature);
 		String salaire = (String) req.getParameter("salaire");
+		String years_1 = req.getParameter("years_1");
 
 		// on ajuste la bdd players
 		int salaireInt = playersDao.monterRookie(poolId, players_id, numberOfYearSign, salaire, playersDao);
@@ -885,8 +886,12 @@ public class SignatureModel {
 			Equipe mBeanEquipe = new Equipe();
 			mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(mEntity, mBeanEquipe);
 
+			if(years_1.equalsIgnoreCase("C")) {
+				
+			} else {
 			mBeanEquipe.setManquant_recrue(mBeanEquipe.getManquant_recrue() + 1);
 			mBeanEquipe.setNb_rookie(mBeanEquipe.getNb_rookie() - 1);
+			}
 
 			mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() + 1);
 

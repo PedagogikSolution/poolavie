@@ -1206,6 +1206,18 @@ public class AdminModel {
 		playersDao.resetStatsToZeroForNewYear(poolID, years_for_archive);
 
 	}
+	
+	public void addPlayerDuringDraft(String poolID, String nom, String team, String position, String birthday, PlayersDao playersDao, HttpServletRequest req) {
+		// on ajoute le joueur avec valeur de depart
+		playersDao.addPlayer(poolID,nom,team,position,birthday);
+		// on check si can_be_rookie et modifie en consequence
+		playersDao.updateAgeForRookie(req);
+		playersDao.setCanBeRookie(poolID);
+		// on ajoute dans datastore pour dispo au draft
+		playersDao.putNewPlayersInDatastore(poolID);
+			
+		
+	}
 
 	/*****************************************************
 	 * private method
@@ -1255,5 +1267,7 @@ public class AdminModel {
 
 		return nomPropertyTeamName;
 	}
+
+	
 
 }

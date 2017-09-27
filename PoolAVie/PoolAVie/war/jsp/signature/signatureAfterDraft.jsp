@@ -63,6 +63,9 @@
 					<th>Équipe</th>
 					<th>Position</th>
 					<th>Salaire</th>
+					<c:if test="${Pool.cycleAnnuel=='10'}">
+					<th>${Pool.thisYear}</th>
+					</c:if>
 					<th>${Pool.secondYear}</th>
 					<th>${Pool.thirdYear}</th>
 					<th>${Pool.fourthYear}</th>
@@ -93,7 +96,14 @@
 									</c:when>
 									<c:otherwise>
 
-
+										<c:choose>
+											<c:when test="${NonSessionPlayers.years_1[i]!='X'}">
+												<td><input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="1"></td>
+											</c:when>
+											<c:otherwise>
+												<td>X</td>
+											</c:otherwise>
+										</c:choose>
 										<c:choose>
 											<c:when test="${NonSessionPlayers.years_2[i]!='X'}">
 												<td><input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="2"></td>
@@ -130,11 +140,11 @@
 									</c:otherwise>
 								</c:choose>
 								<td>
-									<form id="signatureAbform${i}" action="/Signature" method="POST">
+									<form onsubmit="confirmationButtonA.disabled = true; return true;" id="signatureAbform${i}" action="/Signature" method="POST">
 										<input type="hidden" name="signatureStep" value="1"> <input type="hidden" name="draft_player_id" value="${NonSessionPlayers.players_id[i]}"> <input type="hidden" name="nom"
 											value="${NonSessionPlayers.nom[i]}"> <input type="hidden" name="position" value="${NonSessionPlayers.position[i]}"> <input type="hidden" name="team"
 											value="${NonSessionPlayers.teamOfPlayer[i]}"> <input type="hidden" name="salaire" value="${NonSessionPlayers.salaire_draft[i]}">
-										<button class="w3-btn w3-round-xxlarge w3-blue">Signer ce joueur</button>
+										<button name="confirmationButtonA" class="w3-btn w3-round-xxlarge w3-blue">Signer ce joueur</button>
 									</form>
 
 								</td>

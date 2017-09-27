@@ -339,6 +339,11 @@ public class TradeServlet extends HttpServlet {
 			mModel = new LoginModel(req);
 			mModel.createSessionEquipeBean();
 			mModel.createSessionDraftRoundBean();
+			mModel.createSessionDraftPickBean();
+			mModel.createSessionAttaquantBean();
+			mModel.createSessionDefenseurBean();
+			mModel.createSessionGardienBean();
+			mModel.createSessionRecrueBean();
 			Boolean tradeStillPosible = mModelTrade.checkIfTradeIsStillPossible(playersDao, draftPickDao, tradeOfferDao,
 					draftDao);
 

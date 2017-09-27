@@ -90,12 +90,12 @@
 								
 
 								<td>
-									<form action="/Signature" method="post">
+									<form onsubmit="confirmationButtonA.disabled = true; return true;" action="/Signature" method="post">
 										<input type="hidden" value="${NonSessionPlayers.players_id[i]}"
 											name="player_id" />
 											<input type="hidden" value="${NonSessionPlayers.position[i]}"
 											name="position" /> <input type="hidden" value="2"
-											name="signatureStep" /> <input type="submit"
+											name="signatureStep" /> <input name="confirmationButtonA" type="submit"
 											value="Racheté ce joueur">
 									</form></td>
 

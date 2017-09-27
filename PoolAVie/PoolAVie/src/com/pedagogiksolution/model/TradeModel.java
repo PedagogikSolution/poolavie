@@ -1970,6 +1970,8 @@ public class TradeModel {
 		int trade_id = Integer.parseInt(tradeId);
 
 		mBeanTemp = tradeOfferDao.getTradeNumberX(poolId, trade_id);
+		
+		
 
 		if (mBeanTemp.getT1j1() != null) {
 			movePlayersFromFirstToSecondTeam(mBeanTemp.getTeam_1(), mBeanTemp.getTeam_2(), mBeanTemp.getT1j1(),
@@ -1999,6 +2001,10 @@ public class TradeModel {
 			movePlayersFromFirstToSecondTeam(mBeanTemp.getTeam_1(), mBeanTemp.getTeam_2(), mBeanTemp.getT1j7(),
 					playersDao);
 		}
+	
+		
+		
+		
 		if (mBeanTemp.getT2j1() != null) {
 			movePlayersFromFirstToSecondTeam(mBeanTemp.getTeam_2(), mBeanTemp.getTeam_1(), mBeanTemp.getT2j1(),
 					playersDao);
@@ -2027,6 +2033,15 @@ public class TradeModel {
 			movePlayersFromFirstToSecondTeam(mBeanTemp.getTeam_2(), mBeanTemp.getTeam_1(), mBeanTemp.getT2j7(),
 					playersDao);
 		}
+		
+		
+		if (mBeanTemp.getT1_cash() > 0) {
+			movCashFromTeamtoArgentRecu(mBeanTemp.getTeam_1(), mBeanTemp.getTeam_2(), mBeanTemp.getT1_cash());
+		}
+		
+		if (mBeanTemp.getT2_cash() > 0) {
+			movCashFromTeamtoArgentRecu(mBeanTemp.getTeam_2(), mBeanTemp.getTeam_1(), mBeanTemp.getT2_cash());
+		}
 
 		if (mBeanTemp.getT1p1() != null) {
 			movePickFromFirstToSecondTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT1p1(), draftPickDao, draftDao);
@@ -2047,12 +2062,7 @@ public class TradeModel {
 			movePickFromFirstToSecondTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT2p3(), draftPickDao, draftDao);
 		}
 
-		if (mBeanTemp.getT1_cash() > 0) {
-			movCashFromTeamtoArgentRecu(mBeanTemp.getTeam_1(), mBeanTemp.getTeam_2(), mBeanTemp.getT1_cash());
-		}
-		if (mBeanTemp.getT2_cash() > 0) {
-			movCashFromTeamtoArgentRecu(mBeanTemp.getTeam_2(), mBeanTemp.getTeam_1(), mBeanTemp.getT2_cash());
-		}
+		
 
 	}
 
@@ -2102,28 +2112,29 @@ public class TradeModel {
 		}
 
 		try {
-			Entity mEntityEquipe = datastore.get(mKeyEquipeB);
-			Equipe mBeanEquipe = new Equipe();
+			Entity mEntityEquipe2 = datastore.get(mKeyEquipeB);
+			Equipe mBeanEquipe2 = new Equipe();
 			
-			mBeanEquipe.mapEquipeFromDatastore(mEntityEquipe, mBeanEquipe);
+			mBeanEquipe2.mapEquipeFromDatastore(mEntityEquipe2, mBeanEquipe2);
 			
 
-			mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu()+cash);
+			mBeanEquipe2.setArgent_recu(mBeanEquipe2.getArgent_recu()+cash);
 			
 			if (mBeanPool.getCycleAnnuel() == 3 || mBeanPool.getCycleAnnuel() == 11) {
 
-				if (mBeanEquipe.getManquant_equipe() <= 0) {
-					mBeanEquipe.setMoy_sal_restant_draft(0);
+				if (mBeanEquipe2.getManquant_equipe() <= 0) {
+					mBeanEquipe2.setMoy_sal_restant_draft(0);
 				} else {
-					mBeanEquipe.setMoy_sal_restant_draft(
-							mBeanEquipe.getBudget_restant() / mBeanEquipe.getManquant_equipe());
+					mBeanEquipe2.setMoy_sal_restant_draft(
+							mBeanEquipe2.getBudget_restant() / mBeanEquipe2.getManquant_equipe());
 				}
 
 			}
 			
 			
-			mEntityEquipe = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomEquipeB);
-			datastore.put(mEntityEquipe);
+			mEntityEquipe2 = mBeanEquipe2.mapBeanToEntityForDatastore(mBeanEquipe2, nomEquipeB);
+			datastore.put(mEntityEquipe2);
+			
 		} catch (EntityNotFoundException e) {
 			e.printStackTrace();
 		}

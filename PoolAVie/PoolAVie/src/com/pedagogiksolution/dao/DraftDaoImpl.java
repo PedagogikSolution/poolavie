@@ -671,7 +671,7 @@ public class DraftDaoImpl implements DraftDao {
 		try {
 			connexion = daoFactory.getConnection();
 			preparedStatement = initialisationRequetePreparee(connexion, DELETE_PICK_WHEN_DRAFT_FINISH, false, Integer.parseInt(poolID),
-					teamID,currentPick);
+					Integer.parseInt(teamID),Integer.parseInt(currentPick));
 			preparedStatement.execute();
 
 		} catch (SQLException e) {
