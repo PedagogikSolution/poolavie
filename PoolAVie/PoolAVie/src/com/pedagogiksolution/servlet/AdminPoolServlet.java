@@ -148,7 +148,7 @@ public class AdminPoolServlet extends HttpServlet {
 
 			// on change le cycle a 8
 			mAdminModel = new AdminModel();
-
+			
 			mAdminModel.changeCycleAnnuel(req, 8);
 
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);
@@ -246,9 +246,11 @@ public class AdminPoolServlet extends HttpServlet {
 			mAdminModel = new AdminModel();
 			mAdminModel.addCashForYears(req);
 			mAdminModel.resetPlayersStats(req, playersDao);
+			
 			ClassementCronModel mModelCronClassement = new ClassementCronModel(classementDao, playersDao);
 			mModelCronClassement.putDatabaseInDatastore(Integer.parseInt(poolID));
 			mAdminModel.changeCycleAnnuel(req, 5);
+			
 			Pool mBeanPool2 = (Pool) req.getSession().getAttribute("Pool");
 			String poolID2 = mBeanPool2.getPoolID();
 			PlayersCronModel mModelPlayers = new PlayersCronModel(playersDao);

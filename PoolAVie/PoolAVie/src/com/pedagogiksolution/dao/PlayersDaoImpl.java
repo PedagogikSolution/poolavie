@@ -136,6 +136,9 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String GET_YEARS_1 = "SELECT years_1 FROM players_? WHERE _id=?";
 	private static final String ADD_NEW_PLAYERS = "INSERT INTO players_? (nom,team,position,birthday) VALUES (?,?,?,?)";
 	private static final String GET_LAST_PLAYER_ADD = "SELECT * FROM players_? ORDER BY _id DESC LIMIT 1";
+	private static final String UPDATE_PLAYERS41 = "UPDATE players_? SET team_id=?,years_2='C',years_3='A',years_4='A',years_5='A' WHERE _id=?";
+	private static final String UPDATE_PLAYERS42 = "UPDATE players_? SET team_id=?,years_2='C',years_3='C',years_4='A',years_5='A' WHERE _id=?";
+	private static final String UPDATE_PLAYERS43 = "UPDATE players_? SET team_id=?,years_2='C',years_3='C',years_4='C',years_5='A' WHERE _id=?";
 
 	private DAOFactory daoFactory;
 
@@ -1330,8 +1333,25 @@ public class PlayersDaoImpl implements PlayersDao {
 						preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS3, false, poolId,
 								teamId2, playerId2);
 					} else if (contrat.equalsIgnoreCase("C")) {
-						preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS4, false, poolId,
-								teamId2, playerId2);
+						
+						if (years_3.equalsIgnoreCase("X")) {
+							preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS41, false, poolId,
+									teamId2, playerId2);
+						} else if (years_4.equalsIgnoreCase("X")) {
+							preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS42, false, poolId,
+									teamId2, playerId2);
+						} else if (years_5.equalsIgnoreCase("X")) {
+							preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS43, false, poolId,
+									teamId2, playerId2);
+						}
+
+						else {
+							preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS4, false, poolId,
+									teamId2, playerId2);
+
+						}
+						
+						
 					} else {
 
 						if (years_3.equalsIgnoreCase("X")) {
@@ -1370,8 +1390,22 @@ public class PlayersDaoImpl implements PlayersDao {
 					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS3, false, poolId,
 							teamId2, playerId2);
 				} else if (contrat.equalsIgnoreCase("C")) {
-					preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS4, false, poolId,
-							teamId2, playerId2);
+					if (years_3.equalsIgnoreCase("X")) {
+						preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS41, false, poolId,
+								teamId2, playerId2);
+					} else if (years_4.equalsIgnoreCase("X")) {
+						preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS42, false, poolId,
+								teamId2, playerId2);
+					} else if (years_5.equalsIgnoreCase("X")) {
+						preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS43, false, poolId,
+								teamId2, playerId2);
+					}
+
+					else {
+						preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS4, false, poolId,
+								teamId2, playerId2);
+
+					}
 				} else {
 
 					if (years_3.equalsIgnoreCase("X")) {
@@ -2866,7 +2900,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	}
 
 	@Override
-	public int monterRookie(int poolId, String players_id, int numberOfYearSign, String salaire, PlayersDao playersDao)
+	public int monterRookie(int poolId, String players_id, int numberOfYearSign, String salaire, PlayersDao playersDao, String years_1, String years_2, String years_3, String years_4, String years_5)
 			throws DAOException {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
@@ -2889,6 +2923,12 @@ public class PlayersDaoImpl implements PlayersDao {
 			break;
 		case 2:
 			years1 = String.valueOf(salaireInt);
+			if(years_2.equalsIgnoreCase("A")) {
+				years2 = String.valueOf("A");
+			} else {
+
+				years2 = String.valueOf(salaireInt);
+			}
 			years2 = String.valueOf(salaireInt);
 			years3 = "X";
 			years4 = "X";
@@ -2897,26 +2937,71 @@ public class PlayersDaoImpl implements PlayersDao {
 			break;
 		case 3:
 			years1 = String.valueOf(salaireInt);
-			years2 = String.valueOf(salaireInt);
-			years3 = String.valueOf(salaireInt);
+			if(years_2.equalsIgnoreCase("A")) {
+				years2 = String.valueOf("A");
+			} else {
+
+				years2 = String.valueOf(salaireInt);
+			}
+			if(years_3.equalsIgnoreCase("A")) {
+				years3 = String.valueOf("A");
+			} else {
+
+				years3 = String.valueOf(salaireInt);
+			}
 			years4 = "X";
 			years5 = "X";
 
 			break;
 		case 4:
 			years1 = String.valueOf(salaireInt);
-			years2 = String.valueOf(salaireInt);
-			years3 = String.valueOf(salaireInt);
-			years4 = String.valueOf(salaireInt);
+			if(years_2.equalsIgnoreCase("A")) {
+				years2 = String.valueOf("A");
+			} else {
+
+				years2 = String.valueOf(salaireInt);
+			}
+			if(years_3.equalsIgnoreCase("A")) {
+				years3 = String.valueOf("A");
+			} else {
+
+				years3 = String.valueOf(salaireInt);
+			}
+			if(years_4.equalsIgnoreCase("A")) {
+				years4 = String.valueOf("A");
+			} else {
+
+				years4 = String.valueOf(salaireInt);
+			}
 			years5 = "X";
 
 			break;
 		case 5:
 			years1 = String.valueOf(salaireInt);
-			years2 = String.valueOf(salaireInt);
-			years3 = String.valueOf(salaireInt);
-			years4 = String.valueOf(salaireInt);
-			years5 = String.valueOf(salaireInt);
+			if(years_2.equalsIgnoreCase("A")) {
+				years2 = String.valueOf("A");
+			} else {
+
+				years2 = String.valueOf(salaireInt);
+			}
+			if(years_3.equalsIgnoreCase("A")) {
+				years3 = String.valueOf("A");
+			} else {
+
+				years3 = String.valueOf(salaireInt);
+			}
+			if(years_4.equalsIgnoreCase("A")) {
+				years4 = String.valueOf("A");
+			} else {
+
+				years4 = String.valueOf(salaireInt);
+			}
+			if(years_5.equalsIgnoreCase("A")) {
+				years5 = String.valueOf("A");
+			} else {
+
+				years5 = String.valueOf(salaireInt);
+			}
 
 			break;
 		}

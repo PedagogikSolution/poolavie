@@ -845,9 +845,13 @@ public class SignatureModel {
 		int numberOfYearSign = Integer.parseInt(nombreAnneeSignature);
 		String salaire = (String) req.getParameter("salaire");
 		String years_1 = req.getParameter("years_1");
+		String years_2 = req.getParameter("years_2");
+		String years_3 = req.getParameter("years_3");
+		String years_4 = req.getParameter("years_4");
+		String years_5 = req.getParameter("years_5");
 
 		// on ajuste la bdd players
-		int salaireInt = playersDao.monterRookie(poolId, players_id, numberOfYearSign, salaire, playersDao);
+		int salaireInt = playersDao.monterRookie(poolId, players_id, numberOfYearSign, salaire, playersDao,years_1,years_2,years_3,years_4,years_5);
 
 		// on ajuste le datastore Recrue
 		PlayersCronModel mModel = new PlayersCronModel(playersDao);

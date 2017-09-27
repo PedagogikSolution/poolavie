@@ -224,6 +224,10 @@
 												value="${NonSessionPlayers.nom[i]}"> <input type="hidden" name="position" value="${NonSessionPlayers.position[i]}"> <input type="hidden" name="team"
 												value="${NonSessionPlayers.teamOfPlayer[i]}"> <input type="hidden" name="salaire" value="${NonSessionPlayers.salaire_draft[i]}">
 												<input type="hidden" name="years_1" value="${NonSessionPlayers.years_1[i]}">
+												<input type="hidden" name="years_2" value="${NonSessionPlayers.years_2[i]}">
+												<input type="hidden" name="years_3" value="${NonSessionPlayers.years_3[i]}">
+												<input type="hidden" name="years_4" value="${NonSessionPlayers.years_4[i]}">
+												<input type="hidden" name="years_5" value="${NonSessionPlayers.years_5[i]}">
 												 
 											<button class="w3-btn w3-round-xxlarge w3-blue">Signer ce joueur</button>
 										</form>

@@ -94,7 +94,7 @@ public interface PlayersDao {
 
 	void dropRookie(int poolId, String players_id) throws DAOException;
 
-	int monterRookie(int poolId, String players_id, int numberOfYearSign, String salaire, PlayersDao playersDao)throws DAOException;
+	int monterRookie(int poolId, String players_id, int numberOfYearSign, String salaire, PlayersDao playersDao, String years_1, String years_2, String years_3, String years_4, String years_5)throws DAOException;
 
 	void setSalaireForRookie(String poolID, SalaireDao salaireDao) throws DAOException;
 
