@@ -41,6 +41,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String CREATE_PLAYERS = "CREATE TABLE players_? LIKE players_template";
 	private static final String INSERT_PLAYERS = "INSERT INTO players_? SELECT * FROM players_template";
 	private static final String CREATE_PLAYERS_ARCHIVES = "CREATE TABLE players_archive_? LIKE players_template";
+	private static final String REMOVE_PRIMARY_KEY = "ALTER TABLE players_archive_? CHANGE COLUMN `_id` `_id` INT(11) NULL ,DROP PRIMARY KEY";
 	private static final String GET_PLAYERS_BY_POOL_ID_AND_POSITION = "SELECT * FROM players_? WHERE team_id=? AND position=? AND club_ecole=? ORDER BY pts DESC";
 	private static final String GET_PLAYERS_FOR_DRAFT = "SELECT * FROM players_?";
 	private static final String GET_PLAYERS_BY_POOL_ID_FOR_ROOKIE = "SELECT * FROM players_? WHERE team_id=? AND club_ecole=? ORDER BY pts DESC";
@@ -179,6 +180,17 @@ public class PlayersDaoImpl implements PlayersDao {
 			throw new DAOException(e);
 		} finally {
 			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, REMOVE_PRIMARY_KEY, false, poolID);
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
 		}
 
 	}

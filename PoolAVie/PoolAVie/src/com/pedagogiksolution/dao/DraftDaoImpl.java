@@ -37,6 +37,7 @@ public class DraftDaoImpl implements DraftDao {
 	private static final String DELETE_PICK_WHEN_DRAFT_FINISH = "DELETE FROM draft? WHERE team_id=? AND draft_pick_no>?";
 	private static final String GET_PICK_RESTANT = "SELECT * FROM draft? WHERE player_drafted IS NULL ORDER BY _id ASC";
 	private static final String RESET_DRAFT_PICK_NO_ORDER = "UPDATE draft? SET draft_pick_no=? WHERE draft_pick_no=?";
+	private static final String REMOVE_PRIMARY_KEY = "ALTER TABLE draft_archive_? CHANGE COLUMN `_id` `_id` INT(11) NULL ,DROP PRIMARY KEY";
 
 	private DAOFactory daoFactory;
 
@@ -77,6 +78,17 @@ public class DraftDaoImpl implements DraftDao {
 			throw new DAOException(e);
 		} finally {
 			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+		try {
+		    connexion = daoFactory.getConnection();
+		    preparedStatement = initialisationRequetePreparee(connexion, REMOVE_PRIMARY_KEY, false, poolID);
+		    preparedStatement.execute();
+
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermeturesSilencieuses(preparedStatement, connexion);
 		}
 
 	}

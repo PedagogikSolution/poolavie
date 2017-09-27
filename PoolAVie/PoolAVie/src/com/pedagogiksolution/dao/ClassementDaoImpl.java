@@ -39,6 +39,7 @@ public class ClassementDaoImpl implements ClassementDao {
 	private static final String ARCHIVE_CLASSEMENT_LAST_YEAR = "INSERT INTO classement_archive_? (`equipe`,`pj`,`but`,`passe`,`points`,`hier`,`semaine`,`mois`,`moyenne`,`difference`,`team_id`,`pool_id`,`year_of_the_standing`) SELECT equipe,pj,but,passe,points,hier,semaine,mois,moyenne,difference,team_id,pool_id, year_of_the_standing FROM classement_?";
 	private static final String RESET_CLASSEMENT_FOR_NEW_YEARS = "UPDATE classement_? SET pj=0,but=0,passe=0,points=0,hier=0,semaine=0,mois=0,moyenne=0,difference=0,year_of_the_standing=?,mouvement=0";
 	private static final String GET_CLASSEMENT_LAST_YEARS_INVERSE_FROM_ARCHIVE = "SELECT * FROM classement_archive_? WHERE year_of_the_standing=? ORDER BY points ASC, moyenne ASC, but ASC";
+	private static final String REMOVE_PRIMARY_KEY = "ALTER TABLE classement_archive_? CHANGE COLUMN `_id` `_id` INT(11) NULL ,DROP PRIMARY KEY";
 
     private DAOFactory daoFactory;
 
@@ -80,6 +81,20 @@ public class ClassementDaoImpl implements ClassementDao {
 	} finally {
 	    fermeturesSilencieuses(preparedStatement, connexion);
 	}
+	
+	try {
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion, REMOVE_PRIMARY_KEY, false, poolID);
+	    preparedStatement.execute();
+
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(preparedStatement, connexion);
+	}
+	
+	
+	
 
     }
 
