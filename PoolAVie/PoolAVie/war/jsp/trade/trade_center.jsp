@@ -8,6 +8,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
+<%@ include file="../utils/firebase_config.jspf" %>
 <title>Nouvelles ${Pool.poolName}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/css/w3.css">

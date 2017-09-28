@@ -1,30 +1,23 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <script type="text/javascript">
    
-   
-   
-	onOpened = function() {
-		var xhttp = new XMLHttpRequest();
-	
-		  xhttp.open("POST", "/ConnectDraft", true);
-		  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		  xhttp.send("testIfOpen=1");
-	};
+	var channel = null;
+	var messageReceived={};
+	var counter = 1;
 
-	onMessage = function(m) {
-		messageReceived = JSON.parse(m.data);
-		testIfOpen = messageReceived.testIfOpen;
+	function onMessage(data) {
+		
+		if(counter==1){
+			counter=counter+1;
+			return;
+		}
+		
+		$.extend(messageReceived, data);
 		draftPickMade = messageReceived.draftPickMade;
 		// connexion avec les serveurs etablie
-		if(testIfOpen==1){
-			document.getElementById('connexionAlert').classList.remove('w3-hide');
-			document.getElementById('connexionAlert').classList.add('w3-show');
-			document.getElementById('mainContainer').classList.add('w3-opacity');
-			
-			
-		}
+	
 		// regular player drafted
-		else if(draftPickMade==1){
+		 if(draftPickMade==1){
 			teamThatDraft = messageReceived.teamThatDraft;
 			round = messageReceived.round;
 			pickNumber = messageReceived.pickNumber;
@@ -112,42 +105,23 @@
 		}
 		
 		
-	};
+	}
 	
-	onError = function() {
-		
-	};
-		
-	onClose = function() {
-		  var xhttp = new XMLHttpRequest();
-		
-		  xhttp.open("POST", "/ConnectDraft", true);
-		  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		  xhttp.send("close=1");
-		  openChannel();
-		  
-	};
+	
+
+	
 	openChannel = function() {
-
-		var channel = new goog.appengine.Channel('${DraftOnline.token}');
-		var handler = {
-			'onopen' : onOpened,
-			'onmessage' : onMessage,
-			'onerror' : onError,
-			'onclose' : onClose
-		};
-		var socket = channel.open(handler);
-
-		socket.onopen = onOpened;
-		socket.onmessage = onMessage;
-		socket.onclose = onClose;
-		$(window).on('beforeunload', function() {
-			clearTimeout(socket.pollingTimer_);
-		});
+		firebase.auth().signInWithCustomToken('${DraftOnline.token}');
+		channel = firebase.database().ref('channels/' + '${DraftOnline.channelId}');
+		channel.on('value', function(data) {
+		      onMessage(data.val());
+		    });
+		
+		
 	}
 	initialize = function() {
 		openChannel();
 
 	}
-	// setTimeout(initialize, 100);
+	 setTimeout(initialize, 100);
 </script>

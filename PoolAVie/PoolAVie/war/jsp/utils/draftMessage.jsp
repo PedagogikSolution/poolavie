@@ -35,7 +35,8 @@
 
 
 
-		<button class="w3-btn w3-khaki w3-xlarge">C'est noté</button>
+		<button onclick="document.getElementById('draftPickAlert').classList.remove('w3-show');
+			document.getElementById('draftPickAlert').classList.add('w3-hide');" class="w3-btn w3-khaki w3-xlarge">C'est noté</button>
 
 		<br> <br>
 

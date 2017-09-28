@@ -10,9 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.appengine.api.channel.ChannelMessage;
-import com.google.appengine.api.channel.ChannelService;
-import com.google.appengine.api.channel.ChannelServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -32,6 +29,7 @@ import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
 import com.google.gson.JsonObject;
+import com.pedagogiksolution.beans.DraftOnline;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.beans.NonSessionPlayers;
 import com.pedagogiksolution.dao.DraftDao;
@@ -44,6 +42,7 @@ import com.pedagogiksolution.datastorebeans.Gardien;
 import com.pedagogiksolution.datastorebeans.Players;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.datastorebeans.Recrue;
+import com.pedagogiksolution.firebase.FirebaseChannel;
 
 public class DraftPlayersModel {
 	int ascDescOrder;
@@ -1133,7 +1132,7 @@ public class DraftPlayersModel {
 		try {
 			Entity mEntity = datastore.get(mKey);
 			Long currentPick2 = (Long) mEntity.getProperty("currentPick");
-			currentPick2 = currentPick2 + 1;
+			
 			currentPick = currentPick2.toString();
 
 		} catch (EntityNotFoundException e) {
@@ -1179,42 +1178,47 @@ public class DraftPlayersModel {
 			break;
 
 		}
-
-		Map<String, String> messageToClient = new HashMap<String, String>();
-		messageToClient.put("testIfOpen", "0");
+		DraftOnline mBeanDraftOnline = new DraftOnline();
+		
+		
+		
+		
 		switch (tagForDraftFinish) {
 		case 1:
-			messageToClient.put("draftPickMade", "1");
+			mBeanDraftOnline.setDraftPickMade("1");
 			break;
 		case 2:
-			messageToClient.put("draftPickMade", "2");
+			mBeanDraftOnline.setDraftPickMade("2");
 			break;
 		case 3:
-			messageToClient.put("draftPickMade", "3");
+			mBeanDraftOnline.setDraftPickMade("3");
 			break;
 		case 4:
-			messageToClient.put("draftPickMade", "4");
+			mBeanDraftOnline.setDraftPickMade("4");
 			break;
 		}
-		messageToClient.put("pickNumber", currentPick);
-		messageToClient.put("playerDrafted", nom);
-		messageToClient.put("teamOfPlayer", team);
-		messageToClient.put("salaire", salaire);
-		messageToClient.put("position", position);
-		messageToClient.put("teamThatDraft", teamThatDraft);
+		
+		
+		mBeanDraftOnline.setPickNumber(currentPick);
+		mBeanDraftOnline.setPlayerDrafted(nom);
+		mBeanDraftOnline.setPosition(position);
+		mBeanDraftOnline.setTeamOfPlayer(team);
+		mBeanDraftOnline.setSalaire(salaire);
+		mBeanDraftOnline.setTeamThatDraft(teamThatDraft);
 
-		JsonObject JSONmessage = new JsonObject();
-		String message = JSONmessage.toString();
-
-		ChannelService channelService = ChannelServiceFactory.getChannelService();
 
 		for (int i = 1; i < (numberOfTeam + 1); i++) {
 
 			if (teamId == i) {
 
 			} else {
-				String tokenString = poolID + "_" + i;
-				channelService.sendMessage(new ChannelMessage(tokenString, message));
+				String tokenString = poolID + "_" + i;				
+				try {
+					FirebaseChannel.getInstance(req.getSession().getServletContext()).sendFirebaseMessage(tokenString,mBeanDraftOnline);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 
 		}

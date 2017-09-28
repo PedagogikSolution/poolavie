@@ -11,11 +11,11 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.appengine.api.channel.ChannelService;
-import com.google.appengine.api.channel.ChannelServiceFactory;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.pedagogiksolution.beans.DraftOnline;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
+import com.pedagogiksolution.firebase.FirebaseChannel;
 
 public class DraftChannelFilter implements Filter {
 
@@ -24,32 +24,33 @@ public class DraftChannelFilter implements Filter {
 
     }
 
-    @SuppressWarnings("deprecation")
 	@Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
 
 	HttpServletRequest request = (HttpServletRequest) req;
 	HttpServletResponse response = (HttpServletResponse) resp;
 
-	if (request.getSession().getAttribute("DraftOnline") != null) {
-	    chain.doFilter(request, response);
-	} else {
+	
 	    Pool mBeanPool = (Pool) request.getSession().getAttribute("Pool");
 	    
 	    int cycleAnnuel = mBeanPool.getCycleAnnuel();
 
 	    if (cycleAnnuel == 3) {
-		ChannelService channel = ChannelServiceFactory.getChannelService();
+		
 		String poolID = mBeanPool.getPoolID();
 		Utilisateur mBeanUser = (Utilisateur) request.getSession().getAttribute("Utilisateur");
 		int teamId = mBeanUser.getTeamId();
 		String tokenString = poolID + "_" +teamId;
-		
-		String token= channel.createChannel(tokenString);
-		
 		DraftOnline mBean = new DraftOnline();
+		//String userId = UserServiceFactory.getUserService().getCurrentUser().getUserId();
+		// recupere un token 
+		String token = FirebaseChannel.getInstance(request.getSession().getServletContext())
+		        .createFirebaseToken(mBean, tokenString);
+		
+		
 		mBean.setToken(token);
-		request.getSession().setAttribute("DraftOnline", mBean);
+		mBean.setChannelId(tokenString);
+		request.setAttribute("DraftOnline", mBean);
 		
 		chain.doFilter(request, response);
 	    } else {
@@ -57,7 +58,7 @@ public class DraftChannelFilter implements Filter {
 	    }
 	}
 
-    }
+  
 
     @Override
     public void destroy() {
