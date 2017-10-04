@@ -41,7 +41,6 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>NoCacheFilter</filter-name>
-		<url-pattern>/Nouvelles</url-pattern>
 		<url-pattern>/DraftCenter</url-pattern>
 		<url-pattern>/Classement</url-pattern>
 		<url-pattern>/Equipes</url-pattern>
@@ -72,7 +71,6 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>ConnectUser</filter-name>
-		<url-pattern>/Nouvelles</url-pattern>
 		<url-pattern>/DraftCenter</url-pattern>
 		<url-pattern>/Classement</url-pattern>
 		<url-pattern>/Equipes</url-pattern>
@@ -103,7 +101,6 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>SessionBeanUpdate</filter-name>
-		<url-pattern>/Nouvelles</url-pattern>
 		<url-pattern>/DraftCenter</url-pattern>
 		<url-pattern>/Classement</url-pattern>
 		<url-pattern>/Equipes</url-pattern>
@@ -134,7 +131,6 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>DraftChannel</filter-name>
-		<url-pattern>/Nouvelles</url-pattern>
 		<url-pattern>/DraftCenter</url-pattern>
 		<url-pattern>/Classement</url-pattern>
 		<url-pattern>/Equipes</url-pattern>
