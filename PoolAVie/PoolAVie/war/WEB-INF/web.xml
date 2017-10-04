@@ -20,13 +20,7 @@
 	<session-config>
 		<session-timeout>200</session-timeout>
 	</session-config>
-	<!-- Configuration de la librairie EL pour l'ensemble des pages jsp -->
-	<jsp-config>
-		<jsp-property-group>
-			<url-pattern>*.jsp</url-pattern>
-			<el-ignored>false</el-ignored>
-		</jsp-property-group>
-	</jsp-config>
+	
 
 	<!-- Servlet pour cleaner le datastore session objetc -->
 	<servlet>
