@@ -2117,8 +2117,10 @@ public class TradeModel {
 			
 			mBeanEquipe2.mapEquipeFromDatastore(mEntityEquipe2, mBeanEquipe2);
 			
-
-			mBeanEquipe2.setArgent_recu(mBeanEquipe2.getArgent_recu()+cash);
+			if(mBeanPool.getCycleAnnuel() == 3 || mBeanPool.getCycleAnnuel() == 11) {
+				mBeanEquipe2.setBudget_restant(mBeanEquipe2.getBudget_restant()+cash);
+			} else {
+			mBeanEquipe2.setArgent_recu(mBeanEquipe2.getArgent_recu()+cash); }
 			
 			if (mBeanPool.getCycleAnnuel() == 3 || mBeanPool.getCycleAnnuel() == 11) {
 
