@@ -83,7 +83,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String GET_PLAYER_NAME = "SELECT nom FROM players_? WHERE _id=?";
 	private static final String PUT_PLAYERS_IN_CLUB_ECOLE = "UPDATE players_? SET club_ecole=1 WHERE _ID=?";
 	private static final String ARCHIVE_PLAYERS_LAST_YEAR = "INSERT INTO players_archive_? SELECT * FROM players_? WHERE team_id IS NOT NULL";
-	private static final String UPDATE_PLAYERS_REMOVE_JA_X = "UPDATE players_? SET team_id=NULL WHERE (years_2='JA' OR years_2='X') AND club_ecole=0";
+	private static final String UPDATE_PLAYERS_REMOVE_JA_X = "UPDATE players_? SET team_id=NULL, contrat=0 WHERE (years_2='JA' OR years_2='X') AND club_ecole=0";
 	private static final String UPDATE_PROJECTION = "UPDATE players_? SET projection=((pts+pts_1_years_ago+pts_2_years_ago)/(pj+pj_1_years_ago+pj_2_years_ago)*82) WHERE (pj+pj_1_years_ago+pj_2_years_ago)>81";
 	private static final String UPDATE_PROJECTION_2 = "UPDATE players_? SET projection=0 WHERE (pj+pj_1_years_ago+pj_2_years_ago)<82";
 	private static final String UPDATE_PROJECTION_3 = "UPDATE players_? SET projection=((pts+pts_1_years_ago+pts_2_years_ago)/(pj+pj_1_years_ago+pj_2_years_ago)*60) WHERE (pj+pj_1_years_ago+pj_2_years_ago)>81 AND position='gardien'";
