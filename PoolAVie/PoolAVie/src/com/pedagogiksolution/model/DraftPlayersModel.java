@@ -432,7 +432,7 @@ public class DraftPlayersModel {
 			} else {
 				MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
 				mBeanMessageErreur.setErreurDraft(
-						"Vous devez choisir un joueur recrue ou vous avez deja trop de recue dans votre equipe. Il ne vous reste de la place que pour les recrues dans votre équipe");
+						"Vous devez choisir un joueur recrue. Il ne vous reste de la place que pour les recrues dans votre équipe");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return;
 			}
