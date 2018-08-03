@@ -19,5 +19,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Solution Pedagogik/.m2/repository/com/google/api-client/google-api-client-appengine/1.22.0/google-api-client-appengine-1.22.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Solution Pedagogik/.m2/repository/com/google/api-client/google-api-client-servlet/1.21.0/google-api-client-servlet-1.21.0.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
