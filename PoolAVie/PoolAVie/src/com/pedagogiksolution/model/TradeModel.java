@@ -1971,6 +1971,13 @@ public class TradeModel {
 
 		mBeanTemp = tradeOfferDao.getTradeNumberX(poolId, trade_id);
 		
+		if (mBeanTemp.getT1_cash() > 0) {
+			movCashFromTeamtoArgentRecu(mBeanTemp.getTeam_1(), mBeanTemp.getTeam_2(), mBeanTemp.getT1_cash());
+		}
+		
+		if (mBeanTemp.getT2_cash() > 0) {
+			movCashFromTeamtoArgentRecu(mBeanTemp.getTeam_2(), mBeanTemp.getTeam_1(), mBeanTemp.getT2_cash());
+		}
 		
 
 		if (mBeanTemp.getT1j1() != null) {
@@ -2034,14 +2041,7 @@ public class TradeModel {
 					playersDao);
 		}
 		
-		
-		if (mBeanTemp.getT1_cash() > 0) {
-			movCashFromTeamtoArgentRecu(mBeanTemp.getTeam_1(), mBeanTemp.getTeam_2(), mBeanTemp.getT1_cash());
-		}
-		
-		if (mBeanTemp.getT2_cash() > 0) {
-			movCashFromTeamtoArgentRecu(mBeanTemp.getTeam_2(), mBeanTemp.getTeam_1(), mBeanTemp.getT2_cash());
-		}
+	
 
 		if (mBeanTemp.getT1p1() != null) {
 			movePickFromFirstToSecondTeam(mBeanTemp.getTeam_2(), mBeanTemp.getT1p1(), draftPickDao, draftDao);

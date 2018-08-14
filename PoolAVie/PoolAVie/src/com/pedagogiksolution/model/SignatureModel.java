@@ -466,6 +466,7 @@ public class SignatureModel {
 		int playersId = mBeanRachat.get_id();
 		String position = mBeanRachat.getPosition();
 		int total_cout_rachat = mBeanRachat.getSalaire_contrat();
+		int salaire_annuel = mBeanRachat.getSalaire_draft();
 
 		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 		int teamId = mBeanUser.getTeamId();
@@ -490,7 +491,7 @@ public class SignatureModel {
 
 			if (new_budget_restant >= 0) {
 
-				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() - total_cout_rachat);
+				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() - salaire_annuel);
 				mBeanEquipe.setBudget_restant(new_budget_restant);
 				mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);
 				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() - 1);
@@ -520,7 +521,7 @@ public class SignatureModel {
 				datastore.put(mEntity);
 
 			} else {
-				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() - total_cout_rachat);
+				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() - salaire_annuel);
 				mBeanEquipe.setBudget_restant(0);
 				mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);
 				mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu() + new_budget_restant);

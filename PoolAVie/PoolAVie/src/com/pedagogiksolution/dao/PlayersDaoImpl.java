@@ -2099,7 +2099,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		}
 
 		if ((budget_restant >= coutDuRachat) || (total_argent >= coutDuRachat)) {
-
+			mBean.setSalaire_draft(iYears1);
 			mBean.setSalaire_contrat(coutDuRachat);
 			mBean.setNom(nomDuJoueurRachat);
 			mBean.setPosition(position);
@@ -3230,7 +3230,7 @@ public class PlayersDaoImpl implements PlayersDao {
 				String years_5 = rs.getString("years_5");
 
 				DateTime dt = new DateTime();
-				int year2 = dt.getYear() - 24;
+				int year2 = dt.getYear() - 25;
 				String birthday2 = year2 + "-09-15";
 
 				try {
@@ -3240,7 +3240,7 @@ public class PlayersDaoImpl implements PlayersDao {
 					e.printStackTrace();
 				}
 
-				int year3 = dt.getYear() - 23;
+				int year3 = dt.getYear() - 24;
 				String birthday3 = year3 + "-09-15";
 				try {
 					maxDateForRookie3 = formatter.parse(birthday3);
@@ -3248,7 +3248,7 @@ public class PlayersDaoImpl implements PlayersDao {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				int year4 = dt.getYear() - 22;
+				int year4 = dt.getYear() - 23;
 				String birthday4 = year4 + "-09-15";
 				try {
 					maxDateForRookie4 = formatter.parse(birthday4);
@@ -3256,7 +3256,7 @@ public class PlayersDaoImpl implements PlayersDao {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				int year5 = dt.getYear() - 21;
+				int year5 = dt.getYear() - 22;
 				String birthday5 = year5 + "-09-15";
 				try {
 					maxDateForRookie5 = formatter.parse(birthday5);

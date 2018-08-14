@@ -30,4 +30,8 @@
 <include path="/**.js"/>
 </static-files>
 
+<staging>
+    <enable-jar-classes>true</enable-jar-classes>
+  </staging>
+
 </appengine-web-app>
