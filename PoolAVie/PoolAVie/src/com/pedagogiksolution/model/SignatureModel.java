@@ -235,7 +235,7 @@ public class SignatureModel {
 				switch (numberOfYear) {
 				case 1:
 					years_1.set(playersIdPosition, salaire);
-					years_2.set(playersIdPosition, "JA");
+					years_2.set(playersIdPosition, "X");
 					years_3.set(playersIdPosition, "X");
 					years_4.set(playersIdPosition, "X");
 					years_5.set(playersIdPosition, "X");
@@ -340,7 +340,7 @@ public class SignatureModel {
 				switch (numberOfYear) {
 				case 1:
 					years_1.set(playersIdPosition, salaire);
-					years_2.set(playersIdPosition, "JA");
+					years_2.set(playersIdPosition, "X");
 					years_3.set(playersIdPosition, "X");
 					years_4.set(playersIdPosition, "X");
 					years_5.set(playersIdPosition, "X");
