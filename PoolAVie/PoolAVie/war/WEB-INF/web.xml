@@ -469,6 +469,14 @@
 		<url-pattern>/ResetForTestCron</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>SportFeedApiTestCron</servlet-name>
+		<servlet-class>com.pedagogiksolution.cron.SportFeedApiTestCron</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SportFeedApiTestCron</servlet-name>
+		<url-pattern>/SportFeedApiTestCron</url-pattern>
+	</servlet-mapping>
 	<!-- Mapping des servlet pour les TaskQueue -->
 	<servlet>
 		<servlet-name>TaskQueueCreationPool</servlet-name>
