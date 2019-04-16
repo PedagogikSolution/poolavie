@@ -139,6 +139,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String UPDATE_PLAYERS41 = "UPDATE players_? SET team_id=?,years_2='C',years_3='A',years_4='A',years_5='A' WHERE _id=?";
 	private static final String UPDATE_PLAYERS42 = "UPDATE players_? SET team_id=?,years_2='C',years_3='C',years_4='A',years_5='A' WHERE _id=?";
 	private static final String UPDATE_PLAYERS43 = "UPDATE players_? SET team_id=?,years_2='C',years_3='C',years_4='C',years_5='A' WHERE _id=?";
+	private static final String ADD_PLAYERS_FROM_SPORT_FEED = "INSERT INTO players_from_sportfeed (id,nom,status) VALUES (?,?,?)";
 
 	private DAOFactory daoFactory;
 
@@ -3613,6 +3614,25 @@ public class PlayersDaoImpl implements PlayersDao {
 			fermeturesSilencieuses(rs, preparedStatement, connexion);
 		}
 
+	}
+
+	@Override
+	public void addPlayersFromSportFeed(int id, String nom, String status) throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connexion = daoFactory.getConnection();
+
+			preparedStatement = initialisationRequetePreparee(connexion, ADD_PLAYERS_FROM_SPORT_FEED, false,
+					id, nom,status);
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
 	}
 
 }

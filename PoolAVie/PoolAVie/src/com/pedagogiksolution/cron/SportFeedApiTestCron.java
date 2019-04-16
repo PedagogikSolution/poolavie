@@ -1,10 +1,9 @@
 package com.pedagogiksolution.cron;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,6 +18,12 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
+import com.google.appengine.api.taskqueue.TaskOptions;
+import com.pedagogiksolution.beans.PlayersFeed;
 import com.pedagogiksolution.dao.DAOFactory;
 import com.pedagogiksolution.dao.PlayersDao;
 
@@ -44,7 +49,7 @@ public class SportFeedApiTestCron extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	// initilisation du métier
     	
-    	HttpGet request = new HttpGet("https://api.mysportsfeeds.com/v2.0/pull/nhl/players.json?season=current&limit=1");
+    	HttpGet request = new HttpGet("https://api.mysportsfeeds.com/v2.0/pull/nhl/players.json?season=current");
     	String auth = "3a0e9a0a-861e-4065-bd34-c6670d" + ":" + "MYSPORTSFEEDS";
     	byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
     	String authHeader = "Basic " + new String(encodedAuth);
@@ -63,47 +68,38 @@ public class SportFeedApiTestCron extends HttpServlet {
     	
     	InputStream instream = mEntity.getContent();
     	
-    	//String result = getStringFromInputStream(instream);
-    	
+    	 // create once, reuse
+    	 ObjectMapper mapper = new ObjectMapper();
+    	 JsonNode mNode = mapper.readTree(instream);
+    	 
+    	 JsonNode mNodePlayers = mNode.path("players");
+    	 
+    	 Iterator<JsonNode> iterator = mNodePlayers.elements();
+    	 
+    	 while (iterator.hasNext()) {
+    		 PlayersFeed mResult = new PlayersFeed();
+    		 JsonNode mNodePlayer = iterator.next();
+    		 
+    		 JsonNode mPlayer = mNodePlayer.path("player");
+    		 ObjectMapper mapper2 = new ObjectMapper();
+    		 mResult = mapper2.treeToValue(mPlayer, PlayersFeed.class);
+    		 int id = mResult.getId();
+    	 	 String nom = mResult.getFirstName()+" " + mResult.getLastName();
+    	 	 String status = mResult.getCurrentRosterStatus();
+    		 // on ajoute a bdd
+    		//Queue queue = QueueFactory.getDefaultQueue();
+    		// queue.add(TaskOptions.Builder.withUrl(url))
+    		 playersDao.addPlayersFromSportFeed(id,nom,status);
+    		 
+    		 
+          }
+   	
     	
     	instream.close();
-    	
-    	//System.out.println(result);
-    	
-    	
-    	
-	
-
+   
 
     }
 
-		private static String getStringFromInputStream(InputStream is) {
-
-			BufferedReader br = null;
-			StringBuilder sb = new StringBuilder();
-
-			String line;
-			try {
-
-				br = new BufferedReader(new InputStreamReader(is));
-				while ((line = br.readLine()) != null) {
-					sb.append(line);
-				}
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				if (br != null) {
-					try {
-						br.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-
-			return sb.toString();
-
-		}
+	
 	
 }

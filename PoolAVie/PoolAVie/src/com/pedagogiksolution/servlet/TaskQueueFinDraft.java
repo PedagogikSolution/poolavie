@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.dao.DAOFactory;
 import com.pedagogiksolution.dao.DraftDao;
-import com.pedagogiksolution.dao.PlayersDao;
-import com.pedagogiksolution.model.TaskQueueModel;
 
 public class TaskQueueFinDraft extends HttpServlet {
     /**

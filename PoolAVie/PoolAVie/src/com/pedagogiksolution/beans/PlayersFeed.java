@@ -1,8 +1,12 @@
 package com.pedagogiksolution.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PlayersFeed implements Serializable {
 	/**
 	 * 
@@ -14,9 +18,7 @@ public class PlayersFeed implements Serializable {
 	private String firstName;
 	private String lastName;
 	private String primaryPosition;
-	private String currentTeam;
 	private String currentRosterStatus;
-	private String currentInjury;
 	private Date birthDate;
 	private int age;
 	private boolean rookie;
@@ -45,24 +47,14 @@ public class PlayersFeed implements Serializable {
 	public void setPrimaryPosition(String primaryPosition) {
 		this.primaryPosition = primaryPosition;
 	}
-	public String getCurrentTeam() {
-		return currentTeam;
-	}
-	public void setCurrentTeam(String currentTeam) {
-		this.currentTeam = currentTeam;
-	}
+	
 	public String getCurrentRosterStatus() {
 		return currentRosterStatus;
 	}
 	public void setCurrentRosterStatus(String currentRosterStatus) {
 		this.currentRosterStatus = currentRosterStatus;
 	}
-	public String getCurrentInjury() {
-		return currentInjury;
-	}
-	public void setCurrentInjury(String currentInjury) {
-		this.currentInjury = currentInjury;
-	}
+	
 	public Date getBirthDate() {
 		return birthDate;
 	}

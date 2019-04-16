@@ -116,6 +116,8 @@ public interface PlayersDao {
 
 	void putNewPlayersInDatastore(String poolID) throws DAOException;
 
+	void addPlayersFromSportFeed(int id, String nom, String status) throws DAOException;
+
 
 
    
