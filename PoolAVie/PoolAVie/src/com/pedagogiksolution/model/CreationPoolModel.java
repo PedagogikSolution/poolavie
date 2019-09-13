@@ -332,9 +332,9 @@ public class CreationPoolModel {
 				msg.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(courriel));
 				msg.setSubject("Invitation pour un Pool à vie", "utf-8");
 				msg.setContent(
-						"Bonjour, un de vos amis vous invite à participer à un pool de hockey sur la plateforme de www.poolavie.ca."
+						"Bonjour, un de vos amis vous invite à participer à un pool de hockey sur la plateforme de www_poolavie_ca."
 								+ "\n\n Vous pouvez dès maintenant aller créer les bases de votre équipe en suivant le lien ci-bas."
-								+ "\n\n <a href='http://www.poolavie.ca/CreationDirecteurGeneral?po=" + poolId + "&pl="
+								+ "\n\n <a href='https://www.poolavie.ca/CreationDirecteurGeneral?po=" + poolId + "&pl="
 								+ playerId + "&co=" + code + "&fo=1'>Créer mon équipe</a>",
 						"text/html");
 				Transport.send(msg);

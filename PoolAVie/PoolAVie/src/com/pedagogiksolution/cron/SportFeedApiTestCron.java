@@ -3,6 +3,7 @@ package com.pedagogiksolution.cron;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.servlet.ServletException;
@@ -49,7 +50,7 @@ public class SportFeedApiTestCron extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	// initilisation du métier
     	
-    	HttpGet request = new HttpGet("https://api.mysportsfeeds.com/v2.0/pull/nhl/players.json?season=current");
+    	HttpGet request = new HttpGet("https://api.mysportsfeeds.com/v2.1/pull/nhl/players.json?season=upcoming");
     	String auth = "3a0e9a0a-861e-4065-bd34-c6670d" + ":" + "MYSPORTSFEEDS";
     	byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
     	String authHeader = "Basic " + new String(encodedAuth);
@@ -75,7 +76,9 @@ public class SportFeedApiTestCron extends HttpServlet {
     	 JsonNode mNodePlayers = mNode.path("players");
     	 
     	 Iterator<JsonNode> iterator = mNodePlayers.elements();
-    	 
+    	 ArrayList<Integer> id = new ArrayList<>();
+    	 ArrayList<String> nom = new ArrayList<>();
+    	 ArrayList<String> status = new ArrayList<>();
     	 while (iterator.hasNext()) {
     		 PlayersFeed mResult = new PlayersFeed();
     		 JsonNode mNodePlayer = iterator.next();
@@ -83,13 +86,14 @@ public class SportFeedApiTestCron extends HttpServlet {
     		 JsonNode mPlayer = mNodePlayer.path("player");
     		 ObjectMapper mapper2 = new ObjectMapper();
     		 mResult = mapper2.treeToValue(mPlayer, PlayersFeed.class);
-    		 int id = mResult.getId();
-    	 	 String nom = mResult.getFirstName()+" " + mResult.getLastName();
-    	 	 String status = mResult.getCurrentRosterStatus();
+    		 
+    		 id.add( mResult.getId());
+    	 	 nom.add(mResult.getFirstName()+" " + mResult.getLastName());
+    	 	 status.add(mResult.getCurrentRosterStatus());
     		 // on ajoute a bdd
     		//Queue queue = QueueFactory.getDefaultQueue();
     		// queue.add(TaskOptions.Builder.withUrl(url))
-    		 playersDao.addPlayersFromSportFeed(id,nom,status);
+    		 
     		 
     		 
           }
@@ -97,7 +101,7 @@ public class SportFeedApiTestCron extends HttpServlet {
     	
     	instream.close();
    
-
+    	playersDao.addPlayersFromSportFeed(id,nom,status);
     }
 
 	

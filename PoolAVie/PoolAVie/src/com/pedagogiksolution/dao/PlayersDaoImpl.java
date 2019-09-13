@@ -1504,7 +1504,7 @@ public class PlayersDaoImpl implements PlayersDao {
 
 				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() + salaire);
 				mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() - salaire);
-
+				
 				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() + 1);
 				mBeanEquipe.setNb_attaquant(mBeanEquipe.getNb_attaquant() + 1);
 				mBeanEquipe.setManquant_att(mBeanEquipe.getManquant_att() - 1);
@@ -1606,7 +1606,11 @@ public class PlayersDaoImpl implements PlayersDao {
 
 				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() + salaire);
 				mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() - salaire);
+				if (mBeanEquipe.getBudget_restant() < 0) {
+					mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu() + mBeanEquipe.getBudget_restant());
 
+					mBeanEquipe.setBudget_restant(0);
+				}
 				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() + 1);
 				mBeanEquipe.setNb_defenseur(mBeanEquipe.getNb_defenseur() + 1);
 				mBeanEquipe.setManquant_def(mBeanEquipe.getManquant_def() - 1);
@@ -1705,7 +1709,11 @@ public class PlayersDaoImpl implements PlayersDao {
 
 				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() + salaire);
 				mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() - salaire);
+				if (mBeanEquipe.getBudget_restant() < 0) {
+					mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu() + mBeanEquipe.getBudget_restant());
 
+					mBeanEquipe.setBudget_restant(0);
+				}
 				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() + 1);
 				mBeanEquipe.setNb_gardien(mBeanEquipe.getNb_gardien() + 1);
 				mBeanEquipe.setManquant_gardien(mBeanEquipe.getManquant_gardien() - 1);
@@ -1772,46 +1780,6 @@ public class PlayersDaoImpl implements PlayersDao {
 
 		}
 
-		try {
-			Entity mEntityEquipe = datastore.get(mKeyEquipeA);
-
-			Equipe mBeanEquipe = new Equipe();
-
-			mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(mEntityEquipe, mBeanEquipe);
-
-			if (mBeanEquipe.getBudget_restant() < 0) {
-				mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu() + mBeanEquipe.getBudget_restant());
-
-				mBeanEquipe.setBudget_restant(0);
-			}
-			mEntityEquipe = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomEquipeA);
-			datastore.put(mEntityEquipe);
-
-		} catch (EntityNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		try {
-			Entity mEntityEquipe = datastore.get(mKeyEquipeB);
-
-			Equipe mBeanEquipe = new Equipe();
-
-			mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(mEntityEquipe, mBeanEquipe);
-
-			if (mBeanEquipe.getBudget_restant() < 0) {
-				mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu() + mBeanEquipe.getBudget_restant());
-
-				mBeanEquipe.setBudget_restant(0);
-			}
-
-			mEntityEquipe = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomEquipeB);
-			datastore.put(mEntityEquipe);
-
-		} catch (EntityNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 	}
 
@@ -3617,15 +3585,18 @@ public class PlayersDaoImpl implements PlayersDao {
 	}
 
 	@Override
-	public void addPlayersFromSportFeed(int id, String nom, String status) throws DAOException {
+	public void addPlayersFromSportFeed(ArrayList<Integer> id, ArrayList<String> nom, ArrayList<String> status) throws DAOException {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		try {
 			connexion = daoFactory.getConnection();
-
+			
+			for (int i = 0; i < id.size()-1; i++) {
 			preparedStatement = initialisationRequetePreparee(connexion, ADD_PLAYERS_FROM_SPORT_FEED, false,
-					id, nom,status);
+					id.get(i), nom.get(i),status.get(i));
 			preparedStatement.executeUpdate();
+			
+			}
 
 		} catch (SQLException e) {
 			throw new DAOException(e);

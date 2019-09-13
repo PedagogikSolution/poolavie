@@ -140,10 +140,10 @@
 				</div>
 	<p class="w3-xlarge"> Vous voulez racheter ${beanConfirmationRachat.nom} au coût total de ${beanConfirmationRachat.salaire_contrat} avec votre argent de l'année venant de ce terminer?</p>
 	
-	<form action="/Signature" method="post">
+	<form onsubmit="confirmationButtonE.disabled = true; return true;" action="/Signature" method="post">
 	<input type="hidden" name="players_id" value="${Players._id}">
 	<input type="hidden" name="signatureStep" value="3">
-	<button class="w3-btn w3-khaki w3-xlarge">Je confirme le rachat de ce joueur</button>
+	<button name="confirmationButtonE" class="w3-btn w3-khaki w3-xlarge">Je confirme le rachat de ce joueur</button>
 	
 	
 	

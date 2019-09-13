@@ -710,7 +710,7 @@ public class TradeModel {
 				if (mBeanTemp.getNomMakingOfferString() != null) {
 					nomMakingOffer[i] = mBeanTemp.getNomMakingOfferString();
 					salaireMakingOffer[i] = mBeanTemp.getTotal_salaire_team_making_offer();
-					if (mBeanTemp.getYears_2().equalsIgnoreCase("A") || mBeanTemp.getYears_2().equalsIgnoreCase("JA")
+					if (mBeanTemp.getYears_2().equalsIgnoreCase("JA")
 							|| mBeanTemp.getYears_2().equalsIgnoreCase("B")
 							|| mBeanTemp.getYears_2().equalsIgnoreCase("X")) {
 
@@ -770,7 +770,7 @@ public class TradeModel {
 				total_salaire_team_receiving_offer = total_salaire_team_receiving_offer
 						+ mBeanTemp.getTotal_salaire_team_making_offer();
 
-				if (mBeanTemp.getYears_2().equalsIgnoreCase("A") || mBeanTemp.getYears_2().equalsIgnoreCase("JA")
+				if (mBeanTemp.getYears_2().equalsIgnoreCase("JA")
 						|| mBeanTemp.getYears_2().equalsIgnoreCase("B")
 						|| mBeanTemp.getYears_2().equalsIgnoreCase("X")) {
 
@@ -820,18 +820,18 @@ public class TradeModel {
 			}
 		}
 
-		// on verifie si max contrat 12 respecter
+		// on verifie si max contrat 11 respecter
 		if (mBeanPool.getCycleAnnuel() == 3) {
 
 			if ((mBeanEquipeThatIsMakingOffer.getNb_contrat() + nbJoueurSousContratRecu
-					- nbJoueurSousContratDonne) > 12) {
-				mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas avoir plus de 12 joueurs sour contat");
+					- nbJoueurSousContratDonne) > 11) {
+				mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas avoir plus de 11 joueurs sour contat");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 			}
 			if ((mBeanEquipeThatIsReceivingOffer.getNb_contrat() - nbJoueurSousContratRecu
-					+ nbJoueurSousContratDonne) > 12) {
-				mBeanMessageErreur.setErreurTrade("L'autre équipe ne peut pas avoir plus de 12 joueurs sour contat");
+					+ nbJoueurSousContratDonne) > 11) {
+				mBeanMessageErreur.setErreurTrade("L'autre équipe ne peut pas avoir plus de 11 joueurs sour contat");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 			}
@@ -1724,8 +1724,7 @@ public class TradeModel {
 							+ mBeanTemp.getTotal_salaire_team_making_offer();
 					if (mBeanTemp.getNomMakingOfferString() != null) {
 						nomMakingOffer[i] = mBeanTemp.getNomMakingOfferString();
-						if (mBeanTemp.getYears_2().equalsIgnoreCase("A")
-								|| mBeanTemp.getYears_2().equalsIgnoreCase("JA")
+						if (mBeanTemp.getYears_2().equalsIgnoreCase("JA")
 								|| mBeanTemp.getYears_2().equalsIgnoreCase("B")
 								|| mBeanTemp.getYears_2().equalsIgnoreCase("X")) {
 
@@ -1771,8 +1770,7 @@ public class TradeModel {
 							+ mBeanTemp.getTotal_salaire_team_making_offer();
 
 					if (mBeanTemp.getNomMakingOfferString() != null) {
-						if (mBeanTemp.getYears_2().equalsIgnoreCase("A")
-								|| mBeanTemp.getYears_2().equalsIgnoreCase("JA")
+						if (mBeanTemp.getYears_2().equalsIgnoreCase("JA")
 								|| mBeanTemp.getYears_2().equalsIgnoreCase("B")
 								|| mBeanTemp.getYears_2().equalsIgnoreCase("X")) {
 
@@ -1874,15 +1872,15 @@ public class TradeModel {
 		// on verifie si max contrat 12 respecter
 		if (mBeanPool.getCycleAnnuel() == 3) {
 
-			if ((mBeanEquipeThatIsMakingOffer.getNb_contrat() + nbJoueurSousContratRecu
-					- nbJoueurSousContratDonne) > 12) {
-				mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas avoir plus de 12 joueurs sour contat");
+			if ((mBeanEquipeThatIsMakingOffer.getNb_contrat() + nbJoueurSousContratDonne
+					- nbJoueurSousContratRecu) > 11) {
+				mBeanMessageErreur.setErreurTrade("Vous ne pouvez pas avoir plus de 11 joueurs sour contat");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 			}
-			if ((mBeanEquipeThatIsReceivingOffer.getNb_contrat() - nbJoueurSousContratRecu
-					+ nbJoueurSousContratDonne) > 12) {
-				mBeanMessageErreur.setErreurTrade("L'autre équipe ne peut pas avoir plus de 12 joueurs sour contat");
+			if ((mBeanEquipeThatIsReceivingOffer.getNb_contrat() - nbJoueurSousContratDonne
+					+ nbJoueurSousContratRecu) > 11) {
+				mBeanMessageErreur.setErreurTrade("L'autre équipe ne peut pas avoir plus de 11 joueurs sour contat");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 			}
@@ -2061,9 +2059,65 @@ public class TradeModel {
 		if (mBeanTemp.getT2p3() != null) {
 			movePickFromFirstToSecondTeam(mBeanTemp.getTeam_1(), mBeanTemp.getT2p3(), draftPickDao, draftDao);
 		}
+		
+		
+		correctionBudgetRestantEtArgentRecu(mBeanTemp.getTeam_1(), mBeanTemp.getT2p3());
 
 		
 
+	}
+
+	private void correctionBudgetRestantEtArgentRecu(String team1, String team2) {
+		String poolID = mBeanPool.getPoolID();
+
+		String nomEquipeA = poolID + "_" + team1;
+		String nomEquipeB = poolID + "_" + team2;
+
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Key mKeyEquipeA = KeyFactory.createKey("Equipe", nomEquipeA);
+		Key mKeyEquipeB = KeyFactory.createKey("Equipe", nomEquipeB);
+		
+		try {
+			Entity mEntityEquipe = datastore.get(mKeyEquipeA);
+			Equipe mBeanEquipe = new Equipe();
+			
+			mBeanEquipe.mapEquipeFromDatastore(mEntityEquipe, mBeanEquipe);
+			
+			if (mBeanEquipe.getBudget_restant() < 0) {
+				mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu() + mBeanEquipe.getBudget_restant());
+
+				mBeanEquipe.setBudget_restant(0);
+			}
+			
+			
+			mEntityEquipe = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomEquipeA);
+			datastore.put(mEntityEquipe);
+
+		} catch (EntityNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			Entity mEntityEquipe2 = datastore.get(mKeyEquipeB);
+			Equipe mBeanEquipe2 = new Equipe();
+			
+			mBeanEquipe2.mapEquipeFromDatastore(mEntityEquipe2, mBeanEquipe2);
+			
+	
+			if (mBeanEquipe2.getBudget_restant() < 0) {
+				mBeanEquipe2.setArgent_recu(mBeanEquipe2.getArgent_recu() + mBeanEquipe2.getBudget_restant());
+
+				mBeanEquipe2.setBudget_restant(0);
+			}
+			
+			
+			mEntityEquipe2 = mBeanEquipe2.mapBeanToEntityForDatastore(mBeanEquipe2, nomEquipeB);
+			datastore.put(mEntityEquipe2);
+			
+		} catch (EntityNotFoundException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	private void movCashFromTeamtoArgentRecu(String team1, String team2, int cash) {
@@ -2117,10 +2171,9 @@ public class TradeModel {
 			
 			mBeanEquipe2.mapEquipeFromDatastore(mEntityEquipe2, mBeanEquipe2);
 			
-			if(mBeanPool.getCycleAnnuel() == 3 || mBeanPool.getCycleAnnuel() == 11) {
-				mBeanEquipe2.setBudget_restant(mBeanEquipe2.getBudget_restant()+cash);
-			} else {
-			mBeanEquipe2.setArgent_recu(mBeanEquipe2.getArgent_recu()+cash); }
+	
+			mBeanEquipe2.setArgent_recu(mBeanEquipe2.getArgent_recu()+cash);
+	
 			
 			if (mBeanPool.getCycleAnnuel() == 3 || mBeanPool.getCycleAnnuel() == 11) {
 

@@ -369,7 +369,7 @@ public class TradeServlet extends HttpServlet {
 
 				// on force re-ecriture dans la session dans un filtre
 
-				resp.sendRedirect("/Equipes");
+				resp.sendRedirect("/Trade");
 			}
 
 			break;

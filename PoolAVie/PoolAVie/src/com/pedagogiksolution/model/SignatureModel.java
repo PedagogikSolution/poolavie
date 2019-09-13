@@ -449,7 +449,7 @@ public class SignatureModel {
 			e.printStackTrace();
 		}
 
-		if (nb_contrat >= 12) {
+		if (nb_contrat >= 11) {
 			return false;
 		} else {
 			return true;

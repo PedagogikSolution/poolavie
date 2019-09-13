@@ -94,8 +94,10 @@
 
 
 								<td>
-									<form action="/Signature" method="post">
-										<input type="hidden" value="${NonSessionPlayers.players_id[i]}" name="player_id" /> <input type="hidden" value="4" name="signatureStep" /> <input type="submit" value="Descendre ce joueur">
+									<form onsubmit="confirmationButtonA.disabled = true; return true;" action="/Signature" method="post">
+										<input type="hidden" value="${NonSessionPlayers.players_id[i]}" name="player_id" />
+										 <input type="hidden" value="4" name="signatureStep" />
+										 <input name="confirmationButtonA" type="submit" value="Descendre ce joueur">
 									</form>
 								</td>
 
@@ -137,9 +139,9 @@
 			</div>
 			<p class="w3-xlarge">Vous voulez descendre ${beanConfirmation.nom} au coût total de 1 Millions avec votre argent de l'année venant de ce terminer?</p>
 
-			<form action="/Signature" method="post">
+			<form onsubmit="confirmationButtonB.disabled = true; return true;" action="/Signature" method="post">
 				<input type="hidden" name="players_id" value="${Players._id}"> <input type="hidden" name="signatureStep" value="5">
-				<button class="w3-btn w3-khaki w3-xlarge">Je confirme la rétrocession de ce joueur</button>
+				<button name="confirmationButtonB" class="w3-btn w3-khaki w3-xlarge">Je confirme la rétrocession de ce joueur</button>
 
 
 
@@ -221,7 +223,7 @@
 									</c:choose>
 
 									<td>
-										<form id="signatureAbform${i}" action="/Signature" method="POST">
+										<form onsubmit="confirmationButtonC.disabled = true; return true;" id="signatureAbform${i}" action="/Signature" method="POST">
 											<input type="hidden" name="signatureStep" value="6"> <input type="hidden" name="draft_player_id" value="${NonSessionPlayers.players_id[i]}"> <input type="hidden" name="nom"
 												value="${NonSessionPlayers.nom[i]}"> <input type="hidden" name="position" value="${NonSessionPlayers.position[i]}"> <input type="hidden" name="team"
 												value="${NonSessionPlayers.teamOfPlayer[i]}"> <input type="hidden" name="salaire" value="${NonSessionPlayers.salaire_draft[i]}">
@@ -231,16 +233,16 @@
 												<input type="hidden" name="years_4" value="${NonSessionPlayers.years_4[i]}">
 												<input type="hidden" name="years_5" value="${NonSessionPlayers.years_5[i]}">
 												 
-											<button class="w3-btn w3-round-xxlarge w3-blue">Signer ce joueur</button>
+											<button name="confirmationButtonC" class="w3-btn w3-round-xxlarge w3-blue">Signer ce joueur</button>
 										</form>
 
 									</td>
 									<td>
-										<form id="signatureAbform${i}" action="/Signature" method="POST">
+										<form onsubmit="confirmationButtonD.disabled = true; return true;" id="signatureAbform${i}" action="/Signature" method="POST">
 											<input type="hidden" name="signatureStep" value="7"> <input type="hidden" name="draft_player_id" value="${NonSessionPlayers.players_id[i]}"> <input type="hidden" name="nom"
 												value="${NonSessionPlayers.nom[i]}"> <input type="hidden" name="position" value="${NonSessionPlayers.position[i]}"> <input type="hidden" name="team"
 												value="${NonSessionPlayers.teamOfPlayer[i]}"> <input type="hidden" name="salaire" value="${NonSessionPlayers.salaire_draft[i]}">
-											<button class="w3-btn w3-round-xxlarge w3-blue">Dropper ce joueur</button>
+											<button name="confirmationButtonD" class="w3-btn w3-round-xxlarge w3-blue">Dropper ce joueur</button>
 										</form>
 
 									</td>

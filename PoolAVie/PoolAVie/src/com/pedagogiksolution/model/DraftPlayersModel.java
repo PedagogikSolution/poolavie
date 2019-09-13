@@ -125,14 +125,14 @@ public class DraftPlayersModel {
 		if (menu != null) {
 			fromMenu = true;
 		}
-
+		
 		switch (segment2) {
 		case "all":
 
+			
 			Filter allPlayers = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
-
 			if (ascDescOrder == 0 || fromMenu) {
-				q = new Query(datastoreID).addSort(sort2, Query.SortDirection.DESCENDING).setFilter(allPlayers);
+				q = new Query(datastoreID).setFilter(allPlayers).addSort(sort2, Query.SortDirection.DESCENDING);
 				req.getSession().setAttribute("ascDescOrder", 1);
 			} else {
 				q = new Query(datastoreID).addSort(sort2, Query.SortDirection.ASCENDING).setFilter(allPlayers);
@@ -141,6 +141,10 @@ public class DraftPlayersModel {
 
 			break;
 		case "foward":
+			
+			
+
+		
 			noContrat = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
 			byPosition = new FilterPredicate("position", FilterOperator.EQUAL, "attaquant");
 			mFiltre = CompositeFilterOperator.and(noContrat, byPosition);
@@ -153,6 +157,9 @@ public class DraftPlayersModel {
 			}
 			break;
 		case "defenseur":
+			
+
+		
 			noContrat = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
 			byPosition = new FilterPredicate("position", FilterOperator.EQUAL, "defenseur");
 			mFiltre = CompositeFilterOperator.and(noContrat, byPosition);
@@ -165,6 +172,9 @@ public class DraftPlayersModel {
 			}
 			break;
 		case "goaler":
+			
+
+		
 			noContrat = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
 			byPosition = new FilterPredicate("position", FilterOperator.EQUAL, "gardien");
 			mFiltre = CompositeFilterOperator.and(noContrat, byPosition);
@@ -177,6 +187,7 @@ public class DraftPlayersModel {
 			}
 			break;
 		case "rookie":
+			
 			noContrat = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
 			filterCanBeRookie = new FilterPredicate("can_be_rookie", FilterOperator.EQUAL, 1);
 			mFiltre = CompositeFilterOperator.and(noContrat, filterCanBeRookie);
@@ -190,6 +201,7 @@ public class DraftPlayersModel {
 			break;
 
 		default:
+			
 			Filter allPlayers2 = new FilterPredicate("contrat", FilterOperator.EQUAL, 0);
 
 			if (ascDescOrder == 0 || fromMenu) {

@@ -29,7 +29,7 @@ td {
 	<jsp:directive.include file="menu_draft.jsp" />
 
 	<c:set var="segment" value="${SegmentSort}" />
-
+    
 	<!-- PROCESS POUR DRAFT -->
 	<c:if test="${Pool.cycleAnnuel==3 }">
 		<c:set var="currentPick" value="${DraftBean.currentPick}" />
@@ -56,13 +56,13 @@ td {
 				<th>Équipe</th>
 				<th>Position</th>
 				<th>
-					<a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=pj">Pj</a>
+				 <a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=pj">Pj</a>
 				</th>
 				<th>
-					<a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=but_victoire">But</a>
+					But
 				</th>
 				<th>
-					<a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=aide_overtime">Aide</a>
+				 Aide
 				</th>
 				<th>
 					<a href="/DraftPlayers?seg=<c:out value="${segment}"/>&sort=pts">Pts</a>
@@ -169,6 +169,7 @@ td {
 					.add('w3-text-shadow');
 		</script>
 	</c:if>
+	
 
 	<!-- SCRIPT POUR FILTRE PAR NOM -->
 	<script>
@@ -196,5 +197,7 @@ td {
 			}
 		}
 	</script>
+
+
 </body>
 </html>
