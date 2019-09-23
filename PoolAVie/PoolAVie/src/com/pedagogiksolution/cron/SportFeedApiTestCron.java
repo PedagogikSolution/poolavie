@@ -21,9 +21,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.appengine.api.taskqueue.Queue;
-import com.google.appengine.api.taskqueue.QueueFactory;
-import com.google.appengine.api.taskqueue.TaskOptions;
 import com.pedagogiksolution.beans.PlayersFeed;
 import com.pedagogiksolution.dao.DAOFactory;
 import com.pedagogiksolution.dao.PlayersDao;

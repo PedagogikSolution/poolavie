@@ -40,7 +40,7 @@ public class RegisterServlet extends HttpServlet {
 	// on verifie si username existe dans le Datastore, si existe on verifie si password match, sinon on cree un
 // nouveau compte client admin
 
-	if (mModel.checkIfUsernameExist(nomUtilisateur, req)) {
+		if (mModel.checkIfUsernameExist(nomUtilisateur, req)) {
 
 	    req.getRequestDispatcher("jsp/accueil/home.jsp").forward(req, resp);
 

@@ -65,6 +65,7 @@ public class RegisterModel {
 	// si pas de validation negative, on retourne false et on continu le processus de registration
 	return false;
 	*/
+    	//return false;
 
     }
     

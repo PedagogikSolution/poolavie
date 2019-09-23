@@ -487,7 +487,7 @@ public class SignatureModel {
 
 			int budget_restant = mBeanEquipe.getBudget_restant();
 
-			int new_budget_restant = budget_restant - total_cout_rachat;
+			int new_budget_restant = budget_restant - total_cout_rachat +salaire_annuel;
 
 			if (new_budget_restant >= 0) {
 
@@ -496,7 +496,7 @@ public class SignatureModel {
 				mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);
 				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() - 1);
 				mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe() + 1);
-				mBeanEquipe.setMoy_sal_restant_draft(mBeanEquipe.getBudget_restant() / mBeanEquipe.getManquant_equipe());
+				mBeanEquipe.setMoy_sal_restant_draft(new_budget_restant / mBeanEquipe.getManquant_equipe());
 
 				switch (position) {
 

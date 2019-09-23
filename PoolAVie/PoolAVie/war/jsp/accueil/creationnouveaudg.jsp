@@ -65,15 +65,15 @@
 								<br>
 								<label class="w3-label w3-text-indigo w3-container w3-large">Courriel</label>
 								<br>
-								<input class="w3-padding-left w3-padding-right w3-input w3-text-indigo w3-container w3-validate w3-margin-left" type="email" name="email" style="width: 90%" autocomplete="off">
+								<input class="w3-padding-left w3-padding-right w3-input w3-text-indigo w3-container w3-validate w3-margin-left" type="email" name="email" style="width: 90%" autocomplete="off" required>
 								<br>
 								<label class="w3-label w3-container w3-text-indigo w3-large">Nom d'utilisateur</label>
 								<br>
-								<input class="w3-padding-left w3-padding-right w3-input w3-text-indigo w3-container w3-validate w3-margin-left" type="text" name="username" style="width: 90%" autocomplete="off">
+								<input class="w3-padding-left w3-padding-right w3-input w3-text-indigo w3-container w3-validate w3-margin-left" type="text" name="username" style="width: 90%" autocomplete="off" required>
 								<br>
 								<label class="w3-label w3-container w3-text-indigo w3-large">Mot de passe</label>
 								<br>
-								<input class="w3-padding-left w3-padding-right w3-input w3-text-indigo w3-container w3-validate w3-margin-left" type="password" name="password" style="width: 90%" autocomplete="off">
+								<input class="w3-padding-left w3-padding-right w3-input w3-text-indigo w3-container w3-validate w3-margin-left" type="password" name="password" style="width: 90%" autocomplete="off" required>
 								<br>
 								<br>
 								<c:if test="${MessageErreurBeans.erreurFormulaireRegistration!=null }">
@@ -95,7 +95,7 @@
 
 								<br>
 								<label class="w3-label w3-text-indigo w3-large w3-container ">Votre nom d'équipe</label>
-								<input class="w3-padding-left w3-padding-right w3-input w3-container w3-margin-left" type="text" name="nomDuTeam" style="width: 90%" autocomplete="off">
+								<input class="w3-padding-left w3-padding-right w3-input w3-container w3-margin-left" type="text" name="nomDuTeam" style="width: 90%" autocomplete="off" required>
 								<br>
 								<input class="w3-btn w3-margin-left w3-khaki w3-xlarge w3-text-indigo" type="button" name="logoTeam" value="Choisir un logo" onclick="openTeamLogoPicker()">
 								<input id="logoUrl" type="hidden" name="logoUrlTeam" value="https://storage.googleapis.com/poolavie-bucket/QUE.png">

@@ -124,7 +124,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String GET_ROOKIE_AB = "SELECT * FROM players_? WHERE club_ecole=1 AND (years_1='A' OR years_1='B')";
 	private static final String UPDATE_SALAIRE_ROOKIE = "UPDATE players_? SET years_1=?,years_2=?,years_3=?,years_4=?,years_5=? WHERE _id=?";
 	private static final String GET_YEARS_0 = "SELECT years_0 FROM players_? WHERE _id=?";
-	private static final String DROP_PLAYERS_C_D = "UPDATE players_? SET contrat=0,club_ecole=0,years_1=0,years_2=0,years_3=0,years_4=0,years_5=0,team_id=null WHERE (years_1='C' OR years_1='D')";
+	private static final String DROP_PLAYERS_C_D = "UPDATE players_? SET contrat=0,club_ecole=0,years_1=0,years_2=0,years_3=0,years_4=0,years_5=0,team_id=null WHERE (years_1='C' OR years_1='D' OR age=1)";
 	private static final String UPDATE_ROOKIE_PLAYERS_AFTER_DRAFT_PICK = "UPDATE players_? SET team_id=?,contrat=?,club_ecole=?,years_1=?,years_2=?,years_3=?,years_4=?,years_5=? WHERE _id=?";
 	private static final String GET_BIRTHDAY = "SELECT birthday,years_3,years_4,years_5 FROM players_? WHERE _id=?";
 
@@ -139,7 +139,8 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String UPDATE_PLAYERS41 = "UPDATE players_? SET team_id=?,years_2='C',years_3='A',years_4='A',years_5='A' WHERE _id=?";
 	private static final String UPDATE_PLAYERS42 = "UPDATE players_? SET team_id=?,years_2='C',years_3='C',years_4='A',years_5='A' WHERE _id=?";
 	private static final String UPDATE_PLAYERS43 = "UPDATE players_? SET team_id=?,years_2='C',years_3='C',years_4='C',years_5='A' WHERE _id=?";
-	private static final String ADD_PLAYERS_FROM_SPORT_FEED = "INSERT INTO players_from_sportfeed (id,nom,status) VALUES (?,?,?)";
+	private static final String ADD_PLAYERS_FROM_SPORT_FEED = "INSERT INTO players_from_sportfeed (id,nom,status,team) VALUES (?,?,?,?)";
+	private static final String GET_GOALER_PTS_TOP_2 = "SELECT pts FROM players_? WHERE position='gardien' AND team_id=? ORDER BY pts DESC LIMIT 1, 1";
 
 	private DAOFactory daoFactory;
 
@@ -1185,12 +1186,28 @@ public class PlayersDaoImpl implements PlayersDao {
 		try {
 			connexion = daoFactory.getConnection();
 			preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_PTS_TOP_X, false, poolId, teamId,
-					2);
+					1);
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				String pts_temp = rs.getString("sommePts");
 				int ptsTemp = Integer.parseInt(pts_temp);
 				pts = pts + ptsTemp;
+
+			}
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion, GET_GOALER_PTS_TOP_2, false, poolId, teamId);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				String pts_temp = rs.getString("pts");
+				int ptsTemp = Integer.parseInt(pts_temp);
+				pts = pts + (ptsTemp/2);
 
 			}
 

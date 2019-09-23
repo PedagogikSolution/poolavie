@@ -69,7 +69,7 @@ public class RecuperationModel {
 	    msg.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(courriel));
 	    msg.setSubject("Récupération de vos identifiants", "utf-8");
 	    msg.setContent("Bonjour, si vous vouliez changer votre mot de passe cliquez sur le lien suivant :" +
-	    		" <a href='http://www.poolavie.ca/recuperation?courriel=" + courriel + "&codeValidation=" + codeValidation + "'>Récupérer mon compte</a>.\n\n" +
+	    		" <a href='https://www.poolavie.ca/recuperation?courriel=" + courriel + "&codeValidation=" + codeValidation + "'>Récupérer mon compte</a>.\n\n" +
 	    		"Si vous aviez besoin de votre code de validation, entrez le code suivant : " + codeValidation +" dans le formulaire de connexion de la page d'accueil", "text/html");
 	    Transport.send(msg);
 	} catch (AddressException e) {

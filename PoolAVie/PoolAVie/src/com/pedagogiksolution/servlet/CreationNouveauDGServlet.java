@@ -65,6 +65,8 @@ public class CreationNouveauDGServlet extends HttpServlet {
 
 		    req.getRequestDispatcher("/jsp/accueil/creationnouveaudg.jsp").forward(req, resp);
 		} else {
+			req.getSession().setAttribute("temp_poolId", poolID);
+			req.getSession().setAttribute("temp_teamId", teamID);
 		    req.getRequestDispatcher("/jsp/accueil/creationnouveaudg.jsp").forward(req, resp);
 		}
 

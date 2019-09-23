@@ -187,11 +187,11 @@
 								<td>${NonSessionPlayers.teamOfPlayer[i]}</td>
 								<td>${NonSessionPlayers.position[i]}</td>
 								<td>${NonSessionPlayers.salaire_draft[i]}</td>
-								<td><input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="1"></td>
+								<td><input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="1" required></td>
 
 									<c:choose>
 									<c:when test="${NonSessionPlayers.years_2[i]!='X'}">
-										<td><input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="2"></td>
+										<td><input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="2" required></td>
 									</c:when>
 									<c:otherwise>
 									<td>X</td>
@@ -199,7 +199,7 @@
 									</c:choose>
 									<c:choose>
 									<c:when test="${NonSessionPlayers.years_3[i]!='X'}">
-										<td><input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="3"></td>
+										<td><input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="3" required></td>
 									</c:when>
 									<c:otherwise>
 									<td>X</td>
@@ -207,7 +207,7 @@
 									</c:choose>
 									<c:choose>
 									<c:when test="${NonSessionPlayers.years_4[i]!='X'}">
-										<td><input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="4"></td>
+										<td><input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="4" required></td>
 									</c:when>
 									<c:otherwise>
 									<td>X</td>
@@ -215,7 +215,7 @@
 									</c:choose>
 									<c:choose>
 									<c:when test="${NonSessionPlayers.years_5[i]!='X'}">
-										<td><input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="5"></td>
+										<td><input class="w3-radio" form="signatureAbform${i}" type="radio" name="nombreAnneeSignature" value="5" required></td>
 									</c:when>
 									<c:otherwise>
 									<td>X</td>
