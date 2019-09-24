@@ -3602,7 +3602,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	}
 
 	@Override
-	public void addPlayersFromSportFeed(ArrayList<Integer> id, ArrayList<String> nom, ArrayList<String> status) throws DAOException {
+	public void addPlayersFromSportFeed(ArrayList<Integer> id, ArrayList<String> nom, ArrayList<String> status, ArrayList<String> team) throws DAOException {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		try {
@@ -3610,7 +3610,7 @@ public class PlayersDaoImpl implements PlayersDao {
 			
 			for (int i = 0; i < id.size()-1; i++) {
 			preparedStatement = initialisationRequetePreparee(connexion, ADD_PLAYERS_FROM_SPORT_FEED, false,
-					id.get(i), nom.get(i),status.get(i));
+					id.get(i), nom.get(i),status.get(i),team.get(i));
 			preparedStatement.executeUpdate();
 			
 			}

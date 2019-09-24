@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.pedagogiksolution.beans.CurrentTeam;
 import com.pedagogiksolution.beans.TradeBeanTemp;
 import com.pedagogiksolution.datastorebeans.Pool;
 
@@ -118,7 +119,9 @@ public interface PlayersDao {
 
 	void putNewPlayersInDatastore(String poolID) throws DAOException;
 
-	void addPlayersFromSportFeed(ArrayList<Integer> id, ArrayList<String> nom, ArrayList<String> status) throws DAOException;
+	void addPlayersFromSportFeed(ArrayList<Integer> id, ArrayList<String> nom, ArrayList<String> status, ArrayList<String> team) throws DAOException;
+
+	
 
 
 
