@@ -609,6 +609,16 @@ public class TradeModel {
 			req.setAttribute("messageErreur", mBeanMessageErreur);
 			return false;
 		}
+		
+		// 2-5 check pool de first years si number of pick is equal in the trade
+		if(mBeanPool.getPoolYear()==0||mBeanPool.getPoolYear()==1) {
+			if(nbPicksTeamMakingOffer!=nbPicksTeamReceivingOffer) {
+				mBeanMessageErreur.setErreurTrade(
+						"Lors de la première année, afin d'avoir le nombre de joueurs requis (22 réguliers et 8 club-école). Les équipes doivent échanger le même nombre de pick. Exemple 1 contre 1, 2 contre 2 ou 3 contre 3.");
+				req.setAttribute("messageErreur", mBeanMessageErreur);
+				return false;
+			}
+		}
 
 		// 3- checking for cash on the two side
 		if (cashIncludeTeamThatMakeOfferInt > 0 && cashIncludeThatReceiveOfferInt > 0) {
