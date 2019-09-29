@@ -41,14 +41,14 @@ public class RegisterModel {
     public boolean validationParametre(String nomUtilisateur, String motDePasse, String courriel, HttpServletRequest req) {
 	
 	// code temporaire pour empecher la creation de nouveau pool (e retirer lorsque commercialise et re-activer le code ci-bas)
-	if (courriel.equalsIgnoreCase("info@poolavie.ca")){
-	    return false;
-	} else {
-	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-	    mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_ERREUR_PARAM_NULL);
-	    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
-	    return true;
-	}
+    	if (courriel.equalsIgnoreCase("info@poolavie.ca")){
+    	    return false;
+    	} else {
+    	    MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
+    	    mBeanMessageErreur.setErreurFormulaireRegistration(REGISTRATION_ERREUR_PARAM_NULL);
+    	    req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
+    	    return true;
+    	}
 	// verification si null, si oui, on retourne message d'erreur a la page register via beans d'erreur
 	
 	

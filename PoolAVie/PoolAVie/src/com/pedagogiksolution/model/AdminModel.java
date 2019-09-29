@@ -127,30 +127,62 @@ public class AdminModel {
 		int poolId = Integer.parseInt(poolID);
 
 		int numberTeam = mBeanPool.getNumberTeam();
-		List<Integer> permutation = null;
-		switch (numberTeam) {
-		case 8:
-			permutation = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8);
-			break;
-		case 9:
-			permutation = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-			break;
-		case 10:
-			permutation = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-			break;
-		case 11:
-			permutation = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
-			break;
-		case 12:
-			permutation = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
-			break;
+		ArrayList<Integer> permutation2 = new ArrayList<>();
+		List<Integer> permutation=null;
+
+		
+		if (poolId == 4) {
+			switch (numberTeam) {
+			
+			case 10:
+				permutation2.add(1);
+				permutation2.add(2);
+				permutation2.add(4);
+				permutation2.add(5);
+				permutation2.add(6);
+				permutation2.add(7);
+				permutation2.add(8);
+				permutation2.add(9);
+				permutation2.add(10);
+				Collections.shuffle(permutation2);
+				permutation2.add(3);
+				break;
+			
+			}
+			
+
+			draftDao.populateFirstYearsDraft(poolId, permutation2, mBeanPool);
+			
+			
+		} else {
+			switch (numberTeam) {
+			case 8:
+				permutation = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8);
+				Collections.shuffle(permutation);
+				break;
+			case 9:
+				permutation = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+				Collections.shuffle(permutation);
+				break;
+			case 10:
+				permutation = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+				Collections.shuffle(permutation);
+				break;
+			case 11:
+				permutation = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
+				Collections.shuffle(permutation);
+				break;
+			case 12:
+				permutation = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+				Collections.shuffle(permutation);
+				break;
+			}
+
+			draftDao.populateFirstYearsDraft(poolId, permutation, mBeanPool);
+			
 		}
-
-		Collections.shuffle(permutation);
-
 		// On persist dans Database et dans Datastore et dans MemCache et dans Bean
 
-		draftDao.populateFirstYearsDraft(poolId, permutation, mBeanPool);
 
 		DraftRound mBeanDraft = draftDao.setDraftRoundOrder(poolId);
 
@@ -694,8 +726,6 @@ public class AdminModel {
 			entity = mBeanPool.mapBeanToEntityForDatastore(mBeanPool, poolID);
 
 			datastore.put(entity);
-			
-			
 
 		} catch (EntityNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -1180,8 +1210,8 @@ public class AdminModel {
 
 				int budget_restant = mBeanEquipe.getBudget_restant();
 
-				mBeanEquipe.setBudget_restant(budget_restant + 2000000);
-				mBeanEquipe.setMax_salaire_begin(max_salaire_begin + 2000000);
+				mBeanEquipe.setBudget_restant(budget_restant + 0);
+				mBeanEquipe.setMax_salaire_begin(max_salaire_begin + 0);
 
 				entity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, keyTeam);
 
@@ -1208,17 +1238,17 @@ public class AdminModel {
 		playersDao.resetStatsToZeroForNewYear(poolID, years_for_archive);
 
 	}
-	
-	public void addPlayerDuringDraft(String poolID, String nom, String team, String position, String birthday, PlayersDao playersDao, HttpServletRequest req) {
+
+	public void addPlayerDuringDraft(String poolID, String nom, String team, String position, String birthday,
+			PlayersDao playersDao, HttpServletRequest req) {
 		// on ajoute le joueur avec valeur de depart
-		playersDao.addPlayer(poolID,nom,team,position,birthday);
+		playersDao.addPlayer(poolID, nom, team, position, birthday);
 		// on check si can_be_rookie et modifie en consequence
 		playersDao.updateAgeForRookie(req);
 		playersDao.setCanBeRookie(poolID);
 		// on ajoute dans datastore pour dispo au draft
 		playersDao.putNewPlayersInDatastore(poolID);
-			
-		
+
 	}
 
 	/*****************************************************
@@ -1269,7 +1299,5 @@ public class AdminModel {
 
 		return nomPropertyTeamName;
 	}
-
-	
 
 }

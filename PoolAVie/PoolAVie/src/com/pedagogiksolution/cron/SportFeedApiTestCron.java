@@ -47,7 +47,7 @@ public class SportFeedApiTestCron extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// initilisation du métier
 
-		HttpGet request = new HttpGet("https://api.mysportsfeeds.com/v2.1/pull/nhl/players.json?season=upcoming");
+		HttpGet request = new HttpGet("https://api.mysportsfeeds.com/v2.1/pull/nhl/players.json?season=2019-2020-regular");
 		String auth = "3a0e9a0a-861e-4065-bd34-c6670d" + ":" + "MYSPORTSFEEDS";
 		byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
 		String authHeader = "Basic " + new String(encodedAuth);

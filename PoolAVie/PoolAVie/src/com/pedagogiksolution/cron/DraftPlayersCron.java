@@ -41,7 +41,10 @@ public class DraftPlayersCron extends HttpServlet {
 	} else {
 
 	    for (int i = 1; i < (numberOfPool + 1); i++) {
-		
+		//code pour pas rouler inutilement le draft players cron sur les pool de test
+	     if(i==2 || i==3) {
+	    	 continue;
+	     }
 		  mModel.putDatabaseInDatastore(i);
 	
 	    }
