@@ -29,11 +29,11 @@ public class ClassementDaoImpl implements ClassementDao {
     private static final String INSERT_TEAM_CLASSEMENT = "INSERT INTO classement_? (equipe,team_id,pool_id,year_of_the_standing) VALUE (?,?,?,?)";
     private static final String CHECK_IF_TEAM_EXIST = "SELECT * FROM classement_? WHERE team_id=?";
     private static final String UPDATE_TEAM_CLASSEMENT = "UPDATE classement_? SET equipe=? WHERE team_id=?";
-    private static final String GET_CLASSEMENT_BY_POOL_ID = "SELECT * FROM classement_? ORDER BY points DESC, but DESC";
+    private static final String GET_CLASSEMENT_BY_POOL_ID = "SELECT * FROM classement_? ORDER BY points DESC,pj ASC,but DESC";
     private static final String UPDATE_DAILY_STATS = "UPDATE classement_? SET pj=?,but=?,passe=?,points=?,moyenne=points/pj, hier=?,semaine=?,mois=? WHERE team_id=?";
     private static final String UPDATE_DIFFERENCE = "UPDATE classement_? SET difference=? WHERE team_id=?";
-    private static final String GET_FIRST_TEAM_PTS = "SELECT * FROM classement_? ORDER BY points DESC LIMIT 1";
-    private static final String GET_NEXT_TEAM_PTS = "SELECT * FROM classement_? ORDER BY points DESC LIMIT ?";
+    private static final String GET_FIRST_TEAM_PTS = "SELECT * FROM classement_? ORDER BY points DESC,pj ASC,but DESC LIMIT 1";
+    private static final String GET_NEXT_TEAM_PTS = "SELECT * FROM classement_? ORDER BY points DESC,pj ASC,but DESC LIMIT ?";
     private static final String UPDATE_DAILY_MOUVEMENT = "UPDATE classement_? SET mouvement=? WHERE team_id=?";
     private static final String UPDATE_STATS_AFTER_TRADE = "UPDATE classement_? SET pj=?,but=?,passe=?,points=?,moyenne=? WHERE team_id=?";
 	private static final String ARCHIVE_CLASSEMENT_LAST_YEAR = "INSERT INTO classement_archive_? (`equipe`,`pj`,`but`,`passe`,`points`,`hier`,`semaine`,`mois`,`moyenne`,`difference`,`team_id`,`pool_id`,`year_of_the_standing`) SELECT equipe,pj,but,passe,points,hier,semaine,mois,moyenne,difference,team_id,pool_id, year_of_the_standing FROM classement_?";
