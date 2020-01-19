@@ -623,7 +623,7 @@ public class TradeModel {
 		// 3- checking for cash on the two side
 		if (cashIncludeTeamThatMakeOfferInt > 0 && cashIncludeThatReceiveOfferInt > 0) {
 			mBeanMessageErreur
-					.setErreurTrade("Vous ne pouvez pas échangez de l'argent contre de l'argent (Reglement 3.1");
+					.setErreurTrade("Vous ne pouvez pas échangez de l'argent contre de l'argent (Reglement 3.2");
 			req.setAttribute("messageErreur", mBeanMessageErreur);
 			return false;
 		}
@@ -636,7 +636,7 @@ public class TradeModel {
 					&& nbRookieTeamReceivingOffer == 0)) {
 
 				mBeanMessageErreur.setErreurTrade(
-						"Vous ne pouvez pas échanger un choix contre de l'argent à cette période (Reglement 3.1");
+						"Vous ne pouvez pas échanger un choix contre de l'argent à cette période (Reglement 3.3");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 
@@ -646,7 +646,7 @@ public class TradeModel {
 					&& nbRookieTeamMakingOffer == 0)) {
 
 				mBeanMessageErreur.setErreurTrade(
-						"Vous ne pouvez pas échanger un choix contre de l'argent à cette période (Reglement 3.1");
+						"Vous ne pouvez pas échanger un choix contre de l'argent à cette période (Reglement 3.4");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 
@@ -901,7 +901,7 @@ public class TradeModel {
 				+ argent_recu_make_offer - cashIncludeTeamThatMakeOfferInt + cashIncludeThatReceiveOfferInt) < 0) {
 
 			mBeanMessageErreur
-					.setErreurTrade("Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 3.1");
+					.setErreurTrade("Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 12");
 			req.setAttribute("messageErreur", mBeanMessageErreur);
 			return false;
 
@@ -911,7 +911,7 @@ public class TradeModel {
 				+ argent_recu_rec_offer - cashIncludeThatReceiveOfferInt + cashIncludeTeamThatMakeOfferInt) < 0) {
 
 			mBeanMessageErreur.setErreurTrade(
-					"La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 3.3");
+					"La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 13");
 			req.setAttribute("messageErreur", mBeanMessageErreur);
 			return false;
 
@@ -934,7 +934,7 @@ public class TradeModel {
 								- nbPlayersTeamReceivingOffer) < 1000000) {
 
 					mBeanMessageErreur.setErreurTrade(
-							"Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 3.2");
+							"Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 14");
 					req.setAttribute("messageErreur", mBeanMessageErreur);
 					return false;
 
@@ -953,7 +953,7 @@ public class TradeModel {
 								+ nbPlayersTeamReceivingOffer) < 1000000) {
 
 					mBeanMessageErreur.setErreurTrade(
-							"La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 3.4");
+							"La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 15");
 					req.setAttribute("messageErreur", mBeanMessageErreur);
 					return false;
 
@@ -1899,28 +1899,30 @@ public class TradeModel {
 
 		// check si budget pour abosrber la transaction
 		
-			if ((budget_restant_received_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer
-					+ argent_recu_rec_offer + cashIncludeTeamThatMakeOfferInt - cashIncludeThatReceiveOfferInt) < 0) {
+		if ((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer
+				+ argent_recu_make_offer - cashIncludeTeamThatMakeOfferInt + cashIncludeThatReceiveOfferInt) < 0) {
 
-				mBeanMessageErreur
-						.setErreurTrade("Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 3.1");
-				req.setAttribute("messageErreur", mBeanMessageErreur);
-				return false;
+			mBeanMessageErreur
+					.setErreurTrade("Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 12");
+			req.setAttribute("messageErreur", mBeanMessageErreur);
+			return false;
 
-			}
+		}
 
-			if ((budget_restant_make_offer - total_salaire_team_making_offer + total_salaire_team_receiving_offer
-					+ argent_recu_make_offer - cashIncludeTeamThatMakeOfferInt + cashIncludeThatReceiveOfferInt) < 0) {
+		if ((budget_restant_received_offer - total_salaire_team_making_offer + total_salaire_team_receiving_offer
+				+ argent_recu_rec_offer - cashIncludeThatReceiveOfferInt + cashIncludeTeamThatMakeOfferInt) < 0) {
 
-				mBeanMessageErreur.setErreurTrade(
-						"La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 3.3");
-				req.setAttribute("messageErreur", mBeanMessageErreur);
-				return false;
+			mBeanMessageErreur.setErreurTrade(
+					"La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 13");
+			req.setAttribute("messageErreur", mBeanMessageErreur);
+			return false;
 
-			}
+		}
+		
 		
 
-		// check si moyenne restante toujours bonne lors de draft ou été
+		// check si moyenne restant pour draft est bonne été et draft suite a trade
+
 		if (mBeanPool.getCycleAnnuel() == 3||mBeanPool.getCycleAnnuel()==11) {
 
 			if ((mBeanEquipeThatIsMakingOffer.getManquant_equipe() + nbPlayersTeamMakingOffer
@@ -1928,12 +1930,13 @@ public class TradeModel {
 
 			} else {
 
-				if ((budget_restant_received_offer - total_salaire_team_making_offer + total_salaire_team_receiving_offer)
+				if ((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer
+						 - cashIncludeThatReceiveOfferInt)
 						/ (mBeanEquipeThatIsMakingOffer.getManquant_equipe() + nbPlayersTeamMakingOffer
 								- nbPlayersTeamReceivingOffer) < 1000000) {
 
 					mBeanMessageErreur.setErreurTrade(
-							"Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 3.2");
+							"Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 14");
 					req.setAttribute("messageErreur", mBeanMessageErreur);
 					return false;
 
@@ -1945,22 +1948,22 @@ public class TradeModel {
 					+ nbPlayersTeamReceivingOffer) == 0) {
 
 			} else {
-
-				if ((budget_restant_make_offer + total_salaire_team_making_offer
-						- total_salaire_team_receiving_offer)
+				if ((budget_restant_received_offer - total_salaire_team_making_offer
+						+ total_salaire_team_receiving_offer 
+						- cashIncludeTeamThatMakeOfferInt)
 						/ (mBeanEquipeThatIsReceivingOffer.getManquant_equipe() - nbPlayersTeamMakingOffer
 								+ nbPlayersTeamReceivingOffer) < 1000000) {
 
 					mBeanMessageErreur.setErreurTrade(
-							"La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 3.4");
+							"La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 15");
 					req.setAttribute("messageErreur", mBeanMessageErreur);
 					return false;
 
 				}
-
 			}
 
 		}
+		
 
 		return true;
 

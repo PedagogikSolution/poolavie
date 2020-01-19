@@ -21,7 +21,7 @@ public class TradeMadeDaoImpl implements TradeMadeDao {
 
 	private static final String CREATE_TRADE_MADE = "CREATE TABLE trade_made? LIKE trade_made";
 	private static final String CREATE_TRADE_MADE_ARCHIVES = "CREATE TABLE trade_made_archive_? LIKE trade_made";
-	private static final String INSERT_TRADE_OFFER_INTO_TRADE_MADE = "INSERT INTO trade_made? SELECT * FROM trade_offer? WHERE _id=?";
+	private static final String INSERT_TRADE_OFFER_INTO_TRADE_MADE = "INSERT INTO trade_made? (team_1,team_2,t1j1,t1j2,t1j3,t1j4,t1j5,t1j6,t1j7,t1p1,t1p2,t1p3,t1_cash,t2j1,t2j2,t2j3,t2j4,t2j5,t2j6,t2j7,t2p1,t2p2,t2p3,t2_cash,date_heure,periode_echange,annee,message) SELECT team_1,team_2,t1j1,t1j2,t1j3,t1j4,t1j5,t1j6,t1j7,t1p1,t1p2,t1p3,t1_cash,t2j1,t2j2,t2j3,t2j4,t2j5,t2j6,t2j7,t2p1,t2p2,t2p3,t2_cash,date_heure,periode_echange,annee,message FROM trade_offer? WHERE _id=?";
 	private static final String GET_NUMBER_TRADE_MADE_BY_ME = "SELECT COUNT(*) FROM trade_made? WHERE team_1 =? OR team_2 =?";
 	private static final String GET_NUMBER_TRADE_MADE_BY_ALL = "SELECT COUNT(*) FROM trade_made?";
 	private static final String GET_TRADE_MADE_BY_ME = "SELECT * FROM trade_made? WHERE team_1 =? OR team_2 =? ORDER BY date_heure";
