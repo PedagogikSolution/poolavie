@@ -15,6 +15,8 @@
 <link rel="stylesheet" href="/css/w3.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
+<script type="text/javascript" src="https://talkgadget.google.com/talkgadget/channel.js"></script>
+
 </head>
 <body onload="removeProgressBar()">
 	<c:if test="${Pool.cycleAnnuel==3 }">
@@ -145,7 +147,7 @@
 						<!-- budget restant offer -->
 						<tr class="w3-indigo">
 
-							<th class="w3-large" colspan="2">Budget Restant</th>
+							<th class="w3-large" colspan="2">Variation du budget</th>
 
 
 						</tr>
@@ -278,7 +280,7 @@
 						<!-- budget restant offer -->
 						<tr class="w3-indigo">
 
-							<th class="w3-large" colspan="2">Budget Restant</th>
+							<th class="w3-large" colspan="2">Variation du budget</th>
 
 
 						</tr>
@@ -415,7 +417,7 @@
 						<!-- budget restant offer -->
 						<tr class="w3-indigo">
 
-							<th class="w3-large" colspan="2">Budget Restant</th>
+							<th class="w3-large" colspan="2">Variation du budget</th>
 
 
 						</tr>
@@ -549,7 +551,7 @@
 						<!-- budget restant offer -->
 						<tr class="w3-indigo">
 
-							<th class="w3-large" colspan="2">Budget Restant</th>
+							<th class="w3-large" colspan="2">Variation du budget</th>
 
 
 						</tr>

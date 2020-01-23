@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.pedagogiksolution.beans.CurrentTeam;
 import com.pedagogiksolution.beans.TradeBeanTemp;
 import com.pedagogiksolution.datastorebeans.Pool;
 

@@ -28,7 +28,7 @@ import com.google.gson.Gson;
 import com.pedagogiksolution.beans.DraftOnline;
 
 public class FirebaseChannel {
-
+	
 	private static final String FIREBASE_SNIPPET_PATH = "/jsp/utils/firebase_config.jspf";
 	  static InputStream firebaseConfigStream = null;
 	  private static final List<String> FIREBASE_SCOPES = Arrays.asList(

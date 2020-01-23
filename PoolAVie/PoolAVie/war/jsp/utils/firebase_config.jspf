@@ -11,4 +11,3 @@
   };
   firebase.initializeApp(config);
 </script>
-

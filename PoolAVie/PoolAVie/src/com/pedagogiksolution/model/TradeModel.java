@@ -2074,7 +2074,7 @@ public class TradeModel {
 		}
 		
 		
-		correctionBudgetRestantEtArgentRecu(mBeanTemp.getTeam_1(), mBeanTemp.getT2p3());
+		correctionBudgetRestantEtArgentRecu(mBeanTemp.getTeam_1(), mBeanTemp.getTeam_2());
 
 		
 

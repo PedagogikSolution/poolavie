@@ -16,6 +16,8 @@
 <link rel="stylesheet" href="/css/team.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
+<script type="text/javascript" src="https://talkgadget.google.com/talkgadget/channel.js"></script>
+
 </head>
 <body>
 	<c:if test="${Pool.cycleAnnuel==3 }">

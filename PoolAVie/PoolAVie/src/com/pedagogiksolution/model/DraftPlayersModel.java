@@ -2,10 +2,7 @@ package com.pedagogiksolution.model;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,7 +25,6 @@ import com.google.appengine.api.datastore.TransactionOptions;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
-import com.google.gson.JsonObject;
 import com.pedagogiksolution.beans.DraftOnline;
 import com.pedagogiksolution.beans.MessageErreurBeans;
 import com.pedagogiksolution.beans.NonSessionPlayers;
@@ -541,7 +537,6 @@ public class DraftPlayersModel {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	public void persistenceDraftPickRegulier() throws ServletException, IOException {
 		// on recupere tous les variables utiles
 		Key entityKey = null;
@@ -898,7 +893,6 @@ public class DraftPlayersModel {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	public void persistenceDraftPickRookie() throws ServletException, IOException {
 
 		// on recupere tous les variables utiles
