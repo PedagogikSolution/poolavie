@@ -2249,8 +2249,8 @@ public class TradeModel {
 	}
 
 	/*******************************
-	 * methode privee e la classe
-	 **********************************/
+	 * methode privee e la classe  *
+	 *******************************/
 
 	private Boolean checkIfplayerStillInTeam(String team, String identifiant, PlayersDao playersDao) {
 		int teamId = Integer.parseInt(team);
