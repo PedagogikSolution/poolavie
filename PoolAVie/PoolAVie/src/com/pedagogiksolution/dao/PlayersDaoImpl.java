@@ -1623,11 +1623,6 @@ public class PlayersDaoImpl implements PlayersDao {
 
 				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() + salaire);
 				mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() - salaire);
-				if (mBeanEquipe.getBudget_restant() < 0) {
-					mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu() + mBeanEquipe.getBudget_restant());
-
-					mBeanEquipe.setBudget_restant(0);
-				}
 				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() + 1);
 				mBeanEquipe.setNb_defenseur(mBeanEquipe.getNb_defenseur() + 1);
 				mBeanEquipe.setManquant_def(mBeanEquipe.getManquant_def() - 1);
@@ -1726,11 +1721,6 @@ public class PlayersDaoImpl implements PlayersDao {
 
 				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() + salaire);
 				mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() - salaire);
-				if (mBeanEquipe.getBudget_restant() < 0) {
-					mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu() + mBeanEquipe.getBudget_restant());
-
-					mBeanEquipe.setBudget_restant(0);
-				}
 				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() + 1);
 				mBeanEquipe.setNb_gardien(mBeanEquipe.getNb_gardien() + 1);
 				mBeanEquipe.setManquant_gardien(mBeanEquipe.getManquant_gardien() - 1);
