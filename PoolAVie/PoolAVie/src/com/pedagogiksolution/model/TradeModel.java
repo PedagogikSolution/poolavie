@@ -596,7 +596,7 @@ public class TradeModel {
 		if (nbPlayersTeamMakingOffer > 7 || nbPlayersTeamReceivingOffer > 7) {
 
 			mBeanMessageErreur.setErreurTrade(
-					"Un maximum de 7 joueurs par équipe peut être inclus dans un échange unique (Reglement 4.1");
+					"Un maximum de 7 joueurs par �quipe peut �tre inclus dans un échange unique (Reglement 4.1");
 			req.setAttribute("messageErreur", mBeanMessageErreur);
 			return false;
 		}
@@ -1981,6 +1981,8 @@ public class TradeModel {
 		int trade_id = Integer.parseInt(tradeId);
 
 		mBeanTemp = tradeOfferDao.getTradeNumberX(poolId, trade_id);
+		
+		
 		
 		if (mBeanTemp.getT1_cash() > 0) {
 			movCashFromTeamtoArgentRecu(mBeanTemp.getTeam_1(), mBeanTemp.getTeam_2(), mBeanTemp.getT1_cash());

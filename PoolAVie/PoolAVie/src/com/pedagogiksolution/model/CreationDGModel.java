@@ -41,7 +41,7 @@ public class CreationDGModel {
 
 		if (!checkIfPoolIdExist) {
 			MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-			mBeanMessageErreur.setErreurCreateNewTeam(CREATE_NEW_USER_NO_GOOD);
+			mBeanMessageErreur.setErreurCreateNewTeam("1");
 			req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
 			return false;
 		} else {
@@ -50,7 +50,7 @@ public class CreationDGModel {
 
 			if (!checkIfCodeValidate) {
 				MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-				mBeanMessageErreur.setErreurCreateNewTeam(CREATE_NEW_USER_NO_GOOD);
+				mBeanMessageErreur.setErreurCreateNewTeam("2");
 				req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
 				return false;
 			} else {
@@ -58,7 +58,7 @@ public class CreationDGModel {
 
 				if (!checkIfTeamExist) {
 					MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-					mBeanMessageErreur.setErreurCreateNewTeam("Cette Ã©quipe a dÃ©jÃ  Ã©tÃ© crÃ©Ã©e");
+					mBeanMessageErreur.setErreurCreateNewTeam("Cette équipe a déjà  été créée");
 					req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
 					return false;
 				} else {
@@ -81,7 +81,7 @@ public class CreationDGModel {
 				return true;
 			} else {
 				MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-				mBeanMessageErreur.setErreurCreateNewTeam(CREATE_NEW_USER_NO_GOOD);
+				mBeanMessageErreur.setErreurCreateNewTeam("1");
 				req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
 
 				return false;
@@ -89,7 +89,7 @@ public class CreationDGModel {
 
 		} catch (EntityNotFoundException e) {
 			MessageErreurBeans mBeanMessageErreur = new MessageErreurBeans();
-			mBeanMessageErreur.setErreurCreateNewTeam(CREATE_NEW_USER_NO_GOOD);
+			mBeanMessageErreur.setErreurCreateNewTeam("2");
 			req.setAttribute("MessageErreurBeans", mBeanMessageErreur);
 			return false;
 		}

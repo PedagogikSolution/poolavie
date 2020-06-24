@@ -284,8 +284,7 @@
 	<br>
 	<br>
 	<div class="w3-center">
-		<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfAq1yOwdU_3I5XHilIriTX0h-Kw3ESd_TPaCrBH_jOCzCOrQ/viewform?embedded=true" width="800" height="1400" frameborder="0" marginheight="0"
-			marginwidth="0">Loading...</iframe>
+		<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfAq1yOwdU_3I5XHilIriTX0h-Kw3ESd_TPaCrBH_jOCzCOrQ/viewform?embedded=true" width="800" height="1400" >Loading...</iframe>
 	</div>
 
 

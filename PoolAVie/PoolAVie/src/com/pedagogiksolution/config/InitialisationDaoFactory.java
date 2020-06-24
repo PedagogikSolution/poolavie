@@ -13,16 +13,16 @@ public class InitialisationDaoFactory implements ServletContextListener {
 
     @Override
     public void contextInitialized( ServletContextEvent event ) {
-        /* RÃ©cupÃ©ration du ServletContext lors du chargement de l'application */
+        /* Récupération du ServletContext lors du chargement de l'application */
         ServletContext servletContext = event.getServletContext();
         /* Instanciation de notre DAOFactory */
         this.daoFactory = DAOFactory.getInstance();
-        /* Enregistrement dans un attribut ayant pour portÃ©e toute l'application */
+        /* Enregistrement dans un attribut ayant pour portée toute l'application */
         servletContext.setAttribute( ATT_DAO_FACTORY, this.daoFactory );
     }
 
     @Override
     public void contextDestroyed( ServletContextEvent event ) {
-        /* Rien Ã  rÃ©aliser lors de la fermeture de l'application... */
+        /* Rien à  réaliser lors de la fermeture de l'application... */
     }
 }

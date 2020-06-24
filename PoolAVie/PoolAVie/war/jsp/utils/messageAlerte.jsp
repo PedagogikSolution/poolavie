@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <c:if test="${Pool.draftType==1&&Pool.cycleAnnuel==3&&DraftOnline.token==null}">
 	<div class="w3-container w3-section w3-red">
 		<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>

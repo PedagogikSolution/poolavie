@@ -63,7 +63,8 @@
 		<url-pattern>/jsp/signature/*</url-pattern>
 		<url-pattern>/jsp/team/*</url-pattern>
 		<url-pattern>/jsp/trade/*</url-pattern>
-		<url-pattern>/jsp/user/*</url-pattern>
+		<url-pattern>/jsp/reglement/*</url-pattern>
+		<url-pattern>/jsp/main/user/*</url-pattern>
 	</filter-mapping>
 	<filter>
 		<filter-name>ConnectUser</filter-name>
@@ -93,7 +94,8 @@
 		<url-pattern>/jsp/signature/*</url-pattern>
 		<url-pattern>/jsp/team/*</url-pattern>
 		<url-pattern>/jsp/trade/*</url-pattern>
-		<url-pattern>/jsp/user/*</url-pattern>
+		<url-pattern>/jsp/reglement/*</url-pattern>
+		<url-pattern>/jsp/main/user/*</url-pattern>
 	</filter-mapping>
 	<filter>
 		<filter-name>SessionBeanUpdate</filter-name>
@@ -123,7 +125,8 @@
 		<url-pattern>/jsp/signature/*</url-pattern>
 		<url-pattern>/jsp/team/*</url-pattern>
 		<url-pattern>/jsp/trade/*</url-pattern>
-		<url-pattern>/jsp/user/*</url-pattern>
+		<url-pattern>/jsp/reglement/*</url-pattern>
+		<url-pattern>/jsp/main/user/*</url-pattern>
 	</filter-mapping>
 	<filter>
 		<filter-name>DraftChannel</filter-name>

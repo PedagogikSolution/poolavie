@@ -429,7 +429,6 @@ public class AdminModel {
 					// du
 
 				} catch (EntityNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
