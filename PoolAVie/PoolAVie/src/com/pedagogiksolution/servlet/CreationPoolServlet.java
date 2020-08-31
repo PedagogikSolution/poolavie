@@ -119,10 +119,10 @@ public class CreationPoolServlet extends HttpServlet {
 	    NouvellesModel mModelNouvelles = new NouvellesModel();
 	    // initialisation du message du bienvenue
 	    String titre = "Bienvenue dans poolavie.ca";
-	    String body = "L'équipe de poolavie.ca vous souhaite la bienvenue dans votre nouveau pool." +
-	    		" Nous espérons que vous apprécierez votre expérience. Si ce n'est pas encore fait," +
-	    		" vous recevrez sous peu un courriel vous indiquant la date de votre premier repêchage" +
-	    		" une fois que le commissaire de votre pool l'aura déterminer." +
+	    String body = "L'Ã©quipe de poolavie.ca vous souhaite la bienvenue dans votre nouveau pool." +
+	    		" Nous espÃ©rons que vous apprÃ©cierez votre expÃ©rience. Si ce n'est pas encore fait," +
+	    		" vous recevrez sous peu un courriel vous indiquant la date de votre premier repÃªchage" +
+	    		" une fois que le commissaire de votre pool l'aura dÃ©terminer." +
 	    		" Il ne reste qu'Ã  vous souhaitez la meilleure des chances!!!";
 	    
 	    mModelNouvelles.createMessageForNewsBySystem(titre, body, req);
