@@ -13,6 +13,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.utils.SystemProperty;
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.datastorebeans.Utilisateur;
 
@@ -29,14 +30,23 @@ public class DeconnexionServlet extends HttpServlet {
     	
     
 	String nomProperty = null;
-	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	
 	Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+	
+	if(mBeanUser==null) {
+		req.getRequestDispatcher("jsp/accueil/home.jsp").forward(req, resp);	
+	}
+	
+	
+	
 	
 	Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 	
 	if(mBeanPool==null) {
-		return;
+		req.getRequestDispatcher("jsp/accueil/home.jsp").forward(req, resp);
 	}
+	
+	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	String poolID = mBeanPool.getPoolID();
 	int teamId = mBeanUser.getTeamId();
 	String teamID = String.valueOf(teamId);
@@ -89,7 +99,11 @@ public class DeconnexionServlet extends HttpServlet {
 	
 	req.getSession().invalidate();
 	req.getSession().removeAttribute("Pool");
-	resp.sendRedirect("/");
+	if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
+	    resp.sendRedirect("/");
+	} else {
+		req.getRequestDispatcher("jsp/accueil/home.jsp").forward(req, resp);
+	}
 	
     }
 

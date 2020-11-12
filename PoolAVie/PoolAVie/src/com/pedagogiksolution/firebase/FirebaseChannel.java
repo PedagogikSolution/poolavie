@@ -22,6 +22,7 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.util.Preconditions;
 import com.google.appengine.api.appidentity.AppIdentityService;
 import com.google.appengine.api.appidentity.AppIdentityServiceFactory;
+import com.google.appengine.api.utils.SystemProperty;
 import com.google.common.io.BaseEncoding;
 import com.google.common.io.CharStreams;
 import com.google.gson.Gson;
@@ -104,8 +105,14 @@ public class FirebaseChannel {
 	      throws IOException {
 	    // Make requests auth'ed using Application Default Credentials
 	    HttpRequestFactory requestFactory = httpTransport.createRequestFactory(credential);
-	    GenericUrl url = new GenericUrl(
+	    GenericUrl url;
+	    if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
+	    	 url = new GenericUrl(
 	        String.format("%s/channels/%s.json", firebaseDbUrl, channelKey));
+	    } else {
+	    	 url = new GenericUrl(
+	    	        String.format("https://talkgadget.google.com/talkgadget/channel.js", firebaseDbUrl, channelKey));
+	    }
 	    HttpResponse response = null;
 
 	    try {

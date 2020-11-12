@@ -1,8 +1,8 @@
-<!-- Indices written at Tue, 21 Jan 2020 16:21:41 EST -->
+<!-- Indices written at Mon, 31 Aug 2020 12:08:21 EDT -->
 
 <datastore-indexes autoGenerate="true">
 
-    <!-- Used 9 times in query history -->
+    <!-- Used 8 times in query history -->
     <datastore-index kind="Articles" ancestor="true" source="auto">
         <property name="date" direction="desc"/>
     </datastore-index>
@@ -10,81 +10,8 @@
     <!-- Used 2 times in query history -->
     <datastore-index kind="Players_1" ancestor="false" source="auto">
         <property name="contrat" direction="asc"/>
-        <property name="pts" direction="desc"/>
-    </datastore-index>
-
-    <!-- Used 2 times in query history -->
-    <datastore-index kind="Players_1" ancestor="false" source="auto">
-        <property name="contrat" direction="asc"/>
-        <property name="pj" direction="desc"/>
-    </datastore-index>
-
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="Players_1" ancestor="false" source="auto">
-        <property name="contrat" direction="asc"/>
-        <property name="salaire_draft" direction="desc"/>
-    </datastore-index>
-
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="Players_1" ancestor="false" source="auto">
-        <property name="contrat" direction="asc"/>
-        <property name="projection" direction="desc"/>
-    </datastore-index>
-
-    <!-- Used 6 times in query history -->
-    <datastore-index kind="Players_1" ancestor="false" source="auto">
-        <property name="contrat" direction="asc"/>
         <property name="position" direction="asc"/>
         <property name="pts" direction="desc"/>
-    </datastore-index>
-
-    <!-- Used 3 times in query history -->
-    <datastore-index kind="Players_1" ancestor="false" source="auto">
-        <property name="contrat" direction="asc"/>
-        <property name="position" direction="asc"/>
-        <property name="pj" direction="desc"/>
-    </datastore-index>
-
-    <!-- Used 3 times in query history -->
-    <datastore-index kind="Players_1" ancestor="false" source="auto">
-        <property name="contrat" direction="asc"/>
-        <property name="position" direction="asc"/>
-        <property name="salaire_draft" direction="desc"/>
-    </datastore-index>
-
-    <!-- Used 3 times in query history -->
-    <datastore-index kind="Players_1" ancestor="false" source="auto">
-        <property name="contrat" direction="asc"/>
-        <property name="position" direction="asc"/>
-        <property name="projection" direction="desc"/>
-    </datastore-index>
-
-    <!-- Used 2 times in query history -->
-    <datastore-index kind="Players_1" ancestor="false" source="auto">
-        <property name="can_be_rookie" direction="asc"/>
-        <property name="contrat" direction="asc"/>
-        <property name="pts" direction="desc"/>
-    </datastore-index>
-
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="Players_1" ancestor="false" source="auto">
-        <property name="can_be_rookie" direction="asc"/>
-        <property name="contrat" direction="asc"/>
-        <property name="pj" direction="desc"/>
-    </datastore-index>
-
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="Players_1" ancestor="false" source="auto">
-        <property name="can_be_rookie" direction="asc"/>
-        <property name="contrat" direction="asc"/>
-        <property name="salaire_draft" direction="desc"/>
-    </datastore-index>
-
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="Players_1" ancestor="false" source="auto">
-        <property name="can_be_rookie" direction="asc"/>
-        <property name="contrat" direction="asc"/>
-        <property name="projection" direction="desc"/>
     </datastore-index>
 
 </datastore-indexes>

@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.pedagogiksolution.cron.model.ClassementCronModel;
 import com.pedagogiksolution.cron.model.PlayersCronModel;
 import com.pedagogiksolution.dao.ClassementDao;
@@ -60,6 +62,8 @@ public class AdminPoolServlet extends HttpServlet {
 		mModel2.createSessionDraftPickBean();
 		mModel2.createSessionDraftRoundBean();
 		mModel2.createSessionPoolBean();
+		
+		
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		int cycleAnnuel = mBeanPool.getCycleAnnuel();
 		if (cycleAnnuel == 3) {
@@ -68,6 +72,14 @@ public class AdminPoolServlet extends HttpServlet {
 			mModelDraft.putDatastoreIntoBean(mBeanPool, req);
 		}
 
+		
+		
+		
+		
+		
+		
+		
+		
 		switch (cycleAnnuel) {
 		case 0:
 			req.getRequestDispatcher("jsp/admin/adminPool.jsp").forward(req, resp);

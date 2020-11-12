@@ -335,7 +335,7 @@ public class CreationPoolModel {
 						"Bonjour, un de vos amis vous invite à participer à un pool de hockey sur la plateforme de www_poolavie_ca."
 								+ "\n\n Vous pouvez dès maintenant aller créer les bases de votre équipe en suivant le lien ci-bas."
 								+ "\n\n <a href='https://www.poolavie.ca/CreationDirecteurGeneral?po=" + poolId + "&pl="
-								+ playerId + "&co=" + code + "&fo=1'>Cr�er mon �quipe</a>",
+								+ playerId + "&co=" + code + "&fo=1'>Cr�er mon �quipe</a>",
 						"text/html");
 				Transport.send(msg);
 			} catch (AddressException e) {
@@ -472,9 +472,9 @@ public class CreationPoolModel {
 
 	private void initEquipeStorage(HttpServletRequest req) {
 
-		max_salaire_begin = 52000000;
+		max_salaire_begin = 55000000;
 		total_salaire_now = 0;
-		budget_restant = 52000000;
+		budget_restant = 55000000;
 		moy_sal_restant_draft = 0;
 		nb_attaquant = 0;
 		nb_defenseur = 0;

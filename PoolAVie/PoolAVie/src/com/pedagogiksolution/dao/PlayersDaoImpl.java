@@ -3201,6 +3201,7 @@ public class PlayersDaoImpl implements PlayersDao {
 
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-dd");
 				Date mDate = rs.getDate("birthday");
+				
 				String years_3 = rs.getString("years_3");
 				String years_4 = rs.getString("years_4");
 				String years_5 = rs.getString("years_5");

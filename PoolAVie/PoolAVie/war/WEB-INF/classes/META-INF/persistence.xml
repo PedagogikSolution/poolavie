@@ -16,6 +16,7 @@
         <class>com.pedagogiksolution.datastorebeans.Defenseur</class>
         <class>com.pedagogiksolution.datastorebeans.Gardien</class>
         <class>com.pedagogiksolution.datastorebeans.Recrue</class>
+        <class>com.pedagogiksolution.datastorebeans.Players</class>
         <class>com.pedagogiksolution.datastorebeans.DraftProcess</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes> 
         <properties>

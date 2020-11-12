@@ -52,6 +52,7 @@
 		<url-pattern>/Archives</url-pattern>
 		<url-pattern>/MonCompte</url-pattern>
 		<url-pattern>/AdminPool</url-pattern>
+		<url-pattern>/AdminTeam</url-pattern>
 		<url-pattern>/AdminTrade</url-pattern>
 		<url-pattern>/AdminDraft</url-pattern>
 		<url-pattern>/AdminSignature</url-pattern>
@@ -83,6 +84,7 @@
 		<url-pattern>/Archives</url-pattern>
 		<url-pattern>/MonCompte</url-pattern>
 		<url-pattern>/AdminPool</url-pattern>
+		<url-pattern>/AdminTeam</url-pattern>
 		<url-pattern>/AdminTrade</url-pattern>
 		<url-pattern>/AdminDraft</url-pattern>
 		<url-pattern>/AdminSignature</url-pattern>
@@ -114,6 +116,7 @@
 		<url-pattern>/Archives</url-pattern>
 		<url-pattern>/MonCompte</url-pattern>
 		<url-pattern>/AdminPool</url-pattern>
+		<url-pattern>/AdminTeam</url-pattern>
 		<url-pattern>/AdminTrade</url-pattern>
 		<url-pattern>/AdminDraft</url-pattern>
 		<url-pattern>/AdminSignature</url-pattern>
@@ -145,6 +148,7 @@
 		<url-pattern>/Archives</url-pattern>
 		<url-pattern>/MonCompte</url-pattern>
 		<url-pattern>/AdminPool</url-pattern>
+		<url-pattern>/AdminTeam</url-pattern>
 		<url-pattern>/AdminTrade</url-pattern>
 		<url-pattern>/AdminDraft</url-pattern>
 		<url-pattern>/AdminSignature</url-pattern>
@@ -333,6 +337,14 @@
 		<servlet-name>adminPool</servlet-name>
 		<url-pattern>/AdminPool</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>adminTeam</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.AdminTeamServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>adminTeam</servlet-name>
+		<url-pattern>/AdminTeam</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>adminTrade</servlet-name>
@@ -396,8 +408,18 @@
 		<auth-constraint>
 			<role-name>admin</role-name>
 		</auth-constraint>
+		
+		
 	</security-constraint>
-
+	<security-constraint>
+        <web-resource-collection>
+            <web-resource-name>site</web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
 	<!-- Mapping des servlet pour les Cron Job -->
 
 	<servlet>
