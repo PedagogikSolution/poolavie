@@ -1,7 +1,5 @@
 package com.pedagogiksolution.model;
 
-import static com.pedagogiksolution.dao.DAOUtilitaire.initialisationRequetePreparee;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -492,7 +490,7 @@ public class SignatureModel {
 			int new_budget_restant=0;
 			if (cycleAnnuel == 9 || cycleAnnuel == 12) {
 				
-				 new_budget_restant = budget_restant - total_cout_rachat +salaire_annuel;
+				 new_budget_restant = budget_restant - total_cout_rachat;
 			} else if (cycleAnnuel == 7) {
 				new_budget_restant = budget_restant - total_cout_rachat ;
 			}
@@ -737,6 +735,10 @@ public class SignatureModel {
 			e.printStackTrace();
 		}
 
+		
+		
+		
+		
 		// on verifie si joueur de type C et on ajuste les salaires
 
 		int checkC = playersDao.checkIfPlayersWillHaveMoreThan25DuringContract(Integer.parseInt(poolID), playersId);

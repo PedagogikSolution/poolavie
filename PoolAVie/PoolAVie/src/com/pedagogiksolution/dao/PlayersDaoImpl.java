@@ -141,6 +141,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String UPDATE_PLAYERS43 = "UPDATE players_? SET team_id=?,years_2='C',years_3='C',years_4='C',years_5='A' WHERE _id=?";
 	private static final String ADD_PLAYERS_FROM_SPORT_FEED = "INSERT INTO players_from_sportfeed (id,nom,status,team) VALUES (?,?,?,?)";
 	private static final String GET_GOALER_PTS_TOP_2 = "SELECT pts FROM players_? WHERE position='gardien' AND team_id=? ORDER BY pts DESC LIMIT 1, 1";
+	private static final String RESET_AGE_FOR_ROOKIE = "UPDATE players_? SET age=0";
 
 	private DAOFactory daoFactory;
 
@@ -2122,6 +2123,17 @@ public class PlayersDaoImpl implements PlayersDao {
 		PreparedStatement preparedStatement = null;
 		try {
 			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion, RESET_AGE_FOR_ROOKIE, false,
+					Integer.parseInt(poolID));
+			preparedStatement.execute();
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		try {
+			connexion = daoFactory.getConnection();
 			preparedStatement = initialisationRequetePreparee(connexion, UPDATE_AGE_FOR_ROOKIE, false,
 					Integer.parseInt(poolID), birthday);
 			preparedStatement.executeUpdate();
@@ -3613,5 +3625,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		}
 		
 	}
+
+	
 
 }
