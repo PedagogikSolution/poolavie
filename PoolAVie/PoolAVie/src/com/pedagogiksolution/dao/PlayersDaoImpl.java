@@ -79,7 +79,7 @@ public class PlayersDaoImpl implements PlayersDao {
 			+ "club_ecole=0,years_1=0,years_2=0,years_3=0,years_4=0,years_5=0 WHERE _id=?";
 	private static final String GET_POSITION_OF_PLAYERS = "SELECT position FROM players_? WHERE _id=?";
 	private static final String UPDATE_AGE_FOR_ROOKIE = "UPDATE players_? SET age = 1 WHERE birthday<?";
-	private static final String GET_ROOKIE_THAT_CAN_GO_DOWN = "SELECT * FROM players_? WHERE age=? AND club_ecole=? AND team_id=? AND (years_2='A' OR years_2='B' OR years_2>1)";
+	private static final String GET_ROOKIE_THAT_CAN_GO_DOWN = "SELECT * FROM players_? WHERE age=? AND club_ecole=? AND team_id=? AND (years_2='A' OR years_2='B' OR years_2='X')";
 	private static final String GET_PLAYER_NAME = "SELECT nom FROM players_? WHERE _id=?";
 	private static final String PUT_PLAYERS_IN_CLUB_ECOLE = "UPDATE players_? SET club_ecole=1 WHERE _ID=?";
 	private static final String ARCHIVE_PLAYERS_LAST_YEAR = "INSERT INTO players_archive_? SELECT * FROM players_? WHERE team_id IS NOT NULL";
