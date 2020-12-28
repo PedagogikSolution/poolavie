@@ -1210,8 +1210,8 @@ public class AdminModel {
 
 				int budget_restant = mBeanEquipe.getBudget_restant();
 
-				mBeanEquipe.setBudget_restant(budget_restant + 2000000);
-				mBeanEquipe.setMax_salaire_begin(max_salaire_begin + 2000000);
+				mBeanEquipe.setBudget_restant(budget_restant + 3000000);
+				mBeanEquipe.setMax_salaire_begin(max_salaire_begin + 3000000);
 
 				entity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, keyTeam);
 
