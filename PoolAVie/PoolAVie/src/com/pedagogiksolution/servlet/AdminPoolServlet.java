@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.pedagogiksolution.cron.model.ClassementCronModel;
 import com.pedagogiksolution.cron.model.PlayersCronModel;
 import com.pedagogiksolution.dao.ClassementDao;
