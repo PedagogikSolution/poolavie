@@ -51,10 +51,7 @@
 				<th>Pos</th>
 				<th>Nom</th>
 				<th>Équipe</th>
-				<th>Pj</th>
-				<th>But</th>
-				<th>Passe</th>
-				<th>Points</th>
+				
 				<th>${Pool.thisYear}</th>
 				<th>${Pool.secondYear}</th>
 				<th>${Pool.thirdYear}</th>
@@ -79,10 +76,6 @@
 						<td>${i+1}</td>
 						<td>${NonSessionAttaquant.nom[i]}</td>
 						<td>${NonSessionAttaquant.teamOfPlayer[i]}</td>
-						<td>${NonSessionAttaquant.pj[i]}</td>
-						<td>${NonSessionAttaquant.but_victoire[i]}</td>
-						<td>${NonSessionAttaquant.aide_overtime[i]}</td>
-						<td>${NonSessionAttaquant.pts[i]}</td>
 						<td>${NonSessionAttaquant.years_1[i]}</td>
 						<td>${NonSessionAttaquant.years_2[i]}</td>
 						<td>${NonSessionAttaquant.years_3[i]}</td>
@@ -113,10 +106,7 @@
 				<th>Pos</th>
 				<th>Nom</th>
 				<th>Équipe</th>
-				<th>Pj</th>
-				<th>But</th>
-				<th>Passe</th>
-				<th>Points</th>
+				
 				<th>${Pool.thisYear}</th>
 				<th>${Pool.secondYear}</th>
 				<th>${Pool.thirdYear}</th>
@@ -141,10 +131,7 @@
 						<td>${i+1}</td>
 						<td>${NonSessionDefenseur.nom[i]}</td>
 						<td>${NonSessionDefenseur.teamOfPlayer[i]}</td>
-						<td>${NonSessionDefenseur.pj[i]}</td>
-						<td>${NonSessionDefenseur.but_victoire[i]}</td>
-						<td>${NonSessionDefenseur.aide_overtime[i]}</td>
-						<td>${NonSessionDefenseur.pts[i]}</td>
+						
 						<td>${NonSessionDefenseur.years_1[i]}</td>
 						<td>${NonSessionDefenseur.years_2[i]}</td>
 						<td>${NonSessionDefenseur.years_3[i]}</td>
@@ -175,11 +162,7 @@
 				<th>Pos</th>
 				<th>Nom</th>
 				<th>Équipe</th>
-				<th>Pj</th>
-				<th>Victoire</th>
-				<th>DP</th>
-				<th>Blanc</th>
-				<th>Pts</th>
+				
 				<th>${Pool.thisYear}</th>
 				<th>${Pool.secondYear}</th>
 				<th>${Pool.thirdYear}</th>
@@ -204,11 +187,7 @@
 						<td>${i+1}</td>
 						<td>${NonSessionGardien.nom[i]}</td>
 						<td>${NonSessionGardien.teamOfPlayer[i]}</td>
-						<td>${NonSessionGardien.pj[i]}</td>
-						<td>${NonSessionGardien.but_victoire[i]}</td>
-						<td>${NonSessionGardien.aide_overtime[i]}</td>
-						<td>${NonSessionGardien.blanchissage[i]}</td>
-						<td>${NonSessionGardien.pts[i]}</td>
+						
 						<td>${NonSessionGardien.years_1[i]}</td>
 						<td>${NonSessionGardien.years_2[i]}</td>
 						<td>${NonSessionGardien.years_3[i]}</td>
@@ -240,8 +219,7 @@
 				<th>Nom</th>
 				<th>Position</th>
 				<th>Équipe</th>
-				<th>Pj</th>
-				<th>Points</th>
+				
 				<th>${Pool.thisYear}</th>
 				<th>${Pool.secondYear}</th>
 				<th>${Pool.thirdYear}</th>
@@ -266,8 +244,7 @@
 						<td>${NonSessionRecrue.nom[i]}</td>
 						<td>${NonSessionRecrue.position[i]}</td>
 						<td>${NonSessionRecrue.teamOfPlayer[i]}</td>
-						<td>${NonSessionRecrue.pj[i]}</td>
-						<td>${NonSessionRecrue.pts[i]}</td>
+						
 						<td>${NonSessionRecrue.years_1[i]}</td>
 						<td>${NonSessionRecrue.years_2[i]}</td>
 						<td>${NonSessionRecrue.years_3[i]}</td>
@@ -438,8 +415,8 @@
 						<td>${NonSessionEquipe.moy_sal_restant_draft}</td>
 					</tr>
 					<tr>
-						<td><input type="hidden" name="teamId"
-							value="${teamId}"> <input type="hidden"
+						<td><input type="hidden" name="team"
+							value="${team}"> <input type="hidden"
 							name="teamUpdate" value="1"> <input
 							type="submit" value="Modifier Mon Budget"></td>
 					</tr>
@@ -516,8 +493,8 @@
 						value="${NonSessionEquipe.manquant_recrue}" size="3"></td>
 				</tr>
 				<tr>
-					<td><input type="hidden" name="teamId"
-						value="${teamId}"> <input type="hidden"
+					<td><input type="hidden" name="team"
+						value="${team}"> <input type="hidden"
 						name="teamUpdate" value="2"> <input
 						type="submit" value="Modifier les stats équipes"></td>
 				</tr>

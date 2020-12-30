@@ -83,8 +83,8 @@ public class AdminTeamServlet extends HttpServlet {
 		
 		EquipeModel mModelTeam = new EquipeModel();
 		mModelTeam.getBeanByTeam(req);
-		String teamId = req.getParameter("teamId");
-	    req.setAttribute("teamId", teamId);
+		String teamId = req.getParameter("team");
+	    req.setAttribute("team", teamId);
 		req.getRequestDispatcher("jsp/admin/team_update.jsp").forward(req, resp);
 
 	}
@@ -102,14 +102,14 @@ public class AdminTeamServlet extends HttpServlet {
 		
 		case 1:
 			mModelEquipe.updateEquipeBudget(req);
-			teamId = req.getParameter("teamId");
-		    req.setAttribute("teamId", teamId);
+			teamId = req.getParameter("team");
+		    req.setAttribute("team", teamId);
 			resp.sendRedirect("/AdminTeam?teamId="+teamId);
 			break;
 		case 2 :
 			mModelEquipe.updateEquipeStats(req);
-			teamId = req.getParameter("teamId");
-		    req.setAttribute("teamId", teamId);
+			teamId = req.getParameter("team");
+		    req.setAttribute("team", teamId);
 			resp.sendRedirect("/AdminTeam?teamId="+teamId);
 			break;
 		}

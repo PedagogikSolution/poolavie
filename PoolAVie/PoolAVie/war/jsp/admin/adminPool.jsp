@@ -169,51 +169,51 @@
 			<br> <br>
 			<div class="w3-quarter">
 				<form class="w3-container" method="get" action="/AdminTeam">
-					<input type="hidden" name="teamId" value="1"> <input type="image" src="${Pool.logoTeam1}" alt="Submit" width="128px"
+					<input type="hidden" name="team" value="1"> <input type="image" src="${Pool.logoTeam1}" alt="Submit" width="128px"
 						height="128px" /> ${Pool.nomTeam1}
 				</form>
 
 				<br>
 				<form class="w3-container" method="get" action="/AdminTeam">
-					<input type="hidden" name="teamId" value="2"> <input type="image" src="${Pool.logoTeam2}" alt="Submit" width="128px"
+					<input type="hidden" name="team" value="2"> <input type="image" src="${Pool.logoTeam2}" alt="Submit" width="128px"
 						height="128px" /> ${Pool.nomTeam2}
 				</form>
 				<br>
 				<form class="w3-container" method="get" action="/AdminTeam">
-					<input type="hidden" name="teamId" value="3"> <input type="image" src="${Pool.logoTeam3}" alt="Submit" width="128px"
+					<input type="hidden" name="team" value="3"> <input type="image" src="${Pool.logoTeam3}" alt="Submit" width="128px"
 						height="128px" /> ${Pool.nomTeam3}
 				</form>
 			</div>
 			<div class="w3-quarter">
 				<form class="w3-container" method="get" action="/AdminTeam">
-					<input type="hidden" name="teamId" value="4"> <input type="image" src="${Pool.logoTeam4}" alt="Submit" width="128px"
+					<input type="hidden" name="team" value="4"> <input type="image" src="${Pool.logoTeam4}" alt="Submit" width="128px"
 						height="128px" /> ${Pool.nomTeam4}
 				</form>
 				<br>
 				<form class="w3-container" method="get" action="/AdminTeam">
-					<input type="hidden" name="teamId" value="5"> <input type="image" src="${Pool.logoTeam5}" alt="Submit" width="128px"
+					<input type="hidden" name="team" value="5"> <input type="image" src="${Pool.logoTeam5}" alt="Submit" width="128px"
 						height="128px" /> ${Pool.nomTeam5}
 				</form>
 				<br>
 				<form class="w3-container" method="get" action="/AdminTeam">
-					<input type="hidden" name="teamId" value="6"> <input type="image" src="${Pool.logoTeam6}" alt="Submit" width="128px"
+					<input type="hidden" name="team" value="6"> <input type="image" src="${Pool.logoTeam6}" alt="Submit" width="128px"
 						height="128px" /> ${Pool.nomTeam6}
 				</form>
 			</div>
 			<div class="w3-quarter">
 				<form class="w3-container" method="get" action="/AdminTeam">
-					<input type="hidden" name="teamId" value="7"> <input type="image" src="${Pool.logoTeam7}" alt="Submit" width="128px"
+					<input type="hidden" name="team" value="7"> <input type="image" src="${Pool.logoTeam7}" alt="Submit" width="128px"
 						height="128px" /> ${Pool.nomTeam7}
 				</form>
 				<br>
 				<form class="w3-container" method="get" action="/AdminTeam">
-					<input type="hidden" name="teamId" value="8"> <input type="image" src="${Pool.logoTeam8}" alt="Submit" width="128px"
+					<input type="hidden" name="team" value="8"> <input type="image" src="${Pool.logoTeam8}" alt="Submit" width="128px"
 						height="128px" /> ${Pool.nomTeam8}
 				</form>
 				<br>
 				<c:if test="${Pool.nomTeam9!=null}">
 					<form class="w3-container" method="get" action="/AdminTeam">
-					<input type="hidden" name="teamId" value="9"> <input type="image" src="${Pool.logoTeam9}" alt="Submit" width="128px"
+					<input type="hidden" name="team" value="9"> <input type="image" src="${Pool.logoTeam9}" alt="Submit" width="128px"
 						height="128px" /> ${Pool.nomTeam9}
 				</form>
 				</c:if>
@@ -221,21 +221,21 @@
 			<div class="w3-quarter">
 				<c:if test="${Pool.nomTeam10!=null}">
 					<form class="w3-container" method="get" action="/AdminTeam">
-					<input type="hidden" name="teamId" value="10"> <input type="image" src="${Pool.logoTeam10}" alt="Submit" width="128px"
+					<input type="hidden" name="team" value="10"> <input type="image" src="${Pool.logoTeam10}" alt="Submit" width="128px"
 						height="128px" /> ${Pool.nomTeam10}
 				</form>
 				</c:if>
 				<br>
 				<c:if test="${Pool.nomTeam11!=null}">
 					<form class="w3-container" method="get" action="/AdminTeam">
-					<input type="hidden" name="teamId" value="11"> <input type="image" src="${Pool.logoTeam11}" alt="Submit" width="128px"
+					<input type="hidden" name="team" value="11"> <input type="image" src="${Pool.logoTeam11}" alt="Submit" width="128px"
 						height="128px" /> ${Pool.nomTeam11}
 				</form>
 				</c:if>
 				<br>
 				<c:if test="${Pool.nomTeam12!=null}">
 					<form class="w3-container" method="get" action="/AdminTeam">
-					<input type="hidden" name="teamId" value="12"> <input type="image" src="${Pool.logoTeam12}" alt="Submit" width="128px"
+					<input type="hidden" name="team" value="12"> <input type="image" src="${Pool.logoTeam12}" alt="Submit" width="128px"
 						height="128px" /> ${Pool.nomTeam12}
 				</form>
 				</c:if>

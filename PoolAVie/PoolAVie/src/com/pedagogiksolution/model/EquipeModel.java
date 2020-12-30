@@ -32,7 +32,7 @@ public class EquipeModel {
     public void getBeanByTeam(HttpServletRequest req) {
 	String draftPickName = null;
 	String equipeName = null;
-	String s_teamNumberToShow = req.getParameter("teamId");
+	String s_teamNumberToShow = req.getParameter("team");
 	String attaquantName = null;
 	String defenseurName = null;
 	String gardienName = null;
