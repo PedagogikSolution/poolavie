@@ -507,5 +507,57 @@ public class EquipeModel {
 		
 	}
 
+	public void updateEquipeStats(HttpServletRequest req) {
+		int nb_attaquant = Integer.parseInt(req.getParameter("nb_attaquant"));
+		int nb_defenseur = Integer.parseInt(req.getParameter("nb_defenseur"));
+		int nb_gardien = Integer.parseInt(req.getParameter("nb_gardien"));
+		int nb_rookie = Integer.parseInt(req.getParameter("nb_rookie"));
+		int nb_contrat = Integer.parseInt(req.getParameter("nb_contrat"));
+		int nb_equipe = Integer.parseInt(req.getParameter("nb_equipe"));
+		int manquant_equipe = Integer.parseInt(req.getParameter("manquant_equipe"));
+		int manquant_att = Integer.parseInt(req.getParameter("manquant_att"));
+		int manquant_def = Integer.parseInt(req.getParameter("manquant_def"));
+		int manquant_gardien = Integer.parseInt(req.getParameter("manquant_gardien"));
+		int manquant_recrue =Integer.parseInt( req.getParameter("manquant_recrue"));		
+		int teamId = Integer.parseInt(req.getParameter("teamId"));
+
+		
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");		
+		String poolIdString = mBeanPool.getPoolID();
+		int poolId = Integer.parseInt(poolIdString);
+		
+		String datastoreID = poolId + "_" + teamId;
+
+		Key equipeKey = KeyFactory.createKey("Equipe", datastoreID);
+
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Entity equipeEntity;
+		Equipe mBeanEquipe = new Equipe();
+		try {
+			equipeEntity = datastore.get(equipeKey);			
+			mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(equipeEntity, mBeanEquipe);			
+			
+			mBeanEquipe.setNb_attaquant(nb_attaquant);
+			mBeanEquipe.setNb_defenseur(nb_defenseur);
+			mBeanEquipe.setNb_gardien(nb_gardien);
+			mBeanEquipe.setNb_rookie(nb_rookie);
+			mBeanEquipe.setNb_contrat(nb_contrat);
+			mBeanEquipe.setNb_equipe(nb_equipe);
+			mBeanEquipe.setManquant_att(manquant_att);
+			mBeanEquipe.setManquant_def(manquant_def);
+			mBeanEquipe.setManquant_gardien(manquant_gardien);
+			mBeanEquipe.setManquant_recrue(manquant_recrue);
+			mBeanEquipe.setManquant_equipe(manquant_equipe);			
+			
+			equipeEntity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, datastoreID);
+			datastore.put(equipeEntity);
+						
+		} catch (EntityNotFoundException e) {
+			
+			e.printStackTrace();
+		}
+		
+	}
+
 
 }

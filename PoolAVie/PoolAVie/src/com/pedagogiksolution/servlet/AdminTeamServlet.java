@@ -95,18 +95,22 @@ public class AdminTeamServlet extends HttpServlet {
 		String teamUpdate = req.getParameter("teamUpdate");
 		int teamUpateRequestNumber = Integer.parseInt(teamUpdate);
 		EquipeModel mModelEquipe = new EquipeModel();
-		
+		String teamId;
 		
 		
 		switch (teamUpateRequestNumber) {
 		
 		case 1:
 			mModelEquipe.updateEquipeBudget(req);
-			String teamId = req.getParameter("teamId");
+			teamId = req.getParameter("teamId");
 		    req.setAttribute("teamId", teamId);
 			resp.sendRedirect("/AdminTeam?teamId="+teamId);
 			break;
 		case 2 :
+			mModelEquipe.updateEquipeStats(req);
+			teamId = req.getParameter("teamId");
+		    req.setAttribute("teamId", teamId);
+			resp.sendRedirect("/AdminTeam?teamId="+teamId);
 			break;
 		}
 		
