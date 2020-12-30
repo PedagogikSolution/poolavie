@@ -32,7 +32,7 @@ public class EquipeModel {
     public void getBeanByTeam(HttpServletRequest req) {
 	String draftPickName = null;
 	String equipeName = null;
-	String s_teamNumberToShow = req.getParameter("team");
+	String s_teamNumberToShow = req.getParameter("teamId");
 	String attaquantName = null;
 	String defenseurName = null;
 	String gardienName = null;
@@ -467,6 +467,45 @@ public class EquipeModel {
 	req.setAttribute("NonSessionBean", mBean);
 
     }
+
+	public void updateEquipeBudget(HttpServletRequest req) {
+		String budget_restant = req.getParameter("budget_restant");
+		String argent_recu = req.getParameter("argent_recu");
+		String teamId = req.getParameter("teamId");
+		int budget_restant_int = Integer.parseInt(budget_restant);
+		int argent_recu_int = Integer.parseInt(argent_recu);		
+		int teamId_int = Integer.parseInt(teamId);
+		
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");		
+		String poolIdString = mBeanPool.getPoolID();
+		int poolId = Integer.parseInt(poolIdString);
+		
+		String datastoreID = poolId + "_" + teamId_int;
+
+		Key equipeKey = KeyFactory.createKey("Equipe", datastoreID);
+
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Entity equipeEntity;
+		Equipe mBeanEquipe = new Equipe();
+		try {
+			equipeEntity = datastore.get(equipeKey);			
+			mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(equipeEntity, mBeanEquipe);			
+			mBeanEquipe.setArgent_recu(argent_recu_int);
+			mBeanEquipe.setBudget_restant(budget_restant_int);
+			if(mBeanEquipe.getNb_equipe()!=0) {
+			mBeanEquipe.setMoy_sal_restant_draft(budget_restant_int/mBeanEquipe.getNb_equipe());
+			} else {
+				mBeanEquipe.setMoy_sal_restant_draft(0);
+			}
+			equipeEntity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, datastoreID);
+			datastore.put(equipeEntity);
+						
+		} catch (EntityNotFoundException e) {
+			
+			e.printStackTrace();
+		}
+		
+	}
 
 
 }

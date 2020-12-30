@@ -6,6 +6,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.pedagogiksolution.dao.ClassementDao;
 import com.pedagogiksolution.dao.DAOFactory;
 import com.pedagogiksolution.dao.DraftDao;
@@ -14,7 +21,9 @@ import com.pedagogiksolution.dao.PlayersDao;
 import com.pedagogiksolution.dao.SalaireDao;
 import com.pedagogiksolution.dao.TradeMadeDao;
 import com.pedagogiksolution.dao.TradeOfferDao;
+import com.pedagogiksolution.datastorebeans.Equipe;
 import com.pedagogiksolution.datastorebeans.Pool;
+import com.pedagogiksolution.datastorebeans.Utilisateur;
 import com.pedagogiksolution.model.DraftPlayersModel;
 import com.pedagogiksolution.model.EquipeModel;
 import com.pedagogiksolution.model.LoginModel;
@@ -74,7 +83,8 @@ public class AdminTeamServlet extends HttpServlet {
 		
 		EquipeModel mModelTeam = new EquipeModel();
 		mModelTeam.getBeanByTeam(req);
-	        
+		String teamId = req.getParameter("teamId");
+	    req.setAttribute("teamId", teamId);
 		req.getRequestDispatcher("jsp/admin/team_update.jsp").forward(req, resp);
 
 	}
@@ -82,6 +92,27 @@ public class AdminTeamServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+		String teamUpdate = req.getParameter("teamUpdate");
+		int teamUpateRequestNumber = Integer.parseInt(teamUpdate);
+		EquipeModel mModelEquipe = new EquipeModel();
+		
+		
+		
+		switch (teamUpateRequestNumber) {
+		
+		case 1:
+			mModelEquipe.updateEquipeBudget(req);
+			String teamId = req.getParameter("teamId");
+		    req.setAttribute("teamId", teamId);
+			resp.sendRedirect("/AdminTeam?teamId="+teamId);
+			break;
+		case 2 :
+			break;
+		}
+		
+		
+	
+		
 		
 
 	}
