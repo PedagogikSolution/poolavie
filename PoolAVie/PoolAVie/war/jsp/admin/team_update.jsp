@@ -51,7 +51,7 @@
 				<th>Pos</th>
 				<th>Nom</th>
 				<th>Équipe</th>
-				
+
 				<th>${Pool.thisYear}</th>
 				<th>${Pool.secondYear}</th>
 				<th>${Pool.thirdYear}</th>
@@ -106,7 +106,7 @@
 				<th>Pos</th>
 				<th>Nom</th>
 				<th>Équipe</th>
-				
+
 				<th>${Pool.thisYear}</th>
 				<th>${Pool.secondYear}</th>
 				<th>${Pool.thirdYear}</th>
@@ -131,7 +131,7 @@
 						<td>${i+1}</td>
 						<td>${NonSessionDefenseur.nom[i]}</td>
 						<td>${NonSessionDefenseur.teamOfPlayer[i]}</td>
-						
+
 						<td>${NonSessionDefenseur.years_1[i]}</td>
 						<td>${NonSessionDefenseur.years_2[i]}</td>
 						<td>${NonSessionDefenseur.years_3[i]}</td>
@@ -162,7 +162,7 @@
 				<th>Pos</th>
 				<th>Nom</th>
 				<th>Équipe</th>
-				
+
 				<th>${Pool.thisYear}</th>
 				<th>${Pool.secondYear}</th>
 				<th>${Pool.thirdYear}</th>
@@ -187,7 +187,7 @@
 						<td>${i+1}</td>
 						<td>${NonSessionGardien.nom[i]}</td>
 						<td>${NonSessionGardien.teamOfPlayer[i]}</td>
-						
+
 						<td>${NonSessionGardien.years_1[i]}</td>
 						<td>${NonSessionGardien.years_2[i]}</td>
 						<td>${NonSessionGardien.years_3[i]}</td>
@@ -219,7 +219,7 @@
 				<th>Nom</th>
 				<th>Position</th>
 				<th>Équipe</th>
-				
+
 				<th>${Pool.thisYear}</th>
 				<th>${Pool.secondYear}</th>
 				<th>${Pool.thirdYear}</th>
@@ -244,7 +244,7 @@
 						<td>${NonSessionRecrue.nom[i]}</td>
 						<td>${NonSessionRecrue.position[i]}</td>
 						<td>${NonSessionRecrue.teamOfPlayer[i]}</td>
-						
+
 						<td>${NonSessionRecrue.years_1[i]}</td>
 						<td>${NonSessionRecrue.years_2[i]}</td>
 						<td>${NonSessionRecrue.years_3[i]}</td>
@@ -382,117 +382,134 @@
 			</div>
 		</div>
 
-		
-			<form action="/AdminTeam" method="post" style="witdh: 95%">
-				<table
-					class="w3-table  w3-striped w3-bordered w3-card-8 w3-margin-top w3-border-indigo"
-					style="width: 95%">
 
-					<caption class="w3-blue w3-xlarge">
-						<h1>MON BUDGET</h1>
-					</caption>
-					<tr style="witdh: 95%">
-						<td>Masse salarial maximum :</td>
-						<td>${NonSessionEquipe.max_salaire_begin}</td>
-
-					</tr>
-					<tr style="witdh: 95%">
-						<td>Total des salaires actuel :</td>
-						<td>${NonSessionEquipe.total_salaire_now}</td>
-					</tr>
-					<tr style="witdh: 95%">
-						<td>Budget restant :</td>
-						<td><input type="number" name="budget_restant"
-							value="${NonSessionEquipe.budget_restant}" size="9"></td>
-					</tr>
-					<tr style="witdh: 95%">
-						<td>Argent Reçu :</td>
-						<td><input type="number" name="argent_recu"
-							value="${NonSessionEquipe.argent_recu}" size="9"></td>
-					</tr>
-					<tr style="witdh: 95%">
-						<td>Moyenne restante par joueurs :</td>
-						<td>${NonSessionEquipe.moy_sal_restant_draft}</td>
-					</tr>
-					<tr>
-						<td><input type="hidden" name="team"
-							value="${team}"> <input type="hidden"
-							name="teamUpdate" value="1"> <input
-							type="submit" value="Modifier Mon Budget"></td>
-					</tr>
-
-
-
-
-				</table>
-
-			</form>
-		
-		<br>
-		
-		<form action="/AdminTeam" method="post">
+		<form action="/AdminTeam" method="post" style="width: 95%">
 			<table
 				class="w3-table  w3-striped w3-bordered w3-card-8 w3-margin-top w3-border-indigo"
-				style="witdh: 95%">
+				style="width: 95%">
+
+				<caption class="w3-blue w3-xlarge">
+					<h1>MON BUDGET</h1>
+				</caption>
+				<tr style="width: 95%">
+					<td>Masse salarial maximum :</td>
+					<td><input type="number" name="max_salaire_begin"
+						value="${NonSessionEquipe.max_salaire_begin}" size="9"
+						style="width: 75%;"></td>
+
+				</tr>
+				<tr style="width: 95%">
+					<td>Total des salaires actuel :</td>
+					<td><input type="number" name="total_salaire_now"
+						value="${NonSessionEquipe.total_salaire_now}" size="9"
+						style="width: 75%;"></td>
+				</tr>
+				<tr style="width: 95%">
+					<td>Budget restant :</td>
+					<td><input type="number" name="budget_restant"
+						value="${NonSessionEquipe.budget_restant}" size="9"
+						style="width: 75%;"></td>
+				</tr>
+				<tr style="width: 95%">
+					<td>Argent Reçu :</td>
+					<td><input type="number" name="argent_recu"
+						value="${NonSessionEquipe.argent_recu}" size="9"
+						style="width: 75%;"></td>
+				</tr>
+				<tr style="width: 95%">
+					<td>Moyenne restante par joueurs :</td>
+					<td>${NonSessionEquipe.moy_sal_restant_draft}</td>
+				</tr>
+				<tr style="width: 95%">
+					<td><input type="hidden" name="team"
+						value="${team}"> <input type="hidden"
+						name="teamUpdate" value="1"> <input
+						type="submit" value="Modifier Mon Budget"></td>
+				</tr>
+
+
+
+
+			</table>
+
+		</form>
+
+		<br>
+
+		<form action="/AdminTeam" method="post" style="width: 95%">
+			<table
+				class="w3-table  w3-striped w3-bordered w3-card-8 w3-margin-top w3-border-indigo"
+				style="width: 95%">
 				<caption class="w3-blue w3-xlarge">
 					<h1>MES STATS D'ÉQUIPE</h1>
 				</caption>
-				<tr style="witdh: 95%">
+				<tr style="width: 95%">
 					<td>Nombre d'attaquant :</td>
 					<td><input type="number" name="nb_attaquant"
-						value="${NonSessionEquipe.nb_attaquant}" size="3"></td>
+						value="${NonSessionEquipe.nb_attaquant}" size="3"
+						style="width: 45%;"></td>
 				</tr>
-				<tr>
+				<tr style="width: 95%">
 					<td>Nombre de défenseur :</td>
 					<td><input type="number" name="nb_defenseur"
-						value="${NonSessionEquipe.nb_defenseur}" size="3"></td>
+						value="${NonSessionEquipe.nb_defenseur}" size="3"
+						style="width: 45%;"></td>
 				</tr>
-				<tr>
+				<tr style="width: 95%">
 					<td>Nombre de Gardien :</td>
 					<td><input type="number" name="nb_gardien"
-						value="${NonSessionEquipe.nb_gardien}" size="3"></td>
+						value="${NonSessionEquipe.nb_gardien}" size="3"
+						style="width: 45%;"></td>
 				</tr>
-				<tr>
+				<tr style="width: 95%">
 					<td>Nombre de Recrue :</td>
 					<td><input type="number" name="nb_rookie"
-						value="${NonSessionEquipe.nb_rookie}" size="3"></td>
+						value="${NonSessionEquipe.nb_rookie}" size="3"
+						style="width: 45%;"></td>
 				</tr>
-				<tr>
+				<tr style="width: 95%">
 					<td>Nombre de contrat :</td>
 					<td><input type="number" name="nb_contrat"
-						value="${NonSessionEquipe.nb_contrat}" size="3"></td>
+						value="${NonSessionEquipe.nb_contrat}" size="3"
+						style="width: 45%;"></td>
 				</tr>
-				<tr>
+				<tr style="width: 95%"> 
 					<td>Nombre de joueur dans l'équipe :</td>
 					<td><input type="number" name="nb_equipe"
-						value="${NonSessionEquipe.nb_equipe}" size="3"></td>
+						value="${NonSessionEquipe.nb_equipe}" size="3"
+						style="width: 45%;"></td>
 				</tr>
-				<tr>
+				<tr style="width: 95%">
 					<td>Nombre de joueur manquant :</td>
 					<td><input type="number" name="manquant_equipe"
-						value="${NonSessionEquipe.manquant_equipe}" size="3"></td>
+						value="${NonSessionEquipe.manquant_equipe}" size="3"
+						style="width: 45%;"></td>
 				</tr>
-				<tr>
+				<tr style="width: 95%">
 					<td>Attanquant manquant :</td>
 					<td><input type="number" name="manquant_att"
-						value="${NonSessionEquipe.manquant_att}" size="3"></td>
+						value="${NonSessionEquipe.manquant_att}" size="3"
+						style="width: 45%;"></td>
 				</tr>
-				<tr>
+				<tr style="width: 95%">
 					<td>Defenseur manquant :</td>
 					<td><input type="number" name="manquant_def"
-						value="${NonSessionEquipe.manquant_def}" size="3"></td>
+						value="${NonSessionEquipe.manquant_def}" size="3"
+						style="width: 45%;"></td>
 				</tr>
-				<tr>
+				<tr style="width: 95%">
 					<td>Gardien manquant :</td>
 					<td><input type="number" name="manquant_gardien"
-						value="${NonSessionEquipe.manquant_gardien}" size="3"></td>
+						value="${NonSessionEquipe.manquant_gardien}" size="3"
+						style="width: 45%;"></td>
 				</tr>
-				<tr>
+				<tr style="width: 95%">
 					<td>Recrue manquante :</td>
 					<td><input type="number" name="manquant_recrue"
-						value="${NonSessionEquipe.manquant_recrue}" size="3"></td>
+						value="${NonSessionEquipe.manquant_recrue}" size="3"
+						style="width: 45%;"></td>
 				</tr>
-				<tr>
+				<tr style="width: 95%">
 					<td><input type="hidden" name="team"
 						value="${team}"> <input type="hidden"
 						name="teamUpdate" value="2"> <input
@@ -500,7 +517,7 @@
 				</tr>
 			</table>
 		</form>
-		
+
 		<br>
 	</div>
 

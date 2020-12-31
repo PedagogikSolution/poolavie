@@ -117,6 +117,7 @@
 				</c:if>
 				
 				<c:if test="${Pool.cycleAnnuel==10}">
+				
 					<p>Signature AB</p>
 					<form action="/AdminPool" method="post">
 					<input type="hidden" name="adminButton" value="5">
@@ -242,13 +243,6 @@
 			</div>
 			<br> <br> <br>
 		</div>
-			
-			
-			
-			
-			
-			
-			
 			
 			
 			</div>

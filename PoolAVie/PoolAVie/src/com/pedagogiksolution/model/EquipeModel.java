@@ -471,9 +471,14 @@ public class EquipeModel {
 	public void updateEquipeBudget(HttpServletRequest req) {
 		String budget_restant = req.getParameter("budget_restant");
 		String argent_recu = req.getParameter("argent_recu");
-		String teamId = req.getParameter("teamId");
+		String teamId = req.getParameter("team");
 		int budget_restant_int = Integer.parseInt(budget_restant);
-		int argent_recu_int = Integer.parseInt(argent_recu);		
+		int argent_recu_int = Integer.parseInt(argent_recu);	
+		int max_salaire_begin = Integer.parseInt(req.getParameter("max_salaire_begin"));
+		int total_salaire_now = Integer.parseInt(req.getParameter("total_salaire_now"));
+		
+		
+		
 		int teamId_int = Integer.parseInt(teamId);
 		
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");		
@@ -492,6 +497,8 @@ public class EquipeModel {
 			mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(equipeEntity, mBeanEquipe);			
 			mBeanEquipe.setArgent_recu(argent_recu_int);
 			mBeanEquipe.setBudget_restant(budget_restant_int);
+			mBeanEquipe.setMax_salaire_begin(max_salaire_begin);
+			mBeanEquipe.setTotal_salaire_now(total_salaire_now);
 			if(mBeanEquipe.getNb_equipe()!=0) {
 			mBeanEquipe.setMoy_sal_restant_draft(budget_restant_int/mBeanEquipe.getNb_equipe());
 			} else {
@@ -519,7 +526,7 @@ public class EquipeModel {
 		int manquant_def = Integer.parseInt(req.getParameter("manquant_def"));
 		int manquant_gardien = Integer.parseInt(req.getParameter("manquant_gardien"));
 		int manquant_recrue =Integer.parseInt( req.getParameter("manquant_recrue"));		
-		int teamId = Integer.parseInt(req.getParameter("teamId"));
+		int teamId = Integer.parseInt(req.getParameter("team"));
 
 		
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");		
