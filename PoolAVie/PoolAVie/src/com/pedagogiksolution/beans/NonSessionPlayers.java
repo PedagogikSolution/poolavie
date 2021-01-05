@@ -20,10 +20,12 @@ public class NonSessionPlayers implements Serializable {
     private List<String> nom;
     private List<String> teamOfPlayer;
     private List<Integer> pj;
+    private List<Long> pj2;
     private List<Integer> but_victoire;
     private List<Integer> aide_overtime;
     private List<Integer> blanchissage;
     private List<Integer> pts;
+    private List<Long> pts2;
     private List<Integer> projection;
     private List<String> position;
     private List<Date> birthday;
@@ -249,6 +251,18 @@ public class NonSessionPlayers implements Serializable {
     public static long getSerialversionuid() {
         return serialVersionUID;
     }
+	public List<Long> getPj2() {
+		return pj2;
+	}
+	public void setPj2(List<Long> pj2) {
+		this.pj2 = pj2;
+	}
+	public List<Long> getPts2() {
+		return pts2;
+	}
+	public void setPts2(List<Long> pts2) {
+		this.pts2 = pts2;
+	}
     
     
    

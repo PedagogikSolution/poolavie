@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pedagogiksolution.datastorebeans.Pool;
 import com.pedagogiksolution.model.DraftPlayersModel;
+import com.pedagogiksolution.model.EquipeModel;
 import com.pedagogiksolution.model.LoginModel;
 
 public class ClassementServlet extends HttpServlet {
@@ -39,7 +40,8 @@ public class ClassementServlet extends HttpServlet {
 	}
 	// permet un update instantanne si un joueur est connecte et qu'il refresh ou renavigue sur cette page avant la creation de tout les equipes
 
-	
+	   EquipeModel mModelTeam = new EquipeModel();
+	   mModelTeam.getAllPlayersInTeams(req);
 	
 	
 	    req.getRequestDispatcher("jsp/classement/classement.jsp").forward(req, resp);

@@ -81,7 +81,59 @@
 	</table>
 	<br>
 	<br>
-	<h3 class="w3-center">Mise à jour le ${Pool.derniereMAJ}</h3>
+	<h4 class="w3-center">Mise à jour le ${Pool.derniereMAJ}</h4>
+	
+	<hr>
+	<br>
+	<input class="w3-input w3-border w3-padding w3-large" type="text" placeholder="Rechercher un nom dans la liste..." id="myInput" onkeyup="filtrerParNom()"
+		style="width: 40%; margin-left: auto; margin-right: auto">
+	<br>
+	<div class="w3-responsive">
+	<table id="playersPickBox" class="w3-table w3-hoverable w3-content w3-striped w3-bordered w3-card-8 w3-margin-top w3-large" style="width: 95%; margin-left: auto; margin-right: auto">
+				<caption class="w3-blue w3-xlarge">
+					<h1>Liste des joueurs appartenant à un équipe</h1>
+				</caption>
+				<tr class="w3-indigo">
+					<th>Pos</th>
+					<th>Nom</th>
+					<th>Pj</th>
+					<th>Points</th>
+					<th>Propriétaire</th>
+
+				</tr>
+				<c:set var="nombreDePick" value="${NonSessionPlayersBean.nom}" />
+				<c:if test="${empty nombreDePick}">
+					<tr>
+						<td>Vous n'avez aucun joueur présentementt</td>
+					<tr>
+				</c:if>
+				<c:if test="${not empty nombreDePick}">
+					<c:forEach var="i" begin="0" end="${fn:length(nombreDePick)-1}">
+
+						<tr id=i >
+
+
+							<td>${i+1}</td>
+							<td>${NonSessionPlayersBean.nom[i]}</td>
+							<td>${NonSessionPlayersBean.pj2[i]}</td>
+							<td>${NonSessionPlayersBean.pts2[i]}</td>
+							<td>${NonSessionPlayersBean.teamOfPlayer[i]}</td>
+
+						</tr>
+
+					</c:forEach>
+				</c:if>
+
+
+
+
+			</table>
+	
+	</div>
+	
+	<br>
+	<br>
+	<br>
 
 	<jsp:directive.include file="../utils/draftMessage.jsp" />
 
@@ -91,5 +143,31 @@
 	<script>
 		document.getElementById('menuSecStand').classList.add('w3-khaki');
 	</script>
+	<script>
+		function filtrerParNom() {
+			var input, filter, table, tr, td, i;
+			document.getElementById('playersPickBox').classList
+					.remove('w3-striped');
+			input = document.getElementById("myInput");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("playersPickBox");
+			tr = table.getElementsByTagName("tr");
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[1];
+				if (td) {
+					if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+						if (filter == "") {
+							document.getElementById('playersPickBox').classList
+									.add('w3-striped');
+						}
+					} else {
+						tr[i].style.display = "none";
+					}
+				}
+			}
+		}
+	</script>
+	
 </body>
 </html>

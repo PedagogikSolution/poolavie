@@ -596,7 +596,7 @@ public class TradeModel {
 		if (nbPlayersTeamMakingOffer > 7 || nbPlayersTeamReceivingOffer > 7) {
 
 			mBeanMessageErreur.setErreurTrade(
-					"Un maximum de 7 joueurs par équipe peut être inclus dans un Ã©change unique (Reglement 4.1");
+					"Un maximum de 7 joueurs par ï¿½quipe peut ï¿½tre inclus dans un Ã©change unique (Reglement 4.1");
 			req.setAttribute("messageErreur", mBeanMessageErreur);
 			return false;
 		}
@@ -928,10 +928,10 @@ public class TradeModel {
 
 			} else {
 
-				if ((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer
-						 - cashIncludeThatReceiveOfferInt)
+				if (((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer
+						 + cashIncludeThatReceiveOfferInt)
 						/ (mBeanEquipeThatIsMakingOffer.getManquant_equipe() + nbPlayersTeamMakingOffer
-								- nbPlayersTeamReceivingOffer) < 1000000) {
+								- nbPlayersTeamReceivingOffer)) < 1000000) {
 
 					mBeanMessageErreur.setErreurTrade(
 							"Vous n'avez pas assez d'argent pour effectuer cette Ã©change (Reglement 14");
@@ -1879,7 +1879,7 @@ public class TradeModel {
 
 		}
 
-		// on verifie si max contrat 12 respecter
+		// on verifie si max contrat 11 respecter
 		if (mBeanPool.getCycleAnnuel() == 3) {
 
 			if ((mBeanEquipeThatIsMakingOffer.getNb_contrat() + nbJoueurSousContratDonne
@@ -1931,7 +1931,7 @@ public class TradeModel {
 			} else {
 
 				if ((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer
-						 - cashIncludeThatReceiveOfferInt)
+						 + cashIncludeThatReceiveOfferInt)
 						/ (mBeanEquipeThatIsMakingOffer.getManquant_equipe() + nbPlayersTeamMakingOffer
 								- nbPlayersTeamReceivingOffer) < 1000000) {
 

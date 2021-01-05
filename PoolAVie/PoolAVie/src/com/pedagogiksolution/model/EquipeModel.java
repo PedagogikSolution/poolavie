@@ -1,5 +1,6 @@
 package com.pedagogiksolution.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import com.pedagogiksolution.beans.NonSessionDefenseur;
 import com.pedagogiksolution.beans.NonSessionDraftPick;
 import com.pedagogiksolution.beans.NonSessionEquipe;
 import com.pedagogiksolution.beans.NonSessionGardien;
+import com.pedagogiksolution.beans.NonSessionPlayers;
 import com.pedagogiksolution.beans.NonSessionRecrue;
 import com.pedagogiksolution.datastorebeans.Attaquant;
 import com.pedagogiksolution.datastorebeans.Defenseur;
@@ -564,6 +566,161 @@ public class EquipeModel {
 			e.printStackTrace();
 		}
 		
+	}
+
+	
+	public void getAllPlayersInTeams(HttpServletRequest req) {
+		
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		
+		NonSessionPlayers mNonSessionPlayersBean = new NonSessionPlayers();
+		String attaquantName = null;
+		String defenseurName = null;
+		String gardienName = null;
+		String recrueName = null;
+		String jspSessionName=null;
+		List<String> nom = new ArrayList<String>();
+		List<Long> pj = new ArrayList<Long>();
+		List<Long> pts = new ArrayList<Long>();
+		List<String> owner = new ArrayList<String>();
+		
+		for(int i=1;i<mBeanPool.getNumberTeam()+1;i++) {
+			jspSessionName = "Equipe" + i;
+			attaquantName = "Attaquant" + i;
+		    defenseurName = "Defenseur" + i;
+		    gardienName = "Gardien"  + i;
+		    recrueName = "Recrue"  + i;
+		    Equipe mBeanEquipe = (Equipe) req.getSession().getAttribute(jspSessionName);
+			Attaquant mBeanAttaquant = (Attaquant) req.getSession().getAttribute(attaquantName);
+			if(mBeanAttaquant==null){
+				
+			}	else {
+				nom.addAll(mBeanAttaquant.getNom());
+				pj.addAll(mBeanAttaquant.getPj());
+				pts.addAll(mBeanAttaquant.getPts());
+			}
+			Defenseur mBeanDefenseur = (Defenseur) req.getSession().getAttribute(defenseurName);
+			if(mBeanDefenseur==null){
+				
+				
+			} else {
+				nom.addAll(mBeanDefenseur.getNom());
+				pj.addAll(mBeanDefenseur.getPj());
+				pts.addAll(mBeanDefenseur.getPts());
+			}
+			Gardien mBeanGardien = (Gardien) req.getSession().getAttribute(gardienName);	
+			if(mBeanEquipe.getNb_gardien()<=0){
+				
+			} else {
+				nom.addAll(mBeanGardien.getNom());
+				pj.addAll(mBeanGardien.getPj());
+				pts.addAll(mBeanGardien.getPts());
+			}
+			Recrue mBeanRecrue = (Recrue) req.getSession().getAttribute(recrueName);
+			if(mBeanRecrue==null){
+				
+			} else {
+				nom.addAll(mBeanRecrue.getNom());
+				pj.addAll(mBeanRecrue.getPj());
+				pts.addAll(mBeanRecrue.getPts());
+			}
+			
+			int nb_equipe = mBeanEquipe.getNb_equipe()+mBeanEquipe.getNb_rookie();
+			
+		
+			
+			for(int j=1;j<nb_equipe+1;j++) {
+				owner.add(getNomDuTeam(i,mBeanPool));
+			}
+						
+			
+		}
+		
+		mNonSessionPlayersBean.setNom(nom);
+		mNonSessionPlayersBean.setPj2(pj);
+		mNonSessionPlayersBean.setPts2(pts);
+		mNonSessionPlayersBean.setTeamOfPlayer(owner);
+			
+		req.setAttribute("NonSessionPlayersBean", mNonSessionPlayersBean);
+	}
+
+	private String getNomDuTeam(int teamNumberId, Pool mBeanPool) {
+		String nomDuTeam = null;
+		switch (teamNumberId) {
+		   
+	    case 1: 
+		
+		nomDuTeam = mBeanPool.getNomTeam1();
+		
+		
+		break;
+	    case 2: 
+		
+		nomDuTeam = mBeanPool.getNomTeam2();
+		
+		
+		break;
+	    case 3: 
+		
+		nomDuTeam = mBeanPool.getNomTeam3();
+		
+		
+		break;
+	    case 4: 
+		
+		nomDuTeam = mBeanPool.getNomTeam4();
+	
+		
+		break;
+	    case 5: 
+		
+		nomDuTeam = mBeanPool.getNomTeam5();
+		
+		
+		break;
+	    case 6: 
+		
+		nomDuTeam = mBeanPool.getNomTeam6();
+		
+		break;
+	    case 7: 
+		
+		nomDuTeam = mBeanPool.getNomTeam7();
+		
+		
+		break;
+	    case 8: 
+	
+		nomDuTeam = mBeanPool.getNomTeam8();
+	
+		
+		break;
+	    case 9: 
+		
+		nomDuTeam = mBeanPool.getNomTeam9();
+	
+		
+		break;
+	    case 10: 
+		
+		nomDuTeam = mBeanPool.getNomTeam10();
+	
+		
+		break;
+	    case 11: 
+		
+		nomDuTeam = mBeanPool.getNomTeam11();
+	
+		
+		break;
+	    case 12: 
+		
+		nomDuTeam = mBeanPool.getNomTeam12();
+		
+		
+		break;
+	    }
+		return nomDuTeam;
 	}
 
 
