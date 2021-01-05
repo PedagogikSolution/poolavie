@@ -117,13 +117,14 @@
 			style="width: 95%; margin-left: auto; margin-right: auto">
 			<caption class="w3-blue w3-xlarge">
 				<h1>Liste des joueurs appartenant à un équipe</h1>
+				<h6>(cliquez sur une colonne pour la trier)</h6>
 			</caption>
 			<tr class="w3-indigo">
-				<th>Pos</th>
-				<th onclick="sortTableAlpha(1)">Nom</th>
-				<th onclick="sortTableNum(2)">Pj</th>
-				<th onclick="sortTableNum(3)">Points</th>
-				<th onclick="sortTableAlpha(4)">Propriétaire</th>
+				<th onclick="sortTableNum(0)" style="cursor:pointer;">Pos</th>
+				<th onclick="sortTableAlpha(1)" style="cursor:pointer;">Nom</th>
+				<th onclick="sortTableNum(2)" style="cursor:pointer;">Pj</th>
+				<th onclick="sortTableNum(3)" style="cursor:pointer;">Points</th>
+				<th onclick="sortTableAlpha(4)" style="cursor:pointer;">Propriétaire</th>
 
 			</tr>
 			<c:set var="nombreDePick"
