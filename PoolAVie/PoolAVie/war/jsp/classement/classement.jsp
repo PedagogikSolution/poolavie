@@ -120,11 +120,11 @@
 				<h6>(cliquez sur une colonne pour la trier)</h6>
 			</caption>
 			<tr class="w3-indigo">
-				<th onclick="sortTableNum(0)" style="cursor:pointer;">Pos</th>
-				<th onclick="sortTableAlpha(1)" style="cursor:pointer;">Nom</th>
-				<th onclick="sortTableNum(2)" style="cursor:pointer;">Pj</th>
-				<th onclick="sortTableNum(3)" style="cursor:pointer;">Points</th>
-				<th onclick="sortTableAlpha(4)" style="cursor:pointer;">Propriétaire</th>
+<!-- 				<th onclick="sortTableNum(0)" style="cursor:pointer;">Pos</th> -->
+				<th onclick="sortTableAlpha(0)" style="cursor:pointer;">Nom</th>
+				<th onclick="sortTableNum(1)" style="cursor:pointer;">Pj</th>
+				<th onclick="sortTableNum(2)" style="cursor:pointer;">Points</th>
+				<th onclick="sortTableAlpha(3)" style="cursor:pointer;">Propriétaire</th>
 
 			</tr>
 			<c:set var="nombreDePick"
@@ -141,7 +141,7 @@
 					<tr id=i>
 
 
-						<td>${i+1}</td>
+<%-- 						<td>${i+1}</td> --%>
 						<td>${NonSessionPlayersBean.nom[i]}</td>
 						<td>${NonSessionPlayersBean.pj2[i]}</td>
 						<td>${NonSessionPlayersBean.pts2[i]}</td>
@@ -316,7 +316,7 @@
 		}
 	</script>
 	<script>
-	window.onload = sortTableNum(3);
+	window.onload = sortTableNum(2);
 	
 	</script>
 
