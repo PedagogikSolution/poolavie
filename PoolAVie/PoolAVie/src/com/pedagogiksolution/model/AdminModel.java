@@ -128,12 +128,11 @@ public class AdminModel {
 
 		int numberTeam = mBeanPool.getNumberTeam();
 		ArrayList<Integer> permutation2 = new ArrayList<>();
-		List<Integer> permutation=null;
+		List<Integer> permutation = null;
 
-		
 		if (poolId == 4) {
 			switch (numberTeam) {
-			
+
 			case 10:
 				permutation2.add(1);
 				permutation2.add(2);
@@ -147,13 +146,11 @@ public class AdminModel {
 				Collections.shuffle(permutation2);
 				permutation2.add(3);
 				break;
-			
+
 			}
-			
 
 			draftDao.populateFirstYearsDraft(poolId, permutation2, mBeanPool);
-			
-			
+
 		} else {
 			switch (numberTeam) {
 			case 8:
@@ -179,10 +176,9 @@ public class AdminModel {
 			}
 
 			draftDao.populateFirstYearsDraft(poolId, permutation, mBeanPool);
-			
+
 		}
 		// On persist dans Database et dans Datastore et dans MemCache et dans Bean
-
 
 		DraftRound mBeanDraft = draftDao.setDraftRoundOrder(poolId);
 
@@ -725,7 +721,6 @@ public class AdminModel {
 			entity = mBeanPool.mapBeanToEntityForDatastore(mBeanPool, poolID);
 
 			datastore.put(entity);
-			
 
 		} catch (EntityNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -1102,77 +1097,73 @@ public class AdminModel {
 		int numPickByTeam = 30;
 
 		playersDao.dropPlayersCetD(req, poolID);
-		
+
 		// on compte le nombre de rookie par club et on ajuste
-		
-		// on remet les budgets en mode debut d'année
-				DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-			
+		// on valide en même temps les stats du nombre par position et club total
 
-				for (int i = 1; i < nombreEquipe + 1; i++) {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-					String keyTeam = poolID + "_" + i;
-					Key mKey = KeyFactory.createKey("Equipe", keyTeam);
-					Equipe mBeanEquipe = new Equipe();
-					try {
-						Entity entity = datastore.get(mKey);
+		for (int i = 1; i < nombreEquipe + 1; i++) {
 
-						mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(entity, mBeanEquipe);
+			String keyTeam = poolID + "_" + i;
+			Key mKey = KeyFactory.createKey("Equipe", keyTeam);
+			Equipe mBeanEquipe = new Equipe();
+			try {
+				Entity entity = datastore.get(mKey);
 
-						int nb_contrat = getNbContrat(playersDao, poolID, i);
-						int nb_attaquant = getNbAttaquant(playersDao, poolID, i);
-						int nb_defenseur = getNbDefenseur(playersDao, poolID, i);
-						int nb_gardien = getNbGardien(playersDao, poolID, i);
-						int nb_rookie = getNbRookie(playersDao, poolID, i);
+				mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(entity, mBeanEquipe);
 
-						int nb_equipe = nb_attaquant + nb_defenseur + nb_gardien;
-						
-						int manquant_att = 0;
-						int manquant_def = 0;
-						int manquant_gardien = 0;
-						int manquant_recrue = 0;
-						int manquant_equipe = 0;
-					
-						if (nb_attaquant < 8) {
-							manquant_att = 8 - nb_attaquant;
-						}
-						if (nb_defenseur < 5) {
-							manquant_def = 5 - nb_defenseur;
-						}
-						if (nb_gardien < 2) {
-							manquant_gardien = 2 - nb_gardien;
-						}
-						if (nb_rookie < 8) {
-							manquant_recrue = 8 - nb_rookie;
-						}
-						if (nb_equipe < 22) {
-							manquant_equipe = 22 - nb_equipe;
-						}
+				int nb_contrat = getNbContrat(playersDao, poolID, i);
+				int nb_attaquant = getNbAttaquant(playersDao, poolID, i);
+				int nb_defenseur = getNbDefenseur(playersDao, poolID, i);
+				int nb_gardien = getNbGardien(playersDao, poolID, i);
+				int nb_rookie = getNbRookie(playersDao, poolID, i);
 
-					
-						mBeanEquipe.setNb_attaquant(nb_attaquant);
-						mBeanEquipe.setNb_defenseur(nb_defenseur);
-						mBeanEquipe.setNb_gardien(nb_gardien);
-						mBeanEquipe.setNb_rookie(nb_rookie);
-						mBeanEquipe.setNb_equipe(nb_equipe);
-						mBeanEquipe.setNb_contrat(nb_contrat);
-						mBeanEquipe.setManquant_att(manquant_att);
-						mBeanEquipe.setManquant_def(manquant_def);
-						mBeanEquipe.setManquant_gardien(manquant_gardien);
-						mBeanEquipe.setManquant_recrue(manquant_recrue);
-						mBeanEquipe.setManquant_equipe(manquant_equipe);			
+				int nb_equipe = nb_attaquant + nb_defenseur + nb_gardien;
 
-						entity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, keyTeam);
+				int manquant_att = 0;
+				int manquant_def = 0;
+				int manquant_gardien = 0;
+				int manquant_recrue = 0;
+				int manquant_equipe = 0;
 
-						datastore.put(entity);
-					} catch (EntityNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
+				if (nb_attaquant < 8) {
+					manquant_att = 8 - nb_attaquant;
 				}
-		
-		
+				if (nb_defenseur < 5) {
+					manquant_def = 5 - nb_defenseur;
+				}
+				if (nb_gardien < 2) {
+					manquant_gardien = 2 - nb_gardien;
+				}
+				if (nb_rookie < 8) {
+					manquant_recrue = 8 - nb_rookie;
+				}
+				if (nb_equipe < 22) {
+					manquant_equipe = 22 - nb_equipe;
+				}
+
+				mBeanEquipe.setNb_attaquant(nb_attaquant);
+				mBeanEquipe.setNb_defenseur(nb_defenseur);
+				mBeanEquipe.setNb_gardien(nb_gardien);
+				mBeanEquipe.setNb_rookie(nb_rookie);
+				mBeanEquipe.setNb_equipe(nb_equipe);
+				mBeanEquipe.setNb_contrat(nb_contrat);
+				mBeanEquipe.setManquant_att(manquant_att);
+				mBeanEquipe.setManquant_def(manquant_def);
+				mBeanEquipe.setManquant_gardien(manquant_gardien);
+				mBeanEquipe.setManquant_recrue(manquant_recrue);
+				mBeanEquipe.setManquant_equipe(manquant_equipe);
+
+				entity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, keyTeam);
+
+				datastore.put(entity);
+			} catch (EntityNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
 
 		PlayersCronModel mModel = new PlayersCronModel(playersDao);
 		int numberOfTeam = mModel.getNumberOfTeamByPool(Integer.parseInt(poolID));
@@ -1181,7 +1172,7 @@ public class AdminModel {
 		mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, "defenseur", 1, "6");
 
 		mModel.putDatabaseInDatastore(Integer.parseInt(poolID), numberOfTeam, "gardien", 1, "6");
-		
+
 		// TODO envoyer courriel au DG qui n'ont pas le bon nombre pour commencer la
 		// nouvelle année et stopper le processus de new years
 		// return false;
