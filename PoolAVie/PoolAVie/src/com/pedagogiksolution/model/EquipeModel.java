@@ -592,7 +592,7 @@ public class EquipeModel {
 		    recrueName = "Recrue"  + i;
 		    Equipe mBeanEquipe = (Equipe) req.getSession().getAttribute(jspSessionName);
 			Attaquant mBeanAttaquant = (Attaquant) req.getSession().getAttribute(attaquantName);
-			if(mBeanAttaquant==null){
+			if(mBeanEquipe.getNb_attaquant()<=0){
 				
 			}	else {
 				nom.addAll(mBeanAttaquant.getNom());
@@ -600,7 +600,7 @@ public class EquipeModel {
 				pts.addAll(mBeanAttaquant.getPts());
 			}
 			Defenseur mBeanDefenseur = (Defenseur) req.getSession().getAttribute(defenseurName);
-			if(mBeanDefenseur==null){
+			if(mBeanEquipe.getNb_defenseur()<=0){
 				
 				
 			} else {
@@ -617,7 +617,7 @@ public class EquipeModel {
 				pts.addAll(mBeanGardien.getPts());
 			}
 			Recrue mBeanRecrue = (Recrue) req.getSession().getAttribute(recrueName);
-			if(mBeanRecrue==null){
+			if(mBeanEquipe.getNb_rookie()<=0){
 				
 			} else {
 				nom.addAll(mBeanRecrue.getNom());
