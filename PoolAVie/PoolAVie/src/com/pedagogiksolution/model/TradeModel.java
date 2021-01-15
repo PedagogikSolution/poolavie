@@ -596,7 +596,7 @@ public class TradeModel {
 		if (nbPlayersTeamMakingOffer > 7 || nbPlayersTeamReceivingOffer > 7) {
 
 			mBeanMessageErreur.setErreurTrade(
-					"Un maximum de 7 joueurs par �quipe peut �tre inclus dans un échange unique (Reglement 4.1");
+					"Un maximum de 7 joueurs par équipe peut être inclus dans un échange unique (Reglement 1");
 			req.setAttribute("messageErreur", mBeanMessageErreur);
 			return false;
 		}
@@ -605,7 +605,7 @@ public class TradeModel {
 
 		if (nbPicksTeamMakingOffer > 3 || nbPicksTeamReceivingOffer > 3) {
 			mBeanMessageErreur.setErreurTrade(
-					"Un maximum de 3 choix au repêchage par équipe peut être inclus dans un échange unique (Reglement 4.1");
+					"Un maximum de 3 choix au repêchage par équipe peut être inclus dans un échange unique (Reglement 2");
 			req.setAttribute("messageErreur", mBeanMessageErreur);
 			return false;
 		}
@@ -623,7 +623,7 @@ public class TradeModel {
 		// 3- checking for cash on the two side
 		if (cashIncludeTeamThatMakeOfferInt > 0 && cashIncludeThatReceiveOfferInt > 0) {
 			mBeanMessageErreur
-					.setErreurTrade("Vous ne pouvez pas échangez de l'argent contre de l'argent (Reglement 3.2");
+					.setErreurTrade("Vous ne pouvez pas échangez de l'argent contre de l'argent (Reglement 3");
 			req.setAttribute("messageErreur", mBeanMessageErreur);
 			return false;
 		}
@@ -636,7 +636,7 @@ public class TradeModel {
 					&& nbRookieTeamReceivingOffer == 0)) {
 
 				mBeanMessageErreur.setErreurTrade(
-						"Vous ne pouvez pas échanger un choix contre de l'argent à cette période (Reglement 3.3");
+						"Vous ne pouvez pas échanger un choix contre de l'argent à cette période (Reglement 4");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 
@@ -646,7 +646,7 @@ public class TradeModel {
 					&& nbRookieTeamMakingOffer == 0)) {
 
 				mBeanMessageErreur.setErreurTrade(
-						"Vous ne pouvez pas échanger un choix contre de l'argent à cette période (Reglement 3.4");
+						"Vous ne pouvez pas échanger un choix contre de l'argent à cette période (Reglement 5");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 
@@ -854,42 +854,42 @@ public class TradeModel {
 		if (mBeanPool.getCycleAnnuel() == 5 || mBeanPool.getCycleAnnuel() == 6) {
 			if ((nb_attaquant_make_offer - nbAttInTeamThatOffer + nbAttInTeamThatReceived) < 8) {
 				mBeanMessageErreur.setErreurTrade(
-						"Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 8 attaquants (Reglement 3.1");
+						"Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 8 attaquants (Reglement 6");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 			}
 
 			if ((nb_attaquant_rec_offer + nbAttInTeamThatOffer - nbAttInTeamThatReceived) < 8) {
 				mBeanMessageErreur.setErreurTrade(
-						"Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 8 attaquants (Reglement 3.1");
+						"Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 8 attaquants (Reglement 7");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 			}
 
 			if ((nb_defenseur_make_offer - nbDefInTeamThatOffer + nbDefInTeamThatReceived) < 5) {
 				mBeanMessageErreur.setErreurTrade(
-						"Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 5 defenseurs (Reglement 3.1");
+						"Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 5 defenseurs (Reglement 8");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 			}
 
 			if ((nb_defenseur_rec_offer + nbDefInTeamThatOffer - nbDefInTeamThatReceived) < 5) {
 				mBeanMessageErreur.setErreurTrade(
-						"Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 5 defenseurs (Reglement 3.1");
+						"Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 5 defenseurs (Reglement 9");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 			}
 
 			if ((nb_goaler_make_offer - nbGoalInTeamThatOffer + nbGoalInTeamThatReceived) < 2) {
 				mBeanMessageErreur.setErreurTrade(
-						"Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 2 gardiens (Reglement 3.1");
+						"Vous ne pouvez pas faire cette échange sous peine de vous retrouver avec moins de 2 gardiens (Reglement 10");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 			}
 
 			if ((nb_goaler_rec_offer + nbGoalInTeamThatOffer - nbGoalInTeamThatReceived) < 2) {
 				mBeanMessageErreur.setErreurTrade(
-						"Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 2 gardiens (Reglement 3.1");
+						"Vous ne pouvez pas faire cette échange sous peine que la personne avec qui vous échangez se retrouve avec moins de 2 gardiens (Reglement 11");
 				req.setAttribute("messageErreur", mBeanMessageErreur);
 				return false;
 			}
@@ -1903,7 +1903,7 @@ public class TradeModel {
 				+ argent_recu_make_offer - cashIncludeTeamThatMakeOfferInt + cashIncludeThatReceiveOfferInt) < 0) {
 
 			mBeanMessageErreur
-					.setErreurTrade("Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 12");
+					.setErreurTrade("Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 22");
 			req.setAttribute("messageErreur", mBeanMessageErreur);
 			return false;
 
@@ -1913,7 +1913,7 @@ public class TradeModel {
 				+ argent_recu_rec_offer - cashIncludeThatReceiveOfferInt + cashIncludeTeamThatMakeOfferInt) < 0) {
 
 			mBeanMessageErreur.setErreurTrade(
-					"La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 13");
+					"La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 23");
 			req.setAttribute("messageErreur", mBeanMessageErreur);
 			return false;
 
@@ -1936,7 +1936,7 @@ public class TradeModel {
 								- nbPlayersTeamReceivingOffer) < 1000000) {
 
 					mBeanMessageErreur.setErreurTrade(
-							"Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 14");
+							"Vous n'avez pas assez d'argent pour effectuer cette échange (Reglement 24");
 					req.setAttribute("messageErreur", mBeanMessageErreur);
 					return false;
 
@@ -1955,7 +1955,7 @@ public class TradeModel {
 								+ nbPlayersTeamReceivingOffer) < 1000000) {
 
 					mBeanMessageErreur.setErreurTrade(
-							"La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 15");
+							"La personne avec qui vous voulez échangez n'a pas le budget pour absorber cette transaction (Reglement 25");
 					req.setAttribute("messageErreur", mBeanMessageErreur);
 					return false;
 
