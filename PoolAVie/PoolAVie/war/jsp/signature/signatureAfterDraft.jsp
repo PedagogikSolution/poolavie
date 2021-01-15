@@ -26,7 +26,7 @@
 	<!-- Header du menu principal-->
 	<jsp:directive.include file="../main/navbar_main.jsp" />
 	<jsp:directive.include file="../main/menu_secondaire.jsp" />
-	<jsp:directive.include file="menu_signature.jsp" />
+	<!-- <jsp:directive.include file="menu_signature.jsp" /> -->
 
 	<!-- Body de la page reglements -->
 
