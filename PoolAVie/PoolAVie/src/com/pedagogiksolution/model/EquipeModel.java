@@ -502,7 +502,7 @@ public class EquipeModel {
 			mBeanEquipe.setMax_salaire_begin(max_salaire_begin);
 			mBeanEquipe.setTotal_salaire_now(total_salaire_now);
 			if(mBeanEquipe.getNb_equipe()!=0) {
-			mBeanEquipe.setMoy_sal_restant_draft(budget_restant_int/mBeanEquipe.getNb_equipe());
+			mBeanEquipe.setMoy_sal_restant_draft(budget_restant_int/mBeanEquipe.getManquant_equipe());
 			} else {
 				mBeanEquipe.setMoy_sal_restant_draft(0);
 			}
