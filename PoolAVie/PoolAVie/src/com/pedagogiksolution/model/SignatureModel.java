@@ -79,7 +79,7 @@ public class SignatureModel {
 		if (nombreAnneeSignature != null) {
 			numberOfYear = Integer.parseInt(nombreAnneeSignature);
 		} else {
-			req.setAttribute("messageErreurs", "Vous n'avez pas choisi de notre d'année au contrat");
+			req.setAttribute("messageErreurs", "Vous n'avez pas choisi de nombre d'année au contrat");
 			return;
 		}
 

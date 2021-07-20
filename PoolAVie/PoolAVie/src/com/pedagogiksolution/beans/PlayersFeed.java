@@ -15,6 +15,7 @@ public class PlayersFeed implements Serializable {
 	
 	private int id;
 	private String firstName;
+	private String fullName;
 	private String lastName;
 	private String primaryPosition;
 	private String currentRosterStatus;
@@ -71,6 +72,12 @@ public class PlayersFeed implements Serializable {
 	}
 	public void setRookie(boolean rookie) {
 		this.rookie = rookie;
+	}
+	public String getFullName() {
+		return fullName;
+	}
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 	
 	

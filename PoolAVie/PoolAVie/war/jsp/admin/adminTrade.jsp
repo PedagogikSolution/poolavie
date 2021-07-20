@@ -48,7 +48,7 @@
 			<div class="w3-row"></div>
 		</c:if>
 
-		<c:if test="${Pool.cycleAnnuel==6 && Pool.cycleAnnuel==5 }">
+		<c:if test="${Pool.cycleAnnuel==6 || Pool.cycleAnnuel==5 }">
 			<!-- sous-section open/close trade -->
 
 			<br>

@@ -501,7 +501,7 @@ public class EquipeModel {
 			mBeanEquipe.setBudget_restant(budget_restant_int);
 			mBeanEquipe.setMax_salaire_begin(max_salaire_begin);
 			mBeanEquipe.setTotal_salaire_now(total_salaire_now);
-			if(mBeanEquipe.getNb_equipe()!=0) {
+			if(mBeanEquipe.getNb_equipe()!=0||mBeanEquipe.getManquant_equipe()!=0) {
 			mBeanEquipe.setMoy_sal_restant_draft(budget_restant_int/mBeanEquipe.getManquant_equipe());
 			} else {
 				mBeanEquipe.setMoy_sal_restant_draft(0);
@@ -584,7 +584,7 @@ public class EquipeModel {
 		List<Long> pts = new ArrayList<Long>();
 		List<String> owner = new ArrayList<String>();
 		
-		for(int i=1;i<mBeanPool.getNumberTeam()+1;i++) {
+		for(int i=1;i<=mBeanPool.getNumberTeam();i++) {
 			jspSessionName = "Equipe" + i;
 			attaquantName = "Attaquant" + i;
 		    defenseurName = "Defenseur" + i;
@@ -592,37 +592,45 @@ public class EquipeModel {
 		    recrueName = "Recrue"  + i;
 		    Equipe mBeanEquipe = (Equipe) req.getSession().getAttribute(jspSessionName);
 			Attaquant mBeanAttaquant = (Attaquant) req.getSession().getAttribute(attaquantName);
-			if(mBeanEquipe.getNb_attaquant()<=0){
+			if(mBeanEquipe.getNb_attaquant()<=0||mBeanAttaquant==null){
 				
 			}	else {
+				if(mBeanAttaquant.getNom()!=null) {
 				nom.addAll(mBeanAttaquant.getNom());
 				pj.addAll(mBeanAttaquant.getPj());
 				pts.addAll(mBeanAttaquant.getPts());
+				}
 			}
 			Defenseur mBeanDefenseur = (Defenseur) req.getSession().getAttribute(defenseurName);
-			if(mBeanEquipe.getNb_defenseur()<=0){
+			if(mBeanEquipe.getNb_defenseur()<=0||mBeanDefenseur==null){
 				
 				
 			} else {
+				if(mBeanDefenseur.getNom()!=null) {
 				nom.addAll(mBeanDefenseur.getNom());
 				pj.addAll(mBeanDefenseur.getPj());
 				pts.addAll(mBeanDefenseur.getPts());
+				}
 			}
 			Gardien mBeanGardien = (Gardien) req.getSession().getAttribute(gardienName);	
-			if(mBeanEquipe.getNb_gardien()<=0){
+			if(mBeanEquipe.getNb_gardien()<=0||mBeanGardien==null){
 				
 			} else {
+				if(mBeanGardien.getNom()!=null) {
 				nom.addAll(mBeanGardien.getNom());
 				pj.addAll(mBeanGardien.getPj());
 				pts.addAll(mBeanGardien.getPts());
+				}
 			}
 			Recrue mBeanRecrue = (Recrue) req.getSession().getAttribute(recrueName);
-			if(mBeanEquipe.getNb_rookie()<=0){
+			if(mBeanEquipe.getNb_rookie()<=0||mBeanRecrue==null){
 				
 			} else {
+				if(mBeanRecrue.getNom()!=null) {
 				nom.addAll(mBeanRecrue.getNom());
 				pj.addAll(mBeanRecrue.getPj());
 				pts.addAll(mBeanRecrue.getPts());
+				}
 			}
 			
 			int nb_equipe = mBeanEquipe.getNb_equipe()+mBeanEquipe.getNb_rookie();
