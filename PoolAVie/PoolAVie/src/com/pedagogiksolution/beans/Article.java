@@ -6,6 +6,7 @@ public class Article implements java.io.Serializable {
 
     /**
      * 
+     * 
      */
     private static final long serialVersionUID = 8073876698631264439L;
     private List<String> titre;   
