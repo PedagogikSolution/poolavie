@@ -57,7 +57,9 @@ public class DAOFactory {
     public DraftPickDao getDraftPickDao() {
    	return new DraftPickDaoImpl(this);
        }
-
+    public TeamsDao getTeamsDao() {
+       	return new TeamsDaoImpl(this);
+           }
     /*
      * Methode chargee de recuperer les informations de connexion e la base de
      * donnees, charger le driver JDBC et retourner une instance de la Factory

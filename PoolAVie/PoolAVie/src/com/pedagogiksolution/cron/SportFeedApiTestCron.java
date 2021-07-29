@@ -45,7 +45,10 @@ public class SportFeedApiTestCron extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// initilisation du métier
+		
+		
+		
+		
 
 		HttpGet request = new HttpGet("https://statsapi.web.nhl.com/api/v1/teams/1/roster/fullRoster");
 		//String auth = "3a0e9a0a-861e-4065-bd34-c6670d" + ":" + "MYSPORTSFEEDS";

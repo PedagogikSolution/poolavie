@@ -404,6 +404,7 @@
 			<url-pattern>/RecrueCron</url-pattern>
 			<url-pattern>/DraftPlayersCron</url-pattern>
 			<url-pattern>/_ah/sessioncleanup</url-pattern>
+			<url-pattern>/ApiTeamCron</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>admin</role-name>
@@ -483,6 +484,15 @@
 	<servlet-mapping>
 		<servlet-name>DraftPlayersCron</servlet-name>
 		<url-pattern>/DraftPlayersCron</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ApiTeamCron</servlet-name>
+		<servlet-class>com.pedagogiksolution.cron.ApiTeamCron</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ApiTeamCron</servlet-name>
+		<url-pattern>/ApiTeamCron</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
