@@ -139,7 +139,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String UPDATE_PLAYERS41 = "UPDATE players_? SET team_id=?,years_2='C',years_3='A',years_4='A',years_5='A' WHERE _id=?";
 	private static final String UPDATE_PLAYERS42 = "UPDATE players_? SET team_id=?,years_2='C',years_3='C',years_4='A',years_5='A' WHERE _id=?";
 	private static final String UPDATE_PLAYERS43 = "UPDATE players_? SET team_id=?,years_2='C',years_3='C',years_4='C',years_5='A' WHERE _id=?";
-	private static final String ADD_PLAYERS_FROM_SPORT_FEED = "INSERT INTO players_from_api (_id,fullName) VALUES (?,?)";
+	private static final String ADD_PLAYERS_FROM_SPORT_FEED = "INSERT INTO players_from_api (_id,fullName,abbreviation) VALUES (?,?,?)";
 	private static final String GET_GOALER_PTS_TOP_2 = "SELECT pts FROM players_? WHERE position='gardien' AND team_id=? ORDER BY pts DESC LIMIT 1, 1";
 	private static final String RESET_AGE_FOR_ROOKIE = "UPDATE players_? SET age=0";
 
@@ -3605,7 +3605,7 @@ public class PlayersDaoImpl implements PlayersDao {
 	}
 
 	@Override
-	public void addPlayersFromSportFeed(ArrayList<Integer> id, ArrayList<String> nom) throws DAOException {
+	public void addPlayersFromSportFeed(ArrayList<Integer> id, ArrayList<String> nom, ArrayList<String> abbreviation) throws DAOException {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		try {
@@ -3613,7 +3613,7 @@ public class PlayersDaoImpl implements PlayersDao {
 			
 			for (int i = 0; i < id.size()-1; i++) {
 			preparedStatement = initialisationRequetePreparee(connexion, ADD_PLAYERS_FROM_SPORT_FEED, false,
-					id.get(i), nom.get(i));
+					id.get(i), nom.get(i), abbreviation.get(i));
 			preparedStatement.executeUpdate();
 			
 			}

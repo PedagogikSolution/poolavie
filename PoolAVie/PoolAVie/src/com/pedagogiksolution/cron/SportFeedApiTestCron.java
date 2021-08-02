@@ -21,10 +21,12 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pedagogiksolution.beans.ApiTeams;
 import com.pedagogiksolution.beans.CurrentTeam;
 import com.pedagogiksolution.beans.PlayersFeed;
 import com.pedagogiksolution.dao.DAOFactory;
 import com.pedagogiksolution.dao.PlayersDao;
+import com.pedagogiksolution.dao.TeamsDao;
 
 public class SportFeedApiTestCron extends HttpServlet {
 
@@ -35,22 +37,35 @@ public class SportFeedApiTestCron extends HttpServlet {
 
 	public static final String CONF_DAO_FACTORY = "daofactory";
 	private PlayersDao playersDao;
-
+	private TeamsDao teamsDao;
+	
 	@Override
 	public void init() throws ServletException {
 		/* Récupération d'une instance de notre DAO Utilisateur */
 		this.playersDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getPlayersDao();
-
+		this.teamsDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getTeamsDao();
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		
+		ApiTeams mBeanTeams = new ApiTeams();
+		
+		mBeanTeams= teamsDao.getAllTeamsId();
 		
 		
+		for(int i=1;i<mBeanTeams.getAllId().size();i++) {
+			
+			
+		int teamId = mBeanTeams.getAllId().get(i);
+		
+		
+		
+		
+		String url = "https://statsapi.web.nhl.com/api/v1/teams/"+teamId+"/roster/fullRoster";
 
-		HttpGet request = new HttpGet("https://statsapi.web.nhl.com/api/v1/teams/1/roster/fullRoster");
+		HttpGet request = new HttpGet(url);
 		//String auth = "3a0e9a0a-861e-4065-bd34-c6670d" + ":" + "MYSPORTSFEEDS";
 		//byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
 		//String authHeader = "Basic " + new String(encodedAuth);
@@ -78,6 +93,7 @@ public class SportFeedApiTestCron extends HttpServlet {
 		Iterator<JsonNode> iterator = mNodePlayers.elements();
 		ArrayList<Integer> id = new ArrayList<>();
 		ArrayList<String> nom = new ArrayList<>();
+		ArrayList<String> abbreviation = new ArrayList<>();
 		while (iterator.hasNext()) {
 			PlayersFeed mResult = new PlayersFeed();
 			JsonNode mNodePlayer = iterator.next();
@@ -88,7 +104,7 @@ public class SportFeedApiTestCron extends HttpServlet {
 
 			id.add(mResult.getId());
 			nom.add(mResult.getFullName());
-
+			abbreviation.add(mBeanTeams.getAllAbbreviation().get(i));
 			
 			// on ajoute a bdd
 			// Queue queue = QueueFactory.getDefaultQueue();
@@ -98,7 +114,9 @@ public class SportFeedApiTestCron extends HttpServlet {
 
 		instream.close();
 
-		playersDao.addPlayersFromSportFeed(id, nom);
+		playersDao.addPlayersFromSportFeed(id, nom,abbreviation );
+		
+		}
 	}
 
 }
