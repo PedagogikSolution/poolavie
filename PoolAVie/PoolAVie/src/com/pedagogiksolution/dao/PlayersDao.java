@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.pedagogiksolution.beans.NonSessionPlayers;
 import com.pedagogiksolution.beans.TradeBeanTemp;
 import com.pedagogiksolution.datastorebeans.Pool;
 
@@ -119,6 +120,18 @@ public interface PlayersDao {
 	void putNewPlayersInDatastore(String poolID) throws DAOException;
 
 	void addPlayersFromSportFeed(ArrayList<Integer> id, ArrayList<String> nom, ArrayList<String> abbreviation) throws DAOException;
+
+	int getLastIdFromApi() throws DAOException;
+
+	void truncateTeamsFromApiDatabase() throws DAOException;
+
+	void truncatePlayersTemplate() throws DAOException;
+
+	void addPlayersFromApiToPlayersTemplate() throws DAOException;
+
+	NonSessionPlayers getAllPlayersID() throws DAOException;
+
+	void updateBirthdayAndPosition(int playerId, String positionAbbreviation, String birthDate) throws DAOException;
 
 	
 

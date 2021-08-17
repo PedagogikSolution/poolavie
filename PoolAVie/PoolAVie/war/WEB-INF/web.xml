@@ -512,6 +512,27 @@
 		<servlet-name>SportFeedApiTestCron</servlet-name>
 		<url-pattern>/SportFeedApiTestCron</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>UpdatePlayersTemplateFromApiCron</servlet-name>
+		<servlet-class>com.pedagogiksolution.cron.UpdatePlayersTemplateFromApiCron</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdatePlayersTemplateFromApiCron</servlet-name>
+		<url-pattern>/UpdatePlayersTemplateFromApiCron</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>UpdatePlayersBirthdayAndPositionCron</servlet-name>
+		<servlet-class>com.pedagogiksolution.cron.UpdatePlayersBirthdayAndPositionCron</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdatePlayersBirthdayAndPositionCron</servlet-name>
+		<url-pattern>/UpdatePlayersBirthdayAndPositionCron</url-pattern>
+	</servlet-mapping>
+	
+	
+	
 	<!-- Mapping des servlet pour les TaskQueue -->
 	<servlet>
 		<servlet-name>TaskQueueCreationPool</servlet-name>
@@ -539,6 +560,24 @@
 	<servlet-mapping>
 		<servlet-name>TaskQueueFinDraft</servlet-name>
 		<url-pattern>/TaskQueueFinDraft</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>TaskQueueGetNHLPlayersIdFromAPI</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.TaskQueueGetNHLPlayersIdFromAPI</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TaskQueueGetNHLPlayersIdFromAPI</servlet-name>
+		<url-pattern>/TaskQueueGetNHLPlayersIdFromAPI</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>TaskQueueUpdateBirthdayAndPosition</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.TaskQueueUpdateBirthdayAndPosition</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TaskQueueUpdateBirthdayAndPosition</servlet-name>
+		<url-pattern>/TaskQueueUpdateBirthdayAndPosition</url-pattern>
 	</servlet-mapping>
 
 </web-app>

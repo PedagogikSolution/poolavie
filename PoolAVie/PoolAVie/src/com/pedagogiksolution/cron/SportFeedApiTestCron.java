@@ -2,7 +2,6 @@ package com.pedagogiksolution.cron;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -11,9 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -21,8 +18,10 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
+import com.google.appengine.api.taskqueue.TaskOptions;
 import com.pedagogiksolution.beans.ApiTeams;
-import com.pedagogiksolution.beans.CurrentTeam;
 import com.pedagogiksolution.beans.PlayersFeed;
 import com.pedagogiksolution.dao.DAOFactory;
 import com.pedagogiksolution.dao.PlayersDao;
@@ -54,8 +53,17 @@ public class SportFeedApiTestCron extends HttpServlet {
 		
 		mBeanTeams= teamsDao.getAllTeamsId();
 		
+		playersDao.truncateTeamsFromApiDatabase();
 		
-		for(int i=1;i<mBeanTeams.getAllId().size();i++) {
+		
+		ArrayList<Integer> id = new ArrayList<>();
+		ArrayList<String> nom = new ArrayList<>();
+		ArrayList<String> abbreviation = new ArrayList<>();
+		
+		
+		
+		
+		for(int i=0;i<mBeanTeams.getAllId().size();i++) {
 			
 			
 		int teamId = mBeanTeams.getAllId().get(i);
@@ -91,9 +99,7 @@ public class SportFeedApiTestCron extends HttpServlet {
 		JsonNode mNodePlayers = mNode.path("roster");
 
 		Iterator<JsonNode> iterator = mNodePlayers.elements();
-		ArrayList<Integer> id = new ArrayList<>();
-		ArrayList<String> nom = new ArrayList<>();
-		ArrayList<String> abbreviation = new ArrayList<>();
+		
 		while (iterator.hasNext()) {
 			PlayersFeed mResult = new PlayersFeed();
 			JsonNode mNodePlayer = iterator.next();
@@ -114,9 +120,39 @@ public class SportFeedApiTestCron extends HttpServlet {
 
 		instream.close();
 
-		playersDao.addPlayersFromSportFeed(id, nom,abbreviation );
+		
 		
 		}
+		
+		playersDao.addPlayersFromSportFeed(id, nom,abbreviation );		
+		// on cherche dans tout les peoples id ceux qui sont active false et RosterStatus Y pour trouver les joueurs autonomes n'appartenant pas à aucune équipe
+		
+		// depart a 8466137 fini a dernier id de la table api
+		
+		int lastId = playersDao.getLastIdFromApi();
+		
+		int firstId=8466137;
+		
+		
+		int total = lastId-firstId;
+		
+		int interval = total/25;
+		
+		
+			for(int i=1;i<26;i++) {
+			if(i>1) {
+				firstId= lastId+1;
+			}
+			lastId= firstId+interval;	
+				
+			Queue queue = QueueFactory.getDefaultQueue();
+			queue.add(TaskOptions.Builder.withUrl("/TaskQueueGetNHLPlayersIdFromAPI")
+					.param("firstId", String.valueOf(firstId))
+					.param("lastId", String.valueOf(lastId)));
+			
+		
+			}
+		
 	}
 
 }

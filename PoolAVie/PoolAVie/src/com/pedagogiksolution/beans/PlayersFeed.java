@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.JsonNode;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlayersFeed implements Serializable {
@@ -17,11 +18,11 @@ public class PlayersFeed implements Serializable {
 	private String firstName;
 	private String fullName;
 	private String lastName;
-	private String primaryPosition;
-	private String currentRosterStatus;
-	private Date birthDate;
-	private int age;
+	private String rosterStatus;
+	private String birthDate;
 	private boolean rookie;
+	private boolean active;
+	private JsonNode primaryPosition;
 	
 	public int getId() {
 		return id;
@@ -41,32 +42,10 @@ public class PlayersFeed implements Serializable {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public String getPrimaryPosition() {
-		return primaryPosition;
-	}
-	public void setPrimaryPosition(String primaryPosition) {
-		this.primaryPosition = primaryPosition;
-	}
 	
-	public String getCurrentRosterStatus() {
-		return currentRosterStatus;
-	}
-	public void setCurrentRosterStatus(String currentRosterStatus) {
-		this.currentRosterStatus = currentRosterStatus;
-	}
 	
-	public Date getBirthDate() {
-		return birthDate;
-	}
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
-	}
-	public int getAge() {
-		return age;
-	}
-	public void setAge(int age) {
-		this.age = age;
-	}
+	
+	
 	public boolean isRookie() {
 		return rookie;
 	}
@@ -79,6 +58,32 @@ public class PlayersFeed implements Serializable {
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}
+	public String getRosterStatus() {
+		return rosterStatus;
+	}
+	public void setRosterStatus(String rosterStatus) {
+		this.rosterStatus = rosterStatus;
+	}
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+	
+	public String getBirthDate() {
+		return birthDate;
+	}
+	public void setBirthDate(String birthDate) {
+		this.birthDate = birthDate;
+	}
+	public JsonNode getPrimaryPosition() {
+		return primaryPosition;
+	}
+	public void setPrimaryPosition(JsonNode primaryPosition) {
+		this.primaryPosition = primaryPosition;
+	}
+	
 	
 	
 	

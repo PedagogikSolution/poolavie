@@ -142,6 +142,12 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String ADD_PLAYERS_FROM_SPORT_FEED = "INSERT INTO players_from_api (_id,fullName,abbreviation) VALUES (?,?,?)";
 	private static final String GET_GOALER_PTS_TOP_2 = "SELECT pts FROM players_? WHERE position='gardien' AND team_id=? ORDER BY pts DESC LIMIT 1, 1";
 	private static final String RESET_AGE_FOR_ROOKIE = "UPDATE players_? SET age=0";
+	private static final String GET_LAST_ID_FROM_API = "SELECT _id FROM players_from_api ORDER BY _ID DESC LIMIT 1";
+	private static final String TRUNCATE_PLAYERS_FROM_NHL_API = "TRUNCATE players_from_api";
+	private static final String TRUNCATE_PLAYERS_TEMPLATE = "TRUNCATE players_template";
+	private static final String UPDATE_PLAYERS_TEMPLATE_FROM_API = "INSERT INTO players_template (_id, nom, team) SELECT _id, fullName, abbreviation FROM players_from_api";
+	private static final String GET_ALL_PLAYERS_ID = "SELECT _id FROM players_template";
+	private static final String UPDATE_PLAYERS_BIRTHDAY_FROM_API = "UPDATE players_template SET birthday=?,position=? WHERE _id=?";
 
 	private DAOFactory daoFactory;
 
@@ -3611,12 +3617,168 @@ public class PlayersDaoImpl implements PlayersDao {
 		try {
 			connexion = daoFactory.getConnection();
 			
-			for (int i = 0; i < id.size()-1; i++) {
+			for (int i = 0; i < id.size(); i++) {
 			preparedStatement = initialisationRequetePreparee(connexion, ADD_PLAYERS_FROM_SPORT_FEED, false,
 					id.get(i), nom.get(i), abbreviation.get(i));
 			preparedStatement.executeUpdate();
 			
 			}
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+	}
+
+	@Override
+	public int getLastIdFromApi() throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		int lastId = 0;
+		try {
+			connexion = daoFactory.getConnection();
+			
+			
+			preparedStatement = initialisationRequetePreparee(connexion, GET_LAST_ID_FROM_API, false);
+			rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+			lastId = rs.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+		
+		
+		return lastId;
+	}
+
+	@Override
+	public void truncateTeamsFromApiDatabase() throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connexion = daoFactory.getConnection();
+			
+			
+			preparedStatement = initialisationRequetePreparee(connexion, TRUNCATE_PLAYERS_FROM_NHL_API, false);
+			preparedStatement.executeUpdate();
+			
+		
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+	}
+
+	@Override
+	public void truncatePlayersTemplate() throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connexion = daoFactory.getConnection();
+			
+			
+			preparedStatement = initialisationRequetePreparee(connexion, TRUNCATE_PLAYERS_TEMPLATE, false);
+			preparedStatement.executeUpdate();
+			
+		
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+	}
+
+	@Override
+	public void addPlayersFromApiToPlayersTemplate() throws DAOException {
+		
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_TEMPLATE_FROM_API, false);
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+	}
+
+	@Override
+	public NonSessionPlayers getAllPlayersID() throws DAOException {
+		
+		NonSessionPlayers mBeanPlayersId = new NonSessionPlayers();
+		
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		List<Integer> playersIdList = new ArrayList<Integer>();
+		try {
+			connexion = daoFactory.getConnection();
+			
+			
+			preparedStatement = initialisationRequetePreparee(connexion, GET_ALL_PLAYERS_ID, false);
+			rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				playersIdList.add(rs.getInt(1));
+			}
+			mBeanPlayersId.setPlayers_id(playersIdList);
+			
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+		
+		
+		return mBeanPlayersId;
+	}
+
+	@Override
+	public void updateBirthdayAndPosition(int playerId, String positionAbbreviation, String birthDate)
+			throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		String position = "NO";
+		
+		switch(positionAbbreviation) {
+		
+		case "C": position = "attaquant";
+		break;
+		case "RW": position = "attaquant";
+		break;
+		case "LW": position = "attaquant";
+		break;
+		case "D": position = "defenseur";
+		break;
+		case "G": position = "gardien";
+		break;
+		
+		default : position="NO";
+		
+		}
+		 
+		
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_BIRTHDAY_FROM_API, false,birthDate,position,playerId);
+			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
 			throw new DAOException(e);
