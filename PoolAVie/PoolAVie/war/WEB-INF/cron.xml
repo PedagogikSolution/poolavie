@@ -11,19 +11,6 @@
     <description>Récupère le id des teams de l'Api NHL</description>
     <schedule>1 of month 1:40</schedule>
   </cron>
-  <cron>
-    <url>/SportFeedApiTestCron</url>
-    <description>Récupère tous les id des joueurs encore officiellement dans une équipe ou autonome</description>
-    <schedule>2 of month 1:40</schedule>
-  </cron>
-  <cron>
-    <url>/UpdatePlayersTemplateFromApiCron</url>
-    <description>Récupère tous les id des joueurs encore officiellement dans une équipe ou autonome</description>
-    <schedule>3 of month 1:40</schedule>
-  </cron>
-  <cron>
-    <url>/UpdatePlayersTemplateFromApiCron</url>
-    <description>Récupère tous les id des joueurs encore officiellement dans une équipe ou autonome</description>
-    <schedule>4 of month 1:40</schedule>
-  </cron>
+
+ 
 </cronentries>

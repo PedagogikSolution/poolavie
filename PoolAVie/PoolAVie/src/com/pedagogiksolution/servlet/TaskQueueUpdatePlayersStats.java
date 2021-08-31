@@ -21,7 +21,7 @@ import com.pedagogiksolution.beans.PlayersFeed;
 import com.pedagogiksolution.dao.DAOFactory;
 import com.pedagogiksolution.dao.PlayersDao;
 
-public class TaskQueueUpdateBirthdayAndPosition extends HttpServlet {
+public class TaskQueueUpdatePlayersStats extends HttpServlet {
    
     
     /**
@@ -45,13 +45,16 @@ public class TaskQueueUpdateBirthdayAndPosition extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	
     	String player_id = req.getParameter("player_id");
-    	int playerId=Integer.parseInt(player_id);	
+    	int playerId=Integer.parseInt(player_id);
     	
+    	String thisYear = req.getParameter("thisyear");
+    	
+    	// playerId=8471679;
     	
     
     	
 					
-		String url = "https://statsapi.web.nhl.com/api/v1/people/"+playerId;
+		String url = "https://statsapi.web.nhl.com/api/v1/people/"+playerId+"/stats?stats=statsSingleSeason&season="+thisYear;
 
 		HttpGet request = new HttpGet(url);
 
@@ -67,42 +70,51 @@ public class TaskQueueUpdateBirthdayAndPosition extends HttpServlet {
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode mNode = mapper.readTree(instream);
 
-		JsonNode mNodePlayers = mNode.path("people");
+		JsonNode mNodePlayers = mNode.path("stats");
+		
 
 		Iterator<JsonNode> iterator = mNodePlayers.elements();
 		
 		while (iterator.hasNext()) {
-			PlayersFeed mResult = new PlayersFeed();
 			JsonNode mNodePlayer = iterator.next();
+			
+			
+			JsonNode mNodePlayerStats =mNodePlayer.path("splits");
+			Iterator<JsonNode> iterator2 = mNodePlayerStats.elements();
+			if(mNodePlayerStats.has(0)) {
+				
+				
+				
+			while (iterator2.hasNext()) {
+				
+				JsonNode mNodePlayer2 = iterator2.next();
 
-			
+				JsonNode mNodePlayerStats2 =mNodePlayer2.path("stat");
+				
+					PlayersFeed mResult = new PlayersFeed();
+					//PlayersFeed mResult2 = new PlayersFeed();
 
-			mResult = mapper.treeToValue(mNodePlayer, PlayersFeed.class);
-
+			    mResult = mapper.treeToValue(mNodePlayerStats2, PlayersFeed.class);	
 			
-			JsonNode mNodePosition = mResult.getPrimaryPosition();
+			 //   mResult2 = mResult;
 			
-			String positionAbbreviation = mNodePosition.get("abbreviation").asText();
-			
-			String birthDate = mResult.getBirthDate();
-			
-			
-			
-			
-				playerDao.updateBirthdayAndPosition(playerId,positionAbbreviation,birthDate);
+				playerDao.updateStatsFromNHLAPI(playerId,mResult.getGames(),mResult.getAssists(),mResult.getGoals(),mResult.getPoints(),mResult.getWins(),mResult.getShutouts(),mResult.getOt());
 			
 			
 			
 
+		
+				
+			
+			
 		}
-
-		instream.close();
-		
-		
-		
     
     }
-    
-   
 
-}
+		instream.close();
+		}
+		
+		}    
+}  
+
+

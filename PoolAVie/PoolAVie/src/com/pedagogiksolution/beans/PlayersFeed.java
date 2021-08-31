@@ -1,7 +1,6 @@
 package com.pedagogiksolution.beans;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -23,7 +22,52 @@ public class PlayersFeed implements Serializable {
 	private boolean rookie;
 	private boolean active;
 	private JsonNode primaryPosition;
+	private String assists;
+	private String goals;
+	private String games;
+	private String points;
+	private String wins;
+	private String shutouts;
+	private String ot;
 	
+	
+	public String getAssists() {
+		return assists;
+	}
+	public void setAssists(String assists) {
+		this.assists = assists;
+	}
+	public String getGoals() {
+		return goals;
+	}
+	public void setGoals(String goals) {
+		this.goals = goals;
+	}
+	public String getGames() {
+		return games;
+	}
+	public void setGames(String games) {
+		this.games = games;
+	}
+	public String getPoints() {
+		return points;
+	}
+	public void setPoints(String points) {
+		this.points = points;
+	}
+	public String getWins() {
+		return wins;
+	}
+	public void setWins(String wins) {
+		this.wins = wins;
+	}
+	
+	public String getOt() {
+		return ot;
+	}
+	public void setOt(String ot) {
+		this.ot = ot;
+	}
 	public int getId() {
 		return id;
 	}
@@ -82,6 +126,12 @@ public class PlayersFeed implements Serializable {
 	}
 	public void setPrimaryPosition(JsonNode primaryPosition) {
 		this.primaryPosition = primaryPosition;
+	}
+	public String getShutouts() {
+		return shutouts;
+	}
+	public void setShutouts(String shutouts) {
+		this.shutouts = shutouts;
 	}
 	
 	

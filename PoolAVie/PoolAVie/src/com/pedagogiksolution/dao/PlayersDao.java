@@ -133,6 +133,23 @@ public interface PlayersDao {
 
 	void updateBirthdayAndPosition(int playerId, String positionAbbreviation, String birthDate) throws DAOException;
 
+	void updateStatsFromNHLAPI(int playerId, String games, String assists, String goals, String points, String wins, String shutouts,
+			String ot) throws DAOException;
+
+	void updateStatsFromNHLAPI2(int playerId, String games, String points, String wins, String shutouts, String ot) throws DAOException;
+
+	void updateStatsFromNHLAPI3(int playerId, String games, String points, String wins, String shutouts, String ot) throws DAOException;
+
+	void deleteOldPlayers() throws DAOException;
+
+	void deletePlayersWithNoTeam(int i) throws DAOException;
+
+	void addPlayersNotThere(int i) throws DAOException;
+
+	void updateStats(int i) throws DAOException;
+	
+	
+
 	
 
 	

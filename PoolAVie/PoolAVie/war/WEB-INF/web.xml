@@ -531,6 +531,40 @@
 		<url-pattern>/UpdatePlayersBirthdayAndPositionCron</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>UpdatePlayersTemplateStatsCron</servlet-name>
+		<servlet-class>com.pedagogiksolution.cron.UpdatePlayersTemplateStatsCron</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdatePlayersTemplateStatsCron</servlet-name>
+		<url-pattern>/UpdatePlayersTemplateStatsCron</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>UpdatePlayersTemplateStatsCron2</servlet-name>
+		<servlet-class>com.pedagogiksolution.cron.UpdatePlayersTemplateStatsCron2</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdatePlayersTemplateStatsCron2</servlet-name>
+		<url-pattern>/UpdatePlayersTemplateStatsCron2</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>DeletePlayersTemplateOldCron</servlet-name>
+		<servlet-class>com.pedagogiksolution.cron.DeletePlayersTemplateOldCron</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeletePlayersTemplateOldCron</servlet-name>
+		<url-pattern>/DeletePlayersTemplateOldCron</url-pattern>
+	</servlet-mapping>
+	
+		<servlet>
+		<servlet-name>UpdatePlayersFromEachPoolAndDailyStatsCron</servlet-name>
+		<servlet-class>com.pedagogiksolution.cron.UpdatePlayersFromEachPoolAndDailyStatsCron</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdatePlayersFromEachPoolAndDailyStatsCron</servlet-name>
+		<url-pattern>/UpdatePlayersFromEachPoolAndDailyStatsCron</url-pattern>
+	</servlet-mapping>
 	
 	
 	<!-- Mapping des servlet pour les TaskQueue -->
@@ -578,6 +612,23 @@
 	<servlet-mapping>
 		<servlet-name>TaskQueueUpdateBirthdayAndPosition</servlet-name>
 		<url-pattern>/TaskQueueUpdateBirthdayAndPosition</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>TaskQueueUpdatePlayersStats</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.TaskQueueUpdatePlayersStats</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TaskQueueUpdatePlayersStats</servlet-name>
+		<url-pattern>/TaskQueueUpdatePlayersStats</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>TaskQueueUpdatePlayersStats2</servlet-name>
+		<servlet-class>com.pedagogiksolution.servlet.TaskQueueUpdatePlayersStats2</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TaskQueueUpdatePlayersStats2</servlet-name>
+		<url-pattern>/TaskQueueUpdatePlayersStats2</url-pattern>
 	</servlet-mapping>
 
 </web-app>

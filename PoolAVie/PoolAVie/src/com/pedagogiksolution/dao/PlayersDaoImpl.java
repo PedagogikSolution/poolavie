@@ -79,7 +79,7 @@ public class PlayersDaoImpl implements PlayersDao {
 			+ "club_ecole=0,years_1=0,years_2=0,years_3=0,years_4=0,years_5=0 WHERE _id=?";
 	private static final String GET_POSITION_OF_PLAYERS = "SELECT position FROM players_? WHERE _id=?";
 	private static final String UPDATE_AGE_FOR_ROOKIE = "UPDATE players_? SET age = 1 WHERE birthday<?";
-	private static final String GET_ROOKIE_THAT_CAN_GO_DOWN = "SELECT * FROM players_? WHERE age=? AND club_ecole=? AND team_id=? AND (years_2='A' OR years_2='B' OR years_2='X')";
+	private static final String GET_ROOKIE_THAT_CAN_GO_DOWN = "SELECT * FROM players_? WHERE age=? AND club_ecole=? AND team_id=? AND (years_2='A' OR years_2='B')";
 	private static final String GET_PLAYER_NAME = "SELECT nom FROM players_? WHERE _id=?";
 	private static final String PUT_PLAYERS_IN_CLUB_ECOLE = "UPDATE players_? SET club_ecole=1 WHERE _ID=?";
 	private static final String ARCHIVE_PLAYERS_LAST_YEAR = "INSERT INTO players_archive_? SELECT * FROM players_? WHERE team_id IS NOT NULL";
@@ -148,6 +148,24 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String UPDATE_PLAYERS_TEMPLATE_FROM_API = "INSERT INTO players_template (_id, nom, team) SELECT _id, fullName, abbreviation FROM players_from_api";
 	private static final String GET_ALL_PLAYERS_ID = "SELECT _id FROM players_template";
 	private static final String UPDATE_PLAYERS_BIRTHDAY_FROM_API = "UPDATE players_template SET birthday=?,position=? WHERE _id=?";
+	private static final String UPDATE_PLAYERS_STATS_FROM_API_NO_GAMES = "UPDATE players_template SET pj=0,but_victoire=0,aide_overtime=0,blanchissage=0,pts=0 WHERE _id=?";
+	private static final String UPDATE_PLAYERS_STATS_FROM_API_GAMES_NO_STATS = "UPDATE players_template SET pj=?,but_victoire=0,aide_overtime=0,blanchissage=0,pts=0 WHERE _id=?";
+	private static final String UPDATE_PLAYERS_STATS_FROM_API_GAMES_SKATER = "UPDATE players_template SET pj=?,but_victoire=?,aide_overtime=?,pts=? WHERE _id=?";
+	private static final String UPDATE_PLAYERS_STATS_FROM_API_GAMES_GOALER = "UPDATE players_template SET pj=?,but_victoire=?,aide_overtime=?,blanchissage=?,pts=? WHERE _id=?";
+	private static final String UPDATE_PLAYERS_STATS_FROM_API_NO_GAMES_LAST_YEAR = "UPDATE players_template SET pj_1_years_ago=0,but_pts_1_years_ago=0 WHERE _id=?";
+	private static final String UPDATE_PLAYERS_STATS_FROM_API_GAMES_NO_STATS_LAST_YEAR = "UPDATE players_template SET pj_1_years_ago=?,pts_1_years_ago=0 WHERE _id=?";
+	private static final String UPDATE_PLAYERS_STATS_FROM_API_GAMES_SKATER_LAST_YEAR = "UPDATE players_template SET pj_1_years_ago=?,pts_1_years_ago=? WHERE _id=?";
+	private static final String UPDATE_PLAYERS_STATS_FROM_API_GAMES_GOALER_LAST_YEAR = "UPDATE players_template SET pj_1_years_ago=?,pts_1_years_ago=? WHERE _id=?";
+	private static final String UPDATE_PLAYERS_STATS_FROM_API_NO_GAMES_TWO_YEAR = "UPDATE players_template SET pj_2_years_ago=0,but_pts_2_years_ago=0 WHERE _id=?";
+	private static final String UPDATE_PLAYERS_STATS_FROM_API_GAMES_NO_STATS_TWO_YEAR = "UPDATE players_template SET pj_2_years_ago=?,pts_2_years_ago=0 WHERE _id=?";
+	private static final String UPDATE_PLAYERS_STATS_FROM_API_GAMES_SKATER_TWO_YEAR = "UPDATE players_template SET pj_2_years_ago=?,pts_2_years_ago=? WHERE _id=?";
+	private static final String UPDATE_PLAYERS_STATS_FROM_API_GAMES_GOALER_TWO_YEAR = "UPDATE players_template SET pj_2_years_ago=?,pts_2_years_ago=? WHERE _id=?";
+	private static final String DELETE_OLD_PLAYERS = "DELETE FROM poolavie.players_template WHERE pj_2_years_ago=0 AND pj_1_years_ago=0 AND pj=0 AND birthday<?";
+	private static final String DELETE_PLAYERS_WITH_NO_TEAM = "DELETE FROM players_? WHERE team_id IS NULL";
+	private static final String ADD_PLAYERS_NOT_THERE = "INSERT IGNORE INTO players_?  SELECT * FROM players_template";
+	private static final String UPDATE_STATS = "UPDATE players_? a INNER JOIN players_template b ON a._id=b._id SET a.pj=b.pj, a.but_victoire=b.but_victoire,"
+			+ "a.aide_overtime=b.aide_overtime,a.pts=b.pts,a.position=b.position,a.birthday=b.birthday,a.pj_1_years_ago=b.pj_1_years_ago,a.pj_2_years_ago=b.pj_2_years_ago,"
+			+ "a.pts_1_years_ago=b.pts_1_years_ago,a.pts_2_years_ago=b.pts_2_years_ago WHERE a.team_id IS NOT NULL";
 
 	private DAOFactory daoFactory;
 
@@ -1214,7 +1232,7 @@ public class PlayersDaoImpl implements PlayersDao {
 			while (rs.next()) {
 				String pts_temp = rs.getString("pts");
 				int ptsTemp = Integer.parseInt(pts_temp);
-				pts = pts + (ptsTemp/2);
+				pts = pts + (ptsTemp / 2);
 
 			}
 
@@ -1496,7 +1514,7 @@ public class PlayersDaoImpl implements PlayersDao {
 				}
 
 				if (mBeanPool.getCycleAnnuel() == 3) {
-					if (contrat.equalsIgnoreCase("JA")|| contrat.equalsIgnoreCase("B")) {
+					if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("B")) {
 						// rien
 					} else {
 						mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);
@@ -1504,7 +1522,8 @@ public class PlayersDaoImpl implements PlayersDao {
 				} else if (mBeanPool.getCycleAnnuel() == 11) {
 					mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);
 				} else {
-					if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("B")|| contrat.equalsIgnoreCase("X")|| contrat.equalsIgnoreCase("A")) {
+					if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("B") || contrat.equalsIgnoreCase("X")
+							|| contrat.equalsIgnoreCase("A")) {
 						// rien
 					} else {
 						mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);
@@ -1528,7 +1547,7 @@ public class PlayersDaoImpl implements PlayersDao {
 
 				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() + salaire);
 				mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() - salaire);
-				
+
 				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() + 1);
 				mBeanEquipe.setNb_attaquant(mBeanEquipe.getNb_attaquant() + 1);
 				mBeanEquipe.setManquant_att(mBeanEquipe.getManquant_att() - 1);
@@ -1546,7 +1565,7 @@ public class PlayersDaoImpl implements PlayersDao {
 				}
 
 				if (mBeanPool.getCycleAnnuel() == 3) {
-					if (contrat.equalsIgnoreCase("JA")|| contrat.equalsIgnoreCase("B")) {
+					if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("B")) {
 						// rien
 					} else {
 						mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() + 1);
@@ -1554,7 +1573,8 @@ public class PlayersDaoImpl implements PlayersDao {
 				} else if (mBeanPool.getCycleAnnuel() == 11) {
 					mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() + 1);
 				} else {
-					if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("B")|| contrat.equalsIgnoreCase("X")|| contrat.equalsIgnoreCase("A")) {
+					if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("B") || contrat.equalsIgnoreCase("X")
+							|| contrat.equalsIgnoreCase("A")) {
 						// rien
 					} else {
 						mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() + 1);
@@ -1598,7 +1618,7 @@ public class PlayersDaoImpl implements PlayersDao {
 				}
 
 				if (mBeanPool.getCycleAnnuel() == 3) {
-					if (contrat.equalsIgnoreCase("JA")|| contrat.equalsIgnoreCase("B")) {
+					if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("B")) {
 						// rien
 					} else {
 						mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);
@@ -1606,7 +1626,8 @@ public class PlayersDaoImpl implements PlayersDao {
 				} else if (mBeanPool.getCycleAnnuel() == 11) {
 					mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);
 				} else {
-					if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("B")|| contrat.equalsIgnoreCase("X")|| contrat.equalsIgnoreCase("A")) {
+					if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("B") || contrat.equalsIgnoreCase("X")
+							|| contrat.equalsIgnoreCase("A")) {
 						// rien
 					} else {
 						mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);
@@ -1646,7 +1667,7 @@ public class PlayersDaoImpl implements PlayersDao {
 
 				}
 				if (mBeanPool.getCycleAnnuel() == 3) {
-					if (contrat.equalsIgnoreCase("JA")|| contrat.equalsIgnoreCase("B")) {
+					if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("B")) {
 						// rien
 					} else {
 						mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() + 1);
@@ -1654,7 +1675,8 @@ public class PlayersDaoImpl implements PlayersDao {
 				} else if (mBeanPool.getCycleAnnuel() == 11) {
 					mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() + 1);
 				} else {
-					if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("B")|| contrat.equalsIgnoreCase("X")|| contrat.equalsIgnoreCase("A")) {
+					if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("B") || contrat.equalsIgnoreCase("X")
+							|| contrat.equalsIgnoreCase("A")) {
 						// rien
 					} else {
 						mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() + 1);
@@ -1696,7 +1718,7 @@ public class PlayersDaoImpl implements PlayersDao {
 				}
 
 				if (mBeanPool.getCycleAnnuel() == 3) {
-					if (contrat.equalsIgnoreCase("JA")|| contrat.equalsIgnoreCase("B")) {
+					if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("B")) {
 						// rien
 					} else {
 						mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);
@@ -1704,7 +1726,8 @@ public class PlayersDaoImpl implements PlayersDao {
 				} else if (mBeanPool.getCycleAnnuel() == 11) {
 					mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);
 				} else {
-					if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("B")|| contrat.equalsIgnoreCase("X")|| contrat.equalsIgnoreCase("A")) {
+					if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("B") || contrat.equalsIgnoreCase("X")
+							|| contrat.equalsIgnoreCase("A")) {
 						// rien
 					} else {
 						mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() - 1);
@@ -1744,7 +1767,7 @@ public class PlayersDaoImpl implements PlayersDao {
 				}
 
 				if (mBeanPool.getCycleAnnuel() == 3) {
-					if (contrat.equalsIgnoreCase("JA")|| contrat.equalsIgnoreCase("B")) {
+					if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("B")) {
 						// rien
 					} else {
 						mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() + 1);
@@ -1752,7 +1775,8 @@ public class PlayersDaoImpl implements PlayersDao {
 				} else if (mBeanPool.getCycleAnnuel() == 11) {
 					mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() + 1);
 				} else {
-					if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("B")|| contrat.equalsIgnoreCase("X")|| contrat.equalsIgnoreCase("A")) {
+					if (contrat.equalsIgnoreCase("JA") || contrat.equalsIgnoreCase("B") || contrat.equalsIgnoreCase("X")
+							|| contrat.equalsIgnoreCase("A")) {
 						// rien
 					} else {
 						mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() + 1);
@@ -1793,7 +1817,6 @@ public class PlayersDaoImpl implements PlayersDao {
 			}
 
 		}
-
 
 	}
 
@@ -2121,10 +2144,21 @@ public class PlayersDaoImpl implements PlayersDao {
 	public void updateAgeForRookie(HttpServletRequest req) {
 		DateTime dt = new DateTime();
 
-		int year = dt.getYear() - 25;
-		String birthday = year + "-09-15";
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		String poolID = mBeanPool.getPoolID();
+	
+		int year = 25;
+		
+		if(poolID.equals("1")) {
+			year = dt.getYear() - 23;
+		} else if(poolID.equalsIgnoreCase("4")){
+			year = dt.getYear() - 24;
+		}
+		
+		
+		
+		String birthday = year + "-09-15";
+		
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		try {
@@ -3219,13 +3253,20 @@ public class PlayersDaoImpl implements PlayersDao {
 
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-dd");
 				Date mDate = rs.getDate("birthday");
-				
+
 				String years_3 = rs.getString("years_3");
 				String years_4 = rs.getString("years_4");
 				String years_5 = rs.getString("years_5");
 
 				DateTime dt = new DateTime();
-				int year2 = dt.getYear() - 25;
+				
+				int limiteRookie= 23;
+				if(poolId==4) {
+				 limiteRookie = 24;
+				} 
+				
+				
+				int year2 = dt.getYear() - limiteRookie;
 				String birthday2 = year2 + "-09-15";
 
 				try {
@@ -3235,7 +3276,8 @@ public class PlayersDaoImpl implements PlayersDao {
 					e.printStackTrace();
 				}
 
-				int year3 = dt.getYear() - 24;
+				 
+				int year3 = dt.getYear() - limiteRookie-1;
 				String birthday3 = year3 + "-09-15";
 				try {
 					maxDateForRookie3 = formatter.parse(birthday3);
@@ -3243,7 +3285,8 @@ public class PlayersDaoImpl implements PlayersDao {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				int year4 = dt.getYear() - 23;
+			
+				int year4 = dt.getYear() - limiteRookie-2;
 				String birthday4 = year4 + "-09-15";
 				try {
 					maxDateForRookie4 = formatter.parse(birthday4);
@@ -3251,7 +3294,7 @@ public class PlayersDaoImpl implements PlayersDao {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				int year5 = dt.getYear() - 22;
+				int year5 = dt.getYear() - limiteRookie-3;
 				String birthday5 = year5 + "-09-15";
 				try {
 					maxDateForRookie5 = formatter.parse(birthday5);
@@ -3260,19 +3303,19 @@ public class PlayersDaoImpl implements PlayersDao {
 					e.printStackTrace();
 				}
 
-				if (years_5.equalsIgnoreCase("X")) {
+				if (years_3.equalsIgnoreCase("X")) {
 
 					if (mDate.before(maxDateForRookie2)) {
-						return 52;
+						return 32;
 					}
 					if (mDate.before(maxDateForRookie3)) {
-						return 53;
+						return 33;
 					}
 					if (mDate.before(maxDateForRookie4)) {
-						return 54;
+						return 34;
 					}
 					if (mDate.before(maxDateForRookie5)) {
-						return 55;
+						return 35;
 					}
 
 				} else if (years_4.equalsIgnoreCase("X")) {
@@ -3288,18 +3331,18 @@ public class PlayersDaoImpl implements PlayersDao {
 					if (mDate.before(maxDateForRookie5)) {
 						return 45;
 					}
-				} else if (years_3.equalsIgnoreCase("X")) {
+				} else if (years_5.equalsIgnoreCase("X")) {
 					if (mDate.before(maxDateForRookie2)) {
-						return 32;
+						return 52;
 					}
 					if (mDate.before(maxDateForRookie3)) {
-						return 33;
+						return 53;
 					}
 					if (mDate.before(maxDateForRookie4)) {
-						return 34;
+						return 54;
 					}
 					if (mDate.before(maxDateForRookie5)) {
-						return 35;
+						return 55;
 					}
 				} else {
 
@@ -3611,17 +3654,18 @@ public class PlayersDaoImpl implements PlayersDao {
 	}
 
 	@Override
-	public void addPlayersFromSportFeed(ArrayList<Integer> id, ArrayList<String> nom, ArrayList<String> abbreviation) throws DAOException {
+	public void addPlayersFromSportFeed(ArrayList<Integer> id, ArrayList<String> nom, ArrayList<String> abbreviation)
+			throws DAOException {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		try {
 			connexion = daoFactory.getConnection();
-			
+
 			for (int i = 0; i < id.size(); i++) {
-			preparedStatement = initialisationRequetePreparee(connexion, ADD_PLAYERS_FROM_SPORT_FEED, false,
-					id.get(i), nom.get(i), abbreviation.get(i));
-			preparedStatement.executeUpdate();
-			
+				preparedStatement = initialisationRequetePreparee(connexion, ADD_PLAYERS_FROM_SPORT_FEED, false,
+						id.get(i), nom.get(i), abbreviation.get(i));
+				preparedStatement.executeUpdate();
+
 			}
 
 		} catch (SQLException e) {
@@ -3629,7 +3673,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		} finally {
 			fermeturesSilencieuses(preparedStatement, connexion);
 		}
-		
+
 	}
 
 	@Override
@@ -3640,12 +3684,11 @@ public class PlayersDaoImpl implements PlayersDao {
 		int lastId = 0;
 		try {
 			connexion = daoFactory.getConnection();
-			
-			
+
 			preparedStatement = initialisationRequetePreparee(connexion, GET_LAST_ID_FROM_API, false);
 			rs = preparedStatement.executeQuery();
 			while (rs.next()) {
-			lastId = rs.getInt(1);
+				lastId = rs.getInt(1);
 			}
 
 		} catch (SQLException e) {
@@ -3653,9 +3696,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		} finally {
 			fermeturesSilencieuses(preparedStatement, connexion);
 		}
-		
-		
-		
+
 		return lastId;
 	}
 
@@ -3665,19 +3706,16 @@ public class PlayersDaoImpl implements PlayersDao {
 		PreparedStatement preparedStatement = null;
 		try {
 			connexion = daoFactory.getConnection();
-			
-			
+
 			preparedStatement = initialisationRequetePreparee(connexion, TRUNCATE_PLAYERS_FROM_NHL_API, false);
 			preparedStatement.executeUpdate();
-			
-		
 
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
 			fermeturesSilencieuses(preparedStatement, connexion);
 		}
-		
+
 	}
 
 	@Override
@@ -3686,24 +3724,21 @@ public class PlayersDaoImpl implements PlayersDao {
 		PreparedStatement preparedStatement = null;
 		try {
 			connexion = daoFactory.getConnection();
-			
-			
+
 			preparedStatement = initialisationRequetePreparee(connexion, TRUNCATE_PLAYERS_TEMPLATE, false);
 			preparedStatement.executeUpdate();
-			
-		
 
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
 			fermeturesSilencieuses(preparedStatement, connexion);
 		}
-		
+
 	}
 
 	@Override
 	public void addPlayersFromApiToPlayersTemplate() throws DAOException {
-		
+
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		try {
@@ -3716,37 +3751,34 @@ public class PlayersDaoImpl implements PlayersDao {
 		} finally {
 			fermeturesSilencieuses(preparedStatement, connexion);
 		}
-		
+
 	}
 
 	@Override
 	public NonSessionPlayers getAllPlayersID() throws DAOException {
-		
+
 		NonSessionPlayers mBeanPlayersId = new NonSessionPlayers();
-		
+
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		List<Integer> playersIdList = new ArrayList<Integer>();
 		try {
 			connexion = daoFactory.getConnection();
-			
-			
+
 			preparedStatement = initialisationRequetePreparee(connexion, GET_ALL_PLAYERS_ID, false);
 			rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				playersIdList.add(rs.getInt(1));
 			}
 			mBeanPlayersId.setPlayers_id(playersIdList);
-			
+
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
 			fermeturesSilencieuses(preparedStatement, connexion);
 		}
-		
-		
-		
+
 		return mBeanPlayersId;
 	}
 
@@ -3756,28 +3788,390 @@ public class PlayersDaoImpl implements PlayersDao {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		String position = "NO";
-		
-		switch(positionAbbreviation) {
-		
-		case "C": position = "attaquant";
-		break;
-		case "RW": position = "attaquant";
-		break;
-		case "LW": position = "attaquant";
-		break;
-		case "D": position = "defenseur";
-		break;
-		case "G": position = "gardien";
-		break;
-		
-		default : position="NO";
-		
+
+		switch (positionAbbreviation) {
+
+		case "C":
+			position = "attaquant";
+			break;
+		case "RW":
+			position = "attaquant";
+			break;
+		case "LW":
+			position = "attaquant";
+			break;
+		case "D":
+			position = "defenseur";
+			break;
+		case "G":
+			position = "gardien";
+			break;
+
+		default:
+			position = "NO";
+
 		}
-		 
-		
+
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_BIRTHDAY_FROM_API, false,birthDate,position,playerId);
+			preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_BIRTHDAY_FROM_API, false,
+					birthDate, position, playerId);
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+
+	}
+
+	@Override
+	public void updateStatsFromNHLAPI(int playerId, String games, String assists, String goals, String points,
+			String wins, String shutouts, String ot) throws DAOException {
+
+		int pj;
+		int passe;
+		int but;
+		int pts;
+		int victoire;
+		int blanc;
+		int overtime;
+		if (games != null && !games.isEmpty()) {
+
+			pj = Integer.parseInt(games);
+		} else {
+			pj = 0;
+		}
+
+		if (assists != null && !assists.isEmpty()) {
+
+			passe = Integer.parseInt(assists);
+		} else {
+			passe = 0;
+		}
+		if (goals != null && !goals.isEmpty()) {
+
+			but = Integer.parseInt(goals);
+		} else {
+			but = 0;
+		}
+
+		if (points != null && !points.isEmpty()) {
+
+			pts = Integer.parseInt(points);
+		} else {
+			pts = 0;
+		}
+
+		if (wins != null && !wins.isEmpty()) {
+
+			victoire = Integer.parseInt(wins);
+		} else {
+			victoire = 0;
+		}
+
+		if (shutouts != null && !shutouts.isEmpty()) {
+
+			blanc = Integer.parseInt(shutouts);
+		} else {
+			blanc = 0;
+		}
+
+		if (ot != null && !ot.isEmpty()) {
+
+			overtime = Integer.parseInt(ot);
+		} else {
+			overtime = 0;
+		}
+
+
+		// TODO check if goal or foward or defense, update accordingly
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+
+		if ((pj == 0)) {
+
+			try {
+				connexion = daoFactory.getConnection();
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_STATS_FROM_API_NO_GAMES,
+						false, playerId);
+				preparedStatement.executeUpdate();
+
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			} finally {
+				fermeturesSilencieuses(preparedStatement, connexion);
+			}
+
+		} else if (pts == 0 && victoire== 0 && blanc==0 && overtime==0) {
+			try {
+				connexion = daoFactory.getConnection();
+				preparedStatement = initialisationRequetePreparee(connexion,
+						UPDATE_PLAYERS_STATS_FROM_API_GAMES_NO_STATS, false, pj, playerId);
+				preparedStatement.executeUpdate();
+
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			} finally {
+				fermeturesSilencieuses(preparedStatement, connexion);
+			}
+		} else if (pts > 0) {
+			try {
+				connexion = daoFactory.getConnection();
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_STATS_FROM_API_GAMES_SKATER,
+						false, pj, but, passe, pts, playerId);
+				preparedStatement.executeUpdate();
+
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			} finally {
+				fermeturesSilencieuses(preparedStatement, connexion);
+			}
+
+		} else {
+
+			pts = (victoire * 2) + overtime + blanc;
+
+			try {
+				connexion = daoFactory.getConnection();
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_STATS_FROM_API_GAMES_GOALER,
+						false, pj, victoire, blanc, victoire, pts, playerId);
+				preparedStatement.executeUpdate();
+
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			} finally {
+				fermeturesSilencieuses(preparedStatement, connexion);
+			}
+		}
+
+	}
+
+	@Override
+	public void updateStatsFromNHLAPI2(int playerId, String games, String points, String wins, String shutouts,
+			String ot) throws DAOException {
+		
+		int pj;
+		int pts;
+		int victoire;
+		int blanc;
+		int overtime;
+		if (games != null && !games.isEmpty()) {
+
+			pj = Integer.parseInt(games);
+		} else {
+			pj = 0;
+		}
+
+		
+		if (points != null && !points.isEmpty()) {
+
+			pts = Integer.parseInt(points);
+		} else {
+			pts = 0;
+		}
+
+		if (wins != null && !wins.isEmpty()) {
+
+			victoire = Integer.parseInt(wins);
+		} else {
+			victoire = 0;
+		}
+
+		if (shutouts != null && !shutouts.isEmpty()) {
+
+			blanc = Integer.parseInt(shutouts);
+		} else {
+			blanc = 0;
+		}
+
+		if (ot != null && !ot.isEmpty()) {
+
+			overtime = Integer.parseInt(ot);
+		} else {
+			overtime = 0;
+		}
+
+
+		// TODO check if goal or foward or defense, update accordingly
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+
+		if ((pj == 0)) {
+
+			try {
+				connexion = daoFactory.getConnection();
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_STATS_FROM_API_NO_GAMES_LAST_YEAR,
+						false, playerId);
+				preparedStatement.executeUpdate();
+
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			} finally {
+				fermeturesSilencieuses(preparedStatement, connexion);
+			}
+
+		} else if (pts == 0 && victoire== 0 && blanc==0 && overtime==0) {
+			try {
+				connexion = daoFactory.getConnection();
+				preparedStatement = initialisationRequetePreparee(connexion,
+						UPDATE_PLAYERS_STATS_FROM_API_GAMES_NO_STATS_LAST_YEAR, false, pj, playerId);
+				preparedStatement.executeUpdate();
+
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			} finally {
+				fermeturesSilencieuses(preparedStatement, connexion);
+			}
+		} else if (pts > 0) {
+			try {
+				connexion = daoFactory.getConnection();
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_STATS_FROM_API_GAMES_SKATER_LAST_YEAR,
+						false, pj, pts, playerId);
+				preparedStatement.executeUpdate();
+
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			} finally {
+				fermeturesSilencieuses(preparedStatement, connexion);
+			}
+
+		} else {
+
+			pts = (victoire * 2) + overtime + blanc;
+
+			try {
+				connexion = daoFactory.getConnection();
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_STATS_FROM_API_GAMES_GOALER_LAST_YEAR,
+						false, pj, pts, playerId);
+				preparedStatement.executeUpdate();
+
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			} finally {
+				fermeturesSilencieuses(preparedStatement, connexion);
+			}
+		}
+		
+	}
+
+	@Override
+	public void updateStatsFromNHLAPI3(int playerId, String games, String points, String wins, String shutouts,
+			String ot) throws DAOException {
+		
+		int pj;
+		int pts;
+		int victoire;
+		int blanc;
+		int overtime;
+		if (games != null && !games.isEmpty()) {
+
+			pj = Integer.parseInt(games);
+		} else {
+			pj = 0;
+		}
+
+		
+		if (points != null && !points.isEmpty()) {
+
+			pts = Integer.parseInt(points);
+		} else {
+			pts = 0;
+		}
+
+		if (wins != null && !wins.isEmpty()) {
+
+			victoire = Integer.parseInt(wins);
+		} else {
+			victoire = 0;
+		}
+
+		if (shutouts != null && !shutouts.isEmpty()) {
+
+			blanc = Integer.parseInt(shutouts);
+		} else {
+			blanc = 0;
+		}
+
+		if (ot != null && !ot.isEmpty()) {
+
+			overtime = Integer.parseInt(ot);
+		} else {
+			overtime = 0;
+		}
+
+
+		// TODO check if goal or foward or defense, update accordingly
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+
+		if ((pj == 0)) {
+
+			try {
+				connexion = daoFactory.getConnection();
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_STATS_FROM_API_NO_GAMES_TWO_YEAR,
+						false, playerId);
+				preparedStatement.executeUpdate();
+
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			} finally {
+				fermeturesSilencieuses(preparedStatement, connexion);
+			}
+
+		} else if (pts == 0 && victoire== 0 && blanc==0 && overtime==0) {
+			try {
+				connexion = daoFactory.getConnection();
+				preparedStatement = initialisationRequetePreparee(connexion,
+						UPDATE_PLAYERS_STATS_FROM_API_GAMES_NO_STATS_TWO_YEAR, false, pj, playerId);
+				preparedStatement.executeUpdate();
+
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			} finally {
+				fermeturesSilencieuses(preparedStatement, connexion);
+			}
+		} else if (pts > 0) {
+			try {
+				connexion = daoFactory.getConnection();
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_STATS_FROM_API_GAMES_SKATER_TWO_YEAR,
+						false, pj, pts, playerId);
+				preparedStatement.executeUpdate();
+
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			} finally {
+				fermeturesSilencieuses(preparedStatement, connexion);
+			}
+
+		} else {
+
+			pts = (victoire * 2) + overtime + blanc;
+
+			try {
+				connexion = daoFactory.getConnection();
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_STATS_FROM_API_GAMES_GOALER_TWO_YEAR,
+						false, pj, pts, playerId);
+				preparedStatement.executeUpdate();
+
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			} finally {
+				fermeturesSilencieuses(preparedStatement, connexion);
+			}
+		}
+		
+	}
+
+	@Override
+	public void deleteOldPlayers() throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connexion = daoFactory.getConnection();
+
+			preparedStatement = initialisationRequetePreparee(connexion, DELETE_OLD_PLAYERS, false,"1986-01-01");
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -3788,6 +4182,58 @@ public class PlayersDaoImpl implements PlayersDao {
 		
 	}
 
-	
+	@Override
+	public void deletePlayersWithNoTeam(int i) throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connexion = daoFactory.getConnection();
+
+			preparedStatement = initialisationRequetePreparee(connexion, DELETE_PLAYERS_WITH_NO_TEAM, false,i);
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+	}
+
+	@Override
+	public void addPlayersNotThere(int i) throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connexion = daoFactory.getConnection();
+
+			preparedStatement = initialisationRequetePreparee(connexion, ADD_PLAYERS_NOT_THERE, false,i);
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+	}
+
+	@Override
+	public void updateStats(int i) throws DAOException {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connexion = daoFactory.getConnection();
+
+			preparedStatement = initialisationRequetePreparee(connexion, UPDATE_STATS, false,i);
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+	}
 
 }
