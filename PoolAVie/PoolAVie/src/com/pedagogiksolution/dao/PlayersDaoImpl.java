@@ -809,21 +809,31 @@ public class PlayersDaoImpl implements PlayersDao {
 
 				} else if (cycleAnnuel == 10) {
 
+					
+					
+					
+					
+					
 					int salaire = 0;
 					int salaireB = 0;
-
+					int m_salaire_draft = rs.getInt("salaire_draft");
 					if (m_years_1.equalsIgnoreCase("A")) {
-						if (m_take_proj == 0) {
+						
+						
+						salaire_draft.add(m_salaire_draft);
+						
+						/*if (m_take_proj == 0) {
 
 							salaire = salaireDao.getSalaireTable(poolId, m_position, m_pts);
 
 						} else {
 							salaire = salaireDao.getSalaireTable(poolId, m_position, m_projection);
 						}
-
+*/
 					} else {
-
-						if (m_take_proj == 0) {
+						
+						salaire_draft.add(m_salaire_draft+1000000);
+					/*	if (m_take_proj == 0) {
 							salaire = salaireDao.getSalaireTable(poolId, m_position, m_pts);
 							salaireB = m_years_0 + 1000000;
 
@@ -832,16 +842,18 @@ public class PlayersDaoImpl implements PlayersDao {
 							salaireB = m_years_0 + 1000000;
 
 						}
+						
+						*/
 
-						if (salaireB < salaire + 1000000) {
-							salaire = salaireB;
+						if (m_years_0+1000000 < m_salaire_draft+1000000) {
+							salaire_draft.add(m_years_0+1000000);
 						} else {
-							salaire = salaire + 1000000;
+							salaire_draft.add(m_salaire_draft+1000000);
 						}
 
 					}
 
-					salaire_draft.add(salaire);
+					
 
 				}
 

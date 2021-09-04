@@ -1056,11 +1056,11 @@ public class AdminModel {
 
 		playersDao.setTakeProj(poolID);
 
-		playersDao.migratePtsToLastYear(poolID);
-
-		playersDao.setSalaireForRookie(poolID, salaireDao);
+		playersDao.migratePtsToLastYear(poolID);	
 
 		playersDao.moveYearsToYearsContract(poolID);
+		
+		playersDao.setSalaireForRookie(poolID, salaireDao);
 
 		playersDao.setSalaireDraft(poolID);
 
