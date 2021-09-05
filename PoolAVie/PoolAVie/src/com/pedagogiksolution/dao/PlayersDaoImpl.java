@@ -814,8 +814,8 @@ public class PlayersDaoImpl implements PlayersDao {
 					
 					
 					
-					int salaire = 0;
-					int salaireB = 0;
+				//	int salaire = 0;
+				//	int salaireB = 0;
 					int m_salaire_draft = rs.getInt("salaire_draft");
 					if (m_years_1.equalsIgnoreCase("A")) {
 						
