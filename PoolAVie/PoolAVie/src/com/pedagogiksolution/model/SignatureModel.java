@@ -490,9 +490,9 @@ public class SignatureModel {
 			int new_budget_restant=0;
 			if (cycleAnnuel == 9 || cycleAnnuel == 12) {
 				
-				 new_budget_restant = budget_restant - total_cout_rachat;
+				 new_budget_restant = budget_restant - total_cout_rachat + salaire_annuel;
 			} else if (cycleAnnuel == 7) {
-				new_budget_restant = budget_restant - total_cout_rachat ;
+				new_budget_restant = budget_restant - total_cout_rachat + salaire_annuel;
 			}
 
 			
