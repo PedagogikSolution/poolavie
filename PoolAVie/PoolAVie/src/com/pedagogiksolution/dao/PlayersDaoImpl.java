@@ -832,7 +832,7 @@ public class PlayersDaoImpl implements PlayersDao {
 */
 					} else {
 						
-						salaire_draft.add(m_salaire_draft+1000000);
+						// salaire_draft.add(m_salaire_draft+1000000);
 					/*	if (m_take_proj == 0) {
 							salaire = salaireDao.getSalaireTable(poolId, m_position, m_pts);
 							salaireB = m_years_0 + 1000000;
@@ -844,8 +844,9 @@ public class PlayersDaoImpl implements PlayersDao {
 						}
 						
 						*/
-
-						if (m_years_0+1000000 < m_salaire_draft+1000000) {
+						int test_0 = m_years_0+1000000;
+						int m_salaire_draft_test = m_salaire_draft+1000000;
+						if (test_0 < m_salaire_draft_test) {
 							salaire_draft.add(m_years_0+1000000);
 						} else {
 							salaire_draft.add(m_salaire_draft+1000000);

@@ -921,7 +921,7 @@ public class TradeModel {
 
 		// check si moyenne restant pour draft est bonne été et draft suite a trade
 
-		if (mBeanPool.getCycleAnnuel() == 3||mBeanPool.getCycleAnnuel()==11) {
+		if (mBeanPool.getCycleAnnuel() == 3) {
 
 			if ((mBeanEquipeThatIsMakingOffer.getManquant_equipe() + nbPlayersTeamMakingOffer
 					- nbPlayersTeamReceivingOffer) == 0) {
