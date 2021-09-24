@@ -582,9 +582,16 @@ public class EquipeModel {
 		List<String> nom = new ArrayList<String>();
 		List<Long> pj = new ArrayList<Long>();
 		List<Long> pts = new ArrayList<Long>();
+		List<Long> ownerInt = new ArrayList<Long>();
 		List<String> owner = new ArrayList<String>();
 		
+		
 		for(int i=1;i<=mBeanPool.getNumberTeam();i++) {
+			
+			
+			String nomTeam = getNomDuTeam(i,mBeanPool);
+			
+			
 			jspSessionName = "Equipe" + i;
 			attaquantName = "Attaquant" + i;
 		    defenseurName = "Defenseur" + i;
@@ -599,6 +606,7 @@ public class EquipeModel {
 				nom.addAll(mBeanAttaquant.getNom());
 				pj.addAll(mBeanAttaquant.getPj());
 				pts.addAll(mBeanAttaquant.getPts());
+				ownerInt.addAll(mBeanAttaquant.getTeam_id());
 				}
 			}
 			Defenseur mBeanDefenseur = (Defenseur) req.getSession().getAttribute(defenseurName);
@@ -610,6 +618,7 @@ public class EquipeModel {
 				nom.addAll(mBeanDefenseur.getNom());
 				pj.addAll(mBeanDefenseur.getPj());
 				pts.addAll(mBeanDefenseur.getPts());
+				ownerInt.addAll(mBeanDefenseur.getTeam_id());
 				}
 			}
 			Gardien mBeanGardien = (Gardien) req.getSession().getAttribute(gardienName);	
@@ -620,6 +629,7 @@ public class EquipeModel {
 				nom.addAll(mBeanGardien.getNom());
 				pj.addAll(mBeanGardien.getPj());
 				pts.addAll(mBeanGardien.getPts());
+				ownerInt.addAll(mBeanGardien.getTeam_id());
 				}
 			}
 			Recrue mBeanRecrue = (Recrue) req.getSession().getAttribute(recrueName);
@@ -630,16 +640,18 @@ public class EquipeModel {
 				nom.addAll(mBeanRecrue.getNom());
 				pj.addAll(mBeanRecrue.getPj());
 				pts.addAll(mBeanRecrue.getPts());
+				ownerInt.addAll(mBeanRecrue.getTeam_id());
 				}
 			}
-			
-			int nb_equipe = mBeanEquipe.getNb_equipe()+mBeanEquipe.getNb_rookie();
-			
 		
 			
-			for(int j=1;j<nb_equipe+1;j++) {
-				owner.add(getNomDuTeam(i,mBeanPool));
+		
+			for(Long myInt:ownerInt) {
+				
+				owner.add(nomTeam);
+				
 			}
+		
 						
 			
 		}
@@ -647,6 +659,9 @@ public class EquipeModel {
 		mNonSessionPlayersBean.setNom(nom);
 		mNonSessionPlayersBean.setPj2(pj);
 		mNonSessionPlayersBean.setPts2(pts);
+		
+		
+		
 		mNonSessionPlayersBean.setTeamOfPlayer(owner);
 			
 		req.setAttribute("NonSessionPlayersBean", mNonSessionPlayersBean);
