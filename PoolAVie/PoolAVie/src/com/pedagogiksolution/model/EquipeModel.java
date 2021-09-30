@@ -588,10 +588,7 @@ public class EquipeModel {
 		
 		for(int i=1;i<=mBeanPool.getNumberTeam();i++) {
 			
-			
-			String nomTeam = getNomDuTeam(i,mBeanPool);
-			
-			
+		
 			jspSessionName = "Equipe" + i;
 			attaquantName = "Attaquant" + i;
 		    defenseurName = "Defenseur" + i;
@@ -644,14 +641,6 @@ public class EquipeModel {
 				}
 			}
 		
-			
-		
-			for(Long myInt:ownerInt) {
-				
-				owner.add(nomTeam);
-				
-			}
-		
 						
 			
 		}
@@ -660,7 +649,11 @@ public class EquipeModel {
 		mNonSessionPlayersBean.setPj2(pj);
 		mNonSessionPlayersBean.setPts2(pts);
 		
-		
+		for(Long myInt:ownerInt) {
+			
+			owner.add(getNomDuTeam(myInt.intValue(),mBeanPool));
+			
+		}
 		
 		mNonSessionPlayersBean.setTeamOfPlayer(owner);
 			
