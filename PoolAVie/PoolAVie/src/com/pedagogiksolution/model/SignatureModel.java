@@ -975,8 +975,7 @@ public class SignatureModel {
 			e.printStackTrace();
 		}
 
-		int moyenne_restante = ((budget_restant.intValue() - Integer.parseInt(salaire)) / (manquant_equipe.intValue())
-				+ 1);
+		int moyenne_restante = ((budget_restant.intValue() - Integer.parseInt(salaire)) / (manquant_equipe.intValue()-1));
 
 		if (moyenne_restante >= 1000000) {
 			return true;

@@ -2903,10 +2903,14 @@ public class PlayersDaoImpl implements PlayersDao {
 				String m_years_1 = rs.getString("years_1");
 				years_1.add(m_years_1);
 
-				if (m_years_1.equalsIgnoreCase("C") || m_years_1.equalsIgnoreCase("D")) {
+				if (m_years_1.equalsIgnoreCase("C")) {
 					int m_salaire_draft = rs.getInt("years_0");
 					salaire_draft.add(m_salaire_draft);
-				} else {
+				} else if (m_years_1.equalsIgnoreCase("D")) {
+					salaire_draft.add(rs.getInt("salaire_draft"));
+				}
+				else {
+				
 
 					salaire_draft.add(Integer.parseInt(m_years_1));
 				}
