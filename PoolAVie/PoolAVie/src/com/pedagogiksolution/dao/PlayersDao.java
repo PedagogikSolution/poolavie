@@ -147,7 +147,10 @@ public interface PlayersDao {
 	void addPlayersNotThere(int i) throws DAOException;
 
 	void updateStats(int i) throws DAOException;
-	
+
+	void updateTeam(int i) throws DAOException;
+
+	void updatePlayersWithNoStats() throws DAOException;
 	
 
 	

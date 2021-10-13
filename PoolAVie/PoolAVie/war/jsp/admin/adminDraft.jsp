@@ -169,7 +169,7 @@
 					</div>
 					<div class="w3-container w3-half">
 
-
+<!--  
 						<div class="w3-card-24 w3-white"
 							style="width: 80%; height: 80%; margin-left: auto; margin-right: auto">
 							<div class="w3-indigo w3-center w3-padding">
@@ -213,6 +213,7 @@
 							</form>
 							<br> <br>
 						</div>
+-->
 
 
 

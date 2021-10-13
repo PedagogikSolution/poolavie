@@ -161,11 +161,13 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String UPDATE_PLAYERS_STATS_FROM_API_GAMES_SKATER_TWO_YEAR = "UPDATE players_template SET pj_2_years_ago=?,pts_2_years_ago=? WHERE _id=?";
 	private static final String UPDATE_PLAYERS_STATS_FROM_API_GAMES_GOALER_TWO_YEAR = "UPDATE players_template SET pj_2_years_ago=?,pts_2_years_ago=? WHERE _id=?";
 	private static final String DELETE_OLD_PLAYERS = "DELETE FROM poolavie.players_template WHERE pj_2_years_ago=0 AND pj_1_years_ago=0 AND pj=0 AND birthday<?";
-	private static final String DELETE_PLAYERS_WITH_NO_TEAM = "DELETE FROM players_? WHERE team_id IS NULL";
+	private static final String DELETE_PLAYERS_WITH_NO_TEAM = "DELETE FROM players_? WHERE team_id IS NULL AND NOT EXISTS (SELECT * FROM players_template WHERE _id = players_?._id)";
 	private static final String ADD_PLAYERS_NOT_THERE = "INSERT IGNORE INTO players_?  SELECT * FROM players_template";
 	private static final String UPDATE_STATS = "UPDATE players_? a INNER JOIN players_template b ON a._id=b._id SET a.pj=b.pj, a.but_victoire=b.but_victoire,"
 			+ "a.aide_overtime=b.aide_overtime,a.pts=b.pts,a.position=b.position,a.birthday=b.birthday,a.pj_1_years_ago=b.pj_1_years_ago,a.pj_2_years_ago=b.pj_2_years_ago,"
 			+ "a.pts_1_years_ago=b.pts_1_years_ago,a.pts_2_years_ago=b.pts_2_years_ago WHERE a.team_id IS NOT NULL";
+	private static final String UPDATE_TEAM = "UPDATE players_? a INNER JOIN players_from_api b ON a._id=b._id SET a.team=b.abbreviation";
+	private static final String UPDATE_PLAYERS_STATS_TO_ZERO = "UPDATE players_template SET pj=0,but_victoire=0,aide_overtime=0,blanchissage=0,pts=0";
 
 	private DAOFactory daoFactory;
 
@@ -4206,7 +4208,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		try {
 			connexion = daoFactory.getConnection();
 
-			preparedStatement = initialisationRequetePreparee(connexion, DELETE_PLAYERS_WITH_NO_TEAM, false,i);
+			preparedStatement = initialisationRequetePreparee(connexion, DELETE_PLAYERS_WITH_NO_TEAM, false,i,i);
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -4250,6 +4252,44 @@ public class PlayersDaoImpl implements PlayersDao {
 		} finally {
 			fermeturesSilencieuses(preparedStatement, connexion);
 		}
+		
+	}
+
+	@Override
+	public void updateTeam(int i) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connexion = daoFactory.getConnection();
+
+			preparedStatement = initialisationRequetePreparee(connexion, UPDATE_TEAM, false,i);
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+	}
+
+	@Override
+	public void updatePlayersWithNoStats() {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connexion = daoFactory.getConnection();
+
+			preparedStatement = initialisationRequetePreparee(connexion, UPDATE_PLAYERS_STATS_TO_ZERO, false);
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(preparedStatement, connexion);
+		}
+		
+		
 		
 	}
 

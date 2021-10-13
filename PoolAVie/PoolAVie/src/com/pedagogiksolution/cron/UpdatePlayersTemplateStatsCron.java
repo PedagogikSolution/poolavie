@@ -46,7 +46,7 @@ public class UpdatePlayersTemplateStatsCron extends HttpServlet {
 		
 	//	String thisYearForApi = thisYear.replace("-", "");
 		
-		String thisYearForApi = "20202021";
+		String thisYearForApi = "20212022";
 		//TODO CRON JOB SEASON API
 		
 		
@@ -60,7 +60,7 @@ public class UpdatePlayersTemplateStatsCron extends HttpServlet {
 		
 		idList=mBeanPlayersId.getPlayers_id();
 		
-		
+		playersDao.updatePlayersWithNoStats();
 		
 		
 			for(int i=0;i<idList.size();i++) {

@@ -11,6 +11,49 @@
     <description>Récupère le id des teams de l'Api NHL</description>
     <schedule>1 of month 1:40</schedule>
   </cron>
+ <cron>
+    <url>/UpdatePlayersTemplateStatsCron</url>
+    <description>Récupère le id des teams de l'Api NHL</description>
+    <schedule>every day 09:00</schedule>
+  </cron>
+  
+   <cron>
+    <url>/UpdatePlayersFromEachPoolAndDailyStatsCron</url>
+    <description>Récupère le id des teams de l'Api NHL</description>
+    <schedule>every day 09:15</schedule>
+  </cron>
+    <cron>
+    <url>/ClassementCron</url>
+    <description>Récupère le id des teams de l'Api NHL</description>
+    <schedule>every day 09:30</schedule>
+  </cron>
+    <cron>
+    <url>/AttaquantCron</url>
+    <description>Récupère le id des teams de l'Api NHL</description>
+    <schedule>every day 09:35</schedule>
+  </cron>
+    <cron>
+    <url>/DefenseurCron</url>
+    <description>Récupère le id des teams de l'Api NHL</description>
+    <schedule>every day 09:40</schedule>
+  </cron>
+    <cron>
+    <url>/GardienCron</url>
+    <description>Récupère le id des teams de l'Api NHL</description>
+    <schedule>every day 09:45</schedule>
+  </cron>
+    <cron>
+    <url>/RecrueCron</url>
+    <description>Récupère le id des teams de l'Api NHL</description>
+    <schedule>every day 09:50</schedule>
+  </cron>
+     <cron>
+    <url>/DraftPlayersCron</url>
+    <description>Récupère le id des teams de l'Api NHL</description>
+    <schedule>every day 10:00</schedule>
+  </cron>
+
+
 
  
 </cronentries>
