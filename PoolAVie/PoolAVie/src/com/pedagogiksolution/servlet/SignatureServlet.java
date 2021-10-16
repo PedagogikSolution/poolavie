@@ -245,7 +245,7 @@ public class SignatureServlet extends HttpServlet {
 				
 			} else {
 				
-				req.setAttribute("messageErreurs", "Vous avez déjà 12 joueurs sous contrat");
+				req.setAttribute("messageErreurs", "Vous avez déjà 11 joueurs sous contrat");
 				req.getRequestDispatcher("jsp/signature/rookieManager.jsp").forward(req, resp);
 				
 			}
