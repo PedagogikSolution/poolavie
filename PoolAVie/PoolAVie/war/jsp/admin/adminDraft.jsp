@@ -56,13 +56,13 @@
 
 				<p>
 					<label>Date</label> <input class="w3-input w3-validate"
-						type="date" name="dateDraft" min="Date.now()">
+						type="date" name="dateDraft" min="Date.now()" required>
 				</p>
 
 				<p>
 					<label>Heure</label> <input
 						class="w3-input w3-validate" type="time"
-						name="heureDraft">
+						name="heureDraft" required>
 				</p>
 
 
@@ -85,13 +85,13 @@
 
 				<p>
 					<label>Date</label> <input class="w3-input w3-validate"
-						type="date" name="dateDraft" min="Date.now()">
+						type="date" name="dateDraft" min="Date.now()" required>
 				</p>
 
 				<p>
 					<label>Heure</label> <input
 						class="w3-input w3-validate" type="time"
-						name="heureDraft">
+						name="heureDraft" required>
 				</p>
 
 
@@ -113,13 +113,13 @@
 
 				<p>
 					<label>Date</label> <input class="w3-input w3-validate"
-						type="date" name="dateDraft" min="Date.now()">
+						type="date" name="dateDraft" min="Date.now()" required>
 				</p>
 
 				<p>
 					<label>Heure</label> <input
 						class="w3-input w3-validate" type="time"
-						name="heureDraft">
+						name="heureDraft" required>
 				</p>
 
 
@@ -149,13 +149,13 @@
 							<p>
 								<label>Date</label> <input
 									class="w3-input w3-validate" type="date"
-									name="dateDraft" min="Date.now()">
+									name="dateDraft" min="Date.now()" required>
 							</p>
 
 							<p>
 								<label>Heure</label> <input
 									class="w3-input w3-validate" type="time"
-									name="heureDraft">
+									name="heureDraft" required>
 							</p>
 
 
