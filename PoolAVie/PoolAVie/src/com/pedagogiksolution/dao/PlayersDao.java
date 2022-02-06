@@ -151,6 +151,8 @@ public interface PlayersDao {
 	void updateTeam(int i) throws DAOException;
 
 	void updatePlayersWithNoStats() throws DAOException;
+
+	int monterRookieJA(int poolId, String players_id, String salaire, PlayersDao playersDao) throws DAOException;
 	
 
 	

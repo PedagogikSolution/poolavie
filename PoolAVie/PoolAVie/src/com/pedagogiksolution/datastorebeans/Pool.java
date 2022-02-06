@@ -54,6 +54,10 @@ public class Pool implements Serializable {
 	private String thirdYear;
 	private String fourthYear;
 	private String fifthYear;
+	private String dateOpenRookies;
+	private String dateOpenWaivers;
+	private String dateCloseRookies;
+	private String dateCloseWaivers;
 
 	public String getPoolID() {
 		return poolID;
@@ -398,7 +402,41 @@ public class Pool implements Serializable {
 	public void setFifthYear(String fifthYear) {
 		this.fifthYear = fifthYear;
 	}
+	
+	public String getDateOpenRookies() {
+		return dateOpenRookies;
+	}
 
+	public void setDateOpenRookies(String dateOpenRookies) {
+		this.dateOpenRookies = dateOpenRookies;
+	}
+
+	public String getDateOpenWaivers() {
+		return dateOpenWaivers;
+	}
+
+	public void setDateOpenWaivers(String dateOpenWaivers) {
+		this.dateOpenWaivers = dateOpenWaivers;
+	}
+
+	public String getDateCloseRookies() {
+		return dateCloseRookies;
+	}
+
+	public void setDateCloseRookies(String dateCloseRookies) {
+		this.dateCloseRookies = dateCloseRookies;
+	}
+
+	public String getDateCloseWaivers() {
+		return dateCloseWaivers;
+	}
+
+	public void setDateCloseWaivers(String dateCloseWaivers) {
+		this.dateCloseWaivers = dateCloseWaivers;
+	}
+
+	
+	
 	public Pool mapPoolFromDatastore(Entity mEntity, Pool mBeanPool) {
 
 		String codeValidationPool = (String) mEntity.getProperty("codeValidationPool");
@@ -536,6 +574,20 @@ public class Pool implements Serializable {
 		Long tradeType_long = (Long) mEntity.getProperty("tradeType");
 		int tradeType = tradeType_long.intValue();
 		mBeanPool.setTradeType(tradeType);
+		
+		String dateOpenRookies = (String) mEntity.getProperty("dateOpenRookies");
+		mBeanPool.setDateOpenRookies(dateOpenRookies);
+		
+		String dateOpenWaivers = (String) mEntity.getProperty("dateOpenWaivers");
+		mBeanPool.setDateOpenWaivers(dateOpenWaivers);
+		
+		String dateCloseRookies = (String) mEntity.getProperty("dateCloseRookies");
+		mBeanPool.setDateCloseRookies(dateCloseRookies);
+		
+		String dateCloseWaivers = (String) mEntity.getProperty("dateCloseWaivers");
+		mBeanPool.setDateCloseWaivers(dateCloseWaivers);
+		
+		
 
 		return mBeanPool;
 	}
@@ -627,9 +679,22 @@ public class Pool implements Serializable {
 		mEntity.setProperty("thisYear", mBean.getThisYear());
 
 		mEntity.setProperty("tradeType", mBean.getTradeType());
+		
+		mEntity.setProperty("dateOpenRookies", mBean.getDateOpenRookies());
+		
+		mEntity.setProperty("dateOpenWaivers", mBean.getDateOpenWaivers());
+		
+		mEntity.setProperty("dateCloseRookies", mBean.getDateCloseRookies());
+		
+		mEntity.setProperty("dateCloseWaivers", mBean.getDateCloseWaivers());
+		
 
 
 		return mEntity;
 	}
+
+	
+
+	
 
 }

@@ -149,6 +149,8 @@ public class AdminPoolServlet extends HttpServlet {
 			mAdminModel.archivageFinSaison(req, classementDao, playersDao, tradeMadeDao, draftDao);
 
 			mAdminModel.changeCycleAnnuel(req, 7);
+			
+			mAdminModel.resetRookieUpThisYear(req,0);
 
 			// TODO mAdminModel.writeNewsAndEmailForWinner(req);
 

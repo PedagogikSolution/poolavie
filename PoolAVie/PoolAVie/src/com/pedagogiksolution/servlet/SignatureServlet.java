@@ -10,7 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import com.pedagogiksolution.dao.DAOFactory;
 import com.pedagogiksolution.dao.PlayersDao;
 import com.pedagogiksolution.dao.SalaireDao;
+import com.pedagogiksolution.datastorebeans.Equipe;
 import com.pedagogiksolution.datastorebeans.Pool;
+import com.pedagogiksolution.datastorebeans.Utilisateur;
+import com.pedagogiksolution.model.AdminModel;
 import com.pedagogiksolution.model.DraftPlayersModel;
 import com.pedagogiksolution.model.LoginModel;
 import com.pedagogiksolution.model.SignatureModel;
@@ -36,14 +39,14 @@ public class SignatureServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		LoginModel mModel2 = new LoginModel(req);
-	    mModel2.createSessionEquipeBean();
-	    mModel2.createSessionAttaquantBean();
-	    mModel2.createSessionDefenseurBean();
-	    mModel2.createSessionGardienBean();
-	    mModel2.createSessionRecrueBean();
-	    mModel2.createSessionDraftPickBean();
-	    mModel2.createSessionDraftRoundBean();
-	    mModel2.createSessionPoolBean();
+		mModel2.createSessionEquipeBean();
+		mModel2.createSessionAttaquantBean();
+		mModel2.createSessionDefenseurBean();
+		mModel2.createSessionGardienBean();
+		mModel2.createSessionRecrueBean();
+		mModel2.createSessionDraftPickBean();
+		mModel2.createSessionDraftRoundBean();
+		mModel2.createSessionPoolBean();
 		int fromId;
 		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
 		int cycleAnnuel = mBeanPool.getCycleAnnuel();
@@ -138,6 +141,56 @@ public class SignatureServlet extends HttpServlet {
 			req.setAttribute("cycleAnnuel", 13);
 
 		}
+//
+		// on check si waiver ou rookie in season trade phase
+		if (cycleAnnuel == 5 || cycleAnnuel == 6) {
+			AdminModel mAdminModel = new AdminModel();
+			boolean checkIfWaiver = mAdminModel.checkIfWaivertDay(mBeanPool, req);
+			if (checkIfWaiver) {
+				req.setAttribute("openWaiver", 1);
+				String segment = "all";
+				String sort = "pts";
+
+				DraftPlayersModel mModel = new DraftPlayersModel(req, segment, sort);
+
+				mModel.showPlayersSortByParameter();
+			}
+			boolean checkIfRookie = mAdminModel.checkIfRookieDay(mBeanPool, req);
+			if (checkIfRookie) {
+
+				req.getSession().removeAttribute("NonSessionPlayers");
+				req.setAttribute("openRookie", 1);
+
+				SignatureModel mModelSignature = new SignatureModel(playersDao);
+				Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+				String mBeanEquipeSessionName = "Equipe" + mBeanUser.getTeamId();
+				Equipe mBeanEquipe = (Equipe) req.getSession().getAttribute(mBeanEquipeSessionName);
+
+				boolean checkIfAlreadyUpARookie = mModelSignature.checkIfAlreadyUpARookie(mBeanEquipe, req);
+
+				if (checkIfAlreadyUpARookie) {
+
+					req.setAttribute("alreadyUpARookie", 1);
+
+				} else {
+
+					boolean canSignRookie = mModelSignature.preparationClubEcoleForInYearUp(req);
+					int canSign;
+					if (canSignRookie) {
+						canSign = 1;
+					} else {
+						canSign = 0;
+					}
+
+					req.setAttribute("canSign", canSign);
+
+				}
+
+			}
+
+			fromId = 5;
+
+		}
 
 		switch (fromId) {
 		case 1: // cycle 0 a 3 ou 5 et 6
@@ -226,32 +279,27 @@ public class SignatureServlet extends HttpServlet {
 
 		case 6: // on effectue la signature et ajuste les table bdd et datastore en conséquence
 
-		
-			
 			Boolean checkIfSignatureIsPoosible = mModel.checkIfSignatureIsPossible(req);
-			
-			if(checkIfSignatureIsPoosible) {
-				
+
+			if (checkIfSignatureIsPoosible) {
+
 				Boolean checkIfCashIsGoodToGo = mModel.checkIfCashIsGoodToGo(req);
-				
-				if(checkIfCashIsGoodToGo) {
+
+				if (checkIfCashIsGoodToGo) {
 					mModel.signatureRookie(req);
 					resp.sendRedirect("/Signature?from=4");
 				} else {
-					req.setAttribute("messageErreurs", "Vous n'avez pas le budget nécessaire pour monter ce joueur et drafter une équipe complète");
+					req.setAttribute("messageErreurs",
+							"Vous n'avez pas le budget nécessaire pour monter ce joueur et drafter une équipe complète");
 					req.getRequestDispatcher("jsp/signature/rookieManager.jsp").forward(req, resp);
 				}
-				
-				
+
 			} else {
-				
+
 				req.setAttribute("messageErreurs", "Vous avez déjà 11 joueurs sous contrat");
 				req.getRequestDispatcher("jsp/signature/rookieManager.jsp").forward(req, resp);
-				
+
 			}
-			
-			
-			
 
 			break;
 
@@ -262,9 +310,55 @@ public class SignatureServlet extends HttpServlet {
 
 			break;
 
-		
+		case 8: // on persiste les choix de priorité des waivers
+
+			String[] players_id = req.getParameterValues("players_id");
+
+			break;
+
+		case 9: // on monte la rookie
+
+			
+
+				boolean checkIfCashIsGoodToGo = mModel.checkIfCashIsGoodToUp(req);
+
+				if (checkIfCashIsGoodToGo) {
+					mModel.signatureRookieInSeasonSign(req);
+
+					mModel.updateDatastoreEquipeAlreadySignARookie(req);
+
+					resp.sendRedirect("/Equipes");
+				} else {
+					req.setAttribute("messageErreurs",
+							"Vous n'avez pas le budget nécessaire pour monter ce joueur");
+					req.getRequestDispatcher("jsp/signature/rookieManager.jsp").forward(req, resp);
+			
+				}
+			break;
+			
+		case 10: // on monte la rookie
+
+			
+			boolean checkIfCashIsGoodToGo2 = mModel.checkIfCashIsGoodToUp(req);
+
+				if (checkIfCashIsGoodToGo2) {
+					mModel.signatureRookieInSeasonJA(req);
+
+					mModel.updateDatastoreEquipeAlreadySignARookie(req);
+
+					resp.sendRedirect("/Equipes");
+				} else {
+					req.setAttribute("messageErreurs",
+							"Vous n'avez pas le budget nécessaire pour monter ce joueur");
+					req.getRequestDispatcher("jsp/signature/rookieManager.jsp").forward(req, resp);
+				}
+
+			
+
+			break;
 
 		}
+		
 
 	}
 

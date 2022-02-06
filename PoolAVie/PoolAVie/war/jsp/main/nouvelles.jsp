@@ -66,6 +66,21 @@
 
 		</c:if>
 		
+		<c:if test="${openWaiver==1}">
+
+			<div class="w3-container w3-section w3-red">
+
+				<span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+				<h3>Période des waivers</h3>
+				<p>Vous pouvez allez dans la section signature afin d'effectué votre priorité pour le draft waiver de saison</p>
+				<p>
+					<a href="/Signature"> Cliquez ici pour aller directement pour vous y rendre immédiatement</a>
+				</p>
+
+			</div>
+
+		</c:if>
+		
 
 
 

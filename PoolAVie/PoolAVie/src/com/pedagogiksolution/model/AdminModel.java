@@ -636,7 +636,6 @@ public class AdminModel {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Key mKey = KeyFactory.createKey("Pool", poolID);
 
-		
 		try {
 			Entity mEntity = datastore.get(mKey);
 			Long cycleAnnuel = Long.valueOf(5);
@@ -1057,10 +1056,10 @@ public class AdminModel {
 
 		playersDao.setTakeProj(poolID);
 
-		playersDao.migratePtsToLastYear(poolID);	
+		playersDao.migratePtsToLastYear(poolID);
 
 		playersDao.moveYearsToYearsContract(poolID);
-		
+
 		playersDao.setSalaireForRookie(poolID, salaireDao);
 
 		playersDao.setSalaireDraft(poolID);
@@ -1313,6 +1312,47 @@ public class AdminModel {
 
 	}
 
+	public void setupWaiverDate(String poolID, HttpServletRequest req) {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		String dateOpenWaivers = req.getParameter("dateOpenWaivers");
+		String dateCloseWaivers = req.getParameter("dateCloseWaivers");
+		Key mKey = KeyFactory.createKey("Pool", poolID);
+
+		try {
+			Entity mEntity = datastore.get(mKey);
+
+			mEntity.setProperty("dateOpenWaivers", dateOpenWaivers);
+			mEntity.setProperty("dateCloseWaivers", dateCloseWaivers);
+
+			datastore.put(mEntity);
+
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public void setupRookieDate(String poolID, HttpServletRequest req) {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		String dateOpenRookies = req.getParameter("dateOpenRookies");
+		String dateCloseRookies = req.getParameter("dateCloseRookies");
+		Key mKey = KeyFactory.createKey("Pool", poolID);
+
+		try {
+			Entity mEntity = datastore.get(mKey);
+
+			mEntity.setProperty("dateOpenRookies", dateOpenRookies);
+			mEntity.setProperty("dateCloseRookies", dateCloseRookies);
+
+			datastore.put(mEntity);
+
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	/*****************************************************
 	 * private method
 	 ******************************************/
@@ -1360,6 +1400,52 @@ public class AdminModel {
 		}
 
 		return nomPropertyTeamName;
+	}
+
+	public boolean checkIfWaivertDay(Pool mBeanPool, HttpServletRequest req) {
+		// on verifie si c'est la date du draft, si oui, on met le cycle annuel a 3
+		String dateOpenWaivers = mBeanPool.getDateOpenWaivers();
+		String dateCloseWaivers = mBeanPool.getDateCloseWaivers();
+		
+		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+		DateTime dtOpen = formatter.parseDateTime(dateOpenWaivers);
+		DateTime dtClose = formatter.parseDateTime(dateCloseWaivers);
+		DateTime now = DateTime.now();
+
+		if (now.isAfter(dtOpen) && now.isBefore(dtClose)) {
+
+			return true;
+
+		} else {
+			return false;
+		}
+		
+	}
+
+	public boolean checkIfRookieDay(Pool mBeanPool, HttpServletRequest req) {
+		// on verifie si c'est la date du draft, si oui, on met le cycle annuel a 3
+				String dateOpenRookies = mBeanPool.getDateOpenRookies();
+				String dateCloseRookies = mBeanPool.getDateCloseRookies();
+				
+				DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+				DateTime dtOpen = formatter.parseDateTime(dateOpenRookies);
+				DateTime dtClose = formatter.parseDateTime(dateCloseRookies);
+				DateTime now = DateTime.now();
+
+				if (now.isAfter(dtOpen) && now.isBefore(dtClose)) {
+
+					return true;
+
+				} else {
+					return false;
+				}
+	}
+
+	public void resetRookieUpThisYear(HttpServletRequest req, int i) {
+		
+		
+//TODO remettre les valeurs a 0 pour tout les teams
+		
 	}
 
 }

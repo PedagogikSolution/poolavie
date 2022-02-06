@@ -36,6 +36,7 @@ public class Equipe implements Serializable {
 	private int num_champion;
 	private int meilleur_classement;
 	private int classement_last_year;
+	private int rookieUpThisYear;
 
 	public String getPoolTeamId() {
 		return poolTeamId;
@@ -237,6 +238,14 @@ public class Equipe implements Serializable {
 		this.classement_last_year = classement_last_year;
 	}
 
+	public int getRookieUpThisYear() {
+		return rookieUpThisYear;
+	}
+
+	public void setRookieUpThisYear(int rookieUpThisYear) {
+		this.rookieUpThisYear = rookieUpThisYear;
+	}
+	
 	public Equipe mapEquipeFromDatastore(Entity mEntity, Equipe mBeanEquipe) {
 		
 		Long argent_recu_long = (Long) mEntity.getProperty("argent_recu");
@@ -314,6 +323,13 @@ public class Equipe implements Serializable {
 		Long total_salaire_now_long = (Long) mEntity.getProperty("total_salaire_now");
 		int total_salaire_now = total_salaire_now_long.intValue();
 		mBeanEquipe.setTotal_salaire_now(total_salaire_now);
+		
+		Long rookieUpThisYear_long = (Long) mEntity.getProperty("rookieUpThisYear");
+		if(rookieUpThisYear_long==null) {
+			rookieUpThisYear_long=(long) 0;
+		}
+		int rookieUpThisYear = rookieUpThisYear_long.intValue();
+		mBeanEquipe.setArgent_recu(rookieUpThisYear);
 
 		return mBeanEquipe;
 	}
@@ -360,7 +376,11 @@ public class Equipe implements Serializable {
 
 		mEntity.setProperty("total_salaire_now", mBean.getTotal_salaire_now());
 		
+		mEntity.setProperty("rookieUpThisYear", mBean.getRookieUpThisYear());
+		
 		return mEntity;
 	}
+
+	
 
 }

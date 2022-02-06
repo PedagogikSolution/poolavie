@@ -165,10 +165,11 @@ public class PlayersDaoImpl implements PlayersDao {
 	private static final String ADD_PLAYERS_NOT_THERE = "INSERT IGNORE INTO players_?  SELECT * FROM players_template";
 	private static final String UPDATE_STATS = "UPDATE players_? a INNER JOIN players_template b ON a._id=b._id SET a.pj=b.pj, a.but_victoire=b.but_victoire,"
 			+ "a.aide_overtime=b.aide_overtime,a.pts=b.pts,a.position=b.position,a.birthday=b.birthday,a.pj_1_years_ago=b.pj_1_years_ago,a.pj_2_years_ago=b.pj_2_years_ago,"
-			+ "a.pts_1_years_ago=b.pts_1_years_ago,a.pts_2_years_ago=b.pts_2_years_ago WHERE a.team_id IS NOT NULL";
+			+ "a.pts_1_years_ago=b.pts_1_years_ago,a.pts_2_years_ago=b.pts_2_years_ago";
 	private static final String UPDATE_TEAM = "UPDATE players_? a INNER JOIN players_from_api b ON a._id=b._id SET a.team=b.abbreviation";
 	private static final String UPDATE_PLAYERS_STATS_TO_ZERO = "UPDATE players_template SET pj=0,but_victoire=0,aide_overtime=0,blanchissage=0,pts=0";
-
+	private static final String MONTER_ROOKIE_JA = "UPDATE players_? SET club_ecole=0,contrat=1,years_1='JA' WHERE _id=?";
+	
 	private DAOFactory daoFactory;
 
 	PlayersDaoImpl(DAOFactory daoFactory) {
@@ -4291,6 +4292,30 @@ public class PlayersDaoImpl implements PlayersDao {
 		
 		
 		
+	}
+
+	@Override
+	public int monterRookieJA(int poolId, String players_id, String salaire, PlayersDao playersDao)
+			throws DAOException {
+		
+			Connection connexion = null;
+			PreparedStatement preparedStatement = null;
+
+		
+
+			try {
+				connexion = daoFactory.getConnection();
+
+				preparedStatement = initialisationRequetePreparee(connexion, MONTER_ROOKIE_JA, false, poolId,players_id);
+				preparedStatement.execute();
+
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			} finally {
+				fermeturesSilencieuses(preparedStatement, connexion);
+			}
+
+			return Integer.parseInt(salaire);
 	}
 
 }

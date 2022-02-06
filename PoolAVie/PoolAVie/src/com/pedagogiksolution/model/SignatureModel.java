@@ -985,4 +985,303 @@ public class SignatureModel {
 
 	}
 
+	public boolean checkIfAlreadyUpARookie(Equipe mBeanEquipe, HttpServletRequest req) {
+		
+		if(mBeanEquipe.getRookieUpThisYear()>=1) {
+			
+			return true;
+			
+		} else {
+			
+			return false;
+			
+		}
+		
+		
+		
+	}
+
+	public boolean preparationClubEcoleForInYearUp(HttpServletRequest req) {
+		
+		
+		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+		int teamId = mBeanUser.getTeamId();
+		int poolId = mBeanUser.getPoolId();
+		String teamIdName = "Equipe"+teamId;
+		Equipe mBeanEquipe = (Equipe) req.getSession().getAttribute(teamIdName);
+		
+
+		playersDao.getRookieInClubEcole(teamId, poolId, req);
+
+		if(mBeanEquipe.getNb_contrat()<11) {
+			return true;
+		} else {
+		
+		return false;
+		}
+		
+	}
+
+	public void updateDatastoreEquipeAlreadySignARookie(HttpServletRequest req) {
+		
+		
+		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+		int poolId = mBeanUser.getPoolId();
+		int team_id = mBeanUser.getTeamId();
+
+		String nomClef = poolId + "_" + team_id;
+
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Key mKey = KeyFactory.createKey("Equipe", nomClef);
+
+		try {
+			Entity mEntity = datastore.get(mKey);
+
+			Equipe mBeanEquipe = new Equipe();
+			mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(mEntity, mBeanEquipe);
+
+			
+
+			
+				mBeanEquipe.setRookieUpThisYear(1);
+			
+
+			mEntity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomClef);
+
+			datastore.put(mEntity);
+
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	public Boolean checkIfCashIsGoodToUp(HttpServletRequest req) {
+		Long argent_recu = null;
+		Long budget_restant = null;
+		String salaire = req.getParameter("salaire");
+		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+		int teamId = mBeanUser.getTeamId();
+
+		Pool mBeanPool = (Pool) req.getSession().getAttribute("Pool");
+		String poolID = mBeanPool.getPoolID();
+
+		String nomClef = poolID + "_" + teamId;
+
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Key mKey = KeyFactory.createKey("Equipe", nomClef);
+
+		Entity mEntity;
+		try {
+			mEntity = datastore.get(mKey);
+			budget_restant = (Long) mEntity.getProperty("budget_restant");
+			argent_recu = (Long) mEntity.getProperty("argent_recu");
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		int budget_total_after_up = ((budget_restant.intValue() - Integer.parseInt(salaire)) + argent_recu.intValue());
+
+		if (budget_total_after_up >= 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public void signatureRookieInSeasonSign(HttpServletRequest req) {
+		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+		int poolId = mBeanUser.getPoolId();
+		int team_id = mBeanUser.getTeamId();
+
+		String players_id = (String) req.getParameter("draft_player_id");
+		String position = (String) req.getParameter("position");
+		String nombreAnneeSignature = (String) req.getParameter("nombreAnneeSignature");
+		int numberOfYearSign = Integer.parseInt(nombreAnneeSignature);
+		String salaire = (String) req.getParameter("salaire");
+		String years_1 = req.getParameter("years_1");
+		String years_2 = req.getParameter("years_2");
+		String years_3 = req.getParameter("years_3");
+		String years_4 = req.getParameter("years_4");
+		String years_5 = req.getParameter("years_5");
+
+		// on ajuste la bdd players
+		int salaireInt = playersDao.monterRookie(poolId, players_id, numberOfYearSign, salaire, playersDao,years_1,years_2,years_3,years_4,years_5);
+
+		// on ajuste le datastore Recrue
+		PlayersCronModel mModel = new PlayersCronModel(playersDao);
+
+		int numberOfTeam = mModel.getNumberOfTeamByPool(poolId);
+
+		switch (position) {
+		case "attaquant":
+			mModel.putDatabaseInDatastore(poolId, numberOfTeam, position, 0, "3");
+			mModel.putDatabaseInDatastore(poolId, numberOfTeam, position, 1, "6");
+
+			break;
+		case "defenseur":
+			mModel.putDatabaseInDatastore(poolId, numberOfTeam, position, 0, "4");
+			mModel.putDatabaseInDatastore(poolId, numberOfTeam, position, 1, "6");
+
+			break;
+		case "gardien":
+			mModel.putDatabaseInDatastore(poolId, numberOfTeam, position, 0, "5");
+			mModel.putDatabaseInDatastore(poolId, numberOfTeam, position, 1, "6");
+
+			break;
+
+		}
+
+		// on ajuste les stats du datastore Equipe
+
+		String nomClef = poolId + "_" + team_id;
+
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Key mKey = KeyFactory.createKey("Equipe", nomClef);
+
+		try {
+			Entity mEntity = datastore.get(mKey);
+
+			Equipe mBeanEquipe = new Equipe();
+			mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(mEntity, mBeanEquipe);
+
+			if(years_1.equalsIgnoreCase("C")) {
+				
+			} else {
+			mBeanEquipe.setManquant_recrue(mBeanEquipe.getManquant_recrue() + 1);
+			mBeanEquipe.setNb_rookie(mBeanEquipe.getNb_rookie() - 1);
+			}
+
+			mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() + 1);
+
+			mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe() - 1);
+			mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() + 1);
+
+			switch (position) {
+			case "attaquant":
+				mBeanEquipe.setNb_attaquant(mBeanEquipe.getNb_attaquant() + 1);
+				mBeanEquipe.setManquant_att(mBeanEquipe.getManquant_att() - 1);
+
+				break;
+			case "defenseur":
+				mBeanEquipe.setNb_defenseur(mBeanEquipe.getNb_defenseur() + 1);
+				mBeanEquipe.setManquant_def(mBeanEquipe.getManquant_def() - 1);
+				break;
+			case "gardien":
+				mBeanEquipe.setNb_gardien(mBeanEquipe.getNb_gardien() + 1);
+				mBeanEquipe.setManquant_gardien(mBeanEquipe.getManquant_gardien() - 1);
+
+				break;
+
+			}
+
+			mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() - salaireInt);
+			mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() + salaireInt);
+
+			mBeanEquipe
+					.setMoy_sal_restant_draft((mBeanEquipe.getBudget_restant()) / (mBeanEquipe.getManquant_equipe()));
+
+			mEntity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomClef);
+
+			datastore.put(mEntity);
+
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+	}
+
+	public void signatureRookieInSeasonJA(HttpServletRequest req) {
+		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
+		int poolId = mBeanUser.getPoolId();
+		int team_id = mBeanUser.getTeamId();
+
+		String players_id = (String) req.getParameter("draft_player_id");
+		String position = (String) req.getParameter("position");
+		String salaire = (String) req.getParameter("salaire");
+
+		// on ajuste la bdd players
+		int salaireInt = playersDao.monterRookieJA(poolId, players_id, salaire, playersDao);
+
+		// on ajuste le datastore Recrue
+		PlayersCronModel mModel = new PlayersCronModel(playersDao);
+
+		int numberOfTeam = mModel.getNumberOfTeamByPool(poolId);
+
+		switch (position) {
+		case "attaquant":
+			mModel.putDatabaseInDatastore(poolId, numberOfTeam, position, 0, "3");
+			mModel.putDatabaseInDatastore(poolId, numberOfTeam, position, 1, "6");
+
+			break;
+		case "defenseur":
+			mModel.putDatabaseInDatastore(poolId, numberOfTeam, position, 0, "4");
+			mModel.putDatabaseInDatastore(poolId, numberOfTeam, position, 1, "6");
+
+			break;
+		case "gardien":
+			mModel.putDatabaseInDatastore(poolId, numberOfTeam, position, 0, "5");
+			mModel.putDatabaseInDatastore(poolId, numberOfTeam, position, 1, "6");
+
+			break;
+
+		}
+
+		// on ajuste les stats du datastore Equipe
+
+		String nomClef = poolId + "_" + team_id;
+
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Key mKey = KeyFactory.createKey("Equipe", nomClef);
+
+		try {
+			Entity mEntity = datastore.get(mKey);
+
+			Equipe mBeanEquipe = new Equipe();
+			mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(mEntity, mBeanEquipe);
+
+			mBeanEquipe.setManquant_recrue(mBeanEquipe.getManquant_recrue() + 1);
+			mBeanEquipe.setNb_rookie(mBeanEquipe.getNb_rookie() - 1);
+
+			mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe() - 1);
+			mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() + 1);
+
+			switch (position) {
+			case "attaquant":
+				mBeanEquipe.setNb_attaquant(mBeanEquipe.getNb_attaquant() + 1);
+				mBeanEquipe.setManquant_att(mBeanEquipe.getManquant_att() - 1);
+
+				break;
+			case "defenseur":
+				mBeanEquipe.setNb_defenseur(mBeanEquipe.getNb_defenseur() + 1);
+				mBeanEquipe.setManquant_def(mBeanEquipe.getManquant_def() - 1);
+				break;
+			case "gardien":
+				mBeanEquipe.setNb_gardien(mBeanEquipe.getNb_gardien() + 1);
+				mBeanEquipe.setManquant_gardien(mBeanEquipe.getManquant_gardien() - 1);
+
+				break;
+
+			}
+
+			mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() - salaireInt);
+			mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() + salaireInt);
+
+			
+
+			mEntity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomClef);
+
+			datastore.put(mEntity);
+
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
 }

@@ -93,6 +93,14 @@ public class NouvellesServlet extends HttpServlet {
 				
 
 			}
+			// on check si waiver ou rookie in season trade phase
+			if (cycleAnnuel == 5||cycleAnnuel == 6) {
+				AdminModel mAdminModel = new AdminModel();
+				boolean checkIfWaiver = mAdminModel.checkIfWaivertDay(mBeanPool, req);
+				if(checkIfWaiver) {
+					req.setAttribute("openWaiver", 1);
+				}
+			}
 			req.getRequestDispatcher("jsp/main/nouvelles.jsp").forward(req, resp);
 		}
 

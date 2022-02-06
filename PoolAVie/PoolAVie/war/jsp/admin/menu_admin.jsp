@@ -10,7 +10,7 @@
 
 		<li class="w3-xlarge"><a href="/AdminTrade">TRADE SETUP</a></li>
 
-		<li class="w3-xlarge"><a href="/AdminSignature">SIGNATURE SETUP</a></li>
+		<li class="w3-xlarge"><a href="/AdminSignature">SEASON SETUP</a></li>
 
 	</ul>
 
