@@ -143,9 +143,9 @@ public class SignatureServlet extends HttpServlet {
 		}
 //
 		// on check si waiver ou rookie in season trade phase
-		if (cycleAnnuel == 5 || cycleAnnuel == 6) {
+	/*	if (cycleAnnuel == 5 || cycleAnnuel == 6) {
 			AdminModel mAdminModel = new AdminModel();
-			boolean checkIfWaiver = mAdminModel.checkIfWaivertDay(mBeanPool, req);
+		//	boolean checkIfWaiver = mAdminModel.checkIfWaivertDay(mBeanPool, req);
 			if (checkIfWaiver) {
 				req.setAttribute("openWaiver", 1);
 				String segment = "all";
@@ -155,7 +155,7 @@ public class SignatureServlet extends HttpServlet {
 
 				mModel.showPlayersSortByParameter();
 			}
-			boolean checkIfRookie = mAdminModel.checkIfRookieDay(mBeanPool, req);
+			// boolean checkIfRookie = mAdminModel.checkIfRookieDay(mBeanPool, req);
 			if (checkIfRookie) {
 
 				req.getSession().removeAttribute("NonSessionPlayers");
@@ -191,6 +191,7 @@ public class SignatureServlet extends HttpServlet {
 			fromId = 5;
 
 		}
+		*/
 
 		switch (fromId) {
 		case 1: // cycle 0 a 3 ou 5 et 6
@@ -327,7 +328,7 @@ public class SignatureServlet extends HttpServlet {
 
 					mModel.updateDatastoreEquipeAlreadySignARookie(req);
 
-					resp.sendRedirect("/Equipes");
+					resp.sendRedirect("/Signature?from=5");
 				} else {
 					req.setAttribute("messageErreurs",
 							"Vous n'avez pas le budget nécessaire pour monter ce joueur");
@@ -346,7 +347,7 @@ public class SignatureServlet extends HttpServlet {
 
 					mModel.updateDatastoreEquipeAlreadySignARookie(req);
 
-					resp.sendRedirect("/Equipes");
+					resp.sendRedirect("/Signature?from=5");
 				} else {
 					req.setAttribute("messageErreurs",
 							"Vous n'avez pas le budget nécessaire pour monter ce joueur");

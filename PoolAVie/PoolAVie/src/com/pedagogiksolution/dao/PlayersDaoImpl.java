@@ -168,7 +168,7 @@ public class PlayersDaoImpl implements PlayersDao {
 			+ "a.pts_1_years_ago=b.pts_1_years_ago,a.pts_2_years_ago=b.pts_2_years_ago";
 	private static final String UPDATE_TEAM = "UPDATE players_? a INNER JOIN players_from_api b ON a._id=b._id SET a.team=b.abbreviation";
 	private static final String UPDATE_PLAYERS_STATS_TO_ZERO = "UPDATE players_template SET pj=0,but_victoire=0,aide_overtime=0,blanchissage=0,pts=0";
-	private static final String MONTER_ROOKIE_JA = "UPDATE players_? SET club_ecole=0,contrat=1,years_1='JA' WHERE _id=?";
+	private static final String MONTER_ROOKIE_JA = "UPDATE players_? SET club_ecole=0,contrat=1,years_1='JA',years_2='X',years_3='X',years_4='X',years_5='X' WHERE _id=?";
 	
 	private DAOFactory daoFactory;
 

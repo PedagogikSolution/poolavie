@@ -190,7 +190,7 @@ public class SignatureModel {
 				mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(equipeEntity, mBeanEquipe);
 
 				mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() + 1);
-				
+
 				if (cycleAnnuel == 10) {
 					mBeanEquipe.setNb_attaquant(mBeanEquipe.getNb_attaquant() + 1);
 					mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() + 1);
@@ -487,15 +487,13 @@ public class SignatureModel {
 
 			int budget_restant = mBeanEquipe.getBudget_restant();
 			int cycleAnnuel = mBeanPool.getCycleAnnuel();
-			int new_budget_restant=0;
+			int new_budget_restant = 0;
 			if (cycleAnnuel == 9 || cycleAnnuel == 12) {
-				
-				 new_budget_restant = budget_restant - total_cout_rachat + salaire_annuel;
+
+				new_budget_restant = budget_restant - total_cout_rachat + salaire_annuel;
 			} else if (cycleAnnuel == 7) {
 				new_budget_restant = budget_restant - total_cout_rachat + salaire_annuel;
 			}
-
-			
 
 			if (new_budget_restant >= 0) {
 
@@ -735,10 +733,6 @@ public class SignatureModel {
 			e.printStackTrace();
 		}
 
-		
-		
-		
-		
 		// on verifie si joueur de type C et on ajuste les salaires
 
 		int checkC = playersDao.checkIfPlayersWillHaveMoreThan25DuringContract(Integer.parseInt(poolID), playersId);
@@ -827,8 +821,6 @@ public class SignatureModel {
 			Equipe mBeanEquipe = new Equipe();
 			mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(mEntity, mBeanEquipe);
 
-			
-
 			if (years_1.equalsIgnoreCase("C")) {
 
 			} else {
@@ -864,7 +856,8 @@ public class SignatureModel {
 		String years_5 = req.getParameter("years_5");
 
 		// on ajuste la bdd players
-		int salaireInt = playersDao.monterRookie(poolId, players_id, numberOfYearSign, salaire, playersDao,years_1,years_2,years_3,years_4,years_5);
+		int salaireInt = playersDao.monterRookie(poolId, players_id, numberOfYearSign, salaire, playersDao, years_1,
+				years_2, years_3, years_4, years_5);
 
 		// on ajuste le datastore Recrue
 		PlayersCronModel mModel = new PlayersCronModel(playersDao);
@@ -903,11 +896,11 @@ public class SignatureModel {
 			Equipe mBeanEquipe = new Equipe();
 			mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(mEntity, mBeanEquipe);
 
-			if(years_1.equalsIgnoreCase("C")) {
-				
+			if (years_1.equalsIgnoreCase("C")) {
+
 			} else {
-			mBeanEquipe.setManquant_recrue(mBeanEquipe.getManquant_recrue() + 1);
-			mBeanEquipe.setNb_rookie(mBeanEquipe.getNb_rookie() - 1);
+				mBeanEquipe.setManquant_recrue(mBeanEquipe.getManquant_recrue() + 1);
+				mBeanEquipe.setNb_rookie(mBeanEquipe.getNb_rookie() - 1);
 			}
 
 			mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() + 1);
@@ -975,7 +968,8 @@ public class SignatureModel {
 			e.printStackTrace();
 		}
 
-		int moyenne_restante = ((budget_restant.intValue() - Integer.parseInt(salaire)) / (manquant_equipe.intValue()-1));
+		int moyenne_restante = ((budget_restant.intValue() - Integer.parseInt(salaire))
+				/ (manquant_equipe.intValue() - 1));
 
 		if (moyenne_restante >= 1000000) {
 			return true;
@@ -986,45 +980,40 @@ public class SignatureModel {
 	}
 
 	public boolean checkIfAlreadyUpARookie(Equipe mBeanEquipe, HttpServletRequest req) {
-		
-		if(mBeanEquipe.getRookieUpThisYear()>=1) {
-			
+
+		if (mBeanEquipe.getRookieUpThisYear() == 1) {
+
 			return true;
-			
+
 		} else {
-			
+
 			return false;
-			
+
 		}
-		
-		
-		
+
 	}
 
 	public boolean preparationClubEcoleForInYearUp(HttpServletRequest req) {
-		
-		
+
 		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 		int teamId = mBeanUser.getTeamId();
 		int poolId = mBeanUser.getPoolId();
-		String teamIdName = "Equipe"+teamId;
+		String teamIdName = "Equipe" + teamId;
 		Equipe mBeanEquipe = (Equipe) req.getSession().getAttribute(teamIdName);
-		
 
 		playersDao.getRookieInClubEcole(teamId, poolId, req);
 
-		if(mBeanEquipe.getNb_contrat()<11) {
+		if (mBeanEquipe.getNb_contrat() < 11) {
 			return true;
 		} else {
-		
-		return false;
+
+			return false;
 		}
-		
+
 	}
 
 	public void updateDatastoreEquipeAlreadySignARookie(HttpServletRequest req) {
-		
-		
+
 		Utilisateur mBeanUser = (Utilisateur) req.getSession().getAttribute("Utilisateur");
 		int poolId = mBeanUser.getPoolId();
 		int team_id = mBeanUser.getTeamId();
@@ -1040,11 +1029,7 @@ public class SignatureModel {
 			Equipe mBeanEquipe = new Equipe();
 			mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(mEntity, mBeanEquipe);
 
-			
-
-			
-				mBeanEquipe.setRookieUpThisYear(1);
-			
+			mBeanEquipe.setRookieUpThisYear(1);
 
 			mEntity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomClef);
 
@@ -1054,7 +1039,7 @@ public class SignatureModel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public Boolean checkIfCashIsGoodToUp(HttpServletRequest req) {
@@ -1108,7 +1093,8 @@ public class SignatureModel {
 		String years_5 = req.getParameter("years_5");
 
 		// on ajuste la bdd players
-		int salaireInt = playersDao.monterRookie(poolId, players_id, numberOfYearSign, salaire, playersDao,years_1,years_2,years_3,years_4,years_5);
+		int salaireInt = playersDao.monterRookie(poolId, players_id, numberOfYearSign, salaire, playersDao, years_1,
+				years_2, years_3, years_4, years_5);
 
 		// on ajuste le datastore Recrue
 		PlayersCronModel mModel = new PlayersCronModel(playersDao);
@@ -1147,11 +1133,11 @@ public class SignatureModel {
 			Equipe mBeanEquipe = new Equipe();
 			mBeanEquipe = mBeanEquipe.mapEquipeFromDatastore(mEntity, mBeanEquipe);
 
-			if(years_1.equalsIgnoreCase("C")) {
-				
+			if (years_1.equalsIgnoreCase("C")) {
+
 			} else {
-			mBeanEquipe.setManquant_recrue(mBeanEquipe.getManquant_recrue() + 1);
-			mBeanEquipe.setNb_rookie(mBeanEquipe.getNb_rookie() - 1);
+				mBeanEquipe.setManquant_recrue(mBeanEquipe.getManquant_recrue() + 1);
+				mBeanEquipe.setNb_rookie(mBeanEquipe.getNb_rookie() - 1);
 			}
 
 			mBeanEquipe.setNb_contrat(mBeanEquipe.getNb_contrat() + 1);
@@ -1177,11 +1163,22 @@ public class SignatureModel {
 
 			}
 
-			mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() - salaireInt);
-			mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() + salaireInt);
+			int budget_restant = mBeanEquipe.getBudget_restant();
 
-			mBeanEquipe
-					.setMoy_sal_restant_draft((mBeanEquipe.getBudget_restant()) / (mBeanEquipe.getManquant_equipe()));
+			if (budget_restant < salaireInt) {
+
+				mBeanEquipe.setBudget_restant(0);
+				int argent_recu_a_retirer = salaireInt - budget_restant;
+				mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu() - argent_recu_a_retirer);
+
+			} else {
+
+				mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() - salaireInt);
+				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() + salaireInt);
+
+				mBeanEquipe.setMoy_sal_restant_draft(
+						(mBeanEquipe.getBudget_restant()) / (mBeanEquipe.getManquant_equipe()));
+			}
 
 			mEntity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomClef);
 
@@ -1192,7 +1189,6 @@ public class SignatureModel {
 			e.printStackTrace();
 		}
 
-		
 	}
 
 	public void signatureRookieInSeasonJA(HttpServletRequest req) {
@@ -1268,10 +1264,22 @@ public class SignatureModel {
 
 			}
 
-			mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() - salaireInt);
-			mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() + salaireInt);
+			int budget_restant = mBeanEquipe.getBudget_restant();
 
-			
+			if (budget_restant < salaireInt) {
+
+				mBeanEquipe.setBudget_restant(0);
+				int argent_recu_a_retirer = salaireInt - budget_restant;
+				mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu() - argent_recu_a_retirer);
+
+			} else {
+
+				mBeanEquipe.setBudget_restant(mBeanEquipe.getBudget_restant() - salaireInt);
+				mBeanEquipe.setTotal_salaire_now(mBeanEquipe.getTotal_salaire_now() + salaireInt);
+
+				mBeanEquipe.setMoy_sal_restant_draft(
+						(mBeanEquipe.getBudget_restant()) / (mBeanEquipe.getManquant_equipe()));
+			}
 
 			mEntity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, nomClef);
 
@@ -1281,7 +1289,7 @@ public class SignatureModel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }

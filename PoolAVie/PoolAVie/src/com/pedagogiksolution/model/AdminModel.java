@@ -1406,10 +1406,34 @@ public class AdminModel {
 		// on verifie si c'est la date du draft, si oui, on met le cycle annuel a 3
 		String dateOpenWaivers = mBeanPool.getDateOpenWaivers();
 		String dateCloseWaivers = mBeanPool.getDateCloseWaivers();
-		
+
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-		DateTime dtOpen = formatter.parseDateTime(dateOpenWaivers);
+		if (dateOpenWaivers != null) {
+			DateTime dtOpen = formatter.parseDateTime(dateOpenWaivers);
+		}
+		if (dateCloseWaivers != null) {
 		DateTime dtClose = formatter.parseDateTime(dateCloseWaivers);
+		}
+		DateTime now = DateTime.now();
+
+	//	if (now.isAfter(dtOpen) && now.isBefore(dtClose)) {
+
+	//		return true;
+
+	//	} else {
+	//		return false;
+	//	}
+return false;
+	}
+
+	public boolean checkIfRookieDay(Pool mBeanPool, HttpServletRequest req) {
+		// on verifie si c'est la date du draft, si oui, on met le cycle annuel a 3
+		String dateOpenRookies = mBeanPool.getDateOpenRookies();
+		String dateCloseRookies = mBeanPool.getDateCloseRookies();
+
+		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+		DateTime dtOpen = formatter.parseDateTime(dateOpenRookies);
+		DateTime dtClose = formatter.parseDateTime(dateCloseRookies);
 		DateTime now = DateTime.now();
 
 		if (now.isAfter(dtOpen) && now.isBefore(dtClose)) {
@@ -1419,33 +1443,12 @@ public class AdminModel {
 		} else {
 			return false;
 		}
-		
-	}
-
-	public boolean checkIfRookieDay(Pool mBeanPool, HttpServletRequest req) {
-		// on verifie si c'est la date du draft, si oui, on met le cycle annuel a 3
-				String dateOpenRookies = mBeanPool.getDateOpenRookies();
-				String dateCloseRookies = mBeanPool.getDateCloseRookies();
-				
-				DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-				DateTime dtOpen = formatter.parseDateTime(dateOpenRookies);
-				DateTime dtClose = formatter.parseDateTime(dateCloseRookies);
-				DateTime now = DateTime.now();
-
-				if (now.isAfter(dtOpen) && now.isBefore(dtClose)) {
-
-					return true;
-
-				} else {
-					return false;
-				}
 	}
 
 	public void resetRookieUpThisYear(HttpServletRequest req, int i) {
-		
-		
+
 //TODO remettre les valeurs a 0 pour tout les teams
-		
+
 	}
 
 }

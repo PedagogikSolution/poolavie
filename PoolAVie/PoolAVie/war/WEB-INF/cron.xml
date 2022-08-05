@@ -6,6 +6,7 @@
     <description>Clean up sessions</description>
     <schedule>every 60 minutes</schedule>
   </cron>
+  <!-- 
    <cron>
     <url>/ApiTeamCron</url>
     <description>Récupère le id des teams de l'Api NHL</description>
@@ -53,7 +54,7 @@
     <schedule>every day 10:00</schedule>
   </cron>
 
-
+ -->
 
  
 </cronentries>
