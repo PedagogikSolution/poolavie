@@ -1056,7 +1056,7 @@ public class AdminModel {
 
 		playersDao.setTakeProj(poolID);
 
-		playersDao.migratePtsToLastYear(poolID);
+		// playersDao.migratePtsToLastYear(poolID);
 
 		playersDao.moveYearsToYearsContract(poolID);
 

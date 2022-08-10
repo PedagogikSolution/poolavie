@@ -53,7 +53,7 @@ public class UpdatePlayersFromEachPoolAndDailyStatsCron extends HttpServlet {
 			try {
 			    entity = datastore.get(key);
 			    Long cycleAnnuel = (Long) entity.getProperty("cycleAnnuel");
-			    if(cycleAnnuel==5||cycleAnnuel==6){
+			    if(cycleAnnuel==1||cycleAnnuel==2||cycleAnnuel==5||cycleAnnuel==6){
 			    	playersDao.updateTeam(i);
 					playersDao.deletePlayersWithNoTeam(i);
 					
