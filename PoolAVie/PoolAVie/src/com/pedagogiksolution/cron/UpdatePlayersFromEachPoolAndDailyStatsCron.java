@@ -38,7 +38,7 @@ public class UpdatePlayersFromEachPoolAndDailyStatsCron extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	// initilisation du métier
 	PlayersCronModel mModel = new PlayersCronModel(playersDao);
-	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	// DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	
 
 	int numberOfPool = mModel.getNumberOfPool();
@@ -48,23 +48,23 @@ public class UpdatePlayersFromEachPoolAndDailyStatsCron extends HttpServlet {
 	} else {
 
 	    for (int i = 1; i < (numberOfPool + 1); i++) {
-	    	Key key = KeyFactory.createKey("Pool", String.valueOf(i));
-			Entity entity;
-			try {
-			    entity = datastore.get(key);
-			    Long cycleAnnuel = (Long) entity.getProperty("cycleAnnuel");
-			    if(cycleAnnuel==1||cycleAnnuel==2||cycleAnnuel==5||cycleAnnuel==6){
+	    //	Key key = KeyFactory.createKey("Pool", String.valueOf(i));
+		//	Entity entity;
+		//	try {
+		//	    entity = datastore.get(key);
+		//	    Long cycleAnnuel = (Long) entity.getProperty("cycleAnnuel");
+			    
 			    	playersDao.updateTeam(i);
 					playersDao.deletePlayersWithNoTeam(i);
 					
 					playersDao.addPlayersNotThere(i);
 					
 					playersDao.updateStats(i);
-				}
-			} catch (EntityNotFoundException e) {
+			//	}
+			//} catch (EntityNotFoundException e) {
 			    // TODO Auto-generated catch block
-			    e.printStackTrace();
-			}   
+			//    e.printStackTrace();
+		//	}   
 	    	
 			
 	    }

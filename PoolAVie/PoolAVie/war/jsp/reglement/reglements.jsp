@@ -100,11 +100,9 @@
 
 <p>** Pour les recrues, le salaire est de 1 000 000 M sauf pour les choix de première ronde qui ont la charte suivante :</p>
 
-<p>choix 1 à 5 → 3 500 000$</p>
-<p>choix 6 à 10 → 3 000 000$</p>
-<p>choix 11 à 15 → 2 500 000$</p>
-<p>choix 16 à 20 → 2 000 000$</p>
-<p>choix 21 à 31 → 1 500 000$</p>
+<p>choix 1 à 5 → 3 000 000$</p>
+<p>choix 6 à 10 → 2 000 000$</p>
+<p>choix 11 à 300 → 1 000 000$</p>
 
 <p>3.0.0 ÉCHELLES SALARIALES/POSITIONS:</p>
 
