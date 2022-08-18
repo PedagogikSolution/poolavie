@@ -329,7 +329,7 @@ public class Equipe implements Serializable {
 			rookieUpThisYear_long=(long) 0;
 		}
 		int rookieUpThisYear = rookieUpThisYear_long.intValue();
-		mBeanEquipe.setArgent_recu(rookieUpThisYear);
+		mBeanEquipe.setRookieUpThisYear(rookieUpThisYear);
 
 		return mBeanEquipe;
 	}
