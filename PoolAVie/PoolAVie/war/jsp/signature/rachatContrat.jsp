@@ -138,9 +138,9 @@
 	<c:if test="${sessionScope.beanConfirmationRachat!=null}">
 	<div id="pickConfirmBox" class="w3-card-24 w3-display-middle w3-center" style="width: auto">
 				<div class="w3-container w3-indigo">
-					<h2>Confirmation choix de repêchage</h2>
+					<h2>Confirmation rachat de contrat</h2>
 				</div>
-	<p class="w3-xlarge"> Vous voulez racheter ${beanConfirmationRachat.nom} au coût total de ${beanConfirmationRachat.salaire_contrat} avec votre argent de l'année venant de ce terminer?</p>
+	<p class="w3-xlarge"> Vous voulez racheter ${beanConfirmationRachat.nom} au coût total de ${beanConfirmationRachat.salaire_contrat}</p>
 	
 	<form onsubmit="confirmationButtonE.disabled = true; return true;" action="/Signature" method="post">
 	<input type="hidden" name="players_id" value="${Players._id}">

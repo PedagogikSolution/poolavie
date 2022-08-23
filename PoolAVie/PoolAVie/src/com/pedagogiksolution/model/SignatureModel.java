@@ -490,9 +490,9 @@ public class SignatureModel {
 			int new_budget_restant = 0;
 			if (cycleAnnuel == 9 || cycleAnnuel == 12) {
 
-				new_budget_restant = budget_restant - total_cout_rachat + salaire_annuel;
+				new_budget_restant = budget_restant - total_cout_rachat;
 			} else if (cycleAnnuel == 7) {
-				new_budget_restant = budget_restant - total_cout_rachat + salaire_annuel;
+				new_budget_restant = budget_restant - total_cout_rachat;
 			}
 
 			if (new_budget_restant >= 0) {
@@ -533,9 +533,7 @@ public class SignatureModel {
 				mBeanEquipe.setArgent_recu(mBeanEquipe.getArgent_recu() + new_budget_restant);
 				mBeanEquipe.setNb_equipe(mBeanEquipe.getNb_equipe() - 1);
 				mBeanEquipe.setManquant_equipe(mBeanEquipe.getManquant_equipe() + 1);
-				mBeanEquipe
-						.setMoy_sal_restant_draft(mBeanEquipe.getBudget_restant() / mBeanEquipe.getManquant_equipe());
-
+				
 				switch (position) {
 
 				case "attaquant":
