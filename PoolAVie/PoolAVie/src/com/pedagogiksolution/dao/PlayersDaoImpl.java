@@ -2341,6 +2341,12 @@ public class PlayersDaoImpl implements PlayersDao {
 		} finally {
 			fermeturesSilencieuses(rs, preparedStatement, connexion);
 		}
+		
+		
+		
+		
+		
+		
 		return position;
 	}
 
@@ -3264,6 +3270,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		Date maxDateForRookie3 = null;
 		Date maxDateForRookie4 = null;
 		Date maxDateForRookie5 = null;
+		int checkIfPlayersWillHaveMoreThan25DuringContract=0;
 		try {
 			connexion = daoFactory.getConnection();
 
@@ -3274,9 +3281,7 @@ public class PlayersDaoImpl implements PlayersDao {
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-dd");
 				Date mDate = rs.getDate("birthday");
 
-				String years_3 = rs.getString("years_3");
-				String years_4 = rs.getString("years_4");
-				String years_5 = rs.getString("years_5");
+				
 
 				DateTime dt = new DateTime();
 				
@@ -3323,63 +3328,30 @@ public class PlayersDaoImpl implements PlayersDao {
 					e.printStackTrace();
 				}
 
-				if (years_3.equalsIgnoreCase("X")) {
+				
 
-					if (mDate.before(maxDateForRookie2)) {
-						return 32;
+				
+				
+					
+				
+					if (mDate.after(maxDateForRookie2)) {
+						checkIfPlayersWillHaveMoreThan25DuringContract=2;
+						break;
 					}
-					if (mDate.before(maxDateForRookie3)) {
-						return 33;
+					if (mDate.after(maxDateForRookie3)) {
+						checkIfPlayersWillHaveMoreThan25DuringContract=3;
+						break;
 					}
-					if (mDate.before(maxDateForRookie4)) {
-						return 34;
+					if (mDate.after(maxDateForRookie4)) {
+						checkIfPlayersWillHaveMoreThan25DuringContract=4;
+						break;
 					}
-					if (mDate.before(maxDateForRookie5)) {
-						return 35;
-					}
+					if (mDate.after(maxDateForRookie5)) {
+						checkIfPlayersWillHaveMoreThan25DuringContract=5;
+						break;
+					} 
 
-				} else if (years_4.equalsIgnoreCase("X")) {
-					if (mDate.before(maxDateForRookie2)) {
-						return 42;
-					}
-					if (mDate.before(maxDateForRookie3)) {
-						return 43;
-					}
-					if (mDate.before(maxDateForRookie4)) {
-						return 44;
-					}
-					if (mDate.before(maxDateForRookie5)) {
-						return 45;
-					}
-				} else if (years_5.equalsIgnoreCase("X")) {
-					if (mDate.before(maxDateForRookie2)) {
-						return 52;
-					}
-					if (mDate.before(maxDateForRookie3)) {
-						return 53;
-					}
-					if (mDate.before(maxDateForRookie4)) {
-						return 54;
-					}
-					if (mDate.before(maxDateForRookie5)) {
-						return 55;
-					}
-				} else {
-
-					if (mDate.before(maxDateForRookie2)) {
-						return 2;
-					}
-					if (mDate.before(maxDateForRookie3)) {
-						return 3;
-					}
-					if (mDate.before(maxDateForRookie4)) {
-						return 4;
-					}
-					if (mDate.before(maxDateForRookie5)) {
-						return 5;
-					}
-
-				}
+				
 
 			}
 
@@ -3388,8 +3360,9 @@ public class PlayersDaoImpl implements PlayersDao {
 		} finally {
 			fermeturesSilencieuses(preparedStatement, connexion);
 		}
+		return checkIfPlayersWillHaveMoreThan25DuringContract;
 
-		return 0;
+		
 	}
 
 	@Override
@@ -3402,6 +3375,9 @@ public class PlayersDaoImpl implements PlayersDao {
 			switch (checker) {
 
 			case 0:
+				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_0, false,
+						Integer.parseInt(poolID), "C", "C", "C", "C", playersId);
+				preparedStatement.executeUpdate();
 				break;
 			case 2:
 				preparedStatement = initialisationRequetePreparee(connexion, UPDATE_C_AFTER_RETRO_0, false,

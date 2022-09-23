@@ -782,9 +782,10 @@ public class AdminModel {
 					manquant_equipe = 22 - nb_equipe;
 				}
 
-				int bonus_malus = getBonusMalusFromFinalStanding(datastore, poolID, i);
+				
+				// int bonus_malus = getBonusMalusFromFinalStanding(datastore, poolID, i);
 
-				int max_salaire_begin = 52000000 + argent_recu + bonus_malus;
+				int max_salaire_begin = 52000000 + argent_recu; //+ bonus_malus;
 
 				int budget_restant = max_salaire_begin - total_salaire_now;
 
@@ -1271,8 +1272,8 @@ public class AdminModel {
 
 				int budget_restant = mBeanEquipe.getBudget_restant();
 
-				mBeanEquipe.setBudget_restant(budget_restant + 3000000);
-				mBeanEquipe.setMax_salaire_begin(max_salaire_begin + 3000000);
+				mBeanEquipe.setBudget_restant(budget_restant + 4000000);
+				mBeanEquipe.setMax_salaire_begin(max_salaire_begin + 4000000);
 
 				entity = mBeanEquipe.mapBeanToEntityForDatastore(mBeanEquipe, keyTeam);
 
