@@ -1239,6 +1239,7 @@ public class AdminModel {
 			return false;
 		}
 
+		// run DraftPlayersCron
 		playersDao.cronJobPlayersAvailableForDraft(Integer.parseInt(poolID));
 
 		return true;

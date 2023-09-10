@@ -585,6 +585,7 @@ public class PlayersDaoImpl implements PlayersDao {
 
 		try {
 
+			//TODO delete players_x datastore
 			connexion = daoFactory.getConnection();
 
 			preparedStatement = initialisationRequetePreparee(connexion, GET_PLAYERS_FOR_DRAFT, false,
@@ -4167,7 +4168,7 @@ public class PlayersDaoImpl implements PlayersDao {
 		try {
 			connexion = daoFactory.getConnection();
 
-			preparedStatement = initialisationRequetePreparee(connexion, DELETE_OLD_PLAYERS, false,"1986-01-01");
+			preparedStatement = initialisationRequetePreparee(connexion, DELETE_OLD_PLAYERS, false,"1987-01-01");
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {

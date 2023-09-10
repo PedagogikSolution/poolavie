@@ -655,7 +655,7 @@ public class TradeModel {
 		}
 
 		// 7.5 check si pas plus de 8 recrues lors du draft
-		if (mBeanPool.getCycleAnnuel() == 3) {
+	/*	if (mBeanPool.getCycleAnnuel() == 3) {
 			int nb_recrue_donner = mBeanEquipeThatIsMakingOffer.getNb_rookie();
 			int nb_recrue_recu = mBeanEquipeThatIsReceivingOffer.getNb_rookie();
 
@@ -673,6 +673,8 @@ public class TradeModel {
 			}
 
 		}
+		
+		*/
 
 		// 8- preparation pour checkup budget et position
 		budget_restant_make_offer = mBeanEquipeThatIsMakingOffer.getBudget_restant();
@@ -831,7 +833,7 @@ public class TradeModel {
 		}
 
 		// on verifie si max contrat 11 respecter
-		if (mBeanPool.getCycleAnnuel() == 3) {
+	/*	if (mBeanPool.getCycleAnnuel() == 3) {
 
 			if ((mBeanEquipeThatIsMakingOffer.getNb_contrat() + nbJoueurSousContratRecu
 					- nbJoueurSousContratDonne) > 11) {
@@ -847,6 +849,8 @@ public class TradeModel {
 			}
 
 		}
+		
+		*/
 
 		// check si le nombre par position va resister l'echange (min 8 attaquant, 5 def
 		// et 2 goal)
@@ -941,6 +945,8 @@ public class TradeModel {
 				}
 
 			}
+			
+			
 
 			if ((mBeanEquipeThatIsReceivingOffer.getManquant_equipe() - nbPlayersTeamMakingOffer
 					+ nbPlayersTeamReceivingOffer) == 0) {
@@ -1859,7 +1865,7 @@ public class TradeModel {
 		}
 
 		// check si pas plus que 8 rookie
-		if (mBeanPool.getCycleAnnuel() == 3) {
+	/*	if (mBeanPool.getCycleAnnuel() == 3) {
 
 			int nb_recrue_donner = mBeanEquipeThatIsMakingOffer.getNb_rookie();
 			int nb_recrue_recu = mBeanEquipeThatIsReceivingOffer.getNb_rookie();
@@ -1896,6 +1902,8 @@ public class TradeModel {
 			}
 
 		}
+		
+		*/
 
 		// check si budget pour abosrber la transaction
 		
