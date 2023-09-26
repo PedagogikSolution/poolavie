@@ -763,8 +763,23 @@ public class DraftPlayersModel {
 
 				Long temp_total_salaire_now = (Long) equipeEntity.getProperty("total_salaire_now");
 				int total_salaire_now = temp_total_salaire_now.intValue();
+				
+				Long argent_recu = (Long) equipeEntity.getProperty("argent_recu");
+				int argentRecu = argent_recu.intValue();
 
-				budget_restant = budget_restant - salaireId;
+				if(budget_restant<salaireId) {
+					
+					int argent_manquant = budget_restant - salaireId;
+					argentRecu= argentRecu+argent_manquant;
+					budget_restant=0;
+					
+				} else {
+					budget_restant = budget_restant - salaireId;
+				}
+				
+				
+				
+				
 				manquant_equipe = manquant_equipe - 1;
 				nb_equipe = nb_equipe + 1;
 				switch (position) {
@@ -791,7 +806,7 @@ public class DraftPlayersModel {
 				if (manquant_equipe == 0) {
 					moy_sal_restant_draft = 0;
 				} else {
-					moy_sal_restant_draft = budget_restant / manquant_equipe;
+					moy_sal_restant_draft = budget_restant + argentRecu / manquant_equipe;
 				}
 
 				equipeEntity.setProperty("budget_restant", budget_restant);
@@ -1398,21 +1413,24 @@ public class DraftPlayersModel {
 		int salaireDraft = Integer.parseInt(salaire_draft);
 		int budgetRestant = 0;
 		int manquantEquipe = 0;
+		int argentRecu =0;
 
 		Long budget_restant = (Long) mEntity.getProperty("budget_restant");
 		budgetRestant = budget_restant.intValue();
 		Long manquant_equipe = (Long) mEntity.getProperty("manquant_equipe");
 		manquantEquipe = manquant_equipe.intValue();
+		Long argent_recu = (Long) mEntity.getProperty("argent_recu");
+		argentRecu = argent_recu.intValue();
 
 		if ((manquantEquipe - 1) == 0) {
-			if (budgetRestant < salaireDraft) {
+			if (budgetRestant + argentRecu < salaireDraft) {
 				return false;
 			} else {
 				return true;
 			}
 		}
 
-		if (budgetRestant < salaireDraft || ((budgetRestant - salaireDraft) / (manquantEquipe - 1) < 1000000)) {
+		if (budgetRestant + argentRecu < salaireDraft || ((budgetRestant + argentRecu - salaireDraft) / (manquantEquipe - 1) < 1000000)) {
 			return false;
 		} else {
 			return true;

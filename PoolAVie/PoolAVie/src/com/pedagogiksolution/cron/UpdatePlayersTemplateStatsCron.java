@@ -46,7 +46,7 @@ public class UpdatePlayersTemplateStatsCron extends HttpServlet {
 		
 	//	String thisYearForApi = thisYear.replace("-", "");
 		
-		String thisYearForApi = "20222023";
+		String thisYearForApi = "20232024";
 		//TODO CRON JOB SEASON API
 		
 		

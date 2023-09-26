@@ -932,7 +932,7 @@ public class TradeModel {
 
 			} else {
 
-				if (((budget_restant_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer
+				if (((budget_restant_make_offer + argent_recu_make_offer + total_salaire_team_making_offer - total_salaire_team_receiving_offer
 						 + cashIncludeThatReceiveOfferInt)
 						/ (mBeanEquipeThatIsMakingOffer.getManquant_equipe() + nbPlayersTeamMakingOffer
 								- nbPlayersTeamReceivingOffer)) < 1000000) {
@@ -952,7 +952,7 @@ public class TradeModel {
 					+ nbPlayersTeamReceivingOffer) == 0) {
 
 			} else {
-				if ((budget_restant_received_offer - total_salaire_team_making_offer
+				if ((budget_restant_received_offer + argent_recu_rec_offer - total_salaire_team_making_offer
 						+ total_salaire_team_receiving_offer 
 						- cashIncludeTeamThatMakeOfferInt)
 						/ (mBeanEquipeThatIsReceivingOffer.getManquant_equipe() - nbPlayersTeamMakingOffer
@@ -1931,7 +1931,7 @@ public class TradeModel {
 
 		// check si moyenne restant pour draft est bonne été et draft suite a trade
 
-		if (mBeanPool.getCycleAnnuel() == 3||mBeanPool.getCycleAnnuel()==11) {
+		if (mBeanPool.getCycleAnnuel() == 3) {
 
 			if ((mBeanEquipeThatIsMakingOffer.getManquant_equipe() + nbPlayersTeamMakingOffer
 					- nbPlayersTeamReceivingOffer) == 0) {
