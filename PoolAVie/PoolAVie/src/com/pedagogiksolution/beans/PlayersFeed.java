@@ -24,11 +24,11 @@ public class PlayersFeed implements Serializable {
 	private JsonNode primaryPosition;
 	private String assists;
 	private String goals;
-	private String games;
+	private String gamesPlayed;
 	private String points;
 	private String wins;
 	private String shutouts;
-	private String ot;
+	private String otLosses;
 	
 	
 	public String getAssists() {
@@ -43,12 +43,7 @@ public class PlayersFeed implements Serializable {
 	public void setGoals(String goals) {
 		this.goals = goals;
 	}
-	public String getGames() {
-		return games;
-	}
-	public void setGames(String games) {
-		this.games = games;
-	}
+
 	public String getPoints() {
 		return points;
 	}
@@ -62,12 +57,7 @@ public class PlayersFeed implements Serializable {
 		this.wins = wins;
 	}
 	
-	public String getOt() {
-		return ot;
-	}
-	public void setOt(String ot) {
-		this.ot = ot;
-	}
+
 	public int getId() {
 		return id;
 	}
@@ -132,6 +122,18 @@ public class PlayersFeed implements Serializable {
 	}
 	public void setShutouts(String shutouts) {
 		this.shutouts = shutouts;
+	}
+	public String getGamesPlayed() {
+		return gamesPlayed;
+	}
+	public void setGamesPlayed(String gamesPlayed) {
+		this.gamesPlayed = gamesPlayed;
+	}
+	public String getOtLosses() {
+		return otLosses;
+	}
+	public void setOtLosses(String otLosses) {
+		this.otLosses = otLosses;
 	}
 	
 	

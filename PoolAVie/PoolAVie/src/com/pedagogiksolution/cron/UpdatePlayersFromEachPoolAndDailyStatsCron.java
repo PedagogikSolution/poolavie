@@ -48,23 +48,26 @@ public class UpdatePlayersFromEachPoolAndDailyStatsCron extends HttpServlet {
 	} else {
 
 	    for (int i = 1; i < (numberOfPool + 1); i++) {
-	    //	Key key = KeyFactory.createKey("Pool", String.valueOf(i));
-		//	Entity entity;
-		//	try {
-		//	    entity = datastore.get(key);
-		//	    Long cycleAnnuel = (Long) entity.getProperty("cycleAnnuel");
+	    	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	   	Key key = KeyFactory.createKey("Pool", String.valueOf(i));
+			Entity entity;
+			try {
+			    entity = datastore.get(key);
+			    Long cycleAnnuel = (Long) entity.getProperty("cycleAnnuel");
 			    
+	    	if (cycleAnnuel.intValue() == 5 || cycleAnnuel.intValue() == 6) {
 			    	playersDao.updateTeam(i);
 					playersDao.deletePlayersWithNoTeam(i);
 					
 					playersDao.addPlayersNotThere(i);
 					
 					playersDao.updateStats(i);
-			//	}
-			//} catch (EntityNotFoundException e) {
-			    // TODO Auto-generated catch block
-			//    e.printStackTrace();
-		//	}   
+	    	}
+				
+			} catch (EntityNotFoundException e) {
+			   
+			    e.printStackTrace();
+			}   
 	    	
 			
 	    }

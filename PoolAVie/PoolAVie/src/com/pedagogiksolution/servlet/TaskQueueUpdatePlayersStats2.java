@@ -99,7 +99,7 @@ public class TaskQueueUpdatePlayersStats2 extends HttpServlet {
 			
 			 //   mResult2 = mResult;
 			
-				playerDao.updateStatsFromNHLAPI2(playerId,mResult.getGames(),mResult.getPoints(),mResult.getWins(),mResult.getShutouts(),mResult.getOt());
+				playerDao.updateStatsFromNHLAPI2(playerId,mResult.getGamesPlayed(),mResult.getPoints(),mResult.getWins(),mResult.getShutouts(),mResult.getOtLosses());
 		
 			}
     
@@ -152,7 +152,7 @@ public class TaskQueueUpdatePlayersStats2 extends HttpServlet {
 			
 			 //   mResult2 = mResult;
 			
-				playerDao.updateStatsFromNHLAPI3(playerId,mResult.getGames(),mResult.getPoints(),mResult.getWins(),mResult.getShutouts(),mResult.getOt());
+				playerDao.updateStatsFromNHLAPI3(playerId,mResult.getGamesPlayed(),mResult.getPoints(),mResult.getWins(),mResult.getShutouts(),mResult.getOtLosses());
 		
 			}
     

@@ -806,7 +806,7 @@ public class DraftPlayersModel {
 				if (manquant_equipe == 0) {
 					moy_sal_restant_draft = 0;
 				} else {
-					moy_sal_restant_draft = budget_restant + argentRecu / manquant_equipe;
+					moy_sal_restant_draft = (budget_restant + argentRecu) / manquant_equipe;
 				}
 
 				equipeEntity.setProperty("budget_restant", budget_restant);

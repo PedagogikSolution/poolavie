@@ -47,10 +47,11 @@ public class TaskQueueUpdatePlayersStats extends HttpServlet {
 
 		String thisYear = req.getParameter("thisyear");
 
-		// playerId=8471679;
+		// playerId=8471214;
 
-		String url = "https://statsapi.web.nhl.com/api/v1/people/" + playerId + "/stats?stats=statsSingleSeason&season="
-				+ thisYear;
+		//String url = "https://statsapi.web.nhl.com/api/v1/people/" + playerId + "/stats?stats=statsSingleSeason&season=" + thisYear;
+		
+		String url = "https://api-web.nhle.com/v1/player/" + playerId + "/landing";
 
 		HttpGet request = new HttpGet(url);
 
@@ -66,46 +67,45 @@ public class TaskQueueUpdatePlayersStats extends HttpServlet {
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode mNode = mapper.readTree(instream);
 
-		JsonNode mNodePlayers = mNode.path("stats");
+		JsonNode mNodePlayers = mNode.path("featuredStats");
 
 		Iterator<JsonNode> iterator = mNodePlayers.elements();
 
 		while (iterator.hasNext()) {
 			JsonNode mNodePlayer = iterator.next();
+			String thisyear=mNodePlayer.asText();
+			if(thisyear.equalsIgnoreCase(thisYear)) {
+				mNodePlayer=iterator.next();
+				JsonNode mNodePlayerStats = mNodePlayer.path("subSeason");
+				
+				
+					
 
-			JsonNode mNodePlayerStats = mNodePlayer.path("splits");
-			Iterator<JsonNode> iterator2 = mNodePlayerStats.elements();
-			if (mNodePlayerStats.has(0)) {
+						PlayersFeed mResult = new PlayersFeed();
+						// PlayersFeed mResult2 = new PlayersFeed();
 
-				while (iterator2.hasNext()) {
+						mResult = mapper.treeToValue(mNodePlayerStats, PlayersFeed.class);
 
-					JsonNode mNodePlayer2 = iterator2.next();
+						
 
-					JsonNode mNodePlayerStats2 = mNodePlayer2.path("stat");
+						playerDao.updateStatsFromNHLAPI(playerId, mResult.getGamesPlayed(), mResult.getAssists(),
+								mResult.getGoals(), mResult.getPoints(), mResult.getWins(), mResult.getShutouts(),
+								mResult.getOtLosses());
 
-					PlayersFeed mResult = new PlayersFeed();
-					// PlayersFeed mResult2 = new PlayersFeed();
+					
 
-					mResult = mapper.treeToValue(mNodePlayerStats2, PlayersFeed.class);
-
-					// mResult2 = mResult;
-
-					playerDao.updateStatsFromNHLAPI(playerId, mResult.getGames(), mResult.getAssists(),
-							mResult.getGoals(), mResult.getPoints(), mResult.getWins(), mResult.getShutouts(),
-							mResult.getOt());
-
-				}
-
+				instream.close();
+			
+		
 			} else {
-				
-				
-				
-				
+				//pas de season actuel
+				break;
 				
 			}
-
-			instream.close();
 		}
-
 	}
+	
 }
+			
+
+	
