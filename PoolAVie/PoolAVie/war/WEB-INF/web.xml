@@ -3,7 +3,7 @@
 	xmlns="http://JAVA.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
-
+<app-engine-apis>true</app-engine-apis>
 	<display-name>Pool à Vie</display-name>
 
 	<!-- Page d'Acceuil de l'application web -->
